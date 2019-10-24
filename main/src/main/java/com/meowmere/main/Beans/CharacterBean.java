@@ -25,4 +25,8 @@ public class CharacterBean {
     public void setName(String name) {
         this.name = name;
     }
+
+//    public List<CharacterDTO> getCharacterById(Integer id){
+//        return List<CharacterDTO>
+//    }
 }

@@ -1,13 +1,7 @@
 package com.meowmere.main.Repositories;
-import com.meowmere.main.CharacterDTO;
-import org.springframework.data.repository.CrudRepository;
+import com.meowmere.main.Entities.Character;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
-
-@Repository
-public interface CharacterRepository extends CrudRepository<CharacterDTO, Long> {
-    List<com.meowmere.main.CharacterDTO> getCharacterByExternalId(Long externalId);
-
+public interface CharacterRepository extends JpaRepository<Character, Long> {
 }
