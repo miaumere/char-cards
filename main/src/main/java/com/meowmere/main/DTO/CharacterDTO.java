@@ -1,9 +1,7 @@
 package com.meowmere.main.DTO;
 
-import javax.persistence.Column;
-
 public class CharacterDTO {
-    public String externalId;
+    public Long externalId;
     public String charName;
     public String charSurname;
     public Long birthday;
@@ -96,11 +94,10 @@ public class CharacterDTO {
         this.birthday = birthday;
     }
 
-    public String getExternalId() {
+    public Long getExternalId() {
         return externalId;
     }
-
-    public void setExternalId(String externalId) {
+    public void setExternalId(Long externalId) {
         this.externalId = externalId;
     }
 }
