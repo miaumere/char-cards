@@ -2,6 +2,7 @@ package com.meowmere.main.Controllers;
 
 import com.meowmere.main.CharListBean;
 import com.meowmere.main.CharacterBean;
+import com.meowmere.main.DTO.CharacterDTO;
 import com.meowmere.main.Entities.Character;
 import com.meowmere.main.services.CharactersService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,23 +13,20 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-@RequestMapping("/xxx")
 public class CharactersListController {
 
     @Autowired
     CharactersService charactersService;
 
     @RequestMapping("/get-characters")
-    public Iterable<Character> CharListBean(@RequestParam(value="name", defaultValue="World") String name){
+    public CharacterDTO CharListBean(@RequestParam(value="name", defaultValue="World") String name){
         return charactersService.findAll();
     }
 
     @RequestMapping("/get-character/{characterId}")
-    public CharacterBean CharacterBean (@PathVariable Integer characterId) {
-        CharacterBean character = new CharacterBean();
-        character.setId(characterId);
+    public CharacterDTO CharacterBean(@PathVariable Long characterId) {
 
-        return character;
+        return charactersService.findByExternalId(characterId);
     }
 
 
