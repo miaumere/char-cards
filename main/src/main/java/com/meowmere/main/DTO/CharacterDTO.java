@@ -8,6 +8,10 @@ public class CharacterDTO {
     public Long death;
     public String story;
     public String eyeColor1;
+    public String eyeColor2;
+    public String themeColor1;
+    public String themeColor2;
+    public String themeColor3;
 
     public String getCharSurname() {
         return charSurname;
@@ -72,11 +76,6 @@ public class CharacterDTO {
     public void setThemeColor3(String themeColor3) {
         this.themeColor3 = themeColor3;
     }
-
-    public String eyeColor2;
-    public String themeColor1;
-    public String themeColor2;
-    public String themeColor3;
 
     public String getCharName() {
         return charName;
