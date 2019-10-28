@@ -1,7 +1,6 @@
 package com.meowmere.main.Controllers;
 import com.meowmere.main.DTO.CharacterDTO;
 import com.meowmere.main.DTO.CharactersMenuDTO;
-import com.meowmere.main.DTO.SideCharacterDTO;
 import com.meowmere.main.services.CharactersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,5 +25,8 @@ public class CharactersListController {
     public CharacterDTO CharacterBean(@PathVariable Long characterId) {
         return charactersService.findByExternalId(characterId);
     }
+//
+//    @RequestMapping("/new-character")
+//    public
 
 }
