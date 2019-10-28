@@ -1,5 +1,4 @@
-package com.meowmere.main;
-
+package com.meowmere.main.Beans;
 public class CharacterBean {
 
     public CharacterBean() {
@@ -25,8 +24,4 @@ public class CharacterBean {
     public void setName(String name) {
         this.name = name;
     }
-
-//    public List<CharacterDTO> getCharacterById(Integer id){
-//        return List<CharacterDTO>
-//    }
 }

@@ -2,10 +2,13 @@ package com.meowmere.main.services;
 
 import com.meowmere.main.DTO.CharacterDTO;
 import com.meowmere.main.DTO.CharactersMenuDTO;
+import com.meowmere.main.DTO.SideCharacterDTO;
 import com.meowmere.main.Entities.Character;
+import com.meowmere.main.Entities.SideCharacter;
 import com.meowmere.main.Repositories.CharacterRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

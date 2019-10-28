@@ -1,4 +1,4 @@
-package com.meowmere.main;
+package com.meowmere.main.Beans;
 
 public class CharListBean {
     private final String name;
