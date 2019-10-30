@@ -1,1 +1,8 @@
-/* You can add global styles to this file, and also import other style files */
+@import "./global_styles/reset.scss";
+@import "./global_styles/variables.scss";
+
+body {
+  @include font-regular;
+
+  background: rgb(116, 105, 105);
+}
