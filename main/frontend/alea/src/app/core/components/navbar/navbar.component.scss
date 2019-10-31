@@ -1,0 +1,18 @@
+.navbar {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+
+  margin-top: 10rem;
+  border-bottom: 1px solid white;
+
+  &__item {
+    color: white;
+
+    text-transform: uppercase;
+
+    &--title {
+      color: red;
+    }
+  }
+}
