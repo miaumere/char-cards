@@ -1,0 +1,32 @@
+@import "../../../../../global_styles/variables.scss";
+
+.main {
+  background: black;
+  &__bg {
+    display: flex;
+
+    background-image: url("../../../../../assets/images/bg.gif");
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 100%;
+  }
+}
+
+.bg {
+  &__desc {
+    @include font-special;
+
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+
+    margin: auto;
+
+    font-size: 3rem;
+    color: white;
+    font-weight: bolder;
+
+    text-shadow: -1px 1px 7px white;
+  }
+}

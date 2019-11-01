@@ -1,8 +1,11 @@
 @import "./global_styles/reset.scss";
 @import "./global_styles/variables.scss";
+@import "./fonts.scss";
 
 body {
   @include font-regular;
+}
 
-  background: rgb(116, 105, 105);
+.global-section {
+  height: calc(100vh - #{$navbar-height});
 }

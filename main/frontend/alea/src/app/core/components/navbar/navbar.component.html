@@ -1,22 +1,24 @@
 <nav>
   <ul class="navbar">
-    <li class="navbar__item navbar__item--title">AIE</li>
+    <li class="navbar__item navbar__item--title">
+      Alea iacta est
+    </li>
     <li class="navbar__item">
-      <a [routerLink]="['/main']">
+      <a [routerLink]="['/main']" routerLinkActive="navbar__item--active">
         strona główna
       </a>
     </li>
     <li class="navbar__item">
-      <a [routerLink]="['/char-cards']">
+      <a [routerLink]="['/char-cards']" routerLinkActive="navbar__item--active">
         postacie główne
       </a>
     </li>
     <li class="navbar__item">
-      <a [routerLink]="['/side-characters']">
+      <a [routerLink]="['/side-characters']" routerLinkActive="navbar__item--active">
         postacie poboczne
       </a></li>
     <li class="navbar__item">
-      <a [routerLink]="['/pages']">
+      <a [routerLink]="['/pages']" routerLinkActive="navbar__item--active">
         historia
       </a>
     </li>

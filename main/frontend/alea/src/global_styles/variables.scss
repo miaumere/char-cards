@@ -1,3 +1,13 @@
 @mixin font-regular {
   font-family: "Courier New", Courier, monospace;
 }
+
+@mixin font-special {
+  font-family: "Halimun";
+}
+
+$navbar-height: 3rem;
+
+$z-index: (
+  navbar: 1000
+);

@@ -41,11 +41,7 @@ table {
 }
 
 a {
-  margin: 0;
-  padding: 0;
+  all: unset;
 
-  vertical-align: baseline;
-
-  font-size: 100%;
-  color: inherit;
+  cursor: pointer;
 }
