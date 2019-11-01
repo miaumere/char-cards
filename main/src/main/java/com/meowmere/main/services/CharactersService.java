@@ -6,6 +6,7 @@ import com.meowmere.main.Entities.Character;
 import com.meowmere.main.Repositories.CharacterRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ public class CharactersService {
     public CharacterRepository characterRepository;
 
     public List<CharactersMenuDTO> findCharList() {
-        List<Character> allCharacters = characterRepository.findAll();
+        List<Character> allCharacters = characterRepository.findAll(Sort.by(Sort.Direction.ASC, "externalId"));
 
         ModelMapper modelMapper = new ModelMapper();
         List<CharactersMenuDTO> dtoList = new ArrayList<>();

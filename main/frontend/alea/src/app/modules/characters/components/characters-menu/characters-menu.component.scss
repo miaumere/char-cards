@@ -1,0 +1,14 @@
+.characters-menu {
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+
+  max-width: 250px;
+
+  overflow-y: scroll;
+
+  &__item {
+    border-bottom: 1px black solid;
+    padding: 0.5rem;
+  }
+}
