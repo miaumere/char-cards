@@ -4,11 +4,10 @@
   background: black;
   &__bg {
     display: flex;
-
-    background-image: url("../../../../../assets/images/bg.gif");
-    background-size: cover;
-    background-repeat: no-repeat;
-    height: 100%;
+    position: fixed;
+    overflow: hidden;
+    max-height: 100vh;
+    min-height: 100vh;
   }
 }
 
@@ -16,11 +15,17 @@
   &__desc {
     @include font-special;
 
-    left: 0;
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    left: 50%;
     right: 0;
-    top: 0;
+    top: 50%;
     bottom: 0;
 
+    transform: translate(-50%, -50%);
     margin: auto;
 
     font-size: 3rem;
