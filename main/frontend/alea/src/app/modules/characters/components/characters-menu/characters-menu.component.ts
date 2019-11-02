@@ -9,10 +9,13 @@ import { CharacterItem } from 'src/app/model/characters/character-item.model';
 })
 export class CharactersMenuComponent implements OnInit {
 
+  charList: CharacterItem[] | null = null;
+
   constructor(private _charactersService: CharactersService) { }
 
   ngOnInit() {
-
+    this._charactersService.charList$.subscribe(charList => this.charList = charList)
   }
+
 
 }
