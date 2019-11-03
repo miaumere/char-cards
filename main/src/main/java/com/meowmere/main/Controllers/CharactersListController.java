@@ -6,10 +6,12 @@ import com.meowmere.main.services.CharactersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 
 @RestController
+@RequestMapping("/api/characters-list/")
 public class CharactersListController {
 
     @Autowired
@@ -21,7 +23,7 @@ public class CharactersListController {
     }
 
     @GetMapping("/get-character/{characterId}")
-    public CharacterDTO getCharacterById(@PathVariable Long characterId) {
+    public CharacterDTO getCharacterById(@PathVariable Long characterId) throws IOException {
         return charactersService.findByExternalId(characterId);
     }
 

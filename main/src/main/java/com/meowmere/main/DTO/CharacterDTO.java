@@ -10,6 +10,15 @@ public class CharacterDTO {
     public String occupation;
     public String story;
     public CharacterColorDTO colors;
+    public String[] imagesList;
+
+    public String[] getImagesList() {
+        return imagesList;
+    }
+
+    public void setImagesList(String[] imagesList) {
+        this.imagesList = imagesList;
+    }
 
     public CharacterColorDTO getColors() {
         return colors;
