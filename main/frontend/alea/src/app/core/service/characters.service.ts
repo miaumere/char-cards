@@ -11,8 +11,8 @@ import { Character } from 'src/app/model/characters/character.model';
 })
 export class CharactersService {
 
-  private _getCharactersURL = '/api/get-characters';
-  private _getCharacterByIdURL = '/api/get-character';
+  private _getCharactersURL = '/api/characters-list/get-characters';
+  private _getCharacterByIdURL = '/api/characters-list/get-character';
 
   public charList$ = new BehaviorSubject<CharacterItem[]>(null);
 

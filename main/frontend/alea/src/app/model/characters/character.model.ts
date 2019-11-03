@@ -8,7 +8,7 @@ export class Character {
   occupation: string;
   story: string;
   colors: Colors;
-
+  imagesList: string[];
 }
 
 class Colors {

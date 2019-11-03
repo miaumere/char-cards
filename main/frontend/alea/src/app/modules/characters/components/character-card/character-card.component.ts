@@ -13,6 +13,7 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
 
   routeId: number = null;
   character: Character;
+  characterProfilePicURL: string;
 
   constructor(
     private _charactersService: CharactersService,
@@ -23,7 +24,8 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
   ngOnInit() {
     this._route.params.subscribe(route => {
       this.routeId = route.id;
-
+      this.characterProfilePicURL = `/characters-images/${this.routeId}`;
+      console.log(this._route);
       this.getCharacterById();
     })
 

@@ -4,8 +4,14 @@
     <span class="card__name">
       {{character.charName}} {{ character.charSurname}}
     </span>
+
     <div class="card__profile-pic">
-      <div style="background: tomato; height: 200px; width: 150px"></div>
+      <ng-container *ngIf="character.imagesList.length > 0">
+        <img *ngFor="let imageURL of character.imagesList" src="{{characterProfilePicURL}}/{{imageURL}}">
+      </ng-container>
+      <div class="card__profile-pic--empty" *ngIf="character.imagesList.length === 0">
+        Brak profilowego
+      </div>
     </div>
 
     <div class="card__info info" [style.background]="'url(../../../../../assets/images/lowpoly-bg.JPG)'"
@@ -40,8 +46,6 @@
           <div class="color__item" [ngStyle]="{'background': character.colors.themeColor3}"></div>
           <div class="color__item" [ngStyle]="{'background': character.colors.eyeColor1}"></div>
           <div class="color__item" [ngStyle]="{'background': character.colors.eyeColor2}"></div>
-
-
         </div>
       </ng-container>
 
