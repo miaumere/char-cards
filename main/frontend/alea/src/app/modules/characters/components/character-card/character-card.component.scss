@@ -17,6 +17,14 @@
 }
 
 .color {
+  display: flex;
+  filter: grayscale(1);
+  transition: 0.3s;
+
+  &:hover {
+    filter: none;
+  }
+
   &__item {
     height: 2rem;
     width: 5rem;
