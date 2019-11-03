@@ -1,0 +1,56 @@
+.characters-card {
+  display: flex;
+}
+
+.info {
+  &__desc {
+    margin-top: 0.5rem;
+    font-weight: bold;
+  }
+
+  &__data {
+    margin-left: 0.5rem;
+  }
+
+  &__color {
+  }
+}
+
+.color {
+  &__item {
+    height: 2rem;
+    width: 5rem;
+  }
+}
+
+.history {
+  padding: 1rem;
+}
+
+.card {
+  width: 230px;
+
+  text-align: center;
+
+  border-width: 1px;
+  border-style: solid;
+  margin: 1rem;
+
+  &__name {
+    font-size: 1.2rem;
+    text-align: center;
+  }
+  &__info {
+    display: flex;
+    flex-direction: column;
+
+    text-align: left;
+  }
+
+  &__profile-pic {
+    display: flex;
+    justify-content: center;
+
+    margin: 1rem;
+  }
+}

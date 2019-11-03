@@ -1,9 +1,14 @@
 @import "./global_styles/reset.scss";
 @import "./global_styles/variables.scss";
+@import "./global_styles/scrollbar.scss";
+
 @import "./fonts.scss";
 
 body {
   @include font-regular;
+  background: #1d1d1d;
+
+  color: whitesmoke;
 }
 
 .global-section {

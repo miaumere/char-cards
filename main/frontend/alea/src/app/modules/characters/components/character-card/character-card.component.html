@@ -1,0 +1,52 @@
+<section class="characters-card" *ngIf="character">
+  <div class="card" [ngStyle]="{'border-color': character.colors.themeColor1
+}">
+    <span class="card__name">
+      {{character.charName}} {{ character.charSurname}}
+    </span>
+    <div class="card__profile-pic">
+      <div style="background: tomato; height: 200px; width: 150px"></div>
+    </div>
+
+    <div class="card__info info" [style.background]="'url(../../../../../assets/images/lowpoly-bg.JPG)'"
+      [style.backgroundColor]="character.colors.themeColor1" [ngStyle]="{
+      'background-blend-mode': 'multiply'
+    }">
+      <span class="info__desc">Data urodzenia</span>
+      <span class="info__data">{{character.birthday ? (character.birthday | date:fullDate ) : "Data nieznana"}}</span>
+
+      <ng-container *ngIf="character.death">
+        <span class="info__desc">
+          Śmierć:
+        </span>
+        <span class="info__data">
+          {{character.death | date:fullDate}}
+          <br />
+          <span *ngIf="character.deathReason">
+            ({{character.deathReason}})
+          </span>
+        </span>
+      </ng-container>
+      <ng-container *ngIf="character.occupation">
+        <span class="info__desc">Zawód</span>
+        <span class="info__data">{{character.occupation}}</span>
+      </ng-container>
+
+      <ng-container *ngIf="character.colors">
+        <span class="info__desc">Paleta kolorów</span>
+        <div class="info__color color">
+          <div class="color__item" [ngStyle]="{'background': character.colors.themeColor1}"></div>
+          <div class="color__item" [ngStyle]="{'background': character.colors.themeColor2}"></div>
+          <div class="color__item" [ngStyle]="{'background': character.colors.themeColor3}"></div>
+
+
+        </div>
+      </ng-container>
+
+
+    </div>
+  </div>
+  <div class="history">
+    {{character.story ? character.story : "Brak znanej historii."}}
+  </div>
+</section>

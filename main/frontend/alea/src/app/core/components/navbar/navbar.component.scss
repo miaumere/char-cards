@@ -13,7 +13,7 @@
   margin: 0;
   padding: 1rem 0;
 
-  background: rgb(0, 0, 0);
+  background: rgb(20, 20, 20);
   z-index: map-get($z-index, navbar);
 
   &__item {
@@ -30,9 +30,9 @@
     &--active {
       padding: 1rem;
 
-      color: black;
+      color: rgb(92, 92, 92);
 
-      background: white;
+      background: rgb(31, 31, 31);
     }
   }
 }

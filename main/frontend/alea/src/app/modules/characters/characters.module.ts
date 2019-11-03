@@ -5,10 +5,16 @@ import { CharactersRoutingModule } from './characters-routing.module';
 import { CharactersMenuComponent } from './components/characters-menu/characters-menu.component';
 import { CharactersIndexComponent } from './characters-index.component';
 import { CharactersListComponent } from './components/characters-list/characters-list.component';
-import { CharactersService } from 'src/app/core/service/characters.service';
+import { CharacterCardComponent } from './components/character-card/character-card.component';
 
 @NgModule({
-  declarations: [CharactersComponent, CharactersMenuComponent, CharactersIndexComponent, CharactersListComponent],
+  declarations: [
+    CharactersComponent,
+    CharactersMenuComponent,
+    CharactersIndexComponent,
+    CharactersListComponent,
+    CharacterCardComponent
+  ],
   imports: [
     CommonModule,
     CharactersRoutingModule

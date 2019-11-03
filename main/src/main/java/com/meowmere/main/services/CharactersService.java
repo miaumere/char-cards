@@ -1,5 +1,6 @@
 package com.meowmere.main.services;
 
+import com.meowmere.main.DTO.CharacterColorDTO;
 import com.meowmere.main.DTO.CharacterDTO;
 import com.meowmere.main.DTO.CharactersMenuDTO;
 import com.meowmere.main.Entities.Character;
@@ -35,7 +36,10 @@ public class CharactersService {
     public CharacterDTO findByExternalId(Long externalId) {
         Character oneCharacter = characterRepository.getOne(externalId);
         ModelMapper modelMapper = new ModelMapper();
+        CharacterColorDTO colorDTO = modelMapper.map(oneCharacter, CharacterColorDTO.class);
+
         CharacterDTO dto = modelMapper.map(oneCharacter, CharacterDTO.class);
+        dto.setColors(colorDTO);
 
         return dto;
     }

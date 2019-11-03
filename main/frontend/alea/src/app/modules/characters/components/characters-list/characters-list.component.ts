@@ -10,20 +10,20 @@ import { BaseComponent } from 'src/app/core/base.component';
   templateUrl: './characters-list.component.html',
   styleUrls: ['./characters-list.component.scss']
 })
-export class CharactersListComponent extends BaseComponent implements OnInit  {
+export class CharactersListComponent extends BaseComponent implements OnInit {
 
   charList: CharacterItem[] | null = null;
 
-  constructor(private _charactersService: CharactersService, private _route: ActivatedRoute) {super();}
+  constructor(private _charactersService: CharactersService, private _route: ActivatedRoute) { super(); }
 
   ngOnInit() {
     // Sposob pobierania danych z servisu bez resolvera
     this.subscriptions$.add(
       this._charactersService.charList$.subscribe(charList => {
-        console.log("CHARACTERS LIST SUBUJE LISTE POSTACI Z SERVISU 2:", charList)
-        this.charList = charList
+        console.log('CHARACTERS LIST SUBUJE LISTE POSTACI Z SERVISU 2:', charList);
+        this.charList = charList;
       })
-    )
+    );
   }
 
 }

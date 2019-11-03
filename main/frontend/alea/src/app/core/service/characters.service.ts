@@ -4,6 +4,7 @@ import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { CharacterItem } from 'src/app/model/characters/character-item.model';
+import { Character } from 'src/app/model/characters/character.model';
 
 @Injectable({
   providedIn: 'root'
@@ -11,11 +12,12 @@ import { CharacterItem } from 'src/app/model/characters/character-item.model';
 export class CharactersService {
 
   private _getCharactersURL = '/api/get-characters';
+  private _getCharacterByIdURL = '/api/get-character';
 
   public charList$ = new BehaviorSubject<CharacterItem[]>(null);
 
   constructor(private http: HttpClient) {
-    this.getCharacters().subscribe()
+    this.getCharacters().subscribe();
   }
 
 
@@ -28,10 +30,14 @@ export class CharactersService {
     return this.http.get<CharacterItem[]>(this._getCharactersURL)
       .pipe(
         tap(response => {
-          console.warn("New RESPONSE...")
+          console.warn('New RESPONSE...');
           this.charList$.next(response);
         })
       );
+  }
+
+  getCharacterById(id: number): Observable<Character> {
+    return this.http.get<Character>(`${this._getCharacterByIdURL}/${id}`);
   }
 
 }

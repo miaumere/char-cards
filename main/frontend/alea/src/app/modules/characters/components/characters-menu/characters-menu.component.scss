@@ -3,12 +3,12 @@
   flex-direction: column;
   justify-content: left;
 
-  max-width: 250px;
+  width: 250px;
 
   overflow-y: scroll;
 
   &__item {
-    border-bottom: 1px black solid;
+    border-bottom: 1px rgb(58, 58, 58) solid;
     padding: 0.5rem;
   }
 }

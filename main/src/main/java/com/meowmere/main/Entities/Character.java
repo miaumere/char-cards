@@ -16,6 +16,10 @@ public class Character {
     @Column
     private Long death;
     @Column
+    private String deathReason;
+    @Column
+    private String occupation;
+    @Column
     private String story;
     @Column
     private String eyeColor1;
@@ -31,13 +35,15 @@ public class Character {
     protected Character() {};
 
     public Character(String charName, String charSurname,
-                     Long birthday, Long death,
+                     Long birthday, Long death, String deathReason, String occupation,
                      String story, String eyeColor1, String eyeColor2,
                      String themeColor1, String themeColor2, String themeColor3){
         this.charName = charName;
         this.charSurname = charSurname;
         this.birthday = birthday;
         this.death = death;
+        this.deathReason = deathReason;
+        this.occupation = occupation;
         this.story = story;
         this.eyeColor1 = eyeColor1;
         this.eyeColor2 = eyeColor2;
@@ -66,12 +72,28 @@ public class Character {
         return charSurname;
     }
 
+    public String getOccupation() {
+        return occupation;
+    }
+
+    public void setOccupation(String occupation) {
+        this.occupation = occupation;
+    }
+
     public void setCharSurname(String charSurname) {
         this.charSurname = charSurname;
     }
 
     public Long getBirthday() {
         return birthday;
+    }
+
+    public String getDeathReason() {
+        return deathReason;
+    }
+
+    public void setDeathReason(String deathReason) {
+        this.deathReason = deathReason;
     }
 
     public void setBirthday(Long birthday) {

@@ -1,0 +1,19 @@
+@import "../../../../../global_styles/variables.scss";
+
+.char-menu {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+
+  height: calc(100vh - #{$navbar-height});
+}
+
+.character {
+  margin: 0.5rem;
+  text-align: center;
+
+  &__profile-pic {
+    clip-path: circle(40%);
+  }
+}
