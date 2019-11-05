@@ -1,3 +1,4 @@
+import { FilenameModifierPipe } from './pipes/filename-modifier.pipe';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { CharactersComponent } from './components/characters/characters.component';
@@ -13,7 +14,8 @@ import { CharacterCardComponent } from './components/character-card/character-ca
     CharactersMenuComponent,
     CharactersIndexComponent,
     CharactersListComponent,
-    CharacterCardComponent
+    CharacterCardComponent,
+    FilenameModifierPipe
   ],
   imports: [
     CommonModule,

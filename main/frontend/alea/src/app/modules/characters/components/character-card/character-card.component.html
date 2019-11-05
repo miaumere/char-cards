@@ -5,9 +5,17 @@
       {{character.charName}} {{ character.charSurname}}
     </span>
 
-    <div class="card__profile-pic">
+    <div class="card__profile-pic profile-pic">
       <ng-container *ngIf="character.imagesList.length > 0">
-        <img *ngFor="let imageURL of character.imagesList" src="{{characterProfilePicURL}}/{{imageURL}}">
+        <img *ngFor="let imageURL of character.imagesList;index as i" src="{{characterProfilePicURL}}/{{imageURL}}"
+          class="profile-pic__image profile-pic__image--inactive" [ngClass]="{
+						'profile-pic__image--active': i === currentImageIndex
+          }">
+        <div>
+
+          <button class="profile-pic__button" *ngFor="let imageURL of character.imagesList; index as i"
+            (click)="setImage(i)">{{imageURL | filenameModifier}}</button>
+        </div>
       </ng-container>
       <div class="card__profile-pic--empty" *ngIf="character.imagesList.length === 0">
         Brak profilowego
@@ -16,7 +24,8 @@
 
     <div class="card__info info" [style.background]="'url(../../../../../assets/images/lowpoly-bg.JPG)'"
       [style.backgroundColor]="character.colors.themeColor1" [ngStyle]="{
-      'background-blend-mode': 'multiply'
+      'background-blend-mode': 'multiply',
+      'background-size': 'cover'
     }">
       <span class="info__desc">Data urodzenia</span>
       <span class="info__data">{{character.birthday ? (character.birthday | date:fullDate ) : "Data nieznana"}}</span>

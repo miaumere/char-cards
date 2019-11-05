@@ -3,6 +3,7 @@
 }
 
 .info {
+  font-size: 0.7rem;
   &__desc {
     margin-top: 0.5rem;
     font-weight: bold;
@@ -33,10 +34,11 @@
 
 .history {
   padding: 1rem;
+  font-size: 0.9rem;
 }
 
 .card {
-  width: 230px;
+  width: 220px;
 
   text-align: center;
 
@@ -45,7 +47,7 @@
   margin: 1rem;
 
   &__name {
-    font-size: 1.2rem;
+    font-size: 1rem;
     font-weight: bold;
     text-align: center;
   }
@@ -59,7 +61,43 @@
   &__profile-pic {
     display: flex;
     justify-content: center;
+    flex-direction: column;
 
     margin: 1rem;
+  }
+}
+
+.profile-pic {
+  display: flex;
+  align-items: center;
+
+  max-width: 300px;
+
+  &__image {
+    width: 200px;
+    height: 250px;
+    object-fit: scale-down;
+
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+    &--inactive {
+      display: none;
+    }
+
+    &--active {
+      display: block;
+    }
+  }
+
+  &__button {
+    padding: 0.3rem;
+    margin: 0.3rem;
+
+    font-size: 0.6rem;
+    color: rgb(155, 155, 155);
+
+    background: rgb(48, 48, 48);
   }
 }

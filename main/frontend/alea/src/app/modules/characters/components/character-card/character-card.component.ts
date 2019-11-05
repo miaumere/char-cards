@@ -14,6 +14,7 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
   routeId: number = null;
   character: Character;
   characterProfilePicURL: string;
+  currentImageIndex = 0;
 
   constructor(
     private _charactersService: CharactersService,
@@ -25,11 +26,9 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
     this._route.params.subscribe(route => {
       this.routeId = route.id;
       this.characterProfilePicURL = `/characters-images/${this.routeId}`;
-      console.log(this._route);
+      this.currentImageIndex = 0
       this.getCharacterById();
     })
-
-
   }
 
   getCharacterById() {
@@ -37,6 +36,11 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
       .subscribe(character => {
         this.character = character;
       });
+  }
+
+  setImage(imageIndex: number) {
+    // console.log(imageIndex);
+    this.currentImageIndex = imageIndex;
   }
 
 }

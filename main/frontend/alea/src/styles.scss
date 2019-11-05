@@ -5,10 +5,15 @@
 @import "./fonts.scss";
 
 body {
-  @include font-regular;
+  font-size: 62.5%;
   background: #1d1d1d;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
 
   color: whitesmoke;
+}
+
+button {
+  font-family: inherit;
 }
 
 .global-section {
