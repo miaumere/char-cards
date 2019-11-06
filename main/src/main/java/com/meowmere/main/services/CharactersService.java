@@ -1,8 +1,8 @@
 package com.meowmere.main.services;
 
-import com.meowmere.main.DTO.CharacterColorDTO;
-import com.meowmere.main.DTO.CharacterDTO;
-import com.meowmere.main.DTO.CharactersMenuDTO;
+import com.meowmere.main.DTO.character.CharacterColorDTO;
+import com.meowmere.main.DTO.character.CharacterDTO;
+import com.meowmere.main.DTO.character.CharactersMenuDTO;
 import com.meowmere.main.Entities.Character;
 import com.meowmere.main.Repositories.CharacterRepository;
 import org.modelmapper.ModelMapper;
@@ -31,7 +31,20 @@ public class CharactersService {
 
         for (int i = 0; i < allCharacters.size(); i++) {
             CharactersMenuDTO dto = modelMapper.map(allCharacters.get(i), CharactersMenuDTO.class);
-            dtoList.add(dto);
+
+            try {
+                String imagesURI = String.format("static\\character-profile-pics\\%s", i+1);
+                Resource resource = new ClassPathResource(imagesURI);
+                File file = resource.getFile();
+                File[] images = file.listFiles();
+                    if(images.length > 0) {
+                        String profilePic = images[0].getName();
+                        dto.setProfilePic(profilePic);
+                    }
+
+            } catch(IOException e) { }
+
+                dtoList.add(dto);
         }
 
         return dtoList;
@@ -44,7 +57,6 @@ public class CharactersService {
 
         CharacterDTO dto = modelMapper.map(oneCharacter, CharacterDTO.class);
         dto.setColors(colorDTO);
-
 
         try {
             String imagesURI = String.format("static\\characters-images\\%s", externalId);

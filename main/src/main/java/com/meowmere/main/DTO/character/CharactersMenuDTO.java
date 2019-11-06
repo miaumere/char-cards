@@ -1,9 +1,14 @@
-package com.meowmere.main.DTO;
+package com.meowmere.main.DTO.character;
 
 public class CharactersMenuDTO {
     public Long id;
     public String charName;
     public String charSurname;
+    public String profilePic;
+
+    public String getProfilePic() { return profilePic; }
+
+    public void setProfilePic(String profilePic) { this.profilePic = profilePic; }
 
     public Long getId() {
         return id;

@@ -1,6 +1,6 @@
 package com.meowmere.main.Controllers;
-import com.meowmere.main.DTO.CharacterDTO;
-import com.meowmere.main.DTO.CharactersMenuDTO;
+import com.meowmere.main.DTO.character.CharacterDTO;
+import com.meowmere.main.DTO.character.CharactersMenuDTO;
 import com.meowmere.main.Entities.Character;
 import com.meowmere.main.services.CharactersService;
 import org.springframework.beans.factory.annotation.Autowired;
