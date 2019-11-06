@@ -13,6 +13,7 @@ import { BaseComponent } from 'src/app/core/base.component';
 export class CharactersListComponent extends BaseComponent implements OnInit {
 
   charList: CharacterItem[] | null = null;
+  profilePicURL: '/character-profile-pics';
 
   constructor(private _charactersService: CharactersService, private _route: ActivatedRoute) { super(); }
 

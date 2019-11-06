@@ -10,10 +10,22 @@
 }
 
 .character {
+  display: flex;
+  flex-direction: column;
+
   margin: 0.5rem;
+
   text-align: center;
 
   &__profile-pic {
+    height: 120px;
+    width: 120px;
+
     clip-path: circle(40%);
+
+    &--empty {
+      background: #c9ccd3;
+      background-image: linear-gradient(45deg, #8baaaa 0%, #ae8b9c 100%);
+    }
   }
 }
