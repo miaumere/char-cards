@@ -30,7 +30,6 @@ export class CharactersService {
     return this.http.get<CharacterItem[]>(this._getCharactersURL)
       .pipe(
         tap(response => {
-          console.warn('New RESPONSE...');
           this.charList$.next(response);
         })
       );
