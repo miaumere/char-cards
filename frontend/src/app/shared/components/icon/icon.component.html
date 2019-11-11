@@ -1,11 +1,13 @@
 <ng-container [ngSwitch]="icon">
-  <svg *ngSwitchCase="'warning'" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <svg *ngSwitchCase="'warning'" [attr.fill]="color" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+    viewBox="0 0 24 24">
     <path
       d="M12 0l-12 12 12 12 12-12-12-12zm-1 6h2v8h-2v-8zm1 12.25c-.69 0-1.25-.56-1.25-1.25s.56-1.25 1.25-1.25 1.25.56 1.25 1.25-.56 1.25-1.25 1.25z" />
   </svg>
 
 
-  <svg *ngSwitchCase="'new-character'" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <svg *ngSwitchCase="'new-character'" [attr.fill]="color" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+    viewBox="0 0 24 24">
     <path d="M9.602 3.7c-1.154 1.937-.635 5.227 1.424 9.025.93 1.712.697 3.02.338 3.815-.982 2.178-3.
     675 2.799-6.525 3.456-1.964.454-1.839.87-1.839 4.004h-1.995l-.005-1.241c0-2.52.199-3.975 3.178-4.663
     3.365-.777 6.688-1.473 5.09-4.418-4.733-8.729-1.35-13.678 3.732-13.678 3.321 0 5.97 2.117 5.97 6.167

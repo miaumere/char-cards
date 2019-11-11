@@ -10,6 +10,7 @@ import { AppComponent } from './app.component';
 import { NavbarComponent } from './core/components/navbar/navbar.component';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
 
 @NgModule({
@@ -26,7 +27,14 @@ import { RouterModule } from '@angular/router';
     CharactersModule,
     SideCharactersModule
   ],
-  providers: [HttpClientModule],
+  providers: [
+    HttpClientModule,
+    {
+      provide: LocationStrategy,
+      useClass: HashLocationStrategy
+      // useClass: PathLocationStrategy
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
