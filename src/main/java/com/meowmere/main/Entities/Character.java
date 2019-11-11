@@ -1,4 +1,7 @@
 package com.meowmere.main.Entities;
+
+import org.hibernate.validator.constraints.Length;
+
 import javax.persistence.*;
 
 @Entity
@@ -8,8 +11,10 @@ public class Character {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Long externalId;
     @Column
+    @Length(min = 3, max = 15)
     private String charName;
     @Column
+    @Length(min = 3, max = 15)
     private String charSurname;
     @Column
     private Long birthday;

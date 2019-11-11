@@ -16,7 +16,8 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 @NgModule({
   declarations: [
     AppComponent,
-    NavbarComponent],
+    NavbarComponent
+  ],
   imports: [
     BrowserModule,
     RouterModule,
@@ -32,7 +33,6 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
     {
       provide: LocationStrategy,
       useClass: HashLocationStrategy
-      // useClass: PathLocationStrategy
     }
   ],
   bootstrap: [AppComponent]

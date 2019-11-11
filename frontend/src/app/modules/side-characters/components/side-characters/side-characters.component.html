@@ -1,5 +1,7 @@
-<article>
-  <div>
+<article *ngIf="sideCharacters">
+  <div class="side-character" *ngFor="let sideCharacter of sideCharacters">
+    <span class="side-character__name">{{sideCharacter.sideCharacterName}} {{sideCharacter.sideCharacterSurname}}</span>
+    <span class="side-character__desc">{{sideCharacter.sideCharacterDesc | nulled}}</span>
   </div>
 
 </article>
