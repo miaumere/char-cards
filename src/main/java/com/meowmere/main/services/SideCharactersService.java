@@ -5,6 +5,7 @@ import com.meowmere.main.Entities.SideCharacter;
 import com.meowmere.main.Repositories.SideCharactersRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -16,7 +17,8 @@ public class SideCharactersService {
     public SideCharactersRepository sideCharactersRepository;
 
     public List<SideCharacterDTO> findAllSideCharacters() {
-        List<SideCharacter> sideCharacters = sideCharactersRepository.findAll();
+        List<SideCharacter> sideCharacters = sideCharactersRepository
+                .findAll(Sort.by(Sort.Direction.ASC, "externalId"));
         ModelMapper modelMapper = new ModelMapper();
         List<SideCharacterDTO> result = new ArrayList<>();
         
