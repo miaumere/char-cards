@@ -1,4 +1,4 @@
-package com.meowmere.main.DTO;
+package com.meowmere.main.DTO.sideCharacters;
 
 public class SideCharacterDTO {
     public Long externalId;

@@ -1,10 +1,10 @@
-package com.meowmere.main.services;
+package com.meowmere.main.services.characters;
 
 import com.meowmere.main.DTO.character.CharacterColorDTO;
 import com.meowmere.main.DTO.character.CharacterDTO;
 import com.meowmere.main.DTO.character.CharactersMenuDTO;
-import com.meowmere.main.Entities.Character;
-import com.meowmere.main.Repositories.CharacterRepository;
+import com.meowmere.main.Entities.characters.Character;
+import com.meowmere.main.Repositories.characters.CharacterRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;

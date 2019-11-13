@@ -1,4 +1,4 @@
-package com.meowmere.main.Entities;
+package com.meowmere.main.Entities.sideCharacters;
 import javax.persistence.*;
 
 @Entity

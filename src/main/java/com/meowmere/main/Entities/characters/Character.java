@@ -1,4 +1,4 @@
-package com.meowmere.main.Entities;
+package com.meowmere.main.Entities.characters;
 
 import org.hibernate.validator.constraints.Length;
 

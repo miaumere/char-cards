@@ -1,7 +1,7 @@
-package com.meowmere.main.Controllers;
+package com.meowmere.main.Controllers.sideCharacters;
 
-import com.meowmere.main.DTO.SideCharacterDTO;
-import com.meowmere.main.services.SideCharactersService;
+import com.meowmere.main.DTO.sideCharacters.SideCharacterDTO;
+import com.meowmere.main.services.sideCharacters.SideCharactersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

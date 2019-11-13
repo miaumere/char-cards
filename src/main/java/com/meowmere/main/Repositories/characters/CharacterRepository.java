@@ -1,5 +1,5 @@
-package com.meowmere.main.Repositories;
-import com.meowmere.main.Entities.Character;
+package com.meowmere.main.Repositories.characters;
+import com.meowmere.main.Entities.characters.Character;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

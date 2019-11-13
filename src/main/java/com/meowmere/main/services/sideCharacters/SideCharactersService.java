@@ -1,8 +1,8 @@
-package com.meowmere.main.services;
+package com.meowmere.main.services.sideCharacters;
 
-import com.meowmere.main.DTO.SideCharacterDTO;
-import com.meowmere.main.Entities.SideCharacter;
-import com.meowmere.main.Repositories.SideCharactersRepository;
+import com.meowmere.main.DTO.sideCharacters.SideCharacterDTO;
+import com.meowmere.main.Entities.sideCharacters.SideCharacter;
+import com.meowmere.main.Repositories.sideCharacters.SideCharactersRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;

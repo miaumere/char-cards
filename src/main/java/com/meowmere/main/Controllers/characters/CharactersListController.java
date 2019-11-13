@@ -1,8 +1,8 @@
-package com.meowmere.main.Controllers;
+package com.meowmere.main.Controllers.characters;
 import com.meowmere.main.DTO.character.CharacterDTO;
 import com.meowmere.main.DTO.character.CharactersMenuDTO;
-import com.meowmere.main.Entities.Character;
-import com.meowmere.main.services.CharactersService;
+import com.meowmere.main.Entities.characters.Character;
+import com.meowmere.main.services.characters.CharactersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
