@@ -26,36 +26,11 @@ public class Character {
     private String occupation;
     @Column
     private String story;
-    @Column
-    private String eyeColor1;
-    @Column
-    private String eyeColor2;
-    @Column
-    private String themeColor1;
-    @Column
-    private String themeColor2;
-    @Column
-    private String themeColor3;
+
+    @OneToOne(mappedBy = "character", cascade = CascadeType.ALL)
+    private Colors colors;
 
     protected Character() {};
-
-    public Character(String charName, String charSurname,
-                     Long birthday, Long death, String deathReason, String occupation,
-                     String story, String eyeColor1, String eyeColor2,
-                     String themeColor1, String themeColor2, String themeColor3){
-        this.charName = charName;
-        this.charSurname = charSurname;
-        this.birthday = birthday;
-        this.death = death;
-        this.deathReason = deathReason;
-        this.occupation = occupation;
-        this.story = story;
-        this.eyeColor1 = eyeColor1;
-        this.eyeColor2 = eyeColor2;
-        this.themeColor1 = themeColor1;
-        this.themeColor2 = themeColor2;
-        this.themeColor3 = themeColor3;
-    };
 
     public Long getExternalId() {
         return externalId;
@@ -120,44 +95,11 @@ public class Character {
     public void setStory(String story) {
         this.story = story;
     }
-
-    public String getEyeColor1() {
-        return eyeColor1;
+    public Colors getColors() {
+        return colors;
     }
 
-    public void setEyeColor1(String eyeColor1) {
-        this.eyeColor1 = eyeColor1;
-    }
-
-    public String getEyeColor2() {
-        return eyeColor2;
-    }
-
-    public void setEyeColor2(String eyeColor2) {
-        this.eyeColor2 = eyeColor2;
-    }
-
-    public String getThemeColor1() {
-        return themeColor1;
-    }
-
-    public void setThemeColor1(String themeColor1) {
-        this.themeColor1 = themeColor1;
-    }
-
-    public String getThemeColor2() {
-        return themeColor2;
-    }
-
-    public void setThemeColor2(String themeColor2) {
-        this.themeColor2 = themeColor2;
-    }
-
-    public String getThemeColor3() {
-        return themeColor3;
-    }
-
-    public void setThemeColor3(String themeColor3) {
-        this.themeColor3 = themeColor3;
+    public void setColors(Colors colors) {
+        this.colors = colors;
     }
 };

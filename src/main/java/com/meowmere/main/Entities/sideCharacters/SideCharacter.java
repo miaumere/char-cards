@@ -17,18 +17,7 @@ public class SideCharacter {
     @Column
     private String sideCharacterDesc;
 
-
     protected SideCharacter() {};
-
-    public SideCharacter(
-            String sideCharacterName,
-            String sideCharacterSurname,
-            String sideCharacterDesc
-            ) {
-        this.sideCharacterName = sideCharacterName;
-        this.sideCharacterSurname = sideCharacterSurname;
-        this.sideCharacterDesc = sideCharacterDesc;
-    }
 
     public Long getExternalId() {
         return externalId;

@@ -4,7 +4,9 @@ import com.meowmere.main.DTO.character.CharacterColorDTO;
 import com.meowmere.main.DTO.character.CharacterDTO;
 import com.meowmere.main.DTO.character.CharactersMenuDTO;
 import com.meowmere.main.Entities.characters.Character;
+import com.meowmere.main.Entities.characters.Colors;
 import com.meowmere.main.Repositories.characters.CharacterRepository;
+import com.meowmere.main.Repositories.characters.ColorsRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
@@ -22,6 +24,8 @@ public class CharactersService {
 
     @Autowired
     public CharacterRepository characterRepository;
+    @Autowired
+    public ColorsRepository colorsRepository;
 
     public List<CharactersMenuDTO> findCharList() {
         List<Character> allCharacters = characterRepository.findAll(Sort.by(Sort.Direction.ASC, "externalId"));
@@ -42,6 +46,7 @@ public class CharactersService {
                         dto.setProfilePic(profilePic);
                     }
 
+
             } catch(IOException e) { }
 
                 dtoList.add(dto);
@@ -53,10 +58,18 @@ public class CharactersService {
     public CharacterDTO findByExternalId(Long externalId) {
         Character oneCharacter = characterRepository.getOne(externalId);
         ModelMapper modelMapper = new ModelMapper();
-        CharacterColorDTO colorDTO = modelMapper.map(oneCharacter, CharacterColorDTO.class);
 
         CharacterDTO dto = modelMapper.map(oneCharacter, CharacterDTO.class);
-        dto.setColors(colorDTO);
+
+        Colors colorsForCharacter = colorsRepository.getOne(externalId);
+        CharacterColorDTO colorDTO = new CharacterColorDTO();
+
+        if(colorsRepository != null){
+                colorDTO = modelMapper.map(colorsForCharacter, CharacterColorDTO.class);
+                dto.setColors(colorDTO);
+        } else {
+            dto.setColors(colorDTO);
+        }
 
         try {
             String imagesURI = String.format("static\\characters-images\\%s", externalId);

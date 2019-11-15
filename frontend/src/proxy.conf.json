@@ -1,18 +1,18 @@
 {
   "/characters-images": {
-    "target": "http://localhost:8080",
+    "target": "http://localhost:8081",
     "secure": false
   },
   "/character-profile-pics": {
-    "target": "http://localhost:8080",
+    "target": "http://localhost:8081",
     "secure": false
   },
   "/side-characters": {
-    "target": "http://localhost:8080",
+    "target": "http://localhost:8081",
     "secure": false
   },
   "/api/*": {
-    "target": "http://localhost:8080",
+    "target": "http://localhost:8081",
     "secure": false
   }
 }
