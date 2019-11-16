@@ -31,6 +31,9 @@ public class Character {
     @OneToMany(mappedBy = "character", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Colors> colors;
 
+    @OneToMany(mappedBy = "character", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Temperament> temperament;
+
     protected Character() {};
 
     public Long getExternalId() {
@@ -96,11 +99,12 @@ public class Character {
     public void setStory(String story) {
         this.story = story;
     }
-    public Set<Colors> getColors() {
-        return colors;
-    }
 
-    public void setColors(Set<Colors>  colors) {
-        this.colors = colors;
-    }
+    public Set<Colors> getColors() {return colors;}
+
+    public void setColors(Set<Colors>  colors) {this.colors = colors; }
+
+    public Set<Temperament> getTemperament() {return temperament; }
+
+    public void setTemperament(Set<Temperament> temperament) {this.temperament = temperament; }
 };

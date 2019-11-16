@@ -1,12 +1,16 @@
 package com.meowmere.main.services.characters;
 
+
 import com.meowmere.main.DTO.character.CharacterColorDTO;
 import com.meowmere.main.DTO.character.CharacterDTO;
+import com.meowmere.main.DTO.character.CharacterTemperamentDTO;
 import com.meowmere.main.DTO.character.CharactersMenuDTO;
 import com.meowmere.main.Entities.characters.Character;
 import com.meowmere.main.Entities.characters.Colors;
+import com.meowmere.main.Entities.characters.Temperament;
 import com.meowmere.main.Repositories.characters.CharacterRepository;
 import com.meowmere.main.Repositories.characters.ColorsRepository;
+import com.meowmere.main.Repositories.characters.TemperamentRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
@@ -26,6 +30,8 @@ public class CharactersService {
     public CharacterRepository characterRepository;
     @Autowired
     public ColorsRepository colorsRepository;
+    @Autowired
+    public TemperamentRepository temperamentRepository;
 
     public List<CharactersMenuDTO> findCharList() {
         List<Character> allCharacters = characterRepository.findAll(Sort.by(Sort.Direction.ASC, "externalId"));
@@ -64,11 +70,21 @@ public class CharactersService {
         Colors colorsForCharacter = colorsRepository.getOne(externalId);
         CharacterColorDTO colorDTO = new CharacterColorDTO();
 
-        if(colorsRepository != null){
+        Temperament temperamentForCharacter = temperamentRepository.getOne(externalId);
+        CharacterTemperamentDTO temperamentDTO = new CharacterTemperamentDTO();
+
+        if(colorsForCharacter != null){
                 colorDTO = modelMapper.map(colorsForCharacter, CharacterColorDTO.class);
                 dto.setColors(colorDTO);
         } else {
             dto.setColors(colorDTO);
+        }
+
+        if(temperamentForCharacter != null) {
+            temperamentDTO = modelMapper.map(temperamentForCharacter, CharacterTemperamentDTO.class);
+            dto.setTemperament(temperamentDTO);
+        } else {
+            dto.setTemperament(temperamentDTO);
         }
 
         try {

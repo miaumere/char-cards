@@ -10,7 +10,16 @@ public class CharacterDTO {
     public String occupation;
     public String story;
     public CharacterColorDTO colors;
+    public CharacterTemperamentDTO temperament;
     public String[] imagesList;
+
+    public CharacterTemperamentDTO getTemperament() {
+        return temperament;
+    }
+
+    public void setTemperament(CharacterTemperamentDTO temperament) {
+        this.temperament = temperament;
+    }
 
     public String[] getImagesList() {
         return imagesList;
