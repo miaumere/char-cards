@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output } from '@angular/core';
 import { BaseComponent } from 'src/app/core/base.component';
 import { Character } from 'src/app/model/characters/character.model';
 import { CharactersService } from 'src/app/core/service/characters.service';
 import { ActivatedRoute } from '@angular/router';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-character-card',
@@ -10,6 +11,8 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./character-card.component.scss']
 })
 export class CharacterCardComponent extends BaseComponent implements OnInit {
+
+  @Output() bgColorForParent = ""
 
   routeId: number = null;
   character: Character;
@@ -23,18 +26,33 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit() {
+    // FIXME tutaj ten ... sub
+
     this._route.params.subscribe(route => {
+
+      // console.log("route zmienia sie", route.id);
       this.routeId = route.id;
       this.characterProfilePicURL = `/characters-images/${this.routeId}`;
-      this.currentImageIndex = 0
+      this.currentImageIndex = 0;
       this.getCharacterById();
+
     })
+
+  }
+
+  ngChanges() {
+
   }
 
   getCharacterById() {
+
+    this.character = null;
+
+    // FIXME Sub
     this._charactersService.getCharacterById(this.routeId)
       .subscribe(character => {
         this.character = character;
+        this.bgColorForParent = character.colors.themeColor1;
       });
   }
 

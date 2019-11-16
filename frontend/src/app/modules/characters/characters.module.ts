@@ -1,3 +1,4 @@
+import { SharedModule } from './../../shared/shared.module';
 import { FilenameModifierPipe } from './pipes/filename-modifier.pipe';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
@@ -19,7 +20,8 @@ import { CharacterCardComponent } from './components/character-card/character-ca
   ],
   imports: [
     CommonModule,
-    CharactersRoutingModule
+    CharactersRoutingModule,
+    SharedModule
   ],
   providers: []
 })

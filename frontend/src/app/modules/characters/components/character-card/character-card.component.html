@@ -16,6 +16,7 @@
           <button class="profile-pic__button" *ngFor="let imageURL of character.imagesList; index as i"
             (click)="setImage(i)">{{imageURL | filenameModifier}}</button>
         </div>
+
       </ng-container>
       <div class="card__profile-pic--empty" *ngIf="character.imagesList.length === 0">
         Brak profilowego
@@ -50,11 +51,35 @@
       <ng-container *ngIf="character.colors">
         <span class="info__desc">Paleta kolorów</span>
         <div class="info__color color">
-          <div class="color__item" [ngStyle]="{'background': character.colors.themeColor1}"></div>
-          <div class="color__item" [ngStyle]="{'background': character.colors.themeColor2}"></div>
-          <div class="color__item" [ngStyle]="{'background': character.colors.themeColor3}"></div>
-          <div class="color__item" [ngStyle]="{'background': character.colors.eyeColor1}"></div>
-          <div class="color__item" [ngStyle]="{'background': character.colors.eyeColor2}"></div>
+          <div class="color__container">
+            <span class="color__icon">
+              <app-icon [icon]="'clothing'" [color]="'white'"></app-icon>
+            </span>
+            <div class="color__item" [ngStyle]="{'background': character.colors.themeColor1}"></div>
+            <div class="color__item" [ngStyle]="{'background': character.colors.themeColor2}"></div>
+            <div class="color__item" [ngStyle]="{'background': character.colors.themeColor3}"></div>
+          </div>
+          <div class="color__container">
+            <span class="color__icon">
+              <app-icon [icon]="'eye'" [color]="'white'"></app-icon>
+            </span>
+            <div class="color__item color__item--eye"
+              [ngStyle]="{'background-image': 'linear-gradient(to left,'+ character.colors.eyeColor1 + ', ' + character.colors.eyeColor2}">
+            </div>
+          </div>
+          <div class="color__container">
+            <span class="color__icon">
+              <app-icon [icon]="'face'" [color]="'white'"></app-icon>
+            </span>
+            <span class="color__icon">
+            </span>
+            <div class="color__item" [ngStyle]="{'background': character.colors.skinColor}"></div>
+            <span class="color__icon">
+              <app-icon [icon]="'hair'" [color]="'white'"></app-icon>
+            </span>
+            <div class="color__item" [ngStyle]="{'background': character.colors.hairColor}"></div>
+          </div>
+
         </div>
       </ng-container>
 

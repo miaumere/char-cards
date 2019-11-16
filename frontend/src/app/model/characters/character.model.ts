@@ -17,4 +17,6 @@ class Colors {
   themeColor1: string;
   themeColor2: string;
   themeColor3: string;
+  hairColor: string;
+  skinColor: string;
 }

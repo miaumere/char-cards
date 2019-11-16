@@ -1,15 +1,16 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { IconEnum } from 'src/app/enum/icon.enum';
+type iconType = '' | 'warning' | 'new-character' | 'face' | 'hair' | 'clothing' | 'eye';
 
 @Component({
   selector: 'app-icon',
   templateUrl: './icon.component.html',
   styleUrls: ['./icon.component.scss']
 })
+
 export class IconComponent {
 
-  @Input() icon = IconEnum;
-  @Input() color: string = "inherit"
+  @Input() icon: iconType = '';
+  @Input() color = '';
 
   constructor() { }
   // Przykładowe zastosowanie komponentu z ikonką:
