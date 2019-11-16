@@ -3,6 +3,7 @@ package com.meowmere.main.Entities.characters;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "character")
@@ -27,8 +28,8 @@ public class Character {
     @Column
     private String story;
 
-    @OneToOne(mappedBy = "character", cascade = CascadeType.ALL)
-    private Colors colors;
+    @OneToMany(mappedBy = "character", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Colors> colors;
 
     protected Character() {};
 
@@ -95,11 +96,11 @@ public class Character {
     public void setStory(String story) {
         this.story = story;
     }
-    public Colors getColors() {
+    public Set<Colors> getColors() {
         return colors;
     }
 
-    public void setColors(Colors colors) {
+    public void setColors(Set<Colors>  colors) {
         this.colors = colors;
     }
 };

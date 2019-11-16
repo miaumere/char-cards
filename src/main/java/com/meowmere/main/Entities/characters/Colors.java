@@ -1,5 +1,7 @@
 package com.meowmere.main.Entities.characters;
 
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
@@ -31,9 +33,17 @@ public class Colors {
     @Length(min = 3, max = 7)
     private String themeColor3;
 
-    @OneToOne(fetch = FetchType.LAZY, optional = true)
-    @MapsId
-    @JoinColumn(name = "character_id")
+    @Column
+    @Length(min = 3, max = 7)
+    private String hairColor;
+
+    @Column
+    @Length(min = 3, max = 7)
+    private String skinColor;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
+    @NotFound(action = NotFoundAction.IGNORE)
+    @JoinColumn(name = "character_id", unique = true)
     private Character character;
 
     protected Colors() {};
@@ -84,6 +94,21 @@ public class Colors {
 
     public void setThemeColor3(String themeColor3) {
         this.themeColor3 = themeColor3;
+    }
+    public String getHairColor() {
+        return hairColor;
+    }
+
+    public void setHairColor(String hairColor) {
+        this.hairColor = hairColor;
+    }
+
+    public String getSkinColor() {
+        return skinColor;
+    }
+
+    public void setSkinColor(String skinColor) {
+        this.skinColor = skinColor;
     }
     public Character getCharacter() {
         return character;

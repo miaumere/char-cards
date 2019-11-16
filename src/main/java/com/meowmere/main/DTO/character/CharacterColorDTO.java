@@ -6,6 +6,16 @@ public class CharacterColorDTO {
     public String themeColor1;
     public String themeColor2;
     public String themeColor3;
+    public String hairColor;
+    public String skinColor;
+
+    public String getSkinColor() {
+        return skinColor;
+    }
+
+    public void setSkinColor(String skinColor) {
+        this.skinColor = skinColor;
+    }
 
     public String getEyeColor1() {
         return eyeColor1;
@@ -46,4 +56,13 @@ public class CharacterColorDTO {
     public void setThemeColor3(String themeColor3) {
         this.themeColor3 = themeColor3;
     }
+
+    public String getHairColor() {
+        return hairColor;
+    }
+
+    public void setHairColor(String hairColor) {
+        this.hairColor = hairColor;
+    }
+
 }
