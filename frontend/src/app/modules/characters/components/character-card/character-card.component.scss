@@ -18,6 +18,10 @@
 }
 
 .color {
+  padding-top: 0.5rem;
+
+  background: #1d1d1d;
+
   filter: grayscale(1);
   transition: 0.3s;
 
@@ -29,8 +33,6 @@
     display: flex;
 
     padding: 0 0.5rem;
-
-    background: #1d1d1d;
   }
 
   &__item {

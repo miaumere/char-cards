@@ -7,9 +7,18 @@ import { BaseComponent } from 'src/app/core/base.component';
   styleUrls: ['./characters.component.scss']
 })
 export class CharactersComponent extends BaseComponent implements OnInit {
+  childBackground = 'grey';
+  bgUrl = `url(
+    data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAF0lEQVQYV2NkQAJSN+83PFNXbGCkgSAAqjkUBj+3UZ0AAAAASUVORK5CYII=
+    )`
 
   ngOnInit() {
 
   }
+
+  bgColorFromChild(bgColor: string) {
+    this.childBackground = bgColor;
+  }
+
 
 }

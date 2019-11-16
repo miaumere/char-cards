@@ -1,9 +1,8 @@
-import { Component, OnInit, Output } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { BaseComponent } from 'src/app/core/base.component';
 import { Character } from 'src/app/model/characters/character.model';
 import { CharactersService } from 'src/app/core/service/characters.service';
 import { ActivatedRoute } from '@angular/router';
-import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-character-card',
@@ -12,12 +11,13 @@ import { finalize } from 'rxjs/operators';
 })
 export class CharacterCardComponent extends BaseComponent implements OnInit {
 
-  @Output() bgColorForParent = ""
+  @Output() bgColorFromChild = new EventEmitter<string>();
 
   routeId: number = null;
   character: Character;
   characterProfilePicURL: string;
   currentImageIndex = 0;
+
 
   constructor(
     private _charactersService: CharactersService,
@@ -40,19 +40,14 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
 
   }
 
-  ngChanges() {
-
-  }
-
   getCharacterById() {
-
     this.character = null;
 
     // FIXME Sub
     this._charactersService.getCharacterById(this.routeId)
       .subscribe(character => {
         this.character = character;
-        this.bgColorForParent = character.colors.themeColor1;
+        this.bgColorFromChild.emit(character.colors.themeColor1);
       });
   }
 
@@ -60,5 +55,6 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
     // console.log(imageIndex);
     this.currentImageIndex = imageIndex;
   }
+
 
 }

@@ -1,5 +1,7 @@
-<article class="characters global-section">
+<article class="characters global-section" [ngStyle]="{
+  'background-image': 'linear-gradient(to bottom, #1d1d1d 0%, #1d1d1d 40%,' + childBackground + ' 100%), ' + bgUrl}">
+  <!-- background-image: linear-gradient(120deg, #f093fb 0%, #f5576c 100%); -->
   <app-characters-menu></app-characters-menu>
-  <app-character-card></app-character-card>
+  <app-character-card (bgColorFromChild)="bgColorFromChild($event)"></app-character-card>
 
 </article>
