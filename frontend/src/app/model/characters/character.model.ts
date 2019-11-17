@@ -10,6 +10,7 @@ export class Character {
   colors: Colors;
   imagesList: string[];
   temperament: Temperament;
+  quotes: Quote;
 }
 
 class Colors {
@@ -27,4 +28,10 @@ class Temperament {
   sanguine: number;
   flegmatic: number;
   choleric: number;
+}
+
+class Quote {
+  id: number;
+  quote: string;
+  context?: string;
 }

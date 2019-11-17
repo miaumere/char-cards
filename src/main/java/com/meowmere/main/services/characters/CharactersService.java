@@ -1,15 +1,14 @@
 package com.meowmere.main.services.characters;
 
 
-import com.meowmere.main.DTO.character.CharacterColorDTO;
-import com.meowmere.main.DTO.character.CharacterDTO;
-import com.meowmere.main.DTO.character.CharacterTemperamentDTO;
-import com.meowmere.main.DTO.character.CharactersMenuDTO;
+import com.meowmere.main.DTO.character.*;
 import com.meowmere.main.Entities.characters.Character;
 import com.meowmere.main.Entities.characters.Colors;
+import com.meowmere.main.Entities.characters.Quote;
 import com.meowmere.main.Entities.characters.Temperament;
 import com.meowmere.main.Repositories.characters.CharacterRepository;
 import com.meowmere.main.Repositories.characters.ColorsRepository;
+import com.meowmere.main.Repositories.characters.QuoteRepository;
 import com.meowmere.main.Repositories.characters.TemperamentRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +21,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @Service
 public class CharactersService {
@@ -32,6 +32,8 @@ public class CharactersService {
     public ColorsRepository colorsRepository;
     @Autowired
     public TemperamentRepository temperamentRepository;
+    @Autowired
+    public QuoteRepository quoteRepository;
 
     public List<CharactersMenuDTO> findCharList() {
         List<Character> allCharacters = characterRepository.findAll(Sort.by(Sort.Direction.ASC, "externalId"));
@@ -72,6 +74,11 @@ public class CharactersService {
 
         Temperament temperamentForCharacter = temperamentRepository.getOne(externalId);
         CharacterTemperamentDTO temperamentDTO = new CharacterTemperamentDTO();
+
+        List<Quote> quotes = quoteRepository.getAllQuotesById(externalId);
+        Random random = new Random();
+        Quote randomQuote = quotes.get(random.nextInt(quotes.size()));
+        dto.setQuote(modelMapper.map(randomQuote, CharacterQuoteDTO.class));
 
         if(colorsForCharacter != null){
                 colorDTO = modelMapper.map(colorsForCharacter, CharacterColorDTO.class);

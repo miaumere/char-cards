@@ -10,7 +10,7 @@ import java.util.Set;
 public class Character {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    private Long externalId;
+    public Long externalId;
     @Column
     @Length(min = 3, max = 15)
     private String charName;
@@ -33,6 +33,9 @@ public class Character {
 
     @OneToMany(mappedBy = "character", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Temperament> temperament;
+
+    @OneToMany(mappedBy = "character", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Quote> quotes;
 
     protected Character() {};
 
@@ -107,4 +110,12 @@ public class Character {
     public Set<Temperament> getTemperament() {return temperament; }
 
     public void setTemperament(Set<Temperament> temperament) {this.temperament = temperament; }
+
+    public Set<Quote> getQuotes() {
+        return quotes;
+    }
+
+    public void setQuotes(Set<Quote> quotes) {
+        this.quotes = quotes;
+    }
 };

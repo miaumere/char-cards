@@ -8,6 +8,7 @@ public class CharacterDTO {
     public Long death;
     public String deathReason;
     public String occupation;
+    public CharacterQuoteDTO quote;
     public String story;
     public CharacterColorDTO colors;
     public CharacterTemperamentDTO temperament;
@@ -99,5 +100,13 @@ public class CharacterDTO {
 
     public void setDeathReason(String deathReason) {
         this.deathReason = deathReason;
+    }
+
+    public CharacterQuoteDTO getQuote() {
+        return quote;
+    }
+
+    public void setQuote(CharacterQuoteDTO quote) {
+        this.quote = quote;
     }
 }

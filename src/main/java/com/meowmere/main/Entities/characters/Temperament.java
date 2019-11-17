@@ -34,7 +34,6 @@ public class Temperament {
     @JoinColumn(name = "character_id", unique = true)
     private Character character;
 
-
     public Long getId() {
         return id;
     }
