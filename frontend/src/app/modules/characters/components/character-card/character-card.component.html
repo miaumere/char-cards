@@ -82,6 +82,36 @@
 
         </div>
       </ng-container>
+      <ng-container *ngIf="character.temperament">
+        <div class="info__temperament temperament">
+          <span class="info__desc">Temperament</span>
+          <div class="temperament__container">
+            <span class="info__desc">Melancholik</span>
+            <div appProgressBar [percentValue]="character.temperament.melancholic" temperamentType='melancholic'>
+              <!-- <span style="position:absolute">{{character.temperament.melancholic}}%</span> -->
+            </div>
+          </div>
+          <div class="temperament__container">
+            <span class="info__desc">Sangwinik</span>
+            <div appProgressBar [percentValue]="character.temperament.sanguine" temperamentType='sanguine'>
+              <!-- {{character.temperament.sanguine}}% -->
+            </div>
+          </div>
+          <div class="temperament__container">
+            <span class="info__desc">Flegmatyk</span>
+            <div appProgressBar [percentValue]="character.temperament.flegmatic" temperamentType='flegmatic'>
+              <!-- {{character.temperament.flegmatic}}% -->
+            </div>
+          </div>
+          <div class="temperament__container">
+            <span class="info__desc">Choleryk</span>
+            <div appProgressBar [percentValue]="character.temperament.choleric" temperamentType='choleric'>
+              <!-- {{character.temperament.choleric}}% -->
+            </div>
+          </div>
+        </div>
+
+      </ng-container>
 
 
     </div>

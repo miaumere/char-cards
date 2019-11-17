@@ -8,6 +8,7 @@ import { CharactersMenuComponent } from './components/characters-menu/characters
 import { CharactersIndexComponent } from './characters-index.component';
 import { CharactersListComponent } from './components/characters-list/characters-list.component';
 import { CharacterCardComponent } from './components/character-card/character-card.component';
+import { ProgressBarDirective } from './directives/progress-bar.directive';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { CharacterCardComponent } from './components/character-card/character-ca
     CharactersIndexComponent,
     CharactersListComponent,
     CharacterCardComponent,
-    FilenameModifierPipe
+    FilenameModifierPipe,
+    ProgressBarDirective
   ],
   imports: [
     CommonModule,

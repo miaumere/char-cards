@@ -9,6 +9,7 @@ export class Character {
   story: string;
   colors: Colors;
   imagesList: string[];
+  temperament: Temperament;
 }
 
 class Colors {
@@ -19,4 +20,11 @@ class Colors {
   themeColor3: string;
   hairColor: string;
   skinColor: string;
+}
+
+class Temperament {
+  melancholic: number;
+  sanguine: number;
+  flegmatic: number;
+  choleric: number;
 }
