@@ -64,6 +64,9 @@
 }
 
 .information {
+  display: flex;
+  flex-direction: column;
+
   min-width: 50vw;
   height: 85vh;
 
@@ -78,13 +81,17 @@
 }
 
 .story {
-  margin-top: 2rem;
+  margin: 2rem 0;
 }
 
 .quote {
   &__cite {
     color: rgba(255, 255, 255, 0.4);
   }
+}
+
+.measurements {
+  margin-top: auto;
 }
 
 .card {

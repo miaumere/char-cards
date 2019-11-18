@@ -27,7 +27,7 @@ public class Character {
     private String occupation;
     @Column(columnDefinition="LONGTEXT")
     private String story;
-    @Column
+    @Column(columnDefinition = "boolean default false")
     private Boolean archived;
 
     @OneToMany(mappedBy = "character", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
