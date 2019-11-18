@@ -12,6 +12,7 @@ public class CharacterDTO {
     public String story;
     public CharacterColorDTO colors;
     public CharacterTemperamentDTO temperament;
+    public CharacterMeasurementsDTO measurements;
     public String[] imagesList;
 
     public CharacterTemperamentDTO getTemperament() {
@@ -108,5 +109,13 @@ public class CharacterDTO {
 
     public void setQuote(CharacterQuoteDTO quote) {
         this.quote = quote;
+    }
+
+    public CharacterMeasurementsDTO getMeasurements() {
+        return measurements;
+    }
+
+    public void setMeasurements(CharacterMeasurementsDTO measurements) {
+        this.measurements = measurements;
     }
 }

@@ -112,7 +112,15 @@
 
     </div>
   </div>
-  <div class="history">
-    {{character.story ? character.story : "Brak znanej historii."}}
+  <div class="information">
+    <div *ngIf="character.quote" class="information__quote quote">
+      <blockquote>
+        {{character.quote.quote}}
+      </blockquote>
+      <cite *ngIf="character.quote.context" class="quote__cite">~{{character.quote.context}}</cite>
+    </div>
+    <div class="information__story story">
+      {{character.story ? character.story : "Brak znanej historii."}}
+    </div>
   </div>
 </section>

@@ -2,14 +2,9 @@ package com.meowmere.main.services.characters;
 
 
 import com.meowmere.main.DTO.character.*;
+import com.meowmere.main.Entities.characters.*;
 import com.meowmere.main.Entities.characters.Character;
-import com.meowmere.main.Entities.characters.Colors;
-import com.meowmere.main.Entities.characters.Quote;
-import com.meowmere.main.Entities.characters.Temperament;
-import com.meowmere.main.Repositories.characters.CharacterRepository;
-import com.meowmere.main.Repositories.characters.ColorsRepository;
-import com.meowmere.main.Repositories.characters.QuoteRepository;
-import com.meowmere.main.Repositories.characters.TemperamentRepository;
+import com.meowmere.main.Repositories.characters.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
@@ -34,6 +29,8 @@ public class CharactersService {
     public TemperamentRepository temperamentRepository;
     @Autowired
     public QuoteRepository quoteRepository;
+    @Autowired
+    public MeasurementsRepository measurementsRepository;
 
     public List<CharactersMenuDTO> findCharList() {
         List<Character> allCharacters = characterRepository.findAll(Sort.by(Sort.Direction.ASC, "externalId"));
@@ -66,10 +63,22 @@ public class CharactersService {
         CharacterDTO dto = modelMapper.map(oneCharacter, CharacterDTO.class);
 
         Colors colorsForCharacter = colorsRepository.getOne(externalId);
-        CharacterColorDTO colorDTO = new CharacterColorDTO();
+        CharacterColorDTO colorDTO = colorsForCharacter != null
+                ? modelMapper.map(colorsForCharacter, CharacterColorDTO.class)
+                : null;
+        dto.setColors(colorDTO);
 
         Temperament temperamentForCharacter = temperamentRepository.getOne(externalId);
-        CharacterTemperamentDTO temperamentDTO = new CharacterTemperamentDTO();
+        CharacterTemperamentDTO temperamentDTO = temperamentForCharacter != null
+                ? modelMapper.map(temperamentForCharacter, CharacterTemperamentDTO.class)
+                : null;
+        dto.setTemperament(temperamentDTO);
+
+        Measurements measurementsForCharacter = measurementsRepository.getOne(externalId);
+        CharacterMeasurementsDTO measurementsDTO = measurementsForCharacter != null
+                ? modelMapper.map(measurementsForCharacter, CharacterMeasurementsDTO.class)
+                : null;
+        dto.setMeasurements(measurementsDTO);
 
         List<Quote> quotes = quoteRepository.getAllQuotesById(externalId);
         Random random = new Random();
@@ -78,20 +87,6 @@ public class CharactersService {
             dto.setQuote(modelMapper.map(randomQuote, CharacterQuoteDTO.class));
         } else {
             dto.setQuote(modelMapper.map(colorsRepository.getOne(externalId), CharacterQuoteDTO.class));
-        }
-
-        if(colorsForCharacter != null){
-                colorDTO = modelMapper.map(colorsForCharacter, CharacterColorDTO.class);
-                dto.setColors(colorDTO);
-        } else {
-            dto.setColors(colorDTO);
-        }
-
-        if(temperamentForCharacter != null) {
-            temperamentDTO = modelMapper.map(temperamentForCharacter, CharacterTemperamentDTO.class);
-            dto.setTemperament(temperamentDTO);
-        } else {
-            dto.setTemperament(temperamentDTO);
         }
 
         try {

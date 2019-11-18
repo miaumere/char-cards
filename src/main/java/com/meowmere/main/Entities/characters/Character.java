@@ -25,8 +25,10 @@ public class Character {
     private String deathReason;
     @Column
     private String occupation;
-    @Column
+    @Column(columnDefinition="LONGTEXT")
     private String story;
+    @Column
+    private Boolean archived;
 
     @OneToMany(mappedBy = "character", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Colors> colors;
@@ -36,6 +38,9 @@ public class Character {
 
     @OneToMany(mappedBy = "character", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Quote> quotes;
+
+    @OneToMany(mappedBy = "character", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Measurements> measurements;
 
     protected Character() {};
 
@@ -117,5 +122,21 @@ public class Character {
 
     public void setQuotes(Set<Quote> quotes) {
         this.quotes = quotes;
+    }
+
+    public Set<Measurements> getMeasurements() {
+        return measurements;
+    }
+
+    public void setMeasurements(Set<Measurements> measurements) {
+        this.measurements = measurements;
+    }
+
+    public Boolean getArchived() {
+        return archived;
+    }
+
+    public void setArchived(Boolean archived) {
+        this.archived = archived;
     }
 };

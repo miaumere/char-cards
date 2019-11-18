@@ -1,5 +1,6 @@
 .characters-card {
   display: flex;
+  position: fixed;
 }
 
 .info {
@@ -57,11 +58,14 @@
 
   &__container {
     display: flex;
+    justify-content: space-between;
+    align-items: baseline;
   }
 }
 
-.history {
+.information {
   min-width: 50vw;
+  height: 85vh;
 
   padding: 1rem;
   margin-top: 1rem;
@@ -69,6 +73,18 @@
   font-size: 0.7rem;
 
   background: #0000007a;
+
+  overflow-y: scroll;
+}
+
+.story {
+  margin-top: 2rem;
+}
+
+.quote {
+  &__cite {
+    color: rgba(255, 255, 255, 0.4);
+  }
 }
 
 .card {
@@ -79,8 +95,6 @@
   border-width: 1px;
   border-style: solid;
   margin: 1rem;
-
-  background: rgb(46, 46, 46);
 
   &__name {
     font-size: 1rem;

@@ -10,6 +10,7 @@ export class Character {
   colors: Colors;
   imagesList: string[];
   temperament: Temperament;
+  measurements: Measurements;
   quotes: Quote;
 }
 
@@ -34,4 +35,15 @@ class Quote {
   id: number;
   quote: string;
   context?: string;
+}
+
+class Measurements {
+  babyHeight: number;
+  babyWeight: number;
+  childHeight: number;
+  childWeight: number;
+  teenHeight: number;
+  teenWeight: number;
+  adultHeight: number;
+  adultWeight: number;
 }

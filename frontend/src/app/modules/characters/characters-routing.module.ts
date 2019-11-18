@@ -1,8 +1,8 @@
-import { CharactersListComponent } from './components/characters-list/characters-list.component';
+import { CharactersListComponent } from './components/characters-article/components/characters-list/characters-list.component';
 import { CharactersIndexComponent } from './characters-index.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { CharactersComponent } from './components/characters/characters.component';
+import { CharactersComponent } from './components/characters-article/characters.component';
 import { CharactersService } from 'src/app/core/service/characters.service';
 
 const routes: Routes = [
