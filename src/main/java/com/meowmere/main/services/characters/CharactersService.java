@@ -53,13 +53,9 @@ public class CharactersService {
                         String profilePic = images[0].getName();
                         dto.setProfilePic(profilePic);
                     }
-
-
             } catch(IOException e) { }
-
                 dtoList.add(dto);
         }
-
         return dtoList;
     }
 
@@ -77,8 +73,12 @@ public class CharactersService {
 
         List<Quote> quotes = quoteRepository.getAllQuotesById(externalId);
         Random random = new Random();
-        Quote randomQuote = quotes.get(random.nextInt(quotes.size()));
-        dto.setQuote(modelMapper.map(randomQuote, CharacterQuoteDTO.class));
+        if(quotes.size() > 1){
+            Quote randomQuote = quotes.get(random.nextInt(quotes.size()));
+            dto.setQuote(modelMapper.map(randomQuote, CharacterQuoteDTO.class));
+        } else {
+            dto.setQuote(modelMapper.map(colorsRepository.getOne(externalId), CharacterQuoteDTO.class));
+        }
 
         if(colorsForCharacter != null){
                 colorDTO = modelMapper.map(colorsForCharacter, CharacterColorDTO.class);
