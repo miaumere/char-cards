@@ -12,7 +12,7 @@ public class Story {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
 
-    @Column(length = 2000)
+    @Column
     private String story;
 
     @ManyToOne(fetch =  FetchType.LAZY)
@@ -44,4 +44,5 @@ public class Story {
     public void setCharacter(Character character) {
         this.character = character;
     }
+
 }
