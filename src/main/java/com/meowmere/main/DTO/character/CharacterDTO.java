@@ -1,5 +1,7 @@
 package com.meowmere.main.DTO.character;
 
+import java.util.List;
+
 public class CharacterDTO {
     public Long externalId;
     public String charName;
@@ -9,7 +11,7 @@ public class CharacterDTO {
     public String deathReason;
     public String occupation;
     public CharacterQuoteDTO quote;
-    public String story;
+    public List<CharacterStoryDTO> story;
     public CharacterColorDTO colors;
     public CharacterTemperamentDTO temperament;
     public CharacterMeasurementsDTO measurements;
@@ -55,11 +57,11 @@ public class CharacterDTO {
         this.death = death;
     }
 
-    public String getStory() {
+    public List<CharacterStoryDTO> getStory() {
         return story;
     }
 
-    public void setStory(String story) {
+    public void setStory(List<CharacterStoryDTO> story) {
         this.story = story;
     }
 

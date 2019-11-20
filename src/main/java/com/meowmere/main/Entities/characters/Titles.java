@@ -14,7 +14,7 @@ public class Titles {
     private String title;
 
     @Column(unique = true)
-    private Long sequence;
+    public Long sequence;
 
     @OneToMany(mappedBy = "title", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Story> story;

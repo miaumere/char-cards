@@ -31,6 +31,8 @@ public class CharactersService {
     public QuoteRepository quoteRepository;
     @Autowired
     public MeasurementsRepository measurementsRepository;
+    @Autowired
+    public StoryRepository storyRepository;
 
     public List<CharactersMenuDTO> findCharList() {
         List<Character> allCharacters = characterRepository.findAll(Sort.by(Sort.Direction.ASC, "externalId"));
@@ -61,6 +63,16 @@ public class CharactersService {
         ModelMapper modelMapper = new ModelMapper();
 
         CharacterDTO dto = modelMapper.map(oneCharacter, CharacterDTO.class);
+
+        List<Story> storiesFromDb = storyRepository.getAllStoriesForId(externalId);
+        List<CharacterStoryDTO> stories = new ArrayList<>();
+        if(storiesFromDb != null){
+            for (Story storyFromDb : storiesFromDb) {
+                CharacterStoryDTO storyDTO = modelMapper.map(storyFromDb, CharacterStoryDTO.class);
+                stories.add(storyDTO);
+            }
+        }
+        dto.setStory(stories);
 
         Colors colorsForCharacter = colorsRepository.getOne(externalId);
         CharacterColorDTO colorDTO = colorsForCharacter != null
