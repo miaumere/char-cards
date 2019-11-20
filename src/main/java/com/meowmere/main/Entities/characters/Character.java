@@ -25,7 +25,7 @@ public class Character {
     private String deathReason;
     @Column
     private String occupation;
-    @Column(columnDefinition="LONGTEXT")
+    @Column(length = 2000)
     private String story;
     @Column(columnDefinition = "boolean default false")
     private Boolean archived;
@@ -41,6 +41,9 @@ public class Character {
 
     @OneToMany(mappedBy = "character", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Measurements> measurements;
+
+    @OneToMany(mappedBy = "character", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Story> stories;
 
     protected Character() {};
 
@@ -138,5 +141,13 @@ public class Character {
 
     public void setArchived(Boolean archived) {
         this.archived = archived;
+    }
+
+    public Set<Story> getStories() {
+        return stories;
+    }
+
+    public void setStories(Set<Story> stories) {
+        this.stories = stories;
     }
 };
