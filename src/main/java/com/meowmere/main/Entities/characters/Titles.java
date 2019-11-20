@@ -1,8 +1,5 @@
 package com.meowmere.main.Entities.characters;
 
-import org.hibernate.annotations.NotFound;
-import org.hibernate.annotations.NotFoundAction;
-
 import javax.persistence.*;
 import java.util.Set;
 
@@ -16,13 +13,12 @@ public class Titles {
     @Column
     private String title;
 
-    @Column
+    @Column(unique = true)
     private Long sequence;
 
-    @ManyToMany(fetch =  FetchType.LAZY)
-    @NotFound(action = NotFoundAction.IGNORE)
-    @JoinColumn(name = "story_id", unique = true)
+    @OneToMany(mappedBy = "title", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Story> story;
+
 
     public Long getId() {
         return id;

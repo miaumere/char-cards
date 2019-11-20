@@ -17,8 +17,14 @@ public class Story {
 
     @ManyToOne(fetch =  FetchType.LAZY)
     @NotFound(action = NotFoundAction.IGNORE)
-    @JoinColumn(name = "character_id", unique = true)
+    @JoinColumn(name = "character_id")
     private Character character;
+
+
+    @ManyToOne(fetch =  FetchType.LAZY)
+    @NotFound(action = NotFoundAction.IGNORE)
+    @JoinColumn(name = "title_id")
+    private Titles title;
 
 
     public Long getId() {
@@ -45,4 +51,11 @@ public class Story {
         this.character = character;
     }
 
+    public Titles getTitle() {
+        return title;
+    }
+
+    public void setTitle(Titles title) {
+        this.title = title;
+    }
 }
