@@ -82,6 +82,12 @@
 
 .story {
   margin: 2rem 0;
+
+  &__title {
+    font-weight: bold;
+    font-size: 0.9rem;
+    color: lightslategray;
+  }
 }
 
 .quote {

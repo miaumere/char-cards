@@ -121,7 +121,17 @@
         {{character.quote.context}}</cite>
     </div>
     <div class="information__story story">
-      {{character.story ? character.story : "Brak znanej historii."}}
+      <ng-container *ngIf="character.story">
+        <ng-container *ngFor="let story of character.story">
+          <h2 class="story__title">{{story.title}}</h2>
+          <div>
+            {{story.story}}
+          </div>
+        </ng-container>
+      </ng-container>
+      <ng-container *ngIf="!character.story">
+        Brak znanej historii.
+      </ng-container>
     </div>
     <table *ngIf="character.measurements" class="information__measurements measurements global-table">
       <tr class="global-table__row">

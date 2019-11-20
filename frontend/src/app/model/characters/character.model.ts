@@ -6,7 +6,7 @@ export class Character {
   death: number;
   deathReason: string;
   occupation: string;
-  story: string;
+  story: Story[];
   colors: Colors;
   imagesList: string[];
   temperament: Temperament;
@@ -46,4 +46,10 @@ class Measurements {
   teenWeight: number;
   adultHeight: number;
   adultWeight: number;
+}
+
+class Story {
+  id: number;
+  title: string;
+  story: string;
 }
