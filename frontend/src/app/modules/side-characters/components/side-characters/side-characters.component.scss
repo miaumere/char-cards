@@ -1,13 +1,15 @@
+@import "../../../../../global_styles/variables.scss";
+
 .side-character {
   display: flex;
   justify-content: space-evenly;
   align-items: center;
   flex-wrap: wrap;
 
-  height: 100%;
+  min-height: calc(100vh - #{$navbar-height});
 
   background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAATklEQVQoU2NkYGAwZmBgOMuAACA+CKCIMSIpADGRNaEYgKwQ3WQUjTCF6CYhWw2WAynEpgjmIpg7jUlSiM0TWK2GWUOUZ7ApxggeogIcABHJFtftKVfJAAAAAElFTkSuQmCC"),
-    linear-gradient(to bottom, #2c3e50 0%, #2c3e50 33%, #fd746c 100%);
+    linear-gradient(to bottom, #4d5963 0%, #4d4e50 33%, #fd746c 100%);
   background-blend-mode: multiply;
 
   &__box {
