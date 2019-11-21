@@ -18,7 +18,7 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
   characterProfilePicURL: string;
   currentImageIndex = 0;
 
-
+  loading = true;
   constructor(
     private _charactersService: CharactersService,
     private _route: ActivatedRoute) {
@@ -48,6 +48,7 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
       .subscribe(character => {
         this.character = character;
         this.bgColorFromChild.emit(character.colors.themeColor1);
+        this.loading = false;
       });
   }
 

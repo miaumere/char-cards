@@ -1,4 +1,6 @@
-<section class="characters-card" *ngIf="character">
+<app-loader [visible]="!character && loading"></app-loader>
+
+<section class="characters-card" *ngIf="character && !loading">
   <div class="card" [ngStyle]="{'border-color': character.colors.themeColor1
 }">
     <span class="card__name">
