@@ -7,6 +7,10 @@
   align-items: center;
 
   height: calc(100vh - #{$navbar-height});
+
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAF0lEQVQYV2NkQAJSN+83PFNXbGCkgSAAqjkUBj+3UZ0AAAAASUVORK5CYII="),
+    linear-gradient(to bottom, #1d1d1d 0%, #3a3a3a 33%, #693535 100%);
+  background-blend-mode: multiply;
 }
 
 .character {
