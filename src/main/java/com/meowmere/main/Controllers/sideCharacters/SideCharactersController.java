@@ -17,7 +17,7 @@ public class SideCharactersController {
     SideCharactersService sideCharactersService;
 
     @GetMapping("/side-characters")
-    public List<SideCharacterDTO> SideCharacterBean() {
+    public List<SideCharacterDTO> returnSideCharacters() {
         return sideCharactersService.findAllSideCharacters();
     }
 }
