@@ -5,6 +5,7 @@ public class SideCharacterDTO {
     public String sideCharacterName;
     public String sideCharacterSurname;
     public String sideCharacterDesc;
+    public String profilePic;
 
     public Long getExternalId() {
         return externalId;
@@ -36,5 +37,13 @@ public class SideCharacterDTO {
 
     public void setSideCharacterDesc(String sideCharacterDesc) {
         this.sideCharacterDesc = sideCharacterDesc;
+    }
+
+    public String getProfilePic() {
+        return profilePic;
+    }
+
+    public void setProfilePic(String profilePic) {
+        this.profilePic = profilePic;
     }
 }
