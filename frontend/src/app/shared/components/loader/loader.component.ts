@@ -14,7 +14,7 @@ export class LoaderComponent implements OnInit {
   <app-loader [visible]="!loading"></app-loader>
   */
 
-  @Input() visible: boolean;
+  @Input() visible = false;
   constructor() { }
 
   ngOnInit() {
