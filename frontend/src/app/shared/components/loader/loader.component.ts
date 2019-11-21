@@ -10,6 +10,10 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class LoaderComponent implements OnInit {
 
+  /* PRZYKŁAD UŻYCIA:
+  <app-loader [visible]="!loading"></app-loader>
+  */
+
   @Input() visible: boolean;
   constructor() { }
 

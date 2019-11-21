@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { BaseComponent } from 'src/app/core/base.component';
 import { SideCharactersService } from 'src/app/core/service/side-characters.service';
 import { SideCharacter } from 'src/app/model/side-characters/side-characters.model';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-side-characters',
@@ -22,8 +23,13 @@ export class SideCharactersComponent extends BaseComponent implements OnInit {
   }
 
   getSideCharacters() {
-    this._sideCharactersService.getSideCharacters()
-      .subscribe(sideCharacters => {
+    this._sideCharactersService
+      .getSideCharacters()
+      .pipe(
+        finalize(() => {
+          this.loading = false;
+        })
+      ).subscribe(sideCharacters => {
         this.sideCharacters = sideCharacters;
         this.loading = false;
       });

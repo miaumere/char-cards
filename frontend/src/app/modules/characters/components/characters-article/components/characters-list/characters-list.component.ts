@@ -14,6 +14,7 @@ export class CharactersListComponent extends BaseComponent implements OnInit {
 
   charList: CharacterItem[] | null = null;
   profilePicURL: '/character-profile-pics';
+  loading = true;
 
   constructor(private _charactersService: CharactersService, private _route: ActivatedRoute) { super(); }
 
@@ -21,8 +22,9 @@ export class CharactersListComponent extends BaseComponent implements OnInit {
     // Sposob pobierania danych z servisu bez resolvera
     this.subscriptions$.add(
       this._charactersService.charList$.subscribe(charList => {
-        console.log('CHARACTERS LIST SUBUJE LISTE POSTACI Z SERVISU 2:', charList);
+        // console.log('CHARACTERS LIST SUBUJE LISTE POSTACI Z SERVISU 2:', charList);
         this.charList = charList;
+        this.loading = false;
       })
     );
   }
