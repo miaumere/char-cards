@@ -1,7 +1,9 @@
 <article class="side-character" *ngIf="sideCharacters">
-  <div class="side-character__box box" *ngFor="let sideCharacter of sideCharacters">
-    <div class="box__profile-pic">
-
+  <div class="side-character__box box" *ngFor="let sideCharacter of sideCharacters; index as i">
+    <div class="box__profile-pic profile-pic">
+      <img *ngIf="sideCharacter.profilePic" class="profile-pic__image"
+        src="{{profilePicURL}}/{{i + 1}}/{{sideCharacter.profilePic}}">
+      <div *ngIf="!sideCharacter.profilePic" class="profile-pic profile-pic--empty"></div>
     </div>
     <div class="box__info info">
       <span class="info__name">

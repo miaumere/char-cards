@@ -9,8 +9,8 @@ import { SideCharacter } from 'src/app/model/side-characters/side-characters.mod
   styleUrls: ['./side-characters.component.scss']
 })
 export class SideCharactersComponent extends BaseComponent implements OnInit {
+  readonly profilePicURL = '/side-character-profile-pics';
   sideCharacters: SideCharacter[];
-
   constructor(private _sideCharactersService: SideCharactersService) {
     super();
   }
