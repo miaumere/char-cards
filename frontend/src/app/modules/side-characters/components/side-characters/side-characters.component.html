@@ -1,4 +1,6 @@
-<article class="side-character" *ngIf="sideCharacters">
+<app-loader [visible]="!sideCharacters && loading"></app-loader>
+
+<article class="side-character" *ngIf="sideCharacters && !loading">
   <div class="side-character__box box" *ngFor="let sideCharacter of sideCharacters; index as i">
     <div class="box__profile-pic profile-pic">
       <img *ngIf="sideCharacter.profilePic" class="profile-pic__image"
@@ -12,5 +14,4 @@
       <span class="info__desc">{{sideCharacter.sideCharacterDesc | nulled}}</span>
     </div>
   </div>
-
 </article>

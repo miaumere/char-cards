@@ -11,6 +11,8 @@ import { SideCharacter } from 'src/app/model/side-characters/side-characters.mod
 export class SideCharactersComponent extends BaseComponent implements OnInit {
   readonly profilePicURL = '/side-character-profile-pics';
   sideCharacters: SideCharacter[];
+  loading = true;
+
   constructor(private _sideCharactersService: SideCharactersService) {
     super();
   }
@@ -23,6 +25,7 @@ export class SideCharactersComponent extends BaseComponent implements OnInit {
     this._sideCharactersService.getSideCharacters()
       .subscribe(sideCharacters => {
         this.sideCharacters = sideCharacters;
+        this.loading = false;
       });
   }
 

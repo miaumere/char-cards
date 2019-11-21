@@ -35,6 +35,6 @@ const loading = trigger('loading', [
   ])
 ]);
 
-export let animations = {
+export const animations = {
   loading
 }

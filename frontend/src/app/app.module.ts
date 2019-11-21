@@ -11,6 +11,8 @@ import { NavbarComponent } from './core/components/navbar/navbar.component';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 
 @NgModule({
   declarations: [
@@ -19,6 +21,7 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     RouterModule,
     AppRoutingModule,
     HttpClientModule,
