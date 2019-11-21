@@ -1,12 +1,15 @@
 <app-loader [visible]="loading && !charList"></app-loader>
 
 <aside class="characters-menu global-section">
-  <ng-container *ngIf="charList && !loading">
+  <ng-container *ngIf="!loading && charList.length > 0 ">
     <span *ngFor="let character of charList;" class="characters-menu__item">
       <a [routerLink]="['/char-cards', character.id]" routerLinkActive="router-link-active">{{character.charName}}
         {{character.charSurname}}</a>
     </span>
-
   </ng-container>
-
 </aside>
+
+
+<div *ngIf="!loading && charList && charList.length === 0">
+  Brak postaci.
+</div>

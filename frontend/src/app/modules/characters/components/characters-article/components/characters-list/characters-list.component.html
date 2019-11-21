@@ -1,6 +1,6 @@
 <app-loader [visible]="!charList && loading"></app-loader>
 
-<aside class="global-section" class="char-menu" *ngIf="charList && !loading">
+<aside class="global-section" class="char-menu" *ngIf="!loading && charList && charList.length > 0">
   <ng-container *ngFor="let character of charList; index as i">
     <a class="character" [routerLink]="['/char-cards', character.id]" routerLinkActive="router-link-active">
       <img class="character__profile-pic" src="/character-profile-pics/{{i+1}}/{{character.profilePic}}"

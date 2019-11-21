@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CharactersService } from 'src/app/core/service/characters.service';
 import { CharacterItem } from 'src/app/model/characters/character-item.model';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-characters-menu',
@@ -10,11 +11,23 @@ import { CharacterItem } from 'src/app/model/characters/character-item.model';
 export class CharactersMenuComponent implements OnInit {
 
   charList: CharacterItem[] | null = null;
+  loading = true;
 
   constructor(private _charactersService: CharactersService) { }
 
   ngOnInit() {
-    this._charactersService.charList$.subscribe(charList => this.charList = charList)
+    this._charactersService
+      .charList$
+      .pipe(
+        finalize(() => {
+          this.loading = false;
+        })
+      )
+      .subscribe(charList => {
+        this.charList = charList;
+        this.loading = false;
+      }
+      )
   }
 
 
