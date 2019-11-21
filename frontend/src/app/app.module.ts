@@ -12,7 +12,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 
-
 @NgModule({
   declarations: [
     AppComponent,
