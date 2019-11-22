@@ -9,7 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.WebUtils;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 
 @RestController
@@ -18,9 +22,9 @@ public class UserController {
     @Autowired
     public UserService userService;
 
-    @PostMapping("/authorize")
+    @PostMapping("/login")
     @ResponseBody
-    public ResponseEntity authorize(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity login(@RequestBody LoginRequest loginRequest, HttpServletResponse response) {
         Boolean loginSuccess = this.userService.userLogin(loginRequest);
 
         if(loginSuccess == false) {
@@ -41,16 +45,24 @@ public class UserController {
                     .withExpiresAt(new Date(date))
                     .sign(algorithm);
         } catch (JWTCreationException exception){
-            //Invalid Signing configuration / Couldn't convert Claims.
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-
-        return new ResponseEntity<>(token, HttpStatus.ACCEPTED);
+        Cookie cookie = new Cookie("token", token);
+        cookie.setHttpOnly(true);
+        cookie.setMaxAge(7 * 24 * 3600 * 1000);
+        response.addCookie(cookie);
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
-//    @GetMapping("/login")
-//    public ResponseEntity login() {
-//
-//    }
+    @GetMapping("/logout")
+    public ResponseEntity logout(HttpServletRequest request, HttpServletResponse response) {
+        Cookie tokenCookie = WebUtils.getCookie(request,"token");
+        if(tokenCookie == null) {
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+        tokenCookie.setMaxAge(0);
+        response.addCookie(tokenCookie);
+    return new ResponseEntity<>(HttpStatus.ACCEPTED);
+    }
 
 }
