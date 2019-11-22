@@ -18,5 +18,13 @@
   "/api/*": {
     "target": "http://localhost:8082",
     "secure": false
+  },
+  "/login": {
+    "target": "http://localhost:8082",
+    "secure": false
+  },
+  "/logout": {
+    "target": "http://localhost:8082",
+    "secure": false
   }
 }

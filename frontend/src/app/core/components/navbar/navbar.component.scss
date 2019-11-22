@@ -31,30 +31,22 @@
     }
 
     &--active {
-      padding: 1rem;
-
       color: rgb(92, 92, 92);
-
-      background: rgb(31, 31, 31);
     }
   }
 }
 
 .logout {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
   padding-right: 0.5rem;
-  border-radius: 0.5rem;
 
-  color: white;
-  font-size: 0.7rem;
-
-  background: linear-gradient(to bottom, #3a4386, #89253e);
+  background: linear-gradient(to bottom, #3a3b47, #462930);
 
   &__icon {
     transform: scale(0.7);
+  }
+
+  &:active {
+    background: linear-gradient(to bottom, #462930, #3a3b47);
   }
 }
 

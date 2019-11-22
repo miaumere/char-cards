@@ -1,17 +1,18 @@
 <article class="login">
+  <h2 class="login__info">Aby wejść do panelu admina, zaloguj się:</h2>
 
-  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-    <label class="login__label">
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login__form">
+    <label class="form__label">
       Nazwa użytkownika:
-      <input formControlName="username">
+      <input class="form__input" formControlName="username">
     </label>
 
-    <label class="login__label">
+    <label class="form__label">
       Hasło:
-      <input type="password" formControlName="password">
+      <input class="form__input" type="password" formControlName="password">
     </label>
 
-    <input type="submit" value="submit">
+    <input class="form__submit-button global-button" type="submit" value="submit">
   </form>
 
 </article>

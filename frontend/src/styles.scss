@@ -17,6 +17,33 @@ button {
   font-family: inherit;
 }
 
+.global-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border-radius: 0.5rem;
+  border: 1px solid #322c38;
+  padding: 0.5rem;
+
+  color: white;
+  font-size: 0.7rem;
+
+  background: linear-gradient(to bottom, #3a3b47, #302a36);
+
+  outline: none;
+
+  cursor: pointer;
+
+  &:active {
+    border-bottom: 2px solid #1f1b24;
+
+    background: linear-gradient(to bottom, #302a36, #3a3b47);
+
+    transform: translateY(4px);
+  }
+}
+
 .global-section {
   height: calc(100vh - #{$navbar-height});
 }
