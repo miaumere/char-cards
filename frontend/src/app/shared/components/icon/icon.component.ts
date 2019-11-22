@@ -1,5 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
-type iconType = '' | 'warning' | 'new-character' | 'face' | 'hair' | 'clothing' | 'eye';
+import { Component, Input } from '@angular/core';
+type iconType = '' | 'warning' | 'new-character' | 'face' | 'hair' | 'clothing' | 'eye' | 'logout' | 'user';
 
 @Component({
   selector: 'app-icon',

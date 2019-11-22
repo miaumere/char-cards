@@ -18,10 +18,21 @@
         historia
       </a>
     </li>
+    <!-- pokazuje sie tylko kiedy user jest zalogowany -->
     <li class="navbar__item">
       <a [routerLink]="['/admin-panel']" routerLinkActive="navbar__item--active">
         panel admina
       </a>
     </li>
+    <li class="logged-user">
+      <app-icon [icon]="'user'" [color]="'white'"></app-icon>
+      <span class="logged-user__name">xxxx</span>
+    </li>
+    <button class="logout" (click)="logout()">
+      <span class="logout__icon">
+        <app-icon [icon]="'logout'" [color]="'white'"></app-icon>
+      </span>
+      wyloguj się
+    </button>
   </ul>
 </nav>

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { LoginComponent } from './components/login/login.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { AdminPanelRoutingModule } from './admin-panel-routing.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -11,7 +12,8 @@ import { AdminPanelRoutingModule } from './admin-panel-routing.module';
   imports: [
     CommonModule,
     SharedModule,
-    AdminPanelRoutingModule
+    AdminPanelRoutingModule,
+    ReactiveFormsModule
   ]
 })
 export class AdminPanelModule { }

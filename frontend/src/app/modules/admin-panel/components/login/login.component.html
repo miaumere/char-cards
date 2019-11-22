@@ -1,1 +1,17 @@
-formularz logowania
+<article class="login">
+
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <label class="login__label">
+      Nazwa użytkownika:
+      <input formControlName="username">
+    </label>
+
+    <label class="login__label">
+      Hasło:
+      <input type="password" formControlName="password">
+    </label>
+
+    <input type="submit" value="submit">
+  </form>
+
+</article>

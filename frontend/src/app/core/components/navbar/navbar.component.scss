@@ -3,6 +3,7 @@
 .navbar {
   display: flex;
   justify-content: space-evenly;
+  align-items: center;
 
   top: 0;
   left: 0;
@@ -36,5 +37,33 @@
 
       background: rgb(31, 31, 31);
     }
+  }
+}
+
+.logout {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding-right: 0.5rem;
+  border-radius: 0.5rem;
+
+  color: white;
+  font-size: 0.7rem;
+
+  background: linear-gradient(to bottom, #3a4386, #89253e);
+
+  &__icon {
+    transform: scale(0.7);
+  }
+}
+
+.logged-user {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &__name {
+    padding-left: 0.5rem;
   }
 }

@@ -30,16 +30,10 @@ public class UserController {
         if(loginSuccess == false) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
-
         String token = "";
         try {
             Algorithm algorithm = Algorithm.HMAC256("secretSecretsecretSecretSecretBardzoSecret");
             Long date = System.currentTimeMillis() + 7 * 24 * 3600 * 1000;
-//            nowy kontroler GET wysyłający nagłówek “Bearer”: JWT token
-//            + backend sprawdza czy token jest prawidłowy i czy nie wygasł
-//            jak nie wygasł - taki sam ale odświeżony (wygasający za kolejne 7 dni) - inaczej 403
-            // kiedy utworzone, kiedy wygasa (za 7 dni od utworzenia, )
-
             token = JWT.create()
                     .withClaim("name", loginRequest.getUsername())
                     .withExpiresAt(new Date(date))
