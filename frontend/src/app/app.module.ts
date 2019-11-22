@@ -12,6 +12,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AdminPanelModule } from './modules/admin-panel/admin-panel.module';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MainModule,
     PagesModule,
     CharactersModule,
-    SideCharactersModule
+    SideCharactersModule,
+    AdminPanelModule
   ],
   providers: [
     HttpClientModule,
