@@ -26,5 +26,9 @@
   "/logout": {
     "target": "http://localhost:8082",
     "secure": false
+  },
+  "/relogin": {
+    "target": "http://localhost:8082",
+    "secure": false
   }
 }

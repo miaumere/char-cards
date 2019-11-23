@@ -16,13 +16,16 @@ export class AuthService {
 
   private loginURL = '/login';
   private logoutURL = '/logout';
+  private reloginURL = '/relogin';
 
   _loggedUser: LoggedUser;
   loggedUser$ = new BehaviorSubject<LoggedUser | null>(null);
 
   constructor(
     private http: HttpClient
-  ) { }
+  ) {
+    this.relogin();
+  }
 
 
   login(requestData: UserCredentials) {
@@ -39,15 +42,20 @@ export class AuthService {
       )
   }
 
+  relogin() {
+    return this.http.get<LoggedUser>(this.reloginURL)
+      .subscribe(loggedUser => {
+        this._loggedUser = loggedUser;
+        this.emitLoggedUser();
+      });
+  }
 
   private emitLoggedUser() {
-    // console.log("Emituje!", this._loggedUser);
+    console.log("Emituje!", this._loggedUser);
     this.loggedUser$.next(this._loggedUser);
   }
 
-
-
-  logout = () => {
+  logout() {
     this._loggedUser = null;
     return this.http.get<void>(this.logoutURL).pipe(tap(() => {
       this._loggedUser = null;
