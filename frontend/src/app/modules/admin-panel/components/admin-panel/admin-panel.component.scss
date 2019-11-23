@@ -1,6 +1,25 @@
+@import "../../../../../global_styles/variables.scss";
+
+.admin-panel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - #{$navbar-height});
+}
+
+.admin-panel__options {
+  display: flex;
+}
+
 .option {
-  &__icon ::ng-deep svg {
-    transform: scale(4);
-    margin: 3rem;
+  display: flex;
+  flex-direction: column;
+
+  width: 20%;
+
+  padding: 2rem;
+
+  &__desc {
+    margin: 2rem 0 -2rem -2rem;
   }
 }
