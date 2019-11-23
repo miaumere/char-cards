@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { UserCredentials } from 'src/app/model/users/user-credentials.model';
 import { Observable, of } from 'rxjs';
-import { ActivatedRouteSnapshot, Router } from '@angular/router';
+import { ActivatedRouteSnapshot, Router, CanActivate } from '@angular/router';
 import { tap } from 'rxjs/operators';
 
 @Injectable({
@@ -22,19 +22,6 @@ export class AuthService {
     private _toastr: ToastrService,
     private _router: Router
   ) { }
-
-  resolve() {
-    if (!this._loggedUser) {
-      this._toastr.warning(
-        `Nie można wyświetlić tego widoku nie będąc zalogowany.`
-      );
-
-      this._router.navigate(['/admin-panel/login']);
-
-    }
-
-    return of(this._loggedUser);
-  }
 
   login(requestData: UserCredentials) {
     this.http.post<LoggedUser>(this.loginURL, requestData)
@@ -55,6 +42,8 @@ export class AuthService {
   getLoggedUser(): LoggedUser {
     return this._loggedUser;
   }
+
+
 
 
 
