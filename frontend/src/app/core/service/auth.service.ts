@@ -18,7 +18,7 @@ export class AuthService {
   private logoutURL = '/logout';
 
   _loggedUser: LoggedUser;
-  loggedUser$ = new BehaviorSubject<LoggedUser>(null);
+  loggedUser$ = new BehaviorSubject<LoggedUser | null>(null);
 
   constructor(
     private http: HttpClient
@@ -32,21 +32,27 @@ export class AuthService {
           this._loggedUser = new LoggedUser();
           this._loggedUser.username = auth.username;
           this._loggedUser.password = auth.password;
+          // console.log("Tu nastepuje tap dla zalogowanego", this)
 
           this.emitLoggedUser();
         })
       )
   }
 
+
   private emitLoggedUser() {
-    console.log(this._loggedUser)
+    // console.log("Emituje!", this._loggedUser);
     this.loggedUser$.next(this._loggedUser);
   }
 
 
+
   logout = () => {
     this._loggedUser = null;
-    return this.http.get<void>(this.logoutURL);
+    return this.http.get<void>(this.logoutURL).pipe(tap(() => {
+      this._loggedUser = null;
+      this.emitLoggedUser();
+    }));
   }
 
   getLoggedUser(): LoggedUser {

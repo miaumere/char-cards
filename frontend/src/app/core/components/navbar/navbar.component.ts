@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../service/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { BaseComponent } from '../../base.component';
+import { LoggedUser } from 'src/app/model/users/logged-user.model';
 
 @Component({
   selector: 'app-navbar',
@@ -11,6 +12,7 @@ import { BaseComponent } from '../../base.component';
 export class NavbarComponent extends BaseComponent implements OnInit {
 
   username = '';
+  loggedUser: LoggedUser | null = null;
 
   constructor(
     private _authService: AuthService,
@@ -20,7 +22,6 @@ export class NavbarComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.username = this.loggedUser ? this.loggedUser.username : null;
   }
 
   logout() {

@@ -18,15 +18,16 @@
         historia
       </a>
     </li>
-    <!-- pokazuje sie tylko kiedy user jest zalogowany -->
     <li class="navbar__item">
-      <a [routerLink]="['/login']" routerLinkActive="navbar__item--active">
+      <a [routerLink]="['/admin-panel']" routerLinkActive="navbar__item--active">
         panel admina
       </a>
     </li>
     <li class="logged-user">
       <app-icon [icon]="'user'" [color]="'white'"></app-icon>
-      <span class="logged-user__name">{{username ? username : "niezalogowany"}}</span>
+      <span class="logged-user__name">
+        {{ (_authService.loggedUser$ | async) ? ((_authService.loggedUser$ | async).username) : "CXXC" }}
+      </span>
     </li>
     <button class="logout global-button" (click)="logout()">
       <span class="logout__icon">

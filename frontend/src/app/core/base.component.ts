@@ -8,10 +8,10 @@ export abstract class BaseComponent implements OnDestroy {
 
   protected subscriptions$ = new Subscription();
   protected loggedUser: LoggedUser;
-  protected authService: AuthService;
+  // protected authService: AuthService;
 
   constructor() {
-    this.authService = ServiceLocator.injector.get(AuthService);
+    // this.authService = ServiceLocator.injector.get(AuthService);
 
 
 
