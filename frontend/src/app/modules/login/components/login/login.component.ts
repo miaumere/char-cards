@@ -1,3 +1,4 @@
+import { LoggedUser } from './../../../../model/users/logged-user.model';
 import { AuthService } from '../../../../core/service/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
@@ -30,13 +31,13 @@ export class LoginComponent implements OnInit {
     user.password = this.loginForm.controls['password'].value;
 
     console.log(user)
-    // this._authService.login(user).subscribe(_ => {
-    //   this._toastr.success('Logowanie zakończone powodzeniem.')
-    // },
-    //   err => {
-    //     this._toastr.error('Nie udało się zalogować.')
-    //   }
-    // )
+    this._authService.login(user).subscribe(_ => {
+      this._toastr.success('Logowanie zakończone powodzeniem.')
+    },
+      err => {
+        this._toastr.error('Nie udało się zalogować.')
+      }
+    )
 
   }
 

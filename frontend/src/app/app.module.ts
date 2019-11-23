@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, Injector } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
@@ -18,6 +18,8 @@ import { MainModule } from './modules/main/main.module';
 import { NavbarComponent } from './core/components/navbar/navbar.component';
 import { SharedModule } from './shared/shared.module';
 import { LoginModule } from './modules/login/login.module';
+import { ServiceLocator } from './core/service-locator';
+import { services } from './core/services';
 
 @NgModule({
   declarations: [
@@ -50,4 +52,14 @@ import { LoginModule } from './modules/login/login.module';
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  constructor() {
+    ServiceLocator.injector = Injector.create(
+      Object.keys(services).map(key => ({
+        provide: services[key].provide,
+        useClass: services[key].provide,
+        deps: services[key].deps
+      }))
+    );
+  }
+}

@@ -24,7 +24,7 @@ export class AuthService {
   ) { }
 
   login(requestData: UserCredentials) {
-    this.http.post<LoggedUser>(this.loginURL, requestData)
+    return this.http.post<LoggedUser>(this.loginURL, requestData)
       .pipe(
         tap(auth => {
           this._loggedUser = new LoggedUser();
