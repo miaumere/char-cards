@@ -26,7 +26,7 @@
     </li>
     <li class="logged-user">
       <app-icon [icon]="'user'" [color]="'white'"></app-icon>
-      <span class="logged-user__name">{{username}}</span>
+      <span class="logged-user__name">{{username ? username : "niezalogowany"}}</span>
     </li>
     <button class="logout global-button" (click)="logout()">
       <span class="logout__icon">

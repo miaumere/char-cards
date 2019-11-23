@@ -11,6 +11,10 @@ export abstract class BaseComponent implements OnDestroy {
   protected authService: AuthService;
 
   constructor() {
+    this.authService = ServiceLocator.injector.get(AuthService);
+
+
+
     const onDestroyF = this.ngOnDestroy;
 
     this.ngOnDestroy = () => {
@@ -18,7 +22,6 @@ export abstract class BaseComponent implements OnDestroy {
       onDestroyF.bind(this)();
     };
 
-    this.authService = ServiceLocator.injector.get(AuthService);
 
 
   }

@@ -10,20 +10,21 @@ import { BaseComponent } from '../../base.component';
 })
 export class NavbarComponent extends BaseComponent implements OnInit {
 
-  username = this.authService._loggedUser ? this.authService._loggedUser.username : "niezalogowany"
+  username = '';
 
   constructor(
+    private _authService: AuthService,
     private _toastr: ToastrService
   ) {
     super();
   }
 
   ngOnInit() {
-
+    this.username = this.loggedUser ? this.loggedUser.username : null;
   }
 
   logout() {
-    this.authService.logout().subscribe(_ => {
+    this._authService.logout().subscribe(_ => {
       this._toastr.success('Wylogowano użytkownika.')
     },
       () => {
