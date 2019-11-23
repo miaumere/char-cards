@@ -5,7 +5,7 @@ import { AdminPanelComponent } from './components/admin-panel/admin-panel.compon
 
 const routes: Routes = [
   {
-    path: 'admin-panel',
+    path: '',
     component: AdminPanelComponent
   },
 ];
