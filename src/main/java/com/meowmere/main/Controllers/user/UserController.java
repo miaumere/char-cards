@@ -43,7 +43,7 @@ public class UserController {
         }
         Cookie cookie = new Cookie("token", token);
         cookie.setHttpOnly(true);
-        cookie.setMaxAge(7 * 24 * 3600 * 1000);
+        cookie.setMaxAge(604800);
         response.addCookie(cookie);
         return new ResponseEntity<>(loginRequest, HttpStatus.ACCEPTED);
     }
