@@ -1,7 +1,8 @@
-import { AuthService } from './../../../../core/service/auth.service';
+import { AuthService } from '../../../../core/service/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { UserCredentials } from 'src/app/model/users/user-credentials.model';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -15,7 +16,10 @@ export class LoginComponent implements OnInit {
     password: new FormControl(''),
   });
 
-  constructor(private _authService: AuthService) { }
+  constructor(
+    private _authService: AuthService,
+    private _toastr: ToastrService
+  ) { }
 
   ngOnInit() {
   }
@@ -26,13 +30,13 @@ export class LoginComponent implements OnInit {
     user.password = this.loginForm.controls['password'].value;
 
     console.log(user)
-    this._authService.login(user).subscribe(_ => {
-      console.log('udało się zalogować')
-    },
-      err => {
-        console.error(err)
-      }
-    )
+    // this._authService.login(user).subscribe(_ => {
+    //   this._toastr.success('Logowanie zakończone powodzeniem.')
+    // },
+    //   err => {
+    //     this._toastr.error('Nie udało się zalogować.')
+    //   }
+    // )
 
   }
 

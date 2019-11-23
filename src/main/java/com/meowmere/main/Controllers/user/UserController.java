@@ -45,7 +45,7 @@ public class UserController {
         cookie.setHttpOnly(true);
         cookie.setMaxAge(7 * 24 * 3600 * 1000);
         response.addCookie(cookie);
-        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(loginRequest, HttpStatus.ACCEPTED);
     }
 
     @GetMapping("/logout")

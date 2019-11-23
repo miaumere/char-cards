@@ -1,7 +1,11 @@
+import { ToastrService } from 'ngx-toastr';
+import { LoggedUser } from './../../model/users/logged-user.model';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { UserCredentials } from 'src/app/model/users/user-credentials.model';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { ActivatedRouteSnapshot, Router } from '@angular/router';
+import { tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -11,14 +15,47 @@ export class AuthService {
   private loginURL = '/login';
   private logoutURL = '/logout';
 
-  constructor(private http: HttpClient) { }
+  _loggedUser: LoggedUser;
+
+  constructor(
+    private http: HttpClient,
+    private _toastr: ToastrService,
+    private _router: Router
+  ) { }
+
+  resolve() {
+    if (!this._loggedUser) {
+      this._toastr.warning(
+        `Nie można wyświetlić tego widoku nie będąc zalogowany.`
+      );
+
+      this._router.navigate(['/admin-panel/login']);
+
+    }
+
+    return of(this._loggedUser);
+  }
 
   login(requestData: UserCredentials) {
-    return this.http.post(this.loginURL, requestData);
+    this.http.post<LoggedUser>(this.loginURL, requestData)
+      .pipe(
+        tap(auth => {
+          this._loggedUser = new LoggedUser();
+          this._loggedUser.username = auth.username;
+          this._loggedUser.password = auth.password;
+        })
+      )
   }
 
   logout() {
-    this.http.get(this.logoutURL);
+    this._loggedUser = null;
+    return this.http.get(this.logoutURL);
   }
+
+  getLoggedUser(): LoggedUser {
+    return this._loggedUser;
+  }
+
+
 
 }

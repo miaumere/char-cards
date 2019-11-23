@@ -2,6 +2,7 @@
 @import "./global_styles/variables.scss";
 @import "./global_styles/scrollbar.scss";
 @import "./global_styles/table.scss";
+@import "~ngx-toastr/toastr.css";
 
 @import "./fonts.scss";
 
@@ -27,6 +28,7 @@ button {
   padding: 0.5rem;
 
   color: white;
+  font-family: inherit;
   font-size: 0.7rem;
 
   background: linear-gradient(to bottom, #3a3b47, #302a36);
@@ -34,6 +36,7 @@ button {
   outline: none;
 
   cursor: pointer;
+  text-transform: uppercase;
 
   &:active {
     border-bottom: 2px solid #1f1b24;
