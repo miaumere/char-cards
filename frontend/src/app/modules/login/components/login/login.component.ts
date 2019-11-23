@@ -30,11 +30,9 @@ export class LoginComponent extends BaseComponent implements OnInit {
 
   onSubmit() {
     const user = new UserCredentials();
-    // user.username = this.loginForm.controls['username'].value;
-    // user.password = this.loginForm.controls['password'].value;
+    user.username = this.loginForm.controls['username'].value;
+    user.password = this.loginForm.controls['password'].value;
 
-    user.username = "jean"
-    user.password = "test1"
     this._authService.login(user).subscribe(_ => {
       this._toastr.success('Logowanie zakończone powodzeniem.')
     },

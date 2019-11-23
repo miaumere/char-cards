@@ -1,0 +1,6 @@
+.option {
+  &__icon ::ng-deep svg {
+    transform: scale(4);
+    margin: 3rem;
+  }
+}
