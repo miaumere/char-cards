@@ -14,8 +14,8 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
 
   @Output() bgColorFromChild = new EventEmitter<string>();
 
-  routeId: number = null;
-  character: Character;
+  routeId: number | null = null;
+  character: Character | null = null;
   characterProfilePicURL: string;
   currentImageIndex = 0;
 
@@ -45,15 +45,17 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
     this.character = null;
 
     // FIXME Sub
-    this._charactersService.getCharacterById(this.routeId)
-      .pipe(
-        finalize(() => {
-          this.loading = false;
-        })
-      ).subscribe(character => {
-        this.character = character;
-        this.bgColorFromChild.emit(character.colors.themeColor1);
-      });
+    if (this.routeId !== null) {
+      this._charactersService.getCharacterById(this.routeId)
+        .pipe(
+          finalize(() => {
+            this.loading = false;
+          })
+        ).subscribe(character => {
+          this.character = character;
+          this.bgColorFromChild.emit(character.colors.themeColor1);
+        });
+    }
   }
 
   setImage(imageIndex: number) {

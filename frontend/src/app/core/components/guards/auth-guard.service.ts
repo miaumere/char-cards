@@ -10,7 +10,7 @@ import { LoggedUser } from 'src/app/model/users/logged-user.model';
 })
 @Injectable()
 export class AuthGuard implements CanActivate {
-  loggedUser: LoggedUser;
+  loggedUser: LoggedUser | null;
 
   constructor(private _authService: AuthService, private _router: Router) {
   }
@@ -23,8 +23,8 @@ export class AuthGuard implements CanActivate {
     this._authService.loggedUser$.subscribe(loggedUser => {
       this.loggedUser = loggedUser;
     })
-    if (this.loggedUser) {
 
+    if (this.loggedUser) {
       return true;
     }
 

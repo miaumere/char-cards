@@ -18,7 +18,7 @@ export class AuthService {
   private logoutURL = '/logout';
   private reloginURL = '/relogin';
 
-  _loggedUser: LoggedUser;
+  _loggedUser: LoggedUser | null;
   loggedUser$ = new BehaviorSubject<LoggedUser | null>(null);
 
   constructor(
@@ -63,7 +63,7 @@ export class AuthService {
     }));
   }
 
-  getLoggedUser(): LoggedUser {
+  getLoggedUser(): LoggedUser | null {
     return this._loggedUser;
   }
 

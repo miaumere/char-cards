@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-change-character-data',
@@ -7,9 +8,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ChangeCharacterDataComponent implements OnInit {
 
-  constructor() { }
+  changeType: string;
+
+  constructor(private _route: ActivatedRoute) { }
 
   ngOnInit() {
+
   }
+
+  setChangeData() {
+    this._route.params.subscribe(param => {
+      console.log(param);
+    })
+  }
+
 
 }

@@ -14,7 +14,7 @@ export class CharactersService {
   private _getCharactersURL = '/api/characters-list/get-characters';
   private _getCharacterByIdURL = '/api/characters-list/get-character';
 
-  public charList$ = new BehaviorSubject<CharacterItem[]>(null);
+  public charList$ = new BehaviorSubject<CharacterItem[] | null>(null);
 
   constructor(private http: HttpClient) {
     this.getCharacters().subscribe();

@@ -7,7 +7,6 @@ import { ServiceLocator } from './service-locator';
 export abstract class BaseComponent implements OnDestroy {
 
   protected subscriptions$ = new Subscription();
-  protected loggedUser: LoggedUser;
   // protected authService: AuthService;
 
   constructor() {
