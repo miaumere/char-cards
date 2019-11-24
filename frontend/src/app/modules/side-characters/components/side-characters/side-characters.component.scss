@@ -20,6 +20,7 @@
     padding: 1rem;
     margin: 0.5rem;
     border: 1px solid white;
+    border-radius: 3px;
 
     background: #1d1d1da8;
   }
@@ -28,9 +29,7 @@
 .profile-pic {
   height: 100px;
   width: 100px;
-  &--empty {
-    background-image: linear-gradient(45deg, #8baaaa 0%, #ae8b9c 100%);
-  }
+
   &__image {
     width: 100px;
     height: 100px;

@@ -8,7 +8,7 @@
       <span class="option__desc">dodaj postać główną</span>
 
     </li>
-    <li class="option">
+    <li class="option" [routerLink]="['edit-character']">
       <span class="option__icon">
         <app-icon [icon]="'edit-character'" [color]="'white'" [size]="3"></app-icon>
       </span>
@@ -16,7 +16,7 @@
       <span class="option__desc">edytuj postać główną</span>
 
     </li>
-    <li class="option">
+    <li class="option" [routerLink]="['delete-character']">
       <span class="option__icon">
         <app-icon [icon]="'delete-character'" [color]="'white'" [size]="3"></app-icon>
       </span>
@@ -25,7 +25,7 @@
     </li>
 
 
-    <li class="option">
+    <li class="option" [routerLink]="['new-chars']">
       <span class="option__icon">
         <app-icon [icon]="'new-chars'" [color]="'white'" [size]="4"></app-icon>
       </span>
@@ -33,7 +33,7 @@
 
 
     </li>
-    <li class="option">
+    <li class="option" [routerLink]="['edit-chars']">
       <span class="option__icon">
         <app-icon [icon]="'edit-chars'" [color]="'white'" [size]="4"></app-icon>
       </span>
@@ -41,7 +41,7 @@
       <span class="option__desc">edytuj postać poboczną</span>
 
     </li>
-    <li class="option">
+    <li class="option" [routerLink]="['delete-chars']">
       <span class="option__icon">
         <app-icon [icon]="'delete-chars'" [color]="'white'" [size]="4"></app-icon>
       </span>

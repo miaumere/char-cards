@@ -51,7 +51,7 @@ export class AuthService {
   }
 
   private emitLoggedUser() {
-    console.log("Emituje!", this._loggedUser);
+    console.log("Logged user:", this._loggedUser);
     this.loggedUser$.next(this._loggedUser);
   }
 

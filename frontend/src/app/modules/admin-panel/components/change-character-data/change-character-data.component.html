@@ -1,1 +1,14 @@
-<p>change-character-data works!</p>
+<div *ngIf="changeType">
+
+  <div [ngSwitch]="changeType">
+    <div *ngSwitchCase="new-character">new character</div>
+
+    <div *ngSwitchCase="'new-character'">new character</div>
+    <div *ngSwitchCase="'edit-character'">edit</div>
+    <div *ngSwitchCase="'delete-character'">delete</div>
+    <div *ngSwitchCase="'new-chars'">new </div>
+    <div *ngSwitchCase="'edit-chars'">edit</div>
+    <div *ngSwitchCase="'delete-chars'">delete</div>
+
+  </div>
+</div>

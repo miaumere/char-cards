@@ -8,17 +8,17 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class ChangeCharacterDataComponent implements OnInit {
 
-  changeType: string;
+  changeType: string | null;
 
   constructor(private _route: ActivatedRoute) { }
 
   ngOnInit() {
-
+    this.setChangeData();
   }
 
   setChangeData() {
     this._route.params.subscribe(param => {
-      console.log(param);
+      this.changeType = param.name;
     })
   }
 

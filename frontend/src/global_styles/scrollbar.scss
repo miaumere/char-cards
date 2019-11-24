@@ -13,7 +13,8 @@ html {
   height: 3px;
 }
 ::-webkit-scrollbar-button {
-  background-color: #666;
+  background-color: black;
+  height: 0;
 }
 ::-webkit-scrollbar-track {
   background-color: #646464;
@@ -23,12 +24,12 @@ html {
 }
 ::-webkit-scrollbar-thumb {
   height: 50px;
-  background-color: #666;
+  background-color: #6667;
   border-radius: 3px;
 }
 ::-webkit-scrollbar-corner {
   background-color: #646464;
 }
 ::-webkit-resizer {
-  background-color: #666;
+  background-color: #6667;
 }
