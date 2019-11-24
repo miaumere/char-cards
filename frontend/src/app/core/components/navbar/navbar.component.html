@@ -26,7 +26,7 @@
     <li class="logged-user">
       <app-icon [icon]="'user'" [color]="'white'"></app-icon>
       <span class="logged-user__name">
-        {{ (_authService.loggedUser$ | async) ? ((_authService.loggedUser$ | async).username) : "CXXC" }}
+        {{ (_authService.loggedUser$ | async) ? ((_authService.loggedUser$ | async).username) : "niezalogowany" }}
       </span>
     </li>
     <button class="logout global-button" (click)="logout()">
