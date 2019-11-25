@@ -6,7 +6,7 @@ import javax.persistence.*;
 public class SideCharacter {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    private Long id;
+    private Long externalId;
 
     @Column
     private String sideCharacterName;
@@ -23,11 +23,11 @@ public class SideCharacter {
     protected SideCharacter() {};
 
     public Long getExternalId() {
-        return id;
+        return externalId;
     }
 
     public void setExternalId(Long externalId) {
-        this.id = externalId;
+        this.externalId = externalId;
     }
 
     public String getSideCharacterName() {
@@ -52,14 +52,6 @@ public class SideCharacter {
 
     public void setSideCharacterDesc(String sideCharacterDesc) {
         this.sideCharacterDesc = sideCharacterDesc;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getArchived() {
