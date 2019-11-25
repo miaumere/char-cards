@@ -1,3 +1,4 @@
+import { CoreModule } from './core/core.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, Injector } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
@@ -21,8 +22,7 @@ import { LoginModule } from './modules/login/login.module';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    NavbarComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
@@ -39,7 +39,8 @@ import { LoginModule } from './modules/login/login.module';
     CharactersModule,
     SideCharactersModule,
     LoginModule,
-    SharedModule
+    SharedModule,
+    CoreModule
   ],
   providers: [
     HttpClientModule,

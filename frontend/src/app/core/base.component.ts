@@ -1,8 +1,6 @@
-import { AuthService } from './service/auth.service';
-import { LoggedUser } from './../model/users/logged-user.model';
-import { Subject, Subscription } from 'rxjs';
+
+import { Subscription } from 'rxjs';
 import { OnDestroy } from '@angular/core';
-import { ServiceLocator } from './service-locator';
 
 export abstract class BaseComponent implements OnDestroy {
 
