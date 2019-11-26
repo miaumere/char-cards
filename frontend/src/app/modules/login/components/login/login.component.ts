@@ -5,6 +5,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { UserCredentials } from 'src/app/model/users/user-credentials.model';
 import { ToastrService } from 'ngx-toastr';
 import { BaseComponent } from 'src/app/core/base.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -20,7 +21,8 @@ export class LoginComponent extends BaseComponent implements OnInit {
 
   constructor(
     private _authService: AuthService,
-    private _toastr: ToastrService
+    private _toastr: ToastrService,
+    private _router: Router
   ) {
     super()
   }
@@ -35,6 +37,8 @@ export class LoginComponent extends BaseComponent implements OnInit {
 
     this._authService.login(user).subscribe(_ => {
       this._toastr.success('Logowanie zakończone powodzeniem.')
+      this._router.navigateByUrl("/admin-panel")
+
     },
       err => {
         this._toastr.error('Nie udało się zalogować.')
