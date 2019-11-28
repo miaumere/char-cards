@@ -1,0 +1,21 @@
+.changes {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+}
+
+.list {
+  display: flex;
+  flex-wrap: wrap;
+
+  &__item {
+    width: 150px;
+
+    padding: 0.5rem;
+
+    &--archived {
+      color: red;
+    }
+  }
+}

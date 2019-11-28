@@ -1,5 +1,7 @@
 package com.meowmere.main.Controllers.characters;
+
 import com.meowmere.main.DTO.character.CharacterDTO;
+import com.meowmere.main.DTO.character.CharacterForListDTO;
 import com.meowmere.main.DTO.character.CharactersMenuDTO;
 import com.meowmere.main.Entities.characters.Character;
 import com.meowmere.main.services.characters.CharactersService;
@@ -21,6 +23,9 @@ public class CharactersListController {
     public List<CharactersMenuDTO> getCharactersList(){
         return charactersService.findCharList();
     }
+
+    @GetMapping("/get-all-characters")
+    public List<CharacterForListDTO> getEveryCharacter() { return charactersService.getEveryCharacter();}
 
     @GetMapping("/get-character/{characterId}")
     public CharacterDTO getCharacterById(@PathVariable Long characterId) throws IOException {

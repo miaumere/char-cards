@@ -4,3 +4,10 @@ export class CharacterItem {
   charSurname: string;
   profilePic: string;
 }
+
+export class CharacterForListItem {
+  id: number;
+  charName: string;
+  charSurname: string;
+  archived: boolean;
+}

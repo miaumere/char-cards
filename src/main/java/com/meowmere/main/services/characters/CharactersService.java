@@ -34,14 +34,15 @@ public class CharactersService {
     @Autowired
     public StoryRepository storyRepository;
 
-    public List<CharactersMenuDTO> findCharList() {
-        List<Character> allCharacters = characterRepository.findAll(Sort.by(Sort.Direction.ASC, "externalId"));
+    protected ModelMapper modelMapper = new ModelMapper();
 
-        ModelMapper modelMapper = new ModelMapper();
+    public List<CharactersMenuDTO> findCharList() {
+        List<Character> allCharacters = characterRepository.getNonArchivedCharacters();
+
         List<CharactersMenuDTO> dtoList = new ArrayList<>();
 
         for (int i = 0; i < allCharacters.size(); i++) {
-            CharactersMenuDTO dto = modelMapper.map(allCharacters.get(i), CharactersMenuDTO.class);
+            CharactersMenuDTO dto = this.modelMapper.map(allCharacters.get(i), CharactersMenuDTO.class);
 
             try {
                 String imagesURI = String.format("static\\character-profile-pics\\%s", i+1);
@@ -60,15 +61,14 @@ public class CharactersService {
 
     public CharacterDTO findByExternalId(Long externalId) {
         Character oneCharacter = characterRepository.getOne(externalId);
-        ModelMapper modelMapper = new ModelMapper();
 
-        CharacterDTO dto = modelMapper.map(oneCharacter, CharacterDTO.class);
+        CharacterDTO dto = this.modelMapper.map(oneCharacter, CharacterDTO.class);
 
         List<Story> storiesFromDb = storyRepository.getAllStoriesForId(externalId);
         List<CharacterStoryDTO> stories = new ArrayList<>();
         if(storiesFromDb != null){
             for (Story storyFromDb : storiesFromDb) {
-                CharacterStoryDTO storyDTO = modelMapper.map(storyFromDb, CharacterStoryDTO.class);
+                CharacterStoryDTO storyDTO = this.modelMapper.map(storyFromDb, CharacterStoryDTO.class);
                 stories.add(storyDTO);
             }
         }
@@ -120,6 +120,16 @@ public class CharactersService {
         }
 
         return dto;
+    }
+
+    public List<CharacterForListDTO> getEveryCharacter() {
+        List<Character> characterFromDb = characterRepository.findAll(Sort.by(Sort.Direction.ASC, "externalId"));
+        List<CharacterForListDTO> dtoList = new ArrayList<>();
+        for (int i = 0; i < characterFromDb.size(); i++) {
+            CharacterForListDTO dto = this.modelMapper.map(characterFromDb.get(i), CharacterForListDTO.class);
+            dtoList.add(dto);
+        }
+        return dtoList;
     }
 
     public Character createCharacter(Character request) {

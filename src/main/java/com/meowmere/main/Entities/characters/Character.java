@@ -27,8 +27,9 @@ public class Character {
     private String occupation;
     @Column(length = 2000)
     private String story;
+
     @Column(columnDefinition = "boolean default false")
-    private Boolean archived;
+    public Boolean archived;
 
     @OneToMany(mappedBy = "character", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Colors> colors;

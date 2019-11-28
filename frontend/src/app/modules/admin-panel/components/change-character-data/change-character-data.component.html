@@ -1,11 +1,31 @@
-<div *ngIf="changeType">
+<app-loader [visible]="loading && !charList"></app-loader>
+
+
+<div *ngIf="changeType" class="changes">
 
   <div [ngSwitch]="changeType">
-    <div *ngSwitchCase="new-character">new character</div>
-
     <div *ngSwitchCase="'new-character'">new character</div>
-    <div *ngSwitchCase="'edit-character'">edit</div>
-    <div *ngSwitchCase="'delete-character'">delete</div>
+    <div *ngSwitchCase="'edit-character'">
+      <h2 class="changes__title">Wybierz postać:</h2>
+
+    </div>
+    <div *ngSwitchCase="'delete-character'">
+      <form>
+        <div>
+
+          <label class="changes__title">Wybierz postacie do przywrócenia:
+            <ul class="changes__list list">
+              <li class="list__item list__item--archived" *ngFor="let char of archivedCharacters; index as i"
+                style="color: red;">
+                <input type="checkbox" />
+                {{char.charName}} {{char.charSurname}}
+              </li>
+            </ul>
+          </label>
+        </div>
+      </form>
+
+    </div>
     <div *ngSwitchCase="'new-chars'">new </div>
     <div *ngSwitchCase="'edit-chars'">edit</div>
     <div *ngSwitchCase="'delete-chars'">delete</div>
