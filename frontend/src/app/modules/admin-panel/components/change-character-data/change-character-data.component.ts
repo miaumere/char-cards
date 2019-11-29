@@ -1,3 +1,4 @@
+import { SideCharactersService } from 'src/app/core/service/side-characters.service';
 import { ToastrService } from 'ngx-toastr';
 import { CharactersService } from './../../../../core/service/characters.service';
 import { Component, OnInit } from '@angular/core';
@@ -6,6 +7,7 @@ import { CharacterForListItem } from 'src/app/modules/characters/models/characte
 import { finalize } from 'rxjs/operators';
 import { NgForm } from '@angular/forms';
 import { CharacterForChange } from '../../models/character-for-change.model';
+import { SideCharacterForListItem } from 'src/app/modules/side-characters/models/side-characters.model';
 
 type changeOptions = 'new-character' | 'edit-character' | 'delete-character' | 'new-chars' | 'edit-chars' | 'delete-chars';
 @Component({
@@ -18,13 +20,16 @@ export class ChangeCharacterDataComponent implements OnInit {
   loading = true;
 
   changeType: string | null;
-  charList: CharacterForListItem[];
   archivedCharacters: CharacterForListItem[] = [];
   nonArchivedCharacters: CharacterForListItem[] = [];
+
+  archivedSideChars: SideCharacterForListItem[] = [];
+  nonArchivedSideChars: SideCharacterForListItem[] = [];
 
   constructor(
     private _route: ActivatedRoute,
     private _characterService: CharactersService,
+    private _sideCharacterService: SideCharactersService,
     private _toastrService: ToastrService
   ) { }
 
@@ -64,20 +69,6 @@ export class ChangeCharacterDataComponent implements OnInit {
 
   }
 
-  getCharsList() {
-    this._characterService
-      .getAllCharacters()
-      .pipe(
-        finalize(() => {
-          this.loading = false;
-        })
-      )
-      .subscribe(
-        charList => {
-          this.charList = charList;
-        }
-      );
-  }
 
   getAllCharacters() {
     this._characterService
@@ -89,13 +80,34 @@ export class ChangeCharacterDataComponent implements OnInit {
       )
       .subscribe(
         charList => {
-          this.archivedCharacters = charList.filter((char) => {
-            return char.archived === true;
-          });
-          this.nonArchivedCharacters = charList.filter((char) => {
-            return char.archived === false;
-          });
+          this.archivedCharacters = charList.filter((char) =>
+            !!char.archived
+          );
+          this.nonArchivedCharacters = charList.filter((char) =>
+            !char.archived
+          );
         });
+  }
+
+  getAllSideCharacters() {
+    this._sideCharacterService.
+      getAllSideCharacters()
+      .pipe(
+        finalize(() => {
+          this.loading = false;
+        })
+      )
+      .subscribe(sideChars => {
+        console.log(sideChars)
+        this.archivedSideChars = sideChars.filter((sideChar) =>
+          !!sideChar.archived
+        )
+        this.nonArchivedSideChars = sideChars.filter((sideChar) =>
+          !sideChar.archived
+        )
+
+      }
+      )
   }
 
   displayInfo(changeOption: changeOptions) {
@@ -106,11 +118,13 @@ export class ChangeCharacterDataComponent implements OnInit {
         break;
 
       case 'edit-character':
-        this.getCharsList();
         break;
 
       case 'delete-character':
         this.getAllCharacters();
+
+      case 'delete-chars':
+        this.getAllSideCharacters();
     }
   }
 }

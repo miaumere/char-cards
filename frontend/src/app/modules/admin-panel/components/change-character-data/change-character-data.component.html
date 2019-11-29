@@ -1,6 +1,5 @@
 <app-loader [visible]="loading && !charList"></app-loader>
 
-
 <div *ngIf="changeType" class="changes">
 
   <div [ngSwitch]="changeType">
@@ -12,7 +11,9 @@
     <div *ngSwitchCase="'delete-character'" class="delete-character">
 
       <form class="delete-character__form" #deleteCharForm="ngForm" id="deleteCharForm"
-        (ngSubmit)="changeStateOfCharacters(deleteCharForm)">
+        (ngSubmit)="changeStateOfCharacters(deleteCharForm)"
+        *ngIf="(nonArchivedCharacters.length > 0) || (archivedCharacters.length > 0)">
+
         <label class="changes__title" *ngIf="nonArchivedCharacters && nonArchivedCharacters.length > 0">
           Wybierz postacie do usunięcia:
           <ul class="changes__list list">
@@ -22,6 +23,7 @@
             </li>
           </ul>
         </label>
+
         <label class="changes__title" *ngIf="archivedCharacters && archivedCharacters.length > 0">
           Wybierz postacie do przywrócenia:
           <ul class="changes__list list">
@@ -31,14 +33,51 @@
             </li>
           </ul>
         </label>
+
         <button class="global-button" form="deleteCharForm">Wykonaj</button>
 
       </form>
 
+      <div *ngIf="(nonArchivedCharacters.length < 0) &&  (archivedCharacters.length < 0)">
+        Brak postaci do wyświetlenia.
+      </div>
+
     </div>
     <div *ngSwitchCase="'new-chars'">new </div>
     <div *ngSwitchCase="'edit-chars'">edit</div>
-    <div *ngSwitchCase="'delete-chars'">delete</div>
+    <div *ngSwitchCase="'delete-chars'" class="delete-side-character">
+
+      <form class="delete-side-character__form"
+        *ngIf="(nonArchivedSideChars.length > 0) || (archivedSideChars.length > 0)">
+
+        <label class="changes__title" *ngIf="nonArchivedSideChars && nonArchivedSideChars.length > 0">
+          Wybierz postacie poboczne do usunięcia:
+          <ul class="changes__list list">
+            <li class="list__item" *ngFor="let sideChar of nonArchivedSideChars">
+              <input type="checkbox" [name]="sideChar.externalId" />
+              {{sideChar.sideCharacterName}} {{sideChar.sideCharacterSurname}}
+            </li>
+          </ul>
+        </label>
+
+        <label class="changes__title" *ngIf="archivedCharacters && archivedSideChars.length > 0">
+          Wybierz postacie poboczne do przywrócenia:
+          <ul class="changes__list list">
+            <li class="list__item list__item--archived" *ngFor="let sideChar of archivedSideChars">
+              <input type="checkbox" [name]="sideChar.externalId" />
+              {{sideChar.sideCharacterName}} {{sideChar.sideCharacterSurname}}
+            </li>
+          </ul>
+        </label>
+
+        <button class="global-button">Wykonaj</button>
+      </form>
+
+      <div *ngIf="(nonArchivedSideChars.length < 0) &&  (archivedSideChars.length < 0)">
+        Brak postaci do wyświetlenia.
+      </div>
+    </div>
+
 
   </div>
 </div>

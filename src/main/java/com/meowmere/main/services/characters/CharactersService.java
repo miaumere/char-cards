@@ -37,15 +37,13 @@ public class CharactersService {
     @Autowired
     public StoryRepository storyRepository;
 
-    protected ModelMapper modelMapper = new ModelMapper();
-
     public List<CharactersMenuDTO> findCharList() {
         List<Character> allCharactersFromDb = characterRepository.getNonArchivedCharacters();
-
+        ModelMapper modelMapper = new ModelMapper();
         List<CharactersMenuDTO> dtoList = new ArrayList<>();
 
         for(Character characterFromDb : allCharactersFromDb) {
-            CharactersMenuDTO dto = this.modelMapper.map(characterFromDb, CharactersMenuDTO.class);
+            CharactersMenuDTO dto = modelMapper.map(characterFromDb, CharactersMenuDTO.class);
             try {
                 String imagesURI = String.format("static\\character-profile-pics\\%s", characterFromDb.getExternalId());
                 Resource resource = new ClassPathResource(imagesURI);
@@ -62,18 +60,20 @@ public class CharactersService {
     }
 
     public ResponseEntity findByExternalId(Long externalId) {
+        ModelMapper modelMapper = new ModelMapper();
         Character oneCharacter = characterRepository.getNonArchivedCharacter(externalId);
         if(oneCharacter == null) {
             String err = "Nie udało się znaleźć postaci.";
             return new ResponseEntity<>(err, HttpStatus.BAD_REQUEST);
         }
-        CharacterDTO dto = this.modelMapper.map(oneCharacter, CharacterDTO.class);
+
+        CharacterDTO dto = modelMapper.map(oneCharacter, CharacterDTO.class);
 
         List<Story> storiesFromDb = storyRepository.getAllStoriesForId(externalId);
         List<CharacterStoryDTO> stories = new ArrayList<>();
         if(storiesFromDb != null){
             for (Story storyFromDb : storiesFromDb) {
-                CharacterStoryDTO storyDTO = this.modelMapper.map(storyFromDb, CharacterStoryDTO.class);
+                CharacterStoryDTO storyDTO = modelMapper.map(storyFromDb, CharacterStoryDTO.class);
                 stories.add(storyDTO);
             }
         }
@@ -128,10 +128,11 @@ public class CharactersService {
     }
 
     public List<CharacterForListDTO> getEveryCharacter() {
+        ModelMapper modelMapper = new ModelMapper();
         List<Character> characterFromDb = characterRepository.findAll(Sort.by(Sort.Direction.ASC, "externalId"));
         List<CharacterForListDTO> dtoList = new ArrayList<>();
         for (int i = 0; i < characterFromDb.size(); i++) {
-            CharacterForListDTO dto = this.modelMapper.map(characterFromDb.get(i), CharacterForListDTO.class);
+            CharacterForListDTO dto = modelMapper.map(characterFromDb.get(i), CharacterForListDTO.class);
             dtoList.add(dto);
         }
         return dtoList;

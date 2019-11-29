@@ -1,26 +1,10 @@
-package com.meowmere.main.Entities.sideCharacters;
-import javax.persistence.*;
+package com.meowmere.main.DTO.sideCharacters;
 
-@Entity
-@Table(name = "side_character")
-public class SideCharacter {
-    @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+public class SideCharacterForListDTO {
     public Long externalId;
-
-    @Column
-    private String sideCharacterName;
-
-    @Column
-    private String sideCharacterSurname;
-
-    @Column
-    private String sideCharacterDesc;
-
-    @Column
+    public String sideCharacterName;
+    public String sideCharacterSurname;
     public Boolean archived;
-
-    protected SideCharacter() {};
 
     public Long getExternalId() {
         return externalId;
@@ -44,14 +28,6 @@ public class SideCharacter {
 
     public void setSideCharacterSurname(String sideCharacterSurname) {
         this.sideCharacterSurname = sideCharacterSurname;
-    }
-
-    public String getSideCharacterDesc() {
-        return sideCharacterDesc;
-    }
-
-    public void setSideCharacterDesc(String sideCharacterDesc) {
-        this.sideCharacterDesc = sideCharacterDesc;
     }
 
     public Boolean getArchived() {

@@ -1,13 +1,15 @@
 package com.meowmere.main.services.sideCharacters;
 
 import com.meowmere.main.DTO.sideCharacters.SideCharacterDTO;
+import com.meowmere.main.DTO.sideCharacters.SideCharacterForListDTO;
 import com.meowmere.main.Entities.sideCharacters.SideCharacter;
 import com.meowmere.main.Repositories.sideCharacters.SideCharactersRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
-import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -20,25 +22,35 @@ public class SideCharactersService {
     @Autowired
     public SideCharactersRepository sideCharactersRepository;
 
-    public List<SideCharacterDTO> findAllSideCharacters() {
-        List<SideCharacter> sideCharacters = sideCharactersRepository
-                .findAll(Sort.by(Sort.Direction.ASC, "externalId"));
+    public ResponseEntity findNonArchivedSideCharacters() {
+        List<SideCharacter> sideCharactersFromDb = sideCharactersRepository.getNonArchivedSideCharacters();
         ModelMapper modelMapper = new ModelMapper();
         List<SideCharacterDTO> result = new ArrayList<>();
-        
-        for (int i = 0; i < sideCharacters.size(); i++) {
-            SideCharacterDTO sideCharacter = modelMapper.map(sideCharacters.get(i), SideCharacterDTO.class);
+        for (SideCharacter sideCharacterFromDb : sideCharactersFromDb) {
+            SideCharacterDTO sideCharacter = modelMapper.map(sideCharacterFromDb, SideCharacterDTO.class);
             result.add(sideCharacter);
             try {
-                String imagesURI = String.format("static\\side-character-profile-pics\\%s", i+1);
+                String imagesURI = String.format("static\\side-character-profile-pics\\%s", sideCharacterFromDb.getExternalId());
                 Resource resource = new ClassPathResource(imagesURI);
                 File file = resource.getFile();
                 File[] images = file.listFiles();
                 sideCharacter.setProfilePic(images[0].getName());
-            } catch(IOException e) {
+            } catch (IOException e) {
                 sideCharacter.setProfilePic(null);
             }
         }
-        return result;
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    public ResponseEntity findAllSideCharacters() {
+        List<SideCharacter> sideCharactersFromDB =  sideCharactersRepository.findAll();
+        ModelMapper modelMapper = new ModelMapper();
+        List<SideCharacterForListDTO> result = new ArrayList<>();
+
+        for(SideCharacter sideCharacterFromDb : sideCharactersFromDB) {
+            SideCharacterForListDTO sideCharacter = modelMapper.map(sideCharacterFromDb, SideCharacterForListDTO.class);
+            result.add(sideCharacter);
+        }
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }
