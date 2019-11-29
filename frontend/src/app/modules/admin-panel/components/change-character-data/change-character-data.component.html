@@ -9,20 +9,30 @@
       <h2 class="changes__title">Wybierz postać:</h2>
 
     </div>
-    <div *ngSwitchCase="'delete-character'">
-      <form>
-        <div>
+    <div *ngSwitchCase="'delete-character'" class="delete-character">
 
-          <label class="changes__title">Wybierz postacie do przywrócenia:
-            <ul class="changes__list list">
-              <li class="list__item list__item--archived" *ngFor="let char of archivedCharacters; index as i"
-                style="color: red;">
-                <input type="checkbox" />
-                {{char.charName}} {{char.charSurname}}
-              </li>
-            </ul>
-          </label>
-        </div>
+      <form class="delete-character__form" #deleteCharForm="ngForm" id="deleteCharForm"
+        (ngSubmit)="changeStateOfCharacters(deleteCharForm)">
+        <label class="changes__title" *ngIf="nonArchivedCharacters && nonArchivedCharacters.length > 0">
+          Wybierz postacie do usunięcia:
+          <ul class="changes__list list">
+            <li class="list__item" *ngFor="let char of nonArchivedCharacters; index as i">
+              <input type="checkbox" ngModel [name]="char.id" />
+              {{char.charName}} {{char.charSurname}}
+            </li>
+          </ul>
+        </label>
+        <label class="changes__title" *ngIf="archivedCharacters && archivedCharacters.length > 0">
+          Wybierz postacie do przywrócenia:
+          <ul class="changes__list list">
+            <li class="list__item list__item--archived" *ngFor="let char of archivedCharacters; index as i">
+              <input type="checkbox" ngModel [name]="char.id" />
+              {{char.charName}} {{char.charSurname}}
+            </li>
+          </ul>
+        </label>
+        <button class="global-button" form="deleteCharForm">Wykonaj</button>
+
       </form>
 
     </div>

@@ -3,6 +3,9 @@
   justify-content: center;
   align-items: center;
   margin: auto;
+
+  &__title {
+  }
 }
 
 .list {
@@ -17,5 +20,11 @@
     &--archived {
       color: red;
     }
+  }
+}
+
+.delete-character {
+  &__form {
+    margin: 1rem;
   }
 }

@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { SideCharacter } from 'src/app/model/side-characters/side-characters.model';
+import { SideCharacter } from 'src/app/modules/side-characters/models/side-characters.model';
 
 @Injectable({
   providedIn: 'root'

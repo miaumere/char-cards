@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CharactersService } from 'src/app/core/service/characters.service';
-import { CharacterItem } from 'src/app/model/characters/character-item.model';
+import { CharacterItem } from 'src/app/modules/characters/models/character-item.model';
 import { ActivatedRouteSnapshot, Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { BaseComponent } from 'src/app/core/base.component';

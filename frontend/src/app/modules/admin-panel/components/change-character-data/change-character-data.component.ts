@@ -1,8 +1,9 @@
 import { CharactersService } from './../../../../core/service/characters.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { CharacterItem, CharacterForListItem } from 'src/app/model/characters/character-item.model';
+import { CharacterItem, CharacterForListItem } from 'src/app/modules/characters/models/character-item.model';
 import { finalize } from 'rxjs/operators';
+import { NgForm } from '@angular/forms';
 
 type changeOptions = 'new-character' | 'edit-character' | 'delete-character' | 'new-chars' | 'edit-chars' | 'delete-chars';
 @Component({
@@ -40,6 +41,21 @@ export class ChangeCharacterDataComponent implements OnInit {
 
   getCharacterDetails() { }
 
+
+  changeStateOfCharacters(deleteCharForm: NgForm) {
+    console.log(deleteCharForm.controls)
+    for (const key in deleteCharForm.controls) {
+      if (deleteCharForm.controls.hasOwnProperty(key)) {
+        let element = !!deleteCharForm.value[key];
+        console.log("element: ", element)
+        console.log("key: ", key)
+
+
+      }
+
+    }
+  }
+
   getCharsList() {
     this._characterService
       .getAllCharacters()
@@ -65,13 +81,12 @@ export class ChangeCharacterDataComponent implements OnInit {
       )
       .subscribe(
         charList => {
-          const archivedChars = charList.filter((char) => {
-            return char.archived === true
-          })
-          console.log(archivedChars)
-          // if (archivedChars) {
-          //   this.archivedCharacters.push(archivedChars)
-          // }
+          this.archivedCharacters = charList.filter((char) => {
+            return char.archived === true;
+          });
+          this.nonArchivedCharacters = charList.filter((char) => {
+            return char.archived === false;
+          });
         })
   }
 

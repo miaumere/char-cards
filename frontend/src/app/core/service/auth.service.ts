@@ -1,8 +1,8 @@
 import { ToastrService } from 'ngx-toastr';
-import { LoggedUser } from './../../model/users/logged-user.model';
+import { LoggedUser } from '../../modules/login/models/logged-user.model';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { UserCredentials } from 'src/app/model/users/user-credentials.model';
+import { UserCredentials } from 'src/app/modules/login/models/user-credentials.model';
 import { Observable, of } from 'rxjs';
 import { BehaviorSubject } from 'rxjs';
 

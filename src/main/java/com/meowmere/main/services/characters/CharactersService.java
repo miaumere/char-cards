@@ -2,9 +2,10 @@ package com.meowmere.main.services.characters;
 
 
 import com.meowmere.main.DTO.character.*;
-import com.meowmere.main.Entities.characters.*;
 import com.meowmere.main.Entities.characters.Character;
-import com.meowmere.main.Repositories.characters.*;
+import com.meowmere.main.Entities.characters.*;
+import com.meowmere.main.Repositories.character.*;
+import com.meowmere.main.Requests.character.ChangeCharacterStateRequest;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
@@ -131,6 +132,14 @@ public class CharactersService {
         }
         return dtoList;
     }
+
+    public void changeStatusForCharacters(List<ChangeCharacterStateRequest> characters) {
+              for(ChangeCharacterStateRequest character : characters) {
+
+              }
+    }
+
+
 
     public Character createCharacter(Character request) {
         return characterRepository.save(request);

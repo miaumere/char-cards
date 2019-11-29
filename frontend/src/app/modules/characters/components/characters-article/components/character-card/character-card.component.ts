@@ -1,6 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { BaseComponent } from 'src/app/core/base.component';
-import { Character } from 'src/app/model/characters/character.model';
+import { Character } from 'src/app/modules/characters/models/character.model';
 import { CharactersService } from 'src/app/core/service/characters.service';
 import { ActivatedRoute } from '@angular/router';
 import { finalize } from 'rxjs/operators';

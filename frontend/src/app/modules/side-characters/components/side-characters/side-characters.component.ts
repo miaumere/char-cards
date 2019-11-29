@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BaseComponent } from 'src/app/core/base.component';
 import { SideCharactersService } from 'src/app/core/service/side-characters.service';
-import { SideCharacter } from 'src/app/model/side-characters/side-characters.model';
+import { SideCharacter } from 'src/app/modules/side-characters/models/side-characters.model';
 import { finalize } from 'rxjs/operators';
 
 @Component({

@@ -16,10 +16,10 @@ import { AdminPanelMenuComponent } from './components/admin-panel-menu/admin-pan
   ],
   imports: [
     CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
     SharedModule,
     AdminPanelRoutingModule,
-    FormsModule,
-    ReactiveFormsModule
   ],
   providers: [
     CharactersService

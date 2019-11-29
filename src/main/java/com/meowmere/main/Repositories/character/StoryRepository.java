@@ -1,4 +1,4 @@
-package com.meowmere.main.Repositories.characters;
+package com.meowmere.main.Repositories.character;
 
 import com.meowmere.main.Entities.characters.Story;
 import org.springframework.data.jpa.repository.JpaRepository;

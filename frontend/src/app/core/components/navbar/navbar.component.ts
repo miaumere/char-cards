@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../service/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { BaseComponent } from '../../base.component';
-import { LoggedUser } from 'src/app/model/users/logged-user.model';
+import { LoggedUser } from 'src/app/modules/login/models/logged-user.model';
 
 @Component({
   selector: 'app-navbar',

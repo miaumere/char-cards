@@ -3,8 +3,8 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { CharacterItem, CharacterForListItem } from 'src/app/model/characters/character-item.model';
-import { Character } from 'src/app/model/characters/character.model';
+import { CharacterItem, CharacterForListItem } from 'src/app/modules/characters/models/character-item.model';
+import { Character } from 'src/app/modules/characters/models/character.model';
 
 @Injectable({
   providedIn: 'root'

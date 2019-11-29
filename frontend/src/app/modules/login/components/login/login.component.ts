@@ -2,7 +2,7 @@
 import { AuthService } from '../../../../core/service/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-import { UserCredentials } from 'src/app/model/users/user-credentials.model';
+import { UserCredentials } from 'src/app/modules/login/models/user-credentials.model';
 import { ToastrService } from 'ngx-toastr';
 import { BaseComponent } from 'src/app/core/base.component';
 import { Router } from '@angular/router';
