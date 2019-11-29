@@ -69,7 +69,7 @@ public class UserService {
 
             String username = jwt.getSubject();
 
-            Users foundLoggedUser = this.usersRepository.findUserByUsername(username);
+            Users foundLoggedUser = usersRepository.findUserByUsername(username);
             LoggedUserDTO loggedUser = modelMapper.map(foundLoggedUser, LoggedUserDTO.class);
             return new ResponseEntity(loggedUser, HttpStatus.ACCEPTED);
         } catch (

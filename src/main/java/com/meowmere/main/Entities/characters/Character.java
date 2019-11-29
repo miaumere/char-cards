@@ -12,10 +12,10 @@ public class Character {
     @GeneratedValue(strategy=GenerationType.AUTO)
     public Long externalId;
     @Column
-    @Length(min = 3, max = 15)
+    @Length
     private String charName;
     @Column
-    @Length(min = 3, max = 15)
+    @Length
     private String charSurname;
     @Column
     private Long birthday;
@@ -28,7 +28,7 @@ public class Character {
     @Column(length = 2000)
     private String story;
 
-    @Column(columnDefinition = "boolean default false")
+    @Column
     public Boolean archived;
 
     @OneToMany(mappedBy = "character", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

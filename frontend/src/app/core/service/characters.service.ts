@@ -5,15 +5,19 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { CharacterItem, CharacterForListItem } from 'src/app/modules/characters/models/character-item.model';
 import { Character } from 'src/app/modules/characters/models/character.model';
+import { CharacterForChange } from 'src/app/modules/admin-panel/models/character-for-change.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CharactersService {
 
-  private _getNonArchivedCharactersURL = '/api/characters-list/get-characters';
-  private _getCharacterByIdURL = '/api/characters-list/get-character';
-  private _getAllCharactersURL = '/api/characters-list/get-all-characters'
+  charControllerURL = '/api/characters'
+
+  private _getNonArchivedCharactersURL = `${this.charControllerURL}/get-characters`;
+  private _getCharacterByIdURL = `${this.charControllerURL}/get-character`;
+  private _getAllCharactersURL = `${this.charControllerURL}/get-all-characters`;
+  private _patchChangeStateURL = `${this.charControllerURL}/change-state`;
 
   public charList$ = new BehaviorSubject<CharacterItem[] | null>(null);
 
@@ -44,6 +48,10 @@ export class CharactersService {
 
   getCharacterById(id: number): Observable<Character> {
     return this.http.get<Character>(`${this._getCharacterByIdURL}/${id}`);
+  }
+
+  patchCharactersState(requestBody: CharacterForChange[]): Observable<CharacterForChange[]> {
+    return this.http.patch<CharacterForChange[]>(this._patchChangeStateURL, requestBody);
   }
 
 }

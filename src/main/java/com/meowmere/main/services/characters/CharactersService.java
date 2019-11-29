@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -133,10 +135,18 @@ public class CharactersService {
         return dtoList;
     }
 
-    public void changeStatusForCharacters(List<ChangeCharacterStateRequest> characters) {
+    public ResponseEntity changeStatusForCharacters(List<ChangeCharacterStateRequest> characters) {
               for(ChangeCharacterStateRequest character : characters) {
-
+                    Character charToChange = characterRepository.getOne(character.getId());
+                    if(charToChange == null) {
+                        return new ResponseEntity<>("Nie można zmienić stanu użytkownika o nieistniejącym id.",
+                                HttpStatus.BAD_REQUEST);
+                    }
+                    charToChange.setArchived(character.getArchived());
+                    Boolean test = charToChange.getArchived();
+                    characterRepository.save(charToChange);
               }
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 
