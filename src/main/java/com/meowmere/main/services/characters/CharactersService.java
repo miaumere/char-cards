@@ -40,15 +40,14 @@ public class CharactersService {
     protected ModelMapper modelMapper = new ModelMapper();
 
     public List<CharactersMenuDTO> findCharList() {
-        List<Character> allCharacters = characterRepository.getNonArchivedCharacters();
+        List<Character> allCharactersFromDb = characterRepository.getNonArchivedCharacters();
 
         List<CharactersMenuDTO> dtoList = new ArrayList<>();
 
-        for (int i = 0; i < allCharacters.size(); i++) {
-            CharactersMenuDTO dto = this.modelMapper.map(allCharacters.get(i), CharactersMenuDTO.class);
-
+        for(Character characterFromDb : allCharactersFromDb) {
+            CharactersMenuDTO dto = this.modelMapper.map(characterFromDb, CharactersMenuDTO.class);
             try {
-                String imagesURI = String.format("static\\character-profile-pics\\%s", i+1);
+                String imagesURI = String.format("static\\character-profile-pics\\%s", characterFromDb.getExternalId());
                 Resource resource = new ClassPathResource(imagesURI);
                 File file = resource.getFile();
                 File[] images = file.listFiles();
@@ -58,13 +57,16 @@ public class CharactersService {
                     }
             } catch(IOException e) { }
                 dtoList.add(dto);
-        }
+}
         return dtoList;
     }
 
-    public CharacterDTO findByExternalId(Long externalId) {
-        Character oneCharacter = characterRepository.getOne(externalId);
-
+    public ResponseEntity findByExternalId(Long externalId) {
+        Character oneCharacter = characterRepository.getNonArchivedCharacter(externalId);
+        if(oneCharacter == null) {
+            String err = "Nie udało się znaleźć postaci.";
+            return new ResponseEntity<>(err, HttpStatus.BAD_REQUEST);
+        }
         CharacterDTO dto = this.modelMapper.map(oneCharacter, CharacterDTO.class);
 
         List<Story> storiesFromDb = storyRepository.getAllStoriesForId(externalId);
@@ -122,7 +124,7 @@ public class CharactersService {
             dto.setImagesList(new String[0]);
         }
 
-        return dto;
+        return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
     public List<CharacterForListDTO> getEveryCharacter() {
