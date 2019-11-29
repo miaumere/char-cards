@@ -45,16 +45,18 @@
     </div>
     <div *ngSwitchCase="'new-chars'">new </div>
     <div *ngSwitchCase="'edit-chars'">edit</div>
+
     <div *ngSwitchCase="'delete-chars'" class="delete-side-character">
 
-      <form class="delete-side-character__form"
+      <form class="delete-side-character__form" #deleteSideCharForm="ngForm" id="deleteSideCharForm"
+        (ngSubmit)="changeStateOfSideChars(deleteSideCharForm)"
         *ngIf="(nonArchivedSideChars.length > 0) || (archivedSideChars.length > 0)">
 
         <label class="changes__title" *ngIf="nonArchivedSideChars && nonArchivedSideChars.length > 0">
           Wybierz postacie poboczne do usunięcia:
           <ul class="changes__list list">
             <li class="list__item" *ngFor="let sideChar of nonArchivedSideChars">
-              <input type="checkbox" [name]="sideChar.externalId" />
+              <input type="checkbox" ngModel [name]="sideChar.externalId" />
               {{sideChar.sideCharacterName}} {{sideChar.sideCharacterSurname}}
             </li>
           </ul>
@@ -64,13 +66,13 @@
           Wybierz postacie poboczne do przywrócenia:
           <ul class="changes__list list">
             <li class="list__item list__item--archived" *ngFor="let sideChar of archivedSideChars">
-              <input type="checkbox" [name]="sideChar.externalId" />
+              <input type="checkbox" ngModel [name]="sideChar.externalId" />
               {{sideChar.sideCharacterName}} {{sideChar.sideCharacterSurname}}
             </li>
           </ul>
         </label>
 
-        <button class="global-button">Wykonaj</button>
+        <button class="global-button" form="deleteSideCharForm">Wykonaj</button>
       </form>
 
       <div *ngIf="(nonArchivedSideChars.length < 0) &&  (archivedSideChars.length < 0)">

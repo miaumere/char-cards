@@ -1,11 +1,12 @@
 package com.meowmere.main.Controllers.sideCharacters;
 
+import com.meowmere.main.Requests.sideCharacters.SideCharacterChangeRequest;
 import com.meowmere.main.services.sideCharacters.SideCharactersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/side-characters/")
@@ -22,6 +23,11 @@ public class SideCharactersController {
     @GetMapping("/all-side-characters")
     public ResponseEntity findAllSideCharacters() {
         return sideCharactersService.findAllSideCharacters();
+    }
+
+    @PatchMapping("/change-state")
+    public ResponseEntity changeStateOfSideChars(@RequestBody List<SideCharacterChangeRequest> request) {
+        return sideCharactersService.changeStateOfSideCharacters(request);
     }
 
 

@@ -5,7 +5,7 @@ import com.meowmere.main.DTO.character.*;
 import com.meowmere.main.Entities.characters.Character;
 import com.meowmere.main.Entities.characters.*;
 import com.meowmere.main.Repositories.character.*;
-import com.meowmere.main.Requests.character.ChangeCharacterStateRequest;
+import com.meowmere.main.Requests.characters.ChangeCharacterStateRequest;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;

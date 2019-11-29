@@ -4,6 +4,7 @@ import com.meowmere.main.DTO.sideCharacters.SideCharacterDTO;
 import com.meowmere.main.DTO.sideCharacters.SideCharacterForListDTO;
 import com.meowmere.main.Entities.sideCharacters.SideCharacter;
 import com.meowmere.main.Repositories.sideCharacters.SideCharactersRepository;
+import com.meowmere.main.Requests.sideCharacters.SideCharacterChangeRequest;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
@@ -52,5 +53,18 @@ public class SideCharactersService {
             result.add(sideCharacter);
         }
         return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    public ResponseEntity changeStateOfSideCharacters(List<SideCharacterChangeRequest> sideChars) {
+        for(SideCharacterChangeRequest sideChar : sideChars){
+            SideCharacter sideCharFromDb = sideCharactersRepository.getOne(sideChar.getExternalId());
+            if(sideCharFromDb == null) {
+                String err = "Brak postaci o podanym id.";
+                return new ResponseEntity(err, HttpStatus.BAD_REQUEST);
+            }
+            sideCharFromDb.setArchived(sideChar.getArchived());
+            sideCharactersRepository.save(sideCharFromDb);
+        }
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

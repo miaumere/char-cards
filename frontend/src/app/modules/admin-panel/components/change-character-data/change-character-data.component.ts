@@ -1,3 +1,4 @@
+import { SideCharForChange } from './../../models/side-char-for-change.model';
 import { SideCharactersService } from 'src/app/core/service/side-characters.service';
 import { ToastrService } from 'ngx-toastr';
 import { CharactersService } from './../../../../core/service/characters.service';
@@ -69,6 +70,24 @@ export class ChangeCharacterDataComponent implements OnInit {
 
   }
 
+  changeStateOfSideChars(deleteSideCharForm: NgForm) {
+    const sideCharsToChange: SideCharForChange[] = [];
+
+    for (const key in deleteSideCharForm.controls) {
+      if (deleteSideCharForm.controls.hasOwnProperty(key)) {
+        const element = !!deleteSideCharForm.value[key];
+        sideCharsToChange.push(new SideCharForChange(+key, element));
+      }
+    }
+    this._sideCharacterService.patchSideCharacterState(sideCharsToChange).subscribe(_ => {
+      this._toastrService.success('Udało się zmienić stan postaci pobocznych!');
+      this.getAllSideCharacters();
+    },
+      () => {
+        this._toastrService.error('Operacja nie udała się.');
+      });
+  }
+
 
   getAllCharacters() {
     this._characterService
@@ -98,7 +117,6 @@ export class ChangeCharacterDataComponent implements OnInit {
         })
       )
       .subscribe(sideChars => {
-        console.log(sideChars)
         this.archivedSideChars = sideChars.filter((sideChar) =>
           !!sideChar.archived
         )

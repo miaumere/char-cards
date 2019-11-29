@@ -1,3 +1,4 @@
+import { SideCharForChange } from './../../modules/admin-panel/models/side-char-for-change.model';
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
@@ -11,6 +12,8 @@ export class SideCharactersService {
 
   getNonArchivedSideCharactersURL = `${this.sideCharacterControllerURL}/side-characters`;
   getAllSideCharactersURL = `${this.sideCharacterControllerURL}/all-side-characters`;
+  patchSideCharactersStateURL = `${this.sideCharacterControllerURL}/change-state`;
+
 
   constructor(private http: HttpClient) { }
 
@@ -20,6 +23,10 @@ export class SideCharactersService {
 
   getAllSideCharacters(): Observable<SideCharacterForListItem[]> {
     return this.http.get<SideCharacterForListItem[]>(this.getAllSideCharactersURL);
+  }
+
+  patchSideCharacterState(requestBody: SideCharForChange[]): Observable<SideCharForChange[]> {
+    return this.http.patch<SideCharForChange[]>(this.patchSideCharactersStateURL, requestBody);
   }
 
 }
