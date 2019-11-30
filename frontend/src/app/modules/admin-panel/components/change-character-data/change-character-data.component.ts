@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CharacterForListItem } from 'src/app/modules/characters/models/character-item.model';
 import { finalize } from 'rxjs/operators';
-import { NgForm } from '@angular/forms';
+import { NgForm, FormGroup } from '@angular/forms';
 import { CharacterForChange } from '../../models/character-for-change.model';
 import { SideCharacterForListItem } from 'src/app/modules/side-characters/models/side-characters.model';
 
@@ -51,13 +51,16 @@ export class ChangeCharacterDataComponent implements OnInit {
   getCharacterDetails() { }
 
 
-  changeStateOfCharacters(deleteCharForm: NgForm) {
+  changeStateOfCharacters(changeStateOfCharForm: NgForm) {
     const charactersToChange: CharacterForChange[] = [];
 
-    for (const key in deleteCharForm.controls) {
-      if (deleteCharForm.controls.hasOwnProperty(key)) {
-        const element = !!deleteCharForm.value[key];
-        charactersToChange.push(new CharacterForChange(+key, element));
+    for (const key in changeStateOfCharForm.controls) {
+      if (changeStateOfCharForm.controls.hasOwnProperty(key)) {
+        const id = +key;
+        const value = !!changeStateOfCharForm.value[id];
+        const isArchived = !!this.archivedCharacters.find(archivedCharacter => archivedCharacter.id === id);
+        const archiveToSet = !!value ? !isArchived : isArchived;
+        charactersToChange.push(new CharacterForChange(id, archiveToSet));
       }
     }
     this._characterService.patchCharactersState(charactersToChange).subscribe(_ => {
@@ -70,16 +73,22 @@ export class ChangeCharacterDataComponent implements OnInit {
 
   }
 
-  changeStateOfSideChars(deleteSideCharForm: NgForm) {
+  changeStateOfSideChars(changeStateOfSideCharsForm: NgForm) {
     const sideCharsToChange: SideCharForChange[] = [];
 
-    for (const key in deleteSideCharForm.controls) {
-      if (deleteSideCharForm.controls.hasOwnProperty(key)) {
-        const element = !!deleteSideCharForm.value[key];
-        sideCharsToChange.push(new SideCharForChange(+key, element));
+    for (const key in changeStateOfSideCharsForm.controls) {
+      if (changeStateOfSideCharsForm.controls.hasOwnProperty(key)) {
+        const id = +key;
+        const value = !!changeStateOfSideCharsForm.value[id];
+        const isArchived = !!this.archivedSideChars.find(archivedSideChar => archivedSideChar.externalId === id);
+
+        const archiveToSet = !!value ? !isArchived : isArchived;
+
+        sideCharsToChange.push(new SideCharForChange(id, archiveToSet));
       }
     }
     this._sideCharacterService.patchSideCharacterState(sideCharsToChange).subscribe(_ => {
+
       this._toastrService.success('Udało się zmienić stan postaci pobocznych!');
       this.getAllSideCharacters();
     },

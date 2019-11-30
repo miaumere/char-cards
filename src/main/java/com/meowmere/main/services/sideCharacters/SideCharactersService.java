@@ -9,6 +9,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -44,7 +45,8 @@ public class SideCharactersService {
     }
 
     public ResponseEntity findAllSideCharacters() {
-        List<SideCharacter> sideCharactersFromDB =  sideCharactersRepository.findAll();
+        List<SideCharacter> sideCharactersFromDB = sideCharactersRepository
+                .findAll(Sort.by(Sort.Direction.ASC, "externalId"));
         ModelMapper modelMapper = new ModelMapper();
         List<SideCharacterForListDTO> result = new ArrayList<>();
 

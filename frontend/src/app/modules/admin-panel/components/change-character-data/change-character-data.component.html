@@ -10,8 +10,8 @@
     </div>
     <div *ngSwitchCase="'delete-character'" class="delete-character">
 
-      <form class="delete-character__form" #deleteCharForm="ngForm" id="deleteCharForm"
-        (ngSubmit)="changeStateOfCharacters(deleteCharForm)"
+      <form class="delete-character__form" #changeStateOfCharForm="ngForm" id="changeStateOfCharForm"
+        (ngSubmit)="changeStateOfCharacters(changeStateOfCharForm)"
         *ngIf="(nonArchivedCharacters.length > 0) || (archivedCharacters.length > 0)">
 
         <label class="changes__title" *ngIf="nonArchivedCharacters && nonArchivedCharacters.length > 0">
@@ -34,7 +34,7 @@
           </ul>
         </label>
 
-        <button class="global-button" form="deleteCharForm">Wykonaj</button>
+        <button class="global-button" form="changeStateOfCharForm">Wykonaj</button>
 
       </form>
 
@@ -48,8 +48,8 @@
 
     <div *ngSwitchCase="'delete-chars'" class="delete-side-character">
 
-      <form class="delete-side-character__form" #deleteSideCharForm="ngForm" id="deleteSideCharForm"
-        (ngSubmit)="changeStateOfSideChars(deleteSideCharForm)"
+      <form class="delete-side-character__form" #changeStateOfSideCharsForm="ngForm" id="changeStateOfSideCharsForm"
+        (ngSubmit)="changeStateOfSideChars(changeStateOfSideCharsForm)"
         *ngIf="(nonArchivedSideChars.length > 0) || (archivedSideChars.length > 0)">
 
         <label class="changes__title" *ngIf="nonArchivedSideChars && nonArchivedSideChars.length > 0">
@@ -72,7 +72,7 @@
           </ul>
         </label>
 
-        <button class="global-button" form="deleteSideCharForm">Wykonaj</button>
+        <button class="global-button" form="changeStateOfSideCharsForm">Wykonaj</button>
       </form>
 
       <div *ngIf="(nonArchivedSideChars.length < 0) &&  (archivedSideChars.length < 0)">
