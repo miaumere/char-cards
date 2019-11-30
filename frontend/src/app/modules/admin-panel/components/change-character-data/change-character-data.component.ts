@@ -6,9 +6,10 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CharacterForListItem } from 'src/app/modules/characters/models/character-item.model';
 import { finalize } from 'rxjs/operators';
-import { NgForm, FormGroup } from '@angular/forms';
+import { NgForm, FormGroup, FormControl, FormBuilder } from '@angular/forms';
 import { CharacterForChange } from '../../models/character-for-change.model';
 import { SideCharacterForListItem } from 'src/app/modules/side-characters/models/side-characters.model';
+import { HttpClient } from 'selenium-webdriver/http';
 
 type changeOptions = 'new-character' | 'edit-character' | 'delete-character' | 'new-chars' | 'edit-chars' | 'delete-chars';
 @Component({
@@ -20,6 +21,8 @@ export class ChangeCharacterDataComponent implements OnInit {
 
   loading = true;
 
+  fileToUpload: File | null = null;
+
   changeType: string | null;
   archivedCharacters: CharacterForListItem[] = [];
   nonArchivedCharacters: CharacterForListItem[] = [];
@@ -27,11 +30,19 @@ export class ChangeCharacterDataComponent implements OnInit {
   archivedSideChars: SideCharacterForListItem[] = [];
   nonArchivedSideChars: SideCharacterForListItem[] = [];
 
+  newSideCharForm = new FormGroup({
+    name: new FormControl(''),
+    surname: new FormControl(''),
+    desc: new FormControl(''),
+  });
+
   constructor(
     private _route: ActivatedRoute,
     private _characterService: CharactersService,
     private _sideCharacterService: SideCharactersService,
-    private _toastrService: ToastrService
+    private _toastrService: ToastrService,
+    private _formBuilder: FormBuilder,
+    private _httpClient: HttpClient
   ) { }
 
   ngOnInit() {
@@ -43,6 +54,25 @@ export class ChangeCharacterDataComponent implements OnInit {
       this.changeType = param.name;
       this.displayInfo(param.name);
     });
+
+  }
+
+  handleFileInput(files: FileList) {
+    this.fileToUpload = files.item(0);
+  }
+
+  getNewSideCharInfo() {
+    console.log(this.newSideCharForm.value)
+    console.log(this.fileToUpload)
+
+    if (this.fileToUpload) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        console.log(reader.result)
+      }
+
+      reader.readAsArrayBuffer(this.fileToUpload);
+    }
 
   }
 
@@ -99,6 +129,7 @@ export class ChangeCharacterDataComponent implements OnInit {
 
 
   getAllCharacters() {
+    this.loading = true;
     this._characterService
       .getAllCharacters()
       .pipe(
@@ -118,6 +149,7 @@ export class ChangeCharacterDataComponent implements OnInit {
   }
 
   getAllSideCharacters() {
+    this.loading = true;
     this._sideCharacterService.
       getAllSideCharacters()
       .pipe(
@@ -140,15 +172,17 @@ export class ChangeCharacterDataComponent implements OnInit {
   displayInfo(changeOption: changeOptions) {
     switch (changeOption) {
       case 'edit-chars':
-      case 'new-chars':
-        console.log('new-character');
-        break;
+
+      case 'delete-character':
+        this.getAllCharacters();
+
 
       case 'edit-character':
         break;
 
-      case 'delete-character':
-        this.getAllCharacters();
+      case 'new-chars':
+        this.loading = false;
+        break;
 
       case 'delete-chars':
         this.getAllSideCharacters();

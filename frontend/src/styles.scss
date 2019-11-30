@@ -51,6 +51,29 @@ button {
   height: calc(100vh - #{$navbar-height});
 }
 
+.global-input {
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  box-shadow: 1px 1px 1px #999;
+
+  outline: none;
+}
+
+.global-label {
+  margin: 0.5rem;
+}
+
+.global-textarea {
+  padding: 10px;
+  line-height: 1.5;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  box-shadow: 1px 1px 1px #999;
+
+  outline: none;
+}
+
 .global-progress-bar {
   height: 100%;
   width: 100px;
@@ -80,4 +103,15 @@ button {
   &__value {
     position: absolute;
   }
+}
+
+::-webkit-resizer {
+  background: url("./assets/images/textarea-icon.png");
+  background-size: 100%;
+}
+
+.global-file {
+  outline: none;
+
+  font-size: 0.6rem;
 }

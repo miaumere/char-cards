@@ -1,4 +1,4 @@
-<app-loader [visible]="loading && !charList"></app-loader>
+<app-loader [visible]="loading"></app-loader>
 
 <div *ngIf="changeType" class="changes">
 
@@ -43,8 +43,40 @@
       </div>
 
     </div>
-    <div *ngSwitchCase="'new-chars'">new </div>
-    <div *ngSwitchCase="'edit-chars'">edit</div>
+
+
+    <div *ngSwitchCase="'new-chars'" class="side-char">
+      <h2 class="changes__title">Uzupełnij poniższe pola, aby dodać nową postać poboczną:</h2>
+      <form class="side-char__new-side-form new-side-form" [formGroup]="newSideCharForm"
+        (ngSubmit)="getNewSideCharInfo()" enctype="multipart/form-data">
+        <div class="new-side-form__container">
+          <label class="global-label">
+            Imię:
+            <input class="global-input" required formControlName="name" />
+          </label>
+          <label class="global-label">
+            Nazwisko:
+            <input class="global-input" required formControlName="surname" />
+          </label>
+        </div>
+        <label class="new-side-form__label global-label">
+          <span style="margin-bottom: 5px">Zdjęcie postaci:</span>
+          <input class="global-file" type="file" (change)="handleFileInput($event.target.files)" accept="image/*" />
+        </label>
+        <div class="new-side-form__container new-side-form__container--story">
+          <label class="new-side-form__label global-label"> Opis/historia postaci:
+            <textarea class="global-textarea new-side-form__textarea" cols="50" required
+              formControlName="desc"></textarea>
+          </label>
+        </div>
+        <input type="submit" class="global-button" />
+      </form>
+    </div>
+
+
+    <div *ngSwitchCase="'edit-chars'">
+      edit chars
+    </div>
 
     <div *ngSwitchCase="'delete-chars'" class="delete-side-character">
 
@@ -79,7 +111,6 @@
         Brak postaci do wyświetlenia.
       </div>
     </div>
-
 
   </div>
 </div>
