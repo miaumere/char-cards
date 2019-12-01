@@ -1,5 +1,6 @@
 package com.meowmere.main.Controllers.sideCharacters;
 
+import com.meowmere.main.Requests.sideCharacters.NewSideCharRequest;
 import com.meowmere.main.Requests.sideCharacters.SideCharacterChangeRequest;
 import com.meowmere.main.services.sideCharacters.SideCharactersService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,5 +31,9 @@ public class SideCharactersController {
         return sideCharactersService.changeStateOfSideCharacters(request);
     }
 
-
+    @PostMapping("/new-side-character")
+    public ResponseEntity addNewSideCharacter(
+            @ModelAttribute NewSideCharRequest request) {
+        return sideCharactersService.addNewSideCharacter(request);
+    }
 }

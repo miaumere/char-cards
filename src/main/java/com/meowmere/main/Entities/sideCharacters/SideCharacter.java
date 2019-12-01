@@ -20,7 +20,19 @@ public class SideCharacter {
     @Column
     public Boolean archived;
 
-    protected SideCharacter() {};
+    public SideCharacter(String sideCharacterName, String sideCharacterSurname, String sideCharacterDesc) {
+        this.sideCharacterName = sideCharacterName;
+        this.sideCharacterSurname = sideCharacterSurname;
+        this.sideCharacterDesc = sideCharacterDesc;
+    }
+
+
+    public Boolean checkNullValues() {
+        if(sideCharacterName != null && sideCharacterDesc != null && sideCharacterSurname != null) {
+            return true;
+        }
+        return false;
+    }
 
     public Long getExternalId() {
         return externalId;

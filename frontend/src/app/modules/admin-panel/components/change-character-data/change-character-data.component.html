@@ -61,7 +61,7 @@
         </div>
         <label class="new-side-form__label global-label">
           <span style="margin-bottom: 5px">Zdjęcie postaci:</span>
-          <input class="global-file" type="file" (change)="handleFileInput($event.target.files)" accept="image/*" />
+          <input class="global-file" formControlName="profilePic" type="file" accept="image/*" />
         </label>
         <div class="new-side-form__container new-side-form__container--story">
           <label class="new-side-form__label global-label"> Opis/historia postaci:

@@ -1,15 +1,13 @@
 package com.meowmere.main.Requests.sideCharacters;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class NewSideCharRequest {
     public Long externalId;
     public String sideCharacterName;
     public String sideCharacterSurname;
     public String sideCharacterDesc;
-    public String profilePic;
-
-    public Long getExternalId() {
-        return externalId;
-    }
+    public MultipartFile profilePic;
 
     public void setExternalId(Long externalId) {
         this.externalId = externalId;
@@ -39,11 +37,11 @@ public class NewSideCharRequest {
         this.sideCharacterDesc = sideCharacterDesc;
     }
 
-    public String getProfilePic() {
+    public MultipartFile getProfilePic() {
         return profilePic;
     }
 
-    public void setProfilePic(String profilePic) {
+    public void setProfilePic(MultipartFile profilePic) {
         this.profilePic = profilePic;
     }
 }

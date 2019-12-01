@@ -9,7 +9,7 @@ import { finalize } from 'rxjs/operators';
 import { NgForm, FormGroup, FormControl, FormBuilder } from '@angular/forms';
 import { CharacterForChange } from '../../models/character-for-change.model';
 import { SideCharacterForListItem } from 'src/app/modules/side-characters/models/side-characters.model';
-import { HttpClient } from 'selenium-webdriver/http';
+import { HttpClient } from '@angular/common/http';
 
 type changeOptions = 'new-character' | 'edit-character' | 'delete-character' | 'new-chars' | 'edit-chars' | 'delete-chars';
 @Component({
@@ -20,8 +20,6 @@ type changeOptions = 'new-character' | 'edit-character' | 'delete-character' | '
 export class ChangeCharacterDataComponent implements OnInit {
 
   loading = true;
-
-  fileToUpload: File | null = null;
 
   changeType: string | null;
   archivedCharacters: CharacterForListItem[] = [];
@@ -34,7 +32,9 @@ export class ChangeCharacterDataComponent implements OnInit {
     name: new FormControl(''),
     surname: new FormControl(''),
     desc: new FormControl(''),
+    profilePic: new FormControl()
   });
+
 
   constructor(
     private _route: ActivatedRoute,
@@ -57,22 +57,29 @@ export class ChangeCharacterDataComponent implements OnInit {
 
   }
 
-  handleFileInput(files: FileList) {
-    this.fileToUpload = files.item(0);
-  }
-
   getNewSideCharInfo() {
-    console.log(this.newSideCharForm.value)
-    console.log(this.fileToUpload)
+    // console.log(this.newSideCharForm.value)
 
-    if (this.fileToUpload) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        console.log(reader.result)
-      }
+    console.log(this.newSideCharForm.value);
 
-      reader.readAsArrayBuffer(this.fileToUpload);
+    const formValues: { [key: string]: string } = this.newSideCharForm.value;
+
+    const formData = new FormData();
+
+    for (const [key, value] of Object.entries(formValues)) {
+      formData.append(key, value);
     }
+
+
+
+    console.log("y!");
+
+    // formData.append('profilePic', file, file.name);
+
+    // const profilePic = this.newSideCharForm.a
+    // profilePic;
+
+    this._sideCharacterService.postNewCharacter(formData as any).subscribe()
 
   }
 
