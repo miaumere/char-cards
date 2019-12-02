@@ -40,9 +40,7 @@ export class ChangeCharacterDataComponent implements OnInit {
     private _route: ActivatedRoute,
     private _characterService: CharactersService,
     private _sideCharacterService: SideCharactersService,
-    private _toastrService: ToastrService,
-    private _formBuilder: FormBuilder,
-    private _httpClient: HttpClient
+    private _toastrService: ToastrService
   ) { }
 
   ngOnInit() {

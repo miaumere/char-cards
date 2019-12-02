@@ -3,15 +3,10 @@ package com.meowmere.main.Requests.sideCharacters;
 import org.springframework.web.multipart.MultipartFile;
 
 public class NewSideCharRequest {
-    public Long externalId;
     public String sideCharacterName;
     public String sideCharacterSurname;
     public String sideCharacterDesc;
     public MultipartFile profilePic;
-
-    public void setExternalId(Long externalId) {
-        this.externalId = externalId;
-    }
 
     public String getSideCharacterName() {
         return sideCharacterName;

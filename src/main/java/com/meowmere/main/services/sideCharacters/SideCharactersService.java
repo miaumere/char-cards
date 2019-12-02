@@ -83,9 +83,9 @@ public class SideCharactersService {
                 sideChar.getSideCharacterDesc()
         );
         if(sideCharacter.checkNullValues()) {
-            sideCharactersRepository.save(sideCharacter);
             return new ResponseEntity("Znaleziono w zapytaniu puste wartosci.", HttpStatus.NOT_ACCEPTABLE);
         }
+//        sideCharactersRepository.save(sideCharacter);
 
         MultipartFile file = sideChar.getProfilePic();
         String pathForFile = String.format("static\\side-character-profile-pics\\%s\\", sideCharacter.getExternalId());
@@ -96,7 +96,7 @@ public class SideCharactersService {
                 Files.write(path, bytes);
             }
         } catch (Exception e) {
-            return new ResponseEntity("Upload failed", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity("Nie udało się dodać zdjęcia.", HttpStatus.BAD_REQUEST);
             }
         return new ResponseEntity(HttpStatus.CREATED);
         }
