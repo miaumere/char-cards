@@ -1,11 +1,11 @@
 package com.meowmere.main.Controllers.sideCharacters;
 
-import com.meowmere.main.Requests.sideCharacters.NewSideCharRequest;
 import com.meowmere.main.Requests.sideCharacters.SideCharacterChangeRequest;
-import com.meowmere.main.services.sideCharacters.SideCharactersService;
+import com.meowmere.main.Services.sideCharacters.SideCharactersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.util.List;
 
@@ -32,8 +32,7 @@ public class SideCharactersController {
     }
 
     @PostMapping("/new-side-character")
-    public ResponseEntity addNewSideCharacter(
-            @ModelAttribute NewSideCharRequest request) {
-        return sideCharactersService.addNewSideCharacter(request);
+    public ResponseEntity addNewSideCharacter(MultipartHttpServletRequest multipartHttpServletRequest) {
+        return sideCharactersService.addNewSideCharacter(multipartHttpServletRequest);
     }
 }

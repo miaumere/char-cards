@@ -1,11 +1,12 @@
-package com.meowmere.main.services.sideCharacters;
+package com.meowmere.main.Services.sideCharacters;
 
 import com.meowmere.main.DTO.sideCharacters.SideCharacterDTO;
 import com.meowmere.main.DTO.sideCharacters.SideCharacterForListDTO;
 import com.meowmere.main.Entities.sideCharacters.SideCharacter;
+import com.meowmere.main.Enums.AvailableExtensions;
 import com.meowmere.main.Repositories.sideCharacters.SideCharactersRepository;
-import com.meowmere.main.Requests.sideCharacters.NewSideCharRequest;
 import com.meowmere.main.Requests.sideCharacters.SideCharacterChangeRequest;
+import org.apache.commons.io.FilenameUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
@@ -14,15 +15,16 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 @Service
 public class SideCharactersService {
@@ -75,25 +77,45 @@ public class SideCharactersService {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    public ResponseEntity addNewSideCharacter(NewSideCharRequest sideChar){
+    public ResponseEntity addNewSideCharacter(MultipartHttpServletRequest multipartHttpServletRequest){
+        String name = multipartHttpServletRequest.getParameter("name");
+        String surname = multipartHttpServletRequest.getParameter("surname");
+        String desc = multipartHttpServletRequest.getParameter("desc");
+        MultipartFile file = multipartHttpServletRequest.getFile("profilePic");
+        multipartHttpServletRequest.getFileMap();
 
-        SideCharacter sideCharacter = new SideCharacter(
-                sideChar.getSideCharacterName(),
-                sideChar.getSideCharacterSurname(),
-                sideChar.getSideCharacterDesc()
-        );
-        if(sideCharacter.checkNullValues()) {
-            return new ResponseEntity("Znaleziono w zapytaniu puste wartosci.", HttpStatus.NOT_ACCEPTABLE);
-        }
-//        sideCharactersRepository.save(sideCharacter);
+        SideCharacter sideCharacter = new SideCharacter(name, surname, desc);
 
-        MultipartFile file = sideChar.getProfilePic();
-        String pathForFile = String.format("static\\side-character-profile-pics\\%s\\", sideCharacter.getExternalId());
+        sideCharactersRepository.save(sideCharacter);
+        sideCharactersRepository.flush();
+
+        String stringForPathURI = String.format("src\\main\\resources\\static\\side-character-profile-pics\\%s",
+                sideCharacter.getExternalId(), sideCharacter);
+
         try {
             if(file != null) {
-                byte[] bytes = file.getBytes();
-                Path path = Paths.get(pathForFile + file.getOriginalFilename());
-                Files.write(path, bytes);
+                try {
+                    String dir = new File(stringForPathURI).getAbsolutePath();
+                    String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+                    String extension = FilenameUtils.getExtension(fileName);
+
+                    if (!Stream.of(AvailableExtensions.values()).anyMatch(v -> v.name().equals(extension))) {
+                        return new ResponseEntity(HttpStatus.UNSUPPORTED_MEDIA_TYPE);
+                    }
+
+                    new File(dir).mkdir();
+                    byte[] bytes = file.getBytes();
+
+                    File FileToSave = new File(dir, fileName);
+
+                    FileOutputStream fos = new FileOutputStream(FileToSave);
+                    fos.write(bytes);
+                    fos.close();
+
+                } catch (java.nio.file.AccessDeniedException e) {
+                    return new ResponseEntity("Nie udało się stworzyć folderu", HttpStatus.BAD_REQUEST);
+                }
+
             }
         } catch (Exception e) {
             return new ResponseEntity("Nie udało się dodać zdjęcia.", HttpStatus.BAD_REQUEST);

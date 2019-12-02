@@ -4,7 +4,7 @@ import com.meowmere.main.DTO.character.CharacterForListDTO;
 import com.meowmere.main.DTO.character.CharactersMenuDTO;
 import com.meowmere.main.Entities.characters.Character;
 import com.meowmere.main.Requests.characters.ChangeCharacterStateRequest;
-import com.meowmere.main.services.characters.CharactersService;
+import com.meowmere.main.Services.characters.CharactersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
