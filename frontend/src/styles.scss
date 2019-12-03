@@ -45,6 +45,10 @@ button {
 
     transform: translateY(4px);
   }
+
+  &[disabled] {
+    background: linear-gradient(to bottom, #5c5c5c, #b1b1b1);
+  }
 }
 
 .global-section {

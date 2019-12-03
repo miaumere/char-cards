@@ -6,7 +6,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CharacterForListItem } from 'src/app/modules/characters/models/character-item.model';
 import { finalize } from 'rxjs/operators';
-import { NgForm, FormGroup, FormControl, FormBuilder } from '@angular/forms';
+import { NgForm, FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { CharacterForChange } from '../../models/character-for-change.model';
 import { SideCharacterForListItem } from 'src/app/modules/side-characters/models/side-characters.model';
 
@@ -28,9 +28,9 @@ export class ChangeCharacterDataComponent implements OnInit {
   nonArchivedSideChars: SideCharacterForListItem[] = [];
 
   newSideCharForm = new FormGroup({
-    name: new FormControl(''),
-    surname: new FormControl(''),
-    desc: new FormControl(''),
+    name: new FormControl('', Validators.required),
+    surname: new FormControl('', Validators.required),
+    desc: new FormControl('', Validators.required),
     profilePic: new FormControl()
   });
 
@@ -57,9 +57,25 @@ export class ChangeCharacterDataComponent implements OnInit {
   }
 
   createNewSideCharInfo() {
-    // console.log(this.newSideCharForm.value);
-    const fileToUpload = this.sideCharProfilePic.nativeElement.files[0];
+    // console.log(this.newSideCharForm)
 
+    if (this.newSideCharForm.invalid) {
+      this._toastrService.warning('Aby kontynuować, wypełnij wszystkie pola.');
+    }
+
+    const fileToUpload = this.sideCharProfilePic.nativeElement.files[0];
+    if (fileToUpload) {
+      const extension = fileToUpload.name.split('.').pop()
+      const fileSize = fileToUpload.size / 1024 / 1024
+      const extensionReg = /(jpg|jpeg|gif|png)/i
+      if (!extensionReg.test(extension)) {
+        return this._toastrService.warning('Niewspierany format pliku.');
+      } else if (fileSize > 4) {
+        return this._toastrService.warning('Podany plik jest za duży. Maksymalna wielkość pliku to 4MB.');
+      } else if (fileSize === 0) {
+        return this._toastrService.warning('Podany plik jest pusty lub uszkodzony.');
+      }
+    }
     const formValues: { [key: string]: string } = this.newSideCharForm.value;
 
     const formData = new FormData();
@@ -69,13 +85,21 @@ export class ChangeCharacterDataComponent implements OnInit {
       }
       formData.append(key, value);
     }
-
-    this._sideCharacterService.postNewCharacter(formData as any).subscribe(_ => {
-      this._toastrService.success('Udało się stworzyć nową postać!')
-    },
-      () => {
-        this._toastrService.error('Nie udało się stworzyć nowej postaci.')
-      })
+    this.loading = true;
+    this._sideCharacterService
+      .postNewCharacter(formData as any)
+      .pipe(
+        finalize(() => {
+          this.loading = false;
+        })
+      )
+      .subscribe(_ => {
+        this._toastrService.success('Udało się stworzyć nową postać!')
+        this.newSideCharForm.reset();
+      },
+        () => {
+          this._toastrService.error('Nie udało się stworzyć nowej postaci.')
+        })
 
   }
 
