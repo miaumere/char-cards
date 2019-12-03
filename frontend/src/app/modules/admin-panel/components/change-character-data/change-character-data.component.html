@@ -48,7 +48,7 @@
     <div *ngSwitchCase="'new-chars'" class="side-char">
       <h2 class="changes__title">Uzupełnij poniższe pola, aby dodać nową postać poboczną:</h2>
       <form class="side-char__new-side-form new-side-form" [formGroup]="newSideCharForm"
-        (ngSubmit)="getNewSideCharInfo()" enctype="multipart/form-data">
+        (ngSubmit)="createNewSideCharInfo()" enctype="multipart/form-data">
         <div class="new-side-form__container">
           <label class="global-label">
             Imię:
@@ -61,7 +61,7 @@
         </div>
         <label class="new-side-form__label global-label">
           <span style="margin-bottom: 5px">Zdjęcie postaci:</span>
-          <input class="global-file" formControlName="profilePic" type="file" accept="image/*" />
+          <input #sideCharProfilePic class="global-file" formControlName="profilePic" type="file" accept="image/*" />
         </label>
         <div class="new-side-form__container new-side-form__container--story">
           <label class="new-side-form__label global-label"> Opis/historia postaci:

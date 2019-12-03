@@ -14,7 +14,7 @@ export class SideCharactersService {
   getNonArchivedSideCharactersURL = `${this.sideCharacterControllerURL}/side-characters`;
   getAllSideCharactersURL = `${this.sideCharacterControllerURL}/all-side-characters`;
   patchSideCharactersStateURL = `${this.sideCharacterControllerURL}/change-state`;
-  postNewCharacterURL = `${this.sideCharacterControllerURL}/new-side-char`;
+  postNewCharacterURL = `${this.sideCharacterControllerURL}/new-side-character`;
 
 
   constructor(private http: HttpClient) { }
@@ -34,8 +34,7 @@ export class SideCharactersService {
   postNewCharacter(formData: FormData): Observable<NewSideChar> {
     const httpOptions = {
       headers: new HttpHeaders({
-        'Content-Type': 'multipart/form-data',
-        'Accept': 'application/json'
+        Accept: 'application/json'
       })
     };
     return this.http.post<NewSideChar>(this.postNewCharacterURL, formData, httpOptions);

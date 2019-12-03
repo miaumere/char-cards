@@ -2,14 +2,13 @@ import { SideCharForChange } from './../../models/side-char-for-change.model';
 import { SideCharactersService } from 'src/app/core/service/side-characters.service';
 import { ToastrService } from 'ngx-toastr';
 import { CharactersService } from './../../../../core/service/characters.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CharacterForListItem } from 'src/app/modules/characters/models/character-item.model';
 import { finalize } from 'rxjs/operators';
 import { NgForm, FormGroup, FormControl, FormBuilder } from '@angular/forms';
 import { CharacterForChange } from '../../models/character-for-change.model';
 import { SideCharacterForListItem } from 'src/app/modules/side-characters/models/side-characters.model';
-import { HttpClient } from '@angular/common/http';
 
 type changeOptions = 'new-character' | 'edit-character' | 'delete-character' | 'new-chars' | 'edit-chars' | 'delete-chars';
 @Component({
@@ -35,6 +34,8 @@ export class ChangeCharacterDataComponent implements OnInit {
     profilePic: new FormControl()
   });
 
+  @ViewChild('sideCharProfilePic', { static: false }) sideCharProfilePic;
+
 
   constructor(
     private _route: ActivatedRoute,
@@ -55,29 +56,26 @@ export class ChangeCharacterDataComponent implements OnInit {
 
   }
 
-  getNewSideCharInfo() {
-    // console.log(this.newSideCharForm.value)
-
-    console.log(this.newSideCharForm.value);
+  createNewSideCharInfo() {
+    // console.log(this.newSideCharForm.value);
+    const fileToUpload = this.sideCharProfilePic.nativeElement.files[0];
 
     const formValues: { [key: string]: string } = this.newSideCharForm.value;
 
     const formData = new FormData();
-
     for (const [key, value] of Object.entries(formValues)) {
+      if (key === 'profilePic') {
+        formData.append('profilePic', fileToUpload);
+      }
       formData.append(key, value);
     }
 
-
-
-    console.log("y!");
-
-    // formData.append('profilePic', file, file.name);
-
-    // const profilePic = this.newSideCharForm.a
-    // profilePic;
-
-    this._sideCharacterService.postNewCharacter(formData as any).subscribe()
+    this._sideCharacterService.postNewCharacter(formData as any).subscribe(_ => {
+      this._toastrService.success('Udało się stworzyć nową postać!')
+    },
+      () => {
+        this._toastrService.error('Nie udało się stworzyć nowej postaci.')
+      })
 
   }
 

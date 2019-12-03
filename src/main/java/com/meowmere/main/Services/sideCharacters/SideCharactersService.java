@@ -115,7 +115,6 @@ public class SideCharactersService {
                 } catch (java.nio.file.AccessDeniedException e) {
                     return new ResponseEntity("Nie udało się stworzyć folderu", HttpStatus.BAD_REQUEST);
                 }
-
             }
         } catch (Exception e) {
             return new ResponseEntity("Nie udało się dodać zdjęcia.", HttpStatus.BAD_REQUEST);

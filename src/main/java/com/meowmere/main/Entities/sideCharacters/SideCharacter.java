@@ -18,7 +18,7 @@ public class SideCharacter {
     private String sideCharacterDesc;
 
     @Column
-    public Boolean archived;
+    public Boolean archived = false;
 
     protected SideCharacter(){}
 
