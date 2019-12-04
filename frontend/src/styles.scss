@@ -56,12 +56,27 @@ button {
 }
 
 .global-input {
-  padding: 5px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  box-shadow: 1px 1px 1px #999;
+  &[type="text"],
+  &[type="number"],
+  &[type="date"],
+  &[type="password"] {
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-shadow: 1px 1px 1px #999;
 
-  outline: none;
+    outline: none;
+  }
+  &[type="color"] {
+    &::-webkit-color-swatch-wrapper {
+      padding: 0;
+    }
+  }
+  &[disabled],
+  &[readonly] {
+    background-color: #e4e4e1;
+    background-image: linear-gradient(to top, rgba(255, 255, 255, 0.1) 0%, rgba(143, 152, 157, 0.6) 100%);
+  }
 }
 
 .global-label {

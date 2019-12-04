@@ -3,7 +3,9 @@
 <div *ngIf="changeType" class="changes">
 
   <div [ngSwitch]="changeType">
-    <div *ngSwitchCase="'new-character'">new character</div>
+    <div *ngSwitchCase="'new-character'">
+      <app-new-character></app-new-character>
+    </div>
     <div *ngSwitchCase="'edit-character'">
       <h2 class="changes__title">Wybierz postać:</h2>
 
@@ -52,11 +54,11 @@
         <div class="new-side-form__container">
           <label class="global-label">
             Imię:
-            <input class="global-input" formControlName="name" />
+            <input type="text" class="global-input" formControlName="name" />
           </label>
           <label class="global-label">
             Nazwisko:
-            <input class="global-input" formControlName="surname" />
+            <input type="text" class="global-input" formControlName="surname" />
           </label>
         </div>
         <label class="new-side-form__label global-label">

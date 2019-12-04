@@ -46,3 +46,11 @@ button {
 
   cursor: pointer;
 }
+
+summary {
+  outline: none;
+
+  &:checked {
+    outline: none;
+  }
+}

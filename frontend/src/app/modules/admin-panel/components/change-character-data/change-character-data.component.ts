@@ -202,12 +202,13 @@ export class ChangeCharacterDataComponent implements OnInit {
 
       case 'delete-character':
         this.getAllCharacters();
-
+        break;
 
       case 'edit-character':
         break;
 
       case 'new-chars':
+      case 'new-character':
         this.loading = false;
         break;
 

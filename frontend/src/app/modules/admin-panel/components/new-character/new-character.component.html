@@ -1,0 +1,135 @@
+<div class="new-char">
+  <h2 class="changes__title">Uzupełnij poniższe pola, aby dodać nową postać główną:</h2>
+
+  <form [formGroup]="newCharacterForm" enctype="multipart/form-data" class="new-char__form new-char-form"
+    (ngSubmit)="createNewChar()">
+
+    <div class="new-char-form__container form-container">
+      <label class="global-label  form-container__label">
+        Imię:
+        <input type="text" class="global-input" formControlName="name" />
+      </label>
+      <label class="global-label  form-container__label">
+        Nazwisko:
+        <input type="text" class="global-input" formControlName="surname" />
+      </label>
+    </div>
+
+    <div class="new-char-form__container form-container">
+      <label class="global-label  form-container__label">
+        Data urodzenia:
+        <input class="global-input" type="date" formControlName="birthday" />
+      </label>
+      <label class="global-label  form-container__label">
+        Śmierć:
+        <input type="checkbox" (change)="changeDeathState()" />
+        <details class="form-container__details details">
+          <summary>Detale dot. śmierci:</summary>
+          <label class="global-label form-container__label">
+            Data śmierci:
+            <input class="global-input details__death-date" [readonly]="!isDead" type="date" formControlName="death" />
+          </label>
+          <label class="global-label form-container__label">
+            Powód śmierci:
+            <input class="global-input" type="text" [readonly]="!isDead" formControlName="deathReason" />
+          </label>
+        </details>
+      </label>
+    </div>
+
+    <div class="new-char-form__container form-container">
+      <label class="global-label form-container__label">
+        Melancholizm - {{melancholicValue}}%
+        <div class="form-container__range-container range range__container">
+          <input #melancholic class="global-input" type="range" min="1" max="100" formControlName="melancholic" />
+          <div class="range__values">
+            <span>0</span><span>50</span><span>100</span>
+          </div>
+        </div>
+      </label>
+      <label class="global-label form-container__label">
+        Sangwinizm:
+        <div class="form-container__range-container range range__container">
+          <input class="global-input" type="range" min="1" max="100" formControlName="sanguine" />
+          <div class="range__values">
+            <span>0</span><span>50</span><span>100</span>
+          </div>
+        </div>
+      </label>
+      <label class="global-label form-container__label">
+        Flegmatyzm:
+        <div class="form-container__range-container range range__container">
+          <input class="global-input range__item" type="range" min="1" max="100" formControlName="flegmatic" />
+          <div class="range__values">
+            <span>0</span><span>50</span><span>100</span>
+          </div>
+        </div>
+      </label>
+      <label class="global-label form-container__label">
+        Choleryzm:
+        <div class="form-container__range-container range range__container">
+          <input class="global-input" type="range" min="1" max="100" formControlName="choleric" />
+          <div class="range__values">
+            <span>0</span><span>50</span><span>100</span>
+          </div>
+        </div>
+      </label>
+    </div>
+
+
+    <div class="new-char-form__container form-container">
+      <label class="form-container__label global-label">
+        <span>Zdjęcia postaci:</span>
+        <input class="global-file" formControlName="imagesList" type="file" accept="image/*" multiple />
+      </label>
+      <label class="form-container__label global-label">
+        <span>Zdjęcie profilowe postaci:</span>
+        <input class="global-file" formControlName="profilePic" type="file" accept="image/*" />
+      </label>
+    </div>
+
+    <div class="new-char-form__container form-container">
+      <label class="global-label color">
+        <span class="color__label">Motyw kolorystyczny 1:</span>
+        <input class="global-input" formControlName="themeColor1" type="color" />
+      </label>
+      <label class="global-label color">
+        <span class="color__label"> Motyw kolorystyczny 2:</span>
+        <input class="global-input" formControlName="themeColor2" type="color" />
+      </label>
+      <label class="global-label color">
+        <span class="color__label">Motyw kolorystyczny 3:</span>
+        <input class="global-input" formControlName="themeColor3" type="color" />
+      </label>
+    </div>
+
+    <div class="new-char-form__container form-container">
+      <label class="global-label color">
+        <span class="color__label">Kolor oczu 1:</span>
+        <input class="global-input" formControlName="eyeColor1" type="color" />
+      </label>
+      <label class="global-label color">
+        <span class="color__label">Kolor oczu 2:</span>
+        <input class="global-input" formControlName="eyeColor2" type="color" />
+      </label>
+      <label class="global-label color">
+        <span class="color__label">Kolor włosów:</span>
+        <input class="global-input" formControlName="hairColor" type="color" />
+      </label>
+      <label class="global-label color">
+        <span class="color__label"> Kolor skóry:</span>
+        <input class="global-input" formControlName="skinColor" type="color" />
+      </label>
+    </div>
+
+    <!-- <div class="new-char-form__container new-char-form__container--story form-container">
+      <label class="new-char-form__label global-label"> Opis/historia postaci:
+        <textarea class="global-textarea new-char-form__textarea" cols="50" formControlName="story"></textarea>
+      </label>
+    </div> -->
+
+
+    <input type="submit" class="global-button" [disabled]="newCharacterForm.invalid" />
+
+  </form>
+</div>

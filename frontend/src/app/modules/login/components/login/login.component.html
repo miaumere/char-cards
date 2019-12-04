@@ -4,12 +4,12 @@
   <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login__form">
     <label class="form__label global-label">
       Nazwa użytkownika:
-      <input class="form__input global-input" required formControlName="username">
+      <input type="text" class="form__input global-input" required formControlName="username">
     </label>
 
     <label class="form__label global-label">
       Hasło:
-      <input class="form__input global-input" required type="password" formControlName="password">
+      <input type="password" class="form__input global-input" required type="password" formControlName="password">
     </label>
 
     <input class="form__submit-button global-button" type="submit" value="Zaloguj">

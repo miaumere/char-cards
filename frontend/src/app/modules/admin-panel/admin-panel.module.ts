@@ -7,19 +7,21 @@ import { AdminPanelRoutingModule } from './admin-panel-routing.module';
 import { AdminPanelComponent } from './components/admin-panel/admin-panel.component';
 import { ChangeCharacterDataComponent } from './components/change-character-data/change-character-data.component';
 import { AdminPanelMenuComponent } from './components/admin-panel-menu/admin-panel-menu.component';
+import { NewCharacterComponent } from './components/new-character/new-character.component';
 
 @NgModule({
   declarations: [
     AdminPanelComponent,
     ChangeCharacterDataComponent,
-    AdminPanelMenuComponent
+    AdminPanelMenuComponent,
+    NewCharacterComponent
   ],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
     SharedModule,
-    AdminPanelRoutingModule,
+    AdminPanelRoutingModule
   ],
   providers: [
     CharactersService
