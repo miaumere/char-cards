@@ -1,3 +1,4 @@
+import { Subscription } from 'rxjs';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
@@ -8,14 +9,16 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 })
 export class NewCharacterComponent implements OnInit {
 
+  subscriptions$ = new Subscription();
 
   isDead = false;
 
   newCharacterForm = new FormGroup({
     name: new FormControl('', Validators.required),
     surname: new FormControl('', Validators.required),
-    birthday: new FormControl('', Validators.required),
 
+    birthday: new FormControl('', Validators.required),
+    profession: new FormControl(''),
     death: new FormControl(''),
     deathReason: new FormControl(''),
 
@@ -41,28 +44,53 @@ export class NewCharacterComponent implements OnInit {
   });
 
   melancholicValue = 0;
-
-  @ViewChild('melancholic', { static: false }) melancholic;
+  sanguineValue = 0;
+  flegmaticValue = 0;
+  cholericValue = 0;
 
   constructor() { }
 
   ngOnInit() {
-    let melancholic = this.newCharacterForm.get('melancholic');
-    if (melancholic) {
-      melancholic.valueChanges.subscribe(val => {
-        this.melancholicValue = val
-      })
-    }
+    const melancholic = this.newCharacterForm.get('melancholic');
+    const sanguine = this.newCharacterForm.get('sanguine');
+    const flegmatic = this.newCharacterForm.get('flegmatic');
+    const choleric = this.newCharacterForm.get('choleric');
+
+    const temperamentArray = [melancholic, sanguine, flegmatic, choleric];
+
+    temperamentArray.forEach(element => {
+      if (element) {
+        this.subscriptions$.add(
+          element.valueChanges.subscribe(val => {
+            switch (element) {
+              case melancholic:
+                this.melancholicValue = val;
+                break;
+              case sanguine:
+                this.sanguineValue = val;
+                break;
+              case flegmatic:
+                this.flegmaticValue = val;
+                break;
+              case choleric:
+                this.cholericValue = val;
+                break;
+            }
+          })
+        )
+      }
+    });
+
 
   }
 
   changeDeathState() {
-    this.isDead = !this.isDead
-    console.log(this.isDead)
+    this.isDead = !this.isDead;
+    // console.log(this.isDead);
   }
 
   createNewChar() {
     const formValues: { [key: string]: string } = this.newCharacterForm.value;
-    console.log(formValues)
+    console.log(formValues);
   }
 }

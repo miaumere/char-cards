@@ -4,13 +4,14 @@ import { ToastrService } from 'ngx-toastr';
 import { CharactersService } from './../../../../core/service/characters.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { CharacterForListItem } from 'src/app/modules/characters/models/character-item.model';
+import { CharacterForListItem, CharacterItem } from 'src/app/modules/characters/models/character-item.model';
 import { finalize } from 'rxjs/operators';
 import { NgForm, FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { CharacterForChange } from '../../models/character-for-change.model';
 import { SideCharacterForListItem } from 'src/app/modules/side-characters/models/side-characters.model';
 
-type changeOptions = 'new-character' | 'edit-character' | 'delete-character' | 'new-chars' | 'edit-chars' | 'delete-chars';
+type changeOptions = 'new-character' | 'edit-character' | 'delete-character' | 'story'
+  | 'new-chars' | 'edit-chars' | 'delete-chars';
 @Component({
   selector: 'app-change-character-data',
   templateUrl: './change-character-data.component.html',
@@ -26,6 +27,8 @@ export class ChangeCharacterDataComponent implements OnInit {
 
   archivedSideChars: SideCharacterForListItem[] = [];
   nonArchivedSideChars: SideCharacterForListItem[] = [];
+
+  charList: CharacterItem[];
 
   newSideCharForm = new FormGroup({
     name: new FormControl('', Validators.required),
@@ -103,7 +106,18 @@ export class ChangeCharacterDataComponent implements OnInit {
 
   }
 
-  getCharactersList() { }
+  getCharactersList() {
+    this.loading = true;
+    this._characterService
+      .getCharacters()
+      .pipe(
+        finalize(() => {
+          this.loading = false;
+        })
+      ).subscribe(charList => {
+        this.charList = charList;
+      })
+  }
 
   getCharacterDetails() { }
 
@@ -205,6 +219,10 @@ export class ChangeCharacterDataComponent implements OnInit {
         break;
 
       case 'edit-character':
+        break;
+
+      case 'story':
+        this.getCharactersList();
         break;
 
       case 'new-chars':

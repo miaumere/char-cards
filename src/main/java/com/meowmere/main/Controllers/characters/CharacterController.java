@@ -45,4 +45,6 @@ public class CharacterController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+    @GetMapping("/")
+
 }

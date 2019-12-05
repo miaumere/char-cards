@@ -1,4 +1,6 @@
 package com.meowmere.main.Entities.sideCharacters;
+import org.hibernate.validator.constraints.Length;
+
 import javax.persistence.*;
 
 @Entity
@@ -15,6 +17,7 @@ public class SideCharacter {
     private String sideCharacterSurname;
 
     @Column
+    @Length(max = 2000)
     private String sideCharacterDesc;
 
     @Column

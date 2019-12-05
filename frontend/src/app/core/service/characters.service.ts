@@ -12,12 +12,13 @@ import { CharacterForChange } from 'src/app/modules/admin-panel/models/character
 })
 export class CharactersService {
 
-  charControllerURL = '/api/characters'
+  charControllerURL = '/api/characters';
 
   private _getNonArchivedCharactersURL = `${this.charControllerURL}/get-characters`;
   private _getCharacterByIdURL = `${this.charControllerURL}/get-character`;
   private _getAllCharactersURL = `${this.charControllerURL}/get-all-characters`;
   private _patchChangeStateURL = `${this.charControllerURL}/change-state`;
+  private _getStoryTitles = `${this.charControllerURL}/get-titles`;
 
   public charList$ = new BehaviorSubject<CharacterItem[] | null>(null);
 

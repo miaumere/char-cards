@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 type iconType = '' | 'warning' | 'new-character' | 'face' | 'hair' | 'clothing' | 'eye' | 'logout' | 'user'
-  | 'delete-character' | 'edit-character' | 'new-chars' | 'delete-chars' | 'edit-chars'
+  | 'delete-character' | 'edit-character' | 'new-chars' | 'delete-chars' | 'edit-chars' | 'story';
 
 @Component({
   selector: 'app-icon',

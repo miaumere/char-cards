@@ -16,10 +16,17 @@
     </div>
 
     <div class="new-char-form__container form-container">
-      <label class="global-label  form-container__label">
-        Data urodzenia:
-        <input class="global-input" type="date" formControlName="birthday" />
-      </label>
+      <div class="form-container--personal-info">
+        <label class="global-label  form-container__label">
+          Data urodzenia:
+          <input class="global-input" type="date" formControlName="birthday" />
+        </label>
+        <label class="global-label  form-container__label">
+          Zawód:
+          <input class="global-input" type="text" formControlName="profession" />
+        </label>
+      </div>
+
       <label class="global-label  form-container__label">
         Śmierć:
         <input type="checkbox" (change)="changeDeathState()" />
@@ -48,7 +55,7 @@
         </div>
       </label>
       <label class="global-label form-container__label">
-        Sangwinizm:
+        Sangwinizm - {{sanguineValue}}%
         <div class="form-container__range-container range range__container">
           <input class="global-input" type="range" min="1" max="100" formControlName="sanguine" />
           <div class="range__values">
@@ -57,7 +64,7 @@
         </div>
       </label>
       <label class="global-label form-container__label">
-        Flegmatyzm:
+        Flegmatyzm - {{flegmaticValue}}%
         <div class="form-container__range-container range range__container">
           <input class="global-input range__item" type="range" min="1" max="100" formControlName="flegmatic" />
           <div class="range__values">
@@ -66,7 +73,7 @@
         </div>
       </label>
       <label class="global-label form-container__label">
-        Choleryzm:
+        Choleryzm - {{cholericValue}}%
         <div class="form-container__range-container range range__container">
           <input class="global-input" type="range" min="1" max="100" formControlName="choleric" />
           <div class="range__values">
@@ -122,12 +129,10 @@
       </label>
     </div>
 
-    <!-- <div class="new-char-form__container new-char-form__container--story form-container">
-      <label class="new-char-form__label global-label"> Opis/historia postaci:
-        <textarea class="global-textarea new-char-form__textarea" cols="50" formControlName="story"></textarea>
-      </label>
-    </div> -->
+    <div class="new-char-form__container form-container">
+      -> details z listą inputów do wypełnienia
 
+    </div>
 
     <input type="submit" class="global-button" [disabled]="newCharacterForm.invalid" />
 

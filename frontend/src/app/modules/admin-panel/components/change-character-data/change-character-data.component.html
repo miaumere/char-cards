@@ -3,13 +3,32 @@
 <div *ngIf="changeType" class="changes">
 
   <div [ngSwitch]="changeType">
+
     <div *ngSwitchCase="'new-character'">
       <app-new-character></app-new-character>
     </div>
+
+    <div *ngSwitchCase="'story'" class="story">
+      <form class="story__form story-form">
+
+        <div class="story-form__container">
+          <label class="story-form__label global-label">
+            Wybierz postać, której historię chcesz dodać/edytować:
+            <input list="charList" class="global-input story-form__input">
+            <datalist id="charList">
+              <option *ngFor="let character of charList" [value]="character.charName"></option>
+            </datalist>
+          </label>
+        </div>
+      </form>
+
+    </div>
+
     <div *ngSwitchCase="'edit-character'">
       <h2 class="changes__title">Wybierz postać:</h2>
 
     </div>
+
     <div *ngSwitchCase="'delete-character'" class="delete-character">
 
       <form class="delete-character__form" #changeStateOfCharForm="ngForm" id="changeStateOfCharForm"

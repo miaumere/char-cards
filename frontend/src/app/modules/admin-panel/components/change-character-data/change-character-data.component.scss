@@ -96,6 +96,10 @@
     height: 100px;
     width: 200px;
   }
+  &--personal-info {
+    display: flex;
+    flex-direction: column;
+  }
 }
 .details {
   &__death-date {
@@ -131,5 +135,24 @@
     margin-top: -0.2rem;
 
     font-size: 0.5rem;
+  }
+}
+
+.story {
+  display: flex;
+  flex-direction: column;
+}
+
+.story-form {
+  &__container {
+    display: flex;
+    flex-direction: column;
+  }
+  &__label {
+    display: flex;
+    flex-direction: column;
+  }
+  &__input {
+    margin-top: 1rem;
   }
 }

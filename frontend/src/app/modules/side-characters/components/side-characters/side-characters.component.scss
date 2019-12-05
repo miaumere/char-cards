@@ -14,6 +14,8 @@
 
   &__box {
     display: flex;
+    justify-content: center;
+    align-items: center;
 
     width: 500px;
 
@@ -54,5 +56,9 @@
     margin-bottom: 1rem;
 
     font-size: 0.8rem;
+  }
+
+  &__desc {
+    line-height: 1.3;
   }
 }
