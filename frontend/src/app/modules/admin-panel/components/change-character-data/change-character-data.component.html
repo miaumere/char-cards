@@ -12,16 +12,34 @@
       <form class="story__form story-form">
 
         <div class="story-form__container">
+          <h2 class="changes__title">Uzupełnij poniższe pola, aby dodać historię do postaci:</h2>
           <label class="story-form__label global-label">
             Wybierz postać, której historię chcesz dodać/edytować:
             <input list="charList" class="global-input story-form__input">
             <datalist id="charList">
-              <option *ngFor="let character of charList" [value]="character.charName"></option>
+              <option *ngFor="let character of charList" [value]="character.charName + ' ' + character.charSurname">
+              </option>
             </datalist>
           </label>
+          <div class="story-form__container">
+            Wybierz tytuły jakie chcesz dodać:
+            <label *ngFor="let title of titles" class="title-choice">
+              <input type="checkbox" />
+              {{title.title}}
+            </label>
+          </div>
         </div>
+        <input type="submit" class="global-button" value="Dalej" />
       </form>
 
+      <div class="story-form__container">
+        <h2 class="changes__title">Dodaj nowy tytuł:</h2>
+
+        <form>
+
+        </form>
+
+      </div>
     </div>
 
     <div *ngSwitchCase="'edit-character'">
@@ -55,7 +73,7 @@
           </ul>
         </label>
 
-        <button class="global-button" form="changeStateOfCharForm">Wykonaj</button>
+        <button class="global-button" form="changeStateOfCharForm()">Wykonaj</button>
 
       </form>
 

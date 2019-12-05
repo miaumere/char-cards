@@ -29,6 +29,7 @@ export class ChangeCharacterDataComponent implements OnInit {
   nonArchivedSideChars: SideCharacterForListItem[] = [];
 
   charList: CharacterItem[];
+  titles: String[];
 
   newSideCharForm = new FormGroup({
     name: new FormControl('', Validators.required),
@@ -117,6 +118,19 @@ export class ChangeCharacterDataComponent implements OnInit {
       ).subscribe(charList => {
         this.charList = charList;
       })
+  }
+
+  getStoryTitles() {
+    this.loading = true;
+    this._characterService.getStoryTitles()
+      .pipe(
+        finalize(() => {
+          this.loading = false;
+        })
+      ).subscribe(titles => {
+        this.titles = titles;
+      })
+
   }
 
   getCharacterDetails() { }
@@ -223,6 +237,7 @@ export class ChangeCharacterDataComponent implements OnInit {
 
       case 'story':
         this.getCharactersList();
+        this.getStoryTitles();
         break;
 
       case 'new-chars':

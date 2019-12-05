@@ -156,3 +156,18 @@
     margin-top: 1rem;
   }
 }
+
+.title-choice {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  max-width: 100px;
+
+  margin: 1rem;
+  box-shadow: 4px 4px #607d8b;
+
+  color: black;
+
+  background: white;
+}

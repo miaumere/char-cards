@@ -11,7 +11,7 @@ public class Titles {
     private Long id;
 
     @Column
-    private String title;
+    public String title;
 
     @Column(unique = true)
     public Long sequence;

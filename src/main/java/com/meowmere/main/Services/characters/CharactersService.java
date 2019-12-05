@@ -36,6 +36,8 @@ public class CharactersService {
     public MeasurementsRepository measurementsRepository;
     @Autowired
     public StoryRepository storyRepository;
+    @Autowired
+    public TitlesRepository titlesRepository;
 
     public List<CharactersMenuDTO> findCharList() {
         List<Character> allCharactersFromDb = characterRepository.getNonArchivedCharacters();
@@ -146,13 +148,24 @@ public class CharactersService {
                                 HttpStatus.BAD_REQUEST);
                     }
                     charToChange.setArchived(character.getArchived());
-                    Boolean test = charToChange.getArchived();
                     characterRepository.save(charToChange);
               }
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+    public List<TitleDTO> getTitles() {
+        ModelMapper modelMapper = new ModelMapper();
+        List<Titles> titlesFromDb = titlesRepository.findAll(Sort.by(Sort.Direction.ASC, "sequence"));
+        List<TitleDTO> result = new ArrayList<>();
 
+        titlesFromDb.forEach(title -> {
+            TitleDTO titleMapped = modelMapper.map(title, TitleDTO.class);
+            result.add(titleMapped);
+
+        });
+
+        return result;
+    }
 
     public Character createCharacter(Character request) {
         return characterRepository.save(request);

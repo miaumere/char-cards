@@ -2,6 +2,7 @@ package com.meowmere.main.Controllers.characters;
 
 import com.meowmere.main.DTO.character.CharacterForListDTO;
 import com.meowmere.main.DTO.character.CharactersMenuDTO;
+import com.meowmere.main.DTO.character.TitleDTO;
 import com.meowmere.main.Entities.characters.Character;
 import com.meowmere.main.Requests.characters.ChangeCharacterStateRequest;
 import com.meowmere.main.Services.characters.CharactersService;
@@ -45,6 +46,10 @@ public class CharacterController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @GetMapping("/")
+    @GetMapping("/get-titles")
+    public ResponseEntity getStoryTitles(){
+        List<TitleDTO> result = charactersService.getTitles();
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
 
 }
