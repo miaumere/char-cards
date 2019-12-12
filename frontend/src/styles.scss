@@ -60,7 +60,8 @@ button {
   &[type="number"],
   &[type="date"],
   &[type="password"],
-  &[list] {
+  &[list],
+  &[name] {
     padding: 5px;
     border-radius: 5px;
     border: 1px solid #ccc;

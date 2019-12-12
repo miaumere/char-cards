@@ -6,6 +6,7 @@ import { tap } from 'rxjs/operators';
 import { CharacterItem, CharacterForListItem } from 'src/app/modules/characters/models/character-item.model';
 import { Character } from 'src/app/modules/characters/models/character.model';
 import { CharacterForChange } from 'src/app/modules/admin-panel/models/character-for-change.model';
+import { Titles } from 'src/app/modules/admin-panel/models/titles.model';
 
 @Injectable({
   providedIn: 'root'
@@ -55,8 +56,8 @@ export class CharactersService {
     return this.http.patch<CharacterForChange[]>(this._patchChangeStateURL, requestBody);
   }
 
-  getStoryTitles(): Observable<String[]> {
-    return this.http.get<String[]>(this._getStoryTitlesURL)
+  getStoryTitles(): Observable<Titles[]> {
+    return this.http.get<Titles[]>(this._getStoryTitlesURL);
   }
 
 }

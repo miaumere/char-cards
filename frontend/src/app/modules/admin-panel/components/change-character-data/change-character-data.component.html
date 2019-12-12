@@ -9,36 +9,41 @@
     </div>
 
     <div *ngSwitchCase="'story'" class="story">
-      <form class="story__form story-form">
-
+      <form class="story__form story-form" #storyForm="ngForm" id="storyForm" *ngIf="!areTitlesSet"
+        (ngSubmit)="generateStoryForms(storyForm)">
         <div class="story-form__container">
-          <h2 class="changes__title">Uzupełnij poniższe pola, aby dodać historię do postaci:</h2>
+          <h2 class="changes__title">Wybierz postać i tytuły do rozdziałów historii:</h2>
           <label class="story-form__label global-label">
             Wybierz postać, której historię chcesz dodać/edytować:
-            <input list="charList" class="global-input story-form__input">
-            <datalist id="charList">
-              <option *ngFor="let character of charList" [value]="character.charName + ' ' + character.charSurname">
+            <select class="global-input story-form__select" ngModel name="name" *ngFor="let character of charList">
+              <option class="global-input story-form__option" [value]="character.id">{{character.charName}}
+                {{character.charSurname}}
               </option>
-            </datalist>
+            </select>
           </label>
           <div class="story-form__container">
             Wybierz tytuły jakie chcesz dodać:
-            <label *ngFor="let title of titles" class="title-choice">
-              <input type="checkbox" />
-              {{title.title}}
-            </label>
+            <div class="title-choice">
+              <label *ngFor="let title of titles" class="title-choice__item">
+                <input type="checkbox" ngModel [name]="title.id" />
+                {{title.title}}
+              </label>
+            </div>
           </div>
         </div>
-        <input type="submit" class="global-button" value="Dalej" />
+        <input type="submit" class="global-button" value="Dalej" form="storyForm" />
       </form>
 
-      <div class="story-form__container">
-        <h2 class="changes__title">Dodaj nowy tytuł:</h2>
-
-        <form>
-
+      <div *ngIf="areTitlesSet" class="titles">
+        <h2 class="changes__title">Wypełnij poniższe pola: </h2>
+        <form class="titles__form titles-form" #titlesForm="ngForm" id="titlesForm"
+          (ngSubmit)="createStory(titlesForm)">
+          <label *ngFor="let title of titlesForStories | keyvalue" class="titles-form__item">
+            {{title.value}}
+            <textarea ngModel [name]="title.key" class="global-textarea titles-form__textarea"></textarea>
+          </label>
+          <input type="submit" class="global-button" value="Dodaj historię" form="titlesForm" />
         </form>
-
       </div>
     </div>
 
@@ -73,7 +78,7 @@
           </ul>
         </label>
 
-        <button class="global-button" form="changeStateOfCharForm()">Wykonaj</button>
+        <button class="global-button" form="changeStateOfCharForm">Wykonaj</button>
 
       </form>
 

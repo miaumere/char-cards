@@ -9,6 +9,8 @@ import { finalize } from 'rxjs/operators';
 import { NgForm, FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { CharacterForChange } from '../../models/character-for-change.model';
 import { SideCharacterForListItem } from 'src/app/modules/side-characters/models/side-characters.model';
+import { Titles } from '../../models/titles.model';
+import { Story, StoryForCharacter } from '../../models/story.model';
 
 type changeOptions = 'new-character' | 'edit-character' | 'delete-character' | 'story'
   | 'new-chars' | 'edit-chars' | 'delete-chars';
@@ -29,7 +31,12 @@ export class ChangeCharacterDataComponent implements OnInit {
   nonArchivedSideChars: SideCharacterForListItem[] = [];
 
   charList: CharacterItem[];
-  titles: String[];
+  titles: Titles[];
+
+  characterWithStoryId: number;
+  titlesForStories: Map<number, string>;
+  areTitlesSet: boolean = false;
+
 
   newSideCharForm = new FormGroup({
     name: new FormControl('', Validators.required),
@@ -133,8 +140,51 @@ export class ChangeCharacterDataComponent implements OnInit {
 
   }
 
-  getCharacterDetails() { }
+  generateStoryForms(storyForm: NgForm) {
+    const map = new Map();
+    for (const key in storyForm.controls) {
+      if (storyForm.controls.hasOwnProperty(key)) {
+        key === 'name' ? this.characterWithStoryId = storyForm.value[key] : null
+        if (key !== 'name') {
+          const id = +key;
+          const value = !!storyForm.value[id];
+          if (value) {
+            const titleForStory = this.titles.find(t => {
+              if (t.id === id) {
+                return t;
+              }
+            })
+            map.set(id, titleForStory.title)
+          }
+        }
+      }
+    }
+    this.titlesForStories = map;
+    if (this.titlesForStories.size > 0 && this.characterWithStoryId) {
+      this.areTitlesSet = true;
+    } else {
+      this._toastrService.warning('Nie uzupełniono poprawnie formularza.')
+    }
+  }
 
+  createStory(titlesForm: NgForm) {
+    const storyToSend = new StoryForCharacter();
+    const stories: Story[] = [];
+    for (const key in titlesForm.controls) {
+      if (titlesForm.controls.hasOwnProperty(key)) {
+        const id = +key;
+        const value = titlesForm.value[id];
+        const story = new Story(id, value);
+        stories.push(story);
+      }
+    }
+    storyToSend.characterId = this.characterWithStoryId;
+    storyToSend.stories = stories;
+
+    console.log(storyToSend)
+  }
+
+  getCharacterDetails() { }
 
   changeStateOfCharacters(changeStateOfCharForm: NgForm) {
     const charactersToChange: CharacterForChange[] = [];

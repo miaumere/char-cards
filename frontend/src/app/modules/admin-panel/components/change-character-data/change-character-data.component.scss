@@ -147,6 +147,11 @@
   &__container {
     display: flex;
     flex-direction: column;
+
+    &--titles {
+      display: flex;
+      justify-content: center;
+    }
   }
   &__label {
     display: flex;
@@ -159,15 +164,37 @@
 
 .title-choice {
   display: flex;
-  justify-content: center;
-  align-items: center;
 
-  max-width: 100px;
+  &__item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-  margin: 1rem;
-  box-shadow: 4px 4px #607d8b;
+    max-width: 100px;
 
-  color: black;
+    margin: 1rem;
+    padding-right: 5px;
+    box-shadow: 4px 4px #607d8b;
 
-  background: white;
+    color: black;
+
+    background: white;
+  }
+}
+
+.titles-form {
+  &__item {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  &__textarea {
+    width: 40vw;
+    min-height: 50px;
+    max-height: 200px;
+
+    margin: 5px 0 1rem 0;
+
+    resize: vertical;
+  }
 }
