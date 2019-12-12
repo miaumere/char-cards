@@ -6,6 +6,8 @@ import com.meowmere.main.Entities.characters.Character;
 import com.meowmere.main.Entities.characters.*;
 import com.meowmere.main.Repositories.character.*;
 import com.meowmere.main.Requests.characters.ChangeCharacterStateRequest;
+import com.meowmere.main.Requests.characters.CreateStoryForCharRequest;
+import com.meowmere.main.Requests.characters.StoryRequest;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
@@ -161,13 +163,44 @@ public class CharactersService {
         titlesFromDb.forEach(title -> {
             TitleDTO titleMapped = modelMapper.map(title, TitleDTO.class);
             result.add(titleMapped);
-
         });
-
         return result;
     }
 
-    public Character createCharacter(Character request) {
-        return characterRepository.save(request);
+    public ResponseEntity createStoryForCharacter(CreateStoryForCharRequest request) {
+        String msg = "";
+        Story storyToCreate = new Story();
+
+        if(request.characterId == null) {
+            msg += "Nie wybrano postaci. ";
+        } else if(request.stories.length < 0){
+            msg += "Brak historii do dodania. ";
+        }
+        Character characterFromId = characterRepository.getOne(request.getCharacterId());
+        if(characterFromId == null) {
+            msg += "Brak postaci o podanym id. ";
+        }
+
+        for (StoryRequest story: request.getStories()) {
+            if(story.getTitleId() == null) {
+                msg += "Nie sprecyzowano tytułu. ";
+            } else if(story.getStory() == null){
+                msg += "Brak treści historii. ";
+            }
+            Titles titleFromId = titlesRepository.getOne(story.getTitleId());
+            if(titleFromId == null) {
+                msg += "Brak tytułu o podanym id. ";
+            }
+            storyToCreate.setStory(story.getStory());
+            storyToCreate.setTitle(titleFromId);
+        }
+
+        if(msg.length() > 0) {
+            return new ResponseEntity(msg, HttpStatus.BAD_REQUEST);
+        }
+
+        storyToCreate.setCharacter(characterFromId);
+        storyRepository.saveAndFlush(storyToCreate);
+        return new ResponseEntity(HttpStatus.CREATED);
     }
 }

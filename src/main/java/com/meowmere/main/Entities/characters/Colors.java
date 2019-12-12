@@ -41,7 +41,7 @@ public class Colors {
     @Length(min = 3, max = 7)
     private String skinColor;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = true)
+    @ManyToOne(fetch = FetchType.LAZY)
     @NotFound(action = NotFoundAction.IGNORE)
     @JoinColumn(name = "character_id", unique = true)
     private Character character;
