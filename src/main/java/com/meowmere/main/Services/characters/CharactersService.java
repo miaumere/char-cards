@@ -170,31 +170,36 @@ public class CharactersService {
     public ResponseEntity createStoryForCharacter(CreateStoryForCharRequest request) {
         String msg = "";
         Story storyToCreate = new Story();
+        Boolean emptyTitle = false;
+        Boolean emptyStory = false;
+        Boolean noTitle = false;
 
-        if(request.characterId == null) {
-            msg += "Nie wybrano postaci. ";
-        } else if(request.stories.length < 0){
-            msg += "Brak historii do dodania. ";
-        }
         Character characterFromId = characterRepository.getOne(request.getCharacterId());
-        if(characterFromId == null) {
-            msg += "Brak postaci o podanym id. ";
-        }
 
         for (StoryRequest story: request.getStories()) {
             if(story.getTitleId() == null) {
-                msg += "Nie sprecyzowano tytułu. ";
-            } else if(story.getStory() == null){
-                msg += "Brak treści historii. ";
+                emptyTitle = true;
+            } else if(story.getStory() == null || story.getStory().length() == 0){
+                emptyStory = true;
             }
             Titles titleFromId = titlesRepository.getOne(story.getTitleId());
             if(titleFromId == null) {
-                msg += "Brak tytułu o podanym id. ";
+                noTitle = true;
             }
             storyToCreate.setStory(story.getStory());
             storyToCreate.setTitle(titleFromId);
         }
-
+        if(characterFromId == null) {
+            msg += "Brak postaci o podanym id. ";
+        } else if (request.getCharacterId() == null) {
+            msg += "Nie wybrano postaci. ";
+        } else if(request.stories == null || emptyStory){
+            msg += "Brak historii do dodania. ";
+        } else if(emptyTitle) {
+            msg += "Nie sprecyzowano tytułu. ";
+        } else if(noTitle) {
+            msg += "Brak tytułu o podanym id. ";
+        }
         if(msg.length() > 0) {
             return new ResponseEntity(msg, HttpStatus.BAD_REQUEST);
         }

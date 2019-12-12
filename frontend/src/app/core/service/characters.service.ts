@@ -7,6 +7,7 @@ import { CharacterItem, CharacterForListItem } from 'src/app/modules/characters/
 import { Character } from 'src/app/modules/characters/models/character.model';
 import { CharacterForChange } from 'src/app/modules/admin-panel/models/character-for-change.model';
 import { Titles } from 'src/app/modules/admin-panel/models/titles.model';
+import { StoryForCharacter } from 'src/app/modules/admin-panel/models/story.model';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +21,7 @@ export class CharactersService {
   private _getAllCharactersURL = `${this.charControllerURL}/get-all-characters`;
   private _patchChangeStateURL = `${this.charControllerURL}/change-state`;
   private _getStoryTitlesURL = `${this.charControllerURL}/get-titles`;
+  private _postStoryForCharacterURL = `${this.charControllerURL}/new-stories`;
 
   public charList$ = new BehaviorSubject<CharacterItem[] | null>(null);
 
@@ -58,6 +60,10 @@ export class CharactersService {
 
   getStoryTitles(): Observable<Titles[]> {
     return this.http.get<Titles[]>(this._getStoryTitlesURL);
+  }
+
+  postStoryForCharacter(requestBody: StoryForCharacter): Observable<StoryForCharacter> {
+    return this.http.post<StoryForCharacter>(this._postStoryForCharacterURL, requestBody);
   }
 
 }

@@ -168,6 +168,8 @@ export class ChangeCharacterDataComponent implements OnInit {
   }
 
   createStory(titlesForm: NgForm) {
+    this.loading = true;
+
     const storyToSend = new StoryForCharacter();
     const stories: Story[] = [];
     for (const key in titlesForm.controls) {
@@ -181,7 +183,22 @@ export class ChangeCharacterDataComponent implements OnInit {
     storyToSend.characterId = this.characterWithStoryId;
     storyToSend.stories = stories;
 
-    console.log(storyToSend)
+    this._characterService
+      .postStoryForCharacter(storyToSend)
+      .pipe(
+        finalize(() => {
+          this.loading = false;
+        })
+      )
+      .subscribe(
+        _ => {
+          this._toastrService.success('Udało się dodać historię!');
+        },
+        err => {
+          if (err.error) {
+            this._toastrService.error(err.error)
+          }
+        })
   }
 
   getCharacterDetails() { }
