@@ -64,6 +64,10 @@ public class SideCharactersService {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+    public ResponseEntity getSideCharacterById() {
+
+    }
+
     public ResponseEntity changeStateOfSideCharacters(List<SideCharacterChangeRequest> sideChars) {
         for(SideCharacterChangeRequest sideChar : sideChars){
             SideCharacter sideCharFromDb = sideCharactersRepository.getOne(sideChar.getExternalId());

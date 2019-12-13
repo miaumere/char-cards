@@ -31,11 +31,11 @@ export class ChangeCharacterDataComponent implements OnInit {
   nonArchivedSideChars: SideCharacterForListItem[] = [];
 
   charList: CharacterItem[];
-  titles: Titles[];
+  titles: Titles[] | null = null;
 
   characterWithStoryId: number;
-  titlesForStories: Map<number, string>;
-  areTitlesSet: boolean = false;
+  titlesForStories: Map<number, Titles[]>;
+  areTitlesSet = false;
 
 
   newSideCharForm = new FormGroup({
@@ -148,13 +148,13 @@ export class ChangeCharacterDataComponent implements OnInit {
         if (key !== 'name') {
           const id = +key;
           const value = !!storyForm.value[id];
-          if (value) {
+          if (value && this.titles && this.titles.length > 0) {
             const titleForStory = this.titles.find(t => {
-              if (t.id === id) {
-                return t;
-              }
+              return t.id === id;
             })
-            map.set(id, titleForStory.title)
+            if (titleForStory) {
+              map.set(id, titleForStory.title);
+            }
           }
         }
       }
@@ -291,6 +291,8 @@ export class ChangeCharacterDataComponent implements OnInit {
       )
   }
 
+
+
   displayInfo(changeOption: changeOptions) {
     switch (changeOption) {
       case 'edit-chars':
@@ -312,8 +314,10 @@ export class ChangeCharacterDataComponent implements OnInit {
         this.loading = false;
         break;
 
+      case 'edit-chars':
       case 'delete-chars':
         this.getAllSideCharacters();
+        break;
     }
   }
 }
