@@ -1,0 +1,45 @@
+.admin-panel-side {
+  &__menu {
+    display: flex;
+  }
+}
+
+.profile-pic {
+  height: 80px;
+  width: 80px;
+
+  border-radius: 50%;
+  padding: 1rem 0;
+
+  &__image {
+    width: 80px;
+    height: 80px;
+    object-fit: scale-down;
+
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+}
+
+.sidebar {
+  padding-left: 0.7rem;
+  margin-left: -1rem;
+  height: 110px;
+  background: #ffffff7a;
+
+  &__option {
+    margin: 5px 0;
+    margin-left: -0.5rem;
+  }
+}
+
+.item {
+  display: flex;
+
+  padding: 0.5rem;
+  margin: 1rem;
+  border-radius: 3px;
+
+  background: #ffffff1c;
+}
