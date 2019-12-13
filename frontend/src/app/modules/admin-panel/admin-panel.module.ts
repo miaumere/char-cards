@@ -1,3 +1,4 @@
+
 import { CharactersService } from './../../core/service/characters.service';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
@@ -8,13 +9,18 @@ import { AdminPanelComponent } from './components/admin-panel/admin-panel.compon
 import { ChangeCharacterDataComponent } from './components/change-character-data/change-character-data.component';
 import { AdminPanelMenuComponent } from './components/admin-panel-menu/admin-panel-menu.component';
 import { NewCharacterComponent } from './components/new-character/new-character.component';
+import { SideCharactersService } from 'src/app/core/service/side-characters.service';
+import { AdminPanelForMainComponent } from './components/admin-panel-for-main/admin-panel-for-main.component';
+import { AdminPanelForSideComponent } from './components/admin-panel-for-side/admin-panel-for-side.component';
 
 @NgModule({
   declarations: [
     AdminPanelComponent,
     ChangeCharacterDataComponent,
     AdminPanelMenuComponent,
-    NewCharacterComponent
+    NewCharacterComponent,
+    AdminPanelForMainComponent,
+    AdminPanelForSideComponent
   ],
   imports: [
     CommonModule,
@@ -24,7 +30,8 @@ import { NewCharacterComponent } from './components/new-character/new-character.
     AdminPanelRoutingModule
   ],
   providers: [
-    CharactersService
+    CharactersService,
+    SideCharactersService
   ]
 })
 export class AdminPanelModule { }

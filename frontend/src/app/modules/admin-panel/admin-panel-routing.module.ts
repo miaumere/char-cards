@@ -1,3 +1,4 @@
+
 import { AdminPanelMenuComponent } from './components/admin-panel-menu/admin-panel-menu.component';
 import { NgModule } from '@angular/core';
 
@@ -5,6 +6,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { AdminPanelComponent } from './components/admin-panel/admin-panel.component';
 import { ChangeCharacterDataComponent } from './components/change-character-data/change-character-data.component';
 import { NewCharacterComponent } from './components/new-character/new-character.component';
+import { AdminPanelForMainComponent } from './components/admin-panel-for-main/admin-panel-for-main.component';
+import { AdminPanelForSideComponent } from './components/admin-panel-for-side/admin-panel-for-side.component';
 
 const routes: Routes = [
   {
@@ -16,8 +19,19 @@ const routes: Routes = [
         component: AdminPanelMenuComponent
       },
       {
-        path: ':name',
-        component: ChangeCharacterDataComponent
+        path: 'main',
+        component: AdminPanelForMainComponent,
+        children: [
+          {
+            path: ':name',
+            component: ChangeCharacterDataComponent
+          }
+
+        ]
+      },
+      {
+        path: 'side',
+        component: AdminPanelForSideComponent
       }
     ]
   }

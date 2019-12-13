@@ -1,4 +1,4 @@
-<article class="admin-panel">
+<!-- <article class="admin-panel">
   <ul class="admin-panel__options">
     <li class="option" [routerLink]="['new-character']">
       <span class="option__icon">
@@ -57,6 +57,24 @@
 
       <span class="option__desc"> archiwizuj postać poboczną</span>
 
+    </li>
+  </ul>
+</article> -->
+
+<article class="admin-panel">
+  <ul class="admin-panel__options">
+    <li class="option" [routerLink]="['main']">
+      <span class="option__icon">
+        <app-icon [icon]="'character'" [color]="'white'" [size]="3"></app-icon>
+      </span>
+      <span class="option__desc">postacie główne</span>
+    </li>
+
+    <li class="option" [routerLink]="['side']">
+      <span class="option__icon">
+        <app-icon [icon]="'side-character'" [color]="'white'" [size]="4"></app-icon>
+      </span>
+      <span class="option__desc">postacie poboczne</span>
     </li>
   </ul>
 </article>

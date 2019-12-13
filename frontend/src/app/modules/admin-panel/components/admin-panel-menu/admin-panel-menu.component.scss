@@ -13,6 +13,9 @@
 
 .admin-panel__options {
   display: flex;
+  justify-content: space-evenly;
+
+  width: 100%;
 }
 
 .option {
@@ -20,8 +23,6 @@
   flex-direction: column;
   align-items: center;
   justify-content: baseline;
-
-  width: 20%;
 
   padding-top: 2rem;
   outline: none;
