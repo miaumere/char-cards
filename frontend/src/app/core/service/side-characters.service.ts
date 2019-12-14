@@ -27,8 +27,8 @@ export class SideCharactersService {
     return this.http.get<SideCharacterForListItem[]>(this.getAllSideCharactersURL);
   }
 
-  patchSideCharacterState(requestBody: SideCharForChange[]): Observable<SideCharForChange[]> {
-    return this.http.patch<SideCharForChange[]>(this.patchSideCharactersStateURL, requestBody);
+  patchSideCharacterState(requestBody: SideCharForChange): Observable<SideCharForChange> {
+    return this.http.patch<SideCharForChange>(this.patchSideCharactersStateURL, requestBody);
   }
 
   postNewCharacter(formData: FormData): Observable<NewSideChar> {

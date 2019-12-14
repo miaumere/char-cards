@@ -56,14 +56,22 @@ export class ChangeCharacterDataComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+
+    console.log("ccd initedQ!!!!"
+    )
     this.setChangeData();
   }
 
   setChangeData() {
-    this._route.params.subscribe(param => {
-      this.changeType = param.name;
-      this.displayInfo(param.name);
-    });
+    if (this._route && this._route.parent && this._route.parent.params) {
+
+      this._route.params.subscribe(param => {
+        console.log(param.name)
+        this.changeType = param.name;
+        this.displayInfo(param.name);
+
+      });
+    }
 
   }
 
@@ -225,29 +233,29 @@ export class ChangeCharacterDataComponent implements OnInit {
 
   }
 
-  changeStateOfSideChars(changeStateOfSideCharsForm: NgForm) {
-    const sideCharsToChange: SideCharForChange[] = [];
+  // changeStateOfSideChars(changeStateOfSideCharsForm: NgForm) {
+  //   const sideCharsToChange: SideCharForChange[] = [];
 
-    for (const key in changeStateOfSideCharsForm.controls) {
-      if (changeStateOfSideCharsForm.controls.hasOwnProperty(key)) {
-        const id = +key;
-        const value = !!changeStateOfSideCharsForm.value[id];
-        const isArchived = !!this.archivedSideChars.find(archivedSideChar => archivedSideChar.externalId === id);
+  //   for (const key in changeStateOfSideCharsForm.controls) {
+  //     if (changeStateOfSideCharsForm.controls.hasOwnProperty(key)) {
+  //       const id = +key;
+  //       const value = !!changeStateOfSideCharsForm.value[id];
+  //       const isArchived = !!this.archivedSideChars.find(archivedSideChar => archivedSideChar.externalId === id);
 
-        const archiveToSet = !!value ? !isArchived : isArchived;
+  //       const archiveToSet = !!value ? !isArchived : isArchived;
 
-        sideCharsToChange.push(new SideCharForChange(id, archiveToSet));
-      }
-    }
-    this._sideCharacterService.patchSideCharacterState(sideCharsToChange).subscribe(_ => {
+  //       sideCharsToChange.push(new SideCharForChange(id, archiveToSet));
+  //     }
+  //   }
+  //   this._sideCharacterService.patchSideCharacterState(sideCharsToChange).subscribe(_ => {
 
-      this._toastrService.success('Udało się zmienić stan postaci pobocznych!');
-      this.getAllSideCharacters();
-    },
-      () => {
-        this._toastrService.error('Operacja nie udała się.');
-      });
-  }
+  //     this._toastrService.success('Udało się zmienić stan postaci pobocznych!');
+  //     this.getAllSideCharacters();
+  //   },
+  //     () => {
+  //       this._toastrService.error('Operacja nie udała się.');
+  //     });
+  // }
 
 
   getAllCharacters() {

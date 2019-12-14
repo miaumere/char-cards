@@ -1,7 +1,9 @@
+import { ToastrService } from 'ngx-toastr';
 import { SideCharactersService } from 'src/app/core/service/side-characters.service';
 import { SideCharacterForListItem } from './../../../side-characters/models/side-characters.model';
 import { Component, OnInit } from '@angular/core';
 import { finalize } from 'rxjs/operators';
+import { SideCharForChange } from '../../models/side-char-for-change.model';
 
 @Component({
   selector: 'app-admin-panel-for-side',
@@ -13,7 +15,9 @@ export class AdminPanelForSideComponent implements OnInit {
 
   loading = true;
   sideChars: SideCharacterForListItem[];
-  constructor(private _sideCharactersService: SideCharactersService) { }
+  constructor(
+    private _sideCharacterService: SideCharactersService,
+    private _toastrService: ToastrService) { }
 
   ngOnInit() {
     this.getAllSideCharacters();
@@ -21,7 +25,7 @@ export class AdminPanelForSideComponent implements OnInit {
 
   getAllSideCharacters() {
     this.loading = true;
-    this._sideCharactersService.
+    this._sideCharacterService.
       getAllSideCharacters()
       .pipe(
         finalize(() => {
@@ -34,4 +38,23 @@ export class AdminPanelForSideComponent implements OnInit {
       )
   }
 
+  changeStateOfChar(id: number) {
+    const matchingChar = this.sideChars.find(c =>
+      c.externalId === id
+    );
+
+    if (matchingChar) {
+      this._sideCharacterService
+        .patchSideCharacterState(new SideCharForChange(id, !matchingChar.archived))
+        .subscribe(_ => {
+          this._toastrService.success('Udało się zmienić stan zaznaczonej postaci.');
+        },
+          err => {
+            if (err && err.error) {
+              this._toastrService.error(err.error);
+            }
+          })
+    }
+
+  }
 }

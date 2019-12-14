@@ -80,16 +80,14 @@ public class SideCharactersService {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    public ResponseEntity changeStateOfSideCharacters(List<SideCharacterChangeRequest> sideChars) {
-        for(SideCharacterChangeRequest sideChar : sideChars){
-            SideCharacter sideCharFromDb = sideCharactersRepository.getOne(sideChar.getExternalId());
-            if(sideCharFromDb == null) {
-                String err = "Brak postaci o podanym id.";
-                return new ResponseEntity(err, HttpStatus.BAD_REQUEST);
-            }
-            sideCharFromDb.setArchived(sideChar.getArchived());
-            sideCharactersRepository.save(sideCharFromDb);
+    public ResponseEntity changeStateOfSideCharacter(SideCharacterChangeRequest sideChar) {
+        SideCharacter sideCharFromDb = sideCharactersRepository.getOne(sideChar.getExternalId());
+        if(sideCharFromDb == null) {
+            String err = "Brak postaci o podanym id.";
+            return new ResponseEntity(err, HttpStatus.BAD_REQUEST);
         }
+        sideCharFromDb.setArchived(sideChar.getArchived());
+        sideCharactersRepository.saveAndFlush(sideCharFromDb);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 

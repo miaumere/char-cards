@@ -7,8 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/api/side-characters/")
 public class SideCharactersController {
@@ -27,8 +25,8 @@ public class SideCharactersController {
     }
 
     @PatchMapping("/change-state")
-    public ResponseEntity changeStateOfSideChars(@RequestBody List<SideCharacterChangeRequest> request) {
-        return sideCharactersService.changeStateOfSideCharacters(request);
+    public ResponseEntity changeStateOfSideChars(@RequestBody SideCharacterChangeRequest request) {
+        return sideCharactersService.changeStateOfSideCharacter(request);
     }
 
     @PostMapping("/new-side-character")

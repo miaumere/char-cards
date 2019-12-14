@@ -20,18 +20,15 @@ const routes: Routes = [
       },
       {
         path: 'main',
-        component: AdminPanelForMainComponent,
-        children: [
-          {
-            path: ':name',
-            component: ChangeCharacterDataComponent
-          }
-
-        ]
+        component: AdminPanelForMainComponent
       },
       {
         path: 'side',
-        component: AdminPanelForSideComponent
+        component: AdminPanelForSideComponent,
+      },
+      {
+        path: 'change/:name',
+        component: ChangeCharacterDataComponent
       }
     ]
   }
