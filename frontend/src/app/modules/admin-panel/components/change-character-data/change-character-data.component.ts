@@ -3,7 +3,7 @@ import { SideCharactersService } from 'src/app/core/service/side-characters.serv
 import { ToastrService } from 'ngx-toastr';
 import { CharactersService } from './../../../../core/service/characters.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CharacterForListItem, CharacterItem } from 'src/app/modules/characters/models/character-item.model';
 import { finalize } from 'rxjs/operators';
 import { NgForm, FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
@@ -77,6 +77,7 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
 
   constructor(
     private _route: ActivatedRoute,
+    private _router: Router,
     private _characterService: CharactersService,
     private _sideCharacterService: SideCharactersService,
     private _toastrService: ToastrService
@@ -342,11 +343,11 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
           })
         )
         .subscribe(_ => {
-          this._toastrService.success('Udało się dodać nowe profilowe!');
-          this.newSideCharForm.reset();
+          this._toastrService.success('Udało się zmienić profilowe!');
+          this._router.navigate(['admin-panel/side']);
         },
           () => {
-            this._toastrService.error('Nie udało się dodać nowego profilowego.');
+            this._toastrService.error('Nie udało się zmienić profilowego.');
           })
     )
   }

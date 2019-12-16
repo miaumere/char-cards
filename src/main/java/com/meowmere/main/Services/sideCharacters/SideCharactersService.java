@@ -140,7 +140,7 @@ public class SideCharactersService {
                     String fileName = StringUtils.cleanPath(file.getOriginalFilename());
                     String extension = FilenameUtils.getExtension(fileName);
 
-                    if (!Stream.of(AvailableExtensions.values()).anyMatch(v -> v.name().toLowerCase().equals(extension))) {
+                    if (!Stream.of(AvailableExtensions.values()).anyMatch(v -> v.name().toLowerCase().equals(extension.toLowerCase()))) {
                         return new ResponseEntity(HttpStatus.UNSUPPORTED_MEDIA_TYPE);
                     }
 
@@ -158,7 +158,9 @@ public class SideCharactersService {
                 }
             }
         } catch (Exception e) {
-            return new ResponseEntity("Nie udało się dodać zdjęcia.", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity("Nie udało się dodać zdjęcia.",
+                    HttpStatus.BAD_REQUEST
+                    );
             }
         return new ResponseEntity(HttpStatus.CREATED);
         }

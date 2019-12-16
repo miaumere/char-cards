@@ -4,9 +4,12 @@ import com.meowmere.main.Requests.sideCharacters.EditSideCharRequest;
 import com.meowmere.main.Requests.sideCharacters.SideCharacterChangeRequest;
 import com.meowmere.main.Services.sideCharacters.SideCharactersService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+
+import javax.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping("/api/side-characters/")
@@ -21,7 +24,8 @@ public class SideCharactersController {
     }
 
     @GetMapping("/all-side-characters")
-    public ResponseEntity findAllSideCharacters() {
+    public ResponseEntity findAllSideCharacters(HttpServletResponse response) {
+        response.addHeader(HttpHeaders.CACHE_CONTROL, "no-cache");
         return sideCharactersService.findAllSideCharacters();
     }
 
@@ -46,7 +50,8 @@ public class SideCharactersController {
     }
 
     @PostMapping("/edit-side-pic")
-    public ResponseEntity editSideProfilePic(MultipartHttpServletRequest multipartHttpServletRequest) {
+    public ResponseEntity editSideProfilePic(MultipartHttpServletRequest multipartHttpServletRequest, HttpServletResponse response) {
+        response.addHeader(HttpHeaders.CACHE_CONTROL, "no-cache");
         return sideCharactersService.editSideProfilePic(multipartHttpServletRequest);
     }
 }
