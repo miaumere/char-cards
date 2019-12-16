@@ -143,5 +143,17 @@
 
     </div>
 
+    <div *ngSwitchCase="'edit-side-pic'" class="edit-side-pic admin-panel admin-panel--side">
+      <h2 class="changes__title">Zmień zdjęcie profilowe postaci:</h2>
+      <form class="edit-side-pic__edit-side-pic-form edit-side-pic-form" [formGroup]="newProfilePicForm"
+        (ngSubmit)="setNewProfilePic()" enctype="multipart/form-data">
+        <label class="edit-side-pic__label global-label">
+          <span style="margin-bottom: 5px">Zdjęcie pokazujące postać:</span>
+          <input #newProfilePic class="global-file" formControlName="profilePic" type="file" accept="image/*" />
+        </label>
+
+        <button class="global-button" (click)="setNewProfilePic()">Zmień</button>
+      </form>
+    </div>
   </div>
 </div>

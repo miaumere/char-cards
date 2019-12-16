@@ -23,6 +23,7 @@ export class SideCharactersService {
   patchSideCharactersStateURL = `${this.sideCharacterControllerURL}/change-state`;
 
   postNewCharacterURL = `${this.sideCharacterControllerURL}/new-side-character`;
+  portEditProfilePicURL = `${this.sideCharacterControllerURL}/edit-side-pic`;
 
 
   constructor(private http: HttpClient) { }
@@ -45,6 +46,7 @@ export class SideCharactersService {
     return this.http.put<EditSideCharacterDetails>(this.putSideCharacterDetailsURL, requestBody);
   }
 
+
   patchSideCharacterState(requestBody: SideCharForChange): Observable<SideCharForChange> {
     return this.http.patch<SideCharForChange>(this.patchSideCharactersStateURL, requestBody);
   }
@@ -56,6 +58,15 @@ export class SideCharactersService {
       })
     };
     return this.http.post<NewSideChar>(this.postNewCharacterURL, formData, httpOptions);
+  }
+
+  postEditProfilePic(formData: FormData) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        Accept: 'application/json'
+      })
+    };
+    return this.http.post<void>(this.portEditProfilePicURL, formData, httpOptions)
   }
 
 }

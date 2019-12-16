@@ -140,7 +140,7 @@ public class SideCharactersService {
                     String fileName = StringUtils.cleanPath(file.getOriginalFilename());
                     String extension = FilenameUtils.getExtension(fileName);
 
-                    if (!Stream.of(AvailableExtensions.values()).anyMatch(v -> v.name().equals(extension))) {
+                    if (!Stream.of(AvailableExtensions.values()).anyMatch(v -> v.name().toLowerCase().equals(extension))) {
                         return new ResponseEntity(HttpStatus.UNSUPPORTED_MEDIA_TYPE);
                     }
 
@@ -162,4 +162,53 @@ public class SideCharactersService {
             }
         return new ResponseEntity(HttpStatus.CREATED);
         }
+
+    public ResponseEntity editSideProfilePic(MultipartHttpServletRequest multipartHttpServletRequest) {
+        MultipartFile file = multipartHttpServletRequest.getFile("profilePic");
+        String externalIdAsString = multipartHttpServletRequest.getParameter("externalId");
+
+        Long id = Long.parseLong(externalIdAsString);
+        SideCharacter sideCharacter = sideCharactersRepository.getOne(id);
+
+        if(sideCharacter == null) {
+            String err = "Postać o podanym id nie istnieje.";
+            return new ResponseEntity(err, HttpStatus.BAD_REQUEST);
+        }
+        multipartHttpServletRequest.getFileMap();
+
+        String stringForPathURI = String.format("src\\main\\resources\\static\\side-character-profile-pics\\%s",
+                sideCharacter.getExternalId());
+        try {
+            if(file != null) {
+                try {
+                    final File folder = new File(stringForPathURI);
+                    for ( File f : folder.listFiles()) {
+                        if (!f.isDirectory()) {
+                            f.delete();
+                        }
+                    }
+                    String dir = new File(stringForPathURI).getAbsolutePath();
+                    String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+                    String extension = FilenameUtils.getExtension(fileName);
+
+                    if (!Stream.of(AvailableExtensions.values()).anyMatch(v -> v.name().toLowerCase().equals(extension.toLowerCase()))) {
+                        return new ResponseEntity(HttpStatus.UNSUPPORTED_MEDIA_TYPE);
+                    }
+                    byte[] bytes = file.getBytes();
+
+                    File FileToSave = new File(dir, fileName);
+
+                    FileOutputStream fos = new FileOutputStream(FileToSave);
+                    fos.write(bytes);
+                    fos.close();
+
+                } catch (java.nio.file.AccessDeniedException e) {
+                    return new ResponseEntity("Nie udało się stworzyć folderu", HttpStatus.BAD_REQUEST);
+                }
+            }
+        } catch (Exception e) {
+            return new ResponseEntity("Nie udało się dodać zdjęcia.", HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity(HttpStatus.CREATED);
+    }
 }

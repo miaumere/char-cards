@@ -22,7 +22,10 @@
           }">
           <app-icon [icon]="'edit'" [color]="'black'"></app-icon>
         </div>
-        <div class="sidebar__option" title="Zmień zdjęcie postaci">
+        <div class="sidebar__option" title="Zmień zdjęcie postaci" [routerLink]="['../change', 'edit-side-pic']"
+          [queryParams]="{
+          id: character.externalId
+        }">
           <app-icon [icon]="'edit-picture'" [color]="'black'"></app-icon>
         </div>
         <div class="sidebar__option" title="Zmień stan postaci" (click)="changeStateOfChar(character.externalId)">

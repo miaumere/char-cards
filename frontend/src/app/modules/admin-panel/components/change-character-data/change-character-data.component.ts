@@ -16,7 +16,7 @@ import { SideCharacterDetails } from '../../models/side-characters-details.model
 import { EditSideCharacterDetails } from '../../models/edit-side-character-details.model';
 
 type changeOptions = 'new-character' | 'edit-character' | 'delete-character' | 'story'
-  | 'new-chars' | 'edit-side'
+  | 'new-chars' | 'edit-side' | 'edit-side-pic';
 @Component({
   selector: 'app-change-character-data',
   templateUrl: './change-character-data.component.html',
@@ -66,8 +66,13 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
     ])
   })
 
+  newProfilePicForm = new FormGroup({
+    externalId: new FormControl(''),
+    profilePic: new FormControl()
+  })
 
   @ViewChild('sideCharProfilePic', { static: false }) sideCharProfilePic;
+  @ViewChild('newProfilePic', { static: false }) newProfilePic;
 
 
   constructor(
@@ -88,7 +93,7 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
       this.subscriptions$.add(
         this._route.params.subscribe(param => {
           this.changeType = param.name;
-          if (param.name === 'edit-side') {
+          if (param.name === 'edit-side' || param.name === 'edit-side-pic') {
             this._route.queryParams.subscribe(queryParam => {
               if (queryParam.id) {
                 this.selectedCharId = queryParam.id;
@@ -289,6 +294,8 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
     objToSend.sideCharacterSurname = formValues.surname;
     objToSend.sideCharacterDesc = formValues.desc;
 
+    this.loading = true;
+
     this.subscriptions$.add(
       this._sideCharacterService
         .putSideCharacterDetails(objToSend)
@@ -298,6 +305,7 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
           })
         ).subscribe(_ => {
           this._toastrService.success('Udało się zmienić informacje o postaci.');
+          this.getCharacterDetails();
         }, err => {
           if (err && err.error) {
             this._toastrService.error(err.error);
@@ -305,6 +313,42 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
         }
         )
     );
+  }
+
+  setNewProfilePic() {
+    const fileToUpload = this.newProfilePic.nativeElement.files[0];
+    if (fileToUpload) {
+      const extension = fileToUpload.name.split('.').pop();
+      const fileSize = fileToUpload.size / 1024 / 1024;
+      const extensionReg = /(jpg|jpeg|gif|png)/i
+      if (!extensionReg.test(extension)) {
+        return this._toastrService.warning('Niewspierany format pliku.');
+      } else if (fileSize > 4) {
+        return this._toastrService.warning('Podany plik jest za duży. Maksymalna wielkość pliku to 4MB.');
+      } else if (fileSize === 0) {
+        return this._toastrService.warning('Podany plik jest pusty lub uszkodzony.');
+      }
+    }
+    const formData = new FormData();
+    formData.set('externalId', '' + this.selectedCharId);
+    formData.append('profilePic', fileToUpload);
+    this.loading = true;
+    this.subscriptions$.add(
+      this._sideCharacterService
+        .postEditProfilePic(formData as any)
+        .pipe(
+          finalize(() => {
+            this.loading = false;
+          })
+        )
+        .subscribe(_ => {
+          this._toastrService.success('Udało się dodać nowe profilowe!');
+          this.newSideCharForm.reset();
+        },
+          () => {
+            this._toastrService.error('Nie udało się dodać nowego profilowego.');
+          })
+    )
   }
 
   // do usuniecia
@@ -350,8 +394,6 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
         });
   }
 
-
-
   displayInfo(changeOption: changeOptions) {
     switch (changeOption) {
 
@@ -369,9 +411,11 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
 
       case 'edit-side':
         this.getCharacterDetails();
+        break;
 
       case 'new-chars':
       case 'new-character':
+      case 'edit-side-pic':
         this.loading = false;
         break;
     }

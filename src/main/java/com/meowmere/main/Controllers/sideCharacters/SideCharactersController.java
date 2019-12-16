@@ -39,8 +39,14 @@ public class SideCharactersController {
     public ResponseEntity changeStateOfSideChar(@RequestBody SideCharacterChangeRequest request) {
         return sideCharactersService.changeStateOfSideCharacter(request);
     }
+
     @PostMapping("/new-side-character")
     public ResponseEntity addNewSideCharacter(MultipartHttpServletRequest multipartHttpServletRequest) {
         return sideCharactersService.addNewSideCharacter(multipartHttpServletRequest);
+    }
+
+    @PostMapping("/edit-side-pic")
+    public ResponseEntity editSideProfilePic(MultipartHttpServletRequest multipartHttpServletRequest) {
+        return sideCharactersService.editSideProfilePic(multipartHttpServletRequest);
     }
 }
