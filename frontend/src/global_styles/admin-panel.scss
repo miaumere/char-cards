@@ -2,10 +2,12 @@
 
 .admin-panel {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 
   height: calc(100vh - #{$navbar-height});
+  width: 100vw;
 
   &--menu {
     background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAATklEQVQoU2NkYGAwZmBgOMuAACA+CKCIMSIpADGRNaEYgKwQ3WQUjTCF6CYhWw2WAynEpgjmIpg7jUlSiM0TWK2GWUOUZ7ApxggeogIcABHJFtftKVfJAAAAAElFTkSuQmCC"),

@@ -4,20 +4,23 @@ import { SideCharacterForListItem } from './../../../side-characters/models/side
 import { Component, OnInit } from '@angular/core';
 import { finalize } from 'rxjs/operators';
 import { SideCharForChange } from '../../models/side-char-for-change.model';
+import { BaseComponent } from 'src/app/core/base.component';
 
 @Component({
   selector: 'app-admin-panel-for-side',
   templateUrl: './admin-panel-for-side.component.html',
   styleUrls: ['./admin-panel-for-side.component.scss']
 })
-export class AdminPanelForSideComponent implements OnInit {
+export class AdminPanelForSideComponent extends BaseComponent implements OnInit {
   readonly profilePicURL = '/side-character-profile-pics';
 
   loading = true;
   sideChars: SideCharacterForListItem[];
   constructor(
     private _sideCharacterService: SideCharactersService,
-    private _toastrService: ToastrService) { }
+    private _toastrService: ToastrService) {
+    super();
+  }
 
   ngOnInit() {
     this.getAllSideCharacters();
@@ -48,6 +51,7 @@ export class AdminPanelForSideComponent implements OnInit {
         .patchSideCharacterState(new SideCharForChange(id, !matchingChar.archived))
         .subscribe(_ => {
           this._toastrService.success('Udało się zmienić stan zaznaczonej postaci.');
+          this.getAllSideCharacters();
         },
           err => {
             if (err && err.error) {

@@ -8,29 +8,8 @@
   }
 }
 
-.list {
-  display: flex;
-  flex-wrap: wrap;
-
-  &__item {
-    width: 150px;
-
-    padding: 0.5rem;
-
-    &--archived {
-      color: red;
-    }
-  }
-}
-
-.delete-character,
-.delete-side-character {
-  &__form {
-    margin: 1rem;
-  }
-}
-
-.new-side-form {
+.new-side-form,
+.edit-side-char-form {
   &__container {
     display: flex;
 
@@ -46,6 +25,7 @@
   &__textarea {
     width: 100%;
     min-height: 100px;
+    max-height: 400px;
 
     margin-top: 1rem;
 

@@ -1,9 +1,11 @@
+import { EditSideCharacterDetails } from './../../modules/admin-panel/models/edit-side-character-details.model';
 import { SideCharForChange } from './../../modules/admin-panel/models/side-char-for-change.model';
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { SideCharacter, SideCharacterForListItem } from 'src/app/modules/side-characters/models/side-characters.model';
 import { NewSideChar } from 'src/app/modules/admin-panel/models/new-side-char.model';
+import { SideCharacterDetails } from 'src/app/modules/admin-panel/models/side-characters-details.model';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +15,13 @@ export class SideCharactersService {
 
   getNonArchivedSideCharactersURL = `${this.sideCharacterControllerURL}/side-characters`;
   getAllSideCharactersURL = `${this.sideCharacterControllerURL}/all-side-characters`;
+  getSideCharacterDetailsURL = `${this.sideCharacterControllerURL}/side-details`;
+
+  putSideCharacterDetailsURL = `${this.sideCharacterControllerURL}/edit-side-details`;
+
+
   patchSideCharactersStateURL = `${this.sideCharacterControllerURL}/change-state`;
+
   postNewCharacterURL = `${this.sideCharacterControllerURL}/new-side-character`;
 
 
@@ -25,6 +33,16 @@ export class SideCharactersService {
 
   getAllSideCharacters(): Observable<SideCharacterForListItem[]> {
     return this.http.get<SideCharacterForListItem[]>(this.getAllSideCharactersURL);
+  }
+
+  getSideCharacterDetails(id: number): Observable<SideCharacterDetails> {
+    const params = new HttpParams().set('id', '' + id);
+
+    return this.http.get<SideCharacterDetails>(this.getSideCharacterDetailsURL, { params: params })
+  }
+
+  putSideCharacterDetails(requestBody: EditSideCharacterDetails): Observable<EditSideCharacterDetails> {
+    return this.http.put<EditSideCharacterDetails>(this.putSideCharacterDetailsURL, requestBody);
   }
 
   patchSideCharacterState(requestBody: SideCharForChange): Observable<SideCharForChange> {

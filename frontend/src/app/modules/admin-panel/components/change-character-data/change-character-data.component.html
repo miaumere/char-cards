@@ -88,7 +88,7 @@
     </div>
 
 
-    <div *ngSwitchCase="'new-chars'" class="side-char">
+    <div *ngSwitchCase="'new-chars'" class="side-char  admin-panel admin-panel--side">
       <h2 class="changes__title">Uzupełnij poniższe pola, aby dodać nową postać poboczną:</h2>
       <form class="side-char__new-side-form new-side-form" [formGroup]="newSideCharForm"
         (ngSubmit)="createNewSideCharInfo()" enctype="multipart/form-data">
@@ -115,7 +115,31 @@
       </form>
     </div>
 
-    <div *ngSwitchCase="'edit-chars'">
+    <div *ngSwitchCase="'edit-side'" class="edit-side-char admin-panel admin-panel--side">
+      <ng-container *ngIf="sideCharacterDetails">
+        <h2 class="changes__title">Edytuj poniższe pola: </h2>
+        <form class="edit-side-char__edit-side-char-form edit-side-char-form" [formGroup]="editSideCharForm"
+          (ngSubmit)="updateSideCharInfo()">
+          <div class="edit-side-char-form__container">
+            <label class="global-label">
+              Imię:
+              <input type="text" class="global-input" formControlName="name" />
+            </label>
+            <label class="global-label">
+              Nazwisko:
+              <input type="text" class="global-input" formControlName="surname" />
+            </label>
+          </div>
+          <div class="edit-side-char-form__container edit-side-char-form__container--story">
+            <label class="edit-side-char-form__label global-label"> Opis/historia postaci:
+              <textarea class="global-textarea edit-side-char-form__textarea" cols="50"
+                formControlName="desc"></textarea>
+            </label>
+          </div>
+        </form>
+        <button class="global-button" [disabled]="editSideCharForm.invalid"
+          (click)="updateSideCharInfo()">Zmień</button>
+      </ng-container>
 
     </div>
 

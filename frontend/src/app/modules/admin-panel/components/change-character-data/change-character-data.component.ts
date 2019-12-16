@@ -11,15 +11,18 @@ import { CharacterForChange } from '../../models/character-for-change.model';
 import { SideCharacterForListItem } from 'src/app/modules/side-characters/models/side-characters.model';
 import { Titles } from '../../models/titles.model';
 import { Story, StoryForCharacter } from '../../models/story.model';
+import { BaseComponent } from 'src/app/core/base.component';
+import { SideCharacterDetails } from '../../models/side-characters-details.model';
+import { EditSideCharacterDetails } from '../../models/edit-side-character-details.model';
 
 type changeOptions = 'new-character' | 'edit-character' | 'delete-character' | 'story'
-  | 'new-chars' | 'edit-chars' | 'delete-chars';
+  | 'new-chars' | 'edit-side'
 @Component({
   selector: 'app-change-character-data',
   templateUrl: './change-character-data.component.html',
   styleUrls: ['./change-character-data.component.scss']
 })
-export class ChangeCharacterDataComponent implements OnInit {
+export class ChangeCharacterDataComponent extends BaseComponent implements OnInit {
 
   loading = true;
 
@@ -37,6 +40,7 @@ export class ChangeCharacterDataComponent implements OnInit {
   titlesForStories: Map<number, Titles[]>;
   areTitlesSet = false;
 
+  selectedCharId: number;
 
   newSideCharForm = new FormGroup({
     name: new FormControl('', Validators.required),
@@ -44,6 +48,24 @@ export class ChangeCharacterDataComponent implements OnInit {
     desc: new FormControl('', Validators.required),
     profilePic: new FormControl()
   });
+
+  sideCharacterDetails: SideCharacterDetails;
+
+  editSideCharForm = new FormGroup({
+    name: new FormControl('', [
+      Validators.required,
+      Validators.minLength(5)
+    ]),
+    surname: new FormControl('', [
+      Validators.required,
+      Validators.minLength(5)
+    ]),
+    desc: new FormControl('', [
+      Validators.required,
+      Validators.minLength(25)
+    ])
+  })
+
 
   @ViewChild('sideCharProfilePic', { static: false }) sideCharProfilePic;
 
@@ -53,25 +75,31 @@ export class ChangeCharacterDataComponent implements OnInit {
     private _characterService: CharactersService,
     private _sideCharacterService: SideCharactersService,
     private _toastrService: ToastrService
-  ) { }
+  ) {
+    super();
+  }
 
   ngOnInit() {
-
-    console.log("ccd initedQ!!!!"
-    )
     this.setChangeData();
   }
 
   setChangeData() {
     if (this._route && this._route.parent && this._route.parent.params) {
-
-      this._route.params.subscribe(param => {
-        console.log(param.name)
-        this.changeType = param.name;
-        this.displayInfo(param.name);
-
-      });
+      this.subscriptions$.add(
+        this._route.params.subscribe(param => {
+          this.changeType = param.name;
+          if (param.name === 'edit-side') {
+            this._route.queryParams.subscribe(queryParam => {
+              if (queryParam.id) {
+                this.selectedCharId = queryParam.id;
+              }
+            })
+          }
+          this.displayInfo(param.name);
+        })
+      )
     }
+
 
   }
 
@@ -105,20 +133,22 @@ export class ChangeCharacterDataComponent implements OnInit {
       formData.append(key, value);
     }
     this.loading = true;
-    this._sideCharacterService
-      .postNewCharacter(formData as any)
-      .pipe(
-        finalize(() => {
-          this.loading = false;
-        })
-      )
-      .subscribe(_ => {
-        this._toastrService.success('Udało się stworzyć nową postać!')
-        this.newSideCharForm.reset();
-      },
-        () => {
-          this._toastrService.error('Nie udało się stworzyć nowej postaci.')
-        })
+    this.subscriptions$.add(
+      this._sideCharacterService
+        .postNewCharacter(formData as any)
+        .pipe(
+          finalize(() => {
+            this.loading = false;
+          })
+        )
+        .subscribe(_ => {
+          this._toastrService.success('Udało się stworzyć nową postać!')
+          this.newSideCharForm.reset();
+        },
+          () => {
+            this._toastrService.error('Nie udało się stworzyć nowej postaci.')
+          })
+    )
 
   }
 
@@ -137,14 +167,16 @@ export class ChangeCharacterDataComponent implements OnInit {
 
   getStoryTitles() {
     this.loading = true;
-    this._characterService.getStoryTitles()
-      .pipe(
-        finalize(() => {
-          this.loading = false;
+    this.subscriptions$.add(
+      this._characterService.getStoryTitles()
+        .pipe(
+          finalize(() => {
+            this.loading = false;
+          })
+        ).subscribe(titles => {
+          this.titles = titles;
         })
-      ).subscribe(titles => {
-        this.titles = titles;
-      })
+    )
 
   }
 
@@ -191,26 +223,91 @@ export class ChangeCharacterDataComponent implements OnInit {
     storyToSend.characterId = this.characterWithStoryId;
     storyToSend.stories = stories;
 
-    this._characterService
-      .postStoryForCharacter(storyToSend)
-      .pipe(
-        finalize(() => {
-          this.loading = false;
-        })
-      )
-      .subscribe(
-        _ => {
-          this._toastrService.success('Udało się dodać historię!');
-        },
-        err => {
-          if (err.error) {
-            this._toastrService.error(err.error)
-          }
-        })
+    this.subscriptions$.add(
+      this._characterService
+        .postStoryForCharacter(storyToSend)
+        .pipe(
+          finalize(() => {
+            this.loading = false;
+          })
+        )
+        .subscribe(
+          _ => {
+            this._toastrService.success('Udało się dodać historię!');
+          },
+          err => {
+            if (err.error) {
+              this._toastrService.error(err.error)
+            }
+          })
+    )
   }
 
-  getCharacterDetails() { }
+  getCharacterDetails() {
+    this.subscriptions$.add(
+      this._sideCharacterService
+        .getSideCharacterDetails(this.selectedCharId)
+        .pipe(
+          finalize(() => {
+            this.loading = false;
+          })
+        )
+        .subscribe(details => {
+          this.sideCharacterDetails = details;
+          const name = this.editSideCharForm.get('name');
+          const surname = this.editSideCharForm.get('surname');
+          const desc = this.editSideCharForm.get('desc');
 
+          if (name) {
+            name.setValue(details.sideCharacterName);
+          }
+          if (surname) {
+            surname.setValue(details.sideCharacterSurname);
+          }
+          if (desc) {
+            desc.setValue(details.sideCharacterDesc);
+          }
+        },
+          err => {
+            if (err && err.error) {
+              this._toastrService.error(err.error);
+            }
+          })
+    )
+  }
+
+  updateSideCharInfo() {
+    const formValues: { [key: string]: string } = this.editSideCharForm.value;
+
+    if (!this.editSideCharForm.dirty) {
+      this._toastrService.warning('Żadne zmiany nie zostały wprowadzone.');
+      return;
+    }
+    const objToSend = new EditSideCharacterDetails();
+    objToSend.externalId = +this.selectedCharId;
+    objToSend.sideCharacterName = formValues.name;
+    objToSend.sideCharacterSurname = formValues.surname;
+    objToSend.sideCharacterDesc = formValues.desc;
+
+    this.subscriptions$.add(
+      this._sideCharacterService
+        .putSideCharacterDetails(objToSend)
+        .pipe(
+          finalize(() => {
+            this.loading = false;
+          })
+        ).subscribe(_ => {
+          this._toastrService.success('Udało się zmienić informacje o postaci.');
+        }, err => {
+          if (err && err.error) {
+            this._toastrService.error(err.error);
+          }
+        }
+        )
+    );
+  }
+
+  // do usuniecia
   changeStateOfCharacters(changeStateOfCharForm: NgForm) {
     const charactersToChange: CharacterForChange[] = [];
 
@@ -233,31 +330,6 @@ export class ChangeCharacterDataComponent implements OnInit {
 
   }
 
-  // changeStateOfSideChars(changeStateOfSideCharsForm: NgForm) {
-  //   const sideCharsToChange: SideCharForChange[] = [];
-
-  //   for (const key in changeStateOfSideCharsForm.controls) {
-  //     if (changeStateOfSideCharsForm.controls.hasOwnProperty(key)) {
-  //       const id = +key;
-  //       const value = !!changeStateOfSideCharsForm.value[id];
-  //       const isArchived = !!this.archivedSideChars.find(archivedSideChar => archivedSideChar.externalId === id);
-
-  //       const archiveToSet = !!value ? !isArchived : isArchived;
-
-  //       sideCharsToChange.push(new SideCharForChange(id, archiveToSet));
-  //     }
-  //   }
-  //   this._sideCharacterService.patchSideCharacterState(sideCharsToChange).subscribe(_ => {
-
-  //     this._toastrService.success('Udało się zmienić stan postaci pobocznych!');
-  //     this.getAllSideCharacters();
-  //   },
-  //     () => {
-  //       this._toastrService.error('Operacja nie udała się.');
-  //     });
-  // }
-
-
   getAllCharacters() {
     this.loading = true;
     this._characterService
@@ -278,32 +350,10 @@ export class ChangeCharacterDataComponent implements OnInit {
         });
   }
 
-  getAllSideCharacters() {
-    this.loading = true;
-    this._sideCharacterService.
-      getAllSideCharacters()
-      .pipe(
-        finalize(() => {
-          this.loading = false;
-        })
-      )
-      .subscribe(sideChars => {
-        this.archivedSideChars = sideChars.filter((sideChar) =>
-          !!sideChar.archived
-        )
-        this.nonArchivedSideChars = sideChars.filter((sideChar) =>
-          !sideChar.archived
-        )
-
-      }
-      )
-  }
-
 
 
   displayInfo(changeOption: changeOptions) {
     switch (changeOption) {
-      case 'edit-chars':
 
       case 'delete-character':
         this.getAllCharacters();
@@ -317,14 +367,12 @@ export class ChangeCharacterDataComponent implements OnInit {
         this.getStoryTitles();
         break;
 
+      case 'edit-side':
+        this.getCharacterDetails();
+
       case 'new-chars':
       case 'new-character':
         this.loading = false;
-        break;
-
-      case 'edit-chars':
-      case 'delete-chars':
-        this.getAllSideCharacters();
         break;
     }
   }

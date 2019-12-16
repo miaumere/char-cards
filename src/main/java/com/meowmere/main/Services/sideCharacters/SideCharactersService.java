@@ -1,10 +1,12 @@
 package com.meowmere.main.Services.sideCharacters;
 
 import com.meowmere.main.DTO.sideCharacters.SideCharacterDTO;
+import com.meowmere.main.DTO.sideCharacters.SideCharacterDetailsDTO;
 import com.meowmere.main.DTO.sideCharacters.SideCharacterForListDTO;
 import com.meowmere.main.Entities.sideCharacters.SideCharacter;
 import com.meowmere.main.Enums.AvailableExtensions;
 import com.meowmere.main.Repositories.sideCharacters.SideCharactersRepository;
+import com.meowmere.main.Requests.sideCharacters.EditSideCharRequest;
 import com.meowmere.main.Requests.sideCharacters.SideCharacterChangeRequest;
 import org.apache.commons.io.FilenameUtils;
 import org.modelmapper.ModelMapper;
@@ -78,6 +80,31 @@ public class SideCharactersService {
             result.add(sideCharacter);
         }
         return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    public ResponseEntity getSideCharacterDetails(Long id) {
+        ModelMapper modelMapper = new ModelMapper();
+        SideCharacter sideCharFromDb = sideCharactersRepository.getOne(id);
+        if(sideCharFromDb == null) {
+            String err = "Brak postaci o podanym id.";
+            return new ResponseEntity(err, HttpStatus.BAD_REQUEST);
+        }
+        SideCharacterDetailsDTO dto = modelMapper.map(sideCharFromDb, SideCharacterDetailsDTO.class);
+        return new ResponseEntity(dto, HttpStatus.OK);
+    }
+
+    public ResponseEntity editSideCharacterDetails(EditSideCharRequest request){
+        SideCharacter sideCharFromDb = sideCharactersRepository.getOne(request.getExternalId());
+    if(sideCharFromDb == null) {
+        String err = "Brak postaci o podanym id.";
+        return new ResponseEntity(err, HttpStatus.BAD_REQUEST);
+    }
+        sideCharFromDb.setSideCharacterDesc(request.getSideCharacterDesc());
+        sideCharFromDb.setSideCharacterName(request.getSideCharacterName());
+        sideCharFromDb.setSideCharacterSurname(request.getSideCharacterSurname());
+
+        sideCharactersRepository.saveAndFlush(sideCharFromDb);
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
     public ResponseEntity changeStateOfSideCharacter(SideCharacterChangeRequest sideChar) {

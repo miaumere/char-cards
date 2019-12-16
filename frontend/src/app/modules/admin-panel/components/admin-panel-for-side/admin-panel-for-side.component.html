@@ -17,7 +17,9 @@
         <span class="char-info__name">{{character.sideCharacterName}} {{character.sideCharacterSurname}}</span>
       </div>
       <div class="item__sidebar sidebar">
-        <div class="sidebar__option" title="Edytuj postać">
+        <div class="sidebar__option" title="Edytuj postać" [routerLink]="['../change', 'edit-side']" [queryParams]="{
+            id: character.externalId
+          }">
           <app-icon [icon]="'edit'" [color]="'black'"></app-icon>
         </div>
         <div class="sidebar__option" title="Zmień zdjęcie postaci">

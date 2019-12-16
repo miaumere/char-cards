@@ -29,7 +29,8 @@
         {{ (_authService.loggedUser$ | async) ? ((_authService.loggedUser$ | async).username) : "niezalogowany" }}
       </span>
     </li>
-    <button class="logout global-button" (click)="logout()">
+    <button class="logout global-button" (click)="logout()"
+      *ngIf="(_authService.loggedUser$ | async) && (_authService.loggedUser$ | async).username">
       <span class="logout__icon">
         <app-icon [icon]="'logout'" [color]="'white'"></app-icon>
       </span>
