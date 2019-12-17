@@ -19,8 +19,10 @@ export class CharactersService {
   private _getNonArchivedCharactersURL = `${this.charControllerURL}/get-characters`;
   private _getCharacterByIdURL = `${this.charControllerURL}/get-character`;
   private _getAllCharactersURL = `${this.charControllerURL}/get-all-characters`;
-  private _patchChangeStateURL = `${this.charControllerURL}/change-state`;
   private _getStoryTitlesURL = `${this.charControllerURL}/get-titles`;
+
+  private _patchChangeStateURL = `${this.charControllerURL}/change-state`;
+
   private _postStoryForCharacterURL = `${this.charControllerURL}/new-stories`;
 
   public charList$ = new BehaviorSubject<CharacterItem[] | null>(null);
@@ -54,8 +56,8 @@ export class CharactersService {
     return this.http.get<Character>(`${this._getCharacterByIdURL}/${id}`);
   }
 
-  patchCharactersState(requestBody: CharacterForChange[]): Observable<CharacterForChange[]> {
-    return this.http.patch<CharacterForChange[]>(this._patchChangeStateURL, requestBody);
+  patchCharactersState(requestBody: CharacterForChange): Observable<CharacterForChange> {
+    return this.http.patch<CharacterForChange>(this._patchChangeStateURL, requestBody);
   }
 
   getStoryTitles(): Observable<Titles[]> {

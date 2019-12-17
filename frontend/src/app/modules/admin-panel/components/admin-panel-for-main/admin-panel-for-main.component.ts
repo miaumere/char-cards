@@ -1,3 +1,5 @@
+import { CharacterForChange } from './../../models/character-for-change.model';
+import { ToastrService } from 'ngx-toastr';
 import { CharactersService } from './../../../../core/service/characters.service';
 import { Component, OnInit } from '@angular/core';
 import { CharacterItem } from 'src/app/modules/characters/models/character-item.model';
@@ -15,7 +17,7 @@ export class AdminPanelForMainComponent extends BaseComponent implements OnInit 
   charList: CharacterItem[];
 
   loading = true;
-  constructor(private _charactersService: CharactersService) {
+  constructor(private _charactersService: CharactersService, private _toastrService: ToastrService) {
     super();
   }
 
@@ -36,13 +38,29 @@ export class AdminPanelForMainComponent extends BaseComponent implements OnInit 
         .subscribe(
           charList => {
             this.charList = charList;
-            console.log(charList)
           })
     )
   }
 
 
   changeStateOfChar(id: number) {
-
+    const matchingChar = this.charList.find(c =>
+      c.id === id
+    );
+    if (matchingChar) {
+      this.subscriptions$.add(
+        this._charactersService
+          .patchCharactersState(new CharacterForChange(id, !matchingChar.archived))
+          .subscribe(_ => {
+            this._toastrService.success('Udało się zmienić stan zaznaczonej postaci.');
+            this.getAllCharacters();
+          },
+            err => {
+              if (err && err.error) {
+                this._toastrService.error(err.error);
+              }
+            })
+      )
+    }
   }
 }

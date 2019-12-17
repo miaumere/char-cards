@@ -26,7 +26,7 @@
         }">
           <app-icon [icon]="'edit-picture'" [color]="'black'"></app-icon>
         </div> -->
-        <div class="sidebar__option" title="Zmień stan postaci" (click)="changeStateOfChar(character.externalId)">
+        <div class="sidebar__option" title="Zmień stan postaci" (click)="changeStateOfChar(character.id)">
           <span [ngSwitch]="character.archived">
             <span *ngSwitchCase="true">
               <app-icon [icon]="'non-archive'" [color]="'#317142'"></app-icon>

@@ -3,6 +3,7 @@ export class CharacterItem {
   charName: string;
   charSurname: string;
   profilePic?: string;
+  archived: boolean;
 }
 
 export class CharacterForListItem {
