@@ -63,7 +63,8 @@ export class SideCharactersService {
   postEditProfilePic(formData: FormData) {
     const httpOptions = {
       headers: new HttpHeaders({
-        Accept: 'application/json'
+        Accept: 'application/json',
+        CacheControl: "max-age=0"
       })
     };
     return this.http.post<void>(this.portEditProfilePicURL, formData, httpOptions)

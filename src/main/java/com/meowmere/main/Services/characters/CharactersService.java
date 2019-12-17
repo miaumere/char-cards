@@ -49,14 +49,15 @@ public class CharactersService {
         for(Character characterFromDb : allCharactersFromDb) {
             CharactersMenuDTO dto = modelMapper.map(characterFromDb, CharactersMenuDTO.class);
             try {
-                String imagesURI = String.format("static\\character-profile-pics\\%s", characterFromDb.getExternalId());
+                String imagesURI = String.format("src\\main\\resources\\static\\character-profile-pics\\%s", characterFromDb.getExternalId());
                 Resource resource = new ClassPathResource(imagesURI);
                 File file = resource.getFile();
                 File[] images = file.listFiles();
-                    if(images.length > 0) {
-                        String profilePic = images[0].getName();
-                        dto.setProfilePic(profilePic);
-                    }
+                if(images != null){
+                    String profilePic = images[0].getName();
+                    dto.setProfilePic(profilePic);
+                }
+                dto.setProfilePic(null);
             } catch(IOException e) { }
                 dtoList.add(dto);
 }

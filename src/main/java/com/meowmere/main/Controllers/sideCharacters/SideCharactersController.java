@@ -51,7 +51,6 @@ public class SideCharactersController {
 
     @PostMapping("/edit-side-pic")
     public ResponseEntity editSideProfilePic(MultipartHttpServletRequest multipartHttpServletRequest, HttpServletResponse response) {
-        response.addHeader(HttpHeaders.CACHE_CONTROL, "no-cache");
         return sideCharactersService.editSideProfilePic(multipartHttpServletRequest);
     }
 }

@@ -39,7 +39,9 @@ public class SideCharactersService {
             Resource resource = new ClassPathResource(imagesURI);
             File file = resource.getFile();
             File[] images = file.listFiles();
+            if(images != null){
             dto.setProfilePic(images[0].getName());
+            }
         } catch (IOException e) {
             dto.setProfilePic(null);
         }
@@ -50,7 +52,9 @@ public class SideCharactersService {
             Resource resource = new ClassPathResource(imagesURI);
             File file = resource.getFile();
             File[] images = file.listFiles();
+            if(images.length > 0){
             dto.setProfilePic(images[0].getName());
+            }
         } catch (IOException e) {
             dto.setProfilePic(null);
         }
