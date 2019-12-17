@@ -72,6 +72,10 @@
 
     transition: 0.2s;
 
+    &[disabled] {
+      color: grey;
+      pointer-events: none;
+    }
     &:hover {
       color: #576bda;
     }
