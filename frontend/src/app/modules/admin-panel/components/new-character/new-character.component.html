@@ -1,4 +1,4 @@
-<div class="new-char">
+<!-- <div class="new-char">
   <h2 class="changes__title">Uzupełnij poniższe pola, aby dodać nową postać główną:</h2>
 
   <form [formGroup]="newCharacterForm" enctype="multipart/form-data" class="new-char__form new-char-form"
@@ -137,4 +137,27 @@
     <input type="submit" class="global-button" [disabled]="newCharacterForm.invalid" />
 
   </form>
+</div> -->
+
+<div class="new-char">
+  <h2 class="changes__title">Uzupełnij poniższe pola, aby dodać nową postać główną:</h2>
+
+  <div class="progress">
+    <ul class="progress-bar__steps steps">
+      <li class="steps__step step" *ngFor="let formPart of formParts; index as i">
+        <div class="step__number">{{i+1}}</div>
+        <span>{{formPart}}</span>
+        <div class="progress-bar__line">
+        </div>
+      </li>
+      <li class="steps__step step">
+        <div class="step__number">
+          <app-icon [icon]="'edit'" [color]="'white'" [size]="0.5"></app-icon>
+        </div>
+        <span>Utwórz</span>
+        <div class="progress-bar__line">
+        </div>
+      </li>
+    </ul>
+  </div>
 </div>

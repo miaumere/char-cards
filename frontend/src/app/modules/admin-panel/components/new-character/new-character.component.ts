@@ -1,15 +1,21 @@
 import { Subscription } from 'rxjs';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { BaseComponent } from 'src/app/core/base.component';
 
 @Component({
   selector: 'app-new-character',
   templateUrl: './new-character.component.html',
-  styleUrls: ['../change-character-data/change-character-data.component.scss']
+  styleUrls: ['./new-character.component.scss']
 })
-export class NewCharacterComponent implements OnInit {
-
-  subscriptions$ = new Subscription();
+export class NewCharacterComponent extends BaseComponent implements OnInit {
+  readonly formParts = [
+    'Podstawowe dane',
+    'Temperament',
+    'Zdjęcia',
+    'Kolory',
+    'Waga i wzrost'
+  ];
 
   isDead = false;
 
@@ -48,7 +54,7 @@ export class NewCharacterComponent implements OnInit {
   flegmaticValue = 0;
   cholericValue = 0;
 
-  constructor() { }
+  constructor() { super(); }
 
   ngOnInit() {
     const melancholic = this.newCharacterForm.get('melancholic');
@@ -86,7 +92,6 @@ export class NewCharacterComponent implements OnInit {
 
   changeDeathState() {
     this.isDead = !this.isDead;
-    // console.log(this.isDead);
   }
 
   createNewChar() {
