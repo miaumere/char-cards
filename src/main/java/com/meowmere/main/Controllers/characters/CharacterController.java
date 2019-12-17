@@ -1,7 +1,7 @@
 package com.meowmere.main.Controllers.characters;
 
-import com.meowmere.main.DTO.character.CharacterForListDTO;
 import com.meowmere.main.DTO.character.CharactersMenuDTO;
+import com.meowmere.main.DTO.character.EveryCharacterMenuDTO;
 import com.meowmere.main.DTO.character.TitleDTO;
 import com.meowmere.main.Requests.characters.ChangeCharacterStateRequest;
 import com.meowmere.main.Requests.characters.CreateStoryForCharRequest;
@@ -23,12 +23,10 @@ public class CharacterController {
     CharactersService charactersService;
 
     @GetMapping("/get-characters")
-    public List<CharactersMenuDTO> getCharactersList(){
-        return charactersService.findCharList();
-    }
+    public List<CharactersMenuDTO> getCharactersList(){ return charactersService.findCharList(); }
 
     @GetMapping("/get-all-characters")
-    public List<CharacterForListDTO> getEveryCharacter() { return charactersService.getEveryCharacter();}
+    public List<EveryCharacterMenuDTO> getEveryCharacter() { return charactersService.getEveryCharacter();}
 
     @GetMapping("/get-character/{characterId}")
     public ResponseEntity getCharacterById(@PathVariable Long characterId) throws IOException {
@@ -41,8 +39,8 @@ public class CharacterController {
 //    }
 
     @PatchMapping("/change-state")
-    public ResponseEntity changeStateOfCharacter(@RequestBody List<ChangeCharacterStateRequest> request){
-        return charactersService.changeStatusForCharacters(request);
+    public ResponseEntity changeStateOfCharacter(@RequestBody ChangeCharacterStateRequest request){
+        return charactersService.changeStatusForCharacter(request);
     }
 
     @GetMapping("/get-titles")

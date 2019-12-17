@@ -41,6 +41,33 @@ public class CharactersService {
     @Autowired
     public TitlesRepository titlesRepository;
 
+    private void getPicForMenu(Character character, CharactersMenuDTO dto) {
+        try {
+            String imagesURI = String.format("static\\character-profile-pics\\%s", character.getExternalId());
+            Resource resource = new ClassPathResource(imagesURI);
+            File file = resource.getFile();
+            File[] images = file.listFiles();
+            if(images != null){
+                dto.setProfilePic(images[0].getName());
+            }
+        } catch (IOException e) {
+            dto.setProfilePic(null);
+        }
+    }
+    private void getPicForMenu(Character character, EveryCharacterMenuDTO dto){
+        try {
+            String imagesURI = String.format("static\\character-profile-pics\\%s", character.getExternalId());
+            Resource resource = new ClassPathResource(imagesURI);
+            File file = resource.getFile();
+            File[] images = file.listFiles();
+            if(images != null){
+                dto.setProfilePic(images[0].getName());
+            }
+        } catch (IOException e) {
+            dto.setProfilePic(null);
+        }
+    }
+
     public List<CharactersMenuDTO> findCharList() {
         List<Character> allCharactersFromDb = characterRepository.getNonArchivedCharacters();
         ModelMapper modelMapper = new ModelMapper();
@@ -48,17 +75,7 @@ public class CharactersService {
 
         for(Character characterFromDb : allCharactersFromDb) {
             CharactersMenuDTO dto = modelMapper.map(characterFromDb, CharactersMenuDTO.class);
-            try {
-                String imagesURI = String.format("src\\main\\resources\\static\\character-profile-pics\\%s", characterFromDb.getExternalId());
-                Resource resource = new ClassPathResource(imagesURI);
-                File file = resource.getFile();
-                File[] images = file.listFiles();
-                if(images != null){
-                    String profilePic = images[0].getName();
-                    dto.setProfilePic(profilePic);
-                }
-                dto.setProfilePic(null);
-            } catch(IOException e) { }
+            getPicForMenu(characterFromDb, dto);
                 dtoList.add(dto);
 }
         return dtoList;
@@ -132,27 +149,27 @@ public class CharactersService {
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
-    public List<CharacterForListDTO> getEveryCharacter() {
+    public List<EveryCharacterMenuDTO> getEveryCharacter() {
         ModelMapper modelMapper = new ModelMapper();
-        List<Character> characterFromDb = characterRepository.findAll(Sort.by(Sort.Direction.ASC, "externalId"));
-        List<CharacterForListDTO> dtoList = new ArrayList<>();
-        for (int i = 0; i < characterFromDb.size(); i++) {
-            CharacterForListDTO dto = modelMapper.map(characterFromDb.get(i), CharacterForListDTO.class);
+        List<Character> charactersFromDb = characterRepository.findAll(Sort.by(Sort.Direction.ASC, "externalId"));
+        List<EveryCharacterMenuDTO> dtoList = new ArrayList<>();
+        for (Character character : charactersFromDb) {
+            EveryCharacterMenuDTO dto = modelMapper.map(character, EveryCharacterMenuDTO.class);
             dtoList.add(dto);
+            getPicForMenu(character, dto);
         }
         return dtoList;
     }
 
-    public ResponseEntity changeStatusForCharacters(List<ChangeCharacterStateRequest> characters) {
-              for(ChangeCharacterStateRequest character : characters) {
-                    Character charToChange = characterRepository.getOne(character.getId());
-                    if(charToChange == null) {
-                        return new ResponseEntity<>("Nie można zmienić stanu użytkownika o nieistniejącym id.",
-                                HttpStatus.BAD_REQUEST);
-                    }
-                    charToChange.setArchived(character.getArchived());
-                    characterRepository.save(charToChange);
-              }
+    public ResponseEntity changeStatusForCharacter(ChangeCharacterStateRequest character) {
+            Character charToChange = characterRepository.getOne(character.getId());
+            if(charToChange == null) {
+                return new ResponseEntity<>("Nie można zmienić stanu postaci o nieistniejącym id.",
+                        HttpStatus.BAD_REQUEST);
+            }
+            charToChange.setArchived(character.getArchived());
+            characterRepository.save(charToChange);
+
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 

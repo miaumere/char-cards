@@ -64,10 +64,10 @@ export class SideCharactersService {
     const httpOptions = {
       headers: new HttpHeaders({
         Accept: 'application/json',
-        CacheControl: "max-age=0"
+        CacheControl: 'max-age=0'
       })
     };
-    return this.http.post<void>(this.portEditProfilePicURL, formData, httpOptions)
+    return this.http.post<void>(this.portEditProfilePicURL, formData, httpOptions);
   }
 
 }

@@ -1,4 +1,44 @@
-<article class="admin-panel admin-panel--main">
-  <p>admin-panel-for-main works!</p>
+<app-loader [visible]="!charList && loading"></app-loader>
 
+<article class="admin-panel admin-panel--main">
+  <div class="admin-panel-main__menu menu">
+    <div class="menu__item item item--new-char" title="Dodaj nową postać poboczną"
+      [routerLink]="['../change', 'new-character']">
+      <app-icon [icon]="'new-character'" [color]="'white'" [size]="'3'"></app-icon>
+    </div>
+
+    <div class=" menu__item item" *ngFor="let character of charList">
+      <div class="item__char-info char-info">
+        <div class="char-info__profile-pic profile-pic">
+          <img src="{{profilePicURL}}/{{character.id}}/{{character.profilePic}}" class="profile-pic__image">
+        </div>
+        <span class="char-info__name">{{character.charName}} {{character.charSurname}}</span>
+      </div>
+      <div class="item__sidebar sidebar">
+        <div class="sidebar__option" title="Edytuj postać" [routerLink]="['../change', 'edit-character']" [queryParams]="{
+            id: character.externalId
+          }">
+          <app-icon [icon]="'edit'" [color]="'black'"></app-icon>
+        </div>
+        <!-- <div class="sidebar__option" title="Zmień zdjęcie postaci" [routerLink]="['../change', 'edit-side-pic']"
+          [queryParams]="{
+          id: character.id
+        }">
+          <app-icon [icon]="'edit-picture'" [color]="'black'"></app-icon>
+        </div> -->
+        <div class="sidebar__option" title="Zmień stan postaci" (click)="changeStateOfChar(character.externalId)">
+          <span [ngSwitch]="character.archived">
+            <span *ngSwitchCase="true">
+              <app-icon [icon]="'non-archive'" [color]="'#317142'"></app-icon>
+            </span>
+            <span *ngSwitchCase="false">
+              <app-icon [icon]="'archive'" [color]="'#b84343'"></app-icon>
+            </span>
+          </span>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
 </article>

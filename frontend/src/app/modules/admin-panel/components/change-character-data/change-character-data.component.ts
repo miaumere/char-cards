@@ -1,14 +1,11 @@
-import { SideCharForChange } from './../../models/side-char-for-change.model';
 import { SideCharactersService } from 'src/app/core/service/side-characters.service';
 import { ToastrService } from 'ngx-toastr';
 import { CharactersService } from './../../../../core/service/characters.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CharacterForListItem, CharacterItem } from 'src/app/modules/characters/models/character-item.model';
+import { CharacterItem } from 'src/app/modules/characters/models/character-item.model';
 import { finalize } from 'rxjs/operators';
-import { NgForm, FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
-import { CharacterForChange } from '../../models/character-for-change.model';
-import { SideCharacterForListItem } from 'src/app/modules/side-characters/models/side-characters.model';
+import { NgForm, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Titles } from '../../models/titles.model';
 import { Story, StoryForCharacter } from '../../models/story.model';
 import { BaseComponent } from 'src/app/core/base.component';
@@ -27,11 +24,7 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
   loading = true;
 
   changeType: string | null;
-  archivedCharacters: CharacterForListItem[] = [];
-  nonArchivedCharacters: CharacterForListItem[] = [];
 
-  archivedSideChars: SideCharacterForListItem[] = [];
-  nonArchivedSideChars: SideCharacterForListItem[] = [];
 
   charList: CharacterItem[];
   titles: Titles[] | null = null;
@@ -352,56 +345,10 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
     )
   }
 
-  // do usuniecia
-  changeStateOfCharacters(changeStateOfCharForm: NgForm) {
-    const charactersToChange: CharacterForChange[] = [];
 
-    for (const key in changeStateOfCharForm.controls) {
-      if (changeStateOfCharForm.controls.hasOwnProperty(key)) {
-        const id = +key;
-        const value = !!changeStateOfCharForm.value[id];
-        const isArchived = !!this.archivedCharacters.find(archivedCharacter => archivedCharacter.id === id);
-        const archiveToSet = !!value ? !isArchived : isArchived;
-        charactersToChange.push(new CharacterForChange(id, archiveToSet));
-      }
-    }
-    this._characterService.patchCharactersState(charactersToChange).subscribe(_ => {
-      this._toastrService.success('Udało się zmienić stan postaci!');
-      this.getAllCharacters();
-    },
-      () => {
-        this._toastrService.error('Operacja nie udała się.');
-      });
-
-  }
-
-  getAllCharacters() {
-    this.loading = true;
-    this._characterService
-      .getAllCharacters()
-      .pipe(
-        finalize(() => {
-          this.loading = false;
-        })
-      )
-      .subscribe(
-        charList => {
-          this.archivedCharacters = charList.filter((char) =>
-            !!char.archived
-          );
-          this.nonArchivedCharacters = charList.filter((char) =>
-            !char.archived
-          );
-        });
-  }
 
   displayInfo(changeOption: changeOptions) {
     switch (changeOption) {
-
-      case 'delete-character':
-        this.getAllCharacters();
-        break;
-
       case 'edit-character':
         break;
 

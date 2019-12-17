@@ -1,0 +1,64 @@
+.admin-panel-main {
+  &__menu {
+    display: flex;
+  }
+}
+
+.profile-pic {
+  height: 80px;
+  width: 80px;
+
+  border-radius: 50%;
+  padding: 1rem 0;
+
+  &__image {
+    width: 80px;
+    height: 80px;
+    object-fit: scale-down;
+
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+}
+
+.sidebar {
+  padding-left: 0.7rem;
+  margin-left: -1rem;
+  height: 100px;
+  background: #ffffff7a;
+
+  &__option {
+    margin: 5px 0;
+    margin-left: -0.5rem;
+
+    cursor: pointer;
+  }
+}
+
+.item {
+  display: flex;
+
+  padding: 0.5rem;
+  margin: 1rem;
+  border-radius: 3px;
+
+  background: #ffffff1c;
+  transition: 0.2s;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.7);
+    color: black;
+  }
+
+  &--new-char {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 100px;
+    height: 120px;
+
+    cursor: pointer;
+  }
+}
