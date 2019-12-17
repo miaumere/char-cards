@@ -1,20 +1,21 @@
-import { Subscription } from 'rxjs';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { BaseComponent } from 'src/app/core/base.component';
 
+type chooseFormType = 'SUBMIT' | number;
 @Component({
   selector: 'app-new-character',
   templateUrl: './new-character.component.html',
   styleUrls: ['./new-character.component.scss']
 })
+
 export class NewCharacterComponent extends BaseComponent implements OnInit {
   readonly formParts = [
     'Podstawowe dane',
     'Temperament',
-    'Zdjęcia',
     'Kolory',
-    'Waga i wzrost'
+    'Waga i wzrost',
+    'Zdjęcia'
   ];
 
   isDead = false;
@@ -54,6 +55,8 @@ export class NewCharacterComponent extends BaseComponent implements OnInit {
   flegmaticValue = 0;
   cholericValue = 0;
 
+  chosenForm: chooseFormType = 1;
+
   constructor() { super(); }
 
   ngOnInit() {
@@ -92,6 +95,10 @@ export class NewCharacterComponent extends BaseComponent implements OnInit {
 
   changeDeathState() {
     this.isDead = !this.isDead;
+  }
+
+  setForm(formId: chooseFormType) {
+    this.chosenForm = formId;
   }
 
   createNewChar() {

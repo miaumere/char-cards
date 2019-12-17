@@ -1,3 +1,5 @@
+@import "../change-character-data/change-character-data.component.scss";
+
 .progress {
 }
 
@@ -33,7 +35,7 @@
       .step__number {
         transition: 0.2s;
 
-        background: #7632ad;
+        background: #3d2691;
       }
     }
 
@@ -48,7 +50,30 @@
       width: 0.5rem;
       border-radius: 50%;
 
-      background: #3f51b5;
+      background: grey;
+
+      &--active {
+        background: #3f51b5;
+      }
+    }
+  }
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+
+  width: 100vw;
+
+  &__arrow {
+    margin: 0 5rem;
+
+    font-size: 2.5rem;
+
+    transition: 0.2s;
+
+    &:hover {
+      color: #576bda;
     }
   }
 }
