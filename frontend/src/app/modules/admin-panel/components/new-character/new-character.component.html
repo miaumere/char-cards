@@ -158,7 +158,88 @@
       <div *ngSwitchCase="4">
         <h2 class="changes__title">Zdefiniuj wagę i wzrost postaci w poszczególnych etapach życia:</h2>
         <div class="new-char-form__container form-container">
+          <details class="form-container__details--new-char details">
+            <summary>Waga postaci:</summary>
+            <div class="details__container">
 
+              <label class="global-label details__measurements">
+                Waga jako niemowlę (0-3):
+                <div style="margin-bottom: 1rem;">
+                  <input class="global-input measurements__input" min="0" type="number" formControlName="babyWeight" />
+                  KG
+                </div>
+              </label>
+
+              <label class="global-label details__measurements">
+                Waga jako dziecko (4-11):
+                <div style="margin-bottom: 1rem;">
+                  <input class="global-input measurements__input" min="0" type="number" formControlName="childWeight" />
+                  KG
+                </div>
+              </label>
+
+              <label class="global-label details__measurements">
+                Waga jako nastolatek (12-19):
+                <div style="margin-bottom: 1rem;">
+                  <input class="global-input measurements__input" min="0" type="number" formControlName="teenWeight" />
+                  KG
+                </div>
+              </label>
+
+              <label class="global-label details__measurements">
+                Waga jako dorosły (20+):
+                <div style="margin-bottom: 1rem;">
+                  <input class="global-input measurements__input" min="0" type="number" formControlName="adultWeight" />
+                  KG
+                </div>
+              </label>
+            </div>
+          </details>
+
+          <details class="form-container__details--new-char details">
+            <summary>Wzrost postaci:</summary>
+
+            <div class="details__container">
+              <label class="global-label details__measurements">
+                Wzrost jako niemowlę (0-3):
+                <div style="margin-bottom: 1rem;">
+                  <input class="global-input measurements__input" min="100" max="200" type="number"
+                    formControlName="babyHeight" /> CM
+                </div>
+              </label>
+            </div>
+
+            <div class="details__container">
+              <label class="global-label details__measurements">
+                Wzrost jako dziecko (4-11):
+                <div style="margin-bottom: 1rem;">
+                  <input class="global-input measurements__input" min="100" max="200" type="number"
+                    formControlName="childHeight" /> CM
+                </div>
+              </label>
+            </div>
+
+            <div class="details__container">
+              <label class="global-label details__measurements">
+                Wzrost jako nastolatek (11-19):
+                <div style="margin-bottom: 1rem;">
+                  <input class="global-input measurements__input" min="100" max="200" type="number"
+                    formControlName="teenHeight" /> CM
+                </div>
+              </label>
+            </div>
+
+            <div class="details__container">
+              <label class="global-label details__measurements">
+                Wzrost jako dorosły (20+):
+                <div style="margin-bottom: 1rem;">
+                  <input class="global-input measurements__input" min="100" max="200" type="number"
+                    formControlName="teenHeight" /> CM
+                </div>
+              </label>
+            </div>
+
+          </details>
         </div>
       </div>
 

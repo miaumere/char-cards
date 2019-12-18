@@ -85,6 +85,18 @@
   &__details {
     height: 100px;
     width: 200px;
+
+    &--new-char {
+      display: flex;
+      flex-direction: column;
+
+      width: 200px;
+    }
+
+    &__container {
+      display: flex;
+      flex-direction: column;
+    }
   }
   &--personal-info {
     display: flex;
@@ -96,6 +108,9 @@
     width: 130px;
 
     padding: 0;
+  }
+  &__measurements {
+    margin: 1rem 0;
   }
 }
 
@@ -186,5 +201,11 @@
     margin: 5px 0 1rem 0;
 
     resize: vertical;
+  }
+}
+
+.measurements {
+  &__input {
+    width: 50px;
   }
 }

@@ -43,6 +43,16 @@ export class NewCharacterComponent extends BaseComponent implements OnInit {
     hairColor: new FormControl('#4E4E4E'),
     skinColor: new FormControl('#FFE6D8'),
 
+    babyWeight: new FormControl(0),
+    childWeight: new FormControl(0),
+    teenWeight: new FormControl(0),
+    adultWeight: new FormControl(0),
+
+    babyHeight: new FormControl(100),
+    childHeight: new FormControl(100),
+    teenHeight: new FormControl(100),
+    adultHeight: new FormControl(100),
+
     imagesList: new FormControl(),
     profilePic: new FormControl(),
 
