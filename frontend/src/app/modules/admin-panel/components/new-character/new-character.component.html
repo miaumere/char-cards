@@ -82,7 +82,7 @@
           <label class="global-label form-container__label">
             Melancholizm - {{melancholicValue}}%
             <div class="form-container__range-container range range__container">
-              <input #melancholic class="global-input" type="range" min="1" max="100" formControlName="melancholic" />
+              <input class="global-input" type="range" min="1" max="100" formControlName="melancholic" />
               <div class="range__values">
                 <span>0</span><span>50</span><span>100</span>
               </div>
@@ -248,17 +248,23 @@
         <div class="new-char-form__container form-container">
           <label class="form-container__label global-label">
             <span>Zdjęcia postaci:</span>
-            <input class="global-file" formControlName="imagesList" type="file" accept="image/*" multiple />
+            <input (change)="handleFileInput($event.target.files, true)" class="global-file" type="file"
+              accept="image/*" multiple />
           </label>
           <label class="form-container__label global-label">
             <span>Zdjęcie profilowe postaci:</span>
-            <input class="global-file" formControlName="profilePic" type="file" accept="image/*" />
+            <input (change)="handleFileInput($event.target.files, false)" class="global-file" type="file"
+              accept="image/*" />
           </label>
         </div>
       </div>
 
-      <div *ngSwitchCase="'SUBMIT'">
-        <button class="global-button" (click)="createNewChar()" [disabled]="newCharacterForm.invalid">
+      <div *ngSwitchCase="'SUBMIT'" class="submit-container">
+        <span *ngIf="newCharacterForm.invalid">
+          Niektóre pola nie zostały uzupełnione. Jeszcze nie można dodać postaci.
+        </span>
+        <button class="global-button" (click)="createNewChar()" [disabled]="newCharacterForm.invalid"
+          style="margin-top: 1rem;">
           Dodaj postać
         </button>
       </div>

@@ -1,6 +1,9 @@
+import { CharactersService } from 'src/app/core/service/characters.service';
+import { ToastrService } from 'ngx-toastr';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { BaseComponent } from 'src/app/core/base.component';
+import { validateImage } from 'src/app/shared/functions/validate-image.function';
 
 type chooseFormType = 'SUBMIT' | number;
 @Component({
@@ -53,11 +56,6 @@ export class NewCharacterComponent extends BaseComponent implements OnInit {
     teenHeight: new FormControl(100),
     adultHeight: new FormControl(100),
 
-    imagesList: new FormControl(),
-    profilePic: new FormControl(),
-
-
-    // profilePic: new FormControl()
   });
 
   melancholicValue = 0;
@@ -65,9 +63,12 @@ export class NewCharacterComponent extends BaseComponent implements OnInit {
   flegmaticValue = 0;
   cholericValue = 0;
 
+  profilePic: File | null = null;
+  images: FileList | null = null;
+
   chosenForm: chooseFormType = 1;
 
-  constructor() { super(); }
+  constructor(private _toastrService: ToastrService, private _charactersService: CharactersService) { super(); }
 
   ngOnInit() {
     const melancholic = this.newCharacterForm.get('melancholic');
@@ -99,9 +100,8 @@ export class NewCharacterComponent extends BaseComponent implements OnInit {
         )
       }
     });
-
-
   }
+
 
   changeDeathState() {
     this.isDead = !this.isDead;
@@ -111,8 +111,52 @@ export class NewCharacterComponent extends BaseComponent implements OnInit {
     this.chosenForm = formId;
   }
 
+  handleFileInput(files: FileList, multiple: boolean) {
+    multiple ? this.images = files : this.profilePic = files.item(0);
+
+  }
+
+
   createNewChar() {
+    if (this.profilePic) {
+      validateImage(this.profilePic, this._toastrService);
+    }
+
+    if (this.images && this.images.length > 0) {
+      for (const key in this.images) {
+        if (this.images.hasOwnProperty(key)) {
+          const image = this.images[key];
+          validateImage(image, this._toastrService);
+        }
+      }
+    }
+
     const formValues: { [key: string]: string } = this.newCharacterForm.value;
-    console.log(formValues);
+
+    const formData = new FormData();
+    for (const [key, value] of Object.entries(formValues)) {
+      formData.append(key, value);
+    }
+    if (this.profilePic) {
+      formData.append('profilePic', this.profilePic);
+    }
+    if (this.images) {
+      for (let i = 0; i < this.images.length; i++) {
+        formData.append('image' + i, this.images[i]);
+      }
+    }
+
+    this.subscriptions$.add(
+      this._charactersService.postNewCharacter(formData).subscribe(_ => {
+        this._toastrService.success('Udało się dodać nową postać!');
+        this.newCharacterForm.reset();
+      },
+        err => {
+          if (err && err.error) {
+            console.dir(err)
+            this._toastrService.error(err.error);
+          }
+        })
+    )
   }
 }

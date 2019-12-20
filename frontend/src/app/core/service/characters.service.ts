@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { BehaviorSubject, Observable, of } from 'rxjs';
@@ -24,6 +24,8 @@ export class CharactersService {
   private _patchChangeStateURL = `${this.charControllerURL}/change-state`;
 
   private _postStoryForCharacterURL = `${this.charControllerURL}/new-stories`;
+  private _postNewCharacterURL = `${this.charControllerURL}/new-character`;
+
 
   public charList$ = new BehaviorSubject<CharacterItem[] | null>(null);
 
@@ -66,6 +68,16 @@ export class CharactersService {
 
   postStoryForCharacter(requestBody: StoryForCharacter): Observable<StoryForCharacter> {
     return this.http.post<StoryForCharacter>(this._postStoryForCharacterURL, requestBody);
+  }
+
+  postNewCharacter(formData: FormData) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        Accept: 'application/json',
+        CacheControl: 'max-age=0'
+      })
+    };
+    return this.http.post<void>(this._postNewCharacterURL, formData, httpOptions);
   }
 
 }
