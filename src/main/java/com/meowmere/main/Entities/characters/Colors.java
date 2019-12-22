@@ -48,6 +48,24 @@ public class Colors {
 
     protected Colors() {};
 
+    public Colors(String eyeColor1,
+                  String eyeColor2,
+                  String themeColor1,
+                  String themeColor2,
+                  String themeColor3,
+                  String hairColor,
+                  String skinColor,
+                  Character character) {
+        this.eyeColor1 = eyeColor1;
+        this.eyeColor2 = eyeColor2;
+        this.themeColor1 = themeColor1;
+        this.themeColor2 = themeColor2;
+        this.themeColor3 = themeColor3;
+        this.hairColor = hairColor;
+        this.skinColor = skinColor;
+        this.character = character;
+    }
+
     public Long getId() {
         return id;
     }

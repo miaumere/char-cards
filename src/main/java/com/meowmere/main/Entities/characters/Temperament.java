@@ -2,7 +2,6 @@ package com.meowmere.main.Entities.characters;
 
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
-import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 
@@ -14,25 +13,33 @@ public class Temperament {
     private Long id;
 
     @Column
-    @Length(min = 0, max = 100)
     private Integer melancholic;
 
     @Column
-    @Length(min = 0, max = 100)
     private Integer sanguine;
 
     @Column
-    @Length(min = 0, max = 100)
     private Integer flegmatic;
 
     @Column
-    @Length(min = 0, max = 100)
     private Integer choleric;
 
     @ManyToOne(fetch =  FetchType.LAZY)
     @NotFound(action = NotFoundAction.IGNORE)
     @JoinColumn(name = "character_id", unique = true)
     private Character character;
+
+    public Temperament(Integer melancholic,
+                       Integer sanguine,
+                       Integer flegmatic,
+                       Integer choleric,
+                       Character character) {
+        this.melancholic = melancholic;
+        this.sanguine = sanguine;
+        this.flegmatic = flegmatic;
+        this.choleric = choleric;
+        this.character = character;
+    }
 
     public Long getId() {
         return id;

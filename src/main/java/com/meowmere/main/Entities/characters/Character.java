@@ -29,7 +29,7 @@ public class Character {
     private String story;
 
     @Column
-    public Boolean archived;
+    public Boolean archived = false;
 
     @OneToMany(mappedBy = "character", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Colors> colors;
@@ -47,6 +47,20 @@ public class Character {
     private Set<Story> stories;
 
     protected Character() {};
+
+    public Character(@Length String charName,
+                     @Length String charSurname,
+                     Long birthday,
+                     Long death,
+                     String deathReason,
+                     String occupation) {
+        this.charName = charName;
+        this.charSurname = charSurname;
+        this.birthday = birthday;
+        this.death = death;
+        this.deathReason = deathReason;
+        this.occupation = occupation;
+    }
 
     public Long getExternalId() {
         return externalId;

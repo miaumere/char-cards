@@ -33,6 +33,26 @@ public class Measurements {
     @JoinColumn(name = "character_id")
     private Character character;
 
+    public Measurements(Integer babyHeight,
+                        Integer babyWeight,
+                        Integer childHeight,
+                        Integer childWeight,
+                        Integer teenHeight,
+                        Integer teenWeight,
+                        Integer adultHeight,
+                        Integer adultWeight,
+                        Character character) {
+        this.babyHeight = babyHeight;
+        this.babyWeight = babyWeight;
+        this.childHeight = childHeight;
+        this.childWeight = childWeight;
+        this.teenHeight = teenHeight;
+        this.teenWeight = teenWeight;
+        this.adultHeight = adultHeight;
+        this.adultWeight = adultWeight;
+        this.character = character;
+    }
+
     public Long getId() {
         return id;
     }

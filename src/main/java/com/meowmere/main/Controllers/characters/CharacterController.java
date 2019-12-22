@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.io.IOException;
 import java.util.List;
@@ -33,10 +34,10 @@ public class CharacterController {
         return charactersService.findByExternalId(characterId);
     }
 
-//    @PostMapping("/new-character")
-//    public Character createCharacter(@RequestBody Character request) {
-//        return charactersService.createCharacter(request);
-//    }
+    @PostMapping("/new-character")
+    public ResponseEntity createCharacter(MultipartHttpServletRequest multipartHttpServletRequest) {
+        return charactersService.createCharacter(multipartHttpServletRequest);
+    }
 
     @PatchMapping("/change-state")
     public ResponseEntity changeStateOfCharacter(@RequestBody ChangeCharacterStateRequest request){

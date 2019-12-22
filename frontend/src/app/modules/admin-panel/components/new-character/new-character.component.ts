@@ -133,9 +133,18 @@ export class NewCharacterComponent extends BaseComponent implements OnInit {
 
     const formValues: { [key: string]: string } = this.newCharacterForm.value;
 
+
     const formData = new FormData();
     for (const [key, value] of Object.entries(formValues)) {
-      formData.append(key, value);
+      if (key === 'birthday') {
+        formData.append(key, '' + new Date(value).getTime());
+      } else if (key === 'death') {
+        this.isDead ? formData.append(key, '' + new Date(value).getTime()) : formData.append(key, '');
+      } else if (key === 'deathReason') {
+        this.isDead ? formData.append(key, value) : formData.append(key, '');
+      } else {
+        formData.append(key, value);
+      }
     }
     if (this.profilePic) {
       formData.append('profilePic', this.profilePic);

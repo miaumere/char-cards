@@ -1,6 +1,7 @@
 .admin-panel-main {
   &__menu {
     display: flex;
+    flex-wrap: wrap;
   }
 }
 

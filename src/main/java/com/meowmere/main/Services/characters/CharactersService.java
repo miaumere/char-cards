@@ -16,12 +16,12 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 @Service
 public class CharactersService {
@@ -224,6 +224,67 @@ public class CharactersService {
 
         storyToCreate.setCharacter(characterFromId);
         storyRepository.saveAndFlush(storyToCreate);
+        return new ResponseEntity(HttpStatus.CREATED);
+    }
+
+    public ResponseEntity createCharacter(MultipartHttpServletRequest multipartHttpServletRequest) {
+        String name = multipartHttpServletRequest.getParameter("name");
+        String surname = multipartHttpServletRequest.getParameter("surname");
+        String birthday = multipartHttpServletRequest.getParameter("birthday");
+        String profession = multipartHttpServletRequest.getParameter("profession");
+        String death = multipartHttpServletRequest.getParameter("death");
+        String deathReason = multipartHttpServletRequest.getParameter("deathReason");
+
+        Integer melancholic = Integer.parseInt(multipartHttpServletRequest.getParameter("melancholic"));
+        Integer sanguine = Integer.parseInt(multipartHttpServletRequest.getParameter("sanguine"));
+        Integer flegmatic = Integer.parseInt(multipartHttpServletRequest.getParameter("flegmatic"));
+        Integer choleric = Integer.parseInt(multipartHttpServletRequest.getParameter("choleric"));
+
+        String themeColor1 = multipartHttpServletRequest.getParameter("themeColor1");
+        String themeColor2 = multipartHttpServletRequest.getParameter("themeColor2");
+        String themeColor3 = multipartHttpServletRequest.getParameter("themeColor3");
+        String eyeColor1 = multipartHttpServletRequest.getParameter("eyeColor1");
+        String eyeColor2 = multipartHttpServletRequest.getParameter("eyeColor2");
+        String hairColor = multipartHttpServletRequest.getParameter("hairColor");
+        String skinColor = multipartHttpServletRequest.getParameter("skinColor");
+
+        Integer babyWeight = Integer.parseInt(multipartHttpServletRequest.getParameter("babyWeight"));
+        Integer childWeight = Integer.parseInt(multipartHttpServletRequest.getParameter("childWeight"));
+        Integer teenWeight = Integer.parseInt(multipartHttpServletRequest.getParameter("teenWeight"));
+        Integer adultWeight = Integer.parseInt(multipartHttpServletRequest.getParameter("adultWeight"));
+        Integer babyHeight = Integer.parseInt(multipartHttpServletRequest.getParameter("babyHeight"));
+        Integer childHeight = Integer.parseInt(multipartHttpServletRequest.getParameter("childHeight"));
+        Integer teenHeight = Integer.parseInt(multipartHttpServletRequest.getParameter("teenHeight"));
+        Integer adultHeight = Integer.parseInt(multipartHttpServletRequest.getParameter("adultHeight"));
+
+
+        Date birthdayDate = new Date(Long.parseLong(birthday));
+        Long parsedBirthdayDate = birthdayDate.getTime() / 1000;
+
+        Date deathDate = new Date(Long.parseLong(death));
+        Long parsedDeathDate = deathDate.getTime() / 1000;
+        Character character = new Character(name, surname, parsedBirthdayDate, parsedDeathDate, deathReason, profession);
+        Temperament temperamentForCharacter = new Temperament(melancholic, sanguine, flegmatic, choleric, character);
+        Colors colorsForCharacter = new Colors(themeColor1, themeColor2, themeColor3, eyeColor1, eyeColor2, hairColor, skinColor, character);
+        Measurements measurementsForCharacter = new Measurements(babyHeight, babyWeight, childHeight, childWeight, teenHeight,
+                 teenWeight, adultHeight, adultWeight, character);
+
+        characterRepository.saveAndFlush(character);
+        temperamentRepository.saveAndFlush(temperamentForCharacter);
+        colorsRepository.saveAndFlush(colorsForCharacter);
+        measurementsRepository.saveAndFlush(measurementsForCharacter);
+
+        MultipartFile profilePic = multipartHttpServletRequest.getFile("profilePic");
+        List<MultipartFile> images = multipartHttpServletRequest.getFiles("images");
+
+        Iterator<String> iterator = multipartHttpServletRequest.getFileNames();
+        MultipartFile multipartFile = null;
+        while (iterator.hasNext()) {
+            multipartFile = multipartHttpServletRequest.getFile(iterator.next());
+            System.out.println(multipartFile);
+        }
+
+
         return new ResponseEntity(HttpStatus.CREATED);
     }
 }
