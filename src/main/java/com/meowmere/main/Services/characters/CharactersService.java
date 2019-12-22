@@ -4,10 +4,12 @@ package com.meowmere.main.Services.characters;
 import com.meowmere.main.DTO.character.*;
 import com.meowmere.main.Entities.characters.Character;
 import com.meowmere.main.Entities.characters.*;
+import com.meowmere.main.Enums.AvailableExtensions;
 import com.meowmere.main.Repositories.character.*;
 import com.meowmere.main.Requests.characters.ChangeCharacterStateRequest;
 import com.meowmere.main.Requests.characters.CreateStoryForCharRequest;
 import com.meowmere.main.Requests.characters.StoryRequest;
+import org.apache.commons.io.FilenameUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
@@ -16,12 +18,15 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Stream;
 
 @Service
 public class CharactersService {
@@ -66,6 +71,38 @@ public class CharactersService {
         } catch (IOException e) {
             dto.setProfilePic(null);
         }
+    }
+    private ResponseEntity setPicForMenu(String stringForPathURI, MultipartFile file) {
+        try {
+            if(file != null) {
+                try {
+                    String dir = new File(stringForPathURI).getAbsolutePath();
+                    String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+                    String extension = FilenameUtils.getExtension(fileName);
+
+                    if (!Stream.of(AvailableExtensions.values()).anyMatch(v -> v.name().toLowerCase().equals(extension.toLowerCase()))) {
+                        return new ResponseEntity(HttpStatus.UNSUPPORTED_MEDIA_TYPE);
+                    }
+
+                    new File(dir).mkdir();
+                    byte[] bytes = file.getBytes();
+
+                    File FileToSave = new File(dir, fileName);
+
+                    FileOutputStream fos = new FileOutputStream(FileToSave);
+                    fos.write(bytes);
+                    fos.close();
+
+                } catch (java.nio.file.AccessDeniedException e) {
+                    return new ResponseEntity("Nie udało się stworzyć folderu", HttpStatus.BAD_REQUEST);
+                }
+            }
+        } catch (Exception e) {
+            return new ResponseEntity("Nie udało się dodać zdjęcia.",
+                    HttpStatus.BAD_REQUEST
+            );
+        }
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
     public List<CharactersMenuDTO> findCharList() {
@@ -261,9 +298,16 @@ public class CharactersService {
         Date birthdayDate = new Date(Long.parseLong(birthday));
         Long parsedBirthdayDate = birthdayDate.getTime() / 1000;
 
+
+        Character character = new Character(name, surname, parsedBirthdayDate, profession);
+        try {
         Date deathDate = new Date(Long.parseLong(death));
         Long parsedDeathDate = deathDate.getTime() / 1000;
-        Character character = new Character(name, surname, parsedBirthdayDate, parsedDeathDate, deathReason, profession);
+        character.setDeath(parsedDeathDate);
+        character.setDeathReason(deathReason);
+        } catch (NumberFormatException n) {
+        }
+
         Temperament temperamentForCharacter = new Temperament(melancholic, sanguine, flegmatic, choleric, character);
         Colors colorsForCharacter = new Colors(themeColor1, themeColor2, themeColor3, eyeColor1, eyeColor2, hairColor, skinColor, character);
         Measurements measurementsForCharacter = new Measurements(babyHeight, babyWeight, childHeight, childWeight, teenHeight,
@@ -274,14 +318,35 @@ public class CharactersService {
         colorsRepository.saveAndFlush(colorsForCharacter);
         measurementsRepository.saveAndFlush(measurementsForCharacter);
 
-        MultipartFile profilePic = multipartHttpServletRequest.getFile("profilePic");
-        List<MultipartFile> images = multipartHttpServletRequest.getFiles("images");
+        String stringForPathURI = String.format("src\\main\\resources\\static\\character-profile-pics\\%s",
+                character.getExternalId(), character);
 
-        Iterator<String> iterator = multipartHttpServletRequest.getFileNames();
-        MultipartFile multipartFile = null;
-        while (iterator.hasNext()) {
-            multipartFile = multipartHttpServletRequest.getFile(iterator.next());
-            System.out.println(multipartFile);
+        Boolean isProfilePic = multipartHttpServletRequest.getFileMap().containsKey("profilePic");
+        MultipartFile profilePic = multipartHttpServletRequest.getFile("profilePic");
+        if(isProfilePic) {
+            setPicForMenu(stringForPathURI, profilePic);
+        }
+
+//        Iterator<String> iterator = multipartHttpServletRequest.getFileNames();
+//        MultipartFile multipartFile;
+//
+//        while (iterator.hasNext()) {
+//            String value = iterator.next();
+//            if (value == "profilePic") {
+//                continue;
+//            }
+//            multipartFile = multipartHttpServletRequest.getFile(iterator.next());
+//            System.out.println(multipartFile);
+//        }
+        Map<String, MultipartFile> allFiles = multipartHttpServletRequest.getFileMap();
+        Iterator it = allFiles.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry)it.next();
+            if (pair.getKey() == "profilePic") {
+                continue;
+            }
+            System.out.println(pair.getKey() + " = " + pair.getValue());
+            it.remove();
         }
 
 

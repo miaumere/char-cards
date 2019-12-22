@@ -51,14 +51,10 @@ public class Character {
     public Character(@Length String charName,
                      @Length String charSurname,
                      Long birthday,
-                     Long death,
-                     String deathReason,
                      String occupation) {
         this.charName = charName;
         this.charSurname = charSurname;
         this.birthday = birthday;
-        this.death = death;
-        this.deathReason = deathReason;
         this.occupation = occupation;
     }
 
