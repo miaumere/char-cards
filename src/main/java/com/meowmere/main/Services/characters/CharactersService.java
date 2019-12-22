@@ -72,7 +72,7 @@ public class CharactersService {
             dto.setProfilePic(null);
         }
     }
-    private ResponseEntity setPicForMenu(String stringForPathURI, MultipartFile file) {
+    private ResponseEntity setPic(String stringForPathURI, MultipartFile file) {
         try {
             if(file != null) {
                 try {
@@ -324,20 +324,12 @@ public class CharactersService {
         Boolean isProfilePic = multipartHttpServletRequest.getFileMap().containsKey("profilePic");
         MultipartFile profilePic = multipartHttpServletRequest.getFile("profilePic");
         if(isProfilePic) {
-            setPicForMenu(stringForPathURI, profilePic);
+            setPic(stringForPathURI, profilePic);
         }
 
-//        Iterator<String> iterator = multipartHttpServletRequest.getFileNames();
-//        MultipartFile multipartFile;
-//
-//        while (iterator.hasNext()) {
-//            String value = iterator.next();
-//            if (value == "profilePic") {
-//                continue;
-//            }
-//            multipartFile = multipartHttpServletRequest.getFile(iterator.next());
-//            System.out.println(multipartFile);
-//        }
+        String stringForCharactersURI = String.format("src\\main\\resources\\static\\characters-images\\%s",
+                character.getExternalId(), character);
+
         Map<String, MultipartFile> allFiles = multipartHttpServletRequest.getFileMap();
         Iterator it = allFiles.entrySet().iterator();
         while (it.hasNext()) {
@@ -345,11 +337,10 @@ public class CharactersService {
             if (pair.getKey() == "profilePic") {
                 continue;
             }
-            System.out.println(pair.getKey() + " = " + pair.getValue());
+            MultipartFile file = (MultipartFile) pair.getValue();
+            setPic(stringForCharactersURI, file);
             it.remove();
         }
-
-
         return new ResponseEntity(HttpStatus.CREATED);
     }
 }

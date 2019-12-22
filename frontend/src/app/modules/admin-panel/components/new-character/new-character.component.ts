@@ -21,7 +21,7 @@ export class NewCharacterComponent extends BaseComponent implements OnInit {
     'Zdjęcia'
   ];
 
-  isDead = true;
+  isDead = false;
 
   newCharacterForm = new FormGroup({
     name: new FormControl('', Validators.required),
