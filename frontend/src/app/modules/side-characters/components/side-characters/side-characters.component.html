@@ -5,6 +5,9 @@
     <div class="box__profile-pic profile-pic" *ngIf="sideCharacter.profilePic">
       <img class="profile-pic__image" src="{{profilePicURL}}/{{sideCharacter.externalId}}/{{sideCharacter.profilePic}}">
     </div>
+    <div class="box__profile-pic profile-pic profile-pic--empty" *ngIf="!sideCharacter.profilePic">
+      <app-icon [icon]="'character'" [color]="'#ffffffa8'" [size]="3"></app-icon>
+    </div>
     <div class="box__info info">
       <span class="info__name">
         {{sideCharacter.sideCharacterName | nulled}} {{sideCharacter.sideCharacterSurname | nulled}}

@@ -1,16 +1,3 @@
-@import "../../../../../global_styles/variables.scss";
-.admin-panel-main {
-  &__menu {
-    height: calc(100vh - #{$navbar-height});
-
-    display: flex;
-    flex-wrap: wrap;
-
-    position: fixed;
-    overflow-y: scroll;
-  }
-}
-
 .profile-pic {
   height: 80px;
   width: 80px;
@@ -75,4 +62,12 @@
 
     cursor: pointer;
   }
+}
+
+.char-info {
+  width: 100px;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

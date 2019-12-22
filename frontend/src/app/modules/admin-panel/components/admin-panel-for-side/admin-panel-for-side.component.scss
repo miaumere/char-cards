@@ -1,9 +1,3 @@
-.admin-panel-side {
-  &__menu {
-    display: flex;
-  }
-}
-
 .profile-pic {
   height: 80px;
   width: 80px;
@@ -19,6 +13,11 @@
     background-position: 50% 50%;
     background-repeat: no-repeat;
     background-size: cover;
+  }
+  &--empty {
+    padding-left: 2rem;
+    margin-top: 1.5rem;
+    margin-bottom: -1.5rem;
   }
 }
 
@@ -38,6 +37,8 @@
 
 .item {
   display: flex;
+
+  height: 120px;
 
   padding: 0.5rem;
   margin: 1rem;
@@ -61,4 +62,12 @@
 
     cursor: pointer;
   }
+}
+
+.char-info {
+  width: 100px;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

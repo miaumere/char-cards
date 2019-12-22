@@ -22,3 +22,19 @@
       linear-gradient(to bottom, #634d5b 0%, #382c2c 100%);
   }
 }
+
+.admin-panel-side,
+.admin-panel-main {
+  &__menu {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    align-items: center;
+
+    height: calc(100vh - #{$navbar-height});
+    width: 100%;
+
+    position: fixed;
+    overflow-y: scroll;
+  }
+}
