@@ -337,7 +337,7 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
         )
         .subscribe(_ => {
           this._toastrService.success('Udało się zmienić profilowe!');
-          this._router.navigate(['admin-panel/side']);
+          this._router.navigate(['admin-panel/main']);
         },
           () => {
             this._toastrService.error('Nie udało się zmienić profilowego.');

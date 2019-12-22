@@ -1,3 +1,4 @@
+import { Route, Router } from '@angular/router';
 import { CharactersService } from 'src/app/core/service/characters.service';
 import { ToastrService } from 'ngx-toastr';
 import { Component, OnInit } from '@angular/core';
@@ -68,7 +69,9 @@ export class NewCharacterComponent extends BaseComponent implements OnInit {
 
   chosenForm: chooseFormType = 1;
 
-  constructor(private _toastrService: ToastrService, private _charactersService: CharactersService) { super(); }
+  constructor(private _toastrService: ToastrService,
+    private _charactersService: CharactersService,
+    private _route: Router) { super(); }
 
   ngOnInit() {
     const melancholic = this.newCharacterForm.get('melancholic');
@@ -102,7 +105,6 @@ export class NewCharacterComponent extends BaseComponent implements OnInit {
     });
   }
 
-
   changeDeathState() {
     this.isDead = !this.isDead;
   }
@@ -113,7 +115,6 @@ export class NewCharacterComponent extends BaseComponent implements OnInit {
 
   handleFileInput(files: FileList, multiple: boolean) {
     multiple ? this.images = files : this.profilePic = files.item(0);
-
   }
 
 
@@ -158,7 +159,7 @@ export class NewCharacterComponent extends BaseComponent implements OnInit {
     this.subscriptions$.add(
       this._charactersService.postNewCharacter(formData).subscribe(_ => {
         this._toastrService.success('Udało się dodać nową postać!');
-        this.newCharacterForm.reset();
+        this._route.navigate(["../"])
       },
         err => {
           if (err && err.error) {

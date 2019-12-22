@@ -1,7 +1,13 @@
+@import "../../../../../global_styles/variables.scss";
 .admin-panel-main {
   &__menu {
+    height: calc(100vh - #{$navbar-height});
+
     display: flex;
     flex-wrap: wrap;
+
+    position: fixed;
+    overflow-y: scroll;
   }
 }
 
@@ -21,6 +27,11 @@
     background-repeat: no-repeat;
     background-size: cover;
   }
+  &--empty {
+    padding-left: 2rem;
+    margin-top: 1.5rem;
+    margin-bottom: -1.5rem;
+  }
 }
 
 .sidebar {
@@ -39,6 +50,8 @@
 
 .item {
   display: flex;
+
+  height: 120px;
 
   padding: 0.5rem;
   margin: 1rem;
