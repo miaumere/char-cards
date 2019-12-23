@@ -1,7 +1,11 @@
 package com.meowmere.main.Entities.sideCharacters;
+
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "side_character")
@@ -22,6 +26,11 @@ public class SideCharacter {
 
     @Column
     public Boolean archived = false;
+
+    @ManyToMany(fetch =  FetchType.LAZY)
+    @NotFound(action = NotFoundAction.IGNORE)
+    @JoinColumn(name = "book_id", unique = true)
+    private Set<Book> books;
 
     protected SideCharacter(){}
 
@@ -70,4 +79,16 @@ public class SideCharacter {
     public void setArchived(Boolean archived) {
         this.archived = archived;
     }
+
+    public Set<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(Set<Book> books) {
+        this.books = books;
+    }
 }
+
+
+
+

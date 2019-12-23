@@ -122,7 +122,7 @@ public class CharactersService {
         ModelMapper modelMapper = new ModelMapper();
         Character oneCharacter = characterRepository.getNonArchivedCharacter(externalId);
         if(oneCharacter == null) {
-            String err = "Nie udało się znaleźć postaci.";
+            String err = "Nie udało się znaleźć postaci o podanym id.";
             return new ResponseEntity<>(err, HttpStatus.BAD_REQUEST);
         }
 
@@ -130,39 +130,35 @@ public class CharactersService {
 
         List<Story> storiesFromDb = storyRepository.getAllStoriesForId(externalId);
         List<CharacterStoryDTO> stories = new ArrayList<>();
-        if(storiesFromDb != null){
+        if(storiesFromDb != null && storiesFromDb.size() > 0){
             for (Story storyFromDb : storiesFromDb) {
-                CharacterStoryDTO storyDTO = modelMapper.map(storyFromDb, CharacterStoryDTO.class);
-                stories.add(storyDTO);
+                stories.add(modelMapper.map(storyFromDb, CharacterStoryDTO.class));
             }
         }
         dto.setStory(stories);
 
-        Colors colorsForCharacter = colorsRepository.getOne(externalId);
-        CharacterColorDTO colorDTO = colorsForCharacter != null
-                ? modelMapper.map(colorsForCharacter, CharacterColorDTO.class)
-                : null;
-        dto.setColors(colorDTO);
+        Colors colorsForCharacter = colorsRepository.getColorsForCharacter(externalId);
+        if (colorsForCharacter != null) {
+            dto.setColors(modelMapper.map(colorsForCharacter, CharacterColorDTO.class));
+        }
 
-        Temperament temperamentForCharacter = temperamentRepository.getOne(externalId);
-        CharacterTemperamentDTO temperamentDTO = temperamentForCharacter != null
-                ? modelMapper.map(temperamentForCharacter, CharacterTemperamentDTO.class)
-                : null;
-        dto.setTemperament(temperamentDTO);
+        Temperament temperamentForCharacter = temperamentRepository.getTemperamentForCharacter(externalId);
+        if(temperamentForCharacter != null) {
+            dto.setTemperament(modelMapper.map(temperamentForCharacter, CharacterTemperamentDTO.class));
+        }
 
-        Measurements measurementsForCharacter = measurementsRepository.getOne(externalId);
-        CharacterMeasurementsDTO measurementsDTO = measurementsForCharacter != null
-                ? modelMapper.map(measurementsForCharacter, CharacterMeasurementsDTO.class)
-                : null;
-        dto.setMeasurements(measurementsDTO);
+        Measurements measurementsForCharacter = measurementsRepository.getMeasurementsById(externalId);
+        if(measurementsForCharacter != null){
+            dto.setMeasurements(modelMapper.map(measurementsForCharacter, CharacterMeasurementsDTO.class));
+        }
 
         List<Quote> quotes = quoteRepository.getAllQuotesById(externalId);
         Random random = new Random();
         if(quotes.size() > 1){
             Quote randomQuote = quotes.get(random.nextInt(quotes.size()));
             dto.setQuote(modelMapper.map(randomQuote, CharacterQuoteDTO.class));
-        } else {
-            dto.setQuote(modelMapper.map(colorsRepository.getOne(externalId), CharacterQuoteDTO.class));
+        } else if(quotes.size() == 1) {
+            dto.setQuote(modelMapper.map(quoteRepository.getOne(externalId), CharacterQuoteDTO.class));
         }
 
         try {

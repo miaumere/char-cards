@@ -31,19 +31,19 @@ public class Character {
     @Column
     public Boolean archived = false;
 
-    @OneToMany(mappedBy = "character", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "character", cascade = CascadeType.ALL)
     private Set<Colors> colors;
 
-    @OneToMany(mappedBy = "character", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "character", cascade = CascadeType.ALL)
     private Set<Temperament> temperament;
 
-    @OneToMany(mappedBy = "character", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "character", cascade = CascadeType.ALL)
     private Set<Quote> quotes;
 
-    @OneToMany(mappedBy = "character", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "character", cascade = CascadeType.ALL)
     private Set<Measurements> measurements;
 
-    @OneToMany(mappedBy = "character", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "character", cascade = CascadeType.ALL)
     private Set<Story> stories;
 
     protected Character() {};

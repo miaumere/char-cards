@@ -9,6 +9,7 @@
   position: fixed;
 
   height: calc(100vh - #{$navbar-height});
+  width: 100%;
 
   background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAF0lEQVQYV2NkQAJSN+83PFNXbGCkgSAAqjkUBj+3UZ0AAAAASUVORK5CYII="),
     linear-gradient(to bottom, #191244 0%, #191244 33%, #85383e 100%);

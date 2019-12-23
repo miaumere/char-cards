@@ -33,6 +33,8 @@ public class Measurements {
     @JoinColumn(name = "character_id")
     private Character character;
 
+    protected  Measurements() {};
+
     public Measurements(Integer babyHeight,
                         Integer babyWeight,
                         Integer childHeight,

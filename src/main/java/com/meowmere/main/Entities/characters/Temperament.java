@@ -29,6 +29,7 @@ public class Temperament {
     @JoinColumn(name = "character_id", unique = true)
     private Character character;
 
+    protected Temperament() {}
     public Temperament(Integer melancholic,
                        Integer sanguine,
                        Integer flegmatic,
@@ -79,5 +80,13 @@ public class Temperament {
 
     public void setCholeric(Integer choleric) {
         this.choleric = choleric;
+    }
+
+    public Character getCharacter() {
+        return character;
+    }
+
+    public void setCharacter(Character character) {
+        this.character = character;
     }
 }
