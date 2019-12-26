@@ -4,28 +4,28 @@
   background: black;
   &__bg {
     display: flex;
-    position: fixed;
-    overflow: hidden;
-    max-height: 100vh;
-    min-height: 100vh;
+    height: 100vh;
+    width: 100vh;
   }
 }
 
 .bg {
+  background-image: url("../../../../../assets/images/bg.jpg");
+
+  object-fit: scale-down;
+
+  background-position: left;
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100vw;
+
   &__desc {
     @include font-special;
 
-    position: fixed;
     display: flex;
     justify-content: center;
     align-items: center;
 
-    left: 50%;
-    right: 0;
-    top: 50%;
-    bottom: 0;
-
-    transform: translate(-50%, -50%);
     margin: auto;
 
     font-size: 3rem;

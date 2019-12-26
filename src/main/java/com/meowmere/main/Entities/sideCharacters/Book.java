@@ -17,6 +17,9 @@ public class Book {
     private String name;
 
     @Column
+    private Long bookOrder;
+
+    @Column
     private String color;
 
     @ManyToMany(fetch =  FetchType.LAZY)
@@ -41,6 +44,10 @@ public class Book {
     public void setName(String name) {
         this.name = name;
     }
+
+    public Long getBookOrder() { return bookOrder; }
+
+    public void setBookOrder(Long bookOrder) { this.bookOrder = bookOrder; }
 
     public String getColor() {
         return color;

@@ -4,6 +4,7 @@ public class SideCharacterDetailsDTO {
     public Long externalId;
     public String sideCharacterName;
     public String sideCharacterSurname;
+    public Long bookId;
     public String sideCharacterDesc;
 
     public Long getExternalId() {
@@ -36,5 +37,13 @@ public class SideCharacterDetailsDTO {
 
     public void setSideCharacterDesc(String sideCharacterDesc) {
         this.sideCharacterDesc = sideCharacterDesc;
+    }
+
+    public Long getBookId() {
+        return bookId;
+    }
+
+    public void setBookId(Long bookId) {
+        this.bookId = bookId;
     }
 }
