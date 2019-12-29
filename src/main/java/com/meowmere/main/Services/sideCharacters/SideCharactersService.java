@@ -1,10 +1,13 @@
 package com.meowmere.main.Services.sideCharacters;
 
+import com.meowmere.main.DTO.sideCharacters.BookDTO;
 import com.meowmere.main.DTO.sideCharacters.SideCharacterDTO;
 import com.meowmere.main.DTO.sideCharacters.SideCharacterDetailsDTO;
 import com.meowmere.main.DTO.sideCharacters.SideCharacterForListDTO;
+import com.meowmere.main.Entities.sideCharacters.Book;
 import com.meowmere.main.Entities.sideCharacters.SideCharacter;
 import com.meowmere.main.Enums.AvailableExtensions;
+import com.meowmere.main.Repositories.sideCharacters.BookRepository;
 import com.meowmere.main.Repositories.sideCharacters.SideCharactersRepository;
 import com.meowmere.main.Requests.sideCharacters.EditSideCharRequest;
 import com.meowmere.main.Requests.sideCharacters.SideCharacterChangeRequest;
@@ -32,6 +35,8 @@ import java.util.stream.Stream;
 public class SideCharactersService {
     @Autowired
     public SideCharactersRepository sideCharactersRepository;
+    @Autowired
+    public BookRepository bookRepository;
 
     private void getSideCharacterProfilePic(SideCharacter sideCharacterFromDb, SideCharacterDTO dto) {
         try {
@@ -127,12 +132,27 @@ public class SideCharactersService {
         String surname = multipartHttpServletRequest.getParameter("surname");
         String desc = multipartHttpServletRequest.getParameter("desc");
         MultipartFile file = multipartHttpServletRequest.getFile("profilePic");
+        String booksIdsAsString = multipartHttpServletRequest.getParameter("books");
         multipartHttpServletRequest.getFileMap();
 
         SideCharacter sideCharacter = new SideCharacter(name, surname, desc);
 
-        sideCharactersRepository.save(sideCharacter);
-        sideCharactersRepository.flush();
+        sideCharactersRepository.saveAndFlush(sideCharacter);
+
+        String[] idsAsString = booksIdsAsString.split(",");
+            List<Book> books = new ArrayList<>();
+
+        for (String idAsString : idsAsString) {
+            Long id = Long.parseLong(idAsString);
+            Book book = bookRepository.getOne(id);
+            books.add(book);
+            if(book == null) {
+                return new ResponseEntity("Nie ma szkicownika o podanym id.", HttpStatus.BAD_REQUEST);
+            }
+            sideCharacter.setBooks(books);
+            sideCharactersRepository.saveAndFlush(sideCharacter);
+        }
+
 
         String stringForPathURI = String.format("src\\main\\resources\\static\\side-character-profile-pics\\%s",
                 sideCharacter.getExternalId(), sideCharacter);
@@ -216,5 +236,17 @@ public class SideCharactersService {
             return new ResponseEntity("Nie udało się dodać zdjęcia.", HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity(HttpStatus.CREATED);
+    }
+
+    public ResponseEntity getAllBooks() {
+        ModelMapper modelMapper = new ModelMapper();
+        List<Book> booksFromDb = bookRepository.findAll(Sort.by(Sort.Direction.ASC, "bookOrder"));
+        List<BookDTO> result = new ArrayList<>();
+        booksFromDb.forEach(book -> {
+            BookDTO bookDTO = modelMapper.map(book, BookDTO.class);
+            result.add(bookDTO);
+        });
+
+        return new ResponseEntity(result, HttpStatus.OK);
     }
 }

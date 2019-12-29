@@ -5,12 +5,13 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CharacterItem } from 'src/app/modules/characters/models/character-item.model';
 import { finalize } from 'rxjs/operators';
-import { NgForm, FormGroup, FormControl, Validators } from '@angular/forms';
+import { NgForm, FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 import { Titles } from '../../models/titles.model';
 import { Story, StoryForCharacter } from '../../models/story.model';
 import { BaseComponent } from 'src/app/core/base.component';
 import { SideCharacterDetails } from '../../models/side-characters-details.model';
 import { EditSideCharacterDetails } from '../../models/edit-side-character-details.model';
+import { Book } from '../../models/book.model';
 
 type changeOptions = 'new-character' | 'edit-character' | 'delete-character' | 'story'
   | 'new-chars' | 'edit-side' | 'edit-side-pic';
@@ -29,18 +30,22 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
   charList: CharacterItem[];
   titles: Titles[] | null = null;
 
+  books: Book[];
+
   characterWithStoryId: number;
   titlesForStories: Map<number, Titles[]>;
   areTitlesSet = false;
 
   selectedCharId: number;
-
   newSideCharForm = new FormGroup({
     name: new FormControl('', Validators.required),
     surname: new FormControl('', Validators.required),
     desc: new FormControl('', Validators.required),
+    books: new FormArray([]),
     profilePic: new FormControl()
   });
+
+
 
   sideCharacterDetails: SideCharacterDetails;
 
@@ -102,8 +107,26 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
 
   }
 
+  onCheckChange(event: any) {
+    const formArray: FormArray = this.newSideCharForm.get('books') as FormArray;
+    if (event.target.checked) {
+      formArray.push(new FormControl(+event.target.value));
+    } else {
+      let i = 0;
+      formArray.controls.forEach((ctrl: FormControl) => {
+        if (ctrl.value == event.target.value) {
+          formArray.removeAt(i);
+          return;
+        }
+        i++;
+      });
+    }
+
+    console.log(formArray.value);
+  }
+
   createNewSideCharInfo() {
-    // console.log(this.newSideCharForm)
+    console.log(this.newSideCharForm);
 
     if (this.newSideCharForm.invalid) {
       this._toastrService.warning('Aby kontynuować, wypełnij wszystkie pola.');
@@ -111,8 +134,8 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
 
     const fileToUpload = this.sideCharProfilePic.nativeElement.files[0];
     if (fileToUpload) {
-      const extension = fileToUpload.name.split('.').pop()
-      const fileSize = fileToUpload.size / 1024 / 1024
+      const extension = fileToUpload.name.split('.').pop();
+      const fileSize = fileToUpload.size / 1024 / 1024;
       const extensionReg = /(jpg|jpeg|gif|png)/i
       if (!extensionReg.test(extension)) {
         return this._toastrService.warning('Niewspierany format pliku.');
@@ -128,6 +151,8 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
     for (const [key, value] of Object.entries(formValues)) {
       if (key === 'profilePic') {
         formData.append('profilePic', fileToUpload);
+      } else if (key === 'books') {
+        formData.append('books', value.toString());
       }
       formData.append(key, value);
     }
@@ -345,6 +370,15 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
     )
   }
 
+  getBooks() {
+    this.subscriptions$.add(
+      this._sideCharacterService
+        .getBooks()
+        .subscribe(books => {
+          this.books = books;
+        })
+    )
+  }
 
 
   displayInfo(changeOption: changeOptions) {
@@ -359,9 +393,14 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
 
       case 'edit-side':
         this.getCharacterDetails();
+        this.getBooks();
         break;
 
       case 'new-chars':
+        this.loading = false;
+        this.getBooks();
+        break;
+
       case 'new-character':
       case 'edit-side-pic':
         this.loading = false;

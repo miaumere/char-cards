@@ -53,4 +53,9 @@ public class SideCharactersController {
     public ResponseEntity editSideProfilePic(MultipartHttpServletRequest multipartHttpServletRequest, HttpServletResponse response) {
         return sideCharactersService.editSideProfilePic(multipartHttpServletRequest);
     }
+
+    @GetMapping("/books")
+    public ResponseEntity getAllBooks() {
+        return sideCharactersService.getAllBooks();
+    }
 }

@@ -4,7 +4,7 @@ import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table(name = "book")
@@ -25,9 +25,9 @@ public class Book {
     @ManyToMany(fetch =  FetchType.LAZY)
     @NotFound(action = NotFoundAction.IGNORE)
     @JoinColumn(name = "side_character_id", unique = true)
-    private Set<SideCharacter> sideCharacters;
+    private List<SideCharacter> sideCharacters;
 
-    protected Book(){}
+    public Book(){}
 
     public Long getExternalId() {
         return externalId;
@@ -57,11 +57,11 @@ public class Book {
         this.color = color;
     }
 
-    public Set<SideCharacter> getSideCharacters() {
+    public List<SideCharacter> getSideCharacters() {
         return sideCharacters;
     }
 
-    public void setSideCharacters(Set<SideCharacter> sideCharacters) {
+    public void setSideCharacters(List<SideCharacter> sideCharacters) {
         this.sideCharacters = sideCharacters;
     }
 }

@@ -5,6 +5,7 @@ public class EditSideCharRequest {
     public String sideCharacterName;
     public String sideCharacterSurname;
     public String sideCharacterDesc;
+    public String bookId;
 
     public Long getExternalId() {
         return externalId;
@@ -33,4 +34,8 @@ public class EditSideCharRequest {
     public void setSideCharacterDesc(String sideCharacterDesc) {
         this.sideCharacterDesc = sideCharacterDesc;
     }
+
+    public String getBookId() { return bookId; }
+
+    public void setBookId(String bookId) { this.bookId = bookId; }
 }

@@ -102,6 +102,14 @@
             <input type="text" class="global-input" formControlName="surname" />
           </label>
         </div>
+        <label class="new-side-form__label global-label books" *ngIf="books">
+          Wybierz szkicowniki, w których postać występuje:
+          <div *ngFor="let book of books">
+            <input type="checkbox" class="global-input" [value]="book.externalId" (change)="onCheckChange($event)" />
+            <app-icon [icon]="'book'" [color]="book.color" [size]="0.8"></app-icon>
+            {{book.name}}
+          </div>
+        </label>
         <label class="new-side-form__label global-label">
           <span style="margin-bottom: 5px">Zdjęcie postaci:</span>
           <input #sideCharProfilePic class="global-file" formControlName="profilePic" type="file" accept="image/*" />

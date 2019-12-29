@@ -5,7 +5,7 @@ import org.hibernate.annotations.NotFoundAction;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table(name = "side_character")
@@ -30,7 +30,7 @@ public class SideCharacter {
     @ManyToMany(fetch =  FetchType.LAZY)
     @NotFound(action = NotFoundAction.IGNORE)
     @JoinColumn(name = "book_id", unique = true)
-    private Set<Book> books;
+    private List<Book> books;
 
     protected SideCharacter(){}
 
@@ -80,11 +80,11 @@ public class SideCharacter {
         this.archived = archived;
     }
 
-    public Set<Book> getBooks() {
+    public List<Book> getBooks() {
         return books;
     }
 
-    public void setBooks(Set<Book> books) {
+    public void setBooks(List<Book> books) {
         this.books = books;
     }
 }

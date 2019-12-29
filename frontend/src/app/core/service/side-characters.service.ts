@@ -6,6 +6,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { SideCharacter, SideCharacterForListItem } from 'src/app/modules/side-characters/models/side-characters.model';
 import { NewSideChar } from 'src/app/modules/admin-panel/models/new-side-char.model';
 import { SideCharacterDetails } from 'src/app/modules/admin-panel/models/side-characters-details.model';
+import { Book } from 'src/app/modules/admin-panel/models/book.model';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,7 @@ export class SideCharactersService {
   getNonArchivedSideCharactersURL = `${this.sideCharacterControllerURL}/side-characters`;
   getAllSideCharactersURL = `${this.sideCharacterControllerURL}/all-side-characters`;
   getSideCharacterDetailsURL = `${this.sideCharacterControllerURL}/side-details`;
+  getBooksURL = `${this.sideCharacterControllerURL}/books`;
 
   putSideCharacterDetailsURL = `${this.sideCharacterControllerURL}/edit-side-details`;
 
@@ -30,6 +32,10 @@ export class SideCharactersService {
 
   getSideCharacters(): Observable<SideCharacter[]> {
     return this.http.get<SideCharacter[]>(this.getNonArchivedSideCharactersURL);
+  }
+
+  getBooks(): Observable<Book[]> {
+    return this.http.get<Book[]>(this.getBooksURL);
   }
 
   getAllSideCharacters(): Observable<SideCharacterForListItem[]> {
@@ -69,5 +75,6 @@ export class SideCharactersService {
     };
     return this.http.post<void>(this.portEditProfilePicURL, formData, httpOptions);
   }
+
 
 }
