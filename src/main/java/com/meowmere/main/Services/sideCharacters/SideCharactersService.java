@@ -139,20 +139,30 @@ public class SideCharactersService {
 
         sideCharactersRepository.saveAndFlush(sideCharacter);
 
-        String[] idsAsString = booksIdsAsString.split(",");
-            List<Book> books = new ArrayList<>();
 
+        String[] idsAsString = booksIdsAsString.split(",");
+
+        List<Book> books = new ArrayList<>();
+
+        if(!booksIdsAsString.isEmpty()) {
         for (String idAsString : idsAsString) {
-            Long id = Long.parseLong(idAsString);
-            Book book = bookRepository.getOne(id);
-            books.add(book);
-            if(book == null) {
-                return new ResponseEntity("Nie ma szkicownika o podanym id.", HttpStatus.BAD_REQUEST);
-            }
-            sideCharacter.setBooks(books);
-            sideCharactersRepository.saveAndFlush(sideCharacter);
+                Long id = Long.parseLong(idAsString);
+
+                Book book = bookRepository.getOne(id);
+                books.add(book);
+                if(book != null) {
+                    sideCharacter.setBooks(books);
+                    sideCharactersRepository.saveAndFlush(sideCharacter);
+                } else {
+                    continue;
+                }
+
+        }
         }
 
+        if(books == null) {
+            sideCharacter.setBooks(null);
+        }
 
         String stringForPathURI = String.format("src\\main\\resources\\static\\side-character-profile-pics\\%s",
                 sideCharacter.getExternalId(), sideCharacter);

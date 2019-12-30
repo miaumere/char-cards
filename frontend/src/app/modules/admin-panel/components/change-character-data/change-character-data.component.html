@@ -144,9 +144,9 @@
                 formControlName="desc"></textarea>
             </label>
           </div>
+          <button class="global-button" [disabled]="editSideCharForm.invalid"
+            (click)="updateSideCharInfo()">Zmień</button>
         </form>
-        <button class="global-button" [disabled]="editSideCharForm.invalid"
-          (click)="updateSideCharInfo()">Zmień</button>
       </ng-container>
 
     </div>

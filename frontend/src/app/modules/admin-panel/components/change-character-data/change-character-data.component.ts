@@ -122,7 +122,7 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
       });
     }
 
-    console.log(formArray.value);
+    console.log(formArray.value.toString());
   }
 
   createNewSideCharInfo() {
@@ -153,8 +153,9 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
         formData.append('profilePic', fileToUpload);
       } else if (key === 'books') {
         formData.append('books', value.toString());
+      } else {
+        formData.append(key, value);
       }
-      formData.append(key, value);
     }
     this.loading = true;
     this.subscriptions$.add(
@@ -168,6 +169,8 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
         .subscribe(_ => {
           this._toastrService.success('Udało się stworzyć nową postać!')
           this.newSideCharForm.reset();
+          this._router.navigate(['admin-panel/side'])
+
         },
           () => {
             this._toastrService.error('Nie udało się stworzyć nowej postaci.')

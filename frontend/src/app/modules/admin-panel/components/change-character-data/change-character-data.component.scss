@@ -10,6 +10,13 @@
 
 .new-side-form,
 .edit-side-char-form,
+.edit-side-pic-form {
+  border: 1px solid white;
+  padding: 1rem;
+}
+
+.new-side-form,
+.edit-side-char-form,
 .edit-side-pic {
   &__container {
     display: flex;
