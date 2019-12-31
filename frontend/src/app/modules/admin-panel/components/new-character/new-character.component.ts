@@ -159,7 +159,7 @@ export class NewCharacterComponent extends BaseComponent implements OnInit {
     this.subscriptions$.add(
       this._charactersService.postNewCharacter(formData).subscribe(_ => {
         this._toastrService.success('Udało się dodać nową postać!');
-        this._route.navigate(['admin-panel/main'])
+        this._route.navigate(['admin-panel/main']);
       },
         err => {
           if (err && err.error) {

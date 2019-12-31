@@ -44,8 +44,10 @@ public class SideCharactersService {
             Resource resource = new ClassPathResource(imagesURI);
             File file = resource.getFile();
             File[] images = file.listFiles();
-            if(images != null){
+            if(images != null && images.length > 0){
             dto.setProfilePic(images[0].getName());
+            } else {
+                dto.setProfilePic(null);
             }
         } catch (IOException e) {
             dto.setProfilePic(null);
@@ -72,6 +74,16 @@ public class SideCharactersService {
         for (SideCharacter sideCharacterFromDb : sideCharactersFromDb) {
             SideCharacterDTO sideCharacter = modelMapper.map(sideCharacterFromDb, SideCharacterDTO.class);
             getSideCharacterProfilePic(sideCharacterFromDb, sideCharacter);
+
+            List<BookDTO> booksForSide = new ArrayList<>();
+            List<Book> books = sideCharacterFromDb.getBooks();
+            if(books != null) {
+                for (Book bookForSideChar: books) {
+                BookDTO bookDTO = modelMapper.map(bookForSideChar, BookDTO.class);
+                booksForSide.add(bookDTO);
+                }
+            }
+            sideCharacter.setBooks(booksForSide);
             result.add(sideCharacter);
         }
         return new ResponseEntity<>(result, HttpStatus.OK);
@@ -136,9 +148,7 @@ public class SideCharactersService {
         multipartHttpServletRequest.getFileMap();
 
         SideCharacter sideCharacter = new SideCharacter(name, surname, desc);
-
         sideCharactersRepository.saveAndFlush(sideCharacter);
-
 
         String[] idsAsString = booksIdsAsString.split(",");
 
@@ -156,8 +166,7 @@ public class SideCharactersService {
                 } else {
                     continue;
                 }
-
-        }
+            }
         }
 
         if(books == null) {

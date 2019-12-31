@@ -60,9 +60,7 @@ public class SideCharacter {
         return sideCharacterSurname;
     }
 
-    public void setSideCharacterSurname(String sideCharacterSurname) {
-        this.sideCharacterSurname = sideCharacterSurname;
-    }
+    public void setSideCharacterSurname(String sideCharacterSurname) { this.sideCharacterSurname = sideCharacterSurname; }
 
     public String getSideCharacterDesc() {
         return sideCharacterDesc;

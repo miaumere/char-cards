@@ -1,11 +1,13 @@
 package com.meowmere.main.DTO.sideCharacters;
 
+import java.util.List;
+
 public class SideCharacterDTO {
     public Long externalId;
     public String sideCharacterName;
     public String sideCharacterSurname;
     public String sideCharacterDesc;
-    public BookDTO book;
+    public List<BookDTO> books;
     public String profilePic;
 
     public Long getExternalId() {
@@ -48,11 +50,11 @@ public class SideCharacterDTO {
         this.profilePic = profilePic;
     }
 
-    public BookDTO getBook() {
-        return book;
+    public List<BookDTO> getBooks() {
+        return books;
     }
 
-    public void setBook(BookDTO book) {
-        this.book = book;
+    public void setBooks(List<BookDTO> books) {
+        this.books = books;
     }
 }
