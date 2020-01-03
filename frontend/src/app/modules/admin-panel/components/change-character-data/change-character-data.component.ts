@@ -4,8 +4,8 @@ import { CharactersService } from './../../../../core/service/characters.service
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CharacterItem } from 'src/app/modules/characters/models/character-item.model';
-import { finalize } from 'rxjs/operators';
-import { NgForm, FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
+import { finalize, withLatestFrom } from 'rxjs/operators';
+import { NgForm, FormGroup, FormControl, Validators, FormArray, Form } from '@angular/forms';
 import { Titles } from '../../models/titles.model';
 import { Story, StoryForCharacter } from '../../models/story.model';
 import { BaseComponent } from 'src/app/core/base.component';
@@ -45,9 +45,8 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
     profilePic: new FormControl()
   });
 
-
-
   sideCharacterDetails: SideCharacterDetails;
+  detailsBooksIds: number[] = [];
 
   editSideCharForm = new FormGroup({
     name: new FormControl('', [
@@ -58,16 +57,17 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
       Validators.required,
       Validators.minLength(5)
     ]),
+    books: new FormArray([]),
     desc: new FormControl('', [
       Validators.required,
       Validators.minLength(25)
     ])
-  })
+  });
 
   newProfilePicForm = new FormGroup({
     externalId: new FormControl(''),
     profilePic: new FormControl()
-  })
+  });
 
   @ViewChild('sideCharProfilePic', { static: false }) sideCharProfilePic;
   @ViewChild('newProfilePic', { static: false }) newProfilePic;
@@ -97,32 +97,62 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
               if (queryParam.id) {
                 this.selectedCharId = queryParam.id;
               }
-            })
+            });
           }
           this.displayInfo(param.name);
         })
-      )
+      );
     }
 
 
   }
 
-  onCheckChange(event: any) {
-    const formArray: FormArray = this.newSideCharForm.get('books') as FormArray;
-    if (event.target.checked) {
-      formArray.push(new FormControl(+event.target.value));
-    } else {
-      let i = 0;
-      formArray.controls.forEach((ctrl: FormControl) => {
-        if (ctrl.value == event.target.value) {
-          formArray.removeAt(i);
-          return;
-        }
-        i++;
-      });
+  onCheckChange(event: any, type: 'new-chars' | 'edit-chars') {
+    let formArray: FormArray | null = null;
+
+    switch (type) {
+      case 'new-chars':
+        formArray = this.newSideCharForm.get('books') as FormArray;
+        break;
+
+      case 'edit-chars':
+        formArray = this.editSideCharForm.get('books') as FormArray;
+        break;
+
     }
 
-    console.log(formArray.value.toString());
+    if (!!formArray) {
+      if (event.target.checked) {
+        formArray.push(new FormControl(+event.target.value));
+      } else {
+        const controlsArray = formArray.controls;
+        for (const [index, ctrl] of Object.entries(controlsArray)) {
+          const i = +index;
+          const controlValue = +ctrl.value;
+          const targetValue = +event.target.value;
+
+          if (controlValue === targetValue) {
+            formArray.removeAt(i);
+            break;
+          }
+        }
+      }
+      console.log('wartość: ', formArray.value.toString());
+      this.detailsBooksIds = formArray.value;
+    }
+
+  }
+
+  setBookValue(bookId) {
+    const foundBook = this.sideCharacterDetails.books.find(b => {
+      return b.externalId === bookId;
+    });
+
+    if (foundBook) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   createNewSideCharInfo() {
@@ -136,7 +166,7 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
     if (fileToUpload) {
       const extension = fileToUpload.name.split('.').pop();
       const fileSize = fileToUpload.size / 1024 / 1024;
-      const extensionReg = /(jpg|jpeg|gif|png)/i
+      const extensionReg = /(jpg|jpeg|gif|png)/i;
       if (!extensionReg.test(extension)) {
         return this._toastrService.warning('Niewspierany format pliku.');
       } else if (fileSize > 4) {
@@ -167,15 +197,15 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
           })
         )
         .subscribe(_ => {
-          this._toastrService.success('Udało się stworzyć nową postać!')
+          this._toastrService.success('Udało się stworzyć nową postać!');
           this.newSideCharForm.reset();
-          this._router.navigate(['admin-panel/side'])
+          this._router.navigate(['admin-panel/side']);
 
         },
           () => {
-            this._toastrService.error('Nie udało się stworzyć nowej postaci.')
+            this._toastrService.error('Nie udało się stworzyć nowej postaci.');
           })
-    )
+    );
 
   }
 
@@ -189,7 +219,7 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
         })
       ).subscribe(charList => {
         this.charList = charList;
-      })
+      });
   }
 
   getStoryTitles() {
@@ -203,7 +233,7 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
         ).subscribe(titles => {
           this.titles = titles;
         })
-    )
+    );
 
   }
 
@@ -211,14 +241,14 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
     const map = new Map();
     for (const key in storyForm.controls) {
       if (storyForm.controls.hasOwnProperty(key)) {
-        key === 'name' ? this.characterWithStoryId = storyForm.value[key] : null
+        key === 'name' ? this.characterWithStoryId = storyForm.value[key] : null;
         if (key !== 'name') {
           const id = +key;
           const value = !!storyForm.value[id];
           if (value && this.titles && this.titles.length > 0) {
             const titleForStory = this.titles.find(t => {
               return t.id === id;
-            })
+            });
             if (titleForStory) {
               map.set(id, titleForStory.title);
             }
@@ -230,7 +260,7 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
     if (this.titlesForStories.size > 0 && this.characterWithStoryId) {
       this.areTitlesSet = true;
     } else {
-      this._toastrService.warning('Nie uzupełniono poprawnie formularza.')
+      this._toastrService.warning('Nie uzupełniono poprawnie formularza.');
     }
   }
 
@@ -264,10 +294,10 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
           },
           err => {
             if (err.error) {
-              this._toastrService.error(err.error)
+              this._toastrService.error(err.error);
             }
           })
-    )
+    );
   }
 
   getCharacterDetails() {
@@ -279,11 +309,14 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
             this.loading = false;
           })
         )
+
         .subscribe(details => {
           this.sideCharacterDetails = details;
+          console.log("this.sideCharacterDetails.books: ", this.sideCharacterDetails);
           const name = this.editSideCharForm.get('name');
           const surname = this.editSideCharForm.get('surname');
           const desc = this.editSideCharForm.get('desc');
+          const books = this.editSideCharForm.get('books');
 
           if (name) {
             name.setValue(details.sideCharacterName);
@@ -294,13 +327,37 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
           if (desc) {
             desc.setValue(details.sideCharacterDesc);
           }
+          if (books) {
+            if (this.sideCharacterDetails.books && this.books) {
+              // const foundBook = this.sideCharacterDetails.books.find(sb => {
+              //   return sb.externalId === this.books.find(b => {
+              //     return b.externalId === sb.externalId;
+              //   }).externalId;
+              // });
+              for (const key in this.books) {
+                if (this.books.hasOwnProperty(key)) {
+                  const element = this.books[key];
+                  const foundBook = this.sideCharacterDetails.books.find(sb => {
+                    return sb.externalId === element.externalId
+                  });
+
+                  // console.log("found book: ", foundBook)
+                  // if (foundBook) {
+                  //   this.detailsBooksIds.push(foundBook.externalId)
+                  // }
+                }
+              }
+
+            }
+          }
+
         },
           err => {
             if (err && err.error) {
               this._toastrService.error(err.error);
             }
           })
-    )
+    );
   }
 
   updateSideCharInfo() {
@@ -315,8 +372,11 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
     objToSend.sideCharacterName = formValues.name;
     objToSend.sideCharacterSurname = formValues.surname;
     objToSend.sideCharacterDesc = formValues.desc;
-
+    objToSend.books = this.detailsBooksIds;
+    console.log(objToSend.books);
     this.loading = true;
+
+    return;
 
     this.subscriptions$.add(
       this._sideCharacterService
@@ -342,7 +402,7 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
     if (fileToUpload) {
       const extension = fileToUpload.name.split('.').pop();
       const fileSize = fileToUpload.size / 1024 / 1024;
-      const extensionReg = /(jpg|jpeg|gif|png)/i
+      const extensionReg = /(jpg|jpeg|gif|png)/i;
       if (!extensionReg.test(extension)) {
         return this._toastrService.warning('Niewspierany format pliku.');
       } else if (fileSize > 4) {
@@ -370,7 +430,7 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
           () => {
             this._toastrService.error('Nie udało się zmienić profilowego.');
           })
-    )
+    );
   }
 
   getBooks() {
@@ -380,7 +440,7 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
         .subscribe(books => {
           this.books = books;
         })
-    )
+    );
   }
 
 

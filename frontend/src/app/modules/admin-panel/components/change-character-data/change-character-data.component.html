@@ -105,7 +105,8 @@
         <label class="new-side-form__label global-label books" *ngIf="books">
           Wybierz szkicowniki, w których postać występuje:
           <div *ngFor="let book of books">
-            <input type="checkbox" class="global-input" [value]="book.externalId" (change)="onCheckChange($event)" />
+            <input type="checkbox" class="global-input" [value]="book.externalId"
+              (change)="onCheckChange($event, 'new-chars')" />
             <app-icon [icon]="'book'" [color]="book.color" [size]="0.8"></app-icon>
             {{book.name}}
           </div>
@@ -138,6 +139,15 @@
               <input type="text" class="global-input" formControlName="surname" />
             </label>
           </div>
+          <label class="edit-side-form__label global-label books" *ngIf="books">
+            Wybierz szkicowniki, w których postać występuje:
+            <div *ngFor="let book of books">
+              <input type="checkbox" class="global-input" [value]="book.externalId"
+                (change)="onCheckChange($event, 'edit-chars')" />
+              <app-icon [icon]="'book'" [color]="book.color" [size]="0.8"></app-icon>
+              {{book.name}}
+            </div>
+          </label>
           <div class="edit-side-char-form__container edit-side-char-form__container--story">
             <label class="edit-side-char-form__label global-label"> Opis/historia postaci:
               <textarea class="global-textarea edit-side-char-form__textarea" cols="50"

@@ -5,7 +5,7 @@
     <div class="box__books books" *ngIf="sideCharacter.books">
       <ng-container *ngFor="let book of sideCharacter.books">
 
-        <div class="books__item">
+        <div class="books__item" [title]="book.name">
           <app-icon [icon]="'book'" [color]="book.color" [size]="1"></app-icon>
         </div>
       </ng-container>

@@ -1,11 +1,13 @@
 package com.meowmere.main.Requests.sideCharacters;
 
+import java.util.List;
+
 public class EditSideCharRequest {
     public Long externalId;
     public String sideCharacterName;
     public String sideCharacterSurname;
     public String sideCharacterDesc;
-    public String bookId;
+    public List<Long> booksIds;
 
     public Long getExternalId() {
         return externalId;
@@ -35,7 +37,11 @@ public class EditSideCharRequest {
         this.sideCharacterDesc = sideCharacterDesc;
     }
 
-    public String getBookId() { return bookId; }
+    public List<Long> getBooksIds() {
+        return booksIds;
+    }
 
-    public void setBookId(String bookId) { this.bookId = bookId; }
+    public void setBooksIds(List<Long> booksIds) {
+        this.booksIds = booksIds;
+    }
 }

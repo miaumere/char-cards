@@ -66,6 +66,18 @@ public class SideCharactersService {
             dto.setProfilePic(null);
         }
     }
+    private void setSideCharactersBooks(SideCharacter sideCharacterFromDb, SideCharacterDetailsDTO dto) {
+        ModelMapper modelMapper = new ModelMapper();
+        List<BookDTO> booksForSide = new ArrayList<>();
+        List<Book> books = sideCharacterFromDb.getBooks();
+        if(books != null) {
+            for (Book book : books) {
+                BookDTO bookDTO = modelMapper.map(book, BookDTO.class);
+                booksForSide.add(bookDTO);
+            }
+        }
+        dto.setBooks(booksForSide);
+    }
 
     public ResponseEntity findNonArchivedSideCharacters() {
         List<SideCharacter> sideCharactersFromDb = sideCharactersRepository.getNonArchivedSideCharacters();
@@ -78,7 +90,7 @@ public class SideCharactersService {
             List<BookDTO> booksForSide = new ArrayList<>();
             List<Book> books = sideCharacterFromDb.getBooks();
             if(books != null) {
-                for (Book bookForSideChar: books) {
+                for (Book bookForSideChar : books) {
                 BookDTO bookDTO = modelMapper.map(bookForSideChar, BookDTO.class);
                 booksForSide.add(bookDTO);
                 }
@@ -111,6 +123,7 @@ public class SideCharactersService {
             return new ResponseEntity(err, HttpStatus.BAD_REQUEST);
         }
         SideCharacterDetailsDTO dto = modelMapper.map(sideCharFromDb, SideCharacterDetailsDTO.class);
+        setSideCharactersBooks(sideCharFromDb, dto);
         return new ResponseEntity(dto, HttpStatus.OK);
     }
 
@@ -123,6 +136,16 @@ public class SideCharactersService {
         sideCharFromDb.setSideCharacterDesc(request.getSideCharacterDesc());
         sideCharFromDb.setSideCharacterName(request.getSideCharacterName());
         sideCharFromDb.setSideCharacterSurname(request.getSideCharacterSurname());
+
+        List<Long> bookIds = request.getBooksIds();
+        List<BookDTO> books = new ArrayList<>();
+        if(bookIds != null) {
+            for (Long bookId : bookIds) {
+
+            }
+        }
+
+//        sideCharFromDb.setBooks();
 
         sideCharactersRepository.saveAndFlush(sideCharFromDb);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
