@@ -1,6 +1,5 @@
 <article class="new-char admin-panel admin-panel--main">
   <h2 class="changes__title">Uzupełnij poniższe pola, aby dodać nową postać główną:</h2>
-
   <div class="progress">
     <ul class="progress-bar__steps steps">
       <li class="steps__step step" *ngFor="let formPart of formParts; index as i" (click)="setForm(i+1)">
@@ -19,7 +18,6 @@
       </li>
     </ul>
   </div>
-
   <div class="buttons">
     <button class="buttons__arrow" [disabled]="chosenForm === 1"
       (click)="setForm(chosenForm === 'SUBMIT' ? formParts.length : chosenForm - 1 )">
@@ -30,7 +28,8 @@
       🡆
     </button>
   </div>
-  <form [formGroup]="newCharacterForm" enctype="multipart/form-data" class="new-char__form new-char-form">
+
+  <form [formGroup]="form" enctype="multipart/form-data" class="new-char__form new-char-form">
     <div [ngSwitch]="chosenForm">
       <div *ngSwitchCase="1">
         <h2 class="changes__title">Dodaj imię, nazwisko i inne ważne dane:</h2>
@@ -263,12 +262,12 @@
         <span *ngIf="newCharacterForm.invalid">
           Niektóre pola nie zostały uzupełnione. Jeszcze nie można dodać postaci.
         </span>
-        <button class="global-button" (click)="createNewChar()" [disabled]="newCharacterForm.invalid"
-          style="margin-top: 1rem;">
+        <button class="global-button" (click)="modifyCharacter()" [disabled]="form.invalid" style="margin-top: 1rem;">
           Dodaj postać
         </button>
       </div>
 
     </div>
   </form>
+
 </article>

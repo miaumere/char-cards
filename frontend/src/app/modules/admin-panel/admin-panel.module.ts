@@ -8,7 +8,7 @@ import { AdminPanelRoutingModule } from './admin-panel-routing.module';
 import { AdminPanelComponent } from './components/admin-panel/admin-panel.component';
 import { ChangeCharacterDataComponent } from './components/change-character-data/change-character-data.component';
 import { AdminPanelMenuComponent } from './components/admin-panel-menu/admin-panel-menu.component';
-import { NewCharacterComponent } from './components/new-character/new-character.component';
+import { CharacterModifyComponent } from './components/character-modify/character-modify.component';
 import { SideCharactersService } from 'src/app/core/service/side-characters.service';
 import { AdminPanelForMainComponent } from './components/admin-panel-for-main/admin-panel-for-main.component';
 import { AdminPanelForSideComponent } from './components/admin-panel-for-side/admin-panel-for-side.component';
@@ -18,7 +18,7 @@ import { AdminPanelForSideComponent } from './components/admin-panel-for-side/ad
     AdminPanelComponent,
     ChangeCharacterDataComponent,
     AdminPanelMenuComponent,
-    NewCharacterComponent,
+    CharacterModifyComponent,
     AdminPanelForMainComponent,
     AdminPanelForSideComponent
   ],

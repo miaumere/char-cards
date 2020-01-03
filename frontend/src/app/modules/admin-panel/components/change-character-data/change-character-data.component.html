@@ -5,7 +5,7 @@
   <div [ngSwitch]="changeType">
 
     <div *ngSwitchCase="'new-character'">
-      <app-new-character></app-new-character>
+      <app-character-modify type="NEW"></app-character-modify>
     </div>
 
     <div *ngSwitchCase="'story'" class="story">
@@ -48,7 +48,7 @@
     </div>
 
     <div *ngSwitchCase="'edit-character'">
-      <h2 class="changes__title">Wybierz postać:</h2>
+      <app-character-modify type="EDIT"></app-character-modify>
     </div>
 
     <div *ngSwitchCase="'delete-character'" class="delete-character">
@@ -86,7 +86,6 @@
       </div>
 
     </div>
-
 
     <div *ngSwitchCase="'new-chars'" class="side-char  admin-panel admin-panel--side">
       <h2 class="changes__title">Uzupełnij poniższe pola, aby dodać nową postać poboczną:</h2>

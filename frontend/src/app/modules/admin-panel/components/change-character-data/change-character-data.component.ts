@@ -4,8 +4,8 @@ import { CharactersService } from './../../../../core/service/characters.service
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CharacterItem } from 'src/app/modules/characters/models/character-item.model';
-import { finalize, withLatestFrom } from 'rxjs/operators';
-import { NgForm, FormGroup, FormControl, Validators, FormArray, Form } from '@angular/forms';
+import { finalize } from 'rxjs/operators';
+import { NgForm, FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 import { Titles } from '../../models/titles.model';
 import { Story, StoryForCharacter } from '../../models/story.model';
 import { BaseComponent } from 'src/app/core/base.component';
@@ -450,6 +450,7 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
   displayInfo(changeOption: changeOptions) {
     switch (changeOption) {
       case 'edit-character':
+        this.loading = false;
         break;
 
       case 'story':
