@@ -1,3 +1,5 @@
+import { Measurements } from './../../../characters/models/measurements.model';
+import { Temperament } from './../../../characters/models/temperament.model';
 import { EditCharacter } from './../../models/edit-character.model';
 import { Router } from '@angular/router';
 import { CharactersService } from 'src/app/core/service/characters.service';
@@ -6,6 +8,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { BaseComponent } from 'src/app/core/base.component';
 import { validateImage } from 'src/app/shared/functions/validate-image.function';
+import { Colors } from 'src/app/modules/characters/models/colors.model';
 
 type chooseFormType = 'SUBMIT' | number;
 @Component({
@@ -154,11 +157,11 @@ export class CharacterModifyComponent extends BaseComponent implements OnInit {
 
   setModifyType() {
     switch (this.type) {
-      case "NEW":
+      case 'NEW':
         this.form = this.newCharacterForm;
         break;
 
-      case "EDIT":
+      case 'EDIT':
         this.form = this.editCharacterForm;
         break;
     }
@@ -225,19 +228,53 @@ export class CharacterModifyComponent extends BaseComponent implements OnInit {
 
 
       case 'EDIT':
-        const editCharactersFormValues: { [key: string]: string } = this.editCharacterForm.value;
         const objToSend = new EditCharacter();
 
-        for (const key in editCharactersFormValues) {
-          if (editCharactersFormValues.hasOwnProperty(key)) {
-            const element = editCharactersFormValues[key];
-
-            objToSend[key] = element;
-          }
+        objToSend.charName = this.editCharacterForm.controls['name'].value;
+        objToSend.charSurname = this.editCharacterForm.controls['surname'].value;
+        objToSend.birthday = new Date(this.editCharacterForm.controls['birthday'].value).getTime();
+        if (this.isDead) {
+          objToSend.death = new Date(this.editCharacterForm.controls['death'].value).getTime()
+          objToSend.deathReason = this.editCharacterForm.controls['deathReason'].value
+        } else {
+          objToSend.death = null
+          objToSend.deathReason = null;
         }
+        const colors = new Colors();
+        colors.themeColor1 = this.editCharacterForm.controls['themeColor1'].value;
+        colors.themeColor2 = this.editCharacterForm.controls['themeColor2'].value;
+        colors.themeColor3 = this.editCharacterForm.controls['themeColor3'].value;
+        colors.eyeColor1 = this.editCharacterForm.controls['eyeColor1'].value;
+        colors.eyeColor2 = this.editCharacterForm.controls['eyeColor2'].value;
+        colors.hairColor = this.editCharacterForm.controls['hairColor'].value;
+        colors.skinColor = this.editCharacterForm.controls['skinColor'].value;
 
-        console.log(objToSend)
-        break;
+        objToSend.colors = colors
+
+        const temperament = new Temperament();
+        temperament.choleric = this.cholericValue
+        temperament.flegmatic = this.flegmaticValue
+        temperament.melancholic = this.melancholicValue
+        temperament.sanguine = this.sanguineValue
+
+        objToSend.temperament = temperament;
+
+        const measurements = new Measurements();
+        measurements.babyHeight = this.editCharacterForm.controls['babyHeight'].value;
+        measurements.babyWeight = this.editCharacterForm.controls['babyWeight'].value;
+        measurements.childHeight = this.editCharacterForm.controls['childHeight'].value;
+        measurements.childWeight = this.editCharacterForm.controls['childWeight'].value;
+        measurements.teenHeight = this.editCharacterForm.controls['teenHeight'].value;
+        measurements.teenWeight = this.editCharacterForm.controls['teenWeight'].value;
+        measurements.adultHeight = this.editCharacterForm.controls['adultHeight'].value;
+        measurements.adultWeight = this.editCharacterForm.controls['adultWeight'].value;
+
+        objToSend.measurements = measurements;
+
+
+        console.log(objToSend);
     }
   }
+
+
 }

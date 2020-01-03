@@ -9,8 +9,8 @@ export class EditCharacter {
   charName: string;
   charSurname: string;
   birthday: number;
-  death: number;
-  deathReason: string;
+  death: number | null;
+  deathReason: string | null;
   occupation: string;
   colors: Colors;
   temperament: Temperament;

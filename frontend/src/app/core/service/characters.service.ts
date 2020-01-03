@@ -26,6 +26,8 @@ export class CharactersService {
   private _postStoryForCharacterURL = `${this.charControllerURL}/new-stories`;
   private _postNewCharacterURL = `${this.charControllerURL}/new-character`;
 
+  private _putEditCharacterURL = `${this.charControllerURL}/edit-character`;
+
 
   public charList$ = new BehaviorSubject<CharacterItem[] | null>(null);
 

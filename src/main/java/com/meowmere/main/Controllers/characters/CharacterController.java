@@ -39,6 +39,11 @@ public class CharacterController {
         return charactersService.createCharacter(multipartHttpServletRequest);
     }
 
+//    @PutMapping("/edit-character")
+//    public ResponseEntity editCharacter() {
+//
+//    }
+
     @PatchMapping("/change-state")
     public ResponseEntity changeStateOfCharacter(@RequestBody ChangeCharacterStateRequest request){
         return charactersService.changeStatusForCharacter(request);
