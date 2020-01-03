@@ -3,5 +3,5 @@ export class EditSideCharacterDetails {
   sideCharacterName: string;
   sideCharacterSurname: string;
   sideCharacterDesc: string;
-  books: number[];
+  booksIds: number[];
 }

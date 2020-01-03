@@ -312,11 +312,11 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
 
         .subscribe(details => {
           this.sideCharacterDetails = details;
-          console.log("this.sideCharacterDetails.books: ", this.sideCharacterDetails);
           const name = this.editSideCharForm.get('name');
           const surname = this.editSideCharForm.get('surname');
           const desc = this.editSideCharForm.get('desc');
           const books = this.editSideCharForm.get('books');
+
 
           if (name) {
             name.setValue(details.sideCharacterName);
@@ -328,27 +328,33 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
             desc.setValue(details.sideCharacterDesc);
           }
           if (books) {
-            if (this.sideCharacterDetails.books && this.books) {
-              // const foundBook = this.sideCharacterDetails.books.find(sb => {
-              //   return sb.externalId === this.books.find(b => {
-              //     return b.externalId === sb.externalId;
-              //   }).externalId;
-              // });
+            // const foundBook = this.sideCharacterDetails.books.find(sb => {
+            //   return sb.externalId === this.books.find(b => {
+            //     return b.externalId === sb.externalId;
+            //   }).externalId;
+            // });
+            let booksArray: number[] = [];
+
+            setTimeout(() => {
               for (const key in this.books) {
                 if (this.books.hasOwnProperty(key)) {
                   const element = this.books[key];
+
                   const foundBook = this.sideCharacterDetails.books.find(sb => {
-                    return sb.externalId === element.externalId
+                    return sb.externalId === element.externalId;
                   });
 
-                  // console.log("found book: ", foundBook)
-                  // if (foundBook) {
-                  //   this.detailsBooksIds.push(foundBook.externalId)
-                  // }
+                  if (foundBook) {
+                    booksArray.push(foundBook.externalId);
+                  }
+
                 }
               }
+              this.detailsBooksIds = booksArray;
+            }, 0);
 
-            }
+
+
           }
 
         },
@@ -372,11 +378,8 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
     objToSend.sideCharacterName = formValues.name;
     objToSend.sideCharacterSurname = formValues.surname;
     objToSend.sideCharacterDesc = formValues.desc;
-    objToSend.books = this.detailsBooksIds;
-    console.log(objToSend.books);
+    objToSend.booksIds = this.detailsBooksIds;
     this.loading = true;
-
-    return;
 
     this.subscriptions$.add(
       this._sideCharacterService

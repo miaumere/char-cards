@@ -28,6 +28,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -138,14 +139,18 @@ public class SideCharactersService {
         sideCharFromDb.setSideCharacterSurname(request.getSideCharacterSurname());
 
         List<Long> bookIds = request.getBooksIds();
-        List<BookDTO> books = new ArrayList<>();
+        List<Book> books = new ArrayList<>();
+        List<Book> booksFromChar = sideCharFromDb.getBooks();
         if(bookIds != null) {
             for (Long bookId : bookIds) {
-
+                Boolean isAlready = Arrays.asList(booksFromChar).contains(bookId);
+                if(!isAlready){
+                books.add(bookRepository.getOne(bookId));
+                }
             }
         }
 
-//        sideCharFromDb.setBooks();
+        sideCharFromDb.setBooks(books);
 
         sideCharactersRepository.saveAndFlush(sideCharFromDb);
         return new ResponseEntity(HttpStatus.NO_CONTENT);

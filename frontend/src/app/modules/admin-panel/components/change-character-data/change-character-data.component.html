@@ -143,7 +143,7 @@
             Wybierz szkicowniki, w których postać występuje:
             <div *ngFor="let book of books">
               <input type="checkbox" class="global-input" [value]="book.externalId"
-                (change)="onCheckChange($event, 'edit-chars')" />
+                (change)="onCheckChange($event, 'edit-chars')" [checked]="setBookValue(book.externalId)" />
               <app-icon [icon]="'book'" [color]="book.color" [size]="0.8"></app-icon>
               {{book.name}}
             </div>
