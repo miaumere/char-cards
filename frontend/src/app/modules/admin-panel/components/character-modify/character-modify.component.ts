@@ -108,6 +108,7 @@ export class CharacterModifyComponent extends BaseComponent implements OnInit {
   form: FormGroup;
 
   @Input() type;
+  @Input() charId;
 
   constructor(
     private _toastrService: ToastrService,
@@ -230,16 +231,21 @@ export class CharacterModifyComponent extends BaseComponent implements OnInit {
       case 'EDIT':
         const objToSend = new EditCharacter();
 
+        objToSend.externalId = this.charId;
+
         objToSend.charName = this.editCharacterForm.controls['name'].value;
         objToSend.charSurname = this.editCharacterForm.controls['surname'].value;
         objToSend.birthday = new Date(this.editCharacterForm.controls['birthday'].value).getTime();
         if (this.isDead) {
-          objToSend.death = new Date(this.editCharacterForm.controls['death'].value).getTime()
-          objToSend.deathReason = this.editCharacterForm.controls['deathReason'].value
+          objToSend.death = new Date(this.editCharacterForm.controls['death'].value).getTime();
+          objToSend.deathReason = this.editCharacterForm.controls['deathReason'].value;
         } else {
-          objToSend.death = null
+          objToSend.death = null;
           objToSend.deathReason = null;
         }
+        objToSend.occupation = this.editCharacterForm.controls['occupation'].value;
+
+
         const colors = new Colors();
         colors.themeColor1 = this.editCharacterForm.controls['themeColor1'].value;
         colors.themeColor2 = this.editCharacterForm.controls['themeColor2'].value;
@@ -249,13 +255,13 @@ export class CharacterModifyComponent extends BaseComponent implements OnInit {
         colors.hairColor = this.editCharacterForm.controls['hairColor'].value;
         colors.skinColor = this.editCharacterForm.controls['skinColor'].value;
 
-        objToSend.colors = colors
+        objToSend.colors = colors;
 
         const temperament = new Temperament();
-        temperament.choleric = this.cholericValue
-        temperament.flegmatic = this.flegmaticValue
-        temperament.melancholic = this.melancholicValue
-        temperament.sanguine = this.sanguineValue
+        temperament.choleric = this.cholericValue;
+        temperament.flegmatic = this.flegmaticValue;
+        temperament.melancholic = this.melancholicValue;
+        temperament.sanguine = this.sanguineValue;
 
         objToSend.temperament = temperament;
 
@@ -271,8 +277,12 @@ export class CharacterModifyComponent extends BaseComponent implements OnInit {
 
         objToSend.measurements = measurements;
 
-
         console.log(objToSend);
+
+
+      // this.subscriptions$.add(
+      //   this._charactersService
+      // )
     }
   }
 

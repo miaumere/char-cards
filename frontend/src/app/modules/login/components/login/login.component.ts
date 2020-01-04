@@ -36,12 +36,12 @@ export class LoginComponent extends BaseComponent implements OnInit {
     user.password = this.loginForm.controls['password'].value;
 
     this._authService.login(user).subscribe(_ => {
-      this._toastr.success('Logowanie zakończone powodzeniem.')
-      this._router.navigateByUrl("/admin-panel")
+      this._toastr.success('Logowanie zakończone powodzeniem.');
+      this._router.navigateByUrl('/admin-panel');
 
     },
       err => {
-        this._toastr.error('Nie udało się zalogować.')
+        this._toastr.error('Nie udało się zalogować.');
       }
     )
 

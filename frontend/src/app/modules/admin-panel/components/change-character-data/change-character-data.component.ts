@@ -92,7 +92,7 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
       this.subscriptions$.add(
         this._route.params.subscribe(param => {
           this.changeType = param.name;
-          if (param.name === 'edit-side' || param.name === 'edit-side-pic') {
+          if (param.name === 'edit-side' || param.name === 'edit-side-pic' || param.name === 'edit-character') {
             this._route.queryParams.subscribe(queryParam => {
               if (queryParam.id) {
                 this.selectedCharId = queryParam.id;
@@ -449,10 +449,6 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
 
   displayInfo(changeOption: changeOptions) {
     switch (changeOption) {
-      case 'edit-character':
-        this.loading = false;
-        break;
-
       case 'story':
         this.getCharactersList();
         this.getStoryTitles();
@@ -468,6 +464,7 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
         this.getBooks();
         break;
 
+      case 'edit-character':
       case 'new-character':
       case 'edit-side-pic':
         this.loading = false;

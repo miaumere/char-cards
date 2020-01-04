@@ -48,7 +48,7 @@
     </div>
 
     <div *ngSwitchCase="'edit-character'">
-      <app-character-modify type="EDIT"></app-character-modify>
+      <app-character-modify type="EDIT" [charId]="selectedCharId"></app-character-modify>
     </div>
 
     <div *ngSwitchCase="'delete-character'" class="delete-character">

@@ -19,16 +19,16 @@
       </div>
       <div class="item__sidebar sidebar">
         <div class="sidebar__option" title="Edytuj postać" [routerLink]="['../change', 'edit-character']" [queryParams]="{
-            id: character.externalId
-          }">
+          id: character.id
+        }">
           <app-icon [icon]="'edit'" [color]="'black'"></app-icon>
         </div>
-        <!-- <div class="sidebar__option" title="Zmień zdjęcie postaci" [routerLink]="['../change', 'edit-side-pic']"
+        <div class="sidebar__option" title="Zmień zdjęcie postaci" [routerLink]="['../change', 'edit-side-pic']"
           [queryParams]="{
           id: character.id
         }">
           <app-icon [icon]="'edit-picture'" [color]="'black'"></app-icon>
-        </div> -->
+        </div>
         <div class="sidebar__option" title="Zmień stan postaci" (click)="changeStateOfChar(character.id)">
           <span [ngSwitch]="character.archived">
             <span *ngSwitchCase="true">

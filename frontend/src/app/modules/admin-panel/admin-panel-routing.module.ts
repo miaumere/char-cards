@@ -7,6 +7,7 @@ import { AdminPanelComponent } from './components/admin-panel/admin-panel.compon
 import { ChangeCharacterDataComponent } from './components/change-character-data/change-character-data.component';
 import { AdminPanelForMainComponent } from './components/admin-panel-for-main/admin-panel-for-main.component';
 import { AdminPanelForSideComponent } from './components/admin-panel-for-side/admin-panel-for-side.component';
+import { CharacterModifyComponent } from './components/character-modify/character-modify.component';
 
 const routes: Routes = [
   {

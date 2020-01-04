@@ -40,7 +40,7 @@ public class CharacterController {
     }
 
 //    @PutMapping("/edit-character")
-//    public ResponseEntity editCharacter() {
+//    public ResponseEntity editCharacter(EditCharacterRequest request) {
 //
 //    }
 

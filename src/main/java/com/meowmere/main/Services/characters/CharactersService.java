@@ -8,6 +8,7 @@ import com.meowmere.main.Enums.AvailableExtensions;
 import com.meowmere.main.Repositories.character.*;
 import com.meowmere.main.Requests.characters.ChangeCharacterStateRequest;
 import com.meowmere.main.Requests.characters.CreateStoryForCharRequest;
+import com.meowmere.main.Requests.characters.EditCharacterRequest;
 import com.meowmere.main.Requests.characters.StoryRequest;
 import org.apache.commons.io.FilenameUtils;
 import org.modelmapper.ModelMapper;
@@ -338,5 +339,11 @@ public class CharactersService {
             it.remove();
         }
         return new ResponseEntity(HttpStatus.CREATED);
+    }
+
+    public ResponseEntity editCharacter(EditCharacterRequest request) {
+
+
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 }
