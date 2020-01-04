@@ -5,6 +5,7 @@ import com.meowmere.main.DTO.character.EveryCharacterMenuDTO;
 import com.meowmere.main.DTO.character.TitleDTO;
 import com.meowmere.main.Requests.characters.ChangeCharacterStateRequest;
 import com.meowmere.main.Requests.characters.CreateStoryForCharRequest;
+import com.meowmere.main.Requests.characters.EditCharacterRequest;
 import com.meowmere.main.Services.characters.CharactersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,15 +35,20 @@ public class CharacterController {
         return charactersService.findByExternalId(characterId);
     }
 
+    @GetMapping("/get-details")
+    public ResponseEntity getDetailsForCharacter(@RequestParam Long id){
+        return charactersService.getCharacterDetails(id);
+    }
+
     @PostMapping("/new-character")
     public ResponseEntity createCharacter(MultipartHttpServletRequest multipartHttpServletRequest) {
         return charactersService.createCharacter(multipartHttpServletRequest);
     }
 
-//    @PutMapping("/edit-character")
-//    public ResponseEntity editCharacter(EditCharacterRequest request) {
-//
-//    }
+    @PutMapping("/edit-character")
+    public ResponseEntity editCharacter(EditCharacterRequest request) {
+        return charactersService.editCharacter(request);
+    }
 
     @PatchMapping("/change-state")
     public ResponseEntity changeStateOfCharacter(@RequestBody ChangeCharacterStateRequest request){
@@ -50,7 +56,7 @@ public class CharacterController {
     }
 
     @GetMapping("/get-titles")
-    public ResponseEntity getStoryTitles(){
+    public ResponseEntity getStoryTitles(@RequestParam Long id){
         List<TitleDTO> result = charactersService.getTitles();
         return new ResponseEntity<>(result, HttpStatus.OK);
     }

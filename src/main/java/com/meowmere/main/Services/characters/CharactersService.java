@@ -343,11 +343,31 @@ public class CharactersService {
 
     public ResponseEntity editCharacter(EditCharacterRequest request) {
 
-
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
     public ResponseEntity getCharacterDetails(Long id) {
-        
+        ModelMapper modelMapper = new ModelMapper();
+        Character characterFromDb = characterRepository.getOne(id);
+        if(characterFromDb == null) {
+            String msg = "Nie znaleziono postaci o podanym id.";
+            return new ResponseEntity(msg, HttpStatus.BAD_REQUEST);
+        }
+        CharacterDetailsDTO dto = modelMapper.map(characterFromDb, CharacterDetailsDTO.class);
+        Colors colorsForCharacter = colorsRepository.getColorsForCharacter(id);
+        if (colorsForCharacter != null) {
+            dto.setColors(modelMapper.map(colorsForCharacter, CharacterColorDTO.class));
+        }
+
+        Temperament temperamentForCharacter = temperamentRepository.getTemperamentForCharacter(id);
+        if(temperamentForCharacter != null) {
+            dto.setTemperament(modelMapper.map(temperamentForCharacter, CharacterTemperamentDTO.class));
+        }
+
+        Measurements measurementsForCharacter = measurementsRepository.getMeasurementsById(id);
+        if(measurementsForCharacter != null){
+            dto.setMeasurements(modelMapper.map(measurementsForCharacter, CharacterMeasurementsDTO.class));
+        }
+        return new ResponseEntity(dto, HttpStatus.OK);
     }
 }

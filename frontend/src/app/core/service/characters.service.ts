@@ -1,4 +1,5 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { EditCharacter } from './../../modules/admin-panel/models/edit-character.model';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { BehaviorSubject, Observable, of } from 'rxjs';
@@ -20,6 +21,7 @@ export class CharactersService {
   private _getCharacterByIdURL = `${this.charControllerURL}/get-character`;
   private _getAllCharactersURL = `${this.charControllerURL}/get-all-characters`;
   private _getStoryTitlesURL = `${this.charControllerURL}/get-titles`;
+  private _getCharacterDetailsURL = `${this.charControllerURL}/get-details`;
 
   private _patchChangeStateURL = `${this.charControllerURL}/change-state`;
 
@@ -60,12 +62,18 @@ export class CharactersService {
     return this.http.get<Character>(`${this._getCharacterByIdURL}/${id}`);
   }
 
-  patchCharactersState(requestBody: CharacterForChange): Observable<CharacterForChange> {
-    return this.http.patch<CharacterForChange>(this._patchChangeStateURL, requestBody);
-  }
-
   getStoryTitles(): Observable<Titles[]> {
     return this.http.get<Titles[]>(this._getStoryTitlesURL);
+  }
+
+  getCharacterDetails(id: number): Observable<EditCharacter> {
+    const params = new HttpParams().set('id', '' + id);
+
+    return this.http.get<EditCharacter>(this._getCharacterDetailsURL, { params });
+  }
+
+  patchCharactersState(requestBody: CharacterForChange): Observable<CharacterForChange> {
+    return this.http.patch<CharacterForChange>(this._patchChangeStateURL, requestBody);
   }
 
   postStoryForCharacter(requestBody: StoryForCharacter): Observable<StoryForCharacter> {

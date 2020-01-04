@@ -45,7 +45,7 @@ export class SideCharactersService {
   getSideCharacterDetails(id: number): Observable<SideCharacterDetails> {
     const params = new HttpParams().set('id', '' + id);
 
-    return this.http.get<SideCharacterDetails>(this.getSideCharacterDetailsURL, { params: params })
+    return this.http.get<SideCharacterDetails>(this.getSideCharacterDetailsURL, { params })
   }
 
   putSideCharacterDetails(requestBody: EditSideCharacterDetails): Observable<EditSideCharacterDetails> {

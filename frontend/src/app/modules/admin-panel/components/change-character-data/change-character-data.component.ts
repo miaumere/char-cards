@@ -300,7 +300,7 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
     );
   }
 
-  getCharacterDetails() {
+  getSideCharacterDetails() {
     this.subscriptions$.add(
       this._sideCharacterService
         .getSideCharacterDetails(this.selectedCharId)
@@ -309,7 +309,6 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
             this.loading = false;
           })
         )
-
         .subscribe(details => {
           this.sideCharacterDetails = details;
           const name = this.editSideCharForm.get('name');
@@ -317,7 +316,7 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
           const desc = this.editSideCharForm.get('desc');
           const books = this.editSideCharForm.get('books');
 
-
+          // TODO: zmienić na TS 3.7.x
           if (name) {
             name.setValue(details.sideCharacterName);
           }
@@ -328,12 +327,7 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
             desc.setValue(details.sideCharacterDesc);
           }
           if (books) {
-            // const foundBook = this.sideCharacterDetails.books.find(sb => {
-            //   return sb.externalId === this.books.find(b => {
-            //     return b.externalId === sb.externalId;
-            //   }).externalId;
-            // });
-            let booksArray: number[] = [];
+            const booksArray: number[] = [];
 
             setTimeout(() => {
               for (const key in this.books) {
@@ -390,7 +384,7 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
           })
         ).subscribe(_ => {
           this._toastrService.success('Udało się zmienić informacje o postaci.');
-          this.getCharacterDetails();
+          this.getSideCharacterDetails();
         }, err => {
           if (err && err.error) {
             this._toastrService.error(err.error);
@@ -440,6 +434,11 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
     this.subscriptions$.add(
       this._sideCharacterService
         .getBooks()
+        .pipe(
+          finalize(() => {
+            this.loading = false;
+          })
+        )
         .subscribe(books => {
           this.books = books;
         })
@@ -455,12 +454,11 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
         break;
 
       case 'edit-side':
-        this.getCharacterDetails();
+        this.getSideCharacterDetails();
         this.getBooks();
         break;
 
       case 'new-chars':
-        this.loading = false;
         this.getBooks();
         break;
 
