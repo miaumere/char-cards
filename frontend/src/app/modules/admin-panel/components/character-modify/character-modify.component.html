@@ -20,11 +20,11 @@
   </div>
   <div class="buttons">
     <button class="buttons__arrow" [disabled]="chosenForm === 1"
-      (click)="setForm(chosenForm === 'SUBMIT' ? formParts.length : chosenForm - 1 )">
+      (click)="setForm(chosenForm === 'SUBMIT' ? formParts.length : +chosenForm - 1 )">
       🡄
     </button>
     <button class="buttons__arrow" [disabled]="chosenForm === 'SUBMIT'"
-      (click)="setForm(chosenForm === formParts.length ? 'SUBMIT' : chosenForm + 1)">
+      (click)="setForm(chosenForm === formParts.length ? 'SUBMIT' : +chosenForm + 1)">
       🡆
     </button>
   </div>

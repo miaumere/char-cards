@@ -104,7 +104,8 @@ export class CharacterModifyComponent extends BaseComponent implements OnInit {
   profilePic: File | null = null;
   images: FileList | null = null;
 
-  chosenForm: chooseFormType = 1;
+  // TODO: poprawić typ, string nie moze byc dodawany
+  chosenForm: any = 1;
   form: FormGroup;
 
   @Input() type;
@@ -233,27 +234,27 @@ export class CharacterModifyComponent extends BaseComponent implements OnInit {
 
         objToSend.externalId = this.charId;
 
-        objToSend.charName = this.editCharacterForm.controls['name'].value;
-        objToSend.charSurname = this.editCharacterForm.controls['surname'].value;
-        objToSend.birthday = new Date(this.editCharacterForm.controls['birthday'].value).getTime();
+        objToSend.charName = this.editCharacterForm.controls['name']?.value;
+        objToSend.charSurname = this.editCharacterForm.controls['surname']?.value;
+        objToSend.birthday = new Date(this.editCharacterForm.controls['birthday']?.value).getTime();
         if (this.isDead) {
-          objToSend.death = new Date(this.editCharacterForm.controls['death'].value).getTime();
-          objToSend.deathReason = this.editCharacterForm.controls['deathReason'].value;
+          objToSend.death = new Date(this.editCharacterForm.controls['death']?.value).getTime();
+          objToSend.deathReason = this.editCharacterForm.controls['deathReason']?.value;
         } else {
           objToSend.death = null;
           objToSend.deathReason = null;
         }
-        objToSend.occupation = this.editCharacterForm.controls['occupation'].value;
+        objToSend.occupation = this.editCharacterForm.controls['occupation']?.value;
 
 
         const colors = new Colors();
-        colors.themeColor1 = this.editCharacterForm.controls['themeColor1'].value;
-        colors.themeColor2 = this.editCharacterForm.controls['themeColor2'].value;
-        colors.themeColor3 = this.editCharacterForm.controls['themeColor3'].value;
-        colors.eyeColor1 = this.editCharacterForm.controls['eyeColor1'].value;
-        colors.eyeColor2 = this.editCharacterForm.controls['eyeColor2'].value;
-        colors.hairColor = this.editCharacterForm.controls['hairColor'].value;
-        colors.skinColor = this.editCharacterForm.controls['skinColor'].value;
+        colors.themeColor1 = this.editCharacterForm.controls['themeColor1']?.value;
+        colors.themeColor2 = this.editCharacterForm.controls['themeColor2']?.value;
+        colors.themeColor3 = this.editCharacterForm.controls['themeColor3']?.value;
+        colors.eyeColor1 = this.editCharacterForm.controls['eyeColor1']?.value;
+        colors.eyeColor2 = this.editCharacterForm.controls['eyeColor2']?.value;
+        colors.hairColor = this.editCharacterForm.controls['hairColor']?.value;
+        colors.skinColor = this.editCharacterForm.controls['skinColor']?.value;
 
         objToSend.colors = colors;
 
@@ -266,14 +267,14 @@ export class CharacterModifyComponent extends BaseComponent implements OnInit {
         objToSend.temperament = temperament;
 
         const measurements = new Measurements();
-        measurements.babyHeight = this.editCharacterForm.controls['babyHeight'].value;
-        measurements.babyWeight = this.editCharacterForm.controls['babyWeight'].value;
-        measurements.childHeight = this.editCharacterForm.controls['childHeight'].value;
-        measurements.childWeight = this.editCharacterForm.controls['childWeight'].value;
-        measurements.teenHeight = this.editCharacterForm.controls['teenHeight'].value;
-        measurements.teenWeight = this.editCharacterForm.controls['teenWeight'].value;
-        measurements.adultHeight = this.editCharacterForm.controls['adultHeight'].value;
-        measurements.adultWeight = this.editCharacterForm.controls['adultWeight'].value;
+        measurements.babyHeight = this.editCharacterForm.controls['babyHeight']?.value;
+        measurements.babyWeight = this.editCharacterForm.controls['babyWeight']?.value;
+        measurements.childHeight = this.editCharacterForm.controls['childHeight']?.value;
+        measurements.childWeight = this.editCharacterForm.controls['childWeight']?.value;
+        measurements.teenHeight = this.editCharacterForm.controls['teenHeight']?.value;
+        measurements.teenWeight = this.editCharacterForm.controls['teenWeight']?.value;
+        measurements.adultHeight = this.editCharacterForm.controls['adultHeight']?.value;
+        measurements.adultWeight = this.editCharacterForm.controls['adultWeight']?.value;
 
         objToSend.measurements = measurements;
 

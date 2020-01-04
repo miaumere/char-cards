@@ -15,7 +15,7 @@ export class NavbarComponent extends BaseComponent implements OnInit {
   loggedUser: LoggedUser | null = null;
 
   constructor(
-    private _authService: AuthService,
+    public _authService: AuthService,
     private _toastr: ToastrService
   ) {
     super();

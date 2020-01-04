@@ -1,7 +1,8 @@
 
 import { Subscription } from 'rxjs';
-import { OnDestroy } from '@angular/core';
+import { OnDestroy, Directive } from '@angular/core';
 
+@Directive()
 export abstract class BaseComponent implements OnDestroy {
 
   protected subscriptions$ = new Subscription();

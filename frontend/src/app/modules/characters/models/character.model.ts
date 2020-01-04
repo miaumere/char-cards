@@ -2,6 +2,7 @@ import { Colors } from './colors.model';
 import { Temperament } from './temperament.model';
 import { Measurements } from './measurements.model';
 import { Quote } from '@angular/compiler';
+import { Story } from '../../admin-panel/models/story.model';
 
 export class Character {
   externalId: number;

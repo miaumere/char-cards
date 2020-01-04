@@ -346,4 +346,8 @@ public class CharactersService {
 
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
+
+    public ResponseEntity getCharacterDetails(Long id) {
+        
+    }
 }

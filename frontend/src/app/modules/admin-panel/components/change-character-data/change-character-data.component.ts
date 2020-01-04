@@ -69,8 +69,8 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
     profilePic: new FormControl()
   });
 
-  @ViewChild('sideCharProfilePic', { static: false }) sideCharProfilePic;
-  @ViewChild('newProfilePic', { static: false }) newProfilePic;
+  @ViewChild('sideCharProfilePic') sideCharProfilePic;
+  @ViewChild('newProfilePic') newProfilePic;
 
 
   constructor(
