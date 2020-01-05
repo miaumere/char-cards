@@ -234,6 +234,7 @@
 
 .quotes {
   height: calc(100vh - #{$navbar-height});
+  width: 100vw;
   overflow-x: scroll;
 
   &__button {
@@ -300,6 +301,20 @@
   &__context {
     margin-left: auto;
     margin-right: 1rem;
+
     color: cyan;
+  }
+
+  &__options,
+  .quote-options {
+    display: flex;
+    margin-left: auto;
+
+    &__option {
+      margin-top: -0.6rem;
+      margin-left: 0.5rem;
+
+      cursor: pointer;
+    }
   }
 }

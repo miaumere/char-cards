@@ -56,6 +56,11 @@ public class CharacterController {
         return charactersService.createQuoteForCharacter(newQuoteForCharacterRequest);
     }
 
+    @DeleteMapping("/delete-quote")
+    public ResponseEntity deleteQuote(@RequestParam Long id) {
+        return charactersService.deleteQuote(id);
+    }
+
     @PutMapping("/edit-character")
     public ResponseEntity editCharacter(@RequestBody  EditCharacterRequest request) {
         return charactersService.editCharacter(request);

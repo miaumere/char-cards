@@ -34,6 +34,7 @@ export class CharactersService {
 
   private _putEditCharacterURL = `${this.charControllerURL}/edit-character`;
 
+  private _deleteQuoteURL = `${this.charControllerURL}/delete-quote`;
 
   public charList$ = new BehaviorSubject<CharacterItem[] | null>(null);
 
@@ -108,4 +109,8 @@ export class CharactersService {
     return this.http.put<EditCharacter>(this._putEditCharacterURL, requestBody);
   }
 
+  deleteQuote(quoteId: number): Observable<void> {
+    const params = new HttpParams().set('id', '' + quoteId);
+    return this.http.delete<void>(this._deleteQuoteURL, { params });
+  }
 }

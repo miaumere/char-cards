@@ -8,6 +8,7 @@ import com.meowmere.main.DTO.character.character.EveryCharacterMenuDTO;
 import com.meowmere.main.DTO.character.colors.CharacterColorDTO;
 import com.meowmere.main.DTO.character.measurements.CharacterMeasurementsDTO;
 import com.meowmere.main.DTO.character.quote.CharacterQuoteDTO;
+import com.meowmere.main.DTO.character.quote.QuoteForListDTO;
 import com.meowmere.main.DTO.character.story.CharacterStoryDTO;
 import com.meowmere.main.DTO.character.temperament.CharacterTemperamentDTO;
 import com.meowmere.main.DTO.character.titles.TitleDTO;
@@ -163,7 +164,7 @@ public class CharactersService {
             dto.setMeasurements(modelMapper.map(measurementsForCharacter, CharacterMeasurementsDTO.class));
         }
 
-        List<Quote> quotes = quoteRepository.getAllQuotesById(externalId);
+        List<Quote> quotes = quoteRepository.getAllQuotesByCharacterId(externalId);
         Random random = new Random();
         if(quotes.size() > 1){
             Quote randomQuote = quotes.get(random.nextInt(quotes.size()));
@@ -439,12 +440,12 @@ public class CharactersService {
 
     public ResponseEntity getAllQuotesForCharacter(Long id) {
         ModelMapper modelMapper = new ModelMapper();
-        List<CharacterQuoteDTO> result = new ArrayList<>();
+        List<QuoteForListDTO> result = new ArrayList<>();
 
-        List<Quote> quotesFromDb = quoteRepository.getAllQuotesById(id);
+        List<Quote> quotesFromDb = quoteRepository.getAllQuotesByCharacterId(id);
         if(quotesFromDb != null){
             for (Quote quoteFromDb: quotesFromDb) {
-                CharacterQuoteDTO dto = modelMapper.map(quoteFromDb, CharacterQuoteDTO.class);
+                QuoteForListDTO dto = modelMapper.map(quoteFromDb, QuoteForListDTO.class);
                 result.add(dto);
             }
         }
@@ -468,5 +469,15 @@ public class CharactersService {
         quote.setCharacter(character);
         quoteRepository.saveAndFlush(quote);
         return new ResponseEntity(HttpStatus.CREATED);
+    }
+
+    public ResponseEntity deleteQuote(Long id) {
+        Quote quoteToDelete = quoteRepository.getOne(id);
+        if(quoteToDelete == null) {
+            String msg = "Nie ma takiego cytatu bądź został już wcześniej usunięty.";
+            return new ResponseEntity(msg, HttpStatus.BAD_REQUEST);
+        }
+        quoteRepository.delete(quoteToDelete);
+        return new ResponseEntity(HttpStatus.OK);
     }
 }

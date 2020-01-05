@@ -11,5 +11,5 @@ import java.util.List;
 @Repository
 public interface QuoteRepository extends JpaRepository<Quote, Long> {
     @Query("SELECT q FROM Quote q WHERE q.character.externalId = :characterId")
-    List<Quote> getAllQuotesById(@Param("characterId") Long externalId);
+    List<Quote> getAllQuotesByCharacterId(@Param("characterId") Long externalId);
 }

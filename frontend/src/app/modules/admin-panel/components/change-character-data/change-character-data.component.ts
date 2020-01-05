@@ -114,6 +114,33 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
 
   }
 
+  displayInfo(changeOption: changeOptions) {
+    switch (changeOption) {
+      case 'story':
+        this.getStoryTitles();
+        break;
+
+      case 'edit-side':
+        this.getSideCharacterDetails();
+        this.getBooks();
+        break;
+
+      case 'new-chars':
+        this.getBooks();
+        break;
+
+      case 'quotes':
+        this.getQuotes();
+        break;
+
+      case 'edit-character':
+      case 'new-character':
+      case 'edit-side-pic':
+        this.loading = false;
+        break;
+    }
+  }
+
   onCheckChange(event: any, type: 'new-chars' | 'edit-chars') {
     let formArray: FormArray | null = null;
 
@@ -318,6 +345,7 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
       ).subscribe(_ => {
         this._toastrService.success('Udało się dodać nowy cytat!');
         this.getQuotes();
+        this.newQuoteForm.reset();
       },
         err => {
           this._toastrService.error(err?.error);
@@ -482,30 +510,23 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
     this.isQuoteFormShown = true;
   }
 
-  displayInfo(changeOption: changeOptions) {
-    switch (changeOption) {
-      case 'story':
-        this.getStoryTitles();
-        break;
-
-      case 'edit-side':
-        this.getSideCharacterDetails();
-        this.getBooks();
-        break;
-
-      case 'new-chars':
-        this.getBooks();
-        break;
-
-      case 'quotes':
-        this.getQuotes();
-        break;
-
-      case 'edit-character':
-      case 'new-character':
-      case 'edit-side-pic':
-        this.loading = false;
-        break;
-    }
+  insertQuoteDeleteInfo() {
+    this._toastrService.warning("Aby usunąć cytat, naciśnij dwa razy.")
   }
+  deleteQuote(quoteId: number) {
+    this.loading = true;
+    this._characterService.
+      deleteQuote(quoteId)
+      .pipe(
+        finalize(() => {
+          this.loading = false;
+        })
+      ).subscribe(_ => {
+        this._toastrService.success('Usunięto wybrany cytat.');
+        this.getQuotes();
+      }, err => {
+        this._toastrService.error(err?.error);
+      });
+  }
+
 }
