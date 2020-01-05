@@ -56,7 +56,7 @@ public class CharacterController {
     }
 
     @GetMapping("/get-titles")
-    public ResponseEntity getStoryTitles(@RequestParam Long id){
+    public ResponseEntity getStoryTitles(){
         List<TitleDTO> result = charactersService.getTitles();
         return new ResponseEntity<>(result, HttpStatus.OK);
     }

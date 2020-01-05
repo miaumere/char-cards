@@ -12,22 +12,17 @@
       <form class="story__form story-form" #storyForm="ngForm" id="storyForm" *ngIf="!areTitlesSet"
         (ngSubmit)="generateStoryForms(storyForm)">
         <div class="story-form__container">
-          <h2 class="changes__title">Wybierz postać i tytuły do rozdziałów historii:</h2>
-          <label class="story-form__label global-label">
-            Wybierz postać, której historię chcesz dodać/edytować:
-            <select class="global-input story-form__select" ngModel name="name" *ngFor="let character of charList">
-              <option class="global-input story-form__option" [value]="character.id">{{character.charName}}
-                {{character.charSurname}}
-              </option>
-            </select>
-          </label>
+          <h2 class="changes__title">Wybierz tytuły do rozdziałów historii:</h2>
           <div class="story-form__container">
             Wybierz tytuły jakie chcesz dodać:
-            <div class="title-choice">
+            <div class="title-choice" *ngIf="titles">
               <label *ngFor="let title of titles" class="title-choice__item">
                 <input type="checkbox" ngModel [name]="title.id" />
                 {{title.title}}
               </label>
+            </div>
+            <div *ngIf="!titles" style="color: grey">
+              Brak tytułów.
             </div>
           </div>
         </div>

@@ -7,8 +7,18 @@
       <app-icon [icon]="'new-character'" [color]="'white'" [size]="'3'"></app-icon>
     </div>
 
-    <div class=" menu__item item" *ngFor="let character of charList">
+    <div class="menu__item item" *ngFor="let character of charList">
       <div class="item__char-info char-info">
+        <div title="Zmień stan postaci" (click)="changeStateOfChar(character.id)" class="change-state">
+          <span [ngSwitch]="character.archived">
+            <span *ngSwitchCase="true">
+              <app-icon [icon]="'non-archive'" [color]="'#317142'"></app-icon>
+            </span>
+            <span *ngSwitchCase="false">
+              <app-icon [icon]="'archive'" [color]="'#b84343'"></app-icon>
+            </span>
+          </span>
+        </div>
         <div class="char-info__profile-pic profile-pic" *ngIf="character.profilePic">
           <img src="{{profilePicURL}}/{{character.id}}/{{character.profilePic}}" class="profile-pic__image">
         </div>
@@ -29,17 +39,19 @@
         }">
           <app-icon [icon]="'edit-picture'" [color]="'black'"></app-icon>
         </div>
-        <div class="sidebar__option" title="Zmień stan postaci" (click)="changeStateOfChar(character.id)">
-          <span [ngSwitch]="character.archived">
-            <span *ngSwitchCase="true">
-              <app-icon [icon]="'non-archive'" [color]="'#317142'"></app-icon>
-            </span>
-            <span *ngSwitchCase="false">
-              <app-icon [icon]="'archive'" [color]="'#b84343'"></app-icon>
-            </span>
-          </span>
-
+        <div class="sidebar__option" title="Dodaj historię do postaci" [routerLink]="['../change', 'story']"
+          [queryParams]="{
+        id: character.id
+      }">
+          <app-icon [icon]="'story'" [color]="'black'" [size]="'0.8'"></app-icon>
         </div>
+        <div class="sidebar__option" title="Dodaj cytat do postaci" [routerLink]="['../change', 'quotes']"
+          [queryParams]="{
+      id: character.id
+    }">
+          <app-icon [icon]="'quote'" [color]="'black'" [size]="'0.7'"></app-icon>
+        </div>
+
       </div>
     </div>
 

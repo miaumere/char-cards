@@ -36,22 +36,22 @@
         <div class="new-char-form__container form-container">
 
           <label class="global-label  form-container__label">
-            Imię:
+            *Imię:
             <input type="text" class="global-input" formControlName="name" />
           </label>
           <label class="global-label  form-container__label">
-            Nazwisko:
+            *Nazwisko:
             <input type="text" class="global-input" formControlName="surname" />
           </label>
         </div>
         <div class="new-char-form__container form-container">
           <div class="form-container--personal-info">
             <label class="global-label  form-container__label">
-              Data urodzenia:
+              *Data urodzenia:
               <input class="global-input" type="date" formControlName="birthday" />
             </label>
             <label class="global-label  form-container__label">
-              Zawód:
+              *Zawód:
               <input class="global-input" type="text" formControlName="profession" />
             </label>
           </div>
@@ -263,7 +263,7 @@
           Niektóre pola nie zostały uzupełnione. Jeszcze nie można dodać postaci.
         </span>
         <button class="global-button" (click)="modifyCharacter()" [disabled]="form.invalid" style="margin-top: 1rem;">
-          Dodaj postać
+          Wyślij
         </button>
       </div>
 

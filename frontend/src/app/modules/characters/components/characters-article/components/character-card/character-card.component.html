@@ -1,7 +1,7 @@
 <app-loader [visible]="!character && loading"></app-loader>
 
 <section class="characters-card" *ngIf="character && !loading">
-  <div class="card" [ngStyle]="{'border-color': character.colors.themeColor1
+  <div class="card" [ngStyle]="{'border-color': character.colors.themeColor2
 }">
     <span class="card__name">
       {{character.charName}} {{ character.charSurname}}
@@ -26,7 +26,7 @@
     </div>
 
     <div class="card__info info" [style.background]="'url(../../../../../assets/images/lowpoly-bg.JPG)'"
-      [style.backgroundColor]="character.colors.themeColor1" [ngStyle]="{
+      [style.backgroundColor]="character.colors.themeColor2" [ngStyle]="{
       'background-blend-mode': 'multiply',
       'background-size': 'cover'
     }">

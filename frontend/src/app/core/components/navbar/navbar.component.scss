@@ -13,6 +13,7 @@
   box-sizing: border-box;
   margin: 0;
   padding: 1rem 0;
+  border-bottom: 1px white solid;
 
   background: rgb(20, 20, 20);
   z-index: map-get($z-index, navbar);

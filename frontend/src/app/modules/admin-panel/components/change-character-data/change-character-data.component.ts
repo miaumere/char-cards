@@ -32,7 +32,6 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
 
   books: Book[];
 
-  characterWithStoryId: number;
   titlesForStories: Map<number, Titles[]>;
   areTitlesSet = false;
 
@@ -92,10 +91,10 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
       this.subscriptions$.add(
         this._route.params.subscribe(param => {
           this.changeType = param.name;
-          if (param.name === 'edit-side' || param.name === 'edit-side-pic' || param.name === 'edit-character') {
+          if (param.name === 'edit-side' || param.name === 'edit-side-pic' || param.name === 'edit-character' || param.name === 'story') {
             this._route.queryParams.subscribe(queryParam => {
               if (queryParam.id) {
-                this.selectedCharId = queryParam.id;
+                this.selectedCharId = +queryParam.id;
               }
             });
           }
@@ -209,19 +208,6 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
 
   }
 
-  getCharactersList() {
-    this.loading = true;
-    this._characterService
-      .getCharacters()
-      .pipe(
-        finalize(() => {
-          this.loading = false;
-        })
-      ).subscribe(charList => {
-        this.charList = charList;
-      });
-  }
-
   getStoryTitles() {
     this.loading = true;
     this.subscriptions$.add(
@@ -241,7 +227,7 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
     const map = new Map();
     for (const key in storyForm.controls) {
       if (storyForm.controls.hasOwnProperty(key)) {
-        key === 'name' ? this.characterWithStoryId = storyForm.value[key] : null;
+        key === 'name' ? this.selectedCharId = storyForm.value[key] : null;
         if (key !== 'name') {
           const id = +key;
           const value = !!storyForm.value[id];
@@ -257,7 +243,7 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
       }
     }
     this.titlesForStories = map;
-    if (this.titlesForStories.size > 0 && this.characterWithStoryId) {
+    if (this.titlesForStories.size > 0) {
       this.areTitlesSet = true;
     } else {
       this._toastrService.warning('Nie uzupełniono poprawnie formularza.');
@@ -277,8 +263,9 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
         stories.push(story);
       }
     }
-    storyToSend.characterId = this.characterWithStoryId;
+    storyToSend.characterId = this.selectedCharId;
     storyToSend.stories = stories;
+    console.log(storyToSend)
 
     this.subscriptions$.add(
       this._characterService
@@ -311,24 +298,14 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
         )
         .subscribe(details => {
           this.sideCharacterDetails = details;
-          const name = this.editSideCharForm.get('name');
-          const surname = this.editSideCharForm.get('surname');
-          const desc = this.editSideCharForm.get('desc');
           const books = this.editSideCharForm.get('books');
 
-          // TODO: zmienić na TS 3.7.x
-          if (name) {
-            name.setValue(details.sideCharacterName);
-          }
-          if (surname) {
-            surname.setValue(details.sideCharacterSurname);
-          }
-          if (desc) {
-            desc.setValue(details.sideCharacterDesc);
-          }
+          this.editSideCharForm.get('name')?.setValue(details.sideCharacterName);
+          this.editSideCharForm.get('surname')?.setValue(details.sideCharacterSurname);
+          this.editSideCharForm.get('desc')?.setValue(details.sideCharacterDesc);
+
           if (books) {
             const booksArray: number[] = [];
-
             setTimeout(() => {
               for (const key in this.books) {
                 if (this.books.hasOwnProperty(key)) {
@@ -449,7 +426,6 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
   displayInfo(changeOption: changeOptions) {
     switch (changeOption) {
       case 'story':
-        this.getCharactersList();
         this.getStoryTitles();
         break;
 
