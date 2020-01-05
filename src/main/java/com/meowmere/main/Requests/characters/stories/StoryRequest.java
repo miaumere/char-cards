@@ -1,4 +1,4 @@
-package com.meowmere.main.Requests.characters;
+package com.meowmere.main.Requests.characters.stories;
 
 public class StoryRequest {
     public Long titleId;

@@ -14,7 +14,7 @@ import { EditSideCharacterDetails } from '../../models/edit-side-character-detai
 import { Book } from '../../models/book.model';
 
 type changeOptions = 'new-character' | 'edit-character' | 'delete-character' | 'story'
-  | 'new-chars' | 'edit-side' | 'edit-side-pic';
+  | 'new-chars' | 'edit-side' | 'edit-side-pic' | 'quotes';
 @Component({
   selector: 'app-change-character-data',
   templateUrl: './change-character-data.component.html',
@@ -91,7 +91,8 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
       this.subscriptions$.add(
         this._route.params.subscribe(param => {
           this.changeType = param.name;
-          if (param.name === 'edit-side' || param.name === 'edit-side-pic' || param.name === 'edit-character' || param.name === 'story') {
+          if (param.name === 'edit-side' || param.name === 'edit-side-pic' ||
+            param.name === 'edit-character' || param.name === 'story' || param.name === 'quotes') {
             this._route.queryParams.subscribe(queryParam => {
               if (queryParam.id) {
                 this.selectedCharId = +queryParam.id;
@@ -436,6 +437,10 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
 
       case 'new-chars':
         this.getBooks();
+        break;
+
+      case 'quotes':
+        this.loading = false;
         break;
 
       case 'edit-character':

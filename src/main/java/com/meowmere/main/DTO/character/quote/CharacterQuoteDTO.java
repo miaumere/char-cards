@@ -1,4 +1,4 @@
-package com.meowmere.main.DTO.character;
+package com.meowmere.main.DTO.character.quote;
 
 public class CharacterQuoteDTO {
     public Long id;

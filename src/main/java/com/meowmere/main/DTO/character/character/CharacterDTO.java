@@ -1,4 +1,10 @@
-package com.meowmere.main.DTO.character;
+package com.meowmere.main.DTO.character.character;
+
+import com.meowmere.main.DTO.character.measurements.CharacterMeasurementsDTO;
+import com.meowmere.main.DTO.character.quote.CharacterQuoteDTO;
+import com.meowmere.main.DTO.character.temperament.CharacterTemperamentDTO;
+import com.meowmere.main.DTO.character.colors.CharacterColorDTO;
+import com.meowmere.main.DTO.character.story.CharacterStoryDTO;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.meowmere.main.DTO.character;
+package com.meowmere.main.DTO.character.measurements;
 
 public class CharacterMeasurementsDTO {
     public Integer babyHeight;

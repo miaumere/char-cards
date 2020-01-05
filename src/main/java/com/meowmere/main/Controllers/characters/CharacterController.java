@@ -1,11 +1,11 @@
 package com.meowmere.main.Controllers.characters;
 
-import com.meowmere.main.DTO.character.CharactersMenuDTO;
-import com.meowmere.main.DTO.character.EveryCharacterMenuDTO;
-import com.meowmere.main.DTO.character.TitleDTO;
-import com.meowmere.main.Requests.characters.ChangeCharacterStateRequest;
-import com.meowmere.main.Requests.characters.CreateStoryForCharRequest;
-import com.meowmere.main.Requests.characters.EditCharacterRequest;
+import com.meowmere.main.DTO.character.character.CharactersMenuDTO;
+import com.meowmere.main.DTO.character.character.EveryCharacterMenuDTO;
+import com.meowmere.main.DTO.character.titles.TitleDTO;
+import com.meowmere.main.Requests.characters.character.ChangeCharacterStateRequest;
+import com.meowmere.main.Requests.characters.stories.CreateStoryForCharRequest;
+import com.meowmere.main.Requests.characters.character.EditCharacterRequest;
 import com.meowmere.main.Services.characters.CharactersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

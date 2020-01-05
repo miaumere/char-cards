@@ -1,4 +1,4 @@
-package com.meowmere.main.DTO.character;
+package com.meowmere.main.DTO.character.story;
 
 public class CharacterStoryDTO {
     public Long id;

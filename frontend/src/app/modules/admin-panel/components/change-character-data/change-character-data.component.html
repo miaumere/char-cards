@@ -29,6 +29,16 @@
         <input type="submit" class="global-button" value="Dalej" form="storyForm" />
       </form>
 
+      <form *ngIf="!areTitlesSet" style="margin-top: 1rem;" class="titles-form">
+        <div class="titles-form__container">
+          <h2 class=" changes__title">Dodaj nowy tytuł:</h2>
+          <input class="global-input" type="text" />
+
+          <input type="submit" class="global-button" style="margin-top: 1rem" value="Dalej" form="storyForm" />
+        </div>
+
+      </form>
+
       <div *ngIf="areTitlesSet" class="titles">
         <h2 class="changes__title">Wypełnij poniższe pola: </h2>
         <form class="titles__form titles-form" #titlesForm="ngForm" id="titlesForm"
@@ -82,7 +92,7 @@
 
     </div>
 
-    <div *ngSwitchCase="'new-chars'" class="side-char  admin-panel admin-panel--side">
+    <div *ngSwitchCase="'new-chars'" class="side-char admin-panel admin-panel--side">
       <h2 class="changes__title">Uzupełnij poniższe pola, aby dodać nową postać poboczną:</h2>
       <form class="side-char__new-side-form new-side-form" [formGroup]="newSideCharForm"
         (ngSubmit)="createNewSideCharInfo()" enctype="multipart/form-data">

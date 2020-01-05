@@ -1,4 +1,4 @@
-package com.meowmere.main.Requests.characters;
+package com.meowmere.main.Requests.characters.character;
 
 public class ChangeCharacterStateRequest {
     public Long id;

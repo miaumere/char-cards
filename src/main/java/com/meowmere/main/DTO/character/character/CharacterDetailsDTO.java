@@ -1,23 +1,27 @@
-package com.meowmere.main.Requests.characters;
+package com.meowmere.main.DTO.character.character;
 
-import com.meowmere.main.DTO.character.CharacterColorDTO;
-import com.meowmere.main.DTO.character.CharacterMeasurementsDTO;
-import com.meowmere.main.DTO.character.CharacterTemperamentDTO;
+import com.meowmere.main.DTO.character.measurements.CharacterMeasurementsDTO;
+import com.meowmere.main.DTO.character.temperament.CharacterTemperamentDTO;
+import com.meowmere.main.DTO.character.colors.CharacterColorDTO;
 
-public class EditCharacterRequest {
+public class CharacterDetailsDTO {
     public Long externalId;
     public String charName;
     public String charSurname;
     public Long birthday;
-    public String occupation;
     public Long death;
     public String deathReason;
-    public CharacterTemperamentDTO temperament;
+    public String occupation;
     public CharacterColorDTO colors;
+    public CharacterTemperamentDTO temperament;
     public CharacterMeasurementsDTO measurements;
 
     public Long getExternalId() {
         return externalId;
+    }
+
+    public void setExternalId(Long externalId) {
+        this.externalId = externalId;
     }
 
     public String getCharName() {
@@ -44,14 +48,6 @@ public class EditCharacterRequest {
         this.birthday = birthday;
     }
 
-    public String getOccupation() {
-        return occupation;
-    }
-
-    public void setOccupation(String occupation) {
-        this.occupation = occupation;
-    }
-
     public Long getDeath() {
         return death;
     }
@@ -68,12 +64,12 @@ public class EditCharacterRequest {
         this.deathReason = deathReason;
     }
 
-    public CharacterTemperamentDTO getTemperament() {
-        return temperament;
+    public String getOccupation() {
+        return occupation;
     }
 
-    public void setTemperament(CharacterTemperamentDTO temperament) {
-        this.temperament = temperament;
+    public void setOccupation(String occupation) {
+        this.occupation = occupation;
     }
 
     public CharacterColorDTO getColors() {
@@ -82,6 +78,14 @@ public class EditCharacterRequest {
 
     public void setColors(CharacterColorDTO colors) {
         this.colors = colors;
+    }
+
+    public CharacterTemperamentDTO getTemperament() {
+        return temperament;
+    }
+
+    public void setTemperament(CharacterTemperamentDTO temperament) {
+        this.temperament = temperament;
     }
 
     public CharacterMeasurementsDTO getMeasurements() {

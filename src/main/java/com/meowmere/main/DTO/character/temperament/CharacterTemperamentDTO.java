@@ -1,4 +1,4 @@
-package com.meowmere.main.DTO.character;
+package com.meowmere.main.DTO.character.temperament;
 
 public class CharacterTemperamentDTO {
     public Integer melancholic;

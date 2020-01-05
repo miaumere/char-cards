@@ -1,4 +1,4 @@
-package com.meowmere.main.DTO.character;
+package com.meowmere.main.DTO.character.titles;
 
 public class TitleDTO {
     public Long id;

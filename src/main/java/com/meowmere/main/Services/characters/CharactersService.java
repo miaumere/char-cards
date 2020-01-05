@@ -1,15 +1,24 @@
 package com.meowmere.main.Services.characters;
 
 
-import com.meowmere.main.DTO.character.*;
+import com.meowmere.main.DTO.character.character.CharacterDTO;
+import com.meowmere.main.DTO.character.character.CharacterDetailsDTO;
+import com.meowmere.main.DTO.character.character.CharactersMenuDTO;
+import com.meowmere.main.DTO.character.character.EveryCharacterMenuDTO;
+import com.meowmere.main.DTO.character.colors.CharacterColorDTO;
+import com.meowmere.main.DTO.character.measurements.CharacterMeasurementsDTO;
+import com.meowmere.main.DTO.character.quote.CharacterQuoteDTO;
+import com.meowmere.main.DTO.character.story.CharacterStoryDTO;
+import com.meowmere.main.DTO.character.temperament.CharacterTemperamentDTO;
+import com.meowmere.main.DTO.character.titles.TitleDTO;
 import com.meowmere.main.Entities.characters.Character;
 import com.meowmere.main.Entities.characters.*;
 import com.meowmere.main.Enums.AvailableExtensions;
 import com.meowmere.main.Repositories.character.*;
-import com.meowmere.main.Requests.characters.ChangeCharacterStateRequest;
-import com.meowmere.main.Requests.characters.CreateStoryForCharRequest;
-import com.meowmere.main.Requests.characters.EditCharacterRequest;
-import com.meowmere.main.Requests.characters.StoryRequest;
+import com.meowmere.main.Requests.characters.character.ChangeCharacterStateRequest;
+import com.meowmere.main.Requests.characters.stories.CreateStoryForCharRequest;
+import com.meowmere.main.Requests.characters.character.EditCharacterRequest;
+import com.meowmere.main.Requests.characters.stories.StoryRequest;
 import org.apache.commons.io.FilenameUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -218,6 +227,8 @@ public class CharactersService {
         });
         return result;
     }
+
+//    public ResponseEntity addTitle(String )
 
     public ResponseEntity createStoryForCharacter(CreateStoryForCharRequest request) {
         String msg = "";

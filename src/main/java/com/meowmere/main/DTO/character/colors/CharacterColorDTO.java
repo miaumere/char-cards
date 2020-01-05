@@ -1,4 +1,4 @@
-package com.meowmere.main.DTO.character;
+package com.meowmere.main.DTO.character.colors;
 
 public class CharacterColorDTO {
     public String eyeColor1;

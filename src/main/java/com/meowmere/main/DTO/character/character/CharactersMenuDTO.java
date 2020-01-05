@@ -1,4 +1,4 @@
-package com.meowmere.main.DTO.character;
+package com.meowmere.main.DTO.character.character;
 
 public class CharactersMenuDTO {
     public Long id;
