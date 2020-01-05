@@ -14,6 +14,7 @@ import { SideCharacterDetails } from '../../models/side-characters-details.model
 import { EditSideCharacterDetails } from '../../models/edit-side-character-details.model';
 import { Book } from '../../models/book.model';
 import { Quote } from 'src/app/modules/characters/models/quote.model';
+import { EditQuote } from '../../models/edit-quote.model';
 
 type changeOptions = 'new-character' | 'edit-character' | 'delete-character' | 'story'
   | 'new-chars' | 'edit-side' | 'edit-side-pic' | 'quotes';
@@ -74,7 +75,7 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
   newQuoteForm = new FormGroup({
     quote: new FormControl('', Validators.required),
     context: new FormControl('', Validators.required)
-  })
+  });
 
   @ViewChild('sideCharProfilePic') sideCharProfilePic;
   @ViewChild('newProfilePic') newProfilePic;
@@ -259,7 +260,7 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
   }
 
   createNewTitle(titleForm: NgForm) {
-    console.log(titleForm)
+    console.log(titleForm);
   }
 
   generateStoryForms(storyForm: NgForm) {
@@ -304,7 +305,7 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
     }
     storyToSend.characterId = this.selectedCharId;
     storyToSend.stories = stories;
-    console.log(storyToSend)
+    console.log(storyToSend);
 
     this.subscriptions$.add(
       this._characterService
@@ -502,7 +503,7 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
         ).subscribe(quotes => {
           this.quotes = quotes;
         })
-    )
+    );
 
   }
 
@@ -511,7 +512,7 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
   }
 
   insertQuoteDeleteInfo() {
-    this._toastrService.warning('Aby usunąć cytat, naciśnij dwa razy.')
+    this._toastrService.warning('Aby usunąć cytat, naciśnij dwa razy.');
   }
 
   deleteQuote(quoteId: number) {
@@ -530,12 +531,45 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
       });
   }
 
-  editQuote(quoteId: number, quoteElement: HTMLElement, contextEl: HTMLElement) {
-    quoteElement.setAttribute('contentEditable', 'true');
-    contextEl.setAttribute('contentEditable', 'true');
-    console.log(quoteElement.textContent)
-    console.log(contextEl.textContent)
+  editQuote(quoteId: number, quoteElement: HTMLElement, contextEl: HTMLElement, quoteContainer: HTMLElement) {
+    if (!quoteElement.isContentEditable && !contextEl.isContentEditable) {
+      quoteElement.setAttribute('contentEditable', 'true');
+      contextEl.setAttribute('contentEditable', 'true');
+      quoteContainer.classList.add('quote--editable');
+
+      this._toastrService.info('Aby zapisać zmianę, naciśnij jeszcze raz na ikonkę edycji.');
+    } else {
+      contextEl.removeAttribute('contentEditable');
+      quoteElement.removeAttribute('contentEditable');
+      quoteContainer.classList.remove('quote--editable');
+
+      const objToSend = new EditQuote();
+      objToSend.quoteId = quoteId;
+      objToSend.quote = quoteElement.textContent;
+      objToSend.context = contextEl.textContent;
+
+      console.log(objToSend);
+      this.loading = true;
+      this.subscriptions$.add(
+        this._characterService
+          .patchQuote(objToSend)
+          .pipe(
+            finalize(() => {
+              this.loading = false;
+            })
+          ).subscribe(
+            _ => {
+              this._toastrService.success('Udało się zmienić cytat!');
+              this.getQuotes();
+            },
+            err => {
+              this._toastrService.error(err?.error);
+            })
+      );
+    }
+
 
   }
+
 
 }

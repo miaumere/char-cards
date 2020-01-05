@@ -50,7 +50,7 @@ export class AdminPanelForMainComponent extends BaseComponent implements OnInit 
     if (matchingChar) {
       this.subscriptions$.add(
         this._charactersService
-          .patchCharactersState(new CharacterForChange(id, !matchingChar.archived))
+          .patchCharacterState(new CharacterForChange(id, !matchingChar.archived))
           .subscribe(_ => {
             this._toastrService.success('Udało się zmienić stan zaznaczonej postaci.');
             this.getAllCharacters();

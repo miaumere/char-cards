@@ -10,6 +10,6 @@ import java.util.List;
 
 @Repository
 public interface QuoteRepository extends JpaRepository<Quote, Long> {
-    @Query("SELECT q FROM Quote q WHERE q.character.externalId = :characterId")
+    @Query("SELECT q FROM Quote q WHERE q.character.externalId = :characterId order by q.id")
     List<Quote> getAllQuotesByCharacterId(@Param("characterId") Long externalId);
 }

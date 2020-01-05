@@ -81,10 +81,10 @@
 
       <div *ngIf="quotes?.length > 0" class="quotes__container quotes__container--quotes">
         <div *ngFor="let quote of quotes">
-          <div class="quote">
+          <div class="quote" #quoteContainer>
             <div class="quote__options quote-options">
               <span class="quote-options__option" title="Edytuj cytat"
-                (click)="editQuote(quote.id, quoteEl, contextEl)">
+                (click)="editQuote(quote.id, quoteEl, contextEl, quoteContainer)">
                 <app-icon [icon]="'edit'" [color]="'whitesmoke'" [size]="'0.9'"></app-icon>
               </span>
               <span class="quote-options__option" title="Usuń cytat" (click)="insertQuoteDeleteInfo()"

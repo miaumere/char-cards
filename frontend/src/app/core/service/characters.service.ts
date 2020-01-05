@@ -11,6 +11,7 @@ import { Titles } from 'src/app/modules/admin-panel/models/titles.model';
 import { StoryForCharacter } from 'src/app/modules/admin-panel/models/story.model';
 import { Quote } from 'src/app/modules/characters/models/quote.model';
 import { NewQuote } from 'src/app/modules/admin-panel/models/new-quote.model';
+import { EditQuote } from 'src/app/modules/admin-panel/models/edit-quote.model';
 
 @Injectable({
   providedIn: 'root'
@@ -27,6 +28,7 @@ export class CharactersService {
   private _getQuotesURL = `${this.charControllerURL}/get-quotes`;
 
   private _patchChangeStateURL = `${this.charControllerURL}/change-state`;
+  private _patchQuoteURL = `${this.charControllerURL}/edit-quote`;
 
   private _postStoryForCharacterURL = `${this.charControllerURL}/new-stories`;
   private _postNewCharacterURL = `${this.charControllerURL}/new-character`;
@@ -83,8 +85,12 @@ export class CharactersService {
     return this.http.get<EditCharacter>(this._getCharacterDetailsURL, { params });
   }
 
-  patchCharactersState(requestBody: CharacterForChange): Observable<CharacterForChange> {
+  patchCharacterState(requestBody: CharacterForChange): Observable<CharacterForChange> {
     return this.http.patch<CharacterForChange>(this._patchChangeStateURL, requestBody);
+  }
+
+  patchQuote(requestBody: EditQuote): Observable<EditQuote> {
+    return this.http.patch<EditQuote>(this._patchQuoteURL, requestBody);
   }
 
   postStoryForCharacter(requestBody: StoryForCharacter): Observable<StoryForCharacter> {
@@ -113,4 +119,5 @@ export class CharactersService {
     const params = new HttpParams().set('id', '' + quoteId);
     return this.http.delete<void>(this._deleteQuoteURL, { params });
   }
+
 }

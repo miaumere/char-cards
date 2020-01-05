@@ -5,6 +5,7 @@ import com.meowmere.main.DTO.character.character.EveryCharacterMenuDTO;
 import com.meowmere.main.DTO.character.titles.TitleDTO;
 import com.meowmere.main.Requests.characters.character.ChangeCharacterStateRequest;
 import com.meowmere.main.Requests.characters.character.EditCharacterRequest;
+import com.meowmere.main.Requests.characters.quotes.EditQuoteRequest;
 import com.meowmere.main.Requests.characters.quotes.NewQuoteForCharacterRequest;
 import com.meowmere.main.Requests.characters.stories.CreateStoryForCharRequest;
 import com.meowmere.main.Services.characters.CharactersService;
@@ -69,6 +70,11 @@ public class CharacterController {
     @PatchMapping("/change-state")
     public ResponseEntity changeStateOfCharacter(@RequestBody ChangeCharacterStateRequest request){
         return charactersService.changeStatusForCharacter(request);
+    }
+
+    @PatchMapping("/edit-quote")
+    public ResponseEntity editQuote(@RequestBody EditQuoteRequest editQuoteRequest) {
+        return charactersService.editQuote(editQuoteRequest);
     }
 
     @GetMapping("/get-titles")

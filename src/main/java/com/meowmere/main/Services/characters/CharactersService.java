@@ -18,6 +18,7 @@ import com.meowmere.main.Enums.AvailableExtensions;
 import com.meowmere.main.Repositories.character.*;
 import com.meowmere.main.Requests.characters.character.ChangeCharacterStateRequest;
 import com.meowmere.main.Requests.characters.character.EditCharacterRequest;
+import com.meowmere.main.Requests.characters.quotes.EditQuoteRequest;
 import com.meowmere.main.Requests.characters.quotes.NewQuoteForCharacterRequest;
 import com.meowmere.main.Requests.characters.stories.CreateStoryForCharRequest;
 import com.meowmere.main.Requests.characters.stories.StoryRequest;
@@ -480,4 +481,19 @@ public class CharactersService {
         quoteRepository.delete(quoteToDelete);
         return new ResponseEntity(HttpStatus.OK);
     }
+
+    public ResponseEntity editQuote(EditQuoteRequest request) {
+        Quote quote = quoteRepository.getOne(request.getQuoteId());
+        if(quote == null) {
+            String msg = "Nie znaleziono cytatu.";
+            return new ResponseEntity(msg, HttpStatus.BAD_REQUEST);
+        }
+        quote.setQuote(request.getQuote());
+        quote.setContext(request.getContext());
+        quoteRepository.saveAndFlush(quote);
+
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
+
+    }
+
 }
