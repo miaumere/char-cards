@@ -90,4 +90,8 @@ export class CharactersService {
     return this.http.post<void>(this._postNewCharacterURL, formData, httpOptions);
   }
 
+  putCharacterDetails(requestBody: EditCharacter): Observable<EditCharacter> {
+    return this.http.put<EditCharacter>(this._putEditCharacterURL, requestBody);
+  }
+
 }

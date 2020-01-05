@@ -29,7 +29,7 @@ public class Temperament {
     @JoinColumn(name = "character_id", unique = true)
     private Character character;
 
-    protected Temperament() {}
+    public Temperament() {}
     public Temperament(Integer melancholic,
                        Integer sanguine,
                        Integer flegmatic,

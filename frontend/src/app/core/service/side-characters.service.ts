@@ -52,7 +52,6 @@ export class SideCharactersService {
     return this.http.put<EditSideCharacterDetails>(this.putSideCharacterDetailsURL, requestBody);
   }
 
-
   patchSideCharacterState(requestBody: SideCharForChange): Observable<SideCharForChange> {
     return this.http.patch<SideCharForChange>(this.patchSideCharactersStateURL, requestBody);
   }

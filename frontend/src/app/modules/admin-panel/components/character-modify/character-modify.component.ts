@@ -292,10 +292,22 @@ export class CharacterModifyComponent extends BaseComponent implements OnInit {
 
         console.log(objToSend);
 
-
-      // this.subscriptions$.add(
-      //   this._charactersService
-      // )
+        this.subscriptions$.add(
+          this._charactersService
+            .putCharacterDetails(objToSend)
+            .pipe(
+              finalize(() => {
+                this.loading = false;
+              })
+            )
+            .subscribe(_ => {
+              this._toastrService.success('Udało się zmienić dane o postaci!');
+              this.getCharacterDetails();
+            },
+              err => {
+                this._toastrService.error(err.error);
+              })
+        )
     }
   }
 

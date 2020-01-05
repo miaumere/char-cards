@@ -46,7 +46,7 @@ public class Colors {
     @JoinColumn(name = "character_id", unique = true)
     private Character character;
 
-    protected Colors() {};
+    public Colors() {};
 
     public Colors(String eyeColor1,
                   String eyeColor2,

@@ -5,6 +5,7 @@ import com.meowmere.main.DTO.character.CharacterMeasurementsDTO;
 import com.meowmere.main.DTO.character.CharacterTemperamentDTO;
 
 public class EditCharacterRequest {
+    public Long externalId;
     public String charName;
     public String charSurname;
     public Long birthday;
@@ -14,6 +15,10 @@ public class EditCharacterRequest {
     public CharacterTemperamentDTO temperament;
     public CharacterColorDTO colors;
     public CharacterMeasurementsDTO measurements;
+
+    public Long getExternalId() {
+        return externalId;
+    }
 
     public String getCharName() {
         return charName;

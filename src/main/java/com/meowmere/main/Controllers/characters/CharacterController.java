@@ -46,7 +46,7 @@ public class CharacterController {
     }
 
     @PutMapping("/edit-character")
-    public ResponseEntity editCharacter(EditCharacterRequest request) {
+    public ResponseEntity editCharacter(@RequestBody  EditCharacterRequest request) {
         return charactersService.editCharacter(request);
     }
 

@@ -33,7 +33,7 @@ public class Measurements {
     @JoinColumn(name = "character_id")
     private Character character;
 
-    protected  Measurements() {};
+    public Measurements() {};
 
     public Measurements(Integer babyHeight,
                         Integer babyWeight,
@@ -57,10 +57,6 @@ public class Measurements {
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public Integer getBabyHeight() {

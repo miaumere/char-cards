@@ -46,7 +46,7 @@ public class Character {
     @OneToMany(mappedBy = "character", cascade = CascadeType.ALL)
     private Set<Story> stories;
 
-    protected Character() {};
+    public Character() {};
 
     public Character(@Length String charName,
                      @Length String charSurname,

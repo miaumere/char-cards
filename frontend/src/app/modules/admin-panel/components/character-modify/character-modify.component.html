@@ -259,7 +259,7 @@
       </div>
 
       <div *ngSwitchCase="'SUBMIT'" class="submit-container">
-        <span *ngIf="newCharacterForm.invalid">
+        <span *ngIf="form.invalid">
           Niektóre pola nie zostały uzupełnione. Jeszcze nie można dodać postaci.
         </span>
         <button class="global-button" (click)="modifyCharacter()" [disabled]="form.invalid" style="margin-top: 1rem;">

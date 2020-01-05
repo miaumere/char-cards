@@ -343,6 +343,53 @@ public class CharactersService {
 
     public ResponseEntity editCharacter(EditCharacterRequest request) {
 
+        String test = "xxxx";
+        Character character = characterRepository.getOne(request.getExternalId());
+
+        if(character == null) {
+            String msg = "Postać o podanym id nie istnieje.";
+            return new ResponseEntity(msg, HttpStatus.BAD_REQUEST);
+        }
+
+        character.setCharName(request.getCharName());
+        character.setCharSurname(request.getCharSurname());
+        character.setBirthday(request.getBirthday());
+        character.setOccupation(request.getOccupation());
+        character.setDeath(request.getDeath());
+        character.setDeathReason(request.getDeathReason());
+
+        characterRepository.saveAndFlush(character);
+
+        Colors colors = colorsRepository.getColorsForCharacter(request.getExternalId());
+                colors.setThemeColor1(request.getColors().getThemeColor1());
+                colors.setThemeColor2(request.getColors().getThemeColor2());
+                colors.setThemeColor3(request.getColors().getThemeColor3());
+                colors.setEyeColor1(request.getColors().getEyeColor1());
+                colors.setEyeColor2(request.getColors().getEyeColor2());
+                colors.setHairColor(request.getColors().getHairColor());
+                colors.setSkinColor(request.getColors().getSkinColor());
+
+        colorsRepository.saveAndFlush(colors);
+
+        Temperament temperament = temperamentRepository.getTemperamentForCharacter(request.getExternalId());
+        temperament.setMelancholic(request.getTemperament().getMelancholic());
+        temperament.setCholeric(request.getTemperament().getCholeric());
+        temperament.setFlegmatic(request.getTemperament().getFlegmatic());
+        temperament.setSanguine(request.getTemperament().getSanguine());
+
+        temperamentRepository.saveAndFlush(temperament);
+
+        Measurements measurements = measurementsRepository.getMeasurementsById(request.getExternalId());
+        measurements.setBabyHeight(request.getMeasurements().getBabyHeight());
+        measurements.setBabyWeight(request.getMeasurements().getBabyWeight());
+        measurements.setChildHeight(request.getMeasurements().getChildHeight());
+        measurements.setChildWeight(request.getMeasurements().getChildHeight());
+        measurements.setTeenHeight(request.getMeasurements().getTeenHeight());
+        measurements.setTeenWeight(request.getMeasurements().getTeenWeight());
+        measurements.setAdultHeight(request.getMeasurements().getAdultHeight());
+        measurements.setAdultWeight(request.getMeasurements().getAdultWeight());
+
+        measurementsRepository.saveAndFlush(measurements);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
