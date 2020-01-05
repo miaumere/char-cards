@@ -511,8 +511,9 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
   }
 
   insertQuoteDeleteInfo() {
-    this._toastrService.warning("Aby usunąć cytat, naciśnij dwa razy.")
+    this._toastrService.warning('Aby usunąć cytat, naciśnij dwa razy.')
   }
+
   deleteQuote(quoteId: number) {
     this.loading = true;
     this._characterService.
@@ -527,6 +528,14 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
       }, err => {
         this._toastrService.error(err?.error);
       });
+  }
+
+  editQuote(quoteId: number, quoteElement: HTMLElement, contextEl: HTMLElement) {
+    quoteElement.setAttribute('contentEditable', 'true');
+    contextEl.setAttribute('contentEditable', 'true');
+    console.log(quoteElement.textContent)
+    console.log(contextEl.textContent)
+
   }
 
 }

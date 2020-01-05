@@ -296,13 +296,30 @@
   background: #0000007d;
 
   &__quote {
+    padding: 1rem;
+
     font-size: 0.9rem;
+
+    transition: 0.2s;
+
+    &[contenteditable] {
+      outline: none;
+    }
   }
   &__context {
     margin-left: auto;
     margin-right: 1rem;
+    padding: 1rem;
 
     color: cyan;
+
+    &[contenteditable] {
+      outline: none;
+    }
+
+    &::before {
+      content: "~ ";
+    }
   }
 
   &__options,
