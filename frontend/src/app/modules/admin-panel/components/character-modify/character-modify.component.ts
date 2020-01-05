@@ -203,6 +203,8 @@ export class CharacterModifyComponent extends BaseComponent implements OnInit {
 
     switch (this.type) {
       case 'NEW':
+        this.loading = true;
+
         const newCharFormValues: { [key: string]: string } = this.newCharacterForm.value;
 
         const formData = new FormData();
@@ -243,6 +245,8 @@ export class CharacterModifyComponent extends BaseComponent implements OnInit {
 
 
       case 'EDIT':
+        this.loading = true;
+
         const objToSend = new EditCharacter();
 
         objToSend.externalId = +this.charId;

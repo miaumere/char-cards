@@ -16,8 +16,9 @@ import com.meowmere.main.Entities.characters.*;
 import com.meowmere.main.Enums.AvailableExtensions;
 import com.meowmere.main.Repositories.character.*;
 import com.meowmere.main.Requests.characters.character.ChangeCharacterStateRequest;
-import com.meowmere.main.Requests.characters.stories.CreateStoryForCharRequest;
 import com.meowmere.main.Requests.characters.character.EditCharacterRequest;
+import com.meowmere.main.Requests.characters.quotes.NewQuoteForCharacterRequest;
+import com.meowmere.main.Requests.characters.stories.CreateStoryForCharRequest;
 import com.meowmere.main.Requests.characters.stories.StoryRequest;
 import org.apache.commons.io.FilenameUtils;
 import org.modelmapper.ModelMapper;
@@ -228,7 +229,14 @@ public class CharactersService {
         return result;
     }
 
-//    public ResponseEntity addTitle(String )
+    // obmyśleć mechanizm sekwencji -> array z którego sekwencja sie sama robi
+//    public ResponseEntity addTitle(TitleRequest request) {
+//        Titles titles = new Titles();
+//        titles.setTitle(request.getTitle());
+//        titles.setSequence(request.getSequence());
+//        titlesRepository.saveAndFlush(titles);
+//        return new ResponseEntity(HttpStatus.CREATED);
+//    }
 
     public ResponseEntity createStoryForCharacter(CreateStoryForCharRequest request) {
         String msg = "";
@@ -427,5 +435,38 @@ public class CharactersService {
             dto.setMeasurements(modelMapper.map(measurementsForCharacter, CharacterMeasurementsDTO.class));
         }
         return new ResponseEntity(dto, HttpStatus.OK);
+    }
+
+    public ResponseEntity getAllQuotesForCharacter(Long id) {
+        ModelMapper modelMapper = new ModelMapper();
+        List<CharacterQuoteDTO> result = new ArrayList<>();
+
+        List<Quote> quotesFromDb = quoteRepository.getAllQuotesById(id);
+        if(quotesFromDb != null){
+            for (Quote quoteFromDb: quotesFromDb) {
+                CharacterQuoteDTO dto = modelMapper.map(quoteFromDb, CharacterQuoteDTO.class);
+                result.add(dto);
+            }
+        }
+        return new ResponseEntity(result, HttpStatus.OK);
+    }
+
+    public ResponseEntity createQuoteForCharacter(NewQuoteForCharacterRequest request){
+        Quote quote = new Quote();
+        quote.setQuote(request.getQuote());
+        quote.setContext(request.getContext());
+
+        Character character = characterRepository.getOne(request.getCharacterId());
+        if(character == null) {
+            String msg = "Nie znaleziono postaci o podanym id.";
+            return new ResponseEntity(msg, HttpStatus.BAD_REQUEST);
+        }
+
+        List<Quote> quotesForChar = new ArrayList<>();
+        quotesForChar.add(quote);
+        character.setQuotes(quotesForChar);
+        quote.setCharacter(character);
+        quoteRepository.saveAndFlush(quote);
+        return new ResponseEntity(HttpStatus.CREATED);
     }
 }

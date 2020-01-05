@@ -1,12 +1,16 @@
-package com.meowmere.main.DTO.character.quote;
+package com.meowmere.main.Requests.characters.quotes;
 
-public class CharacterQuoteDTO {
-    public Long id;
+public class NewQuoteForCharacterRequest {
+    public Long characterId;
     public String quote;
     public String context;
 
-    public Long getId() {
-        return id;
+    public Long getCharacterId() {
+        return characterId;
+    }
+
+    public void setCharacterId(Long characterId) {
+        this.characterId = characterId;
     }
 
     public String getQuote() {

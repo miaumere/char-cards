@@ -8,7 +8,7 @@
       <app-character-modify type="NEW"></app-character-modify>
     </div>
 
-    <div *ngSwitchCase="'story'" class="story">
+    <div *ngSwitchCase="'story'" class="story" class="admin-panel admin-panel--main admin-panel-main">
       <form class="story__form story-form" #storyForm="ngForm" id="storyForm" *ngIf="!areTitlesSet"
         (ngSubmit)="generateStoryForms(storyForm)">
         <div class="story-form__container">
@@ -29,12 +29,13 @@
         <input type="submit" class="global-button" value="Dalej" form="storyForm" />
       </form>
 
-      <form *ngIf="!areTitlesSet" style="margin-top: 1rem;" class="titles-form">
+      <form *ngIf="!areTitlesSet" style="margin-top: 1rem;" class="titles-form" #newTitleForm="ngForm" id="newTitleForm"
+        (ngSubmit)="createNewTitle(newTitleForm)">
         <div class="titles-form__container">
           <h2 class=" changes__title">Dodaj nowy tytuł:</h2>
-          <input class="global-input" type="text" />
+          <input class="global-input" type="text" ngModel />
 
-          <input type="submit" class="global-button" style="margin-top: 1rem" value="Dalej" form="storyForm" />
+          <input type="submit" class="global-button" style="margin-top: 1rem" form="newTitleForm" />
         </div>
 
       </form>
@@ -52,44 +53,47 @@
       </div>
     </div>
 
-    <div *ngSwitchCase="'edit-character'">
-      <app-character-modify type="EDIT" [charId]="selectedCharId"></app-character-modify>
-    </div>
+    <div *ngSwitchCase="'quotes'" class="quotes admin-panel--main admin-panel-main">
 
-    <div *ngSwitchCase="'delete-character'" class="delete-character">
-
-      <form class="delete-character__form" #changeStateOfCharForm="ngForm" id="changeStateOfCharForm"
-        (ngSubmit)="changeStateOfCharacters(changeStateOfCharForm)"
-        *ngIf="(nonArchivedCharacters.length > 0) || (archivedCharacters.length > 0)">
-
-        <label class="changes__title" *ngIf="nonArchivedCharacters && nonArchivedCharacters.length > 0">
-          Wybierz postacie do usunięcia:
-          <ul class="changes__list list">
-            <li class="list__item" *ngFor="let char of nonArchivedCharacters; index as i">
-              <input type="checkbox" ngModel [name]="char.id" />
-              {{char.charName}} {{char.charSurname}}
-            </li>
-          </ul>
-        </label>
-
-        <label class="changes__title" *ngIf="archivedCharacters && archivedCharacters.length > 0">
-          Wybierz postacie do przywrócenia:
-          <ul class="changes__list list">
-            <li class="list__item list__item--archived" *ngFor="let char of archivedCharacters; index as i">
-              <input type="checkbox" ngModel [name]="char.id" />
-              {{char.charName}} {{char.charSurname}}
-            </li>
-          </ul>
-        </label>
-
-        <button class="global-button" form="changeStateOfCharForm">Wykonaj</button>
-
-      </form>
-
-      <div *ngIf="(nonArchivedCharacters.length < 0) &&  (archivedCharacters.length < 0)">
-        Brak postaci do wyświetlenia.
+      <div class="quotes__button-container">
+        <button class="global-button quotes__button" (click)="showQuotesForm()" [disabled]="isQuoteFormShown">
+          + Dodaj cytat
+        </button>
       </div>
 
+      <div *ngIf="isQuoteFormShown" class="quotes__container quotes__container--form">
+        <form class="quotes__new-quote-form new-quote-form" [formGroup]="newQuoteForm">
+          <h2 class="changes__title">Uzupełnij poniższe pola, aby dodać nowy cytat:</h2>
+
+          <label class="changes__title quotes__label">
+            Wpisz treść cytatu:
+            <textarea class="global-textarea quotes__textarea" formControlName="quote"></textarea>
+          </label>
+          <label class="changes__title quotes__label" style="margin-top: 1rem;">
+            Dodaj kontekst cytatu:
+            <input type="text" class="global-input" formControlName="context" />
+          </label>
+          <button class="global-button quotes__button" [disabled]="newQuoteForm.invalid"
+            (click)="createNewQuote()">Dodaj
+            cytat</button>
+        </form>
+      </div>
+
+      <div *ngIf="quotes?.length > 0" class="quotes__container quotes__container--quotes">
+        <div *ngFor="let quote of quotes">
+          <div class="quote">
+            <q class="quote__quote">{{quote.quote}}</q>
+            <cite class="quote__context">~ {{quote.context}}</cite>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="quotes?.length === 0" style="color: grey; margin-top: 1rem">
+        Podana postać nie ma żadnych cytatów.
+      </div>
+    </div>
+
+    <div *ngSwitchCase="'edit-character'">
+      <app-character-modify type="EDIT" [charId]="selectedCharId"></app-character-modify>
     </div>
 
     <div *ngSwitchCase="'new-chars'" class="side-char admin-panel admin-panel--side">

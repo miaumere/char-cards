@@ -1,3 +1,5 @@
+@import "../../../../../global_styles/variables.scss";
+
 .changes {
   display: flex;
   justify-content: center;
@@ -12,7 +14,8 @@
 .edit-side-char-form,
 .edit-side-pic-form,
 .story-form,
-.titles-form {
+.titles-form,
+.new-quote-form {
   border: 1px solid white;
   padding: 1rem;
 }
@@ -227,4 +230,76 @@
   padding: 1rem;
 
   background: #ffffff3b;
+}
+
+.quotes {
+  height: calc(100vh - #{$navbar-height});
+  overflow-x: scroll;
+
+  &__button {
+    margin: 1rem 0;
+  }
+
+  &__button-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+  &__new-quote-form,
+  & label {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__new-quote-form {
+    width: 350px;
+  }
+
+  &__textarea {
+    resize: vertical;
+
+    min-height: 3rem;
+    max-height: 10rem;
+  }
+
+  &__label {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    &--form {
+      display: flex;
+      justify-content: center;
+    }
+    &--quotes {
+    }
+  }
+}
+
+.quote {
+  display: flex;
+  flex-direction: column;
+
+  width: 250px;
+
+  box-sizing: border-box;
+  padding: 1rem;
+  margin: 1rem;
+  border: 1px solid white;
+
+  background: #0000007d;
+
+  &__quote {
+    font-size: 0.9rem;
+  }
+  &__context {
+    margin-left: auto;
+    margin-right: 1rem;
+    color: cyan;
+  }
 }

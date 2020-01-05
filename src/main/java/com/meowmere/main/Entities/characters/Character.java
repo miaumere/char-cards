@@ -3,6 +3,7 @@ package com.meowmere.main.Entities.characters;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -38,7 +39,7 @@ public class Character {
     private Set<Temperament> temperament;
 
     @OneToMany(mappedBy = "character", cascade = CascadeType.ALL)
-    private Set<Quote> quotes;
+    private List<Quote> quotes;
 
     @OneToMany(mappedBy = "character", cascade = CascadeType.ALL)
     private Set<Measurements> measurements;
@@ -130,11 +131,11 @@ public class Character {
 
     public void setTemperament(Set<Temperament> temperament) {this.temperament = temperament; }
 
-    public Set<Quote> getQuotes() {
+    public List<Quote> getQuotes() {
         return quotes;
     }
 
-    public void setQuotes(Set<Quote> quotes) {
+    public void setQuotes(List<Quote> quotes) {
         this.quotes = quotes;
     }
 

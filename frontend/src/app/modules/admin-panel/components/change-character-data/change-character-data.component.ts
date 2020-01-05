@@ -1,3 +1,4 @@
+import { NewQuote } from './../../models/new-quote.model';
 import { SideCharactersService } from 'src/app/core/service/side-characters.service';
 import { ToastrService } from 'ngx-toastr';
 import { CharactersService } from './../../../../core/service/characters.service';
@@ -12,6 +13,7 @@ import { BaseComponent } from 'src/app/core/base.component';
 import { SideCharacterDetails } from '../../models/side-characters-details.model';
 import { EditSideCharacterDetails } from '../../models/edit-side-character-details.model';
 import { Book } from '../../models/book.model';
+import { Quote } from 'src/app/modules/characters/models/quote.model';
 
 type changeOptions = 'new-character' | 'edit-character' | 'delete-character' | 'story'
   | 'new-chars' | 'edit-side' | 'edit-side-pic' | 'quotes';
@@ -26,16 +28,20 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
 
   changeType: string | null;
 
-
-  charList: CharacterItem[];
   titles: Titles[] | null = null;
 
   books: Book[];
+
+  quotes: Quote[];
+  isQuoteFormShown = false;
 
   titlesForStories: Map<number, Titles[]>;
   areTitlesSet = false;
 
   selectedCharId: number;
+  sideCharacterDetails: SideCharacterDetails;
+  detailsBooksIds: number[] = [];
+
   newSideCharForm = new FormGroup({
     name: new FormControl('', Validators.required),
     surname: new FormControl('', Validators.required),
@@ -43,9 +49,6 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
     books: new FormArray([]),
     profilePic: new FormControl()
   });
-
-  sideCharacterDetails: SideCharacterDetails;
-  detailsBooksIds: number[] = [];
 
   editSideCharForm = new FormGroup({
     name: new FormControl('', [
@@ -68,9 +71,13 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
     profilePic: new FormControl()
   });
 
+  newQuoteForm = new FormGroup({
+    quote: new FormControl('', Validators.required),
+    context: new FormControl('', Validators.required)
+  })
+
   @ViewChild('sideCharProfilePic') sideCharProfilePic;
   @ViewChild('newProfilePic') newProfilePic;
-
 
   constructor(
     private _route: ActivatedRoute,
@@ -224,6 +231,10 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
 
   }
 
+  createNewTitle(titleForm: NgForm) {
+    console.log(titleForm)
+  }
+
   generateStoryForms(storyForm: NgForm) {
     const map = new Map();
     for (const key in storyForm.controls) {
@@ -288,6 +299,31 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
     );
   }
 
+  createNewQuote() {
+    this.loading = true;
+    const formValues: { [key: string]: string } = this.newQuoteForm.value;
+    const objToSend = new NewQuote();
+    objToSend.characterId = this.selectedCharId;
+
+    for (const [key, value] of Object.entries(formValues)) {
+      objToSend[key] = value;
+    }
+
+    this._characterService
+      .postNewQuote(objToSend)
+      .pipe(
+        finalize(() => {
+          this.loading = false;
+        })
+      ).subscribe(_ => {
+        this._toastrService.success('Udało się dodać nowy cytat!');
+        this.getQuotes();
+      },
+        err => {
+          this._toastrService.error(err?.error);
+        });
+  }
+
   getSideCharacterDetails() {
     this.subscriptions$.add(
       this._sideCharacterService
@@ -339,6 +375,7 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
   }
 
   updateSideCharInfo() {
+    this.loading = true;
     const formValues: { [key: string]: string } = this.editSideCharForm.value;
 
     if (!this.editSideCharForm.dirty) {
@@ -373,6 +410,8 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
   }
 
   setNewProfilePic() {
+    this.loading = true;
+
     const fileToUpload = this.newProfilePic.nativeElement.files[0];
     if (fileToUpload) {
       const extension = fileToUpload.name.split('.').pop();
@@ -389,7 +428,6 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
     const formData = new FormData();
     formData.set('externalId', '' + this.selectedCharId);
     formData.append('profilePic', fileToUpload);
-    this.loading = true;
     this.subscriptions$.add(
       this._sideCharacterService
         .postEditProfilePic(formData as any)
@@ -423,6 +461,26 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
     );
   }
 
+  getQuotes() {
+    this.loading = true;
+
+    this.subscriptions$.add(
+      this._characterService
+        .getQuotesForCharacter(this.selectedCharId)
+        .pipe(
+          finalize(() => {
+            this.loading = false;
+          })
+        ).subscribe(quotes => {
+          this.quotes = quotes;
+        })
+    )
+
+  }
+
+  showQuotesForm() {
+    this.isQuoteFormShown = true;
+  }
 
   displayInfo(changeOption: changeOptions) {
     switch (changeOption) {
@@ -440,7 +498,7 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
         break;
 
       case 'quotes':
-        this.loading = false;
+        this.getQuotes();
         break;
 
       case 'edit-character':

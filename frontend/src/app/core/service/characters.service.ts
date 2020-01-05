@@ -9,6 +9,8 @@ import { Character } from 'src/app/modules/characters/models/character.model';
 import { CharacterForChange } from 'src/app/modules/admin-panel/models/character-for-change.model';
 import { Titles } from 'src/app/modules/admin-panel/models/titles.model';
 import { StoryForCharacter } from 'src/app/modules/admin-panel/models/story.model';
+import { Quote } from 'src/app/modules/characters/models/quote.model';
+import { NewQuote } from 'src/app/modules/admin-panel/models/new-quote.model';
 
 @Injectable({
   providedIn: 'root'
@@ -22,11 +24,13 @@ export class CharactersService {
   private _getAllCharactersURL = `${this.charControllerURL}/get-all-characters`;
   private _getStoryTitlesURL = `${this.charControllerURL}/get-titles`;
   private _getCharacterDetailsURL = `${this.charControllerURL}/get-details`;
+  private _getQuotesURL = `${this.charControllerURL}/get-quotes`;
 
   private _patchChangeStateURL = `${this.charControllerURL}/change-state`;
 
   private _postStoryForCharacterURL = `${this.charControllerURL}/new-stories`;
   private _postNewCharacterURL = `${this.charControllerURL}/new-character`;
+  private _postNewQuoteURL = `${this.charControllerURL}/new-quote`;
 
   private _putEditCharacterURL = `${this.charControllerURL}/edit-character`;
 
@@ -66,6 +70,12 @@ export class CharactersService {
     return this.http.get<Titles[]>(this._getStoryTitlesURL);
   }
 
+  getQuotesForCharacter(id: number): Observable<Quote[]> {
+    const params = new HttpParams().set('id', '' + id);
+
+    return this.http.get<Quote[]>(this._getQuotesURL, { params });
+  }
+
   getCharacterDetails(id: number): Observable<EditCharacter> {
     const params = new HttpParams().set('id', '' + id);
 
@@ -88,6 +98,10 @@ export class CharactersService {
       })
     };
     return this.http.post<void>(this._postNewCharacterURL, formData, httpOptions);
+  }
+
+  postNewQuote(requestBody: NewQuote): Observable<NewQuote> {
+    return this.http.post<NewQuote>(this._postNewQuoteURL, requestBody);
   }
 
   putCharacterDetails(requestBody: EditCharacter): Observable<EditCharacter> {

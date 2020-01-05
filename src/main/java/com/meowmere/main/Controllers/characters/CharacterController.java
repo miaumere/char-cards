@@ -4,8 +4,9 @@ import com.meowmere.main.DTO.character.character.CharactersMenuDTO;
 import com.meowmere.main.DTO.character.character.EveryCharacterMenuDTO;
 import com.meowmere.main.DTO.character.titles.TitleDTO;
 import com.meowmere.main.Requests.characters.character.ChangeCharacterStateRequest;
-import com.meowmere.main.Requests.characters.stories.CreateStoryForCharRequest;
 import com.meowmere.main.Requests.characters.character.EditCharacterRequest;
+import com.meowmere.main.Requests.characters.quotes.NewQuoteForCharacterRequest;
+import com.meowmere.main.Requests.characters.stories.CreateStoryForCharRequest;
 import com.meowmere.main.Services.characters.CharactersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,6 +36,11 @@ public class CharacterController {
         return charactersService.findByExternalId(characterId);
     }
 
+    @GetMapping("/get-quotes")
+    public ResponseEntity getQuotesForCharacter(@RequestParam Long id) {
+        return charactersService.getAllQuotesForCharacter(id);
+    }
+
     @GetMapping("/get-details")
     public ResponseEntity getDetailsForCharacter(@RequestParam Long id){
         return charactersService.getCharacterDetails(id);
@@ -43,6 +49,11 @@ public class CharacterController {
     @PostMapping("/new-character")
     public ResponseEntity createCharacter(MultipartHttpServletRequest multipartHttpServletRequest) {
         return charactersService.createCharacter(multipartHttpServletRequest);
+    }
+
+    @PostMapping("/new-quote")
+    public ResponseEntity createQuoteForCharacter(@RequestBody NewQuoteForCharacterRequest newQuoteForCharacterRequest) {
+        return charactersService.createQuoteForCharacter(newQuoteForCharacterRequest);
     }
 
     @PutMapping("/edit-character")
