@@ -14,7 +14,6 @@
 .edit-side-char-form,
 .edit-side-pic-form,
 .story-form,
-.titles-form,
 .new-quote-form {
   border: 1px solid white;
   padding: 1rem;
@@ -156,8 +155,15 @@
 }
 
 .story {
-  display: flex;
-  flex-direction: column;
+  display: block;
+  // flex-direction: row;
+  // justify-content: space-evenly;
+  // flex-wrap: wrap;
+
+  height: calc(100vh - #{$navbar-height});
+  width: 100vw;
+
+  overflow-x: scroll;
 }
 
 .story-form {
@@ -181,6 +187,17 @@
 
 .title-choice {
   display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &--for-char {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  &--edit {
+    flex-direction: column;
+  }
 
   &__item {
     display: flex;
@@ -191,15 +208,36 @@
 
     margin: 1rem;
     padding-right: 5px;
-    box-shadow: 4px 4px #607d8b;
+    box-shadow: 4px 4px white;
 
-    color: black;
+    background: #0000007d;
+  }
+}
 
-    background: white;
+.titles {
+  display: flex;
+  flex-direction: column;
+
+  &__container {
+    border: 1px solid white;
+    margin: 5px;
+  }
+
+  &__submit-button {
+    position: fixed;
+
+    top: 50%;
+    left: 20%;
   }
 }
 
 .titles-form {
+  display: flex;
+  flex-direction: column;
+
+  &--new-title {
+    flex-direction: row;
+  }
   &__item {
     display: flex;
     flex-direction: column;
@@ -213,6 +251,55 @@
     margin: 5px 0 1rem 0;
 
     resize: vertical;
+  }
+
+  &__button {
+    outline: none;
+    appearance: none;
+
+    font-size: 2rem;
+    color: white;
+
+    transition: 0.2s;
+
+    &:hover {
+      color: cyan;
+    }
+  }
+}
+
+.titles-to-edit {
+  display: flex;
+  align-items: center;
+
+  width: 250px;
+
+  padding: 0.5rem;
+
+  background: #0000007d;
+
+  transition: 0.2s;
+
+  &__input {
+    width: 2rem;
+
+    margin-left: 5px;
+    margin-right: 5px;
+
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-shadow: 1px 1px 1px #999;
+
+    text-align: center;
+
+    outline: none;
+
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      -moz-appearance: textfield;
+    }
   }
 }
 
@@ -326,19 +413,18 @@
       content: "~ ";
     }
   }
+}
 
-  &__options,
-  .quote-options {
-    display: flex;
-    justify-content: flex-end;
+.quote-options,
+.titles-options {
+  display: flex;
+  justify-content: flex-end;
 
-    background: rgba(0, 0, 0, 0.4);
-    width: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  width: 100%;
+}
+.option {
+  margin-left: 0.5rem;
 
-    &__option {
-      margin-left: 0.5rem;
-
-      cursor: pointer;
-    }
-  }
+  cursor: pointer;
 }

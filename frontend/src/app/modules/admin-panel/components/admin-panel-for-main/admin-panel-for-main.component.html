@@ -7,6 +7,10 @@
       <app-icon [icon]="'new-character'" [color]="'white'" [size]="'3'"></app-icon>
     </div>
 
+    <div class="menu__item item item--new-char" title="Edytuj tytuły historii" [routerLink]="['../change', 'story']">
+      <app-icon [icon]="'story'" [color]="'white'" [size]="'3'"></app-icon>
+    </div>
+
     <div class="menu__item item" *ngFor="let character of charList">
       <div class="item__char-info char-info">
         <div title="Zmień stan postaci" (click)="changeStateOfChar(character.id)" class="change-state">
@@ -39,7 +43,7 @@
         }">
           <app-icon [icon]="'edit-picture'" [color]="'black'"></app-icon>
         </div>
-        <div class="sidebar__option" title="Dodaj historię do postaci" [routerLink]="['../change', 'story']"
+        <div class="sidebar__option" title="Dodaj historię do postaci" [routerLink]="['../change', 'story-for-char']"
           [queryParams]="{
         id: character.id
       }">

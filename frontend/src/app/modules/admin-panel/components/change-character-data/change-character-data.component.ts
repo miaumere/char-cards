@@ -4,7 +4,6 @@ import { ToastrService } from 'ngx-toastr';
 import { CharactersService } from './../../../../core/service/characters.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CharacterItem } from 'src/app/modules/characters/models/character-item.model';
 import { finalize } from 'rxjs/operators';
 import { NgForm, FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 import { Titles } from '../../models/titles.model';
@@ -17,7 +16,7 @@ import { Quote } from 'src/app/modules/characters/models/quote.model';
 import { EditQuote } from '../../models/edit-quote.model';
 
 type changeOptions = 'new-character' | 'edit-character' | 'delete-character' | 'story'
-  | 'new-chars' | 'edit-side' | 'edit-side-pic' | 'quotes';
+  | 'new-chars' | 'edit-side' | 'edit-side-pic' | 'quotes' | 'story-for-char';
 @Component({
   selector: 'app-change-character-data',
   templateUrl: './change-character-data.component.html',
@@ -77,6 +76,10 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
     context: new FormControl('', Validators.required)
   });
 
+  newTitleForm = new FormGroup({
+    title: new FormControl('', Validators.required),
+  })
+
   @ViewChild('sideCharProfilePic') sideCharProfilePic;
   @ViewChild('newProfilePic') newProfilePic;
 
@@ -100,7 +103,7 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
         this._route.params.subscribe(param => {
           this.changeType = param.name;
           if (param.name === 'edit-side' || param.name === 'edit-side-pic' ||
-            param.name === 'edit-character' || param.name === 'story' || param.name === 'quotes') {
+            param.name === 'edit-character' || param.name === 'story-for-char' || param.name === 'quotes') {
             this._route.queryParams.subscribe(queryParam => {
               if (queryParam.id) {
                 this.selectedCharId = +queryParam.id;
@@ -117,6 +120,7 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
 
   displayInfo(changeOption: changeOptions) {
     switch (changeOption) {
+      case 'story-for-char':
       case 'story':
         this.getStoryTitles();
         break;
@@ -256,11 +260,50 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
           this.titles = titles;
         })
     );
-
   }
 
-  createNewTitle(titleForm: NgForm) {
-    console.log(titleForm);
+  compareSequences(a: Titles, b: Titles) {
+    if (a.sequence < b.sequence) {
+      return -1;
+    }
+    if (a.sequence > b.sequence) {
+      return 1;
+    }
+    return 0;
+  }
+
+  sortTitles(titles: Titles[]) {
+    const sortedTitles = titles.sort((a, b) => this.compareSequences(a, b));
+    console.log(sortedTitles)
+  }
+
+  createNewTitle() {
+    console.log(this.newTitleForm);
+    const value = this.newTitleForm.controls['title']?.value;
+    console.log(value)
+  }
+
+  changeTitlesSequence(titlesSortForm: NgForm) {
+    const updatedTitles: Titles[] = [];
+    console.log(titlesSortForm)
+    for (const key in titlesSortForm.controls) {
+      if (titlesSortForm.controls.hasOwnProperty(key)) {
+        const element = titlesSortForm.controls[key];
+        console.log('klucz: ', +key, 'wartość: ', element?.value);
+        const keyAsANumber = +key;
+
+        const foundTitle = this.titles?.find(t => {
+          return t.id === keyAsANumber;
+        });
+        if (foundTitle) {
+          foundTitle.sequence = element?.value;
+          updatedTitles.push(foundTitle);
+        }
+      }
+    }
+    const sortedUpdatedTitles = this.sortTitles(updatedTitles);
+    this.titles = updatedTitles;
+    console.log(sortedUpdatedTitles)
   }
 
   generateStoryForms(storyForm: NgForm) {
@@ -548,7 +591,6 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
       objToSend.quote = quoteElement.textContent;
       objToSend.context = contextEl.textContent;
 
-      console.log(objToSend);
       this.loading = true;
       this.subscriptions$.add(
         this._characterService

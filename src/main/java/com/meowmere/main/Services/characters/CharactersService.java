@@ -22,6 +22,7 @@ import com.meowmere.main.Requests.characters.quotes.EditQuoteRequest;
 import com.meowmere.main.Requests.characters.quotes.NewQuoteForCharacterRequest;
 import com.meowmere.main.Requests.characters.stories.CreateStoryForCharRequest;
 import com.meowmere.main.Requests.characters.stories.StoryRequest;
+import com.meowmere.main.Requests.characters.titles.TitleRequest;
 import org.apache.commons.io.FilenameUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -231,14 +232,16 @@ public class CharactersService {
         return result;
     }
 
+
+
     // obmyśleć mechanizm sekwencji -> array z którego sekwencja sie sama robi
-//    public ResponseEntity addTitle(TitleRequest request) {
-//        Titles titles = new Titles();
-//        titles.setTitle(request.getTitle());
-//        titles.setSequence(request.getSequence());
-//        titlesRepository.saveAndFlush(titles);
-//        return new ResponseEntity(HttpStatus.CREATED);
-//    }
+    public ResponseEntity addTitle(TitleRequest request) {
+        Titles titles = new Titles();
+        titles.setTitle(request.getTitle());
+        titles.setSequence(request.getSequence());
+        titlesRepository.saveAndFlush(titles);
+        return new ResponseEntity(HttpStatus.CREATED);
+    }
 
     public ResponseEntity createStoryForCharacter(CreateStoryForCharRequest request) {
         String msg = "";
