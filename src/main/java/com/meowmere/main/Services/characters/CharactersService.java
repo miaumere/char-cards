@@ -243,6 +243,14 @@ public class CharactersService {
     }
 
     public ResponseEntity getStoriesForCharacter(Long id) {
+        ModelMapper modelMapper = new ModelMapper();
+        List<Story> storiesFromDb = storyRepository.getAllStoriesForId(id);
+        List<CharacterStoryDTO> stories = new ArrayList<>();
+        if(storiesFromDb != null && storiesFromDb.size() > 0){
+            for (Story storyFromDb : storiesFromDb) {
+                stories.add(modelMapper.map(storyFromDb, CharacterStoryDTO.class));
+            }
+        }
 
         return new ResponseEntity(HttpStatus.OK);
     }

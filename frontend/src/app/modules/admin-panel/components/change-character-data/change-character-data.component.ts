@@ -284,21 +284,6 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
     this._toastrService.warning('Aby usunąć wybrany element, naciśnij dwa razy.');
   }
 
-  compareSequences(a: Titles, b: Titles) {
-    if (a.sequence < b.sequence) {
-      return -1;
-    }
-    if (a.sequence > b.sequence) {
-      return 1;
-    }
-    return 0;
-  }
-
-  sortTitles(titles: Titles[]) {
-    let sortedTitles;
-    return sortedTitles = titles.sort((a, b) => this.compareSequences(a, b));
-  }
-
   createNewTitle() {
     this.loading = true;
 
@@ -319,59 +304,38 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
       })
   }
 
-  changeSequence(titleSeq: HTMLInputElement, action: 'UP' | 'DOWN') {
-    if (this.titles?.length && this.titles?.length > 0) {
+  changeSequence(titleIndex: number, action: 'UP' | 'DOWN') {
+    if (this.titles?.length > 0) {
+      const titleFromIndex = this.titles[titleIndex];
       switch (action) {
         case 'UP':
-          if (titleSeq.valueAsNumber < this.titles.length) {
-            titleSeq.valueAsNumber++;
-          } else {
-            titleSeq.valueAsNumber = this.titles.length;
-          }
+          console.log('UP: ', titleIndex);
+          // const preIndexElements = this.titles.slice(0, titleIndex - 1);
+          // const indexElPre = this.titles.slice(titleIndex, titleIndex);
+          // const postIndexElements = this.titles.slice(titleIndex + 2, this.titles.length);
+
+          this.titles[titleIndex] = this.titles[titleIndex - 1];
+          this.titles[titleIndex - 1] = titleFromIndex;
+          // const titlesWithNewOrder = this.titles.splice(titleIndex + 1, 1, indexEl[0])
+
+          // this.titles = titlesWithNewOrder;
+          console.log(this.titles);
           break;
         case 'DOWN':
-          if (titleSeq.valueAsNumber > 0) {
-            titleSeq.valueAsNumber--;
-          } else {
-            titleSeq.valueAsNumber = 0;
-          }
+          console.log('DOWN: ', titleIndex)
+
+          this.titles[titleIndex] = this.titles[titleIndex + 1];
+          this.titles[titleIndex + 1] = titleFromIndex;
+
+          console.log(this.titles)
           break;
       }
-      const foundTitle = this.titles?.find(t => t.id === +titleSeq.id);
-      if (foundTitle) {
-        foundTitle.sequence = titleSeq.valueAsNumber;
-        console.log(foundTitle.sequence)
-        // this.titles.push(foundTitle)
-      }
-      this._updates++;
     }
   }
 
-  changeTitlesSequence(titlesSortForm: NgForm) {
-    const updatedTitles: Titles[] = [];
-    // console.log(titlesSortForm)
-    for (const key in titlesSortForm.controls) {
-      if (titlesSortForm.controls.hasOwnProperty(key)) {
-        const element = titlesSortForm.controls[key];
-        // console.log('klucz: ', +key, 'wartość: ', element?.value);
-        const keyAsANumber = +key;
 
-        const foundTitle = this.titles?.find(t => {
-          return t.id === keyAsANumber;
-        });
-        if (foundTitle) {
-          foundTitle.sequence = element?.value;
-          updatedTitles.push(foundTitle);
-        }
-      }
-    }
-    const sortedUpdatedTitles = this.sortTitles(updatedTitles);
-    this.titles = sortedUpdatedTitles;
-    console.log('updated titles: ', sortedUpdatedTitles);
-  }
-
-  generateStoryForms(storyForm: NgForm) {
-
+  getStoriesForCharacter(id: number) {
+    // this._characterService.get
   }
 
   createStory(titlesForm: NgForm) {

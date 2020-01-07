@@ -44,9 +44,7 @@
 
     <div *ngSwitchCase="'story'" class="story admin-panel admin-panel--main admin-panel-main">
       <div class="title-choice title-choice--edit">
-        <form *ngIf="titles" #titlesSortForm="ngForm" id="titlesSortForm"
-          (ngSubmit)="changeTitlesSequence(titlesSortForm)" class="title-choice__form">
-          <input type="submit" class="global-button" value="Zapisz sekwencję tytułów" form="titlesSortForm" />
+        <form *ngIf="titles" #titlesSortForm="ngForm" id="titlesSortForm" class="title-choice__form">
           <div *ngFor="let title of titles; index as i">
             <div class="titles__container">
               <div class="titles__options titles-options">
@@ -59,10 +57,9 @@
               </div>
               <div class="titles-to-edit" #titleContainer>
                 <div class="titles-to-edit__options">
-                  <button class="global-button" (click)="changeSequence(titleSeq, 'UP')">🡅</button>
-                  <input type="number" #titleSeq readonly [id]="title.id" class="titles-to-edit__input" [ngModel]="i"
-                    [name]="title.id" />
-                  <button class="global-button" (click)="changeSequence(titleSeq, 'DOWN')">🡇</button>
+                  <button class="global-button" [disabled]="i-1 < 0" (click)="changeSequence(i, 'UP')">🡅</button>
+                  <button class="global-button" [disabled]="i+1 >= titles.length"
+                    (click)="changeSequence(i, 'DOWN')">🡇</button>
                 </div>
                 <span #titleElement>{{title.title}}</span>
               </div>
