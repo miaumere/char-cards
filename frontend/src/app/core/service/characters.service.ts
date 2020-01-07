@@ -1,3 +1,5 @@
+import { NewTitle } from './../../modules/admin-panel/models/new-title.model';
+import { EditTitle } from './../../modules/admin-panel/models/edit-title.model';
 import { EditCharacter } from './../../modules/admin-panel/models/edit-character.model';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -34,6 +36,7 @@ export class CharactersService {
   private _postStoryForCharacterURL = `${this.charControllerURL}/new-stories`;
   private _postNewCharacterURL = `${this.charControllerURL}/new-character`;
   private _postNewQuoteURL = `${this.charControllerURL}/new-quote`;
+  private _postNewTitleURL = `${this.charControllerURL}/new-title`;
 
   private _putEditCharacterURL = `${this.charControllerURL}/edit-character`;
 
@@ -47,11 +50,9 @@ export class CharactersService {
     this.getCharacters().subscribe();
   }
 
-
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any {
     return of(this.charList$);
   }
-
 
   // only characters which aren't archived:
   getCharacters(): Observable<CharacterItem[]> {
@@ -96,6 +97,10 @@ export class CharactersService {
     return this.http.patch<EditQuote>(this._patchQuoteURL, requestBody);
   }
 
+  patchTitle(requestBody: EditTitle): Observable<EditTitle> {
+    return this.http.patch<EditTitle>(this._patchTitleURL, requestBody);
+  }
+
   postStoryForCharacter(requestBody: StoryForCharacter): Observable<StoryForCharacter> {
     return this.http.post<StoryForCharacter>(this._postStoryForCharacterURL, requestBody);
   }
@@ -112,6 +117,10 @@ export class CharactersService {
 
   postNewQuote(requestBody: NewQuote): Observable<NewQuote> {
     return this.http.post<NewQuote>(this._postNewQuoteURL, requestBody);
+  }
+
+  postNewTitle(requestBody: NewTitle): Observable<NewTitle> {
+    return this.http.post<NewTitle>(this._postNewTitleURL, requestBody);
   }
 
   putCharacterDetails(requestBody: EditCharacter): Observable<EditCharacter> {

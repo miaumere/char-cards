@@ -1,3 +1,5 @@
+import { NewTitle } from './../../models/new-title.model';
+import { EditTitle } from './../../models/edit-title.model';
 import { NewQuote } from './../../models/new-quote.model';
 import { SideCharactersService } from 'src/app/core/service/side-characters.service';
 import { ToastrService } from 'ngx-toastr';
@@ -301,9 +303,23 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
   }
 
   createNewTitle() {
-    console.log(this.newTitleForm);
+    this.loading = true;
+
     const value = this.newTitleForm.controls['title']?.value;
-    console.log(value)
+    const objToSend = new NewTitle();
+    objToSend.title = value;
+
+    this._characterService.postNewTitle(objToSend)
+      .pipe(
+        finalize(() => {
+          this.loading = false;
+        })
+      ).subscribe(_ => {
+        this._toastrService.success('Udało się dodać nowy tytuł!');
+        this.getStoryTitles();
+      }, err => {
+        this._toastrService.error(err?.error);
+      })
   }
 
   changeSequence(titleSeq: HTMLInputElement, action: 'UP' | 'DOWN') {
@@ -629,34 +645,75 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
 
       this._toastrService.info('Aby zapisać zmianę, naciśnij jeszcze raz na ikonkę edycji.');
     } else {
-      contextEl.removeAttribute('contentEditable');
-      quoteElement.removeAttribute('contentEditable');
-      quoteContainer.classList.remove('quote--editable');
+      if (quoteElement.textContent && contextEl.textContent) {
+        contextEl.removeAttribute('contentEditable');
+        quoteElement.removeAttribute('contentEditable');
+        quoteContainer.classList.remove('quote--editable');
 
-      const objToSend = new EditQuote();
-      objToSend.quoteId = quoteId;
-      objToSend.quote = quoteElement.textContent;
-      objToSend.context = contextEl.textContent;
+        const objToSend = new EditQuote();
+        objToSend.quoteId = quoteId;
+        objToSend.quote = quoteElement.textContent;
+        objToSend.context = contextEl.textContent;
 
-      this.loading = true;
-      this.subscriptions$.add(
-        this._characterService
-          .patchQuote(objToSend)
-          .pipe(
-            finalize(() => {
-              this.loading = false;
-            })
-          ).subscribe(
-            _ => {
-              this._toastrService.success('Udało się zmienić cytat!');
-              this.getQuotes();
-            },
-            err => {
-              this._toastrService.error(err?.error);
-            })
-      );
+        this.loading = true;
+        this.subscriptions$.add(
+          this._characterService
+            .patchQuote(objToSend)
+            .pipe(
+              finalize(() => {
+                this.loading = false;
+              })
+            ).subscribe(
+              _ => {
+                this._toastrService.success('Udało się zmienić cytat!');
+                this.getQuotes();
+              },
+              err => {
+                this._toastrService.error(err?.error);
+              })
+        );
+      } else {
+        this._toastrService.warning('Treść cytatu i kontekst nie mogą być puste!');
+      }
     }
 
+
+  }
+
+  editTitle(titleId: number, titleElement: HTMLElement, titleContainer: HTMLElement) {
+    if (!titleElement.isContentEditable) {
+      titleElement.setAttribute('contentEditable', 'true');
+      titleContainer.classList.add('titles-to-edit--editable');
+
+      this._toastrService.info('Aby zapisać zmianę, naciśnij jeszcze raz na ikonkę edycji.');
+    } else {
+      if (titleElement.textContent) {
+        this.loading = true;
+        const objToSend = new EditTitle();
+        objToSend.id = titleId;
+        objToSend.title = titleElement.textContent;
+
+        titleElement.removeAttribute('contentEditable');
+        titleContainer.classList.remove('titles-to-edit--editable');
+
+        this.subscriptions$.add(
+          this._characterService
+            .patchTitle(objToSend)
+            .pipe(
+              finalize(() => {
+                this.loading = false;
+              })
+            ).subscribe(_ => {
+              this._toastrService.success('Udało się zmienić tytuł!');
+              this.getStoryTitles();
+            }, err => {
+              this._toastrService.error(err?.error);
+            })
+        )
+      } else {
+        this._toastrService.warning('Tytuł nie może być pusty!');
+      }
+    }
 
   }
 

@@ -22,7 +22,8 @@ import com.meowmere.main.Requests.characters.quotes.EditQuoteRequest;
 import com.meowmere.main.Requests.characters.quotes.NewQuoteForCharacterRequest;
 import com.meowmere.main.Requests.characters.stories.CreateStoryForCharRequest;
 import com.meowmere.main.Requests.characters.stories.StoryRequest;
-import com.meowmere.main.Requests.characters.titles.TitleRequest;
+import com.meowmere.main.Requests.characters.titles.EditTitleRequest;
+import com.meowmere.main.Requests.characters.titles.NewTitleRequest;
 import org.apache.commons.io.FilenameUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -232,18 +233,14 @@ public class CharactersService {
         return result;
     }
 
-
-
-    // obmyśleć mechanizm sekwencji -> array z którego sekwencja sie sama robi
-    public ResponseEntity addTitle(TitleRequest request) {
-        Titles titles = new Titles();
-        titles.setTitle(request.getTitle());
-        titles.setSequence(request.getSequence());
-        titlesRepository.saveAndFlush(titles);
+    public ResponseEntity newTitle(NewTitleRequest request) {
+        Titles title = new Titles();
+        Long titlesLength = new Long(titlesRepository.findAll().size());
+        title.setTitle(request.getTitle());
+        title.setSequence(titlesLength + 1);
+        titlesRepository.saveAndFlush(title);
         return new ResponseEntity(HttpStatus.CREATED);
     }
-
-
 
     public ResponseEntity createStoryForCharacter(CreateStoryForCharRequest request) {
         String msg = "";
@@ -508,7 +505,17 @@ public class CharactersService {
         quoteRepository.saveAndFlush(quote);
 
         return new ResponseEntity(HttpStatus.NO_CONTENT);
+    }
 
+    public ResponseEntity editTitle(EditTitleRequest request) {
+        Titles title = titlesRepository.getOne(request.getId());
+        if(title == null) {
+            String msg = "Nie znaleziono tytułu.";
+            return new ResponseEntity(msg, HttpStatus.BAD_REQUEST);
+        }
+        title.setTitle(request.getTitle());
+        titlesRepository.saveAndFlush(title);
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
 }

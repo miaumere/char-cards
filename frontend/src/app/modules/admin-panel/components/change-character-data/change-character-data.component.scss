@@ -279,25 +279,43 @@
   transition: 0.2s;
 
   &__input {
-    width: 2rem;
-
-    margin-left: 5px;
-    margin-right: 5px;
+    width: 1rem;
 
     padding: 5px;
     border-radius: 5px;
-    border: 1px solid #ccc;
-    box-shadow: 1px 1px 1px #999;
+    border: 1px solid grey;
 
     text-align: center;
+    color: white;
 
     outline: none;
+
+    background: transparent;
 
     &::-webkit-outer-spin-button,
     &::-webkit-inner-spin-button {
       -webkit-appearance: none;
       -moz-appearance: textfield;
     }
+  }
+
+  &--editable {
+    color: black;
+    font-size: 1rem;
+
+    background: whitesmoke;
+    & button {
+      background-image: linear-gradient(to top, #f3e7e9 0%, #e3eeff 99%, #e3eeff 100%);
+      color: black;
+    }
+    & input {
+      border: 1px solid gray;
+      color: black;
+    }
+  }
+
+  &__options {
+    margin-right: 1rem;
   }
 }
 

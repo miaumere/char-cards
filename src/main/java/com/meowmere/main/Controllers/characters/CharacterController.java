@@ -8,6 +8,8 @@ import com.meowmere.main.Requests.characters.character.EditCharacterRequest;
 import com.meowmere.main.Requests.characters.quotes.EditQuoteRequest;
 import com.meowmere.main.Requests.characters.quotes.NewQuoteForCharacterRequest;
 import com.meowmere.main.Requests.characters.stories.CreateStoryForCharRequest;
+import com.meowmere.main.Requests.characters.titles.EditTitleRequest;
+import com.meowmere.main.Requests.characters.titles.NewTitleRequest;
 import com.meowmere.main.Services.characters.CharactersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -57,8 +59,6 @@ public class CharacterController {
         return charactersService.createQuoteForCharacter(newQuoteForCharacterRequest);
     }
 
-
-
     @PutMapping("/edit-character")
     public ResponseEntity editCharacter(@RequestBody  EditCharacterRequest request) {
         return charactersService.editCharacter(request);
@@ -67,11 +67,6 @@ public class CharacterController {
     @PatchMapping("/change-state")
     public ResponseEntity changeStateOfCharacter(@RequestBody ChangeCharacterStateRequest request){
         return charactersService.changeStatusForCharacter(request);
-    }
-
-    @PatchMapping("/edit-quote")
-    public ResponseEntity editQuote(@RequestBody EditQuoteRequest editQuoteRequest) {
-        return charactersService.editQuote(editQuoteRequest);
     }
 
     @GetMapping("/get-titles")
@@ -83,6 +78,21 @@ public class CharacterController {
     @PostMapping("/new-stories")
     public ResponseEntity createStoryForCharacter(@RequestBody CreateStoryForCharRequest createStoryForCharRequest){
         return charactersService.createStoryForCharacter(createStoryForCharRequest);
+    }
+
+    @PostMapping("/new-title")
+    public ResponseEntity newTitle(@RequestBody NewTitleRequest request) {
+        return charactersService.newTitle(request);
+    }
+
+    @PatchMapping("/edit-quote")
+    public ResponseEntity editQuote(@RequestBody EditQuoteRequest editQuoteRequest) {
+        return charactersService.editQuote(editQuoteRequest);
+    }
+
+    @PatchMapping("/edit-title")
+    public ResponseEntity editTitle(@RequestBody EditTitleRequest editTitleRequest){
+        return charactersService.editTitle(editTitleRequest);
     }
 
     @DeleteMapping("/delete-quote")

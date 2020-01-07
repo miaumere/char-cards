@@ -55,21 +55,21 @@
           <div *ngFor="let title of titles; index as i">
             <div class="titles__container">
               <div class="titles__options titles-options">
-                <span class="option" title="Edytuj tytuł">
+                <span class="option" title="Edytuj tytuł" (click)="editTitle(title.id, titleElement, titleContainer)">
                   <app-icon [icon]="'edit'" [color]="'whitesmoke'" [size]="'0.9'"></app-icon>
                 </span>
                 <span class="option" title="Usuń tytuł" (click)="insertDeleteInfo()" (dblclick)="deleteTitle(title.id)">
                   <app-icon [icon]="'archive'" [color]="'#b84343'"></app-icon>
                 </span>
               </div>
-              <div class="titles-to-edit">
+              <div class="titles-to-edit" #titleContainer>
                 <div class="titles-to-edit__options">
                   <button class="global-button" (click)="changeSequence(titleSeq, 'UP')">🡅</button>
+                  <input type="number" #titleSeq readonly [id]="title.id" class="titles-to-edit__input" [ngModel]="i"
+                    [name]="title.id" />
                   <button class="global-button" (click)="changeSequence(titleSeq, 'DOWN')">🡇</button>
                 </div>
-                <input type="number" #titleSeq readonly [id]="title.id" class="titles-to-edit__input" [ngModel]="i"
-                  [name]="title.id" />
-                {{title.title}}
+                <span #titleElement>{{title.title}}</span>
               </div>
             </div>
           </div>
