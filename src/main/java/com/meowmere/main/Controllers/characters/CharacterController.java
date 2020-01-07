@@ -75,6 +75,11 @@ public class CharacterController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+    @GetMapping("/get-stories")
+    public ResponseEntity getStoriesForChar(@RequestParam Long id) {
+        return this.charactersService.getStoriesForCharacter(id);
+    }
+
     @PostMapping("/new-stories")
     public ResponseEntity createStoryForCharacter(@RequestBody CreateStoryForCharRequest createStoryForCharRequest){
         return charactersService.createStoryForCharacter(createStoryForCharRequest);

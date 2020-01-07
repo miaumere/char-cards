@@ -8,46 +8,41 @@
       <app-character-modify type="NEW"></app-character-modify>
     </div>
 
-    <div *ngSwitchCase="'story-for-char'" class="titles admin-panel admin-panel--main admin-panel-main">
-      <div *ngIf="!areTitlesSet">
-        <h2 class="changes__title changes__title">Wybierz tytuły do rozdziałów historii:</h2>
-        <form class="story__form story-form" #storyForm="ngForm" id="storyForm"
-          (ngSubmit)="generateStoryForms(storyForm)">
+    <div *ngSwitchCase="'story-for-char'" class="story admin-panel--main admin-panel-main">
+      <form class="story__form story-form">
+        <div class="story-form__container">
           <div class="story-form__container">
-            <div class="story-form__container">
-              Wybierz tytuły jakie chcesz dodać:
-              <div class="title-choice title-choice--for-char" *ngIf="titles">
-                <label *ngFor="let title of titles" class="title-choice__item">
-                  <input type="checkbox" ngModel [name]="title.id" />
-                  {{title.title}}
-                </label>
-              </div>
-              <div *ngIf="!titles" style="color: grey">
-                Brak tytułów.
+            <h2 class="changes__title">Dostępne tytuły</h2>
+            <div class="title-choice title-choice--for-char" *ngIf="titles">
+              <div *ngFor="let title of titles" class="title-choice__item title-choice-item">
+
+                <details>
+                  <summary class="title-choice-item__summary">
+                    <span class="title-choice-item__title">{{title.title}}</span>
+                    <div class="options">
+                      <span class="option" title="Edytuj historię">
+                        <app-icon [icon]="'edit'" [color]="'whitesmoke'" [size]="'0.9'"></app-icon>
+                      </span>
+                      <span class="option" title="Usuń tytuł" (click)="insertDeleteInfo()">
+                        <app-icon [icon]="'archive'" [color]="'#b84343'"></app-icon>
+                      </span>
+                    </div>
+                  </summary>
+                  <textarea class="title-choice-item__story global-textarea"></textarea>
+                </details>
+
               </div>
             </div>
+            <div *ngIf="!titles" style="color: grey">
+              Brak tytułów.
+            </div>
           </div>
-          <input type="submit" class="global-button" value="Dalej" form="storyForm" />
-        </form>
-      </div>
+        </div>
+      </form>
 
-      <div *ngIf="areTitlesSet">
-        <h2 class="changes__title">Wypełnij poniższe pola: </h2>
-        <form class="titles__form titles-form" #titlesForm="ngForm" id="titlesForm"
-          (ngSubmit)="createStory(titlesForm)">
-          <label *ngFor="let title of titlesForStories | keyvalue" class="titles-form__item">
-            {{title.value}}
-            <textarea ngModel [name]="title.key" class="global-textarea titles-form__textarea"></textarea>
-          </label>
-          <input type="submit" class="global-button" value="Dodaj historię" form="titlesForm" />
-        </form>
-      </div>
     </div>
 
     <div *ngSwitchCase="'story'" class="story admin-panel admin-panel--main admin-panel-main">
-
-
-
       <div class="title-choice title-choice--edit">
         <form *ngIf="titles" #titlesSortForm="ngForm" id="titlesSortForm"
           (ngSubmit)="changeTitlesSequence(titlesSortForm)" class="title-choice__form">

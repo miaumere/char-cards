@@ -13,7 +13,6 @@
 .new-side-form,
 .edit-side-char-form,
 .edit-side-pic-form,
-.story-form,
 .new-quote-form {
   border: 1px solid white;
   padding: 1rem;
@@ -154,11 +153,9 @@
   }
 }
 
-.story {
+.story,
+.titles {
   display: block;
-  // flex-direction: row;
-  // justify-content: space-evenly;
-  // flex-wrap: wrap;
 
   height: calc(100vh - #{$navbar-height});
   width: 100vw;
@@ -170,6 +167,7 @@
   &__container {
     display: flex;
     flex-direction: column;
+    align-items: center;
 
     &--titles {
       display: flex;
@@ -191,7 +189,7 @@
   justify-content: center;
 
   &--for-char {
-    flex-direction: row;
+    flex-direction: column;
     flex-wrap: wrap;
   }
 
@@ -204,13 +202,8 @@
     justify-content: center;
     align-items: center;
 
-    max-width: 100px;
-
     margin: 1rem;
     padding-right: 5px;
-    box-shadow: 4px 4px white;
-
-    background: #0000007d;
   }
 
   &__form {
@@ -219,10 +212,40 @@
   }
 }
 
-.titles {
+.title-choice-item {
   display: flex;
   flex-direction: column;
 
+  width: 450px;
+
+  &__summary {
+    display: flex;
+
+    width: 450px;
+
+    padding: 1rem;
+    border-radius: 3px;
+
+    background: rgba(0, 0, 0, 0.5);
+
+    & .options {
+      margin-left: auto;
+    }
+  }
+
+  &__title {
+    max-width: 350px;
+  }
+
+  &__story {
+    resize: vertical;
+
+    min-height: 100px;
+    width: 100%;
+    width: -webkit-fill-available;
+  }
+}
+.titles {
   &__container {
     border: 1px solid white;
     margin: 5px;
@@ -439,6 +462,7 @@
   background: rgba(0, 0, 0, 0.4);
   width: 100%;
 }
+
 .option {
   margin-left: 0.5rem;
 

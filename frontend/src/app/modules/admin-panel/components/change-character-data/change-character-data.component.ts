@@ -37,9 +37,6 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
   quotes: Quote[];
   isQuoteFormShown = false;
 
-  titlesForStories: Map<number, Titles[]>;
-  areTitlesSet = false;
-
   selectedCharId: number;
   sideCharacterDetails: SideCharacterDetails;
   detailsBooksIds: number[] = [];
@@ -374,67 +371,44 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
   }
 
   generateStoryForms(storyForm: NgForm) {
-    const map = new Map();
-    for (const key in storyForm.controls) {
-      if (storyForm.controls.hasOwnProperty(key)) {
-        key === 'name' ? this.selectedCharId = storyForm.value[key] : null;
-        if (key !== 'name') {
-          const id = +key;
-          const value = !!storyForm.value[id];
-          if (value && this.titles && this.titles.length > 0) {
-            const titleForStory = this.titles.find(t => {
-              return t.id === id;
-            });
-            if (titleForStory) {
-              map.set(id, titleForStory.title);
-            }
-          }
-        }
-      }
-    }
-    this.titlesForStories = map;
-    if (this.titlesForStories.size > 0) {
-      this.areTitlesSet = true;
-    } else {
-      this._toastrService.warning('Nie uzupełniono poprawnie formularza.');
-    }
+
   }
 
   createStory(titlesForm: NgForm) {
-    this.loading = true;
+    // this.loading = true;
 
-    const storyToSend = new StoryForCharacter();
-    const stories: Story[] = [];
-    for (const key in titlesForm.controls) {
-      if (titlesForm.controls.hasOwnProperty(key)) {
-        const id = +key;
-        const value = titlesForm.value[id];
-        const story = new Story(id, value);
-        stories.push(story);
-      }
-    }
-    storyToSend.characterId = this.selectedCharId;
-    storyToSend.stories = stories;
-    console.log(storyToSend);
+    // const storyToSend = new StoryForCharacter();
+    // const stories: Story[] = [];
+    // for (const key in titlesForm.controls) {
+    //   if (titlesForm.controls.hasOwnProperty(key)) {
+    //     const id = +key;
+    //     const value = titlesForm.value[id];
+    //     const story = new Story(id, value);
+    //     stories.push(story);
+    //   }
+    // }
+    // storyToSend.characterId = this.selectedCharId;
+    // storyToSend.stories = stories;
+    // console.log(storyToSend);
 
-    this.subscriptions$.add(
-      this._characterService
-        .postStoryForCharacter(storyToSend)
-        .pipe(
-          finalize(() => {
-            this.loading = false;
-          })
-        )
-        .subscribe(
-          _ => {
-            this._toastrService.success('Udało się dodać historię!');
-          },
-          err => {
-            if (err.error) {
-              this._toastrService.error(err.error);
-            }
-          })
-    );
+    // this.subscriptions$.add(
+    //   this._characterService
+    //     .postStoryForCharacter(storyToSend)
+    //     .pipe(
+    //       finalize(() => {
+    //         this.loading = false;
+    //       })
+    //     )
+    //     .subscribe(
+    //       _ => {
+    //         this._toastrService.success('Udało się dodać historię!');
+    //       },
+    //       err => {
+    //         if (err.error) {
+    //           this._toastrService.error(err.error);
+    //         }
+    //       })
+    // );
   }
 
   createNewQuote() {

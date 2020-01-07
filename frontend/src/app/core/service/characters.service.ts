@@ -28,6 +28,7 @@ export class CharactersService {
   private _getStoryTitlesURL = `${this.charControllerURL}/get-titles`;
   private _getCharacterDetailsURL = `${this.charControllerURL}/get-details`;
   private _getQuotesURL = `${this.charControllerURL}/get-quotes`;
+  private _getStoriesForCharURL = `${this.charControllerURL}/get-stories`;
 
   private _patchChangeStateURL = `${this.charControllerURL}/change-state`;
   private _patchQuoteURL = `${this.charControllerURL}/edit-quote`;

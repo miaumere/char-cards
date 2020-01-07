@@ -242,6 +242,11 @@ public class CharactersService {
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
+    public ResponseEntity getStoriesForCharacter(Long id) {
+
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
     public ResponseEntity createStoryForCharacter(CreateStoryForCharRequest request) {
         String msg = "";
         Story storyToCreate = new Story();
