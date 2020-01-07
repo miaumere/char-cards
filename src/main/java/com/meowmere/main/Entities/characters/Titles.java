@@ -13,7 +13,7 @@ public class Titles {
     @Column
     public String title;
 
-    @Column(unique = true)
+    @Column
     public Long sequence;
 
     @OneToMany(mappedBy = "title", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

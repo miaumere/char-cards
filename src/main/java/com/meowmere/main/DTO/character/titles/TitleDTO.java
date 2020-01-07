@@ -3,7 +3,6 @@ package com.meowmere.main.DTO.character.titles;
 public class TitleDTO {
     public Long id;
     public String title;
-    public Long sequence;
 
     public Long getId() {
         return id;
@@ -19,13 +18,5 @@ public class TitleDTO {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public Long getSequence() {
-        return sequence;
-    }
-
-    public void setSequence(Long sequence) {
-        this.sequence = sequence;
     }
 }

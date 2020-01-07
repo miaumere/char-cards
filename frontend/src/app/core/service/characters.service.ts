@@ -33,6 +33,7 @@ export class CharactersService {
   private _patchChangeStateURL = `${this.charControllerURL}/change-state`;
   private _patchQuoteURL = `${this.charControllerURL}/edit-quote`;
   private _patchTitleURL = `${this.charControllerURL}/edit-title`;
+  private _patchTitlesSequenceURL = `${this.charControllerURL}/set-title-sequence`;
 
   private _postStoryForCharacterURL = `${this.charControllerURL}/new-stories`;
   private _postNewCharacterURL = `${this.charControllerURL}/new-character`;
@@ -100,6 +101,10 @@ export class CharactersService {
 
   patchTitle(requestBody: EditTitle): Observable<EditTitle> {
     return this.http.patch<EditTitle>(this._patchTitleURL, requestBody);
+  }
+
+  patchTitlesSequence(requestBody: Titles[]): Observable<Titles[]> {
+    return this.http.patch<Titles[]>(this._patchTitlesSequenceURL, requestBody);
   }
 
   postStoryForCharacter(requestBody: StoryForCharacter): Observable<StoryForCharacter> {

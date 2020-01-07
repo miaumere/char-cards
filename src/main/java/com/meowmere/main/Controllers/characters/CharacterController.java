@@ -100,6 +100,11 @@ public class CharacterController {
         return charactersService.editTitle(editTitleRequest);
     }
 
+    @PatchMapping("/set-title-sequence")
+    public ResponseEntity setTitlesSequence(@RequestBody List<TitleDTO> request){
+        return charactersService.setTitlesSequence(request);
+    }
+
     @DeleteMapping("/delete-quote")
     public ResponseEntity deleteQuote(@RequestParam Long id) {
         return charactersService.deleteQuote(id);

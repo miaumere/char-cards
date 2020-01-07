@@ -305,20 +305,15 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
   }
 
   changeSequence(titleIndex: number, action: 'UP' | 'DOWN') {
-    if (this.titles?.length > 0) {
+    if (this.titles && this.titles?.length > 0) {
       const titleFromIndex = this.titles[titleIndex];
       switch (action) {
         case 'UP':
           console.log('UP: ', titleIndex);
-          // const preIndexElements = this.titles.slice(0, titleIndex - 1);
-          // const indexElPre = this.titles.slice(titleIndex, titleIndex);
-          // const postIndexElements = this.titles.slice(titleIndex + 2, this.titles.length);
 
           this.titles[titleIndex] = this.titles[titleIndex - 1];
           this.titles[titleIndex - 1] = titleFromIndex;
-          // const titlesWithNewOrder = this.titles.splice(titleIndex + 1, 1, indexEl[0])
 
-          // this.titles = titlesWithNewOrder;
           console.log(this.titles);
           break;
         case 'DOWN':
@@ -327,9 +322,22 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
           this.titles[titleIndex] = this.titles[titleIndex + 1];
           this.titles[titleIndex + 1] = titleFromIndex;
 
-          console.log(this.titles)
+          console.log(this.titles);
           break;
       }
+
+      this.subscriptions$.add(
+        this._characterService
+          .patchTitlesSequence(this.titles)
+          .pipe(
+            finalize(() => {
+              this.loading = false;
+            })
+          ).subscribe(_ => {
+            console.log('sekwencja zostala zapisana.')
+          })
+      )
+
     }
   }
 

@@ -233,6 +233,18 @@ public class CharactersService {
         return result;
     }
 
+    public ResponseEntity setTitlesSequence(List<TitleDTO> titles) {
+        for (int i = 0; i < titles.size(); i++) {
+            Titles title = titlesRepository.getOne(titles.get(i).getId());
+            if(title == null){
+                continue;
+            }
+            title.setSequence(new Long(i));
+            titlesRepository.saveAndFlush(title);
+        }
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
     public ResponseEntity newTitle(NewTitleRequest request) {
         Titles title = new Titles();
         Long titlesLength = new Long(titlesRepository.findAll().size());
