@@ -50,28 +50,30 @@
 
       <div class="title-choice title-choice--edit">
         <form *ngIf="titles" #titlesSortForm="ngForm" id="titlesSortForm"
-          (ngSubmit)="changeTitlesSequence(titlesSortForm)">
+          (ngSubmit)="changeTitlesSequence(titlesSortForm)" class="title-choice__form">
+          <input type="submit" class="global-button" value="Zapisz sekwencję tytułów" form="titlesSortForm" />
           <div *ngFor="let title of titles; index as i">
             <div class="titles__container">
-
               <div class="titles__options titles-options">
                 <span class="option" title="Edytuj tytuł">
                   <app-icon [icon]="'edit'" [color]="'whitesmoke'" [size]="'0.9'"></app-icon>
                 </span>
-                <span class="option" title="Usuń tytuł">
+                <span class="option" title="Usuń tytuł" (click)="insertDeleteInfo()" (dblclick)="deleteTitle(title.id)">
                   <app-icon [icon]="'archive'" [color]="'#b84343'"></app-icon>
                 </span>
               </div>
               <div class="titles-to-edit">
-                <input type="number" class="global-input" class="titles-to-edit__input" [ngModel]="i"
+                <div class="titles-to-edit__options">
+                  <button class="global-button" (click)="changeSequence(titleSeq, 'UP')">🡅</button>
+                  <button class="global-button" (click)="changeSequence(titleSeq, 'DOWN')">🡇</button>
+                </div>
+                <input type="number" #titleSeq readonly [id]="title.id" class="titles-to-edit__input" [ngModel]="i"
                   [name]="title.id" />
                 {{title.title}}
               </div>
             </div>
           </div>
 
-          <input type="submit" class="global-button titles__submit-button" value="Zapisz sekwencję tytułów"
-            form="titlesSortForm" />
         </form>
 
 
@@ -121,8 +123,7 @@
                 (click)="editQuote(quote.id, quoteEl, contextEl, quoteContainer)">
                 <app-icon [icon]="'edit'" [color]="'whitesmoke'" [size]="'0.9'"></app-icon>
               </span>
-              <span class="option" title="Usuń cytat" (click)="insertQuoteDeleteInfo()"
-                (dblclick)="deleteQuote(quote.id)">
+              <span class="option" title="Usuń cytat" (click)="insertDeleteInfo()" (dblclick)="deleteQuote(quote.id)">
                 <app-icon [icon]="'archive'" [color]="'#b84343'"></app-icon>
               </span>
             </div>

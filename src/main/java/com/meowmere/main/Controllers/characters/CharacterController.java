@@ -57,10 +57,7 @@ public class CharacterController {
         return charactersService.createQuoteForCharacter(newQuoteForCharacterRequest);
     }
 
-    @DeleteMapping("/delete-quote")
-    public ResponseEntity deleteQuote(@RequestParam Long id) {
-        return charactersService.deleteQuote(id);
-    }
+
 
     @PutMapping("/edit-character")
     public ResponseEntity editCharacter(@RequestBody  EditCharacterRequest request) {
@@ -88,4 +85,13 @@ public class CharacterController {
         return charactersService.createStoryForCharacter(createStoryForCharRequest);
     }
 
+    @DeleteMapping("/delete-quote")
+    public ResponseEntity deleteQuote(@RequestParam Long id) {
+        return charactersService.deleteQuote(id);
+    }
+
+    @DeleteMapping("/delete-title")
+    public ResponseEntity deleteTitle(@RequestParam Long id) {
+        return charactersService.deleteTitle(id);
+    }
 }

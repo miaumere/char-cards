@@ -23,7 +23,7 @@ type changeOptions = 'new-character' | 'edit-character' | 'delete-character' | '
   styleUrls: ['./change-character-data.component.scss']
 })
 export class ChangeCharacterDataComponent extends BaseComponent implements OnInit {
-
+  private _updates = 0;
   loading = true;
 
   changeType: string | null;
@@ -262,6 +262,29 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
     );
   }
 
+  deleteTitle(id: number) {
+    this.subscriptions$.add(
+      this._characterService
+        .deleteTitle(id)
+        .pipe(
+          finalize(() => {
+            this.loading = false;
+          })
+        )
+        .subscribe(_ => {
+          this._toastrService.success('Udało się usunąć tytuł!');
+          this.getStoryTitles();
+        },
+          err => {
+            this._toastrService.error(err?.error);
+          })
+    )
+  }
+
+  insertDeleteInfo() {
+    this._toastrService.warning('Aby usunąć wybrany element, naciśnij dwa razy.');
+  }
+
   compareSequences(a: Titles, b: Titles) {
     if (a.sequence < b.sequence) {
       return -1;
@@ -273,8 +296,8 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
   }
 
   sortTitles(titles: Titles[]) {
-    const sortedTitles = titles.sort((a, b) => this.compareSequences(a, b));
-    console.log(sortedTitles)
+    let sortedTitles;
+    return sortedTitles = titles.sort((a, b) => this.compareSequences(a, b));
   }
 
   createNewTitle() {
@@ -283,13 +306,41 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
     console.log(value)
   }
 
+  changeSequence(titleSeq: HTMLInputElement, action: 'UP' | 'DOWN') {
+    if (this.titles?.length && this.titles?.length > 0) {
+      switch (action) {
+        case 'UP':
+          if (titleSeq.valueAsNumber < this.titles.length) {
+            titleSeq.valueAsNumber++;
+          } else {
+            titleSeq.valueAsNumber = this.titles.length;
+          }
+          break;
+        case 'DOWN':
+          if (titleSeq.valueAsNumber > 0) {
+            titleSeq.valueAsNumber--;
+          } else {
+            titleSeq.valueAsNumber = 0;
+          }
+          break;
+      }
+      const foundTitle = this.titles?.find(t => t.id === +titleSeq.id);
+      if (foundTitle) {
+        foundTitle.sequence = titleSeq.valueAsNumber;
+        console.log(foundTitle.sequence)
+        // this.titles.push(foundTitle)
+      }
+      this._updates++;
+    }
+  }
+
   changeTitlesSequence(titlesSortForm: NgForm) {
     const updatedTitles: Titles[] = [];
-    console.log(titlesSortForm)
+    // console.log(titlesSortForm)
     for (const key in titlesSortForm.controls) {
       if (titlesSortForm.controls.hasOwnProperty(key)) {
         const element = titlesSortForm.controls[key];
-        console.log('klucz: ', +key, 'wartość: ', element?.value);
+        // console.log('klucz: ', +key, 'wartość: ', element?.value);
         const keyAsANumber = +key;
 
         const foundTitle = this.titles?.find(t => {
@@ -302,8 +353,8 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
       }
     }
     const sortedUpdatedTitles = this.sortTitles(updatedTitles);
-    this.titles = updatedTitles;
-    console.log(sortedUpdatedTitles)
+    this.titles = sortedUpdatedTitles;
+    console.log('updated titles: ', sortedUpdatedTitles);
   }
 
   generateStoryForms(storyForm: NgForm) {
@@ -552,10 +603,6 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
 
   showQuotesForm() {
     this.isQuoteFormShown = true;
-  }
-
-  insertQuoteDeleteInfo() {
-    this._toastrService.warning('Aby usunąć cytat, naciśnij dwa razy.');
   }
 
   deleteQuote(quoteId: number) {

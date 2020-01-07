@@ -212,6 +212,11 @@
 
     background: #0000007d;
   }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+  }
 }
 
 .titles {
@@ -221,13 +226,6 @@
   &__container {
     border: 1px solid white;
     margin: 5px;
-  }
-
-  &__submit-button {
-    position: fixed;
-
-    top: 50%;
-    left: 20%;
   }
 }
 

@@ -243,6 +243,8 @@ public class CharactersService {
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
+
+
     public ResponseEntity createStoryForCharacter(CreateStoryForCharRequest request) {
         String msg = "";
         Story storyToCreate = new Story();
@@ -482,6 +484,16 @@ public class CharactersService {
             return new ResponseEntity(msg, HttpStatus.BAD_REQUEST);
         }
         quoteRepository.delete(quoteToDelete);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    public ResponseEntity deleteTitle(Long id) {
+        Titles titleToDelete = titlesRepository.getOne(id);
+        if (titleToDelete == null) {
+            String msg = "Nie ma takiego tytułu bądź został już wcześniej usunięty";
+            return new ResponseEntity(msg, HttpStatus.BAD_REQUEST);
+        }
+        titlesRepository.delete(titleToDelete);
         return new ResponseEntity(HttpStatus.OK);
     }
 

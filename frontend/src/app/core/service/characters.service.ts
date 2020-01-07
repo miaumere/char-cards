@@ -29,6 +29,7 @@ export class CharactersService {
 
   private _patchChangeStateURL = `${this.charControllerURL}/change-state`;
   private _patchQuoteURL = `${this.charControllerURL}/edit-quote`;
+  private _patchTitleURL = `${this.charControllerURL}/edit-title`;
 
   private _postStoryForCharacterURL = `${this.charControllerURL}/new-stories`;
   private _postNewCharacterURL = `${this.charControllerURL}/new-character`;
@@ -37,6 +38,8 @@ export class CharactersService {
   private _putEditCharacterURL = `${this.charControllerURL}/edit-character`;
 
   private _deleteQuoteURL = `${this.charControllerURL}/delete-quote`;
+  private _deleteTitleURL = `${this.charControllerURL}/delete-title`;
+
 
   public charList$ = new BehaviorSubject<CharacterItem[] | null>(null);
 
@@ -118,6 +121,11 @@ export class CharactersService {
   deleteQuote(quoteId: number): Observable<void> {
     const params = new HttpParams().set('id', '' + quoteId);
     return this.http.delete<void>(this._deleteQuoteURL, { params });
+  }
+
+  deleteTitle(titleId: number): Observable<void> {
+    const params = new HttpParams().set('id', '' + titleId);
+    return this.http.delete<void>(this._deleteTitleURL, { params });
   }
 
 }
