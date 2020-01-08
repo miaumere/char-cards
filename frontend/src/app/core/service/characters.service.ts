@@ -15,6 +15,7 @@ import { Quote } from 'src/app/modules/characters/models/quote.model';
 import { NewQuote } from 'src/app/modules/admin-panel/models/new-quote.model';
 import { EditQuote } from 'src/app/modules/admin-panel/models/edit-quote.model';
 import { StoryToSend } from 'src/app/modules/admin-panel/models/story-to-send.model';
+import { StoryToEdit } from 'src/app/modules/admin-panel/models/story-to-edit.model';
 
 @Injectable({
   providedIn: 'root'
@@ -116,8 +117,8 @@ export class CharactersService {
     return this.http.patch<Titles[]>(this._patchTitlesSequenceURL, requestBody);
   }
 
-  patchStory(requestBody: StoryToSend): Observable<StoryToSend> {
-    return this.http.patch<StoryToSend>(this._patchStoryURL, requestBody);
+  patchStory(requestBody: StoryToEdit): Observable<StoryToEdit> {
+    return this.http.patch<StoryToEdit>(this._patchStoryURL, requestBody);
   }
 
   postStoryForCharacter(requestBody: StoryToSend): Observable<StoryToSend> {

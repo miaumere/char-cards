@@ -121,7 +121,7 @@ public class SideCharactersService {
         SideCharacter sideCharFromDb = sideCharactersRepository.getOne(id);
         if(sideCharFromDb == null) {
             String err = "Brak postaci o podanym id.";
-            return new ResponseEntity(err, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(err, HttpStatus.NOT_FOUND);
         }
         SideCharacterDetailsDTO dto = modelMapper.map(sideCharFromDb, SideCharacterDetailsDTO.class);
         setSideCharactersBooks(sideCharFromDb, dto);
@@ -132,7 +132,7 @@ public class SideCharactersService {
         SideCharacter sideCharFromDb = sideCharactersRepository.getOne(request.getExternalId());
     if(sideCharFromDb == null) {
         String err = "Brak postaci o podanym id.";
-        return new ResponseEntity(err, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity(err, HttpStatus.NOT_FOUND);
     }
         sideCharFromDb.setSideCharacterDesc(request.getSideCharacterDesc());
         sideCharFromDb.setSideCharacterName(request.getSideCharacterName());
@@ -160,7 +160,7 @@ public class SideCharactersService {
         SideCharacter sideCharFromDb = sideCharactersRepository.getOne(sideChar.getExternalId());
         if(sideCharFromDb == null) {
             String err = "Brak postaci o podanym id.";
-            return new ResponseEntity(err, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(err, HttpStatus.NOT_FOUND);
         }
         sideCharFromDb.setArchived(sideChar.getArchived());
         sideCharactersRepository.saveAndFlush(sideCharFromDb);

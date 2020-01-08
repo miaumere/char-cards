@@ -22,6 +22,7 @@ import com.meowmere.main.Requests.characters.character.EditCharacterRequest;
 import com.meowmere.main.Requests.characters.quotes.EditQuoteRequest;
 import com.meowmere.main.Requests.characters.quotes.NewQuoteForCharacterRequest;
 import com.meowmere.main.Requests.characters.stories.CreateStoryForCharRequest;
+import com.meowmere.main.Requests.characters.stories.EditStoryRequest;
 import com.meowmere.main.Requests.characters.titles.EditTitleRequest;
 import com.meowmere.main.Requests.characters.titles.NewTitleRequest;
 import org.apache.commons.io.FilenameUtils;
@@ -120,7 +121,7 @@ public class CharactersService {
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
-    public List<CharactersMenuDTO> findCharList() {
+    public ResponseEntity findCharList() {
         List<Character> allCharactersFromDb = characterRepository.getNonArchivedCharacters();
         ModelMapper modelMapper = new ModelMapper();
         List<CharactersMenuDTO> dtoList = new ArrayList<>();
@@ -130,7 +131,7 @@ public class CharactersService {
             getPicForMenu(characterFromDb, dto);
                 dtoList.add(dto);
 }
-        return dtoList;
+        return new ResponseEntity(dtoList, HttpStatus.OK);
     }
 
     public ResponseEntity findByExternalId(Long externalId) {
@@ -138,7 +139,7 @@ public class CharactersService {
         Character oneCharacter = characterRepository.getNonArchivedCharacter(externalId);
         if(oneCharacter == null) {
             String err = "Nie udało się znaleźć postaci o podanym id.";
-            return new ResponseEntity<>(err, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(err, HttpStatus.NOT_FOUND);
         }
 
         CharacterDTO dto = modelMapper.map(oneCharacter, CharacterDTO.class);
@@ -197,7 +198,7 @@ public class CharactersService {
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
-    public List<EveryCharacterMenuDTO> getEveryCharacter() {
+    public ResponseEntity getEveryCharacter() {
         ModelMapper modelMapper = new ModelMapper();
         List<Character> charactersFromDb = characterRepository.findAll(Sort.by(Sort.Direction.ASC, "externalId"));
         List<EveryCharacterMenuDTO> dtoList = new ArrayList<>();
@@ -206,14 +207,14 @@ public class CharactersService {
             dtoList.add(dto);
             getPicForMenu(character, dto);
         }
-        return dtoList;
+        return new ResponseEntity(dtoList, HttpStatus.OK);
     }
 
     public ResponseEntity changeStatusForCharacter(ChangeCharacterStateRequest character) {
             Character charToChange = characterRepository.getOne(character.getId());
             if(charToChange == null) {
                 return new ResponseEntity<>("Nie można zmienić stanu postaci o nieistniejącym id.",
-                        HttpStatus.BAD_REQUEST);
+                        HttpStatus.NOT_FOUND);
             }
             charToChange.setArchived(character.getArchived());
             characterRepository.save(charToChange);
@@ -221,7 +222,7 @@ public class CharactersService {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    public List<TitleDTO> getTitles() {
+    public ResponseEntity getTitles() {
         ModelMapper modelMapper = new ModelMapper();
         List<Titles> titlesFromDb = titlesRepository.findAll(Sort.by(Sort.Direction.ASC, "sequence"));
         List<TitleDTO> result = new ArrayList<>();
@@ -230,7 +231,7 @@ public class CharactersService {
             TitleDTO titleMapped = modelMapper.map(title, TitleDTO.class);
             result.add(titleMapped);
         });
-        return result;
+        return new ResponseEntity(result, HttpStatus.OK);
     }
 
     public ResponseEntity setTitlesSequence(List<TitleDTO> titles) {
@@ -308,7 +309,7 @@ public class CharactersService {
             msg += "Brak tytułu o podanym id. ";
         }
         if(msg.length() > 0) {
-            return new ResponseEntity(msg, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(msg, HttpStatus.NOT_FOUND);
         }
 
         storyToCreate.setCharacter(characterFromId);
@@ -403,7 +404,7 @@ public class CharactersService {
 
         if(character == null) {
             String msg = "Postać o podanym id nie istnieje.";
-            return new ResponseEntity(msg, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(msg, HttpStatus.NOT_FOUND);
         }
 
         character.setCharName(request.getCharName());
@@ -453,7 +454,7 @@ public class CharactersService {
         Character characterFromDb = characterRepository.getOne(id);
         if(characterFromDb == null) {
             String msg = "Nie znaleziono postaci o podanym id.";
-            return new ResponseEntity(msg, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(msg, HttpStatus.NOT_FOUND);
         }
         CharacterDetailsDTO dto = modelMapper.map(characterFromDb, CharacterDetailsDTO.class);
         Colors colorsForCharacter = colorsRepository.getColorsForCharacter(id);
@@ -495,7 +496,7 @@ public class CharactersService {
         Character character = characterRepository.getOne(request.getCharacterId());
         if(character == null) {
             String msg = "Nie znaleziono postaci o podanym id.";
-            return new ResponseEntity(msg, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(msg, HttpStatus.NOT_FOUND);
         }
 
         List<Quote> quotesForChar = new ArrayList<>();
@@ -510,7 +511,7 @@ public class CharactersService {
         Quote quoteToDelete = quoteRepository.getOne(id);
         if(quoteToDelete == null) {
             String msg = "Nie ma takiego cytatu bądź został już wcześniej usunięty.";
-            return new ResponseEntity(msg, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(msg, HttpStatus.NOT_FOUND);
         }
         quoteRepository.delete(quoteToDelete);
         return new ResponseEntity(HttpStatus.OK);
@@ -520,7 +521,7 @@ public class CharactersService {
         Titles titleToDelete = titlesRepository.getOne(id);
         if (titleToDelete == null) {
             String msg = "Nie ma takiego tytułu bądź został już wcześniej usunięty";
-            return new ResponseEntity(msg, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(msg, HttpStatus.NOT_FOUND);
         }
         titlesRepository.delete(titleToDelete);
         return new ResponseEntity(HttpStatus.OK);
@@ -530,7 +531,7 @@ public class CharactersService {
         Story storyToDelete = storyRepository.getOne(id);
         if (storyToDelete == null) {
             String msg = "Nie ma historii przypisanej do tej postaci o podanym tytule.";
-            return new ResponseEntity(msg, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(msg, HttpStatus.NOT_FOUND);
         }
         storyRepository.delete(storyToDelete);
         return new ResponseEntity(HttpStatus.OK);
@@ -540,7 +541,7 @@ public class CharactersService {
         Quote quote = quoteRepository.getOne(request.getQuoteId());
         if(quote == null) {
             String msg = "Nie znaleziono cytatu.";
-            return new ResponseEntity(msg, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(msg, HttpStatus.NOT_FOUND);
         }
         quote.setQuote(request.getQuote());
         quote.setContext(request.getContext());
@@ -553,11 +554,21 @@ public class CharactersService {
         Titles title = titlesRepository.getOne(request.getId());
         if(title == null) {
             String msg = "Nie znaleziono tytułu.";
-            return new ResponseEntity(msg, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(msg, HttpStatus.NOT_FOUND);
         }
         title.setTitle(request.getTitle());
         titlesRepository.saveAndFlush(title);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
+    public ResponseEntity editStory(EditStoryRequest request) {
+        Story story = storyRepository.getOne(request.getStoryId());
+        if(story == null) {
+            String msg = "Nie znaleziono historii dla wybranego tytułu i postaci.";
+            return new ResponseEntity(msg, HttpStatus.NOT_FOUND);
+        }
+        story.setStory(request.getStory());
+        storyRepository.saveAndFlush(story);
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
+    }
 }

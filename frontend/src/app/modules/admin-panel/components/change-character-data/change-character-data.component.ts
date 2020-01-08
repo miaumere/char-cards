@@ -1,3 +1,4 @@
+import { StoryToEdit } from './../../models/story-to-edit.model';
 import { NewTitle } from './../../models/new-title.model';
 import { EditTitle } from './../../models/edit-title.model';
 import { NewQuote } from './../../models/new-quote.model';
@@ -387,12 +388,39 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
           .subscribe(
             _ => {
               this._toastrService.success('Udało się dodać historię!');
+              this.getStoriesForCharacter();
             },
             err => {
               if (err.error) {
                 this._toastrService.error(err.error);
               }
             }));
+    }
+  }
+
+  editStory(story: string, storyId: number) {
+    if (story.length < 100) {
+      this._toastrService.warning('Historia jest za krótka! Wymagane jest min. 100 znaków.');
+    } else {
+      this.loading = true;
+
+      const storyToSend = new StoryToEdit();
+
+      storyToSend.storyId = storyId;
+      storyToSend.story = story;
+
+      this._characterService
+        .patchStory(storyToSend)
+        .pipe(
+          finalize(() => {
+            this.loading = false;
+          })
+        ).subscribe(_ => {
+          this._toastrService.success('Udało się zmienić treść historii!');
+          this.getStoriesForCharacter();
+        }, err => {
+          this._toastrService.error(err?.error);
+        })
     }
   }
 
@@ -408,7 +436,7 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
         .subscribe(_ => {
           this._toastrService
             .success('Udało się usunąć historię dla wybranego tytułu! Skasowany tytuł i historia nie pojawią się w karcie postaci.');
-          this.getStoryTitles();
+          this.getStoriesForCharacter();
         },
           err => {
             this._toastrService.error(err?.error);

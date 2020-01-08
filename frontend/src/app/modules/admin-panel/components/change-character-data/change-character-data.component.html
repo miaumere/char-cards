@@ -15,13 +15,12 @@
             <h2 class="changes__title">Dostępne tytuły</h2>
             <div class="title-choice title-choice--for-char" *ngIf="stories">
               <div *ngFor="let story of stories" class="title-choice__item title-choice-item">
-
                 <details>
                   <summary class="title-choice-item__summary"><span
                       class="title-choice-item__title">{{story.title?.title}}</span>
                     <div class="options">
                       <ng-container *ngIf="story.id">
-                        <span class="option" title="Edytuj historię">
+                        <span class="option" title="Edytuj historię" (click)="editStory(storyTextarea.value, story.id)">
                           <app-icon [icon]="'edit'" [color]="'whitesmoke'" [size]="'0.9'"></app-icon>
                         </span>
                         <span class="option" title="Usuń historię" (click)="insertDeleteInfo()"
