@@ -365,31 +365,35 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
   }
 
   createStory(story: string, titleId: number) {
-    this.loading = true;
+    if (story.length < 100) {
+      this._toastrService.warning('Historia jest za krótka! Wymagane jest min. 100 znaków.');
+    } else {
+      this.loading = true;
 
-    const storyToSend = new StoryToSend();
+      const storyToSend = new StoryToSend();
 
-    storyToSend.characterId = this.selectedCharId;
-    storyToSend.titleId = titleId;
-    storyToSend.story = story;
+      storyToSend.characterId = this.selectedCharId;
+      storyToSend.titleId = titleId;
+      storyToSend.story = story;
 
-    this.subscriptions$.add(
-      this._characterService
-        .postStoryForCharacter(storyToSend)
-        .pipe(
-          finalize(() => {
-            this.loading = false;
-          })
-        )
-        .subscribe(
-          _ => {
-            this._toastrService.success('Udało się dodać historię!');
-          },
-          err => {
-            if (err.error) {
-              this._toastrService.error(err.error);
-            }
-          }));
+      this.subscriptions$.add(
+        this._characterService
+          .postStoryForCharacter(storyToSend)
+          .pipe(
+            finalize(() => {
+              this.loading = false;
+            })
+          )
+          .subscribe(
+            _ => {
+              this._toastrService.success('Udało się dodać historię!');
+            },
+            err => {
+              if (err.error) {
+                this._toastrService.error(err.error);
+              }
+            }));
+    }
   }
 
   deleteStory(storyId: number) {

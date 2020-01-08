@@ -35,6 +35,7 @@ export class CharactersService {
   private _patchQuoteURL = `${this.charControllerURL}/edit-quote`;
   private _patchTitleURL = `${this.charControllerURL}/edit-title`;
   private _patchTitlesSequenceURL = `${this.charControllerURL}/set-title-sequence`;
+  private _patchStoryURL = `${this.charControllerURL}/edit-story`;
 
   private _postStoryForCharacterURL = `${this.charControllerURL}/new-stories`;
   private _postNewCharacterURL = `${this.charControllerURL}/new-character`;
@@ -113,6 +114,10 @@ export class CharactersService {
 
   patchTitlesSequence(requestBody: Titles[]): Observable<Titles[]> {
     return this.http.patch<Titles[]>(this._patchTitlesSequenceURL, requestBody);
+  }
+
+  patchStory(requestBody: StoryToSend): Observable<StoryToSend> {
+    return this.http.patch<StoryToSend>(this._patchStoryURL, requestBody);
   }
 
   postStoryForCharacter(requestBody: StoryToSend): Observable<StoryToSend> {
