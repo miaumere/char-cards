@@ -22,7 +22,6 @@ import com.meowmere.main.Requests.characters.character.EditCharacterRequest;
 import com.meowmere.main.Requests.characters.quotes.EditQuoteRequest;
 import com.meowmere.main.Requests.characters.quotes.NewQuoteForCharacterRequest;
 import com.meowmere.main.Requests.characters.stories.CreateStoryForCharRequest;
-import com.meowmere.main.Requests.characters.stories.StoryRequest;
 import com.meowmere.main.Requests.characters.titles.EditTitleRequest;
 import com.meowmere.main.Requests.characters.titles.NewTitleRequest;
 import org.apache.commons.io.FilenameUtils;
@@ -266,13 +265,12 @@ public class CharactersService {
             title.setId(titleFromDb.getId());
             title.setTitle(titleFromDb.getTitle());
             dto.setTitle(title);
-                if(storiesFromDb != null) {
-                    for (Story storyFromDb : storiesFromDb) {
-                        dto.setId(storyFromDb.getId());
-                        dto.setStory(storyFromDb.getStory());
-                    }
-                }
-                stories.add(dto);
+            Story storyForChar = storyRepository.getStoryForCharacterAndTitle(id, titleFromDb.getId());
+            if(storyForChar != null) {
+                String storyToSet = storyForChar.getStory();
+                dto.setStory(storyToSet);
+            }
+            stories.add(dto);
         }
         return new ResponseEntity(stories, HttpStatus.OK);
     }
@@ -286,24 +284,22 @@ public class CharactersService {
 
         Character characterFromId = characterRepository.getOne(request.getCharacterId());
 
-        for (StoryRequest story: request.getStories()) {
-            if(story.getTitleId() == null) {
-                emptyTitle = true;
-            } else if(story.getStory() == null || story.getStory().length() == 0){
-                emptyStory = true;
-            }
-            Titles titleFromId = titlesRepository.getOne(story.getTitleId());
+        if(request.getStory() != null) {
+
+            Titles titleFromId = titlesRepository.getOne(request.getTitleId());
             if(titleFromId == null) {
                 noTitle = true;
             }
-            storyToCreate.setStory(story.getStory());
+            storyToCreate.setStory(request.getStory());
             storyToCreate.setTitle(titleFromId);
+        } else {
+            emptyStory = true;
         }
         if(characterFromId == null) {
             msg += "Brak postaci o podanym id. ";
         } else if (request.getCharacterId() == null) {
             msg += "Nie wybrano postaci. ";
-        } else if(request.stories == null || emptyStory){
+        } else if(request.story == null || emptyStory){
             msg += "Brak historii do dodania. ";
         } else if(emptyTitle) {
             msg += "Nie sprecyzowano tytułu. ";

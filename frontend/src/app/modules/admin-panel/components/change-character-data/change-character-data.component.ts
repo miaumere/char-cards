@@ -16,6 +16,7 @@ import { EditSideCharacterDetails } from '../../models/edit-side-character-detai
 import { Book } from '../../models/book.model';
 import { Quote } from 'src/app/modules/characters/models/quote.model';
 import { EditQuote } from '../../models/edit-quote.model';
+import { StoryToSend } from '../../models/story-to-send.model';
 
 type changeOptions = 'new-character' | 'edit-character' | 'delete-character' | 'story'
   | 'new-chars' | 'edit-side' | 'edit-side-pic' | 'quotes' | 'story-for-char';
@@ -25,8 +26,9 @@ type changeOptions = 'new-character' | 'edit-character' | 'delete-character' | '
   styleUrls: ['./change-character-data.component.scss']
 })
 export class ChangeCharacterDataComponent extends BaseComponent implements OnInit {
-  private _updates = 0;
   loading = true;
+
+  formsArr = [];
 
   changeType: string | null;
 
@@ -363,42 +365,37 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
     )
   }
 
-  createStory(titlesForm: NgForm) {
-    // this.loading = true;
+  createStory(story: string, titleId: number) {
+    this.loading = true;
 
-    // const storyToSend = new StoryForCharacter();
-    // const stories: Story[] = [];
-    // for (const key in titlesForm.controls) {
-    //   if (titlesForm.controls.hasOwnProperty(key)) {
-    //     const id = +key;
-    //     const value = titlesForm.value[id];
-    //     const story = new Story(id, value);
-    //     stories.push(story);
-    //   }
-    // }
-    // storyToSend.characterId = this.selectedCharId;
-    // storyToSend.stories = stories;
-    // console.log(storyToSend);
+    const storyToSend = new StoryToSend();
 
-    // this.subscriptions$.add(
-    //   this._characterService
-    //     .postStoryForCharacter(storyToSend)
-    //     .pipe(
-    //       finalize(() => {
-    //         this.loading = false;
-    //       })
-    //     )
-    //     .subscribe(
-    //       _ => {
-    //         this._toastrService.success('Udało się dodać historię!');
-    //       },
-    //       err => {
-    //         if (err.error) {
-    //           this._toastrService.error(err.error);
-    //         }
-    //       })
-    // );
+    storyToSend.characterId = this.selectedCharId;
+    storyToSend.titleId = titleId;
+    storyToSend.story = story;
+
+    this.subscriptions$.add(
+      this._characterService
+        .postStoryForCharacter(storyToSend)
+        .pipe(
+          finalize(() => {
+            this.loading = false;
+          })
+        )
+        .subscribe(
+          _ => {
+            this._toastrService.success('Udało się dodać historię!');
+          },
+          err => {
+            if (err.error) {
+              this._toastrService.error(err.error);
+            }
+          }))
   }
+
+
+
+
 
   createNewQuote() {
     this.loading = true;

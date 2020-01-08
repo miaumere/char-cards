@@ -17,8 +17,9 @@
               <div *ngFor="let story of stories" class="title-choice__item title-choice-item">
 
                 <details>
-                  <summary class="title-choice-item__summary">
-                    <span class="title-choice-item__title">{{story.title?.title}}</span>
+                  <summary class="title-choice-item__summary"><span
+                      class="title-choice-item__title">{{story.title?.title}}</span>
+
                     <div class="options">
                       <ng-container *ngIf="story.id">
                         <span class="option" title="Edytuj historię">
@@ -29,13 +30,14 @@
                         </span>
                       </ng-container>
                       <ng-container *ngIf="!story.id">
-                        <span class="option" title="Dodaj historię">
+                        <span class="option" title="Dodaj historię"
+                          (click)="createStory(storyTextarea.value, story.title.id)">
                           <app-icon [icon]="'plus'" [color]="'grey'" [size]="'0.9'"></app-icon>
                         </span>
                       </ng-container>
                     </div>
                   </summary>
-                  <textarea class="title-choice-item__story global-textarea"></textarea>
+                  <textarea name="textarea" #storyTextarea class="title-choice-item__story global-textarea"></textarea>
                 </details>
 
               </div>

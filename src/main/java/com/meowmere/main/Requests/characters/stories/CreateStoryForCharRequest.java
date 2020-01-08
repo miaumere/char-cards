@@ -2,7 +2,8 @@ package com.meowmere.main.Requests.characters.stories;
 
 public class CreateStoryForCharRequest {
     public Long characterId;
-    public StoryRequest[] stories;
+    public Long titleId;
+    public String story;
 
     public Long getCharacterId() {
         return characterId;
@@ -12,11 +13,19 @@ public class CreateStoryForCharRequest {
         this.characterId = characterId;
     }
 
-    public StoryRequest[] getStories() {
-        return stories;
+    public Long getTitleId() {
+        return titleId;
     }
 
-    public void setStories(StoryRequest[] stories) {
-        this.stories = stories;
+    public void setTitleId(Long titleId) {
+        this.titleId = titleId;
+    }
+
+    public String getStory() {
+        return story;
+    }
+
+    public void setStory(String story) {
+        this.story = story;
     }
 }
