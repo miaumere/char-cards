@@ -11,5 +11,5 @@ import java.util.List;
 @Repository
 public interface StoryRepository extends JpaRepository<Story, Long> {
     @Query("SELECT s FROM Story s WHERE s.character.externalId = :characterId ORDER BY s.title.sequence asc")
-    List<Story> getAllStoriesForId(@Param("characterId") Long externalId);
+    List<Story> getAllStoriesForCharacter(@Param("characterId") Long externalId);
 }

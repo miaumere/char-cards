@@ -79,6 +79,12 @@ export class CharactersService {
     return this.http.get<Titles[]>(this._getStoryTitlesURL);
   }
 
+  getStoriesForCharacter(id: number): Observable<StoryForCharacter[]> {
+    const params = new HttpParams().set('id', '' + id);
+
+    return this.http.get<StoryForCharacter[]>(this._getStoriesForCharURL, { params });
+  }
+
   getQuotesForCharacter(id: number): Observable<Quote[]> {
     const params = new HttpParams().set('id', '' + id);
 

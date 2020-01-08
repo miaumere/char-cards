@@ -41,6 +41,8 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
   sideCharacterDetails: SideCharacterDetails;
   detailsBooksIds: number[] = [];
 
+  stories: StoryForCharacter[];
+
   newSideCharForm = new FormGroup({
     name: new FormControl('', Validators.required),
     surname: new FormControl('', Validators.required),
@@ -120,6 +122,9 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
   displayInfo(changeOption: changeOptions) {
     switch (changeOption) {
       case 'story-for-char':
+        this.getStoriesForCharacter();
+        break;
+
       case 'story':
         this.getStoryTitles();
         break;
@@ -309,7 +314,7 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
       const titleFromIndex = this.titles[titleIndex];
       switch (action) {
         case 'UP':
-          console.log('UP: ', titleIndex);
+          // console.log('UP: ', titleIndex);
 
           this.titles[titleIndex] = this.titles[titleIndex - 1];
           this.titles[titleIndex - 1] = titleFromIndex;
@@ -317,12 +322,12 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
           console.log(this.titles);
           break;
         case 'DOWN':
-          console.log('DOWN: ', titleIndex)
+          // console.log('DOWN: ', titleIndex)
 
           this.titles[titleIndex] = this.titles[titleIndex + 1];
           this.titles[titleIndex + 1] = titleFromIndex;
 
-          console.log(this.titles);
+          // console.log(this.titles);
           break;
       }
 
@@ -342,8 +347,20 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
   }
 
 
-  getStoriesForCharacter(id: number) {
-    // this._characterService.get
+  getStoriesForCharacter() {
+    this.subscriptions$.add(
+      this._characterService
+        .getStoriesForCharacter(this.selectedCharId)
+        .pipe(
+          finalize(() => {
+            this.loading = false;
+          })
+        ).subscribe(stories => {
+          this.stories = stories;
+        }, err => {
+          this._toastrService.error(err?.error);
+        })
+    )
   }
 
   createStory(titlesForm: NgForm) {

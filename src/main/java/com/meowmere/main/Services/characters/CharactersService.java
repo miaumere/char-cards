@@ -10,6 +10,7 @@ import com.meowmere.main.DTO.character.measurements.CharacterMeasurementsDTO;
 import com.meowmere.main.DTO.character.quote.CharacterQuoteDTO;
 import com.meowmere.main.DTO.character.quote.QuoteForListDTO;
 import com.meowmere.main.DTO.character.story.CharacterStoryDTO;
+import com.meowmere.main.DTO.character.story.StoryForListDTO;
 import com.meowmere.main.DTO.character.temperament.CharacterTemperamentDTO;
 import com.meowmere.main.DTO.character.titles.TitleDTO;
 import com.meowmere.main.Entities.characters.Character;
@@ -143,7 +144,7 @@ public class CharactersService {
 
         CharacterDTO dto = modelMapper.map(oneCharacter, CharacterDTO.class);
 
-        List<Story> storiesFromDb = storyRepository.getAllStoriesForId(externalId);
+        List<Story> storiesFromDb = storyRepository.getAllStoriesForCharacter(externalId);
         List<CharacterStoryDTO> stories = new ArrayList<>();
         if(storiesFromDb != null && storiesFromDb.size() > 0){
             for (Story storyFromDb : storiesFromDb) {
@@ -255,16 +256,25 @@ public class CharactersService {
     }
 
     public ResponseEntity getStoriesForCharacter(Long id) {
-        ModelMapper modelMapper = new ModelMapper();
-        List<Story> storiesFromDb = storyRepository.getAllStoriesForId(id);
-        List<CharacterStoryDTO> stories = new ArrayList<>();
-        if(storiesFromDb != null && storiesFromDb.size() > 0){
-            for (Story storyFromDb : storiesFromDb) {
-                stories.add(modelMapper.map(storyFromDb, CharacterStoryDTO.class));
-            }
-        }
+        List<Titles> titlesFromDb = titlesRepository.findAll();
+        List<Story> storiesFromDb = storyRepository.getAllStoriesForCharacter(id);
+        List<StoryForListDTO> stories = new ArrayList<>();
 
-        return new ResponseEntity(HttpStatus.OK);
+        for (Titles titleFromDb : titlesFromDb) {
+            StoryForListDTO dto = new StoryForListDTO();
+            TitleDTO title = new TitleDTO();
+            title.setId(titleFromDb.getId());
+            title.setTitle(titleFromDb.getTitle());
+            dto.setTitle(title);
+                if(storiesFromDb != null) {
+                    for (Story storyFromDb : storiesFromDb) {
+                        dto.setId(storyFromDb.getId());
+                        dto.setStory(storyFromDb.getStory());
+                    }
+                }
+                stories.add(dto);
+        }
+        return new ResponseEntity(stories, HttpStatus.OK);
     }
 
     public ResponseEntity createStoryForCharacter(CreateStoryForCharRequest request) {

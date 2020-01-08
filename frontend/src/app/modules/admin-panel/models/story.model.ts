@@ -1,6 +1,9 @@
+import { Title } from '@angular/platform-browser';
+
 export class StoryForCharacter {
-  characterId: number;
-  stories: Story[];
+  id: number | null;
+  title: Title;
+  story: string | null;
 }
 
 export class Story {
