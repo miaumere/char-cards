@@ -268,6 +268,7 @@ public class CharactersService {
             Story storyForChar = storyRepository.getStoryForCharacterAndTitle(id, titleFromDb.getId());
             if(storyForChar != null) {
                 String storyToSet = storyForChar.getStory();
+                dto.setId(storyForChar.getId());
                 dto.setStory(storyToSet);
             }
             stories.add(dto);
@@ -522,6 +523,16 @@ public class CharactersService {
             return new ResponseEntity(msg, HttpStatus.BAD_REQUEST);
         }
         titlesRepository.delete(titleToDelete);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    public ResponseEntity deleteStory(Long id) {
+        Story storyToDelete = storyRepository.getOne(id);
+        if (storyToDelete == null) {
+            String msg = "Nie ma historii przypisanej do tej postaci o podanym tytule.";
+            return new ResponseEntity(msg, HttpStatus.BAD_REQUEST);
+        }
+        storyRepository.delete(storyToDelete);
         return new ResponseEntity(HttpStatus.OK);
     }
 

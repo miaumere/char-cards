@@ -19,27 +19,27 @@
                 <details>
                   <summary class="title-choice-item__summary"><span
                       class="title-choice-item__title">{{story.title?.title}}</span>
-
                     <div class="options">
                       <ng-container *ngIf="story.id">
                         <span class="option" title="Edytuj historię">
-                          <app-icon [icon]="'edit'" [color]="'grey'" [size]="'0.9'"></app-icon>
+                          <app-icon [icon]="'edit'" [color]="'whitesmoke'" [size]="'0.9'"></app-icon>
                         </span>
-                        <span class="option" title="Usuń historię" (click)="insertDeleteInfo()">
+                        <span class="option" title="Usuń historię" (click)="insertDeleteInfo()"
+                          (dblclick)="deleteStory(story.id)">
                           <app-icon [icon]="'archive'" [color]="'#b84343'"></app-icon>
                         </span>
                       </ng-container>
                       <ng-container *ngIf="!story.id">
                         <span class="option" title="Dodaj historię"
                           (click)="createStory(storyTextarea.value, story.title.id)">
-                          <app-icon [icon]="'plus'" [color]="'grey'" [size]="'0.9'"></app-icon>
+                          <app-icon [icon]="'plus'" [color]="'whitesmoke'" [size]="'0.9'"></app-icon>
                         </span>
                       </ng-container>
                     </div>
                   </summary>
-                  <textarea name="textarea" #storyTextarea class="title-choice-item__story global-textarea"></textarea>
+                  <textarea name="textarea" #storyTextarea class="title-choice-item__story global-textarea"
+                    [value]="story.story"></textarea>
                 </details>
-
               </div>
             </div>
             <div *ngIf="!stories && !loading" style="color: grey">

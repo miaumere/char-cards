@@ -348,7 +348,6 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
     }
   }
 
-
   getStoriesForCharacter() {
     this.subscriptions$.add(
       this._characterService
@@ -390,12 +389,28 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
             if (err.error) {
               this._toastrService.error(err.error);
             }
-          }))
+          }));
   }
 
-
-
-
+  deleteStory(storyId: number) {
+    this.subscriptions$.add(
+      this._characterService
+        .deleteStory(storyId)
+        .pipe(
+          finalize(() => {
+            this.loading = false;
+          })
+        )
+        .subscribe(_ => {
+          this._toastrService
+            .success('Udało się usunąć historię dla wybranego tytułu! Skasowany tytuł i historia nie pojawią się w karcie postaci.');
+          this.getStoryTitles();
+        },
+          err => {
+            this._toastrService.error(err?.error);
+          })
+    )
+  }
 
   createNewQuote() {
     this.loading = true;
@@ -596,6 +611,7 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
         this._toastrService.error(err?.error);
       });
   }
+
 
   editQuote(quoteId: number, quoteElement: HTMLElement, contextEl: HTMLElement, quoteContainer: HTMLElement) {
     if (!quoteElement.isContentEditable && !contextEl.isContentEditable) {

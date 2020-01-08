@@ -45,6 +45,7 @@ export class CharactersService {
 
   private _deleteQuoteURL = `${this.charControllerURL}/delete-quote`;
   private _deleteTitleURL = `${this.charControllerURL}/delete-title`;
+  private _deleteStoryURL = `${this.charControllerURL}/delete-story`;
 
 
   public charList$ = new BehaviorSubject<CharacterItem[] | null>(null);
@@ -148,6 +149,11 @@ export class CharactersService {
   deleteTitle(titleId: number): Observable<void> {
     const params = new HttpParams().set('id', '' + titleId);
     return this.http.delete<void>(this._deleteTitleURL, { params });
+  }
+
+  deleteStory(storyId: number): Observable<void> {
+    const params = new HttpParams().set('id', '' + storyId);
+    return this.http.delete<void>(this._deleteStoryURL, { params });
   }
 
 }
