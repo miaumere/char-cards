@@ -5,7 +5,7 @@ public class SideCharacterForListDTO {
     public String sideCharacterName;
     public String sideCharacterSurname;
     public Boolean archived;
-    public String profilePic;
+    public byte[] profilePic;
 
     public Long getExternalId() {
         return externalId;
@@ -39,11 +39,11 @@ public class SideCharacterForListDTO {
         this.archived = archived;
     }
 
-    public String getProfilePic() {
+    public byte[] getProfilePic() {
         return profilePic;
     }
 
-    public void setProfilePic(String profilePic) {
+    public void setProfilePic(byte[] profilePic) {
         this.profilePic = profilePic;
     }
 }

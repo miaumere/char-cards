@@ -4,7 +4,6 @@ import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
-import java.sql.Blob;
 
 @Entity
 @Table(name = "profile_pic")
@@ -14,7 +13,7 @@ public class ProfilePic {
     private Long id;
 
     @Column
-    private Blob profilePic;
+    private byte[] profilePic;
 
     @Column
     private String name;
@@ -31,15 +30,11 @@ public class ProfilePic {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Blob getProfilePic() {
+    public byte[] getProfilePic() {
         return profilePic;
     }
 
-    public void setProfilePic(Blob profilePic) {
+    public void setProfilePic(byte[] profilePic) {
         this.profilePic = profilePic;
     }
 

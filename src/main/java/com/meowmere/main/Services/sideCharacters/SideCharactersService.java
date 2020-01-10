@@ -5,9 +5,11 @@ import com.meowmere.main.DTO.sideCharacters.SideCharacterDTO;
 import com.meowmere.main.DTO.sideCharacters.SideCharacterDetailsDTO;
 import com.meowmere.main.DTO.sideCharacters.SideCharacterForListDTO;
 import com.meowmere.main.Entities.sideCharacters.Book;
+import com.meowmere.main.Entities.sideCharacters.ProfilePic;
 import com.meowmere.main.Entities.sideCharacters.SideCharacter;
 import com.meowmere.main.Enums.AvailableExtensions;
 import com.meowmere.main.Repositories.sideCharacters.BookRepository;
+import com.meowmere.main.Repositories.sideCharacters.ProfilePicRepository;
 import com.meowmere.main.Repositories.sideCharacters.SideCharactersRepository;
 import com.meowmere.main.Requests.sideCharacters.EditSideCharRequest;
 import com.meowmere.main.Requests.sideCharacters.SideCharacterChangeRequest;
@@ -38,6 +40,8 @@ public class SideCharactersService {
     public SideCharactersRepository sideCharactersRepository;
     @Autowired
     public BookRepository bookRepository;
+    @Autowired
+    public ProfilePicRepository profilePicRepository;
 
     private void getSideCharacterProfilePic(SideCharacter sideCharacterFromDb, SideCharacterDTO dto) {
         try {
@@ -49,19 +53,6 @@ public class SideCharactersService {
             dto.setProfilePic(images[0].getName());
             } else {
                 dto.setProfilePic(null);
-            }
-        } catch (IOException e) {
-            dto.setProfilePic(null);
-        }
-    }
-    private void getSideCharacterProfilePic(SideCharacter sideCharacterFromDb, SideCharacterForListDTO dto) {
-        try {
-            String imagesURI = String.format("static\\side-character-profile-pics\\%s", sideCharacterFromDb.getExternalId());
-            Resource resource = new ClassPathResource(imagesURI);
-            File file = resource.getFile();
-            File[] images = file.listFiles();
-            if(images.length > 0){
-            dto.setProfilePic(images[0].getName());
             }
         } catch (IOException e) {
             dto.setProfilePic(null);
@@ -110,7 +101,10 @@ public class SideCharactersService {
 
         for(SideCharacter sideCharacterFromDb : sideCharactersFromDB) {
             SideCharacterForListDTO sideCharacter = modelMapper.map(sideCharacterFromDb, SideCharacterForListDTO.class);
-            getSideCharacterProfilePic(sideCharacterFromDb, sideCharacter);
+            ProfilePic profilePic = profilePicRepository.getProfilePicForCharacter(sideCharacter.getExternalId());
+            if(profilePic != null) {
+            sideCharacter.setProfilePic(profilePic.getProfilePic());
+            }
             result.add(sideCharacter);
         }
         return new ResponseEntity<>(result, HttpStatus.OK);
@@ -201,40 +195,24 @@ public class SideCharactersService {
             sideCharacter.setBooks(null);
         }
 
-        String stringForPathURI = String.format("src\\main\\resources\\static\\side-character-profile-pics\\%s",
-                sideCharacter.getExternalId(), sideCharacter);
-        
-
         try {
-            if(file != null) {
-                try {
-                    String dir = new File(stringForPathURI).getAbsolutePath();
-                    String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-                    String extension = FilenameUtils.getExtension(fileName);
+            ProfilePic profilePicToSave = new ProfilePic();
+            byte [] byteArr = file.getBytes();
 
+            String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+            String extension = FilenameUtils.getExtension(fileName);
 
-                    if (!Stream.of(AvailableExtensions.values()).anyMatch(v -> v.name().toLowerCase().equals(extension.toLowerCase()))) {
-                        return new ResponseEntity(HttpStatus.UNSUPPORTED_MEDIA_TYPE);
-                    }
+            profilePicToSave.setProfilePic(byteArr);
+            profilePicToSave.setName(file.getOriginalFilename());
+            profilePicToSave.setExtension(extension);
+            profilePicToSave.setSideCharacter(sideCharacter);
 
-                    new File(dir).mkdir();
-                    byte[] bytes = file.getBytes();
+            profilePicRepository.save(profilePicToSave);
 
-                    File FileToSave = new File(dir, fileName);
-
-                    FileOutputStream fos = new FileOutputStream(FileToSave);
-                    fos.write(bytes);
-                    fos.close();
-
-                } catch (java.nio.file.AccessDeniedException e) {
-                    return new ResponseEntity("Nie udało się stworzyć folderu", HttpStatus.BAD_REQUEST);
-                }
-            }
         } catch (Exception e) {
-            return new ResponseEntity("Nie udało się dodać zdjęcia.",
-                    HttpStatus.BAD_REQUEST
-                    );
-            }
+            return new ResponseEntity("Nie udało się dodać zdjęcia.", HttpStatus.UNSUPPORTED_MEDIA_TYPE
+            );
+        }
         return new ResponseEntity(HttpStatus.CREATED);
         }
 
