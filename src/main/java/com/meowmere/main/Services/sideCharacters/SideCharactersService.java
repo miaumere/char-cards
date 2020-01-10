@@ -4,7 +4,6 @@ import com.meowmere.main.DTO.sideCharacters.*;
 import com.meowmere.main.Entities.sideCharacters.Book;
 import com.meowmere.main.Entities.sideCharacters.ProfilePic;
 import com.meowmere.main.Entities.sideCharacters.SideCharacter;
-import com.meowmere.main.Enums.AvailableExtensions;
 import com.meowmere.main.Repositories.sideCharacters.BookRepository;
 import com.meowmere.main.Repositories.sideCharacters.ProfilePicRepository;
 import com.meowmere.main.Repositories.sideCharacters.SideCharactersRepository;
@@ -24,12 +23,10 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Stream;
 
 @Service
 public class SideCharactersService {
@@ -227,37 +224,22 @@ public class SideCharactersService {
             String err = "Postać o podanym id nie istnieje.";
             return new ResponseEntity(err, HttpStatus.BAD_REQUEST);
         }
-        multipartHttpServletRequest.getFileMap();
-
-        String stringForPathURI = String.format("src\\main\\resources\\static\\side-character-profile-pics\\%s",
-                sideCharacter.getExternalId());
         try {
             if(file != null) {
-                try {
-                    final File folder = new File(stringForPathURI);
-                    for ( File f : folder.listFiles()) {
-                        if (!f.isDirectory()) {
-                            f.delete();
-                        }
-                    }
-                    String dir = new File(stringForPathURI).getAbsolutePath();
-                    String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-                    String extension = FilenameUtils.getExtension(fileName);
-
-                    if (!Stream.of(AvailableExtensions.values()).anyMatch(v -> v.name().toLowerCase().equals(extension.toLowerCase()))) {
-                        return new ResponseEntity(HttpStatus.UNSUPPORTED_MEDIA_TYPE);
-                    }
-                    byte[] bytes = file.getBytes();
-
-                    File FileToSave = new File(dir, fileName);
-
-                    FileOutputStream fos = new FileOutputStream(FileToSave);
-                    fos.write(bytes);
-                    fos.close();
-
-                } catch (java.nio.file.AccessDeniedException e) {
-                    return new ResponseEntity("Nie udało się stworzyć folderu", HttpStatus.BAD_REQUEST);
+                ProfilePic profilePic = profilePicRepository.getProfilePicForCharacter(sideCharacter.getExternalId());
+                if(profilePic == null) {
+                    profilePic = new ProfilePic();
+                    profilePic.setSideCharacter(sideCharacter);
                 }
+                byte [] byteArr = file.getBytes();
+                String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+                String extension = FilenameUtils.getExtension(fileName);
+
+                profilePic.setProfilePic(byteArr);
+                profilePic.setName(file.getOriginalFilename());
+                profilePic.setExtension(extension);
+
+                profilePicRepository.saveAndFlush(profilePic);
             }
         } catch (Exception e) {
             return new ResponseEntity("Nie udało się dodać zdjęcia.", HttpStatus.BAD_REQUEST);
