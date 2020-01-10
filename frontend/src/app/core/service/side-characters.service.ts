@@ -7,6 +7,7 @@ import { SideCharacter, SideCharacterForListItem } from 'src/app/modules/side-ch
 import { NewSideChar } from 'src/app/modules/admin-panel/models/new-side-char.model';
 import { SideCharacterDetails } from 'src/app/modules/admin-panel/models/side-characters-details.model';
 import { Book } from 'src/app/modules/admin-panel/models/book.model';
+import { filter, map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -73,6 +74,14 @@ export class SideCharactersService {
       })
     };
     return this.http.post<void>(this.portEditProfilePicURL, formData, httpOptions);
+  }
+
+
+  getSideCharacter(charId: number): Observable<SideCharacterForListItem[]> {
+    return this.getAllSideCharacters()
+      .pipe(
+        map(sideCharArray => sideCharArray.filter(sideChar => sideChar.externalId === charId))
+      )
   }
 
 

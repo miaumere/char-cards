@@ -18,6 +18,7 @@ import { Book } from '../../models/book.model';
 import { Quote } from 'src/app/modules/characters/models/quote.model';
 import { EditQuote } from '../../models/edit-quote.model';
 import { StoryToSend } from '../../models/story-to-send.model';
+import { ProfilePic } from '../../models/profile-pic.model';
 
 type changeOptions = 'new-character' | 'edit-character' | 'delete-character' | 'story'
   | 'new-chars' | 'edit-side' | 'edit-side-pic' | 'quotes' | 'story-for-char';
@@ -44,12 +45,23 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
   sideCharacterDetails: SideCharacterDetails;
   detailsBooksIds: number[] = [];
 
+  profilePicForSide: ProfilePic;
+
   stories: StoryForCharacter[];
 
   newSideCharForm = new FormGroup({
-    name: new FormControl('', Validators.required),
-    surname: new FormControl('', Validators.required),
-    desc: new FormControl('', Validators.required),
+    name: new FormControl('', [
+      Validators.required,
+      Validators.minLength(5)
+    ]),
+    surname: new FormControl('', [
+      Validators.required,
+      Validators.minLength(5)
+    ]),
+    desc: new FormControl('', [
+      Validators.required,
+      Validators.minLength(25)
+    ]),
     books: new FormArray([]),
     profilePic: new FormControl()
   });
@@ -145,9 +157,12 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
         this.getQuotes();
         break;
 
+      case 'edit-side-pic':
+        this.getSideCharacterProfilePic();
+        break;
+
       case 'edit-character':
       case 'new-character':
-      case 'edit-side-pic':
         this.loading = false;
         break;
     }
@@ -187,6 +202,22 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
       this.detailsBooksIds = formArray.value;
     }
 
+  }
+
+  getSideCharacterProfilePic() {
+    this.subscriptions$.add(
+      this._sideCharacterService
+        .getSideCharacter(this.selectedCharId)
+        .pipe(
+          finalize(() => {
+            this.loading = false;
+          })
+        )
+        .subscribe(sideCharacter => {
+          this.profilePicForSide = sideCharacter[0].profilePic;
+
+        })
+    )
   }
 
   setBookValue(bookId) {

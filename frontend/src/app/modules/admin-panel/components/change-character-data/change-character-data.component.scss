@@ -469,3 +469,16 @@
 
   cursor: pointer;
 }
+
+.profile-pic {
+  display: flex;
+  width: 120px;
+  height: 120px;
+  object-fit: scale-down;
+
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  margin: auto;
+}

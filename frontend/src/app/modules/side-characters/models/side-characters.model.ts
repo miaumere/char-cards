@@ -1,3 +1,5 @@
+import { ProfilePic } from '../../admin-panel/models/profile-pic.model';
+
 export class SideCharacter {
   externalId: number;
   sideCharacterName: string;
@@ -11,9 +13,4 @@ export class SideCharacterForListItem {
   sideCharacterSurname: string;
   archived: boolean;
   profilePic: ProfilePic;
-}
-
-class ProfilePic {
-  profilePic: string;
-  extension: string;
 }
