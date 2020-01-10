@@ -10,4 +10,10 @@ export class SideCharacterForListItem {
   sideCharacterName: string;
   sideCharacterSurname: string;
   archived: boolean;
+  profilePic: ProfilePic;
+}
+
+class ProfilePic {
+  profilePic: string;
+  extension: string;
 }

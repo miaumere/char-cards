@@ -12,12 +12,15 @@
     <div class=" menu__item item" *ngFor="let character of sideChars">
       <div class="item__char-info char-info">
         <div class="char-info__profile-pic profile-pic" *ngIf="character.profilePic">
-          <img src="{{profilePicURL}}/{{character.externalId}}/{{character.profilePic}}" class="profile-pic__image">
+          <img
+            [src]="'data:image/' + character.profilePic?.extension + ';base64, ' + character.profilePic.profilePic | sanitizer"
+            class="profile-pic__image">
         </div>
         <div class="char-info__profile-pic profile-pic profile-pic--empty" *ngIf="!character.profilePic">
           <app-icon [icon]="'character'" [color]="'#0000007a'" [size]="3"></app-icon>
         </div>
-        <span class="char-info__name">{{character.sideCharacterName}} {{character.sideCharacterSurname}}</span>
+        <span class="char-info__name">{{character.sideCharacterName}}
+          {{character.sideCharacterSurname}}</span>
       </div>
       <div class="item__sidebar sidebar">
         <div class="sidebar__option" title="Edytuj postać" [routerLink]="['../change', 'edit-side']" [queryParams]="{

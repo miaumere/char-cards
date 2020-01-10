@@ -5,6 +5,7 @@ import { Component, OnInit } from '@angular/core';
 import { finalize } from 'rxjs/operators';
 import { SideCharForChange } from '../../models/side-char-for-change.model';
 import { BaseComponent } from 'src/app/core/base.component';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-admin-panel-for-side',
@@ -61,4 +62,5 @@ export class AdminPanelForSideComponent extends BaseComponent implements OnInit 
     }
 
   }
+
 }

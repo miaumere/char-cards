@@ -1,3 +1,4 @@
+import { SanitizerPipe } from './../../shared/pipes/sanitizer.pipe';
 
 import { CharactersService } from './../../core/service/characters.service';
 import { CommonModule } from '@angular/common';

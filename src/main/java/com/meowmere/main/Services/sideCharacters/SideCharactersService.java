@@ -1,9 +1,6 @@
 package com.meowmere.main.Services.sideCharacters;
 
-import com.meowmere.main.DTO.sideCharacters.BookDTO;
-import com.meowmere.main.DTO.sideCharacters.SideCharacterDTO;
-import com.meowmere.main.DTO.sideCharacters.SideCharacterDetailsDTO;
-import com.meowmere.main.DTO.sideCharacters.SideCharacterForListDTO;
+import com.meowmere.main.DTO.sideCharacters.*;
 import com.meowmere.main.Entities.sideCharacters.Book;
 import com.meowmere.main.Entities.sideCharacters.ProfilePic;
 import com.meowmere.main.Entities.sideCharacters.SideCharacter;
@@ -103,7 +100,10 @@ public class SideCharactersService {
             SideCharacterForListDTO sideCharacter = modelMapper.map(sideCharacterFromDb, SideCharacterForListDTO.class);
             ProfilePic profilePic = profilePicRepository.getProfilePicForCharacter(sideCharacter.getExternalId());
             if(profilePic != null) {
-            sideCharacter.setProfilePic(profilePic.getProfilePic());
+                ProfilePicDTO profilePicDTO = new ProfilePicDTO();
+                profilePicDTO.setExtension(profilePic.getExtension());
+                profilePicDTO.setProfilePic(profilePic.getProfilePic());
+                sideCharacter.setProfilePic(profilePicDTO);
             }
             result.add(sideCharacter);
         }
