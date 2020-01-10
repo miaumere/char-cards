@@ -203,6 +203,7 @@ public class SideCharactersService {
 
         String stringForPathURI = String.format("src\\main\\resources\\static\\side-character-profile-pics\\%s",
                 sideCharacter.getExternalId(), sideCharacter);
+        
 
         try {
             if(file != null) {
@@ -210,6 +211,7 @@ public class SideCharactersService {
                     String dir = new File(stringForPathURI).getAbsolutePath();
                     String fileName = StringUtils.cleanPath(file.getOriginalFilename());
                     String extension = FilenameUtils.getExtension(fileName);
+
 
                     if (!Stream.of(AvailableExtensions.values()).anyMatch(v -> v.name().toLowerCase().equals(extension.toLowerCase()))) {
                         return new ResponseEntity(HttpStatus.UNSUPPORTED_MEDIA_TYPE);

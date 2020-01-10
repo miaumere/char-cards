@@ -6,6 +6,7 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "side_character")
@@ -31,6 +32,9 @@ public class SideCharacter {
     @NotFound(action = NotFoundAction.IGNORE)
     @JoinColumn(name = "book_id", unique = true)
     private List<Book> books;
+
+    @OneToMany(mappedBy = "sideCharacter", cascade = CascadeType.ALL)
+    private Set<ProfilePic> profilePics;
 
     protected SideCharacter(){}
 
@@ -84,6 +88,14 @@ public class SideCharacter {
 
     public void setBooks(List<Book> books) {
         this.books = books;
+    }
+
+    public Set<ProfilePic> getProfilePics() {
+        return profilePics;
+    }
+
+    public void setProfilePics(Set<ProfilePic> profilePics) {
+        this.profilePics = profilePics;
     }
 }
 
