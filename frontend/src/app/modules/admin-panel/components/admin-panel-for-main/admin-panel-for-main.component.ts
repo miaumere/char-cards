@@ -12,8 +12,6 @@ import { BaseComponent } from 'src/app/core/base.component';
   styleUrls: ['./admin-panel-for-main.component.scss']
 })
 export class AdminPanelForMainComponent extends BaseComponent implements OnInit {
-  readonly profilePicURL = '/character-profile-pics';
-
   charList: CharacterItem[];
 
   loading = true;

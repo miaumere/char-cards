@@ -10,7 +10,6 @@ import { finalize } from 'rxjs/operators';
   styleUrls: ['./side-characters.component.scss']
 })
 export class SideCharactersComponent extends BaseComponent implements OnInit {
-  readonly profilePicURL = '/side-character-profile-pics';
   sideCharacters: SideCharacter[];
   loading = true;
 

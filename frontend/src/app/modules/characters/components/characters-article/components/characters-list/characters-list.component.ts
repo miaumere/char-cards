@@ -14,7 +14,6 @@ import { finalize } from 'rxjs/operators';
 export class CharactersListComponent extends BaseComponent implements OnInit {
 
   charList: CharacterItem[] | null = null;
-  profilePicURL: '/character-profile-pics';
   loading = true;
 
   constructor(private _charactersService: CharactersService, private _route: ActivatedRoute) { super(); }

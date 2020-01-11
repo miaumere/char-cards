@@ -1,8 +1,10 @@
+import { ProfilePic } from '../../admin-panel/models/profile-pic.model';
+
 export class CharacterItem {
   id: number;
   charName: string;
   charSurname: string;
-  profilePic?: string;
+  profilePic?: ProfilePic | null;
   archived: boolean;
 }
 

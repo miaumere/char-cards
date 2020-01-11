@@ -26,7 +26,7 @@ export class SideCharactersService {
   patchSideCharactersStateURL = `${this.sideCharacterControllerURL}/change-state`;
 
   postNewCharacterURL = `${this.sideCharacterControllerURL}/new-side-character`;
-  portEditProfilePicURL = `${this.sideCharacterControllerURL}/edit-side-pic`;
+  postEditProfilePicURL = `${this.sideCharacterControllerURL}/edit-side-pic`;
 
 
   constructor(private http: HttpClient) { }
@@ -73,7 +73,7 @@ export class SideCharactersService {
         CacheControl: 'max-age=0'
       })
     };
-    return this.http.post<void>(this.portEditProfilePicURL, formData, httpOptions);
+    return this.http.post<void>(this.postEditProfilePicURL, formData, httpOptions);
   }
 
 

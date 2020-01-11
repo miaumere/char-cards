@@ -1,11 +1,13 @@
 package com.meowmere.main.DTO.character.character;
 
+import com.meowmere.main.DTO.character.image.ProfilePicForMainDTO;
+
 public class EveryCharacterMenuDTO {
     public Long id;
     public String charName;
     public String charSurname;
     public Boolean archived;
-    public String profilePic;
+    public ProfilePicForMainDTO profilePic;
 
     public Long getId() {
         return id;
@@ -39,11 +41,11 @@ public class EveryCharacterMenuDTO {
         this.archived = archived;
     }
 
-    public String getProfilePic() {
+    public ProfilePicForMainDTO getProfilePic() {
         return profilePic;
     }
 
-    public void setProfilePic(String profilePic) {
+    public void setProfilePic(ProfilePicForMainDTO profilePic) {
         this.profilePic = profilePic;
     }
 }

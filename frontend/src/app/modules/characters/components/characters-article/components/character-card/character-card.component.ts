@@ -16,7 +16,6 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
 
   routeId: number | null = null;
   character: Character | null = null;
-  characterProfilePicURL: string;
   currentImageIndex = 0;
 
   loading = true;
@@ -30,10 +29,7 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
     // FIXME tutaj ten ... sub
 
     this._route.params.subscribe(route => {
-
-      // console.log("route zmienia sie", route.id);
       this.routeId = route.id;
-      this.characterProfilePicURL = `/characters-images/${this.routeId}`;
       this.currentImageIndex = 0;
       this.getCharacterById();
 

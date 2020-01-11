@@ -66,7 +66,7 @@ public class SideCharactersService {
             if(profilePic != null) {
                 ProfilePicDTO profilePicDTO = new ProfilePicDTO();
                 profilePicDTO.setExtension(profilePic.getExtension());
-                profilePicDTO.setProfilePic(profilePic.getProfilePic());
+                profilePicDTO.setImage(profilePic.getProfilePic());
 
                 sideCharacter.setProfilePic(profilePicDTO);
             }
@@ -88,7 +88,7 @@ public class SideCharactersService {
             if(profilePic != null) {
                 ProfilePicDTO profilePicDTO = new ProfilePicDTO();
                 profilePicDTO.setExtension(profilePic.getExtension());
-                profilePicDTO.setProfilePic(profilePic.getProfilePic());
+                profilePicDTO.setImage(profilePic.getProfilePic());
                 sideCharacter.setProfilePic(profilePicDTO);
             }
             result.add(sideCharacter);

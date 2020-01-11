@@ -1,15 +1,15 @@
 package com.meowmere.main.DTO.sideCharacters;
 
 public class ProfilePicDTO {
-    public byte[] profilePic;
+    public byte[] image;
     public String extension;
 
-    public byte[] getProfilePic() {
-        return profilePic;
+    public byte[] getImage() {
+        return image;
     }
 
-    public void setProfilePic(byte[] profilePic) {
-        this.profilePic = profilePic;
+    public void setImage(byte[] image) {
+        this.image = image;
     }
 
     public String getExtension() {

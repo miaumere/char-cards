@@ -6,6 +6,7 @@ import com.meowmere.main.DTO.character.character.CharacterDetailsDTO;
 import com.meowmere.main.DTO.character.character.CharactersMenuDTO;
 import com.meowmere.main.DTO.character.character.EveryCharacterMenuDTO;
 import com.meowmere.main.DTO.character.colors.CharacterColorDTO;
+import com.meowmere.main.DTO.character.image.ProfilePicForMainDTO;
 import com.meowmere.main.DTO.character.measurements.CharacterMeasurementsDTO;
 import com.meowmere.main.DTO.character.quote.CharacterQuoteDTO;
 import com.meowmere.main.DTO.character.quote.QuoteForListDTO;
@@ -63,33 +64,6 @@ public class CharactersService {
     @Autowired
     public ImageRepository imageRepository;
 
-    private void getPicForMenu(Character character, CharactersMenuDTO dto) {
-        try {
-            String imagesURI = String.format("static\\character-profile-pics\\%s", character.getExternalId());
-            Resource resource = new ClassPathResource(imagesURI);
-            File file = resource.getFile();
-            File[] images = file.listFiles();
-            if(images != null){
-                dto.setProfilePic(images[0].getName());
-            }
-        } catch (IOException e) {
-            dto.setProfilePic(null);
-        }
-    }
-    private void getPicForMenu(Character character, EveryCharacterMenuDTO dto){
-        try {
-            String imagesURI = String.format("static\\character-profile-pics\\%s", character.getExternalId());
-            Resource resource = new ClassPathResource(imagesURI);
-            File file = resource.getFile();
-            File[] images = file.listFiles();
-            if(images != null){
-                dto.setProfilePic(images[0].getName());
-            }
-        } catch (IOException e) {
-            dto.setProfilePic(null);
-        }
-    }
-
     public ResponseEntity findCharList() {
         List<Character> allCharactersFromDb = characterRepository.getNonArchivedCharacters();
         ModelMapper modelMapper = new ModelMapper();
@@ -97,9 +71,17 @@ public class CharactersService {
 
         for(Character characterFromDb : allCharactersFromDb) {
             CharactersMenuDTO dto = modelMapper.map(characterFromDb, CharactersMenuDTO.class);
-            getPicForMenu(characterFromDb, dto);
-                dtoList.add(dto);
-}
+            ProfilePicForMainDTO profilePic = new ProfilePicForMainDTO();
+            Image image = imageRepository.getProfilePicForCharacter(characterFromDb.getExternalId());
+            if(image != null){
+                profilePic.setExtension(image.getExtension());
+                profilePic.setImage(image.getImage());
+                dto.setProfilePic(profilePic);
+            }
+            dtoList.add(dto);
+
+            dtoList.add(dto);
+        }
         return new ResponseEntity(dtoList, HttpStatus.OK);
     }
 
@@ -173,8 +155,15 @@ public class CharactersService {
         List<EveryCharacterMenuDTO> dtoList = new ArrayList<>();
         for (Character character : charactersFromDb) {
             EveryCharacterMenuDTO dto = modelMapper.map(character, EveryCharacterMenuDTO.class);
+
+            ProfilePicForMainDTO profilePic = new ProfilePicForMainDTO();
+            Image image = imageRepository.getProfilePicForCharacter(character.getExternalId());
+            if(image != null){
+                profilePic.setExtension(image.getExtension());
+                profilePic.setImage(image.getImage());
+                dto.setProfilePic(profilePic);
+            }
             dtoList.add(dto);
-            getPicForMenu(character, dto);
         }
         return new ResponseEntity(dtoList, HttpStatus.OK);
     }

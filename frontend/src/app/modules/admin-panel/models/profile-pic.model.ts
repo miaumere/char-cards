@@ -1,4 +1,4 @@
 export class ProfilePic {
-  profilePic: string;
+  image: string;
   extension: string;
 }

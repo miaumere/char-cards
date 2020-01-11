@@ -13,7 +13,7 @@
       <div class="item__char-info char-info">
         <div class="char-info__profile-pic profile-pic" *ngIf="character.profilePic">
           <img
-            [src]="'data:image/' + character.profilePic?.extension + ';base64, ' + character.profilePic.profilePic | sanitizer"
+            [src]="'data:image/' + character.profilePic?.extension + ';base64, ' + character.profilePic.image | sanitizer"
             class="profile-pic__image">
         </div>
         <div class="char-info__profile-pic profile-pic profile-pic--empty" *ngIf="!character.profilePic">

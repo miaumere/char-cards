@@ -13,8 +13,6 @@ import { DomSanitizer } from '@angular/platform-browser';
   styleUrls: ['./admin-panel-for-side.component.scss']
 })
 export class AdminPanelForSideComponent extends BaseComponent implements OnInit {
-  readonly profilePicURL = '/side-character-profile-pics';
-
   loading = true;
   sideChars: SideCharacterForListItem[];
   constructor(

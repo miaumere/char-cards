@@ -29,6 +29,14 @@ public class Image {
     @JoinColumn(name = "character_id")
     private Character character;
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public byte[] getImage() {
         return image;
     }
