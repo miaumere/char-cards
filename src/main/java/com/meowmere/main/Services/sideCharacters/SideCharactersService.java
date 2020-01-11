@@ -215,11 +215,13 @@ public class SideCharactersService {
         }
         try {
             if(file != null) {
-                ProfilePic profilePic = profilePicRepository.getProfilePicForCharacter(sideCharacter.getExternalId());
-                if(profilePic == null) {
+                ProfilePic profilePicFromDb = profilePicRepository.getProfilePicForCharacter(sideCharacter.getExternalId());
+                ProfilePic profilePic;
+                if(profilePicFromDb == null) {
                     profilePic = new ProfilePic();
                     profilePic.setSideCharacter(sideCharacter);
-                }
+                } else {profilePic = profilePicFromDb; }
+
                 byte [] byteArr = file.getBytes();
                 String fileName = StringUtils.cleanPath(file.getOriginalFilename());
                 String extension = FilenameUtils.getExtension(fileName);

@@ -20,6 +20,7 @@ import { EditQuote } from '../../models/edit-quote.model';
 import { StoryToSend } from '../../models/story-to-send.model';
 import { ProfilePic } from '../../models/profile-pic.model';
 import { ImageForMain } from 'src/app/modules/characters/models/character.model';
+import { validateImage } from 'src/app/shared/functions/validate-image.function';
 
 type changeOptions = 'new-character' | 'edit-character' | 'delete-character' | 'story' | 'edit-images'
   | 'new-chars' | 'edit-side' | 'edit-side-pic' | 'quotes' | 'story-for-char';
@@ -626,18 +627,9 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
     this.loading = true;
 
     const fileToUpload = this.newProfilePic.nativeElement.files[0];
-    if (fileToUpload) {
-      const extension = fileToUpload.name.split('.').pop();
-      const fileSize = fileToUpload.size / 1024 / 1024;
-      const extensionReg = /(jpg|jpeg|gif|png)/i;
-      if (!extensionReg.test(extension)) {
-        return this._toastrService.warning('Niewspierany format pliku.');
-      } else if (fileSize > 4) {
-        return this._toastrService.warning('Podany plik jest za duży. Maksymalna wielkość pliku to 4MB.');
-      } else if (fileSize === 0) {
-        return this._toastrService.warning('Podany plik jest pusty lub uszkodzony.');
-      }
-    }
+
+    validateImage(fileToUpload, this._toastrService);
+
     const formData = new FormData();
     formData.set('externalId', '' + this.selectedCharId);
     formData.append('profilePic', fileToUpload);
