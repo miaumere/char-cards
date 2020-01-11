@@ -9,19 +9,20 @@
 
     <div class="card__profile-pic profile-pic">
       <ng-container *ngIf="character.imagesList.length > 0">
-        <img *ngFor="let imageURL of character.imagesList;index as i" src="{{characterProfilePicURL}}/{{imageURL}}"
+        <img *ngFor="let image of character.imagesList;index as i"
+          [src]="'data:image/' + image?.extension + ';base64, ' + image.image | sanitizer"
           class="profile-pic__image profile-pic__image--inactive" [ngClass]="{
 						'profile-pic__image--active': i === currentImageIndex
           }">
         <div>
 
-          <button class="profile-pic__button" *ngFor="let imageURL of character.imagesList; index as i"
-            (click)="setImage(i)">{{imageURL | filenameModifier}}</button>
+          <button class="profile-pic__button" *ngFor="let image of character.imagesList; index as i"
+            (click)="setImage(i)">{{image.name | filenameModifier}}</button>
         </div>
 
       </ng-container>
       <div class="card__profile-pic--empty" *ngIf="character.imagesList.length === 0">
-        Brak profilowego
+        Brak zdjęć
       </div>
     </div>
 

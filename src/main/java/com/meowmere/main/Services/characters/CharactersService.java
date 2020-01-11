@@ -6,6 +6,7 @@ import com.meowmere.main.DTO.character.character.CharacterDetailsDTO;
 import com.meowmere.main.DTO.character.character.CharactersMenuDTO;
 import com.meowmere.main.DTO.character.character.EveryCharacterMenuDTO;
 import com.meowmere.main.DTO.character.colors.CharacterColorDTO;
+import com.meowmere.main.DTO.character.image.ImageDTO;
 import com.meowmere.main.DTO.character.image.ProfilePicForMainDTO;
 import com.meowmere.main.DTO.character.measurements.CharacterMeasurementsDTO;
 import com.meowmere.main.DTO.character.quote.CharacterQuoteDTO;
@@ -29,8 +30,6 @@ import com.meowmere.main.Requests.characters.titles.NewTitleRequest;
 import org.apache.commons.io.FilenameUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,7 +38,6 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Stream;
@@ -128,23 +126,15 @@ public class CharactersService {
             dto.setQuote(modelMapper.map(quoteRepository.getOne(externalId), CharacterQuoteDTO.class));
         }
 
-        try {
-            String imagesURI = String.format("static\\characters-images\\%s", externalId);
-            Resource resource = new ClassPathResource(imagesURI);
-            File file = resource.getFile();
-            File[] images = file.listFiles();
+        List<ImageDTO> imagesList = new ArrayList<ImageDTO>();
+        List<Image> imagesFromDb = imageRepository.getImagesForCharacter(externalId);
 
-            List<String> imagesList = new ArrayList<String>();
-
-            for (File image : images) {
-                imagesList.add(image.getName());
+        if(imagesFromDb != null) {
+            for (Image images : imagesFromDb) {
+                imagesList.add(modelMapper.map(images, ImageDTO.class));
             }
-
-            dto.setImagesList(imagesList.toArray(new String[0]));
         }
-        catch(IOException e) {
-            dto.setImagesList(new String[0]);
-        }
+        dto.setImagesList(imagesList);
 
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }

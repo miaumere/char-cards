@@ -50,6 +50,36 @@
 
     </div>
 
+    <div *ngSwitchCase="'edit-images'" class="edit-main-pic  admin-panel admin-panel--main admin-panel-main">
+      <h2 class="changes__title">Zmień zdjęcie profilowe postaci</h2>
+      <form class="edit-main-pic__edit-main-pic-form edit-main-pic-form" [formGroup]="editMainProfilePicForm"
+        (ngSubmit)="xxxxx()" enctype="multipart/form-data">
+        <img *ngIf="profilePicForMain"
+          [src]="'data:image/' + profilePicForMain?.extension + ';base64, ' + profilePicForMain?.image | sanitizer"
+          class="profile-pic">
+
+        <label class="edit-main-pic__label global-label">
+          <input #newProfilePic class="global-file" formControlName="profilePic" type="file" accept="image/*" />
+        </label>
+
+        <button class="global-button" (click)="setNewProfilePic()">Zmień</button>
+      </form>
+
+      <h2 class="changes__title">Zmień zdjęcia postaci</h2>
+      <form class="edit-side-pic__edit-side-pic-form edit-side-pic-form" (ngSubmit)="setNewProfilePic()"
+        enctype="multipart/form-data">
+        <img *ngIf="profilePicForSide"
+          [src]="'data:image/' + profilePicForSide?.extension + ';base64, ' + profilePicForSide?.image | sanitizer"
+          class="profile-pic">
+
+        <!-- <label class="edit-side-pic__label global-label">
+          <input #newProfilePic class="global-file" formControlName="profilePic" type="file" accept="image/*" />
+        </label> -->
+
+        <button class="global-button" (click)="setNewProfilePic()">Zmień</button>
+      </form>
+    </div>
+
     <div *ngSwitchCase="'story'" class="story admin-panel admin-panel--main admin-panel-main">
       <div class="title-choice title-choice--edit">
         <form *ngIf="titles" #titlesSortForm="ngForm" id="titlesSortForm" class="title-choice__form">
@@ -219,7 +249,7 @@
       <form class="edit-side-pic__edit-side-pic-form edit-side-pic-form" [formGroup]="newProfilePicForm"
         (ngSubmit)="setNewProfilePic()" enctype="multipart/form-data">
         <img *ngIf="profilePicForSide"
-          [src]="'data:image/' + profilePicForSide?.extension + ';base64, ' + profilePicForSide?.profilePic | sanitizer"
+          [src]="'data:image/' + profilePicForSide?.extension + ';base64, ' + profilePicForSide?.image | sanitizer"
           class="profile-pic">
 
         <label class="edit-side-pic__label global-label">

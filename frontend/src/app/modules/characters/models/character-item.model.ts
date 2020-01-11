@@ -12,5 +12,6 @@ export class CharacterForListItem {
   id: number;
   charName: string;
   charSurname: string;
+  profilePic: ProfilePic;
   archived: boolean;
 }

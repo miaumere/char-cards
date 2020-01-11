@@ -8,9 +8,9 @@ import { CharactersService } from './../../../../core/service/characters.service
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { finalize } from 'rxjs/operators';
-import { NgForm, FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 import { Titles } from '../../models/titles.model';
-import { Story, StoryForCharacter } from '../../models/story.model';
+import { StoryForCharacter } from '../../models/story.model';
 import { BaseComponent } from 'src/app/core/base.component';
 import { SideCharacterDetails } from '../../models/side-characters-details.model';
 import { EditSideCharacterDetails } from '../../models/edit-side-character-details.model';
@@ -20,7 +20,7 @@ import { EditQuote } from '../../models/edit-quote.model';
 import { StoryToSend } from '../../models/story-to-send.model';
 import { ProfilePic } from '../../models/profile-pic.model';
 
-type changeOptions = 'new-character' | 'edit-character' | 'delete-character' | 'story'
+type changeOptions = 'new-character' | 'edit-character' | 'delete-character' | 'story' | 'edit-images'
   | 'new-chars' | 'edit-side' | 'edit-side-pic' | 'quotes' | 'story-for-char';
 @Component({
   selector: 'app-change-character-data',
@@ -46,6 +46,7 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
   detailsBooksIds: number[] = [];
 
   profilePicForSide: ProfilePic;
+  profilePicForMain: ProfilePic;
 
   stories: StoryForCharacter[];
 
@@ -83,9 +84,12 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
   });
 
   newProfilePicForm = new FormGroup({
-    externalId: new FormControl(''),
     profilePic: new FormControl()
   });
+
+  editMainProfilePicForm = new FormGroup({
+    profilePic: new FormControl()
+  })
 
   newQuoteForm = new FormGroup({
     quote: new FormControl('', Validators.required),
@@ -118,7 +122,7 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
       this.subscriptions$.add(
         this._route.params.subscribe(param => {
           this.changeType = param.name;
-          if (param.name === 'edit-side' || param.name === 'edit-side-pic' ||
+          if (param.name === 'edit-side' || param.name === 'edit-side-pic' || param.name === 'edit-images' ||
             param.name === 'edit-character' || param.name === 'story-for-char' || param.name === 'quotes') {
             this._route.queryParams.subscribe(queryParam => {
               if (queryParam.id) {
@@ -138,6 +142,10 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
     switch (changeOption) {
       case 'story-for-char':
         this.getStoriesForCharacter();
+        break;
+
+      case 'edit-images':
+        this.getCharacterImages();
         break;
 
       case 'story':
@@ -215,9 +223,23 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
         )
         .subscribe(sideCharacter => {
           this.profilePicForSide = sideCharacter[0].profilePic;
-
         })
     )
+  }
+
+  getCharacterImages() {
+    this.subscriptions$.add(
+      this._characterService
+        .getCharacter(this.selectedCharId)
+        .pipe(
+          finalize(() => {
+            this.loading = false;
+          })
+        ).subscribe(character => {
+          this.profilePicForMain = character[0].profilePic;
+        })
+    )
+
   }
 
   setBookValue(bookId) {
@@ -674,7 +696,6 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
         this._toastrService.error(err?.error);
       });
   }
-
 
   editQuote(quoteId: number, quoteElement: HTMLElement, contextEl: HTMLElement, quoteContainer: HTMLElement) {
     if (!quoteElement.isContentEditable && !contextEl.isContentEditable) {

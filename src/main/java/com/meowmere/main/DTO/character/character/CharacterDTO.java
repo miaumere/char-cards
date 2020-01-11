@@ -1,10 +1,11 @@
 package com.meowmere.main.DTO.character.character;
 
+import com.meowmere.main.DTO.character.colors.CharacterColorDTO;
+import com.meowmere.main.DTO.character.image.ImageDTO;
 import com.meowmere.main.DTO.character.measurements.CharacterMeasurementsDTO;
 import com.meowmere.main.DTO.character.quote.CharacterQuoteDTO;
-import com.meowmere.main.DTO.character.temperament.CharacterTemperamentDTO;
-import com.meowmere.main.DTO.character.colors.CharacterColorDTO;
 import com.meowmere.main.DTO.character.story.CharacterStoryDTO;
+import com.meowmere.main.DTO.character.temperament.CharacterTemperamentDTO;
 
 import java.util.List;
 
@@ -21,7 +22,7 @@ public class CharacterDTO {
     public CharacterColorDTO colors;
     public CharacterTemperamentDTO temperament;
     public CharacterMeasurementsDTO measurements;
-    public String[] imagesList;
+    public List<ImageDTO> imagesList;
 
     public CharacterTemperamentDTO getTemperament() {
         return temperament;
@@ -31,11 +32,11 @@ public class CharacterDTO {
         this.temperament = temperament;
     }
 
-    public String[] getImagesList() {
+    public List<ImageDTO> getImagesList() {
         return imagesList;
     }
 
-    public void setImagesList(String[] imagesList) {
+    public void setImagesList(List<ImageDTO> imagesList) {
         this.imagesList = imagesList;
     }
 

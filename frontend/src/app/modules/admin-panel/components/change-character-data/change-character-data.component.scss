@@ -13,6 +13,7 @@
 .new-side-form,
 .edit-side-char-form,
 .edit-side-pic-form,
+.edit-main-pic-form,
 .new-quote-form {
   border: 1px solid white;
   padding: 1rem;
@@ -20,6 +21,8 @@
 
 .new-side-form,
 .edit-side-char-form,
+.edit-main-pic-form,
+.edit-main-pic,
 .edit-side-pic {
   &__container {
     display: flex;

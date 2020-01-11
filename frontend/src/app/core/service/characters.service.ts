@@ -5,7 +5,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { tap, filter, map } from 'rxjs/operators';
 import { CharacterItem, CharacterForListItem } from 'src/app/modules/characters/models/character-item.model';
 import { Character } from 'src/app/modules/characters/models/character.model';
 import { CharacterForChange } from 'src/app/modules/admin-panel/models/character-for-change.model';
@@ -160,6 +160,14 @@ export class CharactersService {
   deleteStory(storyId: number): Observable<void> {
     const params = new HttpParams().set('id', '' + storyId);
     return this.http.delete<void>(this._deleteStoryURL, { params });
+  }
+
+
+
+  getCharacter(charId: number): Observable<CharacterForListItem[]> {
+    return this.getAllCharacters().pipe(
+      map(charArray => charArray.filter(char => char.id === charId))
+    );
   }
 
 }
