@@ -5,7 +5,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { tap, filter, map } from 'rxjs/operators';
+import { tap, map } from 'rxjs/operators';
 import { CharacterItem, CharacterForListItem } from 'src/app/modules/characters/models/character-item.model';
 import { Character } from 'src/app/modules/characters/models/character.model';
 import { CharacterForChange } from 'src/app/modules/admin-panel/models/character-for-change.model';
@@ -48,6 +48,7 @@ export class CharactersService {
   private _deleteQuoteURL = `${this.charControllerURL}/delete-quote`;
   private _deleteTitleURL = `${this.charControllerURL}/delete-title`;
   private _deleteStoryURL = `${this.charControllerURL}/delete-story`;
+  private _deleteImageURL = `${this.charControllerURL}/delete-image`;
 
 
   public charList$ = new BehaviorSubject<CharacterItem[] | null>(null);
@@ -162,7 +163,12 @@ export class CharactersService {
     return this.http.delete<void>(this._deleteStoryURL, { params });
   }
 
+  deleteImage(imageId: number): Observable<void> {
+    const params = new HttpParams().set('id', '' + imageId);
+    return this.http.delete<void>(this._deleteImageURL, { params });
+  }
 
+  // custom methods:
 
   getCharacter(charId: number): Observable<CharacterForListItem[]> {
     return this.getAllCharacters().pipe(

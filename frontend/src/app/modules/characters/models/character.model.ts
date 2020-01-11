@@ -14,8 +14,16 @@ export class Character {
   occupation: string;
   story: Story[];
   colors: Colors;
-  imagesList: string[];
+  imagesList: ImageForMain[];
   temperament: Temperament;
   measurements: Measurements;
   quotes: Quote;
+}
+
+
+export class ImageForMain {
+  id: number;
+  extension: string;
+  name: string;
+  image: string;
 }

@@ -19,6 +19,7 @@ import { Quote } from 'src/app/modules/characters/models/quote.model';
 import { EditQuote } from '../../models/edit-quote.model';
 import { StoryToSend } from '../../models/story-to-send.model';
 import { ProfilePic } from '../../models/profile-pic.model';
+import { ImageForMain } from 'src/app/modules/characters/models/character.model';
 
 type changeOptions = 'new-character' | 'edit-character' | 'delete-character' | 'story' | 'edit-images'
   | 'new-chars' | 'edit-side' | 'edit-side-pic' | 'quotes' | 'story-for-char';
@@ -47,6 +48,7 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
 
   profilePicForSide: ProfilePic;
   profilePicForMain: ProfilePic;
+  imagesListForMain: ImageForMain[];
 
   stories: StoryForCharacter[];
 
@@ -166,7 +168,7 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
         break;
 
       case 'edit-side-pic':
-        this.getSideCharacterProfilePic();
+        this.getSideCharacterImages();
         break;
 
       case 'edit-character':
@@ -212,7 +214,7 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
 
   }
 
-  getSideCharacterProfilePic() {
+  getSideCharacterImages() {
     this.subscriptions$.add(
       this._sideCharacterService
         .getSideCharacter(this.selectedCharId)
@@ -222,7 +224,7 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
           })
         )
         .subscribe(sideCharacter => {
-          this.profilePicForSide = sideCharacter[0].profilePic;
+          this.profilePicForSide = sideCharacter[0]?.profilePic;
         })
     )
   }
@@ -236,8 +238,20 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
             this.loading = false;
           })
         ).subscribe(character => {
-          this.profilePicForMain = character[0].profilePic;
+          this.profilePicForMain = character[0]?.profilePic;
         })
+    )
+    this.subscriptions$.add(
+      this._characterService
+        .getCharacterById(this.selectedCharId)
+        .pipe(
+          finalize(() => {
+            this.loading = false;
+          })
+        ).subscribe(character => {
+          this.imagesListForMain = character.imagesList;
+        }
+        )
     )
 
   }
@@ -777,5 +791,28 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
 
   }
 
+  deleteCharacterImage(imageId: number) {
+    this.loading = true;
+
+    this.subscriptions$.add(
+      this._characterService
+        .deleteImage(imageId)
+        .pipe(
+          finalize(() => {
+            this.loading = false;
+          })
+        ).subscribe(_ => {
+          this._toastrService.success('Udało się usunąć zdjęcie!');
+          this.getCharacterImages();
+        }, err => {
+          this._toastrService.error(err?.error);
+        })
+    )
+
+  }
+
+  setNewImages() {
+
+  }
 
 }

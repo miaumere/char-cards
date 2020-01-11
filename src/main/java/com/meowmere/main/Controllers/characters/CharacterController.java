@@ -121,4 +121,7 @@ public class CharacterController {
     public ResponseEntity deleteStory(@RequestParam Long id) {
         return charactersService.deleteStory(id);
     }
+
+    @DeleteMapping("/delete-image")
+    public ResponseEntity deleteImage(@RequestParam Long id) { return charactersService.deleteImage(id);}
 }

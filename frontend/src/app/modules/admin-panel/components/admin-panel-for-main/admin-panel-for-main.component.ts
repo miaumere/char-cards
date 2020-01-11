@@ -15,7 +15,9 @@ export class AdminPanelForMainComponent extends BaseComponent implements OnInit 
   charList: CharacterItem[];
 
   loading = true;
-  constructor(private _charactersService: CharactersService, private _toastrService: ToastrService) {
+  constructor(
+    private _charactersService: CharactersService,
+    private _toastrService: ToastrService) {
     super();
   }
 

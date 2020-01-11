@@ -77,8 +77,6 @@ public class CharactersService {
                 dto.setProfilePic(profilePic);
             }
             dtoList.add(dto);
-
-            dtoList.add(dto);
         }
         return new ResponseEntity(dtoList, HttpStatus.OK);
     }
@@ -487,6 +485,16 @@ public class CharactersService {
             return new ResponseEntity(msg, HttpStatus.NOT_FOUND);
         }
         storyRepository.delete(storyToDelete);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    public ResponseEntity deleteImage(Long id) {
+        Image imageToDelete = imageRepository.getOne(id);
+        if (imageToDelete == null) {
+            String msg = "Nie znaleziono obrazka.";
+            return new ResponseEntity(msg, HttpStatus.NOT_FOUND);
+        }
+        imageRepository.delete(imageToDelete);
         return new ResponseEntity(HttpStatus.OK);
     }
 

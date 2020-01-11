@@ -50,34 +50,50 @@
 
     </div>
 
-    <div *ngSwitchCase="'edit-images'" class="edit-main-pic  admin-panel admin-panel--main admin-panel-main">
-      <h2 class="changes__title">Zmień zdjęcie profilowe postaci</h2>
+    <div *ngSwitchCase="'edit-images'" class="story edit-main-pic  admin-panel admin-panel--main admin-panel-main">
       <form class="edit-main-pic__edit-main-pic-form edit-main-pic-form" [formGroup]="editMainProfilePicForm"
         (ngSubmit)="xxxxx()" enctype="multipart/form-data">
-        <img *ngIf="profilePicForMain"
-          [src]="'data:image/' + profilePicForMain?.extension + ';base64, ' + profilePicForMain?.image | sanitizer"
-          class="profile-pic">
+        <h2 class="changes__title">Dodaj zdjęcia do postaci:</h2>
+        <div class="submit-container">
 
-        <label class="edit-main-pic__label global-label">
-          <input #newProfilePic class="global-file" formControlName="profilePic" type="file" accept="image/*" />
-        </label>
+          <div>
+            <img *ngIf="profilePicForMain"
+              [src]="'data:image/' + profilePicForMain?.extension + ';base64, ' + profilePicForMain?.image | sanitizer"
+              class="profile-pic">
 
-        <button class="global-button" (click)="setNewProfilePic()">Zmień</button>
+            <label class="edit-main-pic__label global-label">
+              Zdjęcie profilowe:
+              <input #newProfilePic class="global-file" formControlName="profilePic" type="file" accept="image/*" />
+            </label>
+          </div>
+
+          <div>
+            <label class="edit-main-pic__label global-label">
+              Zdjęcia postaci:
+              <input #newProfilePic class="global-file" formControlName="profilePic" type="file" accept="image/*"
+                multiple />
+            </label>
+          </div>
+        </div>
+
+        <button class="global-button" (click)="setNewImages()">Dodaj</button>
       </form>
 
-      <h2 class="changes__title">Zmień zdjęcia postaci</h2>
-      <form class="edit-side-pic__edit-side-pic-form edit-side-pic-form" (ngSubmit)="setNewProfilePic()"
-        enctype="multipart/form-data">
-        <img *ngIf="profilePicForSide"
-          [src]="'data:image/' + profilePicForSide?.extension + ';base64, ' + profilePicForSide?.image | sanitizer"
-          class="profile-pic">
+      <div *ngIf="imagesListForMain?.length > 0" class="images edit-main-pic__edit-main-pic-form edit-main-pic-form">
+        <h2 class="changes__title">Usuń obecne zdjęcia:</h2>
+        <div class="images__container">
+          <div class="images__item" *ngFor="let image of imagesListForMain">
+            <div class="images__option">
+              <span title="Usuń tytuł" class="option" (click)="insertDeleteInfo()"
+                (dblclick)="deleteCharacterImage(image.id)">
+                <app-icon [icon]="'archive'" [color]="'#b84343'"></app-icon>
+              </span>
+            </div>
+            <img [src]="'data:image/' + image?.extension + ';base64, ' + image?.image | sanitizer" class="profile-pic">
+          </div>
+        </div>
+      </div>
 
-        <!-- <label class="edit-side-pic__label global-label">
-          <input #newProfilePic class="global-file" formControlName="profilePic" type="file" accept="image/*" />
-        </label> -->
-
-        <button class="global-button" (click)="setNewProfilePic()">Zmień</button>
-      </form>
     </div>
 
     <div *ngSwitchCase="'story'" class="story admin-panel admin-panel--main admin-panel-main">
