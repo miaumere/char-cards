@@ -47,6 +47,9 @@ public class Character {
     @OneToMany(mappedBy = "character", cascade = CascadeType.ALL)
     private Set<Story> stories;
 
+    @OneToMany(mappedBy = "character", cascade = CascadeType.ALL)
+    private Set<Image> profilePics;
+
     public Character() {};
 
     public Character(@Length String charName,
@@ -161,5 +164,13 @@ public class Character {
 
     public void setStories(Set<Story> stories) {
         this.stories = stories;
+    }
+
+    public Set<Image> getProfilePics() {
+        return profilePics;
+    }
+
+    public void setProfilePics(Set<Image> profilePics) {
+        this.profilePics = profilePics;
     }
 };

@@ -12,8 +12,6 @@ import com.meowmere.main.Requests.sideCharacters.SideCharacterChangeRequest;
 import org.apache.commons.io.FilenameUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,8 +20,6 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -37,21 +33,6 @@ public class SideCharactersService {
     @Autowired
     public ProfilePicRepository profilePicRepository;
 
-    private void getSideCharacterProfilePic(SideCharacter sideCharacterFromDb, SideCharacterDTO dto) {
-        try {
-            String imagesURI = String.format("static\\side-character-profile-pics\\%s", sideCharacterFromDb.getExternalId());
-            Resource resource = new ClassPathResource(imagesURI);
-            File file = resource.getFile();
-            File[] images = file.listFiles();
-            if(images != null && images.length > 0){
-            dto.setProfilePic(images[0].getName());
-            } else {
-                dto.setProfilePic(null);
-            }
-        } catch (IOException e) {
-            dto.setProfilePic(null);
-        }
-    }
     private void setSideCharactersBooks(SideCharacter sideCharacterFromDb, SideCharacterDetailsDTO dto) {
         ModelMapper modelMapper = new ModelMapper();
         List<BookDTO> booksForSide = new ArrayList<>();
@@ -71,8 +52,6 @@ public class SideCharactersService {
         List<SideCharacterDTO> result = new ArrayList<>();
         for (SideCharacter sideCharacterFromDb : sideCharactersFromDb) {
             SideCharacterDTO sideCharacter = modelMapper.map(sideCharacterFromDb, SideCharacterDTO.class);
-            getSideCharacterProfilePic(sideCharacterFromDb, sideCharacter);
-
             List<BookDTO> booksForSide = new ArrayList<>();
             List<Book> books = sideCharacterFromDb.getBooks();
             if(books != null) {
@@ -82,6 +61,16 @@ public class SideCharactersService {
                 }
             }
             sideCharacter.setBooks(booksForSide);
+
+            ProfilePic profilePic = profilePicRepository.getProfilePicForCharacter(sideCharacter.getExternalId());
+            if(profilePic != null) {
+                ProfilePicDTO profilePicDTO = new ProfilePicDTO();
+                profilePicDTO.setExtension(profilePic.getExtension());
+                profilePicDTO.setProfilePic(profilePic.getProfilePic());
+
+                sideCharacter.setProfilePic(profilePicDTO);
+            }
+
             result.add(sideCharacter);
         }
         return new ResponseEntity<>(result, HttpStatus.OK);

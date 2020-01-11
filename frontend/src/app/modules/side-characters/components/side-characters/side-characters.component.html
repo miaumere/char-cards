@@ -13,7 +13,7 @@
     <div style="display: flex;">
       <div class="box__profile-pic profile-pic" *ngIf="sideCharacter.profilePic">
         <img class="profile-pic__image"
-          src="{{profilePicURL}}/{{sideCharacter.externalId}}/{{sideCharacter.profilePic}}">
+          [src]="'data:image/' + sideCharacter.profilePic?.extension + ';base64, ' + sideCharacter.profilePic.profilePic | sanitizer">
       </div>
       <div class="box__profile-pic profile-pic profile-pic--empty" *ngIf="!sideCharacter.profilePic">
         <app-icon [icon]="'character'" [color]="'#ffffffa8'" [size]="3"></app-icon>

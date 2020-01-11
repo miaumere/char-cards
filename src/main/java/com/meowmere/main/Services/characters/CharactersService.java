@@ -39,7 +39,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Stream;
@@ -61,6 +60,8 @@ public class CharactersService {
     public StoryRepository storyRepository;
     @Autowired
     public TitlesRepository titlesRepository;
+    @Autowired
+    public ImageRepository imageRepository;
 
     private void getPicForMenu(Character character, CharactersMenuDTO dto) {
         try {
@@ -87,38 +88,6 @@ public class CharactersService {
         } catch (IOException e) {
             dto.setProfilePic(null);
         }
-    }
-    private ResponseEntity setPic(String stringForPathURI, MultipartFile file) {
-        try {
-            if(file != null) {
-                try {
-                    String dir = new File(stringForPathURI).getAbsolutePath();
-                    String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-                    String extension = FilenameUtils.getExtension(fileName);
-
-                    if (!Stream.of(AvailableExtensions.values()).anyMatch(v -> v.name().toLowerCase().equals(extension.toLowerCase()))) {
-                        return new ResponseEntity(HttpStatus.UNSUPPORTED_MEDIA_TYPE);
-                    }
-
-                    new File(dir).mkdir();
-                    byte[] bytes = file.getBytes();
-
-                    File FileToSave = new File(dir, fileName);
-
-                    FileOutputStream fos = new FileOutputStream(FileToSave);
-                    fos.write(bytes);
-                    fos.close();
-
-                } catch (java.nio.file.AccessDeniedException e) {
-                    return new ResponseEntity("Nie udało się stworzyć folderu", HttpStatus.BAD_REQUEST);
-                }
-            }
-        } catch (Exception e) {
-            return new ResponseEntity("Nie udało się dodać zdjęcia.",
-                    HttpStatus.BAD_REQUEST
-            );
-        }
-        return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
     public ResponseEntity findCharList() {
@@ -354,10 +323,10 @@ public class CharactersService {
 
         Character character = new Character(name, surname, parsedBirthdayDate, profession);
         try {
-        Date deathDate = new Date(Long.parseLong(death));
-        Long parsedDeathDate = deathDate.getTime() / 1000;
-        character.setDeath(parsedDeathDate);
-        character.setDeathReason(deathReason);
+            Date deathDate = new Date(Long.parseLong(death));
+            Long parsedDeathDate = deathDate.getTime() / 1000;
+            character.setDeath(parsedDeathDate);
+            character.setDeathReason(deathReason);
         } catch (NumberFormatException n) {
         }
 
@@ -371,35 +340,40 @@ public class CharactersService {
         colorsRepository.saveAndFlush(colorsForCharacter);
         measurementsRepository.saveAndFlush(measurementsForCharacter);
 
-        String stringForPathURI = String.format("src\\main\\resources\\static\\character-profile-pics\\%s",
-                character.getExternalId(), character);
-
-        Boolean isProfilePic = multipartHttpServletRequest.getFileMap().containsKey("profilePic");
-        MultipartFile profilePic = multipartHttpServletRequest.getFile("profilePic");
-        if(isProfilePic) {
-            setPic(stringForPathURI, profilePic);
-        }
-
-        String stringForCharactersURI = String.format("src\\main\\resources\\static\\characters-images\\%s",
-                character.getExternalId(), character);
-
         Map<String, MultipartFile> allFiles = multipartHttpServletRequest.getFileMap();
         Iterator it = allFiles.entrySet().iterator();
         while (it.hasNext()) {
+            Image imageToSave = new Image();
             Map.Entry pair = (Map.Entry)it.next();
-            if (pair.getKey() == "profilePic") {
-                continue;
-            }
+            String key = String.valueOf(pair.getKey());
+            imageToSave.setIsProfilePic(!!key.equals("profilePic"));
             MultipartFile file = (MultipartFile) pair.getValue();
-            setPic(stringForCharactersURI, file);
+
+            if(file != null) {
+
+                String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+                String extension = FilenameUtils.getExtension(fileName);
+
+                if (!Stream.of(AvailableExtensions.values()).anyMatch(v -> v.name().toLowerCase().equals(extension.toLowerCase()))) {
+                    return new ResponseEntity(HttpStatus.UNSUPPORTED_MEDIA_TYPE);
+                }
+                try {
+                    byte [] byteArr = file.getBytes();
+                    imageToSave.setImage(byteArr);
+                    imageToSave.setName(file.getOriginalFilename());
+                    imageToSave.setExtension(extension);
+                    imageToSave.setCharacter(character);
+
+                    imageRepository.saveAndFlush(imageToSave);
+
+                } catch (IOException e) {}
+
             it.remove();
-        }
+        }}
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
     public ResponseEntity editCharacter(EditCharacterRequest request) {
-
-        String test = "xxxx";
         Character character = characterRepository.getOne(request.getExternalId());
 
         if(character == null) {

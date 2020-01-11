@@ -8,7 +8,7 @@ public class SideCharacterDTO {
     public String sideCharacterSurname;
     public String sideCharacterDesc;
     public List<BookDTO> books;
-    public String profilePic;
+    public ProfilePicDTO profilePic;
 
     public Long getExternalId() {
         return externalId;
@@ -42,11 +42,11 @@ public class SideCharacterDTO {
         this.sideCharacterDesc = sideCharacterDesc;
     }
 
-    public String getProfilePic() {
+    public ProfilePicDTO getProfilePic() {
         return profilePic;
     }
 
-    public void setProfilePic(String profilePic) {
+    public void setProfilePic(ProfilePicDTO profilePic) {
         this.profilePic = profilePic;
     }
 

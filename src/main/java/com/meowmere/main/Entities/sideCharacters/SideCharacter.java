@@ -30,7 +30,7 @@ public class SideCharacter {
 
     @ManyToMany(fetch =  FetchType.LAZY)
     @NotFound(action = NotFoundAction.IGNORE)
-    @JoinColumn(name = "book_id", unique = true)
+    @JoinColumn(name = "book_id")
     private List<Book> books;
 
     @OneToMany(mappedBy = "sideCharacter", cascade = CascadeType.ALL)
