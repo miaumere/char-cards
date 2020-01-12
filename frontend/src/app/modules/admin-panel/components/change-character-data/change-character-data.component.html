@@ -51,29 +51,24 @@
     </div>
 
     <div *ngSwitchCase="'edit-images'" class="story edit-main-pic  admin-panel admin-panel--main admin-panel-main">
-      <form class="edit-main-pic__edit-main-pic-form edit-main-pic-form" [formGroup]="editMainProfilePicForm"
-        (ngSubmit)="xxxxx()" enctype="multipart/form-data">
+      <form class="edit-main-pic__edit-main-pic-form edit-main-pic-form" enctype="multipart/form-data">
         <h2 class="changes__title">Dodaj zdjęcia do postaci:</h2>
         <div class="submit-container">
 
-          <div>
+          <label class="edit-main-pic__label global-label">
+            Zdjęcie profilowe:
             <img *ngIf="profilePicForMain"
               [src]="'data:image/' + profilePicForMain?.extension + ';base64, ' + profilePicForMain?.image | sanitizer"
               class="profile-pic">
+            <input class="global-file" (change)="handleFileInput($event.target.files, false)" type="file"
+              accept="image/*" />
+          </label>
 
-            <label class="edit-main-pic__label global-label">
-              Zdjęcie profilowe:
-              <input #newProfilePic class="global-file" formControlName="profilePic" type="file" accept="image/*" />
-            </label>
-          </div>
-
-          <div>
-            <label class="edit-main-pic__label global-label">
-              Zdjęcia postaci:
-              <input #newProfilePic class="global-file" formControlName="profilePic" type="file" accept="image/*"
-                multiple />
-            </label>
-          </div>
+          <label class="edit-main-pic__label global-label">
+            Dodaj zdjęcia postaci:
+            <input class="global-file" (change)="handleFileInput($event.target.files, true)" type="file"
+              accept="image/*" multiple />
+          </label>
         </div>
 
         <button class="global-button" (click)="setNewImages()">Dodaj</button>
@@ -89,7 +84,11 @@
                 <app-icon [icon]="'archive'" [color]="'#b84343'"></app-icon>
               </span>
             </div>
-            <img [src]="'data:image/' + image?.extension + ';base64, ' + image?.image | sanitizer" class="profile-pic">
+            <div>
+              <img [src]="'data:image/' + image?.extension + ';base64, ' + image?.image | sanitizer"
+                class="profile-pic">
+              <span class="profile-pic__name">{{image?.name}}</span>
+            </div>
           </div>
         </div>
       </div>

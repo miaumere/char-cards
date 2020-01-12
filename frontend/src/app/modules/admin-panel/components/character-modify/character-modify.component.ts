@@ -235,7 +235,6 @@ export class CharacterModifyComponent extends BaseComponent implements OnInit {
           },
             err => {
               if (err && err.error) {
-                console.dir(err);
                 this._toastrService.error(err.error);
               }
             })

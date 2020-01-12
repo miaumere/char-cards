@@ -82,6 +82,11 @@ public class CharacterController {
         return charactersService.createStoryForCharacter(createStoryForCharRequest);
     }
 
+    @PostMapping("/new-images")
+    public ResponseEntity newImages(MultipartHttpServletRequest multipartHttpServletRequest, @RequestParam Long id) {
+        return charactersService.newImages(multipartHttpServletRequest, id);
+    }
+
     @PostMapping("/new-title")
     public ResponseEntity newTitle(@RequestBody NewTitleRequest request) {
         return charactersService.newTitle(request);

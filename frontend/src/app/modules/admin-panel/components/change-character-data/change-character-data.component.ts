@@ -90,9 +90,6 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
     profilePic: new FormControl()
   });
 
-  editMainProfilePicForm = new FormGroup({
-    profilePic: new FormControl()
-  })
 
   newQuoteForm = new FormGroup({
     quote: new FormControl('', Validators.required),
@@ -103,8 +100,12 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
     title: new FormControl('', Validators.required),
   })
 
+  profilePic: File | null = null;
+  images: FileList | null = null;
+
   @ViewChild('sideCharProfilePic') sideCharProfilePic;
   @ViewChild('newProfilePic') newProfilePic;
+
 
   constructor(
     private _route: ActivatedRoute,
@@ -803,8 +804,37 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
 
   }
 
-  setNewImages() {
+  handleFileInput(files: FileList, multiple: boolean) {
+    multiple ? this.images = files : this.profilePic = files.item(0);
+  }
 
+  setNewImages() {
+    this.loading = true;
+
+    const formData = new FormData();
+
+    if (this.profilePic) {
+      formData.append('profilePic', this.profilePic);
+    }
+    if (this.images) {
+      for (let i = 0; i < this.images.length; i++) {
+        formData.append('image' + i, this.images[i]);
+      }
+    }
+
+    this.subscriptions$.add(
+      this._characterService
+        .postEditImages(formData, this.selectedCharId)
+        .subscribe(_ => {
+          this._toastrService.success('Udało się zmienić zdjęcia dla postaci!');
+          this.getCharacterImages();
+        },
+          err => {
+            if (err && err.error) {
+              this._toastrService.error(err.error);
+            }
+          })
+    );
   }
 
 }

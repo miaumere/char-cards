@@ -42,6 +42,7 @@ export class CharactersService {
   private _postNewCharacterURL = `${this.charControllerURL}/new-character`;
   private _postNewQuoteURL = `${this.charControllerURL}/new-quote`;
   private _postNewTitleURL = `${this.charControllerURL}/new-title`;
+  private _postEditImagesURL = `${this.charControllerURL}/new-images`;
 
   private _putEditCharacterURL = `${this.charControllerURL}/edit-character`;
 
@@ -135,6 +136,20 @@ export class CharactersService {
     };
     return this.http.post<void>(this._postNewCharacterURL, formData, httpOptions);
   }
+
+  postEditImages(formData: FormData, charId: number) {
+    const params = new HttpParams().set('id', '' + charId);
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        Accept: 'application/json',
+        CacheControl: 'max-age=0'
+      }),
+      params
+    };
+    return this.http.post<void>(this._postEditImagesURL, formData, httpOptions);
+  }
+
 
   postNewQuote(requestBody: NewQuote): Observable<NewQuote> {
     return this.http.post<NewQuote>(this._postNewQuoteURL, requestBody);

@@ -484,6 +484,11 @@
   background-size: cover;
 
   margin: auto;
+
+  &__name {
+    margin-top: 0.5rem;
+    display: block;
+  }
 }
 
 .images {
@@ -506,6 +511,7 @@
     display: flex;
 
     & span {
+      margin-right: -0.8rem;
       margin-left: auto;
     }
   }

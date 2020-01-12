@@ -201,9 +201,46 @@ public class CharactersService {
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
+    public ResponseEntity newImages(MultipartHttpServletRequest multipartHttpServletRequest, Long id) {
+        Map<String, MultipartFile> allFiles = multipartHttpServletRequest.getFileMap();
+        Character character = characterRepository.getOne(id);
+        if(character == null) {
+            String msg = "Nie znaleziono postaci o podanym id.";
+            return new ResponseEntity(msg, HttpStatus.NOT_FOUND);
+        }
+        Iterator it = allFiles.entrySet().iterator();
+        while (it.hasNext()) {
+            Image imageToSave = new Image();
+            Map.Entry pair = (Map.Entry)it.next();
+            String key = String.valueOf(pair.getKey());
+            imageToSave.setIsProfilePic(!!key.equals("profilePic"));
+            MultipartFile file = (MultipartFile) pair.getValue();
+
+            if(file != null) {
+                String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+                String extension = FilenameUtils.getExtension(fileName);
+
+                if (!Stream.of(AvailableExtensions.values()).anyMatch(v -> v.name().toLowerCase().equals(extension.toLowerCase()))) {
+                    return new ResponseEntity(HttpStatus.UNSUPPORTED_MEDIA_TYPE);
+                }
+                try {
+                    byte [] byteArr = file.getBytes();
+                    imageToSave.setImage(byteArr);
+                    imageToSave.setName(file.getOriginalFilename());
+                    imageToSave.setExtension(extension);
+                    imageToSave.setCharacter(character);
+
+                    imageRepository.saveAndFlush(imageToSave);
+
+                } catch (IOException e) {}
+
+                it.remove();
+            }}
+        return new ResponseEntity(HttpStatus.CREATED);
+    }
+
     public ResponseEntity getStoriesForCharacter(Long id) {
         List<Titles> titlesFromDb = titlesRepository.findAll();
-        List<Story> storiesFromDb = storyRepository.getAllStoriesForCharacter(id);
         List<StoryForListDTO> stories = new ArrayList<>();
 
         for (Titles titleFromDb : titlesFromDb) {
@@ -293,10 +330,8 @@ public class CharactersService {
         Integer teenHeight = Integer.parseInt(multipartHttpServletRequest.getParameter("teenHeight"));
         Integer adultHeight = Integer.parseInt(multipartHttpServletRequest.getParameter("adultHeight"));
 
-
         Date birthdayDate = new Date(Long.parseLong(birthday));
         Long parsedBirthdayDate = birthdayDate.getTime() / 1000;
-
 
         Character character = new Character(name, surname, parsedBirthdayDate, profession);
         try {
