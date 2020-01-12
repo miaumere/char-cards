@@ -48,19 +48,19 @@ public class Colors {
 
     public Colors() {};
 
-    public Colors(String eyeColor1,
-                  String eyeColor2,
-                  String themeColor1,
+    public Colors(String themeColor1,
                   String themeColor2,
                   String themeColor3,
+                  String eyeColor1,
+                  String eyeColor2,
                   String hairColor,
                   String skinColor,
                   Character character) {
-        this.eyeColor1 = eyeColor1;
-        this.eyeColor2 = eyeColor2;
         this.themeColor1 = themeColor1;
         this.themeColor2 = themeColor2;
         this.themeColor3 = themeColor3;
+        this.eyeColor1 = eyeColor1;
+        this.eyeColor2 = eyeColor2;
         this.hairColor = hairColor;
         this.skinColor = skinColor;
         this.character = character;
