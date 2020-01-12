@@ -224,6 +224,14 @@ public class CharactersService {
                     return new ResponseEntity(HttpStatus.UNSUPPORTED_MEDIA_TYPE);
                 }
                 try {
+                    if(imageToSave.getIsProfilePic()) {
+                        Image oldProfilePic = imageRepository.getProfilePicForCharacter(character.getExternalId());
+                        if(oldProfilePic != null) {
+                        imageRepository.delete(oldProfilePic);
+                        }
+                    }
+
+
                     byte [] byteArr = file.getBytes();
                     imageToSave.setImage(byteArr);
                     imageToSave.setName(file.getOriginalFilename());
