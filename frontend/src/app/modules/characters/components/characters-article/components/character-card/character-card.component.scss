@@ -113,6 +113,9 @@
   margin: 1rem;
 
   &__name {
+    display: block;
+    margin-top: 0.5rem;
+
     font-size: 1rem;
     font-weight: bold;
     text-align: center;
