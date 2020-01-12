@@ -1,20 +1,4 @@
 {
-  "/characters-images": {
-    "target": "http://localhost:8082",
-    "secure": false
-  },
-  "/character-profile-pics": {
-    "target": "http://localhost:8082",
-    "secure": false
-  },
-  "/side-characters": {
-    "target": "http://localhost:8082",
-    "secure": false
-  },
-  "/side-character-profile-pics": {
-    "target": "http://localhost:8082",
-    "secure": false
-  },
   "/api/*": {
     "target": "http://localhost:8082",
     "secure": false

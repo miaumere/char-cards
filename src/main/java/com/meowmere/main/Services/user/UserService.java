@@ -4,7 +4,6 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
-import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.meowmere.main.DTO.user.LoggedUserDTO;
 import com.meowmere.main.Entities.user.Users;
@@ -12,6 +11,7 @@ import com.meowmere.main.Repositories.user.UsersRepository;
 import com.meowmere.main.Requests.user.LoginRequest;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -27,6 +27,9 @@ public class UserService {
     @Autowired
     public UsersRepository usersRepository;
 
+    @Value("${alea.secretkey}")
+    private String aleaSecretkey;
+
     public Boolean userLogin(LoginRequest request) {
         Users foundUser = usersRepository.findUserByUsernameAndPassword(request.getUsername(), request.getPassword());
         if(foundUser != null) {
@@ -39,7 +42,7 @@ public class UserService {
     public ResponseEntity createJWTToken(LoginRequest loginRequest, HttpServletResponse response) {
         String token = "";
         try {
-            Algorithm algorithm = Algorithm.HMAC256("secretSecretsecretSecretSecretBardzoSecret");
+            Algorithm algorithm = Algorithm.HMAC256(aleaSecretkey);
             Long date = System.currentTimeMillis() + 7 * 24 * 3600 * 1000;
             token = JWT.create()
                     .withSubject(loginRequest.getUsername())
@@ -63,7 +66,7 @@ public class UserService {
         }
         try {
             String JWTFromCookie = tokenCookie.getValue();
-            Algorithm algorithm = Algorithm.HMAC256("secretSecretsecretSecretSecretBardzoSecret");
+            Algorithm algorithm = Algorithm.HMAC256(aleaSecretkey);
             JWTVerifier verifier = JWT.require(algorithm).build();
             DecodedJWT jwt = verifier.verify(JWTFromCookie);
 
@@ -72,9 +75,8 @@ public class UserService {
             Users foundLoggedUser = usersRepository.findUserByUsername(username);
             LoggedUserDTO loggedUser = modelMapper.map(foundLoggedUser, LoggedUserDTO.class);
             return new ResponseEntity(loggedUser, HttpStatus.ACCEPTED);
-        } catch (
-                JWTVerificationException exception){
-        }
+        } catch (Exception exception){}
+
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 }

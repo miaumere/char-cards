@@ -10,9 +10,11 @@
 	</parent>
 	<groupId>com.meowmere</groupId>
 	<artifactId>main</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>main</name>
 	<description>Alea iacta est - project </description>
+	<packaging>jar</packaging>
+
 
 	<properties>
 		<java.version>1.8</java.version>
@@ -95,8 +97,44 @@
 					<addResources>true</addResources>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>com.github.eirslett</groupId>
+				<artifactId>frontend-maven-plugin</artifactId>
+				<version>1.9.0</version>
+				<configuration>
+					<nodeVersion>v10.16.0</nodeVersion>
+					<workingDirectory>frontend</workingDirectory>
+				</configuration>
+				<executions>
+					<execution>
+						<id>install node and npm</id>
+						<goals>
+							<goal>install-node-and-npm</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>npm install</id>
+						<goals>
+							<goal>npm</goal>
+						</goals>
+						<configuration>
+							<arguments>install</arguments>
+						</configuration>
+					</execution>
+					<execution>
+						<id>npm build</id>
+						<goals>
+							<goal>npm</goal>
+						</goals>
+						<configuration>
+							<arguments>run build</arguments>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 
 		</plugins>
+
 	</build>
 
 </project>
