@@ -32,7 +32,8 @@
       'background-size': 'cover'
     }">
       <span class="info__desc">Data urodzenia</span>
-      <span class="info__data">{{character.birthday ? (character.birthday | date:fullDate ) : "Data nieznana"}}</span>
+      <span
+        class="info__data">{{character.birthday ? (character.birthday | date: 'dd/MM/yyyy' ) : "Data nieznana"}}</span>
 
       <ng-container *ngIf="character.death">
         <span class="info__desc">

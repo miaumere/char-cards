@@ -97,6 +97,9 @@ export class CharacterModifyComponent extends BaseComponent implements OnInit {
   flegmaticValue = 0;
   cholericValue = 0;
 
+  birthdayDate;
+  deathDate;
+
   profilePic: File | null = null;
   images: FileList | null = null;
 
@@ -294,7 +297,6 @@ export class CharacterModifyComponent extends BaseComponent implements OnInit {
         objToSend.measurements = measurements;
 
         console.log(objToSend);
-
         this.subscriptions$.add(
           this._charactersService
             .putCharacterDetails(objToSend)
@@ -305,6 +307,7 @@ export class CharacterModifyComponent extends BaseComponent implements OnInit {
             )
             .subscribe(_ => {
               this._toastrService.success('Udało się zmienić dane o postaci!');
+              this._route.navigate(['admin-panel/main']);
               this.getCharacterDetails();
             },
               err => {
@@ -323,6 +326,9 @@ export class CharacterModifyComponent extends BaseComponent implements OnInit {
         })
       ).subscribe(charDetails => {
         if (this.editCharacterForm) {
+          this.birthdayDate = charDetails.birthday;
+          this.deathDate = charDetails.death;
+
           this.editCharacterForm.get('name')?.setValue(charDetails.charName);
           this.editCharacterForm.get('surname')?.setValue(charDetails.charSurname);
           this.editCharacterForm.get('birthday')?.setValue(charDetails.birthday ? timestampToDate(charDetails.birthday) : null);
