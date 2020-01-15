@@ -200,7 +200,7 @@
             <input type="text" class="global-input" formControlName="surname" />
           </label>
         </div>
-        <label class="new-side-form__label global-label books" *ngIf="books">
+        <label class="new-side-form__label global-label books" *ngIf="books?.length > 0">
           Wybierz szkicowniki, w których postać występuje:
           <div *ngFor="let book of books">
             <input type="checkbox" class="global-input" [value]="book.externalId"
@@ -237,7 +237,7 @@
               <input type="text" class="global-input" formControlName="surname" />
             </label>
           </div>
-          <label class="edit-side-form__label global-label books" *ngIf="books">
+          <label class="edit-side-form__label global-label books" *ngIf="books?.length > 0">
             Wybierz szkicowniki, w których postać występuje:
             <div *ngFor="let book of books">
               <input type="checkbox" class="global-input" [value]="book.externalId"
