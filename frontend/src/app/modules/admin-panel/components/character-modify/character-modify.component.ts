@@ -10,7 +10,6 @@ import { BaseComponent } from 'src/app/core/base.component';
 import { validateImage } from 'src/app/shared/functions/validate-image.function';
 import { Colors } from 'src/app/modules/characters/models/colors.model';
 import { finalize } from 'rxjs/operators';
-import { timestampToDate } from 'src/app/shared/functions/timestamp-to-date.function';
 
 type chooseFormType = 'SUBMIT' | number;
 @Component({
@@ -22,7 +21,7 @@ type chooseFormType = 'SUBMIT' | number;
 export class CharacterModifyComponent extends BaseComponent implements OnInit {
   formParts: string[] = [];
 
-  isDead = false;
+  isDead = true;
 
   newCharacterForm = new FormGroup({
     name: new FormControl('', Validators.required),
@@ -62,7 +61,7 @@ export class CharacterModifyComponent extends BaseComponent implements OnInit {
     name: new FormControl('', Validators.required),
     surname: new FormControl('', Validators.required),
 
-    birthday: new FormControl('', Validators.required),
+    birthday: new FormControl(''),
     profession: new FormControl(''),
     death: new FormControl(''),
     deathReason: new FormControl(''),
@@ -299,7 +298,7 @@ export class CharacterModifyComponent extends BaseComponent implements OnInit {
         console.log(objToSend);
         this.subscriptions$.add(
           this._charactersService
-            .putCharacterDetails(objToSend)
+            .putCharacterDetails(objToSend, this.isDead)
             .pipe(
               finalize(() => {
                 this.loading = false;
@@ -331,8 +330,8 @@ export class CharacterModifyComponent extends BaseComponent implements OnInit {
 
           this.editCharacterForm.get('name')?.setValue(charDetails.charName);
           this.editCharacterForm.get('surname')?.setValue(charDetails.charSurname);
-          this.editCharacterForm.get('birthday')?.setValue(charDetails.birthday ? timestampToDate(charDetails.birthday) : null);
-          this.editCharacterForm.get('death')?.setValue(charDetails.death ? timestampToDate(charDetails.death) : null);
+          // this.editCharacterForm.get('birthday')?.setValue(charDetails.birthday ? timestampToDate(charDetails.birthday) : null);
+          // this.editCharacterForm.get('death')?.setValue(charDetails.death ? timestampToDate(charDetails.death) : null);
           this.editCharacterForm.get('deathReason')?.setValue(charDetails.deathReason);
           this.editCharacterForm.get('profession')?.setValue(charDetails.occupation);
 

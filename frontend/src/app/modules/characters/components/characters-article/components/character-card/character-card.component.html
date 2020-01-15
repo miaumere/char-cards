@@ -40,7 +40,7 @@
           Śmierć:
         </span>
         <span class="info__data">
-          {{character.death | date:fullDate}}
+          {{character.death | date: 'dd/MM/yyyy'}}
           <br />
           <span *ngIf="character.deathReason">
             ({{character.deathReason}})

@@ -159,8 +159,10 @@ export class CharactersService {
     return this.http.post<NewTitle>(this._postNewTitleURL, requestBody);
   }
 
-  putCharacterDetails(requestBody: EditCharacter): Observable<EditCharacter> {
-    return this.http.put<EditCharacter>(this._putEditCharacterURL, requestBody);
+  putCharacterDetails(requestBody: EditCharacter, idDead: boolean): Observable<EditCharacter> {
+    const params = new HttpParams().set('isDead', '' + idDead);
+
+    return this.http.put<EditCharacter>(this._putEditCharacterURL, requestBody, { params });
   }
 
   deleteQuote(quoteId: number): Observable<void> {

@@ -1,6 +1,6 @@
 <app-loader [visible]="!sideCharacters && loading"></app-loader>
 
-<article class="side-character" *ngIf="sideCharacters && !loading">
+<article class="side-character" *ngIf="sideCharacters?.length > 0 && !loading">
   <div class="side-character__box box" *ngFor="let sideCharacter of sideCharacters">
     <div class="box__books books" *ngIf="sideCharacter.books">
       <ng-container *ngFor="let book of sideCharacter.books">
@@ -27,3 +27,8 @@
     </div>
   </div>
 </article>
+
+
+<div class="side-character" *ngIf="sideCharacters?.length === 0  && !loading">
+  Brak postaci pobocznych.
+</div>

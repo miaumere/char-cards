@@ -393,7 +393,7 @@ public class CharactersService {
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
-    public ResponseEntity editCharacter(EditCharacterRequest request) {
+    public ResponseEntity editCharacter(EditCharacterRequest request, Boolean isDead) {
         Character character = characterRepository.getOne(request.getExternalId());
 
         if(character == null) {
@@ -403,10 +403,20 @@ public class CharactersService {
 
         character.setCharName(request.getCharName());
         character.setCharSurname(request.getCharSurname());
-        character.setBirthday(request.getBirthday());
+        if(request.getBirthday() != null) {
+            character.setBirthday(request.getBirthday());
+        }
         character.setOccupation(request.getOccupation());
-        character.setDeath(request.getDeath());
-        character.setDeathReason(request.getDeathReason());
+
+        if(isDead) {
+            if(request.getDeath() != null){
+                character.setDeath(request.getDeath());
+                character.setDeathReason(request.getDeathReason());
+            }
+        } else {
+            character.setDeath(null);
+            character.setDeathReason(null);
+        }
 
         characterRepository.saveAndFlush(character);
 
