@@ -1,31 +1,3 @@
-SET statement_timeout = 0;
-SET lock_timeout = 0;
-SET idle_in_transaction_session_timeout = 0;
-SET client_encoding = 'UTF8';
-SET standard_conforming_strings = on;
-SELECT pg_catalog.set_config('search_path', '', false);
-SET check_function_bodies = false;
-SET xmloption = content;
-SET client_min_messages = warning;
-SET row_security = off;
-
---
--- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
---
-
-CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
-
-
---
--- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
---
-
-COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
-
-
-SET default_tablespace = '';
-
-SET default_with_oids = false;
 
 --
 -- Name: book; Type: TABLE; Schema: public; Owner: postgres
@@ -39,8 +11,6 @@ CREATE TABLE public.book (
 );
 
 
-ALTER TABLE public.book OWNER TO postgres;
-
 --
 -- Name: book_side_characters; Type: TABLE; Schema: public; Owner: postgres
 --
@@ -50,8 +20,6 @@ CREATE TABLE public.book_side_characters (
     side_characters_external_id bigint NOT NULL
 );
 
-
-ALTER TABLE public.book_side_characters OWNER TO postgres;
 
 --
 -- Name: character; Type: TABLE; Schema: public; Owner: postgres
@@ -68,9 +36,6 @@ CREATE TABLE public."character" (
     occupation character varying(255),
     story character varying(2000)
 );
-
-
-ALTER TABLE public."character" OWNER TO postgres;
 
 --
 -- Name: colors; Type: TABLE; Schema: public; Owner: postgres
@@ -89,8 +54,6 @@ CREATE TABLE public.colors (
 );
 
 
-ALTER TABLE public.colors OWNER TO postgres;
-
 --
 -- Name: hibernate_sequence; Type: SEQUENCE; Schema: public; Owner: postgres
 --
@@ -101,9 +64,6 @@ CREATE SEQUENCE public.hibernate_sequence
     NO MINVALUE
     NO MAXVALUE
     CACHE 1;
-
-
-ALTER TABLE public.hibernate_sequence OWNER TO postgres;
 
 --
 -- Name: images; Type: TABLE; Schema: public; Owner: postgres
@@ -117,9 +77,6 @@ CREATE TABLE public.images (
     name character varying(255),
     character_id bigint
 );
-
-
-ALTER TABLE public.images OWNER TO postgres;
 
 --
 -- Name: measurements; Type: TABLE; Schema: public; Owner: postgres
@@ -138,9 +95,6 @@ CREATE TABLE public.measurements (
     character_id bigint
 );
 
-
-ALTER TABLE public.measurements OWNER TO postgres;
-
 --
 -- Name: profile_pic; Type: TABLE; Schema: public; Owner: postgres
 --
@@ -153,9 +107,6 @@ CREATE TABLE public.profile_pic (
     character_id bigint
 );
 
-
-ALTER TABLE public.profile_pic OWNER TO postgres;
-
 --
 -- Name: quote; Type: TABLE; Schema: public; Owner: postgres
 --
@@ -166,9 +117,6 @@ CREATE TABLE public.quote (
     quote character varying(255),
     character_id bigint
 );
-
-
-ALTER TABLE public.quote OWNER TO postgres;
 
 --
 -- Name: side_character; Type: TABLE; Schema: public; Owner: postgres
@@ -182,9 +130,6 @@ CREATE TABLE public.side_character (
     side_character_surname character varying(255)
 );
 
-
-ALTER TABLE public.side_character OWNER TO postgres;
-
 --
 -- Name: side_character_books; Type: TABLE; Schema: public; Owner: postgres
 --
@@ -193,9 +138,6 @@ CREATE TABLE public.side_character_books (
     side_character_external_id bigint NOT NULL,
     books_external_id bigint NOT NULL
 );
-
-
-ALTER TABLE public.side_character_books OWNER TO postgres;
 
 --
 -- Name: story; Type: TABLE; Schema: public; Owner: postgres
@@ -207,9 +149,6 @@ CREATE TABLE public.story (
     character_id bigint,
     title_id bigint
 );
-
-
-ALTER TABLE public.story OWNER TO postgres;
 
 --
 -- Name: temperament; Type: TABLE; Schema: public; Owner: postgres
@@ -224,9 +163,6 @@ CREATE TABLE public.temperament (
     character_id bigint
 );
 
-
-ALTER TABLE public.temperament OWNER TO postgres;
-
 --
 -- Name: titles; Type: TABLE; Schema: public; Owner: postgres
 --
@@ -237,9 +173,6 @@ CREATE TABLE public.titles (
     title character varying(255)
 );
 
-
-ALTER TABLE public.titles OWNER TO postgres;
-
 --
 -- Name: users; Type: TABLE; Schema: public; Owner: postgres
 --
@@ -249,10 +182,6 @@ CREATE TABLE public.users (
     password character varying(255),
     username character varying(255)
 );
-
-
-ALTER TABLE public.users OWNER TO postgres;
-
 
 --
 -- Name: book book_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
