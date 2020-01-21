@@ -6,6 +6,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface TitlesRepository extends JpaRepository<Titles, Long> {
-//    @Query("SELECT t FROM Titles WHERE t.title = :titleName")
-//    Titles getTitleByName(@Param("titleName") String titleName);
 }

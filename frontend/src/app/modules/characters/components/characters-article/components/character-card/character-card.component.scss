@@ -95,15 +95,19 @@
 }
 
 .quote {
+  max-width: 600px;
+
+  margin: auto;
   border-radius: 3px;
   padding: 1rem;
 
-  background: #ffffff1a;
+  background: #6e656569;
 
   &__cite {
   }
 
   &__blockquote {
+    line-height: 1.5;
     font-size: 0.6rem;
   }
 }
