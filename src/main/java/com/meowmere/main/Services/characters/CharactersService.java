@@ -443,7 +443,7 @@ public class CharactersService {
         measurements.setBabyHeight(request.getMeasurements().getBabyHeight());
         measurements.setBabyWeight(request.getMeasurements().getBabyWeight());
         measurements.setChildHeight(request.getMeasurements().getChildHeight());
-        measurements.setChildWeight(request.getMeasurements().getChildHeight());
+        measurements.setChildWeight(request.getMeasurements().getChildWeight());
         measurements.setTeenHeight(request.getMeasurements().getTeenHeight());
         measurements.setTeenWeight(request.getMeasurements().getTeenWeight());
         measurements.setAdultHeight(request.getMeasurements().getAdultHeight());
