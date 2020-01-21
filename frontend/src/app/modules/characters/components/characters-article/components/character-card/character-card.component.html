@@ -121,14 +121,14 @@
       <blockquote class="quote__blockquote">
         {{character.quote.quote}}
       </blockquote>
-      <cite *ngIf="character.quote.context" class="quote__cite" [ngStyle]="{'color': character.colors.themeColor1}">~
+      <cite *ngIf="character.quote.context" class="quote__cite" [ngStyle]="{'color': themeColor1}">~
         {{character.quote.context}}</cite>
     </div>
     <div class="information__story ">
       <ng-container *ngIf="character.story">
         <ng-container *ngFor="let story of character.story">
           <div class="story">
-            <h2 class="story__title">{{story.title}}</h2>
+            <h2 class="story__title" [ngStyle]="{'color': themeColor1}">{{story.title}}</h2>
             <div class="story__story-block">
               {{story.story}}
             </div>

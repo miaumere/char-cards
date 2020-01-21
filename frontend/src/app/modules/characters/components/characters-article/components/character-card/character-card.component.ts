@@ -4,6 +4,8 @@ import { Character } from 'src/app/modules/characters/models/character.model';
 import { CharactersService } from 'src/app/core/service/characters.service';
 import { ActivatedRoute } from '@angular/router';
 import { finalize } from 'rxjs/operators';
+import * as tinycolor from 'tinycolor2';
+
 
 @Component({
   selector: 'app-character-card',
@@ -19,6 +21,9 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
   currentImageIndex = 0;
 
   loading = true;
+
+  themeColor1 = '';
+
   constructor(
     private _charactersService: CharactersService,
     private _route: ActivatedRoute) {
@@ -32,7 +37,6 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
       this.routeId = route.id;
       this.currentImageIndex = 0;
       this.getCharacterById();
-
     })
 
   }
@@ -50,6 +54,17 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
         ).subscribe(character => {
           this.character = character;
           this.bgColorFromChild.emit(character.colors.themeColor1);
+          const themeColorForChar = tinycolor(character?.colors?.themeColor1);
+          themeColorForChar.isLight()
+          if (themeColorForChar.isLight()) {
+            this.themeColor1 = tinycolor(
+              themeColorForChar
+            ).darken(15).desaturate();
+          } else {
+            this.themeColor1 = tinycolor(
+              themeColorForChar
+            ).lighten(20).desaturate();
+          }
         });
     }
   }
