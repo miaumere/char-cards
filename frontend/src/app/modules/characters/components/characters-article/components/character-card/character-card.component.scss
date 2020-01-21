@@ -12,6 +12,10 @@
 
   &__data {
     margin-left: 0.5rem;
+
+    &--death {
+      color: red;
+    }
   }
 
   &__color,

@@ -351,14 +351,24 @@
   }
 }
 
-.books {
+.books-container {
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
+  flex-wrap: wrap;
 
-  padding: 1rem;
+  border-radius: 3px;
 
   background: #ffffff3b;
+}
+
+.books {
+  &__item {
+    display: flex;
+    align-items: center;
+
+    padding: 1rem;
+  }
 }
 
 .quotes {

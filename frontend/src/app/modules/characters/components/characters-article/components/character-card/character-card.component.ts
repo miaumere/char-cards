@@ -70,9 +70,6 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
   }
 
   setImage(imageIndex: number) {
-    // console.log(imageIndex);
     this.currentImageIndex = imageIndex;
   }
-
-
 }

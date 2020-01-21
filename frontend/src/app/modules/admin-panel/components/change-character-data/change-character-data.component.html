@@ -200,13 +200,16 @@
             <input type="text" class="global-input" formControlName="surname" />
           </label>
         </div>
-        <label class="new-side-form__label global-label books" *ngIf="books?.length > 0">
+        <label class="new-side-form__label global-label" *ngIf="books?.length > 0">
           Wybierz szkicowniki, w których postać występuje:
-          <div *ngFor="let book of books">
-            <input type="checkbox" class="global-input" [value]="book.externalId"
-              (change)="onCheckChange($event, 'new-chars')" />
-            <app-icon [icon]="'book'" [color]="book.color" [size]="0.8"></app-icon>
-            {{book.name}}
+          <div class="books-container">
+
+            <div *ngFor="let book of books" class="books__item">
+              <input type="checkbox" class="global-input" [value]="book.externalId"
+                (change)="onCheckChange($event, 'new-chars')" />
+              <app-icon [icon]="'book'" [color]="book.color" [size]="0.8"></app-icon>
+              {{book.name}}
+            </div>
           </div>
         </label>
         <label class="new-side-form__label global-label">
@@ -237,13 +240,16 @@
               <input type="text" class="global-input" formControlName="surname" />
             </label>
           </div>
-          <label class="edit-side-form__label global-label books" *ngIf="books?.length > 0">
+          <label class="edit-side-form__label global-label" *ngIf="books?.length > 0">
             Wybierz szkicowniki, w których postać występuje:
-            <div *ngFor="let book of books">
-              <input type="checkbox" class="global-input" [value]="book.externalId"
-                (change)="onCheckChange($event, 'edit-chars')" [checked]="setBookValue(book.externalId)" />
-              <app-icon [icon]="'book'" [color]="book.color" [size]="0.8"></app-icon>
-              {{book.name}}
+            <div class="books-container">
+
+              <div *ngFor="let book of books" class="books__item">
+                <input type="checkbox" class="global-input" [value]="book.externalId"
+                  (change)="onCheckChange($event, 'edit-chars')" [checked]="setBookValue(book.externalId)" />
+                <app-icon [icon]="'book'" [color]="book.color" [size]="0.8"></app-icon>
+                {{book.name}}
+              </div>
             </div>
           </label>
           <div class="edit-side-char-form__container edit-side-char-form__container--story">
