@@ -118,18 +118,20 @@
   </div>
   <div class="information">
     <div *ngIf="character.quote" class="information__quote quote">
-      <blockquote>
+      <blockquote class="quote__blockquote">
         {{character.quote.quote}}
       </blockquote>
       <cite *ngIf="character.quote.context" class="quote__cite" [ngStyle]="{'color': character.colors.themeColor1}">~
         {{character.quote.context}}</cite>
     </div>
-    <div class="information__story story">
+    <div class="information__story ">
       <ng-container *ngIf="character.story">
         <ng-container *ngFor="let story of character.story">
-          <h2 class="story__title">{{story.title}}</h2>
-          <div>
-            {{story.story}}
+          <div class="story">
+            <h2 class="story__title">{{story.title}}</h2>
+            <div class="story__story-block">
+              {{story.story}}
+            </div>
           </div>
         </ng-container>
       </ng-container>

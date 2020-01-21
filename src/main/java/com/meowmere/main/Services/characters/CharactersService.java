@@ -121,10 +121,10 @@ public class CharactersService {
             Quote randomQuote = quotes.get(random.nextInt(quotes.size()));
             dto.setQuote(modelMapper.map(randomQuote, CharacterQuoteDTO.class));
         } else if(quotes.size() == 1) {
-            dto.setQuote(modelMapper.map(quoteRepository.getOne(externalId), CharacterQuoteDTO.class));
+            dto.setQuote(modelMapper.map(quotes.get(0), CharacterQuoteDTO.class));
         }
 
-        List<ImageDTO> imagesList = new ArrayList<ImageDTO>();
+        List<ImageDTO> imagesList = new ArrayList<>();
         List<Image> imagesFromDb = imageRepository.getImagesForCharacter(externalId);
 
         if(imagesFromDb != null) {

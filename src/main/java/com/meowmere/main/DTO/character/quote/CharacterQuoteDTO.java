@@ -9,6 +9,10 @@ public class CharacterQuoteDTO {
         return id;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getQuote() {
         return quote;
     }

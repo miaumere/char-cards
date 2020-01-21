@@ -23,13 +23,6 @@
 .color {
   padding-top: 0.5rem;
 
-  filter: grayscale(1);
-  transition: 0.3s;
-
-  &:hover {
-    filter: none;
-  }
-
   &__container {
     display: flex;
 
@@ -78,23 +71,41 @@
   background: #0000007a;
 
   overflow-y: scroll;
+
+  &__story {
+    margin: auto;
+  }
 }
 
 .story {
   margin: 2rem 0;
   word-break: break-all;
+  line-height: 1.5;
+  margin: auto;
 
   &__title {
     font-weight: bold;
     font-size: 0.9rem;
     color: lightslategray;
   }
+
+  &__story-block {
+    max-width: 700px;
+  }
 }
 
 .quote {
+  border-radius: 3px;
+  padding: 1rem;
+
+  background: #ffffff1a;
+
   &__cite {
-    color: rgba(255, 255, 255, 0.4);
     filter: saturate(300%);
+  }
+
+  &__blockquote {
+    font-size: 0.6rem;
   }
 }
 
