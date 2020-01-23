@@ -1,0 +1,84 @@
+.profile-pic {
+  height: 80px;
+  width: 80px;
+
+  border-radius: 50%;
+  padding: 1rem 0;
+
+  &__image {
+    width: 80px;
+    height: 80px;
+    object-fit: scale-down;
+
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  &--empty {
+    padding-left: 2rem;
+    margin-top: 1.5rem;
+    margin-bottom: -1.5rem;
+  }
+}
+
+.sidebar {
+  height: 120px;
+
+  padding-left: 0.7rem;
+  padding-right: 0.2rem;
+  border-radius: 3px;
+
+  background: #ffffff7a;
+
+  &__option {
+    margin: 5px 0;
+    margin-left: -0.5rem;
+
+    cursor: pointer;
+  }
+}
+
+.item {
+  display: flex;
+
+  height: 130px;
+
+  padding: 0.5rem;
+  margin: 1rem;
+  border-radius: 3px;
+
+  background: #ffffff1c;
+  transition: 0.2s;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.7);
+    color: black;
+  }
+
+  &--new-char {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 100px;
+    height: 130px;
+
+    cursor: pointer;
+  }
+}
+
+.char-info {
+  width: 100px;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.change-state {
+  position: absolute;
+
+  margin-top: -0.2rem;
+
+  cursor: pointer;
+}

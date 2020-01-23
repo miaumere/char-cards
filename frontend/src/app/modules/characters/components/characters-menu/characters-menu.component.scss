@@ -1,0 +1,24 @@
+.characters-menu {
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+
+  width: 230px;
+
+  font-size: 0.7rem;
+  color: rgb(155, 155, 155);
+
+  overflow-y: scroll;
+  background: #1d1d1d;
+
+  &__item {
+    border-bottom: 1px rgb(58, 58, 58) solid;
+    padding: 0.5rem;
+
+    width: inherit;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}

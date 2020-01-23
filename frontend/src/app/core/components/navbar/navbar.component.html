@@ -1,0 +1,40 @@
+<nav>
+  <ul class="navbar">
+    <li class="navbar__item navbar__item--title" [routerLink]="['/main']">
+      Alea iacta est
+    </li>
+    <li class="navbar__item">
+      <a [routerLink]="['/char-cards']" routerLinkActive="navbar__item--active">
+        postacie główne
+      </a>
+    </li>
+    <li class="navbar__item">
+      <a [routerLink]="['/side-characters']" routerLinkActive="navbar__item--active">
+        postacie poboczne
+      </a>
+    </li>
+    <!-- <li class="navbar__item" style="pointer-events: none;   text-decoration: line-through; color: grey">
+      <a [routerLink]="['/pages']" routerLinkActive="navbar__item--active">
+        historia
+      </a>
+    </li> -->
+    <li class="navbar__item">
+      <a [routerLink]="['/admin-panel']" routerLinkActive="navbar__item--active">
+        panel admina
+      </a>
+    </li>
+    <li class="logged-user">
+      <app-icon [icon]="'user'" [color]="'white'"></app-icon>
+      <span class="logged-user__name">
+        {{ (_authService.loggedUser$ | async) ? ((_authService.loggedUser$ | async).username) : "niezalogowany" }}
+      </span>
+    </li>
+    <button class="logout global-button" (click)="logout()"
+      *ngIf="(_authService.loggedUser$ | async) && (_authService.loggedUser$ | async).username">
+      <span class="logout__icon">
+        <app-icon [icon]="'logout'" [color]="'white'"></app-icon>
+      </span>
+      wyloguj się
+    </button>
+  </ul>
+</nav>

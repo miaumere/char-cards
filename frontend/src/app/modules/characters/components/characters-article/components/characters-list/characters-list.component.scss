@@ -1,0 +1,41 @@
+@import "../../../../../../../global_styles/variables.scss";
+
+.char-menu {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+
+  position: fixed;
+
+  height: calc(100vh - #{$navbar-height});
+  width: 100%;
+
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAF0lEQVQYV2NkQAJSN+83PFNXbGCkgSAAqjkUBj+3UZ0AAAAASUVORK5CYII="),
+    linear-gradient(to bottom, #191244 0%, #191244 33%, #85383e 100%);
+  background-blend-mode: multiply;
+
+  overflow-y: scroll;
+}
+
+.character {
+  display: flex;
+  flex-direction: column;
+
+  margin: 0.5rem;
+  padding: 1rem;
+
+  text-align: center;
+
+  &__profile-pic {
+    height: 100px;
+    width: 100px;
+
+    border-radius: 50%;
+
+    &--empty {
+      margin-top: 2.3rem;
+      margin-bottom: -2.3rem;
+    }
+  }
+}
