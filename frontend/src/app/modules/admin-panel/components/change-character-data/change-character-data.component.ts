@@ -822,6 +822,7 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
       }
     }
 
+
     this.subscriptions$.add(
       this._characterService
         .postEditImages(formData, this.selectedCharId)
