@@ -15,39 +15,39 @@ import { SideCharactersModule } from './modules/side-characters/side-characters.
 import { CharactersModule } from './modules/characters/characters.module';
 import { PagesModule } from './modules/pages/pages.module';
 import { MainModule } from './modules/main/main.module';
-import { SharedModule } from './shared/shared.module';
 import { LoginModule } from './modules/login/login.module';
+import { SharedModule } from './modules/shared/shared.module';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    RouterModule,
-    ReactiveFormsModule,
-    AppRoutingModule,
-    ToastrModule.forRoot({
-      preventDuplicates: true
-    }),
-    HttpClientModule,
-    MainModule,
-    PagesModule,
-    CharactersModule,
-    SideCharactersModule,
-    LoginModule,
-    SharedModule,
-    CoreModule
-  ],
-  providers: [
-    HttpClientModule,
-    {
-      provide: LocationStrategy,
-      useClass: HashLocationStrategy
-    }
-  ],
-  bootstrap: [AppComponent]
+	declarations: [
+		AppComponent
+	],
+	imports: [
+		BrowserModule,
+		BrowserAnimationsModule,
+		RouterModule,
+		ReactiveFormsModule,
+		AppRoutingModule,
+		ToastrModule.forRoot({
+			preventDuplicates: true
+		}),
+		HttpClientModule,
+		MainModule,
+		PagesModule,
+		CharactersModule,
+		SideCharactersModule,
+		LoginModule,
+		SharedModule,
+		CoreModule
+	],
+	providers: [
+		HttpClientModule,
+		{
+			provide: LocationStrategy,
+			useClass: HashLocationStrategy
+		}
+	],
+	bootstrap: [AppComponent]
 })
 export class AppModule {
 

@@ -19,123 +19,125 @@ button {
   font-family: inherit;
 }
 
-.global-button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.global {
+  &-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-  border-radius: 3px;
-  border: 1px solid #322c38;
-  padding: 0.5rem;
+    border-radius: 3px;
+    border: 1px solid #322c38;
+    padding: 0.5rem;
 
-  color: white;
-  font-family: inherit;
-  font-size: 0.6rem;
-  letter-spacing: 2px;
+    color: white;
+    font-family: inherit;
+    font-size: 0.6rem;
+    letter-spacing: 2px;
 
-  background: linear-gradient(to bottom, #3a3b47, #302a36);
+    background: linear-gradient(to bottom, #3a3b47, #302a36);
 
-  outline: none;
+    outline: none;
 
-  cursor: pointer;
-  text-transform: uppercase;
+    cursor: pointer;
+    text-transform: uppercase;
 
-  &:active {
-    border-bottom: 2px solid #1f1b24;
+    &:active {
+      border-bottom: 2px solid #1f1b24;
 
-    background: linear-gradient(to bottom, #302a36, #3a3b47);
+      background: linear-gradient(to bottom, #302a36, #3a3b47);
 
-    transform: translateY(4px);
+      transform: translateY(4px);
+    }
+
+    &[disabled] {
+      background: linear-gradient(to bottom, #5c5c5c, #b1b1b1);
+    }
   }
 
-  &[disabled] {
-    background: linear-gradient(to bottom, #5c5c5c, #b1b1b1);
+  &-section {
+    height: calc(100vh - #{$navbar-height});
   }
-}
 
-.global-section {
-  height: calc(100vh - #{$navbar-height});
-}
+  &-input {
+    &[type="text"],
+    &[type="number"],
+    &[type="date"],
+    &[type="password"],
+    &[list],
+    &[name] {
+      padding: 5px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      box-shadow: 1px 1px 1px #999;
 
-.global-input {
-  &[type="text"],
-  &[type="number"],
-  &[type="date"],
-  &[type="password"],
-  &[list],
-  &[name] {
-    padding: 5px;
+      outline: none;
+    }
+    &[type="color"] {
+      &::-webkit-color-swatch-wrapper {
+        padding: 0;
+      }
+    }
+    &[disabled],
+    &[readonly] {
+      background-color: #e4e4e1;
+      background-image: linear-gradient(to top, rgba(255, 255, 255, 0.1) 0%, rgba(143, 152, 157, 0.6) 100%);
+    }
+  }
+
+  &-label {
+    margin: 0.5rem;
+  }
+
+  &-textarea {
+    padding: 10px;
+    line-height: 1.5;
     border-radius: 5px;
     border: 1px solid #ccc;
     box-shadow: 1px 1px 1px #999;
 
     outline: none;
   }
-  &[type="color"] {
-    &::-webkit-color-swatch-wrapper {
-      padding: 0;
+
+  &-progress-bar {
+    height: 100%;
+    width: 100px;
+
+    margin: 0 1rem;
+    border: 1px white solid;
+
+    background-color: #1d1d1d;
+
+    &__color {
+      height: 10px;
+      text-align: center;
+
+      &--melancholic {
+        background-image: linear-gradient(to right, #3a6186 0%, #89253e 100%);
+      }
+      &--sanguine {
+        background-image: linear-gradient(to right, #5614b0 0%, #dbd65c 100%);
+      }
+      &--flegmatic {
+        background-image: linear-gradient(to right, #5a3f37 0%, #2c7744 100%);
+      }
+      &--choleric {
+        background-image: linear-gradient(to right, #ff5f6d 0%, #ffc371 100%);
+      }
+    }
+    &__value {
+      position: absolute;
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
     }
   }
-  &[disabled],
-  &[readonly] {
-    background-color: #e4e4e1;
-    background-image: linear-gradient(to top, rgba(255, 255, 255, 0.1) 0%, rgba(143, 152, 157, 0.6) 100%);
-  }
-}
 
-.global-label {
-  margin: 0.5rem;
-}
+  &-file {
+    outline: none;
 
-.global-textarea {
-  padding: 10px;
-  line-height: 1.5;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  box-shadow: 1px 1px 1px #999;
-
-  outline: none;
-}
-
-.global-progress-bar {
-  height: 100%;
-  width: 100px;
-
-  margin: 0 1rem;
-  border: 1px white solid;
-
-  background-color: #1d1d1d;
-
-  &__color {
-    height: 10px;
-    text-align: center;
-
-    &--melancholic {
-      background-image: linear-gradient(to right, #3a6186 0%, #89253e 100%);
-    }
-    &--sanguine {
-      background-image: linear-gradient(to right, #5614b0 0%, #dbd65c 100%);
-    }
-    &--flegmatic {
-      background-image: linear-gradient(to right, #5a3f37 0%, #2c7744 100%);
-    }
-    &--choleric {
-      background-image: linear-gradient(to right, #ff5f6d 0%, #ffc371 100%);
-    }
-  }
-  &__value {
-    position: absolute;
-    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    font-size: 0.6rem;
   }
 }
 
 ::-webkit-resizer {
   background: url("./assets/images/textarea-icon.png");
   background-size: 100%;
-}
-
-.global-file {
-  outline: none;
-
-  font-size: 0.6rem;
 }

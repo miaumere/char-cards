@@ -1,4 +1,3 @@
-import { SharedModule } from './../../shared/shared.module';
 import { FilenameModifierPipe } from './pipes/filename-modifier.pipe';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
@@ -9,22 +8,23 @@ import { CharactersIndexComponent } from './characters-index.component';
 import { CharactersListComponent } from './components/characters-article/components/characters-list/characters-list.component';
 import { CharacterCardComponent } from './components/characters-article/components/character-card/character-card.component';
 import { ProgressBarDirective } from './directives/progress-bar.directive';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
-  declarations: [
-    CharactersComponent,
-    CharactersMenuComponent,
-    CharactersIndexComponent,
-    CharactersListComponent,
-    CharacterCardComponent,
-    FilenameModifierPipe,
-    ProgressBarDirective
-  ],
-  imports: [
-    CommonModule,
-    CharactersRoutingModule,
-    SharedModule
-  ],
-  providers: []
+	declarations: [
+		CharactersComponent,
+		CharactersMenuComponent,
+		CharactersIndexComponent,
+		CharactersListComponent,
+		CharacterCardComponent,
+		FilenameModifierPipe,
+		ProgressBarDirective
+	],
+	imports: [
+		CommonModule,
+		CharactersRoutingModule,
+		SharedModule
+	],
+	providers: []
 })
 export class CharactersModule { }
