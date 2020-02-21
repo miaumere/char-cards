@@ -271,9 +271,9 @@ public class CharactersService {
     public ResponseEntity createStoryForCharacter(CreateStoryForCharRequest request) {
         String msg = "";
         Story storyToCreate = new Story();
-        Boolean emptyTitle = false;
-        Boolean emptyStory = false;
-        Boolean noTitle = false;
+        boolean emptyTitle = false;
+        boolean emptyStory = false;
+        boolean noTitle = false;
 
         Character characterFromId = characterRepository.getOne(request.getCharacterId());
 
@@ -393,7 +393,7 @@ public class CharactersService {
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
-    public ResponseEntity editCharacter(EditCharacterRequest request, Boolean isDead) {
+    public ResponseEntity editCharacter(EditCharacterRequest request, boolean isDead) {
         Character character = characterRepository.getOne(request.getExternalId());
 
         if(character == null) {

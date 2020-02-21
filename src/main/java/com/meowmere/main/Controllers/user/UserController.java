@@ -21,7 +21,7 @@ public class UserController {
     @PostMapping("/login")
     @ResponseBody
     public ResponseEntity login(@RequestBody LoginRequest loginRequest, HttpServletResponse response) {
-        Boolean loginSuccess = this.userService.userLogin(loginRequest);
+        boolean loginSuccess = this.userService.userLogin(loginRequest);
 
         if(loginSuccess == false) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);

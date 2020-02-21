@@ -123,7 +123,7 @@ public class SideCharactersService {
         List<Book> booksFromChar = sideCharFromDb.getBooks();
         if(bookIds != null) {
             for (Long bookId : bookIds) {
-                Boolean isAlready = Arrays.asList(booksFromChar).contains(bookId);
+                boolean isAlready = Arrays.asList(booksFromChar).contains(bookId);
                 if(!isAlready){
                 books.add(bookRepository.getOne(bookId));
                 }

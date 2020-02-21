@@ -32,11 +32,7 @@ public class UserService {
 
     public Boolean userLogin(LoginRequest request) {
         Users foundUser = usersRepository.findUserByUsernameAndPassword(request.getUsername(), request.getPassword());
-        if(foundUser != null) {
-            return true;
-        } else {
-            return false;
-        }
+        return foundUser != null;
     }
 
     public ResponseEntity createJWTToken(LoginRequest loginRequest, HttpServletResponse response) {
