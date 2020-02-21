@@ -35,7 +35,7 @@ public class SideCharactersService {
 
     private void setSideCharactersBooks(SideCharacter sideCharacterFromDb, SideCharacterDetailsDTO dto) {
         ModelMapper modelMapper = new ModelMapper();
-        List<BookDTO> booksForSide = new ArrayList<>();
+        ArrayList<BookDTO> booksForSide = new ArrayList<>();
         List<Book> books = sideCharacterFromDb.getBooks();
         if(books != null) {
             for (Book book : books) {
@@ -49,10 +49,10 @@ public class SideCharactersService {
     public ResponseEntity findNonArchivedSideCharacters() {
         List<SideCharacter> sideCharactersFromDb = sideCharactersRepository.getNonArchivedSideCharacters();
         ModelMapper modelMapper = new ModelMapper();
-        List<SideCharacterDTO> result = new ArrayList<>();
+        ArrayList<SideCharacterDTO> result = new ArrayList<>();
         for (SideCharacter sideCharacterFromDb : sideCharactersFromDb) {
             SideCharacterDTO sideCharacter = modelMapper.map(sideCharacterFromDb, SideCharacterDTO.class);
-            List<BookDTO> booksForSide = new ArrayList<>();
+            ArrayList<BookDTO> booksForSide = new ArrayList<>();
             List<Book> books = sideCharacterFromDb.getBooks();
             if(books != null) {
                 for (Book bookForSideChar : books) {
@@ -80,7 +80,7 @@ public class SideCharactersService {
         List<SideCharacter> sideCharactersFromDB = sideCharactersRepository
                 .findAll(Sort.by(Sort.Direction.ASC, "externalId"));
         ModelMapper modelMapper = new ModelMapper();
-        List<SideCharacterForListDTO> result = new ArrayList<>();
+        ArrayList<SideCharacterForListDTO> result = new ArrayList<>();
 
         for(SideCharacter sideCharacterFromDb : sideCharactersFromDB) {
             SideCharacterForListDTO sideCharacter = modelMapper.map(sideCharacterFromDb, SideCharacterForListDTO.class);
@@ -119,7 +119,7 @@ public class SideCharactersService {
         sideCharFromDb.setSideCharacterSurname(request.getSideCharacterSurname());
 
         List<Long> bookIds = request.getBooksIds();
-        List<Book> books = new ArrayList<>();
+        ArrayList<Book> books = new ArrayList<>();
         List<Book> booksFromChar = sideCharFromDb.getBooks();
         if(bookIds != null) {
             for (Long bookId : bookIds) {
@@ -160,7 +160,7 @@ public class SideCharactersService {
 
         String[] idsAsString = booksIdsAsString.split(",");
 
-        List<Book> books = new ArrayList<>();
+        ArrayList<Book> books = new ArrayList<>();
 
         if(!booksIdsAsString.isEmpty()) {
         for (String idAsString : idsAsString) {
@@ -241,7 +241,7 @@ public class SideCharactersService {
     public ResponseEntity getAllBooks() {
         ModelMapper modelMapper = new ModelMapper();
         List<Book> booksFromDb = bookRepository.findAll(Sort.by(Sort.Direction.ASC, "bookOrder"));
-        List<BookDTO> result = new ArrayList<>();
+        ArrayList<BookDTO> result = new ArrayList<>();
         booksFromDb.forEach(book -> {
             BookDTO bookDTO = modelMapper.map(book, BookDTO.class);
             result.add(bookDTO);

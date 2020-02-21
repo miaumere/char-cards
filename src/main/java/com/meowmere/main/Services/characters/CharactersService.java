@@ -65,7 +65,7 @@ public class CharactersService {
     public ResponseEntity findCharList() {
         List<Character> allCharactersFromDb = characterRepository.getNonArchivedCharacters();
         ModelMapper modelMapper = new ModelMapper();
-        List<CharactersMenuDTO> dtoList = new ArrayList<>();
+        ArrayList<CharactersMenuDTO> dtoList = new ArrayList<>();
 
         for(Character characterFromDb : allCharactersFromDb) {
             CharactersMenuDTO dto = modelMapper.map(characterFromDb, CharactersMenuDTO.class);
@@ -86,13 +86,13 @@ public class CharactersService {
         Character oneCharacter = characterRepository.getNonArchivedCharacter(externalId);
         if(oneCharacter == null) {
             String err = "Nie udało się znaleźć postaci o podanym id.";
-            return new ResponseEntity(err, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(err, HttpStatus.NOT_FOUND);
         }
 
         CharacterDTO dto = modelMapper.map(oneCharacter, CharacterDTO.class);
 
         List<Story> storiesFromDb = storyRepository.getAllStoriesForCharacter(externalId);
-        List<CharacterStoryDTO> stories = new ArrayList<>();
+        ArrayList<CharacterStoryDTO> stories = new ArrayList<>();
         if(storiesFromDb != null && storiesFromDb.size() > 0){
             for (Story storyFromDb : storiesFromDb) {
                 stories.add(modelMapper.map(storyFromDb, CharacterStoryDTO.class));
@@ -124,7 +124,7 @@ public class CharactersService {
             dto.setQuote(modelMapper.map(quotes.get(0), CharacterQuoteDTO.class));
         }
 
-        List<ImageDTO> imagesList = new ArrayList<>();
+        ArrayList<ImageDTO> imagesList = new ArrayList<>();
         List<Image> imagesFromDb = imageRepository.getImagesForCharacter(externalId);
 
         if(imagesFromDb != null) {
@@ -134,13 +134,13 @@ public class CharactersService {
         }
         dto.setImagesList(imagesList);
 
-        return new ResponseEntity(dto, HttpStatus.OK);
+        return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
     public ResponseEntity getEveryCharacter() {
         ModelMapper modelMapper = new ModelMapper();
         List<Character> charactersFromDb = characterRepository.findAll(Sort.by(Sort.Direction.ASC, "externalId"));
-        List<EveryCharacterMenuDTO> dtoList = new ArrayList<>();
+        ArrayList<EveryCharacterMenuDTO> dtoList = new ArrayList<>();
         for (Character character : charactersFromDb) {
             EveryCharacterMenuDTO dto = modelMapper.map(character, EveryCharacterMenuDTO.class);
 
@@ -159,19 +159,19 @@ public class CharactersService {
     public ResponseEntity changeStatusForCharacter(ChangeCharacterStateRequest character) {
             Character charToChange = characterRepository.getOne(character.getId());
             if(charToChange == null) {
-                return new ResponseEntity("Nie można zmienić stanu postaci o nieistniejącym id.",
+                return new ResponseEntity<>("Nie można zmienić stanu postaci o nieistniejącym id.",
                         HttpStatus.NOT_FOUND);
             }
             charToChange.setArchived(character.getArchived());
             characterRepository.save(charToChange);
 
-        return new ResponseEntity(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     public ResponseEntity getTitles() {
         ModelMapper modelMapper = new ModelMapper();
         List<Titles> titlesFromDb = titlesRepository.findAll(Sort.by(Sort.Direction.ASC, "sequence"));
-        List<TitleDTO> result = new ArrayList<>();
+        ArrayList<TitleDTO> result = new ArrayList<>();
 
         titlesFromDb.forEach(title -> {
             TitleDTO titleMapped = modelMapper.map(title, TitleDTO.class);
@@ -249,7 +249,7 @@ public class CharactersService {
 
     public ResponseEntity getStoriesForCharacter(Long id) {
         List<Titles> titlesFromDb = titlesRepository.findAll();
-        List<StoryForListDTO> stories = new ArrayList<>();
+        ArrayList<StoryForListDTO> stories = new ArrayList<>();
 
         for (Titles titleFromDb : titlesFromDb) {
             StoryForListDTO dto = new StoryForListDTO();
@@ -480,7 +480,7 @@ public class CharactersService {
 
     public ResponseEntity getAllQuotesForCharacter(Long id) {
         ModelMapper modelMapper = new ModelMapper();
-        List<QuoteForListDTO> result = new ArrayList<>();
+        ArrayList<QuoteForListDTO> result = new ArrayList<>();
 
         List<Quote> quotesFromDb = quoteRepository.getAllQuotesByCharacterId(id);
         if(quotesFromDb != null){
@@ -503,7 +503,7 @@ public class CharactersService {
             return new ResponseEntity(msg, HttpStatus.NOT_FOUND);
         }
 
-        List<Quote> quotesForChar = new ArrayList<>();
+        ArrayList<Quote> quotesForChar = new ArrayList<>();
         quotesForChar.add(quote);
         character.setQuotes(quotesForChar);
         quote.setCharacter(character);
