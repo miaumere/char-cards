@@ -49,20 +49,20 @@ public class UserService {
                     .withExpiresAt(new Date(date))
                     .sign(algorithm);
         } catch (JWTCreationException exception){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
         Cookie cookie = new Cookie("token", token);
         cookie.setHttpOnly(true);
         cookie.setMaxAge(604800);
         response.addCookie(cookie);
-        return new ResponseEntity<>(loginRequest, HttpStatus.ACCEPTED);
+        return new ResponseEntity(loginRequest, HttpStatus.ACCEPTED);
     }
 
     public ResponseEntity reloginUser(HttpServletRequest request) {
         Cookie tokenCookie = WebUtils.getCookie(request,"token");
         ModelMapper modelMapper = new ModelMapper();
         if(tokenCookie == null) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
         }
         try {
             String JWTFromCookie = tokenCookie.getValue();

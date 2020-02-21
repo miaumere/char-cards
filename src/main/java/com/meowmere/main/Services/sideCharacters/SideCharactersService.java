@@ -73,7 +73,7 @@ public class SideCharactersService {
 
             result.add(sideCharacter);
         }
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        return new ResponseEntity(result, HttpStatus.OK);
     }
 
     public ResponseEntity findAllSideCharacters() {
@@ -93,7 +93,7 @@ public class SideCharactersService {
             }
             result.add(sideCharacter);
         }
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        return new ResponseEntity(result, HttpStatus.OK);
     }
 
     public ResponseEntity getSideCharacterDetails(Long id) {
@@ -144,7 +144,7 @@ public class SideCharactersService {
         }
         sideCharFromDb.setArchived(sideChar.getArchived());
         sideCharactersRepository.saveAndFlush(sideCharFromDb);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
     public ResponseEntity addNewSideCharacter(MultipartHttpServletRequest multipartHttpServletRequest){

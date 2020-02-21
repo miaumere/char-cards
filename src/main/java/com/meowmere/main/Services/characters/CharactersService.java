@@ -86,7 +86,7 @@ public class CharactersService {
         Character oneCharacter = characterRepository.getNonArchivedCharacter(externalId);
         if(oneCharacter == null) {
             String err = "Nie udało się znaleźć postaci o podanym id.";
-            return new ResponseEntity<>(err, HttpStatus.NOT_FOUND);
+            return new ResponseEntity(err, HttpStatus.NOT_FOUND);
         }
 
         CharacterDTO dto = modelMapper.map(oneCharacter, CharacterDTO.class);
@@ -134,7 +134,7 @@ public class CharactersService {
         }
         dto.setImagesList(imagesList);
 
-        return new ResponseEntity<>(dto, HttpStatus.OK);
+        return new ResponseEntity(dto, HttpStatus.OK);
     }
 
     public ResponseEntity getEveryCharacter() {
@@ -159,13 +159,13 @@ public class CharactersService {
     public ResponseEntity changeStatusForCharacter(ChangeCharacterStateRequest character) {
             Character charToChange = characterRepository.getOne(character.getId());
             if(charToChange == null) {
-                return new ResponseEntity<>("Nie można zmienić stanu postaci o nieistniejącym id.",
+                return new ResponseEntity("Nie można zmienić stanu postaci o nieistniejącym id.",
                         HttpStatus.NOT_FOUND);
             }
             charToChange.setArchived(character.getArchived());
             characterRepository.save(charToChange);
 
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
     public ResponseEntity getTitles() {
