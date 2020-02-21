@@ -5,21 +5,23 @@ import { IconComponent } from './components/icon/icon.component';
 import { NulledPipe } from './pipes/nulled.pipe';
 import { SanitizerPipe } from './pipes/sanitizer.pipe';
 
+const sharedDeclarations = [
+	IconComponent,
+	LoaderComponent,
+	NulledPipe,
+	SanitizerPipe
+]
+
 @NgModule({
-  declarations: [
-    IconComponent,
-    LoaderComponent,
-    NulledPipe,
-    SanitizerPipe
-  ],
-  imports: [
-    CommonModule
-  ],
-  exports: [
-    IconComponent,
-    NulledPipe,
-    SanitizerPipe,
-    LoaderComponent
-  ]
+	declarations: [
+		...sharedDeclarations
+	],
+	imports: [
+		CommonModule
+	],
+	exports: [
+		...sharedDeclarations
+	]
 })
 export class SharedModule { }
+
