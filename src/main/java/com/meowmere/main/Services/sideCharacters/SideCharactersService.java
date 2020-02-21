@@ -177,7 +177,7 @@ public class SideCharactersService {
             }
         }
 
-        if(books == null) {
+        if(books.size() == 0) {
             sideCharacter.setBooks(null);
         }
 
