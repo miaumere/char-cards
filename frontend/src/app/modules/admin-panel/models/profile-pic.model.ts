@@ -1,4 +1,4 @@
-export class ProfilePic {
-  image: string;
-  extension: string;
+export interface ProfilePic {
+	image: string;
+	extension: string;
 }
