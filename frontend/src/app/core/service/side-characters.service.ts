@@ -1,13 +1,13 @@
+import { ISideCharacterDetails } from './../../modules/admin-panel/models/side-characters-details.model';
 import { EditSideCharacterDetails } from './../../modules/admin-panel/models/edit-side-character-details.model';
 import { SideCharForChange } from './../../modules/admin-panel/models/side-char-for-change.model';
-import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { SideCharacter, SideCharacterForListItem } from 'src/app/modules/side-characters/models/side-characters.model';
 import { NewSideChar } from 'src/app/modules/admin-panel/models/new-side-char.model';
-import { SideCharacterDetails } from 'src/app/modules/admin-panel/models/side-characters-details.model';
-import { Book } from 'src/app/modules/admin-panel/models/book.model';
-import { filter, map } from 'rxjs/operators';
+import { IBook } from 'src/app/modules/admin-panel/models/book.model';
+import { map } from 'rxjs/operators';
+import { ISideCharacter } from 'src/app/modules/side-characters/models/side-character.model';
+import { ISideCharacterForListItem } from 'src/app/modules/side-characters/models/side-character-for-list-item.model';
 
 @Injectable({
   providedIn: 'root'
@@ -31,33 +31,33 @@ export class SideCharactersService {
 
   constructor(private http: HttpClient) { }
 
-  getSideCharacters(): Observable<SideCharacter[]> {
-    return this.http.get<SideCharacter[]>(this.getNonArchivedSideCharactersURL);
+  getSideCharacters() {
+    return this.http.get<ISideCharacter[]>(this.getNonArchivedSideCharactersURL);
   }
 
-  getBooks(): Observable<Book[]> {
-    return this.http.get<Book[]>(this.getBooksURL);
+  getBooks() {
+    return this.http.get<IBook[]>(this.getBooksURL);
   }
 
-  getAllSideCharacters(): Observable<SideCharacterForListItem[]> {
-    return this.http.get<SideCharacterForListItem[]>(this.getAllSideCharactersURL);
+  getAllSideCharacters() {
+    return this.http.get<ISideCharacterForListItem[]>(this.getAllSideCharactersURL);
   }
 
-  getSideCharacterDetails(id: number): Observable<SideCharacterDetails> {
+  getSideCharacterDetails(id: number) {
     const params = new HttpParams().set('id', '' + id);
 
-    return this.http.get<SideCharacterDetails>(this.getSideCharacterDetailsURL, { params })
+    return this.http.get<ISideCharacterDetails>(this.getSideCharacterDetailsURL, { params })
   }
 
-  putSideCharacterDetails(requestBody: EditSideCharacterDetails): Observable<EditSideCharacterDetails> {
+  putSideCharacterDetails(requestBody: EditSideCharacterDetails) {
     return this.http.put<EditSideCharacterDetails>(this.putSideCharacterDetailsURL, requestBody);
   }
 
-  patchSideCharacterState(requestBody: SideCharForChange): Observable<SideCharForChange> {
+  patchSideCharacterState(requestBody: SideCharForChange) {
     return this.http.patch<SideCharForChange>(this.patchSideCharactersStateURL, requestBody);
   }
 
-  postNewCharacter(formData: FormData): Observable<NewSideChar> {
+  postNewCharacter(formData: FormData) {
     const httpOptions = {
       headers: new HttpHeaders({
         Accept: 'application/json'
@@ -77,7 +77,7 @@ export class SideCharactersService {
   }
 
 
-  getSideCharacter(charId: number): Observable<SideCharacterForListItem[]> {
+  getSideCharacter(charId: number) {
     return this.getAllSideCharacters()
       .pipe(
         map(sideCharArray => sideCharArray.filter(sideChar => sideChar.externalId === charId))

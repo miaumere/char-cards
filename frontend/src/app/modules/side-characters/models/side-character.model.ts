@@ -1,17 +1,16 @@
-import { IBook } from './book.model';
-
-export interface ISideCharacterDetails {
+export interface ISideCharacter {
   externalId: number;
   sideCharacterName: string;
   sideCharacterSurname: string;
   sideCharacterDesc: string;
-  books: IBook[];
 }
-
-export class SideCharacterDetails {
+export class SideCharacter implements ISideCharacter {
   externalId: number;
   sideCharacterName: string;
   sideCharacterSurname: string;
   sideCharacterDesc: string;
-  books: IBook[];
+
+  constructor(initialValues: ISideCharacter) {
+    Object.assign(this, initialValues);
+  }
 }

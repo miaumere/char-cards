@@ -1,12 +1,9 @@
-import { Title } from '@angular/platform-browser';
-
-export class StoryForCharacter {
-  id: number | null;
-  title: Title;
-  story: string | null;
+export interface IStory {
+  titleId: number;
+  story: string;
 }
 
-export class Story {
+export class Story implements IStory {
   constructor(titleId, story) {
     this.titleId = titleId;
     this.story = story;

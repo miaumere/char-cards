@@ -1,4 +1,4 @@
-export class Book {
+export interface IBook {
   externalId: number;
   name: number;
   color: number;

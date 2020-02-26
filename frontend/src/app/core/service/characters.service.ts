@@ -1,21 +1,22 @@
 import { NewTitle } from './../../modules/admin-panel/models/new-title.model';
 import { EditTitle } from './../../modules/admin-panel/models/edit-title.model';
-import { EditCharacter } from './../../modules/admin-panel/models/edit-character.model';
+import { EditCharacter, IEditCharacter } from './../../modules/admin-panel/models/edit-character.model';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { tap, map } from 'rxjs/operators';
-import { CharacterItem, CharacterForListItem } from 'src/app/modules/characters/models/character-item.model';
-import { Character } from 'src/app/modules/characters/models/character.model';
+import { CharacterItem, ICharacterItem } from 'src/app/modules/characters/models/character-item.model';
+import { Character, ICharacter } from 'src/app/modules/characters/models/character.model';
 import { CharacterForChange } from 'src/app/modules/admin-panel/models/character-for-change.model';
-import { Titles } from 'src/app/modules/admin-panel/models/titles.model';
-import { StoryForCharacter } from 'src/app/modules/admin-panel/models/story.model';
-import { Quote } from 'src/app/modules/characters/models/quote.model';
+import { Quote, IQuote } from 'src/app/modules/characters/models/quote.model';
 import { NewQuote } from 'src/app/modules/admin-panel/models/new-quote.model';
 import { EditQuote } from 'src/app/modules/admin-panel/models/edit-quote.model';
 import { StoryToSend } from 'src/app/modules/admin-panel/models/story-to-send.model';
 import { StoryToEdit } from 'src/app/modules/admin-panel/models/story-to-edit.model';
+import { ICharacterForListItem } from 'src/app/modules/characters/models/character-for-list-item.model';
+import { IStoryForCharacter } from 'src/app/modules/admin-panel/models/story-for-character.model';
+import { ITitle, Title } from 'src/app/modules/admin-panel/models/title.model';
 
 @Injectable({
   providedIn: 'root'
@@ -63,67 +64,68 @@ export class CharactersService {
   }
 
   // only characters which aren't archived:
-  getCharacters(): Observable<CharacterItem[]> {
-    return this.http.get<CharacterItem[]>(this._getNonArchivedCharactersURL)
+  getCharacters() {
+    return this.http.get<ICharacterItem[]>(this._getNonArchivedCharactersURL)
       .pipe(
         tap(response => {
-          this.charList$.next(response);
+          const mappedResponse = response.map(r => new CharacterItem(r));
+          this.charList$.next(mappedResponse);
         })
       );
   }
 
   // archived and non-archived characters:
-  getAllCharacters(): Observable<CharacterForListItem[]> {
-    return this.http.get<CharacterForListItem[]>(this._getAllCharactersURL);
+  getAllCharacters() {
+    return this.http.get<ICharacterForListItem[]>(this._getAllCharactersURL);
   }
 
-  getCharacterById(id: number): Observable<Character> {
-    return this.http.get<Character>(`${this._getCharacterByIdURL}/${id}`);
+  getCharacterById(id: number) {
+    return this.http.get<ICharacter>(`${this._getCharacterByIdURL}/${id}`);
   }
 
-  getStoryTitles(): Observable<Titles[]> {
-    return this.http.get<Titles[]>(this._getStoryTitlesURL);
+  getStoryTitles() {
+    return this.http.get<ITitle[]>(this._getStoryTitlesURL);
   }
 
-  getStoriesForCharacter(id: number): Observable<StoryForCharacter[]> {
+  getStoriesForCharacter(id: number) {
     const params = new HttpParams().set('id', '' + id);
 
-    return this.http.get<StoryForCharacter[]>(this._getStoriesForCharURL, { params });
+    return this.http.get<IStoryForCharacter[]>(this._getStoriesForCharURL, { params });
   }
 
-  getQuotesForCharacter(id: number): Observable<Quote[]> {
+  getQuotesForCharacter(id: number) {
     const params = new HttpParams().set('id', '' + id);
 
-    return this.http.get<Quote[]>(this._getQuotesURL, { params });
+    return this.http.get<IQuote[]>(this._getQuotesURL, { params });
   }
 
-  getCharacterDetails(id: number): Observable<EditCharacter> {
+  getCharacterDetails(id: number) {
     const params = new HttpParams().set('id', '' + id);
 
-    return this.http.get<EditCharacter>(this._getCharacterDetailsURL, { params });
+    return this.http.get<IEditCharacter>(this._getCharacterDetailsURL, { params });
   }
 
-  patchCharacterState(requestBody: CharacterForChange): Observable<CharacterForChange> {
+  patchCharacterState(requestBody: CharacterForChange) {
     return this.http.patch<CharacterForChange>(this._patchChangeStateURL, requestBody);
   }
 
-  patchQuote(requestBody: EditQuote): Observable<EditQuote> {
+  patchQuote(requestBody: EditQuote) {
     return this.http.patch<EditQuote>(this._patchQuoteURL, requestBody);
   }
 
-  patchTitle(requestBody: EditTitle): Observable<EditTitle> {
+  patchTitle(requestBody: EditTitle) {
     return this.http.patch<EditTitle>(this._patchTitleURL, requestBody);
   }
 
-  patchTitlesSequence(requestBody: Titles[]): Observable<Titles[]> {
-    return this.http.patch<Titles[]>(this._patchTitlesSequenceURL, requestBody);
+  patchTitlesSequence(requestBody: Title[]) {
+    return this.http.patch<Title[]>(this._patchTitlesSequenceURL, requestBody);
   }
 
-  patchStory(requestBody: StoryToEdit): Observable<StoryToEdit> {
+  patchStory(requestBody: StoryToEdit) {
     return this.http.patch<StoryToEdit>(this._patchStoryURL, requestBody);
   }
 
-  postStoryForCharacter(requestBody: StoryToSend): Observable<StoryToSend> {
+  postStoryForCharacter(requestBody: StoryToSend) {
     return this.http.post<StoryToSend>(this._postStoryForCharacterURL, requestBody);
   }
 
@@ -151,43 +153,43 @@ export class CharactersService {
   }
 
 
-  postNewQuote(requestBody: NewQuote): Observable<NewQuote> {
+  postNewQuote(requestBody: NewQuote) {
     return this.http.post<NewQuote>(this._postNewQuoteURL, requestBody);
   }
 
-  postNewTitle(requestBody: NewTitle): Observable<NewTitle> {
+  postNewTitle(requestBody: NewTitle) {
     return this.http.post<NewTitle>(this._postNewTitleURL, requestBody);
   }
 
-  putCharacterDetails(requestBody: EditCharacter, idDead: boolean): Observable<EditCharacter> {
+  putCharacterDetails(requestBody: EditCharacter, idDead: boolean) {
     const params = new HttpParams().set('isDead', '' + idDead);
 
     return this.http.put<EditCharacter>(this._putEditCharacterURL, requestBody, { params });
   }
 
-  deleteQuote(quoteId: number): Observable<void> {
+  deleteQuote(quoteId: number) {
     const params = new HttpParams().set('id', '' + quoteId);
     return this.http.delete<void>(this._deleteQuoteURL, { params });
   }
 
-  deleteTitle(titleId: number): Observable<void> {
+  deleteTitle(titleId: number) {
     const params = new HttpParams().set('id', '' + titleId);
     return this.http.delete<void>(this._deleteTitleURL, { params });
   }
 
-  deleteStory(storyId: number): Observable<void> {
+  deleteStory(storyId: number) {
     const params = new HttpParams().set('id', '' + storyId);
     return this.http.delete<void>(this._deleteStoryURL, { params });
   }
 
-  deleteImage(imageId: number): Observable<void> {
+  deleteImage(imageId: number) {
     const params = new HttpParams().set('id', '' + imageId);
     return this.http.delete<void>(this._deleteImageURL, { params });
   }
 
   // custom methods:
 
-  getCharacter(charId: number): Observable<CharacterForListItem[]> {
+  getCharacter(charId: number) {
     return this.getAllCharacters().pipe(
       map(charArray => charArray.filter(char => char.id === charId))
     );

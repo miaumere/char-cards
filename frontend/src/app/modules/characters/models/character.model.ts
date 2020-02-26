@@ -1,8 +1,26 @@
-import { Colors } from './colors.model';
-import { Temperament } from './temperament.model';
-import { Measurements } from './measurements.model';
-import { Quote } from '@angular/compiler';
 import { Story } from '../../admin-panel/models/story.model';
+import { IColors } from './colors.model';
+import { IImageForMain } from './image-for-main.model';
+import { ITemperament } from './temperament.model';
+import { IMeasurements } from './measurements.model';
+import { IQuote } from './quote.model';
+
+
+export interface ICharacter {
+  externalId: number;
+  charName: string;
+  charSurname: string;
+  birthday: number;
+  death: number;
+  deathReason: string;
+  occupation: string;
+  story: Story[];
+  colors: IColors;
+  imagesList: IImageForMain[];
+  temperament: ITemperament;
+  measurements: IMeasurements;
+  quotes: IQuote;
+}
 
 export class Character {
   externalId: number;
@@ -13,17 +31,10 @@ export class Character {
   deathReason: string;
   occupation: string;
   story: Story[];
-  colors: Colors;
-  imagesList: ImageForMain[];
-  temperament: Temperament;
-  measurements: Measurements;
-  quotes: Quote;
+  colors: IColors;
+  imagesList: IImageForMain[];
+  temperament: ITemperament;
+  measurements: IMeasurements;
+  quotes: IQuote;
 }
 
-
-export class ImageForMain {
-  id: number;
-  extension: string;
-  name: string;
-  image: string;
-}
