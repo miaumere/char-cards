@@ -74,7 +74,7 @@
   }
   &__textarea {
     width: 100%;
-    min-height: 100px;
+    min-height: 6.25rem;
 
     margin-top: 1rem;
 
@@ -95,14 +95,14 @@
     }
   }
   &__details {
-    height: 100px;
-    width: 200px;
+    height: 6.25rem;
+    width: 12.5rem;
 
     &--new-char {
       display: flex;
       flex-direction: column;
 
-      width: 200px;
+      width: 12.5rem;
     }
 
     &__container {
@@ -117,7 +117,7 @@
 }
 .details {
   &__death-date {
-    width: 130px;
+    width: 8.125rem;
 
     padding: 0;
   }
@@ -218,13 +218,13 @@
   display: flex;
   flex-direction: column;
 
-  width: 450px;
+  width: 28.125rem;
 
   &__summary {
     display: flex;
     align-items: center;
 
-    width: 450px;
+    width: 28.125rem;
 
     padding: 1rem;
     border-radius: 3px;
@@ -237,13 +237,13 @@
   }
 
   &__title {
-    max-width: 350px;
+    max-width: 21.875rem;
   }
 
   &__story {
     resize: vertical;
 
-    min-height: 100px;
+    min-height: 6.25rem;
     width: 100%;
     width: -webkit-fill-available;
   }
@@ -269,8 +269,8 @@
   }
   &__textarea {
     width: 40vw;
-    min-height: 50px;
-    max-height: 200px;
+    min-height: 3.125rem;
+    max-height: 12.5rem;
 
     margin: 5px 0 1rem 0;
 
@@ -296,7 +296,7 @@
   display: flex;
   align-items: center;
 
-  width: 250px;
+  width: 15.625rem;
 
   padding: 0.5rem;
 
@@ -347,7 +347,7 @@
 
 .measurements {
   &__input {
-    width: 50px;
+    width: 3.125rem;
   }
 }
 
@@ -392,7 +392,7 @@
   }
 
   &__new-quote-form {
-    width: 350px;
+    width: 21.875rem;
   }
 
   &__textarea {
@@ -425,7 +425,7 @@
   display: flex;
   flex-direction: column;
 
-  width: 250px;
+  width: 15.625rem;
 
   margin: 1rem;
   border: 1px solid white;
@@ -484,8 +484,8 @@
 
 .profile-pic {
   display: flex;
-  width: 120px;
-  height: 120px;
+  width: 7.5rem;
+  height: 7.5rem;
   object-fit: scale-down;
 
   background-position: 50% 50%;

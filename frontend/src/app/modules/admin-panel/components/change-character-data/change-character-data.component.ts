@@ -38,20 +38,20 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
 
   titles: Title[] | null = null;
 
-  books: IBook[];
+  books: IBook[] | null = null;
 
-  quotes: Quote[];
+  quotes: Quote[] | null = null;
   isQuoteFormShown = false;
 
   selectedCharId: number;
   sideCharacterDetails: SideCharacterDetails;
   detailsBooksIds: number[] = [];
 
-  profilePicForSide: IProfilePic;
-  profilePicForMain: IProfilePic;
-  imagesListForMain: IImageForMain[];
+  profilePicForSide: IProfilePic | null = null;
+  profilePicForMain: IProfilePic | null = null;
+  imagesListForMain: IImageForMain[] | null = null;
 
-  stories: StoryForCharacter[];
+  stories: StoryForCharacter[] | null = null;
 
   newSideCharForm = new FormGroup({
     name: new FormControl('', [
@@ -210,7 +210,7 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
           }
         }
       }
-      console.log('wartość: ', formArray.value.toString());
+      // console.log('wartość: ', formArray.value.toString());
       this.detailsBooksIds = formArray.value;
     }
 
@@ -259,7 +259,7 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
   }
 
   setBookValue(bookId) {
-    const foundBook = this.sideCharacterDetails.books.find(b => {
+    const foundBook = this.sideCharacterDetails.books.some(b => {
       return b.externalId === bookId;
     });
 
@@ -271,7 +271,7 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
   }
 
   createNewSideCharInfo() {
-    console.log(this.newSideCharForm);
+    // console.log(this.newSideCharForm);
 
     if (this.newSideCharForm.invalid) {
       this._toastrService.warning('Aby kontynuować, wypełnij wszystkie pola.');
@@ -283,11 +283,14 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
       const fileSize = fileToUpload.size / 1024 / 1024;
       const extensionReg = /(jpg|jpeg|gif|png)/i;
       if (!extensionReg.test(extension)) {
-        return this._toastrService.warning('Niewspierany format pliku.');
+        this._toastrService.warning('Niewspierany format pliku.');
+        return;
       } else if (fileSize > 4) {
-        return this._toastrService.warning('Podany plik jest za duży. Maksymalna wielkość pliku to 4MB.');
+        this._toastrService.warning('Podany plik jest za duży. Maksymalna wielkość pliku to 4MB.');
+        return;
       } else if (fileSize === 0) {
-        return this._toastrService.warning('Podany plik jest pusty lub uszkodzony.');
+        this._toastrService.warning('Podany plik jest pusty lub uszkodzony.');
+        return;
       }
     }
     const formValues: { [key: string]: string } = this.newSideCharForm.value;
@@ -368,17 +371,19 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
     const objToSend = new NewTitle();
     objToSend.title = value;
 
-    this._characterService.postNewTitle(objToSend)
-      .pipe(
-        finalize(() => {
-          this.loading = false;
+    this.subscriptions$.add(
+      this._characterService.postNewTitle(objToSend)
+        .pipe(
+          finalize(() => {
+            this.loading = false;
+          })
+        ).subscribe(_ => {
+          this._toastrService.success('Udało się dodać nowy tytuł!');
+          this.getStoryTitles();
+        }, err => {
+          this._toastrService.error(err?.error);
         })
-      ).subscribe(_ => {
-        this._toastrService.success('Udało się dodać nowy tytuł!');
-        this.getStoryTitles();
-      }, err => {
-        this._toastrService.error(err?.error);
-      })
+    )
   }
 
   changeSequence(titleIndex: number, action: 'UP' | 'DOWN') {
@@ -411,7 +416,7 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
               this.loading = false;
             })
           ).subscribe(_ => {
-            console.log('sekwencja zostala zapisana.')
+            // console.log('sekwencja zostala zapisana.')
           })
       )
 
@@ -522,21 +527,23 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
     for (const [key, value] of Object.entries(formValues)) {
       objToSend[key] = value;
     }
+    this.subscriptions$.add(
 
-    this._characterService
-      .postNewQuote(objToSend)
-      .pipe(
-        finalize(() => {
-          this.loading = false;
-        })
-      ).subscribe(_ => {
-        this._toastrService.success('Udało się dodać nowy cytat!');
-        this.getQuotes();
-        this.newQuoteForm.reset();
-      },
-        err => {
-          this._toastrService.error(err?.error);
-        });
+
+      this._characterService
+        .postNewQuote(objToSend)
+        .pipe(
+          finalize(() => {
+            this.loading = false;
+          })
+        ).subscribe(_ => {
+          this._toastrService.success('Udało się dodać nowy cytat!');
+          this.getQuotes();
+          this.newQuoteForm.reset();
+        },
+          err => {
+            this._toastrService.error(err?.error);
+          }))
   }
 
   getSideCharacterDetails() {
@@ -582,7 +589,7 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
 
         },
           err => {
-            if (err && err.error) {
+            if (err?.error) {
               this._toastrService.error(err.error);
             }
           })
@@ -603,7 +610,6 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
     objToSend.sideCharacterSurname = formValues.surname;
     objToSend.sideCharacterDesc = formValues.desc;
     objToSend.booksIds = this.detailsBooksIds;
-    this.loading = true;
 
     this.subscriptions$.add(
       this._sideCharacterService
@@ -822,16 +828,20 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
       }
     }
 
-
     this.subscriptions$.add(
       this._characterService
         .postEditImages(formData, this.selectedCharId)
+        .pipe(
+          finalize(() => {
+            this.loading = false;
+          })
+        )
         .subscribe(_ => {
           this._toastrService.success('Udało się zmienić zdjęcia dla postaci!');
           this.getCharacterImages();
         },
           err => {
-            if (err && err.error) {
+            if (err?.error) {
               this._toastrService.error(err.error);
             }
           })

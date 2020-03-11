@@ -104,12 +104,12 @@ export class CharacterModifyComponent extends BaseComponent implements OnInit {
 
   // TODO: poprawić typ, string nie moze byc dodawany
   chosenForm: any = 1;
-  form: FormGroup;
+  form = new FormGroup({});
 
   loading = true;
 
-  @Input() type;
-  @Input() charId;
+  @Input() type: 'NEW' | 'EDIT';
+  @Input() charId: number;
 
   constructor(
     private _toastrService: ToastrService,
@@ -149,7 +149,7 @@ export class CharacterModifyComponent extends BaseComponent implements OnInit {
     });
   }
 
-  changeDeathState() {
+  toggleDeathState() {
     this.isDead = !this.isDead;
   }
 
@@ -186,7 +186,7 @@ export class CharacterModifyComponent extends BaseComponent implements OnInit {
   }
 
   handleFileInput(files: FileList, multiple: boolean) {
-    multiple ? this.images = files : this.profilePic = files.item(0);
+    multiple ? (this.images = files) : (this.profilePic = files.item(0));
   }
 
   modifyCharacter() {
@@ -313,48 +313,51 @@ export class CharacterModifyComponent extends BaseComponent implements OnInit {
   }
 
   getCharacterDetails() {
-    this._charactersService
-      .getCharacterDetails(this.charId)
-      .pipe(
-        finalize(() => {
-          this.loading = false;
-        })
-      ).subscribe(charDetails => {
-        if (this.editCharacterForm) {
-          this.birthdayDate = charDetails.birthday;
-          this.deathDate = charDetails.death;
+    this.subscriptions$.add(
 
-          this.editCharacterForm.get('name')?.setValue(charDetails.charName);
-          this.editCharacterForm.get('surname')?.setValue(charDetails.charSurname);
-          // this.editCharacterForm.get('birthday')?.setValue(charDetails.birthday ? timestampToDate(charDetails.birthday) : null);
-          // this.editCharacterForm.get('death')?.setValue(charDetails.death ? timestampToDate(charDetails.death) : null);
-          this.editCharacterForm.get('deathReason')?.setValue(charDetails.deathReason);
-          this.editCharacterForm.get('profession')?.setValue(charDetails.occupation);
+      this._charactersService
+        .getCharacterDetails(this.charId)
+        .pipe(
+          finalize(() => {
+            this.loading = false;
+          })
+        ).subscribe(charDetails => {
+          if (this.editCharacterForm) {
+            this.birthdayDate = charDetails.birthday;
+            this.deathDate = charDetails.death;
 
-          this.editCharacterForm.get('themeColor1')?.setValue(charDetails.colors.themeColor1);
-          this.editCharacterForm.get('themeColor2')?.setValue(charDetails.colors.themeColor2);
-          this.editCharacterForm.get('themeColor3')?.setValue(charDetails.colors.themeColor3);
-          this.editCharacterForm.get('eyeColor1')?.setValue(charDetails.colors.eyeColor1);
-          this.editCharacterForm.get('eyeColor2')?.setValue(charDetails.colors.eyeColor2);
-          this.editCharacterForm.get('hairColor')?.setValue(charDetails.colors.hairColor);
-          this.editCharacterForm.get('skinColor')?.setValue(charDetails.colors.skinColor);
+            this.editCharacterForm.get('name')?.setValue(charDetails.charName);
+            this.editCharacterForm.get('surname')?.setValue(charDetails.charSurname);
+            // this.editCharacterForm.get('birthday')?.setValue(charDetails.birthday ? timestampToDate(charDetails.birthday) : null);
+            // this.editCharacterForm.get('death')?.setValue(charDetails.death ? timestampToDate(charDetails.death) : null);
+            this.editCharacterForm.get('deathReason')?.setValue(charDetails.deathReason);
+            this.editCharacterForm.get('profession')?.setValue(charDetails.occupation);
 
-          this.editCharacterForm.get('melancholic')?.setValue(charDetails.temperament.melancholic);
-          this.editCharacterForm.get('flegmatic')?.setValue(charDetails.temperament.flegmatic);
-          this.editCharacterForm.get('sanguine')?.setValue(charDetails.temperament.sanguine);
-          this.editCharacterForm.get('choleric')?.setValue(charDetails.temperament.choleric);
+            this.editCharacterForm.get('themeColor1')?.setValue(charDetails.colors.themeColor1);
+            this.editCharacterForm.get('themeColor2')?.setValue(charDetails.colors.themeColor2);
+            this.editCharacterForm.get('themeColor3')?.setValue(charDetails.colors.themeColor3);
+            this.editCharacterForm.get('eyeColor1')?.setValue(charDetails.colors.eyeColor1);
+            this.editCharacterForm.get('eyeColor2')?.setValue(charDetails.colors.eyeColor2);
+            this.editCharacterForm.get('hairColor')?.setValue(charDetails.colors.hairColor);
+            this.editCharacterForm.get('skinColor')?.setValue(charDetails.colors.skinColor);
 
-          this.editCharacterForm.get('babyHeight')?.setValue(charDetails.measurements.babyHeight);
-          this.editCharacterForm.get('babyWeight')?.setValue(charDetails.measurements.babyWeight);
-          this.editCharacterForm.get('childHeight')?.setValue(charDetails.measurements.childHeight);
-          this.editCharacterForm.get('childWeight')?.setValue(charDetails.measurements.childWeight);
-          this.editCharacterForm.get('teenHeight')?.setValue(charDetails.measurements.teenHeight);
-          this.editCharacterForm.get('teenWeight')?.setValue(charDetails.measurements.teenWeight);
-          this.editCharacterForm.get('adultHeight')?.setValue(charDetails.measurements.adultHeight);
-          this.editCharacterForm.get('adultWeight')?.setValue(charDetails.measurements.adultWeight);
+            this.editCharacterForm.get('melancholic')?.setValue(charDetails.temperament.melancholic);
+            this.editCharacterForm.get('flegmatic')?.setValue(charDetails.temperament.flegmatic);
+            this.editCharacterForm.get('sanguine')?.setValue(charDetails.temperament.sanguine);
+            this.editCharacterForm.get('choleric')?.setValue(charDetails.temperament.choleric);
+
+            this.editCharacterForm.get('babyHeight')?.setValue(charDetails.measurements.babyHeight);
+            this.editCharacterForm.get('babyWeight')?.setValue(charDetails.measurements.babyWeight);
+            this.editCharacterForm.get('childHeight')?.setValue(charDetails.measurements.childHeight);
+            this.editCharacterForm.get('childWeight')?.setValue(charDetails.measurements.childWeight);
+            this.editCharacterForm.get('teenHeight')?.setValue(charDetails.measurements.teenHeight);
+            this.editCharacterForm.get('teenWeight')?.setValue(charDetails.measurements.teenWeight);
+            this.editCharacterForm.get('adultHeight')?.setValue(charDetails.measurements.adultHeight);
+            this.editCharacterForm.get('adultWeight')?.setValue(charDetails.measurements.adultWeight);
+          }
         }
-      }
-      )
+        )
+    )
   }
 
 }

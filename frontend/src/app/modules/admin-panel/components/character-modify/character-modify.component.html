@@ -61,7 +61,7 @@
           <label class="global-label  form-container__label">
             Śmierć:
             <span style="font-size: 0.5rem;" *ngIf="deathDate">Obecna data: {{deathDate | date: 'dd/MM/yyyy'}}</span>
-            <input type="checkbox" checked (change)="changeDeathState()" />
+            <input type="checkbox" checked (change)="toggleDeathState()" />
             <details class="form-container__details details">
               <summary>Detale dot. śmierci:</summary>
               <label class="global-label form-container__label">

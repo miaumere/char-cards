@@ -1,13 +1,13 @@
 .profile-pic {
-  height: 80px;
-  width: 80px;
+  height: 5rem;
+  width: 5rem;
 
   border-radius: 50%;
   padding: 1rem 0;
 
   &__image {
-    width: 80px;
-    height: 80px;
+    height: 5rem;
+    width: 5rem;
     object-fit: scale-down;
 
     background-position: 50% 50%;
@@ -22,7 +22,7 @@
 }
 
 .sidebar {
-  height: 120px;
+  height: 7.5rem;
 
   padding-left: 0.7rem;
   padding-right: 0.2rem;
@@ -41,7 +41,7 @@
 .item {
   display: flex;
 
-  height: 130px;
+  height: 8.125rem;
 
   padding: 0.5rem;
   margin: 1rem;
@@ -60,15 +60,15 @@
     justify-content: center;
     align-items: center;
 
-    width: 100px;
-    height: 130px;
+    width: 6.25rem;
+    height: 8.125rem;
 
     cursor: pointer;
   }
 }
 
 .char-info {
-  width: 100px;
+  width: 6.25rem;
 
   white-space: nowrap;
   overflow: hidden;

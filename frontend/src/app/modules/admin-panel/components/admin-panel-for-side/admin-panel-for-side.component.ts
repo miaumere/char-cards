@@ -47,17 +47,20 @@ export class AdminPanelForSideComponent extends BaseComponent implements OnInit 
     );
 
     if (matchingChar) {
-      this._sideCharacterService
-        .patchSideCharacterState(new SideCharForChange(id, !matchingChar.archived))
-        .subscribe(_ => {
-          this._toastrService.success('Udało się zmienić stan zaznaczonej postaci.');
-          this.getAllSideCharacters();
-        },
-          err => {
-            if (err && err.error) {
-              this._toastrService.error(err.error);
-            }
-          })
+      this.subscriptions$.add(
+        this._sideCharacterService
+          .patchSideCharacterState(new SideCharForChange(id, !matchingChar.archived))
+          .subscribe(_ => {
+            this._toastrService.success('Udało się zmienić stan zaznaczonej postaci.');
+            this.getAllSideCharacters();
+          },
+            err => {
+              if (err && err.error) {
+                this._toastrService.error(err.error);
+              }
+            })
+
+      )
     }
 
   }
