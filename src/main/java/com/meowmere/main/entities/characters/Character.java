@@ -26,9 +26,6 @@ public class Character {
     private String deathReason;
     @Column
     private String occupation;
-    @Column(length = 2000)
-    private String story;
-
     @Column
     public Boolean archived = false;
 
@@ -116,14 +113,6 @@ public class Character {
 
     public void setDeath(Long death) {
         this.death = death;
-    }
-
-    public String getStory() {
-        return story;
-    }
-
-    public void setStory(String story) {
-        this.story = story;
     }
 
     public Set<Colors> getColors() {return colors;}
