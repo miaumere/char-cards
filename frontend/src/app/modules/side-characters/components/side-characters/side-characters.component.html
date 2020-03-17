@@ -1,5 +1,35 @@
 <app-loader [visible]="!sideCharacters && loading"></app-loader>
 
+<aside class="search-box">
+  <div class="search-box__item">
+    Znajdź postać po nazwie:
+    <input type="text" class="global-input">
+  </div>
+
+  <div *ngIf="books?.length > 0" class="search-box__item search-box__item--books search-books">
+    <details class="search-books__details">
+      <summary>Znajdź postać po szkicowniku:</summary>
+      <div class="search-books__content">
+        <div *ngFor="let book of books">
+          <input type="checkbox" class="global-input">
+          <app-icon [icon]="'book'" [color]="book.color" [size]="1"></app-icon>
+          {{book.name}}
+        </div>
+      </div>
+    </details>
+  </div>
+
+  <div *ngIf="characters?.length > 0" class="search-box__item">
+    Znajdź postać po pokrewieństwie do:
+    <select>
+      <option value="0">-----</option>
+      <option *ngFor="let character of characters" [value]="character.id">{{character.charName}}
+        {{character.charSurname}}</option>
+    </select>
+
+  </div>
+</aside>
+
 <article class="side-character" *ngIf="sideCharacters?.length > 0 && !loading">
   <div class="side-character__box box" *ngFor="let sideCharacter of sideCharacters">
     <div class="box__books books" *ngIf="sideCharacter.books">

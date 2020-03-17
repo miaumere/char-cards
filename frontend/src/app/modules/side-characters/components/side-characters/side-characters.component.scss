@@ -1,14 +1,20 @@
 @import "../../../../../global_styles/variables.scss";
 
+$gradient1: #420730;
+$gradient2: #435548;
+
+$search-box-height: 3rem;
+$search-box-bg: #1d1d1d;
+
 .side-character {
   display: flex;
   justify-content: space-evenly;
   flex-wrap: wrap;
 
-  min-height: calc(100vh - #{$navbar-height});
+  min-height: calc(100vh - #{$navbar-height} - #{$search-box-height});
 
   background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAATklEQVQoU2NkYGAwZmBgOMuAACA+CKCIMSIpADGRNaEYgKwQ3WQUjTCF6CYhWw2WAynEpgjmIpg7jUlSiM0TWK2GWUOUZ7ApxggeogIcABHJFtftKVfJAAAAAElFTkSuQmCC"),
-    linear-gradient(to bottom, #3b464d 0%, #49597c 100%);
+    linear-gradient(to bottom, $gradient1 0%, $gradient2 100%);
   background-blend-mode: multiply;
 
   &__box {
@@ -79,5 +85,42 @@
   height: 100%;
   &__item {
     padding: 0.5rem;
+  }
+}
+
+.search-box {
+  display: flex;
+
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+
+  background: $search-box-bg;
+
+  height: $search-box-height;
+
+  &__item {
+    margin: 0 0.1rem;
+  }
+}
+
+$search-books-width: 11rem;
+
+.search-books {
+  &__details {
+    width: $search-books-width;
+
+    transition: 0.2s;
+  }
+  &__content {
+    z-index: map-get($z-index, search-book);
+
+    position: absolute;
+
+    width: $search-books-width;
+    max-height: 100px;
+
+    overflow: scroll;
+    background: $search-box-bg;
   }
 }
