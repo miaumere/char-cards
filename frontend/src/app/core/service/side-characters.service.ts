@@ -31,8 +31,13 @@ export class SideCharactersService {
 
   constructor(private http: HttpClient) { }
 
-  getSideCharacters() {
-    return this.http.get<ISideCharacter[]>(this.getNonArchivedSideCharactersURL);
+  getSideCharacters(name?: string, books?: number[], relatedTo?: number) {
+    const params = new HttpParams()
+      .set('name', '' + name)
+      .set('books', '' + books)
+      .set('relatedTo', '' + relatedTo);
+
+    return this.http.get<ISideCharacter[]>(this.getNonArchivedSideCharactersURL, { params });
   }
 
   getBooks() {

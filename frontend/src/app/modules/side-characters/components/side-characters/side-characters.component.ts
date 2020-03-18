@@ -36,7 +36,7 @@ export class SideCharactersComponent extends BaseComponent implements OnInit {
   getSideCharacters() {
     this.subscriptions$.add(
       this._sideCharactersService
-        .getSideCharacters()
+        .getSideCharacters("", [1, 2], 23)
         .pipe(
           finalize(() => {
             this.loading = false;
@@ -84,13 +84,15 @@ export class SideCharactersComponent extends BaseComponent implements OnInit {
         } else if (controlKey.includes('name')) {
           searchParams.charName = element.value;
         } else if (controlKey.includes('relationTo')) {
-          !!element.value ? searchParams.relationTo = +element.value : searchParams.relationTo = null;
+          searchParams.relationTo = +element.value
         }
 
       }
     }
     searchParams.books = booksIds;
     console.log(searchParams)
+
+    this._sideCharactersService.getSideCharacters(searchParams.charName, searchParams.books, searchParams.relationTo)
   }
 
 }

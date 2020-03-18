@@ -23,6 +23,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SideCharactersService {
@@ -46,7 +47,11 @@ public class SideCharactersService {
         dto.setBooks(booksForSide);
     }
 
-    public ResponseEntity findNonArchivedSideCharacters() {
+    public ResponseEntity findNonArchivedSideCharacters(
+            Optional<String> name,
+            Optional<List<Long>> bookIds,
+            Optional<Long> relatedTo
+    ) {
         List<SideCharacter> sideCharactersFromDb = sideCharactersRepository.getNonArchivedSideCharacters();
         ModelMapper modelMapper = new ModelMapper();
         ArrayList<SideCharacterDTO> result = new ArrayList<>();

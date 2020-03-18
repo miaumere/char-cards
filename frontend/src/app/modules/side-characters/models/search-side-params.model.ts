@@ -1,5 +1,5 @@
 export class SearchSideParams {
-  charName: string | null;
-  books: number[] | null;
-  relationTo: number | null;
+  charName?: string;
+  books?: number[];
+  relationTo?: number;
 }

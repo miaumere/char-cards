@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/side-characters/")
@@ -18,8 +20,12 @@ public class SideCharactersController {
     SideCharactersService sideCharactersService;
 
     @GetMapping("/side-characters")
-    public ResponseEntity returnSideCharacters() {
-        return sideCharactersService.findNonArchivedSideCharacters();
+    public ResponseEntity returnSideCharacters(
+            @RequestParam Optional<String> name,
+            @RequestParam Optional<List<Long>> books,
+            @RequestParam Optional<Long> relatedTo
+    ) {
+        return sideCharactersService.findNonArchivedSideCharacters(name, books, relatedTo);
     }
 
     @GetMapping("/all-side-characters")
