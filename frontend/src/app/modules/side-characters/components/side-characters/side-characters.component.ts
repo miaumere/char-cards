@@ -1,4 +1,3 @@
-import { element } from 'protractor';
 import { NgForm } from '@angular/forms';
 import { IBook } from './../../../admin-panel/models/book.model';
 import { Component, OnInit } from '@angular/core';
@@ -79,21 +78,19 @@ export class SideCharactersComponent extends BaseComponent implements OnInit {
     for (const controlKey in form.controls) {
       if (form.controls.hasOwnProperty(controlKey)) {
         const element = form.controls[controlKey];
-        console.log(controlKey)
         if (controlKey.includes('book__') && !!element.value) {
           const controlId = +controlKey.replace('book__', '');
           booksIds.push(controlId);
         } else if (controlKey.includes('name')) {
           searchParams.charName = element.value;
         } else if (controlKey.includes('relationTo')) {
-
+          !!element.value ? searchParams.relationTo = +element.value : searchParams.relationTo = null;
         }
 
       }
     }
     searchParams.books = booksIds;
-
-    console.log('wyszukiwanie!');
+    console.log(searchParams)
   }
 
 }
