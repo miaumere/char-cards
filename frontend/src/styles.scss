@@ -135,6 +135,15 @@ button {
 
     font-size: 0.6rem;
   }
+
+  &-select {
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-shadow: 1px 1px 1px #999;
+
+    outline: none;
+  }
 }
 
 ::-webkit-resizer {

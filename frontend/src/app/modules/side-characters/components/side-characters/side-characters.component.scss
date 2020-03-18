@@ -102,6 +102,10 @@ $search-box-bg: #1d1d1d;
   &__item {
     margin: 0 0.1rem;
   }
+
+  &__form {
+    display: contents;
+  }
 }
 
 $search-books-width: 11rem;
@@ -122,5 +126,11 @@ $search-books-width: 11rem;
 
     overflow: scroll;
     background: $search-box-bg;
+  }
+}
+
+.box {
+  &__relations {
+    display: flex;
   }
 }
