@@ -1,5 +1,6 @@
 package com.meowmere.main.entities.sideCharacters;
 
+import com.meowmere.main.entities.relationships.Relationship;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 import org.hibernate.validator.constraints.Length;
@@ -35,6 +36,9 @@ public class SideCharacter {
 
     @OneToMany(mappedBy = "sideCharacter", cascade = CascadeType.ALL)
     private Set<ProfilePic> profilePics;
+
+    @OneToMany(mappedBy = "sideCharacter", cascade = CascadeType.ALL)
+    private Set<Relationship> relationships;
 
     protected SideCharacter(){}
 
@@ -96,6 +100,14 @@ public class SideCharacter {
 
     public void setProfilePics(Set<ProfilePic> profilePics) {
         this.profilePics = profilePics;
+    }
+
+    public Set<Relationship> getRelationships() {
+        return relationships;
+    }
+
+    public void setRelationships(Set<Relationship> relationships) {
+        this.relationships = relationships;
     }
 }
 

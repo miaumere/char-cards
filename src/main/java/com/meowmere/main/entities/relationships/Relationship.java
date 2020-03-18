@@ -25,7 +25,7 @@ public class Relationship {
     @ManyToOne(fetch = FetchType.LAZY)
     @NotFound(action = NotFoundAction.IGNORE)
     @JoinColumn(name = "side_character_id", unique = true)
-    private SideCharacter sideCharacter;
+    public SideCharacter sideCharacter;
 
     public Long getId() {
         return id;

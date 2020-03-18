@@ -52,7 +52,7 @@ public class SideCharactersService {
             Optional<List<Long>> bookIds,
             Optional<Long> relatedTo
     ) {
-        List<SideCharacter> sideCharactersFromDb = sideCharactersRepository.getNonArchivedSideCharacters();
+        List<SideCharacter> sideCharactersFromDb = sideCharactersRepository.getMatchingSideCharacters(name);
         ModelMapper modelMapper = new ModelMapper();
         ArrayList<SideCharacterDTO> result = new ArrayList<>();
         for (SideCharacter sideCharacterFromDb : sideCharactersFromDb) {

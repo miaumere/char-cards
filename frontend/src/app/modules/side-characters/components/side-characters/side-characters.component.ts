@@ -28,15 +28,15 @@ export class SideCharactersComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getSideCharacters();
+    this.getSideCharacters("", "", "");
     this.getBooks();
     this.getCharacterList();
   }
 
-  getSideCharacters() {
+  getSideCharacters(name, books, relatedTo) {
     this.subscriptions$.add(
       this._sideCharactersService
-        .getSideCharacters("", [1, 2], 23)
+        .getSideCharacters(name, books, relatedTo)
         .pipe(
           finalize(() => {
             this.loading = false;
@@ -92,7 +92,7 @@ export class SideCharactersComponent extends BaseComponent implements OnInit {
     searchParams.books = booksIds;
     console.log(searchParams)
 
-    this._sideCharactersService.getSideCharacters(searchParams.charName, searchParams.books, searchParams.relationTo)
+    this.getSideCharacters(searchParams.charName, searchParams.books, searchParams.relationTo)
   }
 
 }

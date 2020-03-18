@@ -15,8 +15,10 @@ public interface SideCharactersRepository extends JpaRepository<SideCharacter, L
     List<SideCharacter> getNonArchivedSideCharacters();
 
     @Query("SELECT s FROM SideCharacter s " +
-            "WHERE (:name is null or s.sideCharacterName like %:name%)"
+            "WHERE (:name is null or s.sideCharacterName like %:name%) "
+
     )List<SideCharacter> getMatchingSideCharacters(
             @Param("name") Optional<String> name
+//            @Param("relatedTo") Optional<Long> relatedTo
     );
 }
