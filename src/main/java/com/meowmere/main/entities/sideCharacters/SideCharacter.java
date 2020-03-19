@@ -17,10 +17,10 @@ public class SideCharacter {
     public Long externalId;
 
     @Column
-    private String sideCharacterName;
+    public String sideCharacterName;
 
     @Column
-    private String sideCharacterSurname;
+    public String sideCharacterSurname;
 
     @Column
     @Length(max = 2000)
@@ -38,7 +38,7 @@ public class SideCharacter {
     private Set<ProfilePic> profilePics;
 
     @OneToMany(mappedBy = "sideCharacter", cascade = CascadeType.ALL)
-    private Set<Relationship> relationships;
+    private List<Relationship> relationships;
 
     protected SideCharacter(){}
 
@@ -102,11 +102,11 @@ public class SideCharacter {
         this.profilePics = profilePics;
     }
 
-    public Set<Relationship> getRelationships() {
+    public List<Relationship> getRelationships() {
         return relationships;
     }
 
-    public void setRelationships(Set<Relationship> relationships) {
+    public void setRelationships(List<Relationship> relationships) {
         this.relationships = relationships;
     }
 }

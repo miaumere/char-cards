@@ -9,6 +9,7 @@ public class SideCharacterDTO {
     public String sideCharacterDesc;
     public List<BookDTO> books;
     public ProfilePicDTO profilePic;
+    public List<RelationshipDTO> relationships;
 
     public Long getExternalId() {
         return externalId;
@@ -56,5 +57,13 @@ public class SideCharacterDTO {
 
     public void setBooks(List<BookDTO> books) {
         this.books = books;
+    }
+
+    public List<RelationshipDTO> getRelationships() {
+        return relationships;
+    }
+
+    public void setRelationships(List<RelationshipDTO> relationships) {
+        this.relationships = relationships;
     }
 }

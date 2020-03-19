@@ -1,6 +1,7 @@
 package com.meowmere.main.services.sideCharacters;
 
 import com.meowmere.main.dto.sideCharacters.*;
+import com.meowmere.main.entities.relationships.Relationship;
 import com.meowmere.main.entities.sideCharacters.Book;
 import com.meowmere.main.entities.sideCharacters.ProfilePic;
 import com.meowmere.main.entities.sideCharacters.SideCharacter;
@@ -66,6 +67,18 @@ public class SideCharactersService {
                 }
             }
             sideCharacter.setBooks(booksForSide);
+
+            List<Relationship> relationships = sideCharacterFromDb.getRelationships();
+            ArrayList<RelationshipDTO> relationshipDTOS = new ArrayList<>();
+            if(relationships != null) {
+                for (Relationship relationship : relationships) {
+                    RelationshipDTO relationshipDTO = modelMapper.map(relationship, RelationshipDTO.class);
+                    relationshipDTO.setRelativeName(relationship.getCharacter().getCharName());
+                    relationshipDTO.setRelativeSurname(relationship.getCharacter().getCharSurname());
+                    relationshipDTOS.add(relationshipDTO);
+                }
+            }
+            sideCharacter.setRelationships(relationshipDTOS);
 
             ProfilePic profilePic = profilePicRepository.getProfilePicForCharacter(sideCharacter.getExternalId());
             if(profilePic != null) {

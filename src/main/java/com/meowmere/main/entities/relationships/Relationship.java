@@ -20,7 +20,7 @@ public class Relationship {
     @ManyToOne(fetch = FetchType.LAZY)
     @NotFound(action = NotFoundAction.IGNORE)
     @JoinColumn(name = "character_id", unique = true)
-    private Character character;
+    public Character character;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @NotFound(action = NotFoundAction.IGNORE)

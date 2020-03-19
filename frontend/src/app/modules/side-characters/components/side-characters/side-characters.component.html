@@ -62,9 +62,14 @@
     </div>
     <div class="box__relations">
       <app-icon [icon]="'branch'" [size]="0.8" [color]="'grey'"></app-icon>
-      <ul>
-        <li>Micet (syn)</li>
+      <ul *ngIf="sideCharacter.relationships?.length > 0">
+        <li *ngFor="let relation of sideCharacter.relationships">
+          {{relation.relativeName}} {{relation.relativeSurname}} ({{relation.relation}})
+        </li>
       </ul>
+      <div *ngIf="sideCharacter.relationships?.length <= 0">
+        Brak znanych relacji rodzinnych.
+      </div>
     </div>
   </div>
 </article>
