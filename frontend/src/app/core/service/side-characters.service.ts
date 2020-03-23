@@ -8,26 +8,28 @@ import { IBook } from 'src/app/modules/admin-panel/models/book.model';
 import { map } from 'rxjs/operators';
 import { ISideCharacter } from 'src/app/modules/side-characters/models/side-character.model';
 import { ISideCharacterForListItem } from 'src/app/modules/side-characters/models/side-character-for-list-item.model';
+import { IRelationship } from 'src/app/modules/side-characters/models/relationships.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SideCharactersService {
-  sideCharacterControllerURL = '/api/side-characters';
+  readonly sideCharacterControllerURL = '/api/side-characters';
 
-  getNonArchivedSideCharactersURL = `${this.sideCharacterControllerURL}/side-characters`;
-  getAllSideCharactersURL = `${this.sideCharacterControllerURL}/all-side-characters`;
-  getSideCharacterDetailsURL = `${this.sideCharacterControllerURL}/side-details`;
-  getBooksURL = `${this.sideCharacterControllerURL}/books`;
+  readonly getNonArchivedSideCharactersURL = `${this.sideCharacterControllerURL}/side-characters`;
+  readonly getAllSideCharactersURL = `${this.sideCharacterControllerURL}/all-side-characters`;
+  readonly getSideCharacterDetailsURL = `${this.sideCharacterControllerURL}/side-details`;
+  readonly getBooksURL = `${this.sideCharacterControllerURL}/books`;
+  readonly getRelationsURL = `${this.sideCharacterControllerURL}/relations`;
 
-  putSideCharacterDetailsURL = `${this.sideCharacterControllerURL}/edit-side-details`;
+  readonly putSideCharacterDetailsURL = `${this.sideCharacterControllerURL}/edit-side-details`;
 
+  readonly patchSideCharactersStateURL = `${this.sideCharacterControllerURL}/change-state`;
 
-  patchSideCharactersStateURL = `${this.sideCharacterControllerURL}/change-state`;
+  readonly postNewCharacterURL = `${this.sideCharacterControllerURL}/new-side-character`;
+  readonly postEditProfilePicURL = `${this.sideCharacterControllerURL}/edit-side-pic`;
 
-  postNewCharacterURL = `${this.sideCharacterControllerURL}/new-side-character`;
-  postEditProfilePicURL = `${this.sideCharacterControllerURL}/edit-side-pic`;
-
+  readonly deleteRelationURL = `${this.sideCharacterControllerURL}/delete-relation`;
 
   constructor(private http: HttpClient) { }
 
@@ -51,7 +53,13 @@ export class SideCharactersService {
   getSideCharacterDetails(id: number) {
     const params = new HttpParams().set('id', '' + id);
 
-    return this.http.get<ISideCharacterDetails>(this.getSideCharacterDetailsURL, { params })
+    return this.http.get<ISideCharacterDetails>(this.getSideCharacterDetailsURL, { params });
+  }
+
+  getRelationsForSideChar(id: number) {
+    const params = new HttpParams().set('id', '' + id);
+
+    return this.http.get<IRelationship[]>(this.getRelationsURL, { params });
   }
 
   putSideCharacterDetails(requestBody: EditSideCharacterDetails) {
@@ -89,5 +97,9 @@ export class SideCharactersService {
       )
   }
 
+  deleteRelationsForSideChar(relationId: number) {
+    const params = new HttpParams().set('id', '' + relationId);
+    return this.http.delete<void>(this.deleteRelationURL, { params });
+  }
 
 }

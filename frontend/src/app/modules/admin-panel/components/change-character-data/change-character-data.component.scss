@@ -1,4 +1,7 @@
 @import "../../../../../global_styles/variables.scss";
+$border-radius: 3px;
+
+$background1: #0000007d;
 
 .changes {
   display: flex;
@@ -53,7 +56,7 @@
 
   min-height: 50vh;
 
-  border-radius: 3px;
+  border-radius: $border-radius;
 
   background: rgba(0, 0, 0, 0.2);
 
@@ -227,7 +230,7 @@
     width: 28.125rem;
 
     padding: 1rem;
-    border-radius: 3px;
+    border-radius: $border-radius;
 
     background: rgba(0, 0, 0, 0.5);
 
@@ -300,7 +303,7 @@
 
   padding: 0.5rem;
 
-  background: #0000007d;
+  background: $background1;
 
   transition: 0.2s;
 
@@ -357,7 +360,7 @@
   align-items: center;
   flex-wrap: wrap;
 
-  border-radius: 3px;
+  border-radius: $border-radius;
 
   background: #ffffff3b;
 }
@@ -430,7 +433,7 @@
   margin: 1rem;
   border: 1px solid white;
 
-  background: #0000007d;
+  background: $background1;
 
   transition: 0.2s;
 
@@ -510,7 +513,7 @@
   &__item {
     margin: 5px;
 
-    border-radius: 3px;
+    border-radius: $border-radius;
     padding: 1rem;
     padding-top: 0;
 
@@ -529,4 +532,21 @@
   display: flex;
   justify-content: space-evenly;
   align-items: baseline;
+}
+
+.relation {
+  display: flex;
+  margin: 1rem;
+  padding: 0.5rem;
+  border-radius: $border-radius;
+
+  background: $background1;
+  &__option {
+    display: flex;
+    flex-direction: column;
+  }
+  &__box {
+    padding: 1rem;
+    width: 12.5rem;
+  }
 }

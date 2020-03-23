@@ -1,3 +1,4 @@
+import { IRelationship } from './../../../side-characters/models/relationships.model';
 import { StoryToEdit } from './../../models/story-to-edit.model';
 import { NewTitle } from './../../models/new-title.model';
 import { EditTitle } from './../../models/edit-title.model';
@@ -23,7 +24,7 @@ import { Title } from '../../models/title.model';
 import { IImageForMain } from 'src/app/modules/characters/models/image-for-main.model';
 
 type changeOptions = 'new-character' | 'edit-character' | 'delete-character' | 'story' | 'edit-images'
-  | 'new-chars' | 'edit-side' | 'edit-side-pic' | 'quotes' | 'story-for-char';
+  | 'new-chars' | 'edit-side' | 'edit-side-pic' | 'quotes' | 'story-for-char' | 'relations';
 @Component({
   selector: 'app-change-character-data',
   templateUrl: './change-character-data.component.html',
@@ -52,6 +53,8 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
   imagesListForMain: IImageForMain[] | null = null;
 
   stories: StoryForCharacter[] | null = null;
+
+  relations: IRelationship[] | null = null;
 
   newSideCharForm = new FormGroup({
     name: new FormControl('', [
@@ -127,7 +130,8 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
         this._route.params.subscribe(param => {
           this.changeType = param.name;
           if (param.name === 'edit-side' || param.name === 'edit-side-pic' || param.name === 'edit-images' ||
-            param.name === 'edit-character' || param.name === 'story-for-char' || param.name === 'quotes') {
+            param.name === 'edit-character' || param.name === 'story-for-char' || param.name === 'quotes'
+            || param.name === 'relations') {
             this._route.queryParams.subscribe(queryParam => {
               if (queryParam.id) {
                 this.selectedCharId = +queryParam.id;
@@ -173,6 +177,9 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
         this.getSideCharacterImages();
         break;
 
+      case 'relations':
+        this.getRelationsForCharacter();
+        break;
       case 'edit-character':
       case 'new-character':
         this.loading = false;
@@ -848,4 +855,35 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
     );
   }
 
+  getRelationsForCharacter() {
+    this.loading = true;
+
+    this.subscriptions$.add(
+      this._sideCharacterService
+        .getRelationsForSideChar(this.selectedCharId)
+        .pipe(
+          finalize(() => {
+            this.loading = false;
+          })
+        ).subscribe(relations => {
+          this.relations = relations;
+        })
+    )
+  }
+
+  deleteRelation(relationId: number) {
+    this.loading = true;
+    this._sideCharacterService
+      .deleteRelationsForSideChar(relationId)
+      .pipe(
+        finalize(() => {
+          this.loading = false;
+        })
+      ).subscribe(_ => {
+        this._toastrService.success('Usunięto wybraną relację.')
+      })
+
+    this.getRelationsForCharacter();
+
+  }
 }

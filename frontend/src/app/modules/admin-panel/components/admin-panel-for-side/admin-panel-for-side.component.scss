@@ -22,7 +22,7 @@
 }
 
 .sidebar {
-  height: 7.5rem;
+  height: 80%;
 
   padding-left: 0.7rem;
   padding-right: 0.2rem;
@@ -74,4 +74,12 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.change-state {
+  position: absolute;
+
+  margin-top: -0.2rem;
+
+  cursor: pointer;
 }

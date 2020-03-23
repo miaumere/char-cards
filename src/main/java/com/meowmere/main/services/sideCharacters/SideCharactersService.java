@@ -1,9 +1,7 @@
 package com.meowmere.main.services.sideCharacters;
 
-import com.meowmere.main.dto.sideCharacters.BookDTO;
-import com.meowmere.main.dto.sideCharacters.ProfilePicDTO;
-import com.meowmere.main.dto.sideCharacters.SideCharacterDetailsDTO;
-import com.meowmere.main.dto.sideCharacters.SideCharacterForListDTO;
+import com.meowmere.main.dto.sideCharacters.*;
+import com.meowmere.main.entities.relationships.Relationship;
 import com.meowmere.main.entities.sideCharacters.Book;
 import com.meowmere.main.entities.sideCharacters.ProfilePic;
 import com.meowmere.main.entities.sideCharacters.SideCharacter;
@@ -59,6 +57,8 @@ public class SideCharactersService {
             Optional<List<Long>> bookIds,
             Optional<Long> relatedTo
     ) {
+
+        // + dodać sortowanie wyników
         List<Object> xxx = relationshipRepository.getRelationCharacterIds(Long.parseLong("1"));
 
         System.out.println();
@@ -136,6 +136,21 @@ public class SideCharactersService {
         SideCharacterDetailsDTO dto = modelMapper.map(sideCharFromDb, SideCharacterDetailsDTO.class);
         setSideCharactersBooks(sideCharFromDb, dto);
         return new ResponseEntity(dto, HttpStatus.OK);
+    }
+
+    public ResponseEntity getRelationsForSideChar(Long id){
+        ModelMapper modelMapper = new ModelMapper();
+        ArrayList<RelationshipDTO> relationshipDTOS = new ArrayList<>();
+        List<Relationship> relationships = relationshipRepository.getRelationsForSideCharacter(id);
+        if(relationships != null){
+            for (Relationship relationship : relationships) {
+                RelationshipDTO relationshipDTO = modelMapper.map(relationship, RelationshipDTO.class);
+                relationshipDTO.setRelativeName(relationship.getCharacter().getCharName());
+                relationshipDTO.setRelativeSurname(relationship.getCharacter().getCharSurname());
+                relationshipDTOS.add(relationshipDTO);
+            }
+        }
+        return new ResponseEntity(relationshipDTOS, HttpStatus.OK);
     }
 
     public ResponseEntity editSideCharacterDetails(EditSideCharRequest request){
@@ -279,4 +294,15 @@ public class SideCharactersService {
 
         return new ResponseEntity(result, HttpStatus.OK);
     }
+
+    public ResponseEntity deleteRelationForChar(Long id) {
+                Relationship relationship = relationshipRepository.getOne(id);
+        if (relationship == null) {
+            String msg = "Nie ma takiej relacji bądź została ona już wcześniej usunięta";
+            return new ResponseEntity(msg, HttpStatus.NOT_FOUND);
+        }
+        relationshipRepository.delete(relationship);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
 }

@@ -11,6 +11,17 @@
 
     <div class=" menu__item item" *ngFor="let character of sideChars">
       <div class="item__char-info char-info">
+        <div class="change-state" title="Zmień stan postaci" (click)="changeStateOfChar(character.externalId)">
+          <span [ngSwitch]="character.archived">
+            <span *ngSwitchCase="true">
+              <app-icon [icon]="'non-archive'" [color]="'#317142'"></app-icon>
+            </span>
+            <span *ngSwitchCase="false">
+              <app-icon [icon]="'archive'" [color]="'#b84343'"></app-icon>
+            </span>
+          </span>
+
+        </div>
         <div class="char-info__profile-pic profile-pic" *ngIf="character.profilePic">
           <img
             [src]="'data:image/' + character.profilePic?.extension + ';base64, ' + character.profilePic.image | sanitizer"
@@ -28,21 +39,17 @@
           }">
           <app-icon [icon]="'edit'" [color]="'black'"></app-icon>
         </div>
-        <div class="sidebar__option" title="Zmień zdjęcie postaci" [routerLink]="['../change', 'edit-side-pic']"
+        <div class="sidebar__option" title="Zmień profilowe postaci" [routerLink]="['../change', 'edit-side-pic']"
           [queryParams]="{
           id: character.externalId
         }">
           <app-icon [icon]="'edit-picture'" [color]="'black'"></app-icon>
         </div>
-        <div class="sidebar__option" title="Zmień stan postaci" (click)="changeStateOfChar(character.externalId)">
-          <span [ngSwitch]="character.archived">
-            <span *ngSwitchCase="true">
-              <app-icon [icon]="'non-archive'" [color]="'#317142'"></app-icon>
-            </span>
-            <span *ngSwitchCase="false">
-              <app-icon [icon]="'archive'" [color]="'#b84343'"></app-icon>
-            </span>
-          </span>
+        <div class="sidebar__option" title="Edytuj relacje postaci" [routerLink]="['../change', 'relations']"
+          [queryParams]="{
+          id: character.externalId
+        }">
+          <app-icon [icon]="'branch'" [color]="'black'"></app-icon>
 
         </div>
       </div>

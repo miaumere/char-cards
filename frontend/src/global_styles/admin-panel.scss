@@ -1,5 +1,10 @@
 @import "../global_styles/variables.scss";
 
+$image-url: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAHCAYAAADEUlfTAAAAHElEQVQYV2P8//+/FAMOwAiSZGRkfIZNftBJAgCjnxsfZU2cTgAAAABJRU5ErkJggg==";
+
+$gradient1: #4db5c552;
+$gradient2: #0b1725;
+
 .admin-panel {
   display: flex;
   flex-direction: column;
@@ -10,22 +15,10 @@
   height: calc(100vh - #{$navbar-height});
   width: 100vw;
 
-  &--menu {
-    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAATklEQVQoU2NkYGAwZmBgOMuAACA+CKCIMSIpADGRNaEYgKwQ3WQUjTCF6CYhWw2WAynEpgjmIpg7jUlSiM0TWK2GWUOUZ7ApxggeogIcABHJFtftKVfJAAAAAElFTkSuQmCC"),
-      linear-gradient(to bottom, #4d5963 0%, #4d4e50 33%, #322c38 100%);
-  }
-  &--main {
-    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAATklEQVQoU2NkYGAwZmBgOMuAACA+CKCIMSIpADGRNaEYgKwQ3WQUjTCF6CYhWw2WAynEpgjmIpg7jUlSiM0TWK2GWUOUZ7ApxggeogIcABHJFtftKVfJAAAAAElFTkSuQmCC"),
-      linear-gradient(to bottom, #4d5063 0%, #2c3238 100%);
-  }
-  &--side {
-    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAATklEQVQoU2NkYGAwZmBgOMuAACA+CKCIMSIpADGRNaEYgKwQ3WQUjTCF6CYhWw2WAynEpgjmIpg7jUlSiM0TWK2GWUOUZ7ApxggeogIcABHJFtftKVfJAAAAAElFTkSuQmCC"),
-      linear-gradient(to bottom, #634d5b 0%, #382c2c 100%);
-  }
+  background-image: url($image-url), linear-gradient(60deg, $gradient1 0%, $gradient2 100%);
 
-  &--login {
-    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAATklEQVQoU2NkYGAwZmBgOMuAACA+CKCIMSIpADGRNaEYgKwQ3WQUjTCF6CYhWw2WAynEpgjmIpg7jUlSiM0TWK2GWUOUZ7ApxggeogIcABHJFtftKVfJAAAAAElFTkSuQmCC"),
-      linear-gradient(60deg, #29323c 0%, #485563 100%);
+  &--main {
+    background-image: url($image-url), linear-gradient(60deg, $gradient1 0%, $gradient2 100%);
   }
 }
 

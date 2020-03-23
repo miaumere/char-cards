@@ -37,6 +37,15 @@ public class SideCharactersController {
     public ResponseEntity getSideCharacterDetails(@RequestParam Long id){
         return sideCharactersService.getSideCharacterDetails(id);
     }
+    @GetMapping("/books")
+    public ResponseEntity getAllBooks() {
+        return sideCharactersService.getAllBooks();
+    }
+
+    @GetMapping("/relations")
+    public ResponseEntity getRelationsForSideChar(@RequestParam Long id) {
+        return sideCharactersService.getRelationsForSideChar(id);
+    }
 
     @PutMapping("/edit-side-details")
     public ResponseEntity editSideCharacterDetails(@RequestBody EditSideCharRequest request){
@@ -58,8 +67,10 @@ public class SideCharactersController {
         return sideCharactersService.editSideProfilePic(multipartHttpServletRequest);
     }
 
-    @GetMapping("/books")
-    public ResponseEntity getAllBooks() {
-        return sideCharactersService.getAllBooks();
+    @DeleteMapping("/delete-relation")
+    public ResponseEntity deleteRelationForSideChar(@RequestParam Long id) {
+        return sideCharactersService.deleteRelationForChar(id);
     }
+
+
 }

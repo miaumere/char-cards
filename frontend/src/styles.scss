@@ -19,6 +19,9 @@ button {
   font-family: inherit;
 }
 
+$button_gradient1: rgba(0, 0, 0, 0.7);
+$button_gradient2: rgba(0, 0, 0, 0.2);
+
 .global {
   &-button {
     display: flex;
@@ -26,7 +29,7 @@ button {
     align-items: center;
 
     border-radius: 3px;
-    border: 1px solid #322c38;
+    border: 1px solid black;
     padding: 0.5rem;
 
     color: white;
@@ -34,7 +37,7 @@ button {
     font-size: 0.6rem;
     letter-spacing: 2px;
 
-    background: linear-gradient(to bottom, #3a3b47, #302a36);
+    background: linear-gradient(to bottom, $button_gradient1, $button_gradient2);
 
     outline: none;
 
@@ -42,9 +45,9 @@ button {
     text-transform: uppercase;
 
     &:active {
-      border-bottom: 2px solid #1f1b24;
+      border-bottom: 2px solid black;
 
-      background: linear-gradient(to bottom, #302a36, #3a3b47);
+      background: linear-gradient(to bottom, $button_gradient2, $button_gradient1);
 
       transform: translateY(4px);
     }
