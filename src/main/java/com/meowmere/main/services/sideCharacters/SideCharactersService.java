@@ -1,12 +1,15 @@
 package com.meowmere.main.services.sideCharacters;
 
-import com.meowmere.main.dto.sideCharacters.*;
-import com.meowmere.main.entities.relationships.Relationship;
+import com.meowmere.main.dto.sideCharacters.BookDTO;
+import com.meowmere.main.dto.sideCharacters.ProfilePicDTO;
+import com.meowmere.main.dto.sideCharacters.SideCharacterDetailsDTO;
+import com.meowmere.main.dto.sideCharacters.SideCharacterForListDTO;
 import com.meowmere.main.entities.sideCharacters.Book;
 import com.meowmere.main.entities.sideCharacters.ProfilePic;
 import com.meowmere.main.entities.sideCharacters.SideCharacter;
 import com.meowmere.main.repositories.sideCharacters.BookRepository;
 import com.meowmere.main.repositories.sideCharacters.ProfilePicRepository;
+import com.meowmere.main.repositories.sideCharacters.RelationshipRepository;
 import com.meowmere.main.repositories.sideCharacters.SideCharactersRepository;
 import com.meowmere.main.requests.sideCharacters.EditSideCharRequest;
 import com.meowmere.main.requests.sideCharacters.SideCharacterChangeRequest;
@@ -35,6 +38,9 @@ public class SideCharactersService {
     @Autowired
     public ProfilePicRepository profilePicRepository;
 
+    @Autowired
+    public RelationshipRepository relationshipRepository;
+
     private void setSideCharactersBooks(SideCharacter sideCharacterFromDb, SideCharacterDetailsDTO dto) {
         ModelMapper modelMapper = new ModelMapper();
         ArrayList<BookDTO> booksForSide = new ArrayList<>();
@@ -53,45 +59,51 @@ public class SideCharactersService {
             Optional<List<Long>> bookIds,
             Optional<Long> relatedTo
     ) {
-        List<SideCharacter> sideCharactersFromDb = sideCharactersRepository.getMatchingSideCharacters(name);
-        ModelMapper modelMapper = new ModelMapper();
-        ArrayList<SideCharacterDTO> result = new ArrayList<>();
-        for (SideCharacter sideCharacterFromDb : sideCharactersFromDb) {
-            SideCharacterDTO sideCharacter = modelMapper.map(sideCharacterFromDb, SideCharacterDTO.class);
-            ArrayList<BookDTO> booksForSide = new ArrayList<>();
-            List<Book> books = sideCharacterFromDb.getBooks();
-            if(books != null) {
-                for (Book bookForSideChar : books) {
-                BookDTO bookDTO = modelMapper.map(bookForSideChar, BookDTO.class);
-                booksForSide.add(bookDTO);
-                }
-            }
-            sideCharacter.setBooks(booksForSide);
+        List<Object> xxx = relationshipRepository.getRelationCharacterIds(Long.parseLong("1"));
 
-            List<Relationship> relationships = sideCharacterFromDb.getRelationships();
-            ArrayList<RelationshipDTO> relationshipDTOS = new ArrayList<>();
-            if(relationships != null) {
-                for (Relationship relationship : relationships) {
-                    RelationshipDTO relationshipDTO = modelMapper.map(relationship, RelationshipDTO.class);
-                    relationshipDTO.setRelativeName(relationship.getCharacter().getCharName());
-                    relationshipDTO.setRelativeSurname(relationship.getCharacter().getCharSurname());
-                    relationshipDTOS.add(relationshipDTO);
-                }
-            }
-            sideCharacter.setRelationships(relationshipDTOS);
+        System.out.println();
 
-            ProfilePic profilePic = profilePicRepository.getProfilePicForCharacter(sideCharacter.getExternalId());
-            if(profilePic != null) {
-                ProfilePicDTO profilePicDTO = new ProfilePicDTO();
-                profilePicDTO.setExtension(profilePic.getExtension());
-                profilePicDTO.setImage(profilePic.getProfilePic());
 
-                sideCharacter.setProfilePic(profilePicDTO);
-            }
-
-            result.add(sideCharacter);
-        }
-        return new ResponseEntity(result, HttpStatus.OK);
+//
+//        List<SideCharacter> sideCharactersFromDb = sideCharactersRepository.getMatchingSideCharacters(name, relatedTo);
+//        ModelMapper modelMapper = new ModelMapper();
+//        ArrayList<SideCharacterDTO> result = new ArrayList<>();
+//        for (SideCharacter sideCharacterFromDb : sideCharactersFromDb) {
+//            SideCharacterDTO sideCharacter = modelMapper.map(sideCharacterFromDb, SideCharacterDTO.class);
+//            ArrayList<BookDTO> booksForSide = new ArrayList<>();
+//            List<Book> books = sideCharacterFromDb.getBooks();
+//            if(books != null) {
+//                for (Book bookForSideChar : books) {
+//                BookDTO bookDTO = modelMapper.map(bookForSideChar, BookDTO.class);
+//                booksForSide.add(bookDTO);
+//                }
+//            }
+//            sideCharacter.setBooks(booksForSide);
+//
+//            List<Relationship> relationships = sideCharacterFromDb.getRelationships();
+//            ArrayList<RelationshipDTO> relationshipDTOS = new ArrayList<>();
+//            if(relationships != null) {
+//                for (Relationship relationship : relationships) {
+//                    RelationshipDTO relationshipDTO = modelMapper.map(relationship, RelationshipDTO.class);
+//                    relationshipDTO.setRelativeName(relationship.getCharacter().getCharName());
+//                    relationshipDTO.setRelativeSurname(relationship.getCharacter().getCharSurname());
+//                    relationshipDTOS.add(relationshipDTO);
+//                }
+//            }
+//            sideCharacter.setRelationships(relationshipDTOS);
+//
+//            ProfilePic profilePic = profilePicRepository.getProfilePicForCharacter(sideCharacter.getExternalId());
+//            if(profilePic != null) {
+//                ProfilePicDTO profilePicDTO = new ProfilePicDTO();
+//                profilePicDTO.setExtension(profilePic.getExtension());
+//                profilePicDTO.setImage(profilePic.getProfilePic());
+//
+//                sideCharacter.setProfilePic(profilePicDTO);
+//            }
+//
+//            result.add(sideCharacter);
+//        }
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     public ResponseEntity findAllSideCharacters() {

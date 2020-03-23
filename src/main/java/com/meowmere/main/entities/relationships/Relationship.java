@@ -19,12 +19,12 @@ public class Relationship {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @NotFound(action = NotFoundAction.IGNORE)
-    @JoinColumn(name = "character_id", unique = true)
+    @JoinColumn(name = "character_id")
     public Character character;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @NotFound(action = NotFoundAction.IGNORE)
-    @JoinColumn(name = "side_character_id", unique = true)
+    @JoinColumn(name = "side_character_id")
     public SideCharacter sideCharacter;
 
     public Long getId() {
