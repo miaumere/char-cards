@@ -893,6 +893,7 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
     if (!relationElement.isContentEditable) {
       relationElement.setAttribute('contentEditable', 'true');
       relationContainer.classList.add('relation__type--editable');
+      relationElement.classList.add('relation__text--editable')
 
       this._toastrService.info('Aby zapisać zmianę, naciśnij jeszcze raz na ikonkę edycji.');
     } else {

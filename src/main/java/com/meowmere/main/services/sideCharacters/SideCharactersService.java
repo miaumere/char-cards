@@ -109,7 +109,7 @@ public class SideCharactersService {
 
     public ResponseEntity findAllSideCharacters() {
         List<SideCharacter> sideCharactersFromDB = sideCharactersRepository
-                .findAll(Sort.by(Sort.Direction.ASC, "externalId"));
+                .findAll(Sort.by(Sort.Direction.ASC, "sideCharacterName"));
         ModelMapper modelMapper = new ModelMapper();
         ArrayList<SideCharacterForListDTO> result = new ArrayList<>();
 

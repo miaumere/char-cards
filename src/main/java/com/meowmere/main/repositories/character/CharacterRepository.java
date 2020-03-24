@@ -10,7 +10,7 @@ import java.util.List;
 
 @Repository
 public interface CharacterRepository extends JpaRepository<Character, Long> {
-    @Query("SELECT c FROM Character c WHERE c.archived = false ORDER BY c.externalId asc")
+    @Query("SELECT c FROM Character c WHERE c.archived = false ORDER BY c.charName")
     List<Character> getNonArchivedCharacters();
 
     @Query("SELECT c FROM Character c WHERE c.archived = false and c.externalId = :id")

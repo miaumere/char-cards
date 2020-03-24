@@ -139,7 +139,8 @@ public class CharactersService {
 
     public ResponseEntity getEveryCharacter() {
         ModelMapper modelMapper = new ModelMapper();
-        List<Character> charactersFromDb = characterRepository.findAll(Sort.by(Sort.Direction.ASC, "externalId"));
+        List<Character> charactersFromDb =
+                characterRepository.findAll(Sort.by(Sort.Direction.ASC, "charName"));
         ArrayList<EveryCharacterMenuDTO> dtoList = new ArrayList<>();
         for (Character character : charactersFromDb) {
             EveryCharacterMenuDTO dto = modelMapper.map(character, EveryCharacterMenuDTO.class);

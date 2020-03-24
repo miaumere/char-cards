@@ -9,7 +9,7 @@ import java.util.List;
 
 @Repository
 public interface SideCharactersRepository extends JpaRepository<SideCharacter, Long> {
-    @Query("SELECT s FROM SideCharacter s WHERE s.archived = false ORDER BY s.externalId asc")
+    @Query("SELECT s FROM SideCharacter s WHERE s.archived = false ORDER BY s.sideCharacterName")
     List<SideCharacter> getNonArchivedSideCharacters();
 
 

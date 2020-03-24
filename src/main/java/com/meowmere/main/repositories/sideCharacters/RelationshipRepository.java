@@ -15,7 +15,7 @@ public interface RelationshipRepository extends JpaRepository<Relationship, Long
     @Query("SELECT r FROM Relationship r WHERE r.character.externalId = :toCharId")
     List<Object> getRelationCharacterIds(@Param("toCharId") Long toCharId);
 
-    @Query("SELECT r FROM Relationship r WHERE r.sideCharacter.externalId = :sideCharId")
+    @Query("SELECT r FROM Relationship r WHERE r.sideCharacter.externalId = :sideCharId ORDER BY r.character.charName")
     List<Relationship> getRelationsForSideCharacter(@Param("sideCharId") Long toCharId);
 
 }
