@@ -295,13 +295,17 @@
                 (dblclick)="deleteRelation(relation.id)">
                 <app-icon [icon]="'archive'" [color]="'#b84343'"></app-icon>
               </span>
-              <span class="option" title="Edytuj typ relacji" (click)="insertDeleteInfo()">
+              <span class="option" title="Edytuj typ relacji"
+                (click)="editRelationType(relation.id, relationType, relationContainer)">
                 <app-icon [icon]="'edit'" [color]="'whitesmoke'"></app-icon>
               </span>
             </div>
             <div class="relation__box">
               {{relation.relativeName}} {{relation.relativeSurname}}
-              <div class="relation__type">Typ relacji: {{relation.relation}}</div>
+              <div class="relation__type" spellcheck="false" #relationContainer>Typ relacji:
+                <span spellcheck="false" #relationType>
+                  {{relation.relation}}
+                </span></div>
             </div>
           </li>
         </ul>

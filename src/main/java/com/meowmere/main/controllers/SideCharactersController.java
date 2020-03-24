@@ -1,5 +1,6 @@
 package com.meowmere.main.controllers;
 
+import com.meowmere.main.requests.sideCharacters.EditRelationNameRequest;
 import com.meowmere.main.requests.sideCharacters.EditSideCharRequest;
 import com.meowmere.main.requests.sideCharacters.SideCharacterChangeRequest;
 import com.meowmere.main.services.sideCharacters.SideCharactersService;
@@ -55,6 +56,11 @@ public class SideCharactersController {
     @PatchMapping("/change-state")
     public ResponseEntity changeStateOfSideChar(@RequestBody SideCharacterChangeRequest request) {
         return sideCharactersService.changeStateOfSideCharacter(request);
+    }
+
+    @PatchMapping("/edit-relation")
+        public ResponseEntity changeRelationName(@RequestBody EditRelationNameRequest request){
+        return sideCharactersService.editSideCharRelationName(request);
     }
 
     @PostMapping("/new-side-character")

@@ -22,6 +22,7 @@ import { validateImage } from 'src/app/modules/shared/functions/validate-image.f
 import { StoryForCharacter } from '../../models/story-for-character.model';
 import { Title } from '../../models/title.model';
 import { IImageForMain } from 'src/app/modules/characters/models/image-for-main.model';
+import { EditRelation } from '../../models/edit-relation.model';
 
 type changeOptions = 'new-character' | 'edit-character' | 'delete-character' | 'story' | 'edit-images'
   | 'new-chars' | 'edit-side' | 'edit-side-pic' | 'quotes' | 'story-for-char' | 'relations';
@@ -885,5 +886,37 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
 
     this.getRelationsForCharacter();
 
+  }
+
+  editRelationType(relationId: number, relationElement: HTMLElement, relationContainer: HTMLElement) {
+
+    if (!relationElement.isContentEditable) {
+      relationElement.setAttribute('contentEditable', 'true');
+      relationContainer.classList.add('relation__type--editable');
+
+      this._toastrService.info('Aby zapisać zmianę, naciśnij jeszcze raz na ikonkę edycji.');
+    } else {
+      if (relationElement.textContent) {
+        this.loading = true;
+        const objToSend = new EditRelation();
+
+        objToSend.id = relationId;
+        objToSend.name = relationElement.textContent;
+        console.log(objToSend);
+
+        this.subscriptions$.add(
+          this._sideCharacterService
+            .patchRelationName(objToSend).pipe(
+              finalize(() => {
+                this.loading = false;
+              })
+            ).subscribe(_ => {
+              this._toastrService.success('Udało się zmienić typ relacji!');
+              this.getRelationsForCharacter();
+            })
+        )
+      }
+    }
+    console.log(relationId, relationElement);
   }
 }

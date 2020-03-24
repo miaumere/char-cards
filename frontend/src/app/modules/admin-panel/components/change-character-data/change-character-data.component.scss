@@ -549,4 +549,9 @@ $background1: #0000007d;
     padding: 1rem;
     width: 12.5rem;
   }
+  &__type {
+    &--editable {
+      color: red;
+    }
+  }
 }

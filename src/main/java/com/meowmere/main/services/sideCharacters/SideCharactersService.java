@@ -9,6 +9,7 @@ import com.meowmere.main.repositories.sideCharacters.BookRepository;
 import com.meowmere.main.repositories.sideCharacters.ProfilePicRepository;
 import com.meowmere.main.repositories.sideCharacters.RelationshipRepository;
 import com.meowmere.main.repositories.sideCharacters.SideCharactersRepository;
+import com.meowmere.main.requests.sideCharacters.EditRelationNameRequest;
 import com.meowmere.main.requests.sideCharacters.EditSideCharRequest;
 import com.meowmere.main.requests.sideCharacters.SideCharacterChangeRequest;
 import org.apache.commons.io.FilenameUtils;
@@ -178,6 +179,17 @@ public class SideCharactersService {
         sideCharFromDb.setBooks(books);
 
         sideCharactersRepository.saveAndFlush(sideCharFromDb);
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
+    }
+
+    public ResponseEntity editSideCharRelationName(EditRelationNameRequest request){
+        Relationship relationship = relationshipRepository.getOne(request.getId());
+        if (relationship == null) {
+            String msg = "Nie znaleziono relacji o podanym id.";
+            return new ResponseEntity(msg, HttpStatus.NOT_FOUND);
+        }
+        relationship.setRelationType(request.getName());
+        relationshipRepository.saveAndFlush(relationship);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 

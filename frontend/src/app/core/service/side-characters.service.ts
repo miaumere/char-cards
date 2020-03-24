@@ -1,3 +1,4 @@
+import { EditRelation } from './../../modules/admin-panel/models/edit-relation.model';
 import { ISideCharacterDetails } from './../../modules/admin-panel/models/side-characters-details.model';
 import { EditSideCharacterDetails } from './../../modules/admin-panel/models/edit-side-character-details.model';
 import { SideCharForChange } from './../../modules/admin-panel/models/side-char-for-change.model';
@@ -24,6 +25,7 @@ export class SideCharactersService {
 
   readonly putSideCharacterDetailsURL = `${this.sideCharacterControllerURL}/edit-side-details`;
 
+  readonly patchRelationNameURL = `${this.sideCharacterControllerURL}/edit-relation`;
   readonly patchSideCharactersStateURL = `${this.sideCharacterControllerURL}/change-state`;
 
   readonly postNewCharacterURL = `${this.sideCharacterControllerURL}/new-side-character`;
@@ -68,6 +70,10 @@ export class SideCharactersService {
 
   patchSideCharacterState(requestBody: SideCharForChange) {
     return this.http.patch<SideCharForChange>(this.patchSideCharactersStateURL, requestBody);
+  }
+
+  patchRelationName(requestBody: EditRelation) {
+    return this.http.patch<EditRelation>(this.patchRelationNameURL, requestBody);
   }
 
   postNewCharacter(formData: FormData) {
