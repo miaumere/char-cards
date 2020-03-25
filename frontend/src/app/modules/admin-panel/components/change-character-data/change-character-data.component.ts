@@ -1,3 +1,4 @@
+import { NewRelation } from './../../models/new-relation.model';
 import { IRelationship } from './../../../side-characters/models/relationships.model';
 import { StoryToEdit } from './../../models/story-to-edit.model';
 import { NewTitle } from './../../models/new-title.model';
@@ -94,7 +95,6 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
     profilePic: new FormControl()
   });
 
-
   newQuoteForm = new FormGroup({
     quote: new FormControl('', Validators.required),
     context: new FormControl('', Validators.required)
@@ -103,6 +103,13 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
   newTitleForm = new FormGroup({
     title: new FormControl('', Validators.required),
   })
+
+  newRelationForm = new FormGroup({
+    relatedCharacterId: new FormControl('', Validators.required),
+    relationName: new FormControl('', Validators.required)
+  })
+
+  isRelationFormShown = false;
 
   profilePic: File | null = null;
   images: FileList | null = null;
@@ -919,5 +926,32 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
       }
     }
     console.log(relationId, relationElement);
+  }
+
+  showRelationForm() {
+    this.isRelationFormShown = true;
+  }
+
+  createNewRelation() {
+    const objToSend = new NewRelation();
+    objToSend.relatedCharacterId = +this.newRelationForm?.controls['relatedCharacterId']?.value;
+    objToSend.relationName = this.newRelationForm?.controls['relationName']?.value;
+    objToSend.sideCharacterId = this.selectedCharId;
+
+    this.subscriptions$.add(
+      this._sideCharacterService
+        .postNewRelation(objToSend)
+        .pipe(
+          finalize(() => {
+            this.loading = false;
+          })
+        ).subscribe(_ => {
+          this._toastrService.success('Udało się dodać nową relację.');
+          this.getRelationsForCharacter();
+        }, err => {
+          this._toastrService.error(err?.error);
+        }
+        ));
+
   }
 }

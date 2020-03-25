@@ -1,16 +1,19 @@
 package com.meowmere.main.services.sideCharacters;
 
 import com.meowmere.main.dto.sideCharacters.*;
+import com.meowmere.main.entities.characters.Character;
 import com.meowmere.main.entities.relationships.Relationship;
 import com.meowmere.main.entities.sideCharacters.Book;
 import com.meowmere.main.entities.sideCharacters.ProfilePic;
 import com.meowmere.main.entities.sideCharacters.SideCharacter;
+import com.meowmere.main.repositories.character.CharacterRepository;
 import com.meowmere.main.repositories.sideCharacters.BookRepository;
 import com.meowmere.main.repositories.sideCharacters.ProfilePicRepository;
 import com.meowmere.main.repositories.sideCharacters.RelationshipRepository;
 import com.meowmere.main.repositories.sideCharacters.SideCharactersRepository;
 import com.meowmere.main.requests.sideCharacters.EditRelationNameRequest;
 import com.meowmere.main.requests.sideCharacters.EditSideCharRequest;
+import com.meowmere.main.requests.sideCharacters.NewRelationForSideCharRequest;
 import com.meowmere.main.requests.sideCharacters.SideCharacterChangeRequest;
 import org.apache.commons.io.FilenameUtils;
 import org.modelmapper.ModelMapper;
@@ -36,9 +39,10 @@ public class SideCharactersService {
     public BookRepository bookRepository;
     @Autowired
     public ProfilePicRepository profilePicRepository;
-
     @Autowired
     public RelationshipRepository relationshipRepository;
+    @Autowired
+    public CharacterRepository characterRepository;
 
     private void setSideCharactersBooks(SideCharacter sideCharacterFromDb, SideCharacterDetailsDTO dto) {
         ModelMapper modelMapper = new ModelMapper();
@@ -63,9 +67,6 @@ public class SideCharactersService {
         List<Object> xxx = relationshipRepository.getRelationCharacterIds(Long.parseLong("1"));
 
         System.out.println();
-
-
-//
 //        List<SideCharacter> sideCharactersFromDb = sideCharactersRepository.getMatchingSideCharacters(name, relatedTo);
 //        ModelMapper modelMapper = new ModelMapper();
 //        ArrayList<SideCharacterDTO> result = new ArrayList<>();
@@ -305,6 +306,34 @@ public class SideCharactersService {
         });
 
         return new ResponseEntity(result, HttpStatus.OK);
+    }
+
+    public ResponseEntity createNewRelationForSideChar(NewRelationForSideCharRequest request){
+
+        SideCharacter sideCharacter = sideCharactersRepository.getOne(request.getSideCharacterId());
+        Character character = characterRepository.getNonArchivedCharacter(request.getRelatedCharacterId());
+        if(sideCharacter == null) {
+            String msg = "Nie istnieje postać poboczna o podanym id.";
+            return new ResponseEntity(msg, HttpStatus.NOT_FOUND);
+        }
+        if (character == null) {
+            String msg = "Nie istnieje postać po danym id lub została ona wcześniej zarchiwizowana.";
+            return new ResponseEntity(msg, HttpStatus.NOT_FOUND);
+        }
+        List<Relationship> relationshipsForSide =
+                relationshipRepository.getRelationsForSideCharacter(request.getSideCharacterId());
+        for (Relationship relationshipForSide: relationshipsForSide) {
+            if( relationshipForSide.getCharacter().getExternalId() == character.getExternalId()){
+                String msg = "Relacja tych dwóch postaci już została zdefiniowana.";
+                return new ResponseEntity(msg, HttpStatus.BAD_REQUEST);
+            }
+        }
+        Relationship relationshipToSave = new Relationship();
+        relationshipToSave.setRelationType(request.getRelationName());
+        relationshipToSave.setCharacter(character);
+        relationshipToSave.setSideCharacter(sideCharacter);
+        relationshipRepository.saveAndFlush(relationshipToSave);
+        return new ResponseEntity(HttpStatus.CREATED);
     }
 
     public ResponseEntity deleteRelationForChar(Long id) {

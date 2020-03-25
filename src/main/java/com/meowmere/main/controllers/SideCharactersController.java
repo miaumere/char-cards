@@ -2,6 +2,7 @@ package com.meowmere.main.controllers;
 
 import com.meowmere.main.requests.sideCharacters.EditRelationNameRequest;
 import com.meowmere.main.requests.sideCharacters.EditSideCharRequest;
+import com.meowmere.main.requests.sideCharacters.NewRelationForSideCharRequest;
 import com.meowmere.main.requests.sideCharacters.SideCharacterChangeRequest;
 import com.meowmere.main.services.sideCharacters.SideCharactersService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,6 +72,11 @@ public class SideCharactersController {
     @PostMapping("/edit-side-pic")
     public ResponseEntity editSideProfilePic(MultipartHttpServletRequest multipartHttpServletRequest, HttpServletResponse response) {
         return sideCharactersService.editSideProfilePic(multipartHttpServletRequest);
+    }
+
+    @PostMapping("/new-relation")
+    public ResponseEntity createRelation(@RequestBody NewRelationForSideCharRequest request){
+        return sideCharactersService.createNewRelationForSideChar(request);
     }
 
     @DeleteMapping("/delete-relation")

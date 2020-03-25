@@ -10,6 +10,7 @@ import { map } from 'rxjs/operators';
 import { ISideCharacter } from 'src/app/modules/side-characters/models/side-character.model';
 import { ISideCharacterForListItem } from 'src/app/modules/side-characters/models/side-character-for-list-item.model';
 import { IRelationship } from 'src/app/modules/side-characters/models/relationships.model';
+import { NewRelation } from 'src/app/modules/admin-panel/models/new-relation.model';
 
 @Injectable({
   providedIn: 'root'
@@ -30,6 +31,7 @@ export class SideCharactersService {
 
   readonly postNewCharacterURL = `${this.sideCharacterControllerURL}/new-side-character`;
   readonly postEditProfilePicURL = `${this.sideCharacterControllerURL}/edit-side-pic`;
+  readonly postNewRelationURL = `${this.sideCharacterControllerURL}/new-relation`;
 
   readonly deleteRelationURL = `${this.sideCharacterControllerURL}/delete-relation`;
 
@@ -42,6 +44,14 @@ export class SideCharactersService {
       .set('relatedTo', '' + relatedTo);
 
     return this.http.get<ISideCharacter[]>(this.getNonArchivedSideCharactersURL, { params });
+  }
+
+
+  getSideCharacter(charId: number) {
+    return this.getAllSideCharacters()
+      .pipe(
+        map(sideCharArray => sideCharArray.filter(sideChar => sideChar.externalId === charId))
+      )
   }
 
   getBooks() {
@@ -95,12 +105,8 @@ export class SideCharactersService {
     return this.http.post<void>(this.postEditProfilePicURL, formData, httpOptions);
   }
 
-
-  getSideCharacter(charId: number) {
-    return this.getAllSideCharacters()
-      .pipe(
-        map(sideCharArray => sideCharArray.filter(sideChar => sideChar.externalId === charId))
-      )
+  postNewRelation(requestBody: NewRelation) {
+    return this.http.post<NewRelation>(this.postNewRelationURL, requestBody);
   }
 
   deleteRelationsForSideChar(relationId: number) {

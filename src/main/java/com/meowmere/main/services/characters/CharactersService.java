@@ -181,6 +181,11 @@ public class CharactersService {
         return new ResponseEntity(result, HttpStatus.OK);
     }
 
+    public ResponseEntity getCharactersWithoutRelations() {
+        List<Character> test = characterRepository.getCharactersWithoutRelationsForSideChar();
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
     public ResponseEntity setTitlesSequence(List<TitleDTO> titles) {
         for (int i = 0; i < titles.size(); i++) {
             Titles title = titlesRepository.getOne(titles.get(i).getId());

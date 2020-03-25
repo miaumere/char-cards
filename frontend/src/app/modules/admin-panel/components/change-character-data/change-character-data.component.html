@@ -282,12 +282,28 @@
     </div>
 
     <div *ngSwitchCase="'relations'" class="edit-side-pic admin-panel admin-panel--side">
-      <button class="global-button" [disabled]="isQuoteFormShown">
+      <button class="global-button" [ngStyle]="{'display': isRelationFormShown ? 'none' : 'block'}"
+        (click)="showRelationForm()">
         + Dodaj relację
       </button>
 
+      <form *ngIf="isRelationFormShown" [formGroup]="newRelationForm" (ngSubmit)="createNewRelation()">
+        <h3 class="changes__title">Uzupełnij pola, aby dodać nową relację:</h3>
+        <label class="global-label">
+          <select class="global-select" formControlName="relatedCharacterId">
+            <option value="2">
+              xxxx
+            </option>
+          </select>
+        </label>
+        <label class="global-label">
+          <input type="text" class="global-input" formControlName="relationName" />
+        </label>
+
+      </form>
+
       <div *ngIf="relations && relations.length > 0">
-        <h3>Obecne relacje:</h3>
+        <h3 class="changes__title">Obecne relacje:</h3>
         <ul>
           <li *ngFor="let relation of relations" class="relation">
             <div class="relation__option">

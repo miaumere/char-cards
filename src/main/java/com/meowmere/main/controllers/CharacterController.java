@@ -47,6 +47,11 @@ public class CharacterController {
         return charactersService.getCharacterDetails(id);
     }
 
+    @GetMapping("/chars-without-relations")
+    public ResponseEntity getCharsWithoutRelationsForSideChar(){
+        return charactersService.getCharactersWithoutRelations();
+    }
+
     @PostMapping("/new-character")
     public ResponseEntity createCharacter(MultipartHttpServletRequest multipartHttpServletRequest) {
         return charactersService.createCharacter(multipartHttpServletRequest);
