@@ -2,6 +2,7 @@ package com.meowmere.main.dto.sideCharacters;
 
 public class RelationshipDTO {
     public Long id;
+    public Long relativeId;
     public String relativeName;
     public String relativeSurname;
     public String relation;
@@ -12,6 +13,14 @@ public class RelationshipDTO {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getRelativeId() {
+        return relativeId;
+    }
+
+    public void setRelativeId(Long relativeId) {
+        this.relativeId = relativeId;
     }
 
     public String getRelativeName() {

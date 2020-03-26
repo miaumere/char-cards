@@ -965,6 +965,7 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
             this.loading = false;
           })
         ).subscribe(_ => {
+
           this._toastrService.success('Udało się dodać nową relację.');
           this.newRelationForm.reset();
           this.getRelationsForCharacter();

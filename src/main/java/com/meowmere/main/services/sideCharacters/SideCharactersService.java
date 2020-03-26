@@ -97,6 +97,7 @@ public class SideCharactersService {
                     RelationshipDTO relationshipDTO = modelMapper.map(relationship, RelationshipDTO.class);
                     relationshipDTO.setRelativeName(relationship.getCharacter().getCharName());
                     relationshipDTO.setRelativeSurname(relationship.getCharacter().getCharSurname());
+                    relationshipDTO.setRelativeId(relationship.getCharacter().getExternalId());
                     relationshipDTOS.add(relationshipDTO);
                 }
             }

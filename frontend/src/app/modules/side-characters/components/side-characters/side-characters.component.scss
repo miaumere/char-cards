@@ -134,3 +134,33 @@ $search-books-width: 11rem;
     display: flex;
   }
 }
+
+.relations-box {
+  width: 12.5rem;
+  padding: 0.5rem;
+  border-radius: 3px;
+
+  background: #ffffff38;
+
+  &__list {
+    padding: 0;
+  }
+}
+
+.relations-list {
+  max-height: 6.25rem;
+  overflow-y: scroll;
+
+  &__item {
+    margin: 1rem 0;
+  }
+
+  &__link {
+    transition: 0.3s;
+    &:hover {
+      color: rgb(255, 132, 218);
+
+      padding-left: 1rem;
+    }
+  }
+}
