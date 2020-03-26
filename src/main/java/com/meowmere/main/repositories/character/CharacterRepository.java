@@ -15,7 +15,4 @@ public interface CharacterRepository extends JpaRepository<Character, Long> {
 
     @Query("SELECT c FROM Character c WHERE c.archived = false and c.externalId = :id")
     Character getNonArchivedCharacter(@Param("id") Long externalId);
-
-    @Query("SELECT c FROM Character c WHERE c.relationships is empty")
-    List<Character> getCharactersWithoutRelationsForSideChar();
 }

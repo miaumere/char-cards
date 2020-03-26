@@ -503,6 +503,15 @@ $background1: #0000007d;
   }
 }
 
+.profile-pic-name {
+  &__option {
+    margin-left: -1rem;
+  }
+  &--editable {
+    color: red;
+  }
+}
+
 .images {
   &__container {
     display: flex;

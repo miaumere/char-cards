@@ -3,6 +3,7 @@ package com.meowmere.main.controllers;
 import com.meowmere.main.dto.character.titles.TitleDTO;
 import com.meowmere.main.requests.characters.character.ChangeCharacterStateRequest;
 import com.meowmere.main.requests.characters.character.EditCharacterRequest;
+import com.meowmere.main.requests.characters.image.ImageRenameRequest;
 import com.meowmere.main.requests.characters.quotes.EditQuoteRequest;
 import com.meowmere.main.requests.characters.quotes.NewQuoteForCharacterRequest;
 import com.meowmere.main.requests.characters.stories.CreateStoryForCharRequest;
@@ -45,11 +46,6 @@ public class CharacterController {
     @GetMapping("/get-details")
     public ResponseEntity getDetailsForCharacter(@RequestParam Long id){
         return charactersService.getCharacterDetails(id);
-    }
-
-    @GetMapping("/chars-without-relations")
-    public ResponseEntity getCharsWithoutRelationsForSideChar(){
-        return charactersService.getCharactersWithoutRelations();
     }
 
     @PostMapping("/new-character")
@@ -116,6 +112,11 @@ public class CharacterController {
     @PatchMapping("/set-title-sequence")
     public ResponseEntity setTitlesSequence(@RequestBody List<TitleDTO> request){
         return charactersService.setTitlesSequence(request);
+    }
+
+    @PatchMapping("/change-image-name")
+    public ResponseEntity changeImageName(@RequestBody ImageRenameRequest request) {
+        return charactersService.changeImageName(request);
     }
 
     @DeleteMapping("/delete-quote")

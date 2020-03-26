@@ -21,6 +21,7 @@ import com.meowmere.main.enums.AvailableExtensions;
 import com.meowmere.main.repositories.character.*;
 import com.meowmere.main.requests.characters.character.ChangeCharacterStateRequest;
 import com.meowmere.main.requests.characters.character.EditCharacterRequest;
+import com.meowmere.main.requests.characters.image.ImageRenameRequest;
 import com.meowmere.main.requests.characters.quotes.EditQuoteRequest;
 import com.meowmere.main.requests.characters.quotes.NewQuoteForCharacterRequest;
 import com.meowmere.main.requests.characters.stories.CreateStoryForCharRequest;
@@ -181,11 +182,6 @@ public class CharactersService {
         return new ResponseEntity(result, HttpStatus.OK);
     }
 
-    public ResponseEntity getCharactersWithoutRelations() {
-        List<Character> test = characterRepository.getCharactersWithoutRelationsForSideChar();
-        return new ResponseEntity(HttpStatus.OK);
-    }
-
     public ResponseEntity setTitlesSequence(List<TitleDTO> titles) {
         for (int i = 0; i < titles.size(); i++) {
             Titles title = titlesRepository.getOne(titles.get(i).getId());
@@ -240,7 +236,7 @@ public class CharactersService {
 
                     byte [] byteArr = file.getBytes();
                     imageToSave.setImage(byteArr);
-                    imageToSave.setName(file.getOriginalFilename());
+                    imageToSave.setName(FilenameUtils.removeExtension(file.getOriginalFilename()));
                     imageToSave.setExtension(extension);
                     imageToSave.setCharacter(character);
 
@@ -251,6 +247,18 @@ public class CharactersService {
                 it.remove();
             }}
         return new ResponseEntity(HttpStatus.CREATED);
+    }
+
+    public ResponseEntity changeImageName(ImageRenameRequest request) {
+        Image image = imageRepository.getOne(request.getId());
+        if(image == null) {
+            String msg = "Brak obrazka o podanym id.";
+            return new ResponseEntity(msg, HttpStatus.NOT_FOUND);
+        }
+        image.setName(request.getName());
+        imageRepository.saveAndFlush(image);
+
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
     public ResponseEntity getStoriesForCharacter(Long id) {

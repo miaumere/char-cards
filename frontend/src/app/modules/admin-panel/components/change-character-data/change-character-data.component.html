@@ -79,7 +79,7 @@
         <div class="images__container">
           <div class="images__item" *ngFor="let image of imagesListForMain">
             <div class="images__option">
-              <span title="Usuń tytuł" class="option" (click)="insertDeleteInfo()"
+              <span title="Usuń zdjęcie" class="option" (click)="insertDeleteInfo()"
                 (dblclick)="deleteCharacterImage(image.id)">
                 <app-icon [icon]="'archive'" [color]="'#b84343'"></app-icon>
               </span>
@@ -87,7 +87,15 @@
             <div>
               <img [src]="'data:image/' + image?.extension + ';base64, ' + image?.image | sanitizer"
                 class="profile-pic">
-              <span class="profile-pic__name">{{image?.name}}</span>
+              <div class="profile-pic__name profile-pic-name">
+                <span title="Edytuj nazwę zdjęcia" class="option profile-pic-name__option"
+                  (click)="changeImageName(image.id, imageElement)">
+                  <app-icon [icon]="'edit'" [color]="'whitesmoke'" [size]="'0.7'"></app-icon>
+                </span>
+                <span #imageElement spellcheck="false">
+                  {{image?.name}}
+                </span>
+              </div>
             </div>
           </div>
         </div>

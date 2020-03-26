@@ -25,6 +25,7 @@ import { StoryForCharacter } from '../../models/story-for-character.model';
 import { Title } from '../../models/title.model';
 import { IImageForMain } from 'src/app/modules/characters/models/image-for-main.model';
 import { EditRelation } from '../../models/edit-relation.model';
+import { EditImageName } from '../../models/edit-image-name.model';
 
 type changeOptions = 'new-character' | 'edit-character' | 'delete-character' | 'story' | 'edit-images'
   | 'new-chars' | 'edit-side' | 'edit-side-pic' | 'quotes' | 'story-for-char' | 'relations';
@@ -914,7 +915,6 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
   }
 
   editRelationType(relationId: number, relationElement: HTMLElement, relationContainer: HTMLElement) {
-
     if (!relationElement.isContentEditable) {
       relationElement.setAttribute('contentEditable', 'true');
       relationContainer.classList.add('relation__type--editable');
@@ -928,8 +928,6 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
 
         objToSend.id = relationId;
         objToSend.name = relationElement.textContent;
-        console.log(objToSend);
-
         this.subscriptions$.add(
           this._sideCharacterService
             .patchRelationName(objToSend)
@@ -944,7 +942,6 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
         )
       }
     }
-    console.log(relationId, relationElement);
   }
 
   showRelationForm() {
@@ -974,5 +971,37 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
         }
         ));
 
+  }
+
+  changeImageName(imageId: number, imageElement: HTMLElement) {
+
+    if (!imageElement.isContentEditable) {
+      imageElement.setAttribute('contentEditable', 'true');
+      imageElement.classList.add('profile-pic-name--editable');
+
+      this._toastrService.info('Aby zapisać zmianę, naciśnij jeszcze raz na ikonkę edycji.');
+    } else {
+      if (imageElement.textContent) {
+        const objToSend = new EditImageName();
+        objToSend.id = imageId;
+        objToSend.name = imageElement.textContent;
+        this.subscriptions$.add(
+          this._characterService
+            .patchImageName(objToSend)
+            .pipe(
+              finalize(() => {
+                this.loading = false;
+              })
+            ).subscribe(_ => {
+              this._toastrService.success('Udało się zmienić nazwę zdjęcia!');
+              this.getCharacterImages();
+            }, err => {
+              this._toastrService.error(err?.error);
+            })
+        );
+      } else {
+        this._toastrService.warning('Nazwa obrazka nie może być pusta.');
+      }
+    }
   }
 }

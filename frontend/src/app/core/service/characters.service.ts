@@ -17,6 +17,7 @@ import { StoryToEdit } from 'src/app/modules/admin-panel/models/story-to-edit.mo
 import { ICharacterForListItem } from 'src/app/modules/characters/models/character-for-list-item.model';
 import { IStoryForCharacter } from 'src/app/modules/admin-panel/models/story-for-character.model';
 import { ITitle, Title } from 'src/app/modules/admin-panel/models/title.model';
+import { EditImageName } from 'src/app/modules/admin-panel/models/edit-image-name.model';
 
 @Injectable({
   providedIn: 'root'
@@ -38,6 +39,7 @@ export class CharactersService {
   private _patchTitleURL = `${this.charControllerURL}/edit-title`;
   private _patchTitlesSequenceURL = `${this.charControllerURL}/set-title-sequence`;
   private _patchStoryURL = `${this.charControllerURL}/edit-story`;
+  private _patchImageNameURL = `${this.charControllerURL}/change-image-name`;
 
   private _postStoryForCharacterURL = `${this.charControllerURL}/new-stories`;
   private _postNewCharacterURL = `${this.charControllerURL}/new-character`;
@@ -117,6 +119,10 @@ export class CharactersService {
     return this.http.patch<EditTitle>(this._patchTitleURL, requestBody);
   }
 
+  patchImageName(requestBody: EditImageName) {
+    return this.http.patch<EditImageName>(this._patchImageNameURL, requestBody);
+  }
+
   patchTitlesSequence(requestBody: Title[]) {
     return this.http.patch<Title[]>(this._patchTitlesSequenceURL, requestBody);
   }
@@ -151,7 +157,6 @@ export class CharactersService {
     };
     return this.http.post<void>(this._postEditImagesURL, formData, httpOptions);
   }
-
 
   postNewQuote(requestBody: NewQuote) {
     return this.http.post<NewQuote>(this._postNewQuoteURL, requestBody);
