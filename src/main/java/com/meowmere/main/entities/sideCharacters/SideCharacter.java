@@ -23,7 +23,7 @@ public class SideCharacter {
     public String sideCharacterSurname;
 
     @Column
-    @Length(max = 2000)
+    @Length
     private String sideCharacterDesc;
 
     @Column
