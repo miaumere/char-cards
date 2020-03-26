@@ -507,8 +507,12 @@ $background1: #0000007d;
   &__option {
     margin-left: -1rem;
   }
+  transition: 0.3s;
   &--editable {
-    color: red;
+    transition: 0.3s;
+
+    font-size: larger;
+    font-weight: bold;
   }
 }
 
