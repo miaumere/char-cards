@@ -139,28 +139,31 @@
         Brak znanej historii.
       </ng-container>
     </div>
-    <table *ngIf="character.measurements" class="information__measurements measurements global-table">
-      <tr class="global-table__row">
-        <th class="global-table__header"></th>
-        <th class="global-table__header">Niemowlę <br />(0-3)</th>
-        <th class="global-table__header">Dziecko <br />(4-11)</th>
-        <th class="global-table__header">Nastolatek <br />(12-19)</th>
-        <th class="global-table__header">Dorosły <br />(20+)</th>
-      </tr>
-      <tr class="global-table__row">
-        <th class="global-table__header">Wzrost</th>
-        <td class="global-table__cell">{{character.measurements.babyHeight | nulled}} cm</td>
-        <td class="global-table__cell">{{character.measurements.childHeight | nulled}} cm</td>
-        <td class="global-table__cell">{{character.measurements.teenHeight | nulled}} cm</td>
-        <td class="global-table__cell">{{character.measurements.adultHeight | nulled}} cm</td>
-      </tr>
-      <tr class="global-table__row">
-        <th class="global-table__header">Waga</th>
-        <td class="global-table__cell">{{character.measurements.babyWeight | nulled}} kg</td>
-        <td class="global-table__cell">{{character.measurements.childWeight | nulled}} kg</td>
-        <td class="global-table__cell">{{character.measurements.teenWeight | nulled}} kg</td>
-        <td class="global-table__cell">{{character.measurements.adultWeight | nulled}} kg</td>
-      </tr>
-    </table>
+    <div>
+      <h2 class="story__title" [ngStyle]="{'color': themeColor1}">Tabela wzrostu i wagi</h2>
+      <table *ngIf="character.measurements" class="information__measurements measurements global-table">
+        <tr class="global-table__row">
+          <th class="global-table__header"></th>
+          <th class="global-table__header">Niemowlę <br />(0-3)</th>
+          <th class="global-table__header">Dziecko <br />(4-11)</th>
+          <th class="global-table__header">Nastolatek <br />(12-19)</th>
+          <th class="global-table__header">Dorosły <br />(20+)</th>
+        </tr>
+        <tr class="global-table__row">
+          <th class="global-table__header">Wzrost</th>
+          <td class="global-table__cell">{{character.measurements.babyHeight | nulled}} cm</td>
+          <td class="global-table__cell">{{character.measurements.childHeight | nulled}} cm</td>
+          <td class="global-table__cell">{{character.measurements.teenHeight | nulled}} cm</td>
+          <td class="global-table__cell">{{character.measurements.adultHeight | nulled}} cm</td>
+        </tr>
+        <tr class="global-table__row">
+          <th class="global-table__header">Waga</th>
+          <td class="global-table__cell">{{character.measurements.babyWeight | nulled}} kg</td>
+          <td class="global-table__cell">{{character.measurements.childWeight | nulled}} kg</td>
+          <td class="global-table__cell">{{character.measurements.teenWeight | nulled}} kg</td>
+          <td class="global-table__cell">{{character.measurements.adultWeight | nulled}} kg</td>
+        </tr>
+      </table>
+    </div>
   </div>
 </section>
