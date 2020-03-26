@@ -15,6 +15,19 @@ public interface RelationshipRepository extends JpaRepository<Relationship, Long
     @Query("SELECT r FROM Relationship r WHERE r.character.externalId = :toCharId")
     List<Object> getRelationCharacterIds(@Param("toCharId") Long toCharId);
 
-    @Query("SELECT r FROM Relationship r WHERE r.sideCharacter.externalId = :sideCharId ORDER BY r.character.charName")
+
+    @Query("SELECT r FROM Relationship r WHERE r.sideCharacter.externalId=:sideCharId ORDER BY r.character.charName")
     List<Relationship> getRelationsForSideCharacter(@Param("sideCharId") Long toCharId);
+
+
+    @Query("SELECT r FROM Relationship r " +
+            "LEFT JOIN r.sideCharacter.books b " +
+            "WHERE r.character.externalId=?1 " +
+            "AND UPPER(CONCAT(r.sideCharacter.sideCharacterName, ' ', r.sideCharacter.sideCharacterSurname)) LIKE UPPER(concat('%',?2,'%'))" +
+            "AND b.externalId in (?3)")
+    List<Relationship> getFilteredRelationsByCharIdNameAndBooks(Long relatedTo, String name, List<Long> bookIdsRequired);
+
+
+
+
 }

@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class SideCharactersService {
@@ -57,55 +58,57 @@ public class SideCharactersService {
         dto.setBooks(booksForSide);
     }
 
-    public ResponseEntity findNonArchivedSideCharacters(
+    public ArrayList<SideCharacterDTO> findNonArchivedSideCharacters(
             Optional<String> name,
             Optional<List<Long>> bookIds,
             Optional<Long> relatedTo
     ) {
+        ArrayList<SideCharacterDTO> result = new ArrayList<>();
 
-        // + dodać sortowanie wyników
-        List<Object> xxx = relationshipRepository.getRelationCharacterIds(Long.parseLong("1"));
+        String nameRequired = name.orElse("");
+        List<Long> bookIdsRequired = bookIds.orElse(new ArrayList<Long>(Arrays.asList((long)-1)));
+        Long relatedToRequired = relatedTo.orElse((long)-1);
 
-        System.out.println();
-//        List<SideCharacter> sideCharactersFromDb = sideCharactersRepository.getMatchingSideCharacters(name, relatedTo);
-//        ModelMapper modelMapper = new ModelMapper();
-//        ArrayList<SideCharacterDTO> result = new ArrayList<>();
-//        for (SideCharacter sideCharacterFromDb : sideCharactersFromDb) {
-//            SideCharacterDTO sideCharacter = modelMapper.map(sideCharacterFromDb, SideCharacterDTO.class);
-//            ArrayList<BookDTO> booksForSide = new ArrayList<>();
-//            List<Book> books = sideCharacterFromDb.getBooks();
-//            if(books != null) {
-//                for (Book bookForSideChar : books) {
-//                BookDTO bookDTO = modelMapper.map(bookForSideChar, BookDTO.class);
-//                booksForSide.add(bookDTO);
-//                }
-//            }
-//            sideCharacter.setBooks(booksForSide);
-//
-//            List<Relationship> relationships = sideCharacterFromDb.getRelationships();
-//            ArrayList<RelationshipDTO> relationshipDTOS = new ArrayList<>();
-//            if(relationships != null) {
-//                for (Relationship relationship : relationships) {
-//                    RelationshipDTO relationshipDTO = modelMapper.map(relationship, RelationshipDTO.class);
-//                    relationshipDTO.setRelativeName(relationship.getCharacter().getCharName());
-//                    relationshipDTO.setRelativeSurname(relationship.getCharacter().getCharSurname());
-//                    relationshipDTOS.add(relationshipDTO);
-//                }
-//            }
-//            sideCharacter.setRelationships(relationshipDTOS);
-//
-//            ProfilePic profilePic = profilePicRepository.getProfilePicForCharacter(sideCharacter.getExternalId());
-//            if(profilePic != null) {
-//                ProfilePicDTO profilePicDTO = new ProfilePicDTO();
-//                profilePicDTO.setExtension(profilePic.getExtension());
-//                profilePicDTO.setImage(profilePic.getProfilePic());
-//
-//                sideCharacter.setProfilePic(profilePicDTO);
-//            }
-//
-//            result.add(sideCharacter);
-//        }
-        return new ResponseEntity(HttpStatus.OK);
+        List<Relationship> filteredRelationsByCharIdNameAndBooks = relationshipRepository.getFilteredRelationsByCharIdNameAndBooks(relatedToRequired, nameRequired, bookIdsRequired);
+        List<SideCharacter> sideCharacters = filteredRelationsByCharIdNameAndBooks.stream().map(x->x.getSideCharacter()).collect(Collectors.toList());
+        ModelMapper modelMapper = new ModelMapper();
+
+        for (SideCharacter sideCharacterFromDb : sideCharacters) {
+            SideCharacterDTO sideCharacter = modelMapper.map(sideCharacterFromDb, SideCharacterDTO.class);
+            ArrayList<BookDTO> booksForSide = new ArrayList<>();
+            List<Book> books = sideCharacterFromDb.getBooks();
+            if(books != null) {
+                for (Book bookForSideChar : books) {
+                BookDTO bookDTO = modelMapper.map(bookForSideChar, BookDTO.class);
+                booksForSide.add(bookDTO);
+                }
+            }
+            sideCharacter.setBooks(booksForSide);
+
+            List<Relationship> relationships = sideCharacterFromDb.getRelationships();
+            ArrayList<RelationshipDTO> relationshipDTOS = new ArrayList<>();
+            if(relationships != null) {
+                for (Relationship relationship : relationships) {
+                    RelationshipDTO relationshipDTO = modelMapper.map(relationship, RelationshipDTO.class);
+                    relationshipDTO.setRelativeName(relationship.getCharacter().getCharName());
+                    relationshipDTO.setRelativeSurname(relationship.getCharacter().getCharSurname());
+                    relationshipDTOS.add(relationshipDTO);
+                }
+            }
+            sideCharacter.setRelationships(relationshipDTOS);
+
+            ProfilePic profilePic = profilePicRepository.getProfilePicForCharacter(sideCharacter.getExternalId());
+            if(profilePic != null) {
+                ProfilePicDTO profilePicDTO = new ProfilePicDTO();
+                profilePicDTO.setExtension(profilePic.getExtension());
+                profilePicDTO.setImage(profilePic.getProfilePic());
+
+                sideCharacter.setProfilePic(profilePicDTO);
+            }
+
+            result.add(sideCharacter);
+        }
+        return result;
     }
 
     public ResponseEntity findAllSideCharacters() {
@@ -309,7 +312,8 @@ public class SideCharactersService {
     }
 
     public ResponseEntity createNewRelationForSideChar(NewRelationForSideCharRequest request){
-
+        Relationship relationshipToSave = new Relationship();
+        relationshipToSave.setRelationType(request.getRelationName());
         SideCharacter sideCharacter = sideCharactersRepository.getOne(request.getSideCharacterId());
         Character character = characterRepository.getNonArchivedCharacter(request.getRelatedCharacterId());
         if(sideCharacter == null) {
@@ -328,11 +332,7 @@ public class SideCharactersService {
                 return new ResponseEntity(msg, HttpStatus.BAD_REQUEST);
             }
         }
-        Relationship relationshipToSave = new Relationship();
-        relationshipToSave.setRelationType(request.getRelationName());
-        relationshipToSave.setCharacter(character);
-        relationshipToSave.setSideCharacter(sideCharacter);
-        relationshipRepository.saveAndFlush(relationshipToSave);
+
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
