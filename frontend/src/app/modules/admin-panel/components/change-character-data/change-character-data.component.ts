@@ -1,3 +1,4 @@
+import { ICharacterItem } from 'src/app/modules/characters/models/character-item.model';
 import { NewRelation } from './../../models/new-relation.model';
 import { IRelationship } from './../../../side-characters/models/relationships.model';
 import { StoryToEdit } from './../../models/story-to-edit.model';
@@ -111,6 +112,8 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
 
   isRelationFormShown = false;
 
+  charList: ICharacterItem[] | null = null;
+
   profilePic: File | null = null;
   images: FileList | null = null;
 
@@ -187,6 +190,7 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
 
       case 'relations':
         this.getRelationsForCharacter();
+        this.getListOfCharacters();
         break;
       case 'edit-character':
       case 'new-character':
@@ -863,6 +867,20 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
     );
   }
 
+  getListOfCharacters() {
+    this.loading = true;
+    this.subscriptions$.add(
+      this._characterService.getCharacters()
+        .pipe(
+          finalize(() => {
+            this.loading = false;
+          })
+        ).subscribe(charList => {
+          this.charList = charList;
+        })
+    )
+  }
+
   getRelationsForCharacter() {
     this.loading = true;
 
@@ -914,7 +932,8 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
 
         this.subscriptions$.add(
           this._sideCharacterService
-            .patchRelationName(objToSend).pipe(
+            .patchRelationName(objToSend)
+            .pipe(
               finalize(() => {
                 this.loading = false;
               })
@@ -947,6 +966,7 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
           })
         ).subscribe(_ => {
           this._toastrService.success('Udało się dodać nową relację.');
+          this.newRelationForm.reset();
           this.getRelationsForCharacter();
         }, err => {
           this._toastrService.error(err?.error);

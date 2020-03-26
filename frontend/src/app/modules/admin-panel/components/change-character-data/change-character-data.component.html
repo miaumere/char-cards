@@ -286,21 +286,22 @@
         (click)="showRelationForm()">
         + Dodaj relację
       </button>
+      <ng-container *ngIf="charList && charList.length > 0">
 
-      <form *ngIf="isRelationFormShown" [formGroup]="newRelationForm" (ngSubmit)="createNewRelation()">
-        <h3 class="changes__title">Uzupełnij pola, aby dodać nową relację:</h3>
-        <label class="global-label">
-          <select class="global-select" formControlName="relatedCharacterId">
-            <option value="2">
-              xxxx
-            </option>
-          </select>
-        </label>
-        <label class="global-label">
-          <input type="text" class="global-input" formControlName="relationName" />
-        </label>
-
-      </form>
+        <form *ngIf="isRelationFormShown" [formGroup]="newRelationForm" (ngSubmit)="createNewRelation()">
+          <h3 class="changes__title">Uzupełnij pola, aby dodać nową relację:</h3>
+          <label class="global-label">
+            <select class="global-select" formControlName="relatedCharacterId">
+              <option *ngFor="let char of charList" value="{{char.id}}">
+                {{char.charName}} {{char.charSurname}}
+              </option>
+            </select>
+          </label>
+          <label class="global-label">
+            <input type="text" class="global-input" formControlName="relationName" />
+          </label>
+        </form>
+      </ng-container>
 
       <div *ngIf="relations && relations.length > 0">
         <h3 class="changes__title">Obecne relacje:</h3>

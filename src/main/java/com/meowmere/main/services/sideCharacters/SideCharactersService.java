@@ -337,6 +337,11 @@ public class SideCharactersService {
                 return new ResponseEntity(msg, HttpStatus.BAD_REQUEST);
             }
         }
+        Relationship relationship = new Relationship();
+        relationship.setSideCharacter(sideCharacter);
+        relationship.setCharacter(character);
+        relationship.setRelationType(request.getRelationName());
+        relationshipRepository.saveAndFlush(relationship);
 
         return new ResponseEntity(HttpStatus.CREATED);
     }
