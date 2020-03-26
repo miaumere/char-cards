@@ -69,8 +69,13 @@ public class SideCharactersService {
         List<Long> bookIdsRequired = bookIds.orElse(new ArrayList<Long>(Arrays.asList((long)-1)));
         Long relatedToRequired = relatedTo.orElse((long)-1);
 
-        List<Relationship> filteredRelationsByCharIdNameAndBooks = relationshipRepository.getFilteredRelationsByCharIdNameAndBooks(relatedToRequired, nameRequired, bookIdsRequired);
-        List<SideCharacter> sideCharacters = filteredRelationsByCharIdNameAndBooks.stream().map(x->x.getSideCharacter()).collect(Collectors.toList());
+        List<SideCharacter> sideCharacters;
+        if(relatedToRequired == 0 || relatedToRequired == -1) {
+            sideCharacters = sideCharactersRepository.getNonArchivedSideCharacters();
+        } else {
+            List<Relationship> filteredRelationsByCharIdNameAndBooks = relationshipRepository.getFilteredRelationsByCharIdNameAndBooks(relatedToRequired, nameRequired, bookIdsRequired);
+            sideCharacters = filteredRelationsByCharIdNameAndBooks.stream().map(x->x.getSideCharacter()).collect(Collectors.toList());
+        }
         ModelMapper modelMapper = new ModelMapper();
 
         for (SideCharacter sideCharacterFromDb : sideCharacters) {
