@@ -49,6 +49,8 @@ $search-box-bg: #1d1d1d;
     background-position: 50% 50%;
     background-repeat: no-repeat;
     background-size: cover;
+
+    filter: saturate(0);
   }
   &--empty {
     padding-left: 2rem;
