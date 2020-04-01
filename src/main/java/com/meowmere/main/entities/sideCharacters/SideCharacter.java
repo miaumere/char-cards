@@ -3,7 +3,6 @@ package com.meowmere.main.entities.sideCharacters;
 import com.meowmere.main.entities.relationships.Relationship;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
-import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import java.util.List;
@@ -22,8 +21,7 @@ public class SideCharacter {
     @Column
     public String sideCharacterSurname;
 
-    @Column
-    @Length
+    @Column(columnDefinition = "TEXT")
     private String sideCharacterDesc;
 
     @Column
@@ -32,10 +30,10 @@ public class SideCharacter {
     @ManyToMany(fetch =  FetchType.LAZY)
     @NotFound(action = NotFoundAction.IGNORE)
     @JoinColumn(name = "book_id")
-    private List<Book> books;
+    private List<com.meowmere.main.entities.sideCharacters.Book> books;
 
     @OneToMany(mappedBy = "sideCharacter", cascade = CascadeType.ALL)
-    private Set<ProfilePic> profilePics;
+    private Set<com.meowmere.main.entities.sideCharacters.ProfilePic> profilePics;
 
     @OneToMany(mappedBy = "sideCharacter", cascade = CascadeType.ALL)
     private List<Relationship> relationships;
@@ -94,11 +92,11 @@ public class SideCharacter {
         this.books = books;
     }
 
-    public Set<ProfilePic> getProfilePics() {
+    public Set<com.meowmere.main.entities.sideCharacters.ProfilePic> getProfilePics() {
         return profilePics;
     }
 
-    public void setProfilePics(Set<ProfilePic> profilePics) {
+    public void setProfilePics(Set<com.meowmere.main.entities.sideCharacters.ProfilePic> profilePics) {
         this.profilePics = profilePics;
     }
 
