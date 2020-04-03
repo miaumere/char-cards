@@ -262,7 +262,8 @@ public class CharactersService {
     }
 
     public ResponseEntity getStoriesForCharacter(Long id) {
-        List<Titles> titlesFromDb = titlesRepository.findAll();
+        List<Titles> titlesFromDb = titlesRepository.findAll(Sort.by(Sort.Direction.ASC, "sequence"));
+
         ArrayList<StoryForListDTO> stories = new ArrayList<>();
 
         for (Titles titleFromDb : titlesFromDb) {
