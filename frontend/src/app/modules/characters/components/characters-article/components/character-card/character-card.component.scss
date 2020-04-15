@@ -83,7 +83,7 @@
 
 .story {
   margin: 2rem 0;
-  word-break: break-all;
+  word-break: break-word;
   line-height: 1.5;
   margin: auto;
 
@@ -95,7 +95,7 @@
 
   &__story-block {
     max-width: 700px;
-    word-break: break-all;
+    word-break: break-word;
   }
 }
 
