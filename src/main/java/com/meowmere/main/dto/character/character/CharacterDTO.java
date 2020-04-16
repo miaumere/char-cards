@@ -11,6 +11,7 @@ import java.util.List;
 
 public class CharacterDTO {
     public Long externalId;
+    public String charType;
     public String charName;
     public String charSurname;
     public Long birthday;
@@ -23,6 +24,14 @@ public class CharacterDTO {
     public CharacterTemperamentDTO temperament;
     public CharacterMeasurementsDTO measurements;
     public List<ImageDTO> imagesList;
+
+    public String getCharType() {
+        return charType;
+    }
+
+    public void setCharType(String charType) {
+        this.charType = charType;
+    }
 
     public CharacterTemperamentDTO getTemperament() {
         return temperament;

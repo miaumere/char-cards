@@ -5,6 +5,7 @@ import { ITemperament } from './temperament.model';
 import { IMeasurements } from './measurements.model';
 import { IQuote } from './quote.model';
 
+type characterType = 'MAIN' | 'SIDE' | 'BACKGROUND' | null;
 
 export interface ICharacter {
   externalId: number;
@@ -20,6 +21,7 @@ export interface ICharacter {
   temperament: ITemperament;
   measurements: IMeasurements;
   quotes: IQuote;
+  charType: characterType;
 }
 
 export class Character {
@@ -36,5 +38,6 @@ export class Character {
   temperament: ITemperament;
   measurements: IMeasurements;
   quotes: IQuote;
+  charType: characterType;
 }
 

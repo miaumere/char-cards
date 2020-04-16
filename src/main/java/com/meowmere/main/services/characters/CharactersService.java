@@ -92,6 +92,8 @@ public class CharactersService {
 
         CharacterDTO dto = modelMapper.map(oneCharacter, CharacterDTO.class);
 
+        dto.setCharType(oneCharacter.getCharType().name());
+
         List<Story> storiesFromDb = storyRepository.getAllStoriesForCharacter(externalId);
         ArrayList<CharacterStoryDTO> stories = new ArrayList<>();
         if(storiesFromDb != null && storiesFromDb.size() > 0){

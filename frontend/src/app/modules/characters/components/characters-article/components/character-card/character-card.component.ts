@@ -6,6 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import * as tinycolor from 'tinycolor2';
 
+type charType = 'postać główna' | 'postać poboczna' | 'postać epizodyczna' | '';
 
 @Component({
   selector: 'app-character-card',
@@ -25,6 +26,8 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
   themeColor1 = '';
   bgColor1 = '';
   bgColor2 = '';
+
+  charType: charType = '';
 
   constructor(
     private _charactersService: CharactersService,
@@ -55,6 +58,24 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
           })
         ).subscribe(character => {
           this.character = character;
+
+          switch (this.character.charType) {
+            case 'MAIN':
+              this.charType = 'postać główna';
+              break;
+
+            case 'SIDE':
+              this.charType = 'postać poboczna';
+              break;
+
+            case 'BACKGROUND':
+              this.charType = 'postać epizodyczna';
+              break;
+
+            default:
+              break;
+          }
+
           this.bgColorFromChild.emit(character.colors.themeColor1);
           const themeColorForChar = tinycolor(character?.colors?.themeColor1);
           const bgColorForChar = tinycolor(character?.colors?.themeColor2);

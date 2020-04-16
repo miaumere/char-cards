@@ -1,7 +1,7 @@
 package com.meowmere.main.entities.characters;
 
 import com.meowmere.main.entities.relationships.Relationship;
-import com.meowmere.main.enums.CharTypes;
+import com.meowmere.main.enums.CharType;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
@@ -30,8 +30,9 @@ public class Character {
     private String occupation;
     @Column
     public Boolean archived = false;
-    @Column
-    public CharTypes charType;
+    @Column(name = "character_type")
+    @Enumerated(EnumType.STRING)
+    public CharType charType;
 
     @OneToMany(mappedBy = "character", cascade = CascadeType.ALL)
     private Set<Colors> colors;
@@ -64,6 +65,14 @@ public class Character {
         this.charSurname = charSurname;
         this.birthday = birthday;
         this.occupation = occupation;
+    }
+
+    public CharType getCharType() {
+        return charType;
+    }
+
+    public void setCharType(CharType charType) {
+        this.charType = charType;
     }
 
     public Long getExternalId() {
@@ -176,13 +185,5 @@ public class Character {
 
     public void setRelationships(List<Relationship> relationships) {
         this.relationships = relationships;
-    }
-
-    public CharTypes getCharType() {
-        return charType;
-    }
-
-    public void setCharType(CharTypes charType) {
-        this.charType = charType;
     }
 };
