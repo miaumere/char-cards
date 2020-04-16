@@ -3,11 +3,15 @@
 <section class="characters-card" *ngIf="character && !loading">
   <div class="card" [ngStyle]="{'border-color': character.colors.themeColor2
 }">
-    <span class="card__name">
-      {{character.charName}} {{ character.charSurname}}
-    </span>
 
-    <div class="card__profile-pic profile-pic">
+
+    <div class="card__profile-pic profile-pic" [ngStyle]="{'background': bgColor1
+  }"> <span class="card__type" [ngStyle]="{'background': bgColor2}">
+        postać główna
+      </span>
+      <span class="card__name" [ngStyle]="{'background': bgColor2}">
+        {{character.charName}} {{ character.charSurname}}
+      </span>
       <ng-container *ngIf="character.imagesList.length > 0">
         <img *ngFor="let image of character.imagesList;index as i"
           [src]="'data:image/' + image?.extension + ';base64, ' + image.image | sanitizer"
@@ -16,7 +20,8 @@
           }">
         <div>
 
-          <button class="profile-pic__button" *ngFor="let image of character.imagesList; index as i"
+          <button class="profile-pic__button" [ngStyle]="{'background': bgColor2}"
+            *ngFor="let image of character.imagesList; index as i"
             (click)="setImage(i)">{{image.name | filenameModifier}}</button>
         </div>
 
@@ -26,11 +31,7 @@
       </div>
     </div>
 
-    <div class="card__info info" [style.background]="'url(../../../../../assets/images/lowpoly-bg.JPG)'"
-      [style.backgroundColor]="character.colors.themeColor2" [ngStyle]="{
-      'background-blend-mode': 'multiply',
-      'background-size': 'cover'
-    }">
+    <div class="card__info info" [ngStyle]="{'background': bgColor2}">
       <span class="info__desc">Data urodzenia</span>
       <span
         class="info__data">{{character.birthday ? (character.birthday | date: 'dd/MM/yyyy' ) : "Data nieznana"}}</span>

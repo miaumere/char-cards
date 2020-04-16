@@ -5,6 +5,7 @@
 
 .info {
   font-size: 0.7rem;
+  background: #1d1d1d;
   &__desc {
     margin: 0.5rem 0 0.3rem 0.3rem;
     font-weight: bold;
@@ -16,11 +17,6 @@
     &--death {
       color: red;
     }
-  }
-
-  &__color,
-  &__temperament {
-    background: #1d1d1d;
   }
 }
 
@@ -37,6 +33,8 @@
     width: 5rem;
 
     background: grey;
+    border: 1px solid white;
+    border-radius: 3px;
 
     margin: 8px;
 
@@ -131,9 +129,17 @@
   border-style: solid;
   margin: 1rem;
 
+  &__type {
+    border-radius: 3px;
+    padding: 0 0.5rem;
+  }
+
   &__name {
     display: block;
     margin-top: 0.5rem;
+
+    padding: 1px 0.5rem;
+    border-radius: 3px;
 
     font-size: 1rem;
     font-weight: bold;
@@ -184,9 +190,9 @@
   &__button {
     padding: 0.3rem;
     margin: 0.3rem;
+    border-radius: 3px;
 
     font-size: 0.6rem;
-    color: rgb(155, 155, 155);
 
     background: rgb(48, 48, 48);
   }

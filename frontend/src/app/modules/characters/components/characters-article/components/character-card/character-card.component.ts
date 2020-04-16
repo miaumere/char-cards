@@ -23,6 +23,8 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
   loading = true;
 
   themeColor1 = '';
+  bgColor1 = '';
+  bgColor2 = '';
 
   constructor(
     private _charactersService: CharactersService,
@@ -55,7 +57,12 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
           this.character = character;
           this.bgColorFromChild.emit(character.colors.themeColor1);
           const themeColorForChar = tinycolor(character?.colors?.themeColor1);
-          themeColorForChar.isLight()
+          const bgColorForChar = tinycolor(character?.colors?.themeColor2);
+          const darkerBgColorForChar = tinycolor(character?.colors?.themeColor2);
+
+          this.bgColor1 = tinycolor(bgColorForChar).darken(15).desaturate(10);
+          this.bgColor2 = tinycolor(darkerBgColorForChar).darken(25).desaturate(30);
+
           if (themeColorForChar.isLight()) {
             this.themeColor1 = tinycolor(
               themeColorForChar
