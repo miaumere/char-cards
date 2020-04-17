@@ -92,22 +92,27 @@
           <span class="info__desc">Temperament</span>
           <div class="temperament__container">
             <span class="info__desc">Melancholik</span>
-            <div appProgressBar [percentValue]="character.temperament.melancholic" temperamentType='melancholic'>
+            <div appProgressBar
+              [percentValue]="character.temperament.melancholic ? character.temperament.melancholic : 0"
+              temperamentType='melancholic'>
             </div>
           </div>
           <div class="temperament__container">
             <span class="info__desc">Sangwinik</span>
-            <div appProgressBar [percentValue]="character.temperament.sanguine" temperamentType='sanguine'>
+            <div appProgressBar [percentValue]="character.temperament.sanguine ? character.temperament.sanguine : 0"
+              temperamentType='sanguine'>
             </div>
           </div>
           <div class="temperament__container">
             <span class="info__desc">Flegmatyk</span>
-            <div appProgressBar [percentValue]="character.temperament.flegmatic" temperamentType='flegmatic'>
+            <div appProgressBar [percentValue]="character.temperament.flegmatic ? character.temperament.flegmatic : 0"
+              temperamentType='flegmatic'>
             </div>
           </div>
           <div class="temperament__container">
             <span class="info__desc">Choleryk</span>
-            <div appProgressBar [percentValue]="character.temperament.choleric" temperamentType='choleric'>
+            <div appProgressBar [percentValue]="character.temperament.choleric ? character.temperament.choleric : 0"
+              temperamentType='choleric'>
             </div>
           </div>
         </div>

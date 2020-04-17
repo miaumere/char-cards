@@ -2,10 +2,14 @@
 
 <aside class="characters-menu global-section">
   <ng-container *ngIf="!loading && charList && charList.length > 0 ">
-    <span *ngFor="let character of charList;" class="characters-menu__item">
-      <a [routerLink]="['/char-cards', character.id]" routerLinkActive="router-link-active">{{character.charName}}
-        {{character.charSurname}}</a>
-    </span>
+    <ng-container *ngFor="let character of charList;">
+      <span class="characters-menu__item" [routerLink]="['/char-cards', character.id]"
+        routerLinkActive="router-link-active">
+        {{character.charName}}
+        {{character.charSurname}}
+      </span>
+    </ng-container>
+
   </ng-container>
 </aside>
 

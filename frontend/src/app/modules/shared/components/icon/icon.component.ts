@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 type iconType = '' | 'warning' | 'new-character' | 'face' | 'hair' | 'clothing' | 'eye'
   | 'logout' | 'user'
-  | 'edit' | 'edit-picture' | 'character' | 'side-character' | 'archive' | 'non-archive' | 'unknown'
+  | 'edit' | 'edit-picture' | 'character' | 'archive' | 'non-archive' | 'unknown'
   | 'new-chars' | 'story' | 'book' | 'quote' | 'plus' | 'branch';
 
 @Component({

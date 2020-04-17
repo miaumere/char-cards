@@ -13,20 +13,14 @@ $background1: #0000007d;
   }
 }
 
-.new-side-form,
-.edit-side-char-form,
-.edit-side-pic-form,
 .edit-main-pic-form,
 .new-quote-form {
   border: 1px solid white;
   padding: 1rem;
 }
 
-.new-side-form,
-.edit-side-char-form,
 .edit-main-pic-form,
-.edit-main-pic,
-.edit-side-pic {
+.edit-main-pic {
   &__container {
     display: flex;
 
@@ -354,26 +348,6 @@ $background1: #0000007d;
   }
 }
 
-.books-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
-
-  border-radius: $border-radius;
-
-  background: #ffffff3b;
-}
-
-.books {
-  &__item {
-    display: flex;
-    align-items: center;
-
-    padding: 1rem;
-  }
-}
-
 .quotes {
   height: calc(100vh - #{$navbar-height});
   width: 100vw;
@@ -545,39 +519,4 @@ $background1: #0000007d;
   display: flex;
   justify-content: space-evenly;
   align-items: baseline;
-}
-
-.relation {
-  display: flex;
-  margin: 1rem;
-  padding: 0.5rem;
-  border-radius: $border-radius;
-
-  background: $background1;
-  &__option {
-    display: flex;
-    flex-direction: column;
-  }
-  &__box {
-    padding: 1rem;
-    width: 12.5rem;
-  }
-  &__type {
-    margin-top: 1rem;
-    transition: 0.3s;
-
-    &--editable {
-      font-weight: bold;
-      font-size: larger;
-    }
-  }
-
-  &__text {
-    transition: 0.3s;
-
-    &--editable {
-      padding: 0.3rem;
-      border-bottom: 1px solid white;
-    }
-  }
 }
