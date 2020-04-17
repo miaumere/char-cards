@@ -1,6 +1,5 @@
 package com.meowmere.main.entities.characters;
 
-import com.meowmere.main.entities.relationships.Relationship;
 import com.meowmere.main.enums.CharType;
 import org.hibernate.validator.constraints.Length;
 
@@ -52,8 +51,6 @@ public class Character {
     @OneToMany(mappedBy = "character", cascade = CascadeType.ALL)
     private Set<Image> profilePics;
 
-    @OneToMany(mappedBy = "character", cascade = CascadeType.ALL)
-    public List<Relationship> relationships;
 
     public Character() {};
 
@@ -179,11 +176,4 @@ public class Character {
         this.profilePics = profilePics;
     }
 
-    public List<Relationship> getRelationships() {
-        return relationships;
-    }
-
-    public void setRelationships(List<Relationship> relationships) {
-        this.relationships = relationships;
-    }
 };
