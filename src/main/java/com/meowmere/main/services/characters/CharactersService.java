@@ -11,6 +11,8 @@ import com.meowmere.main.dto.character.image.ProfilePicForMainDTO;
 import com.meowmere.main.dto.character.measurements.CharacterMeasurementsDTO;
 import com.meowmere.main.dto.character.quote.CharacterQuoteDTO;
 import com.meowmere.main.dto.character.quote.QuoteForListDTO;
+import com.meowmere.main.dto.character.relationship.RelatedCharacterDTO;
+import com.meowmere.main.dto.character.relationship.RelationshipDTO;
 import com.meowmere.main.dto.character.story.CharacterStoryDTO;
 import com.meowmere.main.dto.character.story.StoryForListDTO;
 import com.meowmere.main.dto.character.temperament.CharacterTemperamentDTO;
@@ -62,6 +64,8 @@ public class CharactersService {
     public TitlesRepository titlesRepository;
     @Autowired
     public ImageRepository imageRepository;
+    @Autowired
+    public RelationshipRepository relationshipRepository;
 
     public ResponseEntity findCharList() {
         List<Character> allCharactersFromDb = characterRepository.getNonArchivedCharacters();
@@ -93,6 +97,7 @@ public class CharactersService {
         CharacterDTO dto = modelMapper.map(oneCharacter, CharacterDTO.class);
 
         dto.setCharType(oneCharacter.getCharType().name());
+        dto.setGender(oneCharacter.getGender().name());
 
         List<Story> storiesFromDb = storyRepository.getAllStoriesForCharacter(externalId);
         ArrayList<CharacterStoryDTO> stories = new ArrayList<>();
@@ -117,6 +122,32 @@ public class CharactersService {
         if(measurementsForCharacter != null){
             dto.setMeasurements(modelMapper.map(measurementsForCharacter, CharacterMeasurementsDTO.class));
         }
+
+        List<Relationship> relationshipsForCharacter = relationshipRepository.getRelationshipsForCharacter(externalId);
+        List<RelationshipDTO> relationshipDTOS =  new ArrayList<>();
+
+        if (relationshipsForCharacter != null) {
+            for (Relationship relationship : relationshipsForCharacter) {
+                RelationshipDTO relationshipDTO = new RelationshipDTO();
+                RelatedCharacterDTO relatedCharacterDTO = new RelatedCharacterDTO();
+                Character character = relationship.getRelatedCharacter();
+
+                relatedCharacterDTO.setId(character.getExternalId());
+                relatedCharacterDTO.setCharName(character.getCharName());
+                relatedCharacterDTO.setCharSurname(character.getCharSurname());
+
+                Image profilePicForCharacter = imageRepository.getProfilePicForCharacter(character.getExternalId());
+                ProfilePicForMainDTO profilePicForMainDTO = new ProfilePicForMainDTO();
+                profilePicForMainDTO.setExtension(profilePicForCharacter.getExtension());
+                profilePicForMainDTO.setImage(profilePicForCharacter.getImage());
+
+                relatedCharacterDTO.setProfilePic(profilePicForMainDTO);
+                relationshipDTO.setRelatedCharacter(relatedCharacterDTO);
+                relationshipDTO.setRelationName(relationship.getRelationName().name());
+                relationshipDTOS.add(relationshipDTO);
+            }
+        }
+        dto.setRelationships(relationshipDTOS);
 
         List<Quote> quotes = quoteRepository.getAllQuotesByCharacterId(externalId);
         Random random = new Random();

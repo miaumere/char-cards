@@ -1,6 +1,7 @@
 package com.meowmere.main.entities.characters;
 
 import com.meowmere.main.enums.CharType;
+import com.meowmere.main.enums.Gender;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
@@ -23,6 +24,9 @@ public class Character {
     private Long birthday;
     @Column
     private Long death;
+    @Column
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
     @Column
     private String deathReason;
     @Column
@@ -51,6 +55,11 @@ public class Character {
     @OneToMany(mappedBy = "character", cascade = CascadeType.ALL)
     private Set<Image> profilePics;
 
+    @OneToMany(mappedBy = "character", cascade = CascadeType.ALL)
+    private List<Relationship> relationships;
+
+    @OneToMany(mappedBy = "relatedCharacter", cascade = CascadeType.ALL)
+    private List<Relationship> relatedTo;
 
     public Character() {};
 
@@ -176,4 +185,27 @@ public class Character {
         this.profilePics = profilePics;
     }
 
+    public List<Relationship> getRelationships() {
+        return relationships;
+    }
+
+    public void setRelationships(List<Relationship> relationships) {
+        this.relationships = relationships;
+    }
+
+    public List<Relationship> getRelatedTo() {
+        return relatedTo;
+    }
+
+    public void setRelatedTo(List<Relationship> relatedTo) {
+        this.relatedTo = relatedTo;
+    }
+
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
+    }
 };

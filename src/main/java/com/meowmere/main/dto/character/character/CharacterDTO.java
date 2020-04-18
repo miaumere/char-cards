@@ -4,6 +4,7 @@ import com.meowmere.main.dto.character.colors.CharacterColorDTO;
 import com.meowmere.main.dto.character.image.ImageDTO;
 import com.meowmere.main.dto.character.measurements.CharacterMeasurementsDTO;
 import com.meowmere.main.dto.character.quote.CharacterQuoteDTO;
+import com.meowmere.main.dto.character.relationship.RelationshipDTO;
 import com.meowmere.main.dto.character.story.CharacterStoryDTO;
 import com.meowmere.main.dto.character.temperament.CharacterTemperamentDTO;
 
@@ -14,6 +15,7 @@ public class CharacterDTO {
     public String charType;
     public String charName;
     public String charSurname;
+    public String gender;
     public Long birthday;
     public Long death;
     public String deathReason;
@@ -24,6 +26,7 @@ public class CharacterDTO {
     public CharacterTemperamentDTO temperament;
     public CharacterMeasurementsDTO measurements;
     public List<ImageDTO> imagesList;
+    public List<RelationshipDTO> relationships;
 
     public String getCharType() {
         return charType;
@@ -35,6 +38,14 @@ public class CharacterDTO {
 
     public CharacterTemperamentDTO getTemperament() {
         return temperament;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
     public void setTemperament(CharacterTemperamentDTO temperament) {
@@ -135,5 +146,13 @@ public class CharacterDTO {
 
     public void setMeasurements(CharacterMeasurementsDTO measurements) {
         this.measurements = measurements;
+    }
+
+    public List<RelationshipDTO> getRelationships() {
+        return relationships;
+    }
+
+    public void setRelationships(List<RelationshipDTO> relationships) {
+        this.relationships = relationships;
     }
 }
