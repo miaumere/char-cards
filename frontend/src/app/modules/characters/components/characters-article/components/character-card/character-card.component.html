@@ -150,6 +150,27 @@
         Brak znanej historii.
       </ng-container>
     </div>
+    <div *ngIf="character.relationships && character.relationships.length > 0">
+      <h2 class="story__title" [ngStyle]="{'color': themeColor1}">Relacje rodzinne</h2>
+      <ul class="relationships">
+        <ng-container *ngFor="let relationship of character.relationships">
+          <li class="relationship" [routerLink]="['../', relationship.relatedCharacter.id]"
+            [title]="relationship.relatedCharacter.charName + ' ' + relationship.relatedCharacter.charSurname">
+            <div class="relation-profile-pic">
+              <img class="relation-profile-pic__image"
+                [src]="'data:image/' + relationship.relatedCharacter?.profilePic?.extension + ';base64, ' + relationship.relatedCharacter?.profilePic?.image | sanitizer">
+            </div>
+            <span>{{relationship.relatedCharacter.charName}}
+              {{relationship.relatedCharacter.charSurname}}</span>
+            <span [ngStyle]="{'color': themeColor1}">
+              {{relationship.relationName}}
+            </span>
+          </li>
+        </ng-container>
+
+      </ul>
+
+    </div>
     <div>
       <h2 class="story__title" [ngStyle]="{'color': themeColor1}">Tabela wzrostu i wagi</h2>
       <table *ngIf="character.measurements" class="information__measurements measurements global-table">
