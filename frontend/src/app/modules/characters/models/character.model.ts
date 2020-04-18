@@ -4,14 +4,16 @@ import { IImageForMain } from './image-for-main.model';
 import { ITemperament } from './temperament.model';
 import { IMeasurements } from './measurements.model';
 import { IQuote } from './quote.model';
+import { IRelationship } from './relationship.model';
 
 type characterType = 'MAIN' | 'SIDE' | 'BACKGROUND' | null;
-
+type gender = 'MALE' | 'FEMALE' | null;
 export interface ICharacter {
   externalId: number;
   charName: string;
   charSurname: string;
   birthday: number;
+  gender: gender;
   death: number;
   deathReason: string;
   occupation: string;
@@ -22,6 +24,7 @@ export interface ICharacter {
   measurements: IMeasurements;
   quotes: IQuote;
   charType: characterType;
+  relationships: IRelationship[] | null;
 }
 
 export class Character {
@@ -39,5 +42,6 @@ export class Character {
   measurements: IMeasurements;
   quotes: IQuote;
   charType: characterType;
+  relationships: IRelationship[] | null;
 }
 
