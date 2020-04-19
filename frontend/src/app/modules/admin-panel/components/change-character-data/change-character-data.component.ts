@@ -1,32 +1,57 @@
-import { ICharacterItem } from 'src/app/modules/characters/models/character-item.model';
-import { StoryToEdit } from './../../models/story-to-edit.model';
-import { NewTitle } from './../../models/new-title.model';
-import { EditTitle } from './../../models/edit-title.model';
-import { NewQuote } from './../../models/new-quote.model';
-import { ToastrService } from 'ngx-toastr';
-import { CharactersService } from './../../../../core/service/characters.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs/operators';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { BaseComponent } from 'src/app/core/base.component';
+import { CharacterItem } from 'src/app/modules/characters/models/character-item.model';
+import { IImageForMain } from 'src/app/modules/characters/models/image-for-main.model';
 import { Quote } from 'src/app/modules/characters/models/quote.model';
+import { RelationshipType } from '../../enums/relationship-type.enum';
+import { EditImageName } from '../../models/edit-image-name.model';
 import { EditQuote } from '../../models/edit-quote.model';
-import { StoryToSend } from '../../models/story-to-send.model';
 import { IProfilePic } from '../../models/profile-pic.model';
 import { StoryForCharacter } from '../../models/story-for-character.model';
+import { StoryToSend } from '../../models/story-to-send.model';
 import { Title } from '../../models/title.model';
-import { IImageForMain } from 'src/app/modules/characters/models/image-for-main.model';
-import { EditImageName } from '../../models/edit-image-name.model';
+import { CharactersService } from './../../../../core/service/characters.service';
+import { EditTitle } from './../../models/edit-title.model';
+import { NewQuote } from './../../models/new-quote.model';
+import { NewTitle } from './../../models/new-title.model';
+import { StoryToEdit } from './../../models/story-to-edit.model';
+import { IRelationRequest } from '../../models/relation-request.model';
 
 type changeOptions = 'new-character' | 'edit-character' | 'delete-character' | 'story' | 'edit-images'
-  | 'new-chars' | 'quotes' | 'story-for-char';
+  | 'new-chars' | 'quotes' | 'story-for-char' | 'relationships';
 @Component({
   selector: 'app-change-character-data',
   templateUrl: './change-character-data.component.html',
-  styleUrls: ['./change-character-data.component.scss']
+  styleUrls: ['./change-character-data.component.scss'],
+  host: {
+    '(window:click)': 'closeAllSelects()'
+  }
 })
 export class ChangeCharacterDataComponent extends BaseComponent implements OnInit {
+
+  readonly RelationshipType = RelationshipType;
+
+  characterListOne: HTMLSelectElement | null = null;
+  characterListTwo: HTMLSelectElement | null = null;
+
+  @ViewChild('characterListOne')
+  set setCharacterListOne(v: any) {
+    setTimeout(() => {
+      this.characterListOne = v.nativeElement;
+    }, 0);
+  }
+  @ViewChild('characterListTwo')
+  set setCharacterListTwo(v: any) {
+    setTimeout(() => {
+      this.characterListTwo = v.nativeElement;
+    }, 0);
+  }
+
+
   loading = true;
 
   formsArr = [];
@@ -58,13 +83,18 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
     title: new FormControl('', Validators.required),
   })
 
-  charList: ICharacterItem[] | null = null;
+  charList: CharacterItem[] = [];
+  filteredCharList: CharacterItem[] = [];
 
   profilePic: File | null = null;
   images: FileList | null = null;
 
   @ViewChild('newProfilePic') newProfilePic;
 
+  form = new FormGroup({
+    firstChar: new FormControl(''),
+    secondChar: new FormControl('')
+  })
 
   constructor(
     private _route: ActivatedRoute,
@@ -77,6 +107,24 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
 
   ngOnInit() {
     this.setChangeData();
+
+    this.subscriptions$.add(
+      this.form.get('firstChar')?.valueChanges.subscribe((value: string) => {
+        this._setFilteredList(value)
+      })
+    );
+    this.subscriptions$.add(
+      this.form.get('secondChar')?.valueChanges.subscribe((value: string) => {
+        this._setFilteredList(value)
+      })
+    );
+  }
+
+  private _setFilteredList(value: string) {
+    this.filteredCharList = this.charList.filter(c => {
+      const charName = `${c.charName} ${c.charSurname}`.toLowerCase()
+      return charName.indexOf(value.toLowerCase()) !== -1
+    })
   }
 
   setChangeData() {
@@ -117,6 +165,10 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
 
       case 'quotes':
         this.getQuotes();
+        break;
+
+      case 'relationships':
+        this.getCharactersList();
         break;
 
       case 'edit-character':
@@ -579,4 +631,87 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
       }
     }
   }
+
+  getCharactersList() {
+    this.loading = true;
+
+    this.subscriptions$.add(
+      this._characterService
+        .getCharacters()
+        .pipe(
+          finalize(() => {
+            this.loading = false;
+          })
+        )
+        .subscribe(charList => {
+          this.charList = charList;
+          this.filteredCharList = charList;
+        })
+    )
+  }
+
+  openSelect(event: MouseEvent, forSelectList: number) {
+    this.closeAllSelects();
+    event.stopPropagation();
+    const target = event.target as HTMLInputElement;
+
+    this._setFilteredList(target.value)
+
+    switch (forSelectList) {
+      case 1:
+        this._openSelect(this.characterListOne)
+
+        break;
+      case 2:
+        this._openSelect(this.characterListTwo)
+
+        break;
+    }
+  }
+
+  private _openSelect(selectEl: HTMLSelectElement | undefined | null) {
+    if (!!selectEl) {
+      selectEl.style.display = "block";
+      selectEl.style.width = "100%"
+      selectEl.size = 5;
+    }
+  }
+
+  onItemSelect(e: Event, formControlName: string) {
+    const eventTarget = e.target as HTMLSelectElement;
+    eventTarget.style.display = 'none';
+    this.form.get(formControlName)?.setValue(eventTarget.value)
+  }
+
+  closeAllSelects() {
+    if (!!this.characterListOne) {
+      this.characterListOne.style.display = "none"
+    }
+    if (!!this.characterListTwo) {
+      this.characterListTwo.style.display = "none"
+    }
+  }
+
+  onSubmit() {
+
+    const firstChar = this.charList.find(c => c.fullName === this.form.get('firstChar')?.value)
+    const secondChar = this.charList.find(c => c.fullName === this.form.get('secondChar')?.value)
+
+    if (!firstChar || !secondChar) {
+      console.error("Blad walidacji. Nie ma czegos na liscie.");
+      return;
+    }
+
+    // TODO: To service.
+    const request: IRelationRequest = {
+      charId: firstChar.id,
+      relCharId: secondChar.id,
+      relation: RelationshipType.CHILD,
+      reverseRelation: RelationshipType.PARENT
+    }
+
+    console.log("Do bekenduuuuuu idze:")
+    console.warn(request)
+  }
+
 }

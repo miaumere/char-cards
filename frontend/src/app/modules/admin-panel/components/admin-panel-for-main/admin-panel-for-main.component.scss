@@ -22,7 +22,9 @@
 }
 
 .sidebar {
-  height: 7.5rem;
+  display: flex;
+  justify-content: space-around;
+  flex-direction: column;
 
   padding-left: 0.7rem;
   padding-right: 0.2rem;
@@ -31,7 +33,6 @@
   background: #ffffff7a;
 
   &__option {
-    margin: 5px 0;
     margin-left: -0.5rem;
 
     cursor: pointer;

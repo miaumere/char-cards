@@ -10,6 +10,11 @@
       <app-icon [icon]="'story'" [color]="'white'" [size]="'3'"></app-icon>
     </div>
 
+    <div class="menu__item item item--new-char" title="Dodaj/edytuj postaci"
+      [routerLink]="['../change', 'relationships']">
+      <app-icon [icon]="'branch'" [color]="'white'" [size]="'3'"></app-icon>
+    </div>
+
     <div class="menu__item item" *ngFor="let character of charList">
       <div class="item__char-info char-info">
         <div title="Zmień stan postaci" (click)="changeStateOfChar(character.id)" class="change-state">
@@ -57,6 +62,8 @@
         </div>
 
       </div>
+
+
     </div>
 
   </div>

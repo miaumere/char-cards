@@ -15,7 +15,14 @@ export class CharacterItem implements ICharacterItem {
   profilePic: IProfilePic | null;
   archived: boolean;
 
+  get fullName() {
+    return `${this.charName} ${this.charSurname}`;
+  }
+
   constructor(initialValues: ICharacterItem) {
     Object.assign(this, initialValues);
   }
+
+
+
 }

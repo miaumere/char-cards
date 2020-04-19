@@ -69,16 +69,23 @@ export class CharactersService {
   getCharacters() {
     return this.http.get<ICharacterItem[]>(this._getNonArchivedCharactersURL)
       .pipe(
-        tap(response => {
+        map(response => {
           const mappedResponse = response.map(r => new CharacterItem(r));
           this.charList$.next(mappedResponse);
+          return mappedResponse
         })
       );
   }
 
   // archived and non-archived characters:
   getAllCharacters() {
-    return this.http.get<ICharacterForListItem[]>(this._getAllCharactersURL);
+    return this.http.get<ICharacterForListItem[]>(this._getAllCharactersURL).pipe(
+      map(response => {
+        const mappedResponse = response.map(r => new CharacterItem(r));
+        this.charList$.next(mappedResponse);
+        return mappedResponse
+      })
+    );;
   }
 
   getCharacterById(id: number) {

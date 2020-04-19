@@ -193,5 +193,68 @@
     <div *ngSwitchCase="'edit-character'">
       <app-character-modify type="EDIT" [charId]="selectedCharId"></app-character-modify>
     </div>
+
+    <div *ngSwitchCase="'relationships'" class="admin-panel quotes admin-panel--main admin-panel-main">
+      <form [formGroup]="form" (ngSubmit)="onSubmit()" class="relationship-form">
+        <div class="relationship-form__container">
+          <div class="relationship-form__box">
+            <span>Postać, do której jest relacja:</span>
+
+
+            <div class="combo-box">
+              <input class="global-input combo-box__input" type="text" formControlName="firstChar"
+                (click)="openSelect($event, 1)" />
+
+              <select class="combo-box__select" #characterListOne (change)="onItemSelect($event, 'firstChar')">
+                <option disabled *ngIf="filteredCharList?.length === 0" value="">
+                  Brak danych
+                </option>
+                <option *ngFor="let char of filteredCharList" [value]="char.fullName">
+                  {{char.fullName}}
+                </option>
+              </select>
+            </div>
+
+            <input class="global-input" type="text" formControlName="secondChar" disabled />
+
+          </div>
+          <div class="relationship-form__box">
+
+            <span>Postać, która jest osobą powiązaną:</span>
+
+            <div class="combo-box">
+              <input class="global-input combo-box__input" type="text" formControlName="secondChar"
+                (click)="openSelect($event, 2)" (input)="openSelect($event, 2)" />
+
+              <select class="combo-box__select" #characterListTwo (change)="onItemSelect($event, 'secondChar')">
+                <option disabled *ngIf="filteredCharList?.length === 0" value="">
+                  Brak danych
+                </option>
+                <option *ngFor="let char of filteredCharList" [value]="char.fullName">
+                  {{char.fullName}}
+                </option>
+              </select>
+            </div>
+
+
+            <input class="global-input" type="text" formControlName="firstChar" disabled />
+
+          </div>
+          <div class="relationship-form__box">
+            <span>Typ relacji:</span>
+            <select class="global-select">
+              <option *ngFor="let type of RelationshipType | enumVal" [value]="type.key">{{type.value}}</option>
+            </select>
+
+            <select class="global-select">
+              <option *ngFor="let type of RelationshipType | enumVal" [value]="type.key">{{type.value}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="relationship-form__container">
+          <input class="global-button" type="submit">
+        </div>
+      </form>
+    </div>
   </div>
 </div>
