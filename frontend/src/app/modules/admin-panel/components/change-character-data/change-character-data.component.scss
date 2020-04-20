@@ -549,3 +549,9 @@ $background1: #0000007d;
     display: none;
   }
 }
+
+.relationship-box {
+  &__input {
+    margin: 1rem 0;
+  }
+}

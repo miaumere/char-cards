@@ -6,6 +6,7 @@ import com.meowmere.main.requests.characters.character.EditCharacterRequest;
 import com.meowmere.main.requests.characters.image.ImageRenameRequest;
 import com.meowmere.main.requests.characters.quotes.EditQuoteRequest;
 import com.meowmere.main.requests.characters.quotes.NewQuoteForCharacterRequest;
+import com.meowmere.main.requests.characters.relationship.RelationRequest;
 import com.meowmere.main.requests.characters.stories.CreateStoryForCharRequest;
 import com.meowmere.main.requests.characters.stories.EditStoryRequest;
 import com.meowmere.main.requests.characters.titles.EditTitleRequest;
@@ -56,6 +57,11 @@ public class CharacterController {
     @PostMapping("/new-quote")
     public ResponseEntity createQuoteForCharacter(@RequestBody NewQuoteForCharacterRequest newQuoteForCharacterRequest) {
         return charactersService.createQuoteForCharacter(newQuoteForCharacterRequest);
+    }
+
+    @PostMapping("/new-relationship")
+    public ResponseEntity createRelationship(@RequestBody RelationRequest relationRequest) {
+        return charactersService.createRelationship(relationRequest);
     }
 
     @PutMapping("/edit-character")

@@ -1,3 +1,4 @@
+import { IRelationRequest } from './../../modules/admin-panel/models/relation-request.model';
 import { NewTitle } from './../../modules/admin-panel/models/new-title.model';
 import { EditTitle } from './../../modules/admin-panel/models/edit-title.model';
 import { EditCharacter, IEditCharacter } from './../../modules/admin-panel/models/edit-character.model';
@@ -23,36 +24,36 @@ import { EditImageName } from 'src/app/modules/admin-panel/models/edit-image-nam
   providedIn: 'root'
 })
 export class CharactersService {
+  private readonly charControllerURL = '/api/characters';
 
-  charControllerURL = '/api/characters';
+  private readonly _getNonArchivedCharactersURL = `${this.charControllerURL}/get-characters`;
+  private readonly _getCharacterByIdURL = `${this.charControllerURL}/get-character`;
+  private readonly _getAllCharactersURL = `${this.charControllerURL}/get-all-characters`;
+  private readonly _getStoryTitlesURL = `${this.charControllerURL}/get-titles`;
+  private readonly _getCharacterDetailsURL = `${this.charControllerURL}/get-details`;
+  private readonly _getQuotesURL = `${this.charControllerURL}/get-quotes`;
+  private readonly _getStoriesForCharURL = `${this.charControllerURL}/get-stories`;
 
-  private _getNonArchivedCharactersURL = `${this.charControllerURL}/get-characters`;
-  private _getCharacterByIdURL = `${this.charControllerURL}/get-character`;
-  private _getAllCharactersURL = `${this.charControllerURL}/get-all-characters`;
-  private _getStoryTitlesURL = `${this.charControllerURL}/get-titles`;
-  private _getCharacterDetailsURL = `${this.charControllerURL}/get-details`;
-  private _getQuotesURL = `${this.charControllerURL}/get-quotes`;
-  private _getStoriesForCharURL = `${this.charControllerURL}/get-stories`;
+  private readonly _patchChangeStateURL = `${this.charControllerURL}/change-state`;
+  private readonly _patchQuoteURL = `${this.charControllerURL}/edit-quote`;
+  private readonly _patchTitleURL = `${this.charControllerURL}/edit-title`;
+  private readonly _patchTitlesSequenceURL = `${this.charControllerURL}/set-title-sequence`;
+  private readonly _patchStoryURL = `${this.charControllerURL}/edit-story`;
+  private readonly _patchImageNameURL = `${this.charControllerURL}/change-image-name`;
 
-  private _patchChangeStateURL = `${this.charControllerURL}/change-state`;
-  private _patchQuoteURL = `${this.charControllerURL}/edit-quote`;
-  private _patchTitleURL = `${this.charControllerURL}/edit-title`;
-  private _patchTitlesSequenceURL = `${this.charControllerURL}/set-title-sequence`;
-  private _patchStoryURL = `${this.charControllerURL}/edit-story`;
-  private _patchImageNameURL = `${this.charControllerURL}/change-image-name`;
+  private readonly _postStoryForCharacterURL = `${this.charControllerURL}/new-stories`;
+  private readonly _postNewCharacterURL = `${this.charControllerURL}/new-character`;
+  private readonly _postNewQuoteURL = `${this.charControllerURL}/new-quote`;
+  private readonly _postNewTitleURL = `${this.charControllerURL}/new-title`;
+  private readonly _postEditImagesURL = `${this.charControllerURL}/new-images`;
+  private readonly _postNewRelationshipURL = `${this.charControllerURL}/new-relationship`;
 
-  private _postStoryForCharacterURL = `${this.charControllerURL}/new-stories`;
-  private _postNewCharacterURL = `${this.charControllerURL}/new-character`;
-  private _postNewQuoteURL = `${this.charControllerURL}/new-quote`;
-  private _postNewTitleURL = `${this.charControllerURL}/new-title`;
-  private _postEditImagesURL = `${this.charControllerURL}/new-images`;
+  private readonly _putEditCharacterURL = `${this.charControllerURL}/edit-character`;
 
-  private _putEditCharacterURL = `${this.charControllerURL}/edit-character`;
-
-  private _deleteQuoteURL = `${this.charControllerURL}/delete-quote`;
-  private _deleteTitleURL = `${this.charControllerURL}/delete-title`;
-  private _deleteStoryURL = `${this.charControllerURL}/delete-story`;
-  private _deleteImageURL = `${this.charControllerURL}/delete-image`;
+  private readonly _deleteQuoteURL = `${this.charControllerURL}/delete-quote`;
+  private readonly _deleteTitleURL = `${this.charControllerURL}/delete-title`;
+  private readonly _deleteStoryURL = `${this.charControllerURL}/delete-story`;
+  private readonly _deleteImageURL = `${this.charControllerURL}/delete-image`;
 
 
   public charList$ = new BehaviorSubject<CharacterItem[] | null>(null);
@@ -72,7 +73,7 @@ export class CharactersService {
         map(response => {
           const mappedResponse = response.map(r => new CharacterItem(r));
           this.charList$.next(mappedResponse);
-          return mappedResponse
+          return mappedResponse;
         })
       );
   }
@@ -83,9 +84,9 @@ export class CharactersService {
       map(response => {
         const mappedResponse = response.map(r => new CharacterItem(r));
         this.charList$.next(mappedResponse);
-        return mappedResponse
+        return mappedResponse;
       })
-    );;
+    );
   }
 
   getCharacterById(id: number) {
@@ -163,6 +164,10 @@ export class CharactersService {
       params
     };
     return this.http.post<void>(this._postEditImagesURL, formData, httpOptions);
+  }
+
+  postNewRelationship(requestBody: IRelationRequest) {
+    return this.http.post<IRelationRequest>(this._postNewRelationshipURL, requestBody);
   }
 
   postNewQuote(requestBody: NewQuote) {

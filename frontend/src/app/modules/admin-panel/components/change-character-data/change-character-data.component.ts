@@ -81,7 +81,7 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
 
   newTitleForm = new FormGroup({
     title: new FormControl('', Validators.required),
-  })
+  });
 
   charList: CharacterItem[] = [];
   filteredCharList: CharacterItem[] = [];
@@ -91,10 +91,12 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
 
   @ViewChild('newProfilePic') newProfilePic;
 
-  form = new FormGroup({
+  relationForm = new FormGroup({
     firstChar: new FormControl(''),
-    secondChar: new FormControl('')
-  })
+    secondChar: new FormControl(''),
+    relation: new FormControl(-1),
+    reverseRelation: new FormControl(-1)
+  });
 
   constructor(
     private _route: ActivatedRoute,
@@ -109,22 +111,22 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
     this.setChangeData();
 
     this.subscriptions$.add(
-      this.form.get('firstChar')?.valueChanges.subscribe((value: string) => {
-        this._setFilteredList(value)
+      this.relationForm.get('firstChar')?.valueChanges.subscribe((value: string) => {
+        this._setFilteredList(value);
       })
     );
     this.subscriptions$.add(
-      this.form.get('secondChar')?.valueChanges.subscribe((value: string) => {
-        this._setFilteredList(value)
+      this.relationForm.get('secondChar')?.valueChanges.subscribe((value: string) => {
+        this._setFilteredList(value);
       })
     );
   }
 
   private _setFilteredList(value: string) {
     this.filteredCharList = this.charList.filter(c => {
-      const charName = `${c.charName} ${c.charSurname}`.toLowerCase()
-      return charName.indexOf(value.toLowerCase()) !== -1
-    })
+      const charName = `${c.charName} ${c.charSurname}`.toLowerCase();
+      return charName.indexOf(value.toLowerCase()) !== -1;
+    });
   }
 
   setChangeData() {
@@ -189,7 +191,7 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
         ).subscribe(character => {
           this.profilePicForMain = character[0]?.profilePic;
         })
-    )
+    );
     this.subscriptions$.add(
       this._characterService
         .getCharacterById(this.selectedCharId)
@@ -201,7 +203,7 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
           this.imagesListForMain = character.imagesList;
         }
         )
-    )
+    );
 
   }
 
@@ -235,7 +237,7 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
           err => {
             this._toastrService.error(err?.error);
           })
-    )
+    );
   }
 
   insertDeleteInfo() {
@@ -261,7 +263,7 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
         }, err => {
           this._toastrService.error(err?.error);
         })
-    )
+    );
   }
 
   changeSequence(titleIndex: number, action: 'UP' | 'DOWN') {
@@ -296,7 +298,7 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
           ).subscribe(_ => {
             // console.log('sekwencja zostala zapisana.')
           })
-      )
+      );
 
     }
   }
@@ -314,7 +316,7 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
         }, err => {
           this._toastrService.error(err?.error);
         })
-    )
+    );
   }
 
   createStory(story: string, titleId: number) {
@@ -372,7 +374,7 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
           this.getStoriesForCharacter();
         }, err => {
           this._toastrService.error(err?.error);
-        })
+        });
     }
   }
 
@@ -393,7 +395,7 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
           err => {
             this._toastrService.error(err?.error);
           })
-    )
+    );
   }
 
   createNewQuote() {
@@ -421,7 +423,7 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
         },
           err => {
             this._toastrService.error(err?.error);
-          }))
+          }));
   }
 
 
@@ -534,7 +536,7 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
             }, err => {
               this._toastrService.error(err?.error);
             })
-        )
+        );
       } else {
         this._toastrService.warning('Tytuł nie może być pusty!');
       }
@@ -558,7 +560,7 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
         }, err => {
           this._toastrService.error(err?.error);
         })
-    )
+    );
 
   }
 
@@ -647,7 +649,7 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
           this.charList = charList;
           this.filteredCharList = charList;
         })
-    )
+    );
   }
 
   openSelect(event: MouseEvent, forSelectList: number) {
@@ -655,15 +657,15 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
     event.stopPropagation();
     const target = event.target as HTMLInputElement;
 
-    this._setFilteredList(target.value)
+    this._setFilteredList(target.value);
 
     switch (forSelectList) {
       case 1:
-        this._openSelect(this.characterListOne)
+        this._openSelect(this.characterListOne);
 
         break;
       case 2:
-        this._openSelect(this.characterListTwo)
+        this._openSelect(this.characterListTwo);
 
         break;
     }
@@ -671,8 +673,8 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
 
   private _openSelect(selectEl: HTMLSelectElement | undefined | null) {
     if (!!selectEl) {
-      selectEl.style.display = "block";
-      selectEl.style.width = "100%"
+      selectEl.style.display = 'block';
+      selectEl.style.width = '100%'
       selectEl.size = 5;
     }
   }
@@ -680,38 +682,57 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
   onItemSelect(e: Event, formControlName: string) {
     const eventTarget = e.target as HTMLSelectElement;
     eventTarget.style.display = 'none';
-    this.form.get(formControlName)?.setValue(eventTarget.value)
+    this.relationForm.get(formControlName)?.setValue(eventTarget.value);
   }
 
   closeAllSelects() {
     if (!!this.characterListOne) {
-      this.characterListOne.style.display = "none"
+      this.characterListOne.style.display = 'none';
     }
     if (!!this.characterListTwo) {
-      this.characterListTwo.style.display = "none"
+      this.characterListTwo.style.display = 'none';
     }
   }
 
-  onSubmit() {
+  createNewRelation() {
+    this.loading = true;
 
-    const firstChar = this.charList.find(c => c.fullName === this.form.get('firstChar')?.value)
-    const secondChar = this.charList.find(c => c.fullName === this.form.get('secondChar')?.value)
+    const firstChar = this.charList.find(c => c.fullName === this.relationForm.get('firstChar')?.value);
+    const secondChar = this.charList.find(c => c.fullName === this.relationForm.get('secondChar')?.value);
+    const relation = this.relationForm.get('relation')?.value;
+    const reverseRelation = this.relationForm.get('reverseRelation')?.value;
 
     if (!firstChar || !secondChar) {
-      console.error("Blad walidacji. Nie ma czegos na liscie.");
+      this._toastrService.error('Błąd walidacji. Co najmniej jedna z podanych postaci nie istnieje.');
+      return;
+    } else if (!relation || !reverseRelation) {
+      this._toastrService.error('Nie uzupełniono typu relacji.')
       return;
     }
 
-    // TODO: To service.
     const request: IRelationRequest = {
       charId: firstChar.id,
       relCharId: secondChar.id,
-      relation: RelationshipType.CHILD,
-      reverseRelation: RelationshipType.PARENT
-    }
+      relation: RelationshipType[relation],
+      reverseRelation: RelationshipType[reverseRelation]
+    };
 
-    console.log("Do bekenduuuuuu idze:")
-    console.warn(request)
+    console.log(request)
+    this.subscriptions$.add(
+      this._characterService.postNewRelationship(
+        request
+      ).pipe(
+        finalize(() => {
+          this.loading = false;
+        })
+      ).subscribe(_ => {
+        this._toastrService.success('Udało się dodać nową relację.');
+        this.relationForm.reset();
+      }, error => {
+        this._toastrService.error(error.error);
+      })
+    )
+    console.warn(request);
   }
 
 }

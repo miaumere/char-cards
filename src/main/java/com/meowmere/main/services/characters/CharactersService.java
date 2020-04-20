@@ -26,6 +26,7 @@ import com.meowmere.main.requests.characters.character.EditCharacterRequest;
 import com.meowmere.main.requests.characters.image.ImageRenameRequest;
 import com.meowmere.main.requests.characters.quotes.EditQuoteRequest;
 import com.meowmere.main.requests.characters.quotes.NewQuoteForCharacterRequest;
+import com.meowmere.main.requests.characters.relationship.RelationRequest;
 import com.meowmere.main.requests.characters.stories.CreateStoryForCharRequest;
 import com.meowmere.main.requests.characters.stories.EditStoryRequest;
 import com.meowmere.main.requests.characters.titles.EditTitleRequest;
@@ -634,4 +635,26 @@ public class CharactersService {
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
+    public ResponseEntity createRelationship(RelationRequest request) {
+        Character characterOne = characterRepository.getOne(request.getCharId());
+        Character characterTwo = characterRepository.getOne(request.getRelCharId());
+        if (characterOne == null || characterTwo == null) {
+            return new ResponseEntity("Co najmniej jedna z podanych postaci nie istnieje.", HttpStatus.BAD_REQUEST);
+        }
+        Relationship firstRelationship = new Relationship();
+        firstRelationship.setCharacter(characterOne);
+        firstRelationship.setRelatedCharacter(characterTwo);
+        firstRelationship.setRelationName(request.getRelation());
+
+
+        Relationship secondRelationship = new Relationship();
+        secondRelationship.setCharacter(characterTwo);
+        secondRelationship.setRelatedCharacter(characterOne);
+        secondRelationship.setRelationName(request.getReverseRelation());
+
+        relationshipRepository.save(firstRelationship);
+        relationshipRepository.save(secondRelationship);
+
+        return new ResponseEntity(HttpStatus.CREATED);
+    }
 }
