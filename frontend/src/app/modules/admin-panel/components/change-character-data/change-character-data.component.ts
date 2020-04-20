@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs/operators';
 import { BaseComponent } from 'src/app/core/base.component';
-import { CharacterItem } from 'src/app/modules/characters/models/character-item.model';
+import { CharacterItem, ICharacterItem } from 'src/app/modules/characters/models/character-item.model';
 import { IImageForMain } from 'src/app/modules/characters/models/image-for-main.model';
 import { Quote } from 'src/app/modules/characters/models/quote.model';
 import { RelationshipType } from '../../enums/relationship-type.enum';
@@ -20,9 +20,11 @@ import { NewQuote } from './../../models/new-quote.model';
 import { NewTitle } from './../../models/new-title.model';
 import { StoryToEdit } from './../../models/story-to-edit.model';
 import { IRelationRequest } from '../../models/relation-request.model';
+import { RelationshipsForCharacter } from '../../models/relationships-for-char.model';
+import { ICharacterForListItem } from 'src/app/modules/characters/models/character-for-list-item.model';
 
 type changeOptions = 'new-character' | 'edit-character' | 'delete-character' | 'story' | 'edit-images'
-  | 'new-chars' | 'quotes' | 'story-for-char' | 'relationships';
+  | 'new-chars' | 'quotes' | 'story-for-char' | 'relationships' | 'edit-relationship';
 @Component({
   selector: 'app-change-character-data',
   templateUrl: './change-character-data.component.html',
@@ -41,13 +43,13 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
   @ViewChild('characterListOne')
   set setCharacterListOne(v: any) {
     setTimeout(() => {
-      this.characterListOne = v.nativeElement;
+      this.characterListOne = v?.nativeElement;
     }, 0);
   }
   @ViewChild('characterListTwo')
   set setCharacterListTwo(v: any) {
     setTimeout(() => {
-      this.characterListTwo = v.nativeElement;
+      this.characterListTwo = v?.nativeElement;
     }, 0);
   }
 
@@ -86,6 +88,10 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
   charList: CharacterItem[] = [];
   filteredCharList: CharacterItem[] = [];
 
+  selectedCharacter?: CharacterItem;
+
+  relationshipsList: RelationshipsForCharacter[] = [];
+
   profilePic: File | null = null;
   images: FileList | null = null;
 
@@ -100,7 +106,6 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
 
   constructor(
     private _route: ActivatedRoute,
-    private _router: Router,
     private _characterService: CharactersService,
     private _toastrService: ToastrService
   ) {
@@ -134,15 +139,13 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
       this.subscriptions$.add(
         this._route.params.subscribe(param => {
           this.changeType = param.name;
-          if (param.name === 'edit-images' ||
-            param.name === 'edit-character' || param.name === 'story-for-char' || param.name === 'quotes'
-          ) {
-            this._route.queryParams.subscribe(queryParam => {
-              if (queryParam.id) {
-                this.selectedCharId = +queryParam.id;
-              }
-            });
-          }
+
+          this._route.queryParams.subscribe(queryParam => {
+            if (queryParam.id) {
+              this.selectedCharId = +queryParam.id;
+            }
+          });
+
           this.displayInfo(param.name);
         })
       );
@@ -171,6 +174,11 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
 
       case 'relationships':
         this.getCharactersList();
+        break;
+
+      case 'edit-relationship':
+        this.getCharactersList();
+        this.getRelationshipsForCharacter();
         break;
 
       case 'edit-character':
@@ -426,7 +434,6 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
           }));
   }
 
-
   getQuotes() {
     this.loading = true;
 
@@ -648,6 +655,9 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
         .subscribe(charList => {
           this.charList = charList;
           this.filteredCharList = charList;
+
+          this.selectedCharacter = charList.find(x => x.id === this.selectedCharId);
+
         })
     );
   }
@@ -734,5 +744,28 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
     )
     console.warn(request);
   }
+
+  getRelationshipsForCharacter() {
+    this.loading = true;
+
+    this.subscriptions$.add(
+      this._characterService
+        .getRelationshipsForCharacter(this.selectedCharId)
+        .pipe(
+          finalize(() => {
+            this.loading = false;
+          })
+        )
+        .subscribe(relations => {
+          this.relationshipsList = relations;
+          console.log(this.relationshipsList);
+        })
+    )
+  }
+
+  editRelation() {
+
+  }
+
 
 }

@@ -60,7 +60,12 @@
     }">
           <app-icon [icon]="'quote'" [color]="'black'" [size]="'0.7'"></app-icon>
         </div>
-
+        <div class="sidebar__option" title="Edytuj relacje postaci" [routerLink]="['../change', 'edit-relationship']"
+          [queryParams]="{
+          id: character.id
+        }">
+          <app-icon [icon]="'branch'" [color]="'black'" [size]="'0.7'"></app-icon>
+        </div>
       </div>
 
 

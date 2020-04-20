@@ -12,4 +12,7 @@ import java.util.List;
 public interface RelationshipRepository extends JpaRepository<Relationship, Long> {
     @Query("SELECT r FROM Relationship r where r.character.externalId = :characterId")
     List<Relationship> getRelationshipsForCharacter(@Param("characterId") Long characterId);
+
+    @Query("SELECT r FROM Relationship r where r.relatedCharacter.externalId = :characterId and r.character.externalId = :relatedCharId")
+    Relationship getRelationshipsWhereCharIsRelatedTo(@Param("characterId") Long characterId, @Param("relatedCharId") Long relatedCharId);
 }

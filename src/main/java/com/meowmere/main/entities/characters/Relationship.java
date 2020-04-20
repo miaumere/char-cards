@@ -16,12 +16,12 @@ public class Relationship {
     @ManyToOne(fetch = FetchType.LAZY)
     @NotFound(action = NotFoundAction.IGNORE)
     @JoinColumn(name = "character_id")
-    private Character character;
+    public Character character;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @NotFound(action = NotFoundAction.IGNORE)
     @JoinColumn(name = "related_character_id")
-    private Character relatedCharacter;
+    public Character relatedCharacter;
 
     @Column
     @Enumerated(EnumType.STRING)

@@ -1,3 +1,4 @@
+import { RelationshipsForCharacter } from './../../modules/admin-panel/models/relationships-for-char.model';
 import { IRelationRequest } from './../../modules/admin-panel/models/relation-request.model';
 import { NewTitle } from './../../modules/admin-panel/models/new-title.model';
 import { EditTitle } from './../../modules/admin-panel/models/edit-title.model';
@@ -19,6 +20,7 @@ import { ICharacterForListItem } from 'src/app/modules/characters/models/charact
 import { IStoryForCharacter } from 'src/app/modules/admin-panel/models/story-for-character.model';
 import { ITitle, Title } from 'src/app/modules/admin-panel/models/title.model';
 import { EditImageName } from 'src/app/modules/admin-panel/models/edit-image-name.model';
+import { IRelationshipsForCharacter } from 'src/app/modules/admin-panel/models/relationships-for-char.model';
 
 @Injectable({
   providedIn: 'root'
@@ -33,6 +35,7 @@ export class CharactersService {
   private readonly _getCharacterDetailsURL = `${this.charControllerURL}/get-details`;
   private readonly _getQuotesURL = `${this.charControllerURL}/get-quotes`;
   private readonly _getStoriesForCharURL = `${this.charControllerURL}/get-stories`;
+  private readonly _getRelationshipsForCharURL = `${this.charControllerURL}/get-relationships`;
 
   private readonly _patchChangeStateURL = `${this.charControllerURL}/change-state`;
   private readonly _patchQuoteURL = `${this.charControllerURL}/edit-quote`;
@@ -101,6 +104,17 @@ export class CharactersService {
     const params = new HttpParams().set('id', '' + id);
 
     return this.http.get<IStoryForCharacter[]>(this._getStoriesForCharURL, { params });
+  }
+
+  getRelationshipsForCharacter(id: number) {
+    const params = new HttpParams().set('id', '' + id);
+
+    return this.http.get<IRelationshipsForCharacter[]>(this._getRelationshipsForCharURL, { params }).pipe(
+      map(response => {
+        const mappedResponse = response.map(r => new RelationshipsForCharacter(r));
+        return mappedResponse;
+      })
+    );;
   }
 
   getQuotesForCharacter(id: number) {
@@ -208,7 +222,7 @@ export class CharactersService {
 
   getCharacter(charId: number) {
     return this.getAllCharacters().pipe(
-      map(charArray => charArray.filter(char => char.id === charId))
+      tap(charArray => charArray.filter(char => char.id === charId))
     );
   }
 

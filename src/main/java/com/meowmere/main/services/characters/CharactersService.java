@@ -13,6 +13,7 @@ import com.meowmere.main.dto.character.quote.CharacterQuoteDTO;
 import com.meowmere.main.dto.character.quote.QuoteForListDTO;
 import com.meowmere.main.dto.character.relationship.RelatedCharacterDTO;
 import com.meowmere.main.dto.character.relationship.RelationshipDTO;
+import com.meowmere.main.dto.character.relationship.RelationshipsForCharacterDTO;
 import com.meowmere.main.dto.character.story.CharacterStoryDTO;
 import com.meowmere.main.dto.character.story.StoryForListDTO;
 import com.meowmere.main.dto.character.temperament.CharacterTemperamentDTO;
@@ -656,5 +657,37 @@ public class CharactersService {
         relationshipRepository.save(secondRelationship);
 
         return new ResponseEntity(HttpStatus.CREATED);
+    }
+
+    public ResponseEntity getRelationships(Long id) {
+        List<Relationship> relationships = relationshipRepository.getRelationshipsForCharacter(id);
+
+        List<RelationshipsForCharacterDTO> relationshipsForCharacterDTOList = new ArrayList<>();
+        if(relationships != null) {
+            relationships.forEach(relationship -> {
+                RelationshipsForCharacterDTO relationshipsForCharacterDTO = new RelationshipsForCharacterDTO();
+                RelationshipDTO relationshipDTO = new RelationshipDTO();
+                relationshipDTO.setRelationName(relationship.getRelationName().name());
+                Character character = relationship.getRelatedCharacter();
+
+                RelatedCharacterDTO relatedCharacterDTO = new RelatedCharacterDTO();
+                relatedCharacterDTO.setId(character.getExternalId());
+                relatedCharacterDTO.setCharName(character.getCharName());
+                relatedCharacterDTO.setCharSurname(character.getCharSurname());
+
+                relationshipDTO.setRelatedCharacter(relatedCharacterDTO);
+
+                Relationship reversedRelationship = relationshipRepository
+                        .getRelationshipsWhereCharIsRelatedTo(id, relationship.getRelatedCharacter().getExternalId());
+
+                if(reversedRelationship != null) {
+                    relationshipsForCharacterDTO.setReverseRelationshipType(reversedRelationship.getRelationName().name());
+                }
+
+                relationshipsForCharacterDTO.setRelationship(relationshipDTO);
+                relationshipsForCharacterDTOList.add(relationshipsForCharacterDTO);
+            });
+        }
+        return new ResponseEntity(relationshipsForCharacterDTOList, HttpStatus.OK);
     }
 }

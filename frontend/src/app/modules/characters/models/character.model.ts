@@ -27,11 +27,12 @@ export interface ICharacter {
   relationships: IRelationship[] | null;
 }
 
-export class Character {
+export class Character implements ICharacter {
   externalId: number;
   charName: string;
   charSurname: string;
   birthday: number;
+  gender: gender;
   death: number;
   deathReason: string;
   occupation: string;

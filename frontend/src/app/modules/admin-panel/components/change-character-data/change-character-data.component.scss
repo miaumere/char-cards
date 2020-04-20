@@ -170,7 +170,8 @@ $background1: #0000007d;
 }
 
 .story,
-.titles {
+.titles,
+.relationships {
   display: block;
 
   height: calc(100vh - #{$navbar-height});
