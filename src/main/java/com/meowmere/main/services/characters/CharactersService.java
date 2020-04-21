@@ -21,6 +21,8 @@ import com.meowmere.main.dto.character.titles.TitleDTO;
 import com.meowmere.main.entities.characters.Character;
 import com.meowmere.main.entities.characters.*;
 import com.meowmere.main.enums.AvailableExtensions;
+import com.meowmere.main.enums.CharType;
+import com.meowmere.main.enums.Gender;
 import com.meowmere.main.repositories.character.*;
 import com.meowmere.main.requests.characters.character.ChangeCharacterStateRequest;
 import com.meowmere.main.requests.characters.character.EditCharacterRequest;
@@ -365,6 +367,9 @@ public class CharactersService {
         String profession = multipartHttpServletRequest.getParameter("profession");
         String death = multipartHttpServletRequest.getParameter("death");
         String deathReason = multipartHttpServletRequest.getParameter("deathReason");
+        String gender = multipartHttpServletRequest.getParameter("gender");
+        String characterType = multipartHttpServletRequest.getParameter("characterType");
+
 
         Integer melancholic = Integer.parseInt(multipartHttpServletRequest.getParameter("melancholic"));
         Integer sanguine = Integer.parseInt(multipartHttpServletRequest.getParameter("sanguine"));
@@ -392,6 +397,8 @@ public class CharactersService {
         Long parsedBirthdayDate = birthdayDate.getTime() / 1000;
 
         Character character = new Character(name, surname, parsedBirthdayDate, profession);
+        character.setGender(Gender.valueOf(gender));
+        character.setCharType(CharType.valueOf(characterType));
         try {
             Date deathDate = new Date(Long.parseLong(death));
             Long parsedDeathDate = deathDate.getTime() / 1000;
@@ -453,6 +460,8 @@ public class CharactersService {
 
         character.setCharName(request.getCharName());
         character.setCharSurname(request.getCharSurname());
+        character.setGender(Gender.valueOf(request.getGender()));
+        character.setCharType(CharType.valueOf(request.getCharacterType()));
         if(request.getBirthday() != null) {
             character.setBirthday(request.getBirthday());
         }

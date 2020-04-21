@@ -10,6 +10,8 @@ export interface IEditCharacter {
   externalId: number;
   charName: string;
   charSurname: string;
+  characterType: string;
+  gender: string;
   birthday: number;
   death: number | null;
   deathReason: string | null;
@@ -23,6 +25,8 @@ export class EditCharacter implements IEditCharacter {
   externalId: number;
   charName: string;
   charSurname: string;
+  characterType: string;
+  gender: string;
   birthday: number;
   death: number | null;
   deathReason: string | null;

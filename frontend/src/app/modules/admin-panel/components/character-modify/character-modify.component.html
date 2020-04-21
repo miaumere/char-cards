@@ -76,6 +76,29 @@
             </details>
           </label>
         </div>
+
+        <div class="new-char-form__container form-container">
+          <label class="global-label  form-container__label">
+            Wybierz płeć:
+          </label>
+          <label *ngFor="let gen of Gender | enumVal">
+            <app-icon [color]="gen.value === 'MALE' ? '#89cff0' : '#FFC0CB'" [icon]="gen.value | lowercase"
+              [size]="'0.7'">
+            </app-icon>
+            <input type="radio" [value]="gen.value" name="gender" formControlName="gender" />
+          </label>
+        </div>
+
+        <div class="new-char-form__container form-container">
+          <label class="global-label  form-container__label">
+            Typ postaci:
+          </label>
+          <select class="global-select" formControlName="characterType">
+            <option *ngFor="let characterType of CharType | enumVal" [value]="characterType.value">
+              {{characterType.value}}
+            </option>
+          </select>
+        </div>
       </div>
 
       <div *ngSwitchCase="2">

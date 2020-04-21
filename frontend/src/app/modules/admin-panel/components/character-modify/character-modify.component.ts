@@ -10,6 +10,8 @@ import { BaseComponent } from 'src/app/core/base.component';
 import { Colors } from 'src/app/modules/characters/models/colors.model';
 import { finalize } from 'rxjs/operators';
 import { validateImage } from 'src/app/modules/shared/functions/validate-image.function';
+import { Gender } from '../../enums/gender.enum';
+import { CharType } from '../../enums/character-type.enum';
 
 type chooseFormType = 'SUBMIT' | number;
 @Component({
@@ -19,6 +21,9 @@ type chooseFormType = 'SUBMIT' | number;
 })
 
 export class CharacterModifyComponent extends BaseComponent implements OnInit {
+  readonly Gender = Gender;
+  readonly CharType = CharType;
+
   formParts: string[] = [];
 
   isDead = true;
@@ -31,6 +36,8 @@ export class CharacterModifyComponent extends BaseComponent implements OnInit {
     profession: new FormControl(''),
     death: new FormControl(''),
     deathReason: new FormControl(''),
+    gender: new FormControl('', Validators.required),
+    characterType: new FormControl('', Validators.required),
 
     melancholic: new FormControl(0),
     sanguine: new FormControl(0),
@@ -65,6 +72,8 @@ export class CharacterModifyComponent extends BaseComponent implements OnInit {
     profession: new FormControl(''),
     death: new FormControl(''),
     deathReason: new FormControl(''),
+    gender: new FormControl('', Validators.required),
+    characterType: new FormControl(''),
 
     melancholic: new FormControl(0),
     sanguine: new FormControl(0),
@@ -255,6 +264,8 @@ export class CharacterModifyComponent extends BaseComponent implements OnInit {
         objToSend.charName = this.editCharacterForm.controls['name']?.value;
         objToSend.charSurname = this.editCharacterForm.controls['surname']?.value;
         objToSend.birthday = new Date(this.editCharacterForm.controls['birthday']?.value).getTime();
+        objToSend.gender = this.editCharacterForm.controls['gender'].value;
+        objToSend.characterType = this.editCharacterForm.controls['characterType'].value;
         if (this.isDead) {
           objToSend.death = new Date(this.editCharacterForm.controls['death']?.value).getTime();
           objToSend.deathReason = this.editCharacterForm.controls['deathReason']?.value;
@@ -332,6 +343,8 @@ export class CharacterModifyComponent extends BaseComponent implements OnInit {
             // this.editCharacterForm.get('death')?.setValue(charDetails.death ? timestampToDate(charDetails.death) : null);
             this.editCharacterForm.get('deathReason')?.setValue(charDetails.deathReason);
             this.editCharacterForm.get('profession')?.setValue(charDetails.occupation);
+            this.editCharacterForm.get('gender')?.setValue(charDetails.gender);
+            this.editCharacterForm.get('characterType')?.setValue(charDetails.characterType);
 
             this.editCharacterForm.get('themeColor1')?.setValue(charDetails.colors.themeColor1);
             this.editCharacterForm.get('themeColor2')?.setValue(charDetails.colors.themeColor2);

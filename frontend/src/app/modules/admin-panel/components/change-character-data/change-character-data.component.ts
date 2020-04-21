@@ -1,3 +1,4 @@
+import { Gender } from './../../enums/gender.enum';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators, NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -34,7 +35,6 @@ type changeOptions = 'new-character' | 'edit-character' | 'delete-character' | '
   }
 })
 export class ChangeCharacterDataComponent extends BaseComponent implements OnInit {
-
   readonly RelationshipType = RelationshipType;
 
   characterListOne: HTMLSelectElement | null = null;

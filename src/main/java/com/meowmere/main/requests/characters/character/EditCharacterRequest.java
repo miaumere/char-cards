@@ -9,6 +9,8 @@ public class EditCharacterRequest {
     public String charName;
     public String charSurname;
     public Long birthday;
+    public String gender;
+    public String characterType;
     public String occupation;
     public Long death;
     public String deathReason;
@@ -90,5 +92,21 @@ public class EditCharacterRequest {
 
     public void setMeasurements(CharacterMeasurementsDTO measurements) {
         this.measurements = measurements;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getCharacterType() {
+        return characterType;
+    }
+
+    public void setCharacterType(String characterType) {
+        this.characterType = characterType;
     }
 }
