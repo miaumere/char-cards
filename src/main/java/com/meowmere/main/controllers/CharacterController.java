@@ -6,6 +6,7 @@ import com.meowmere.main.requests.characters.character.EditCharacterRequest;
 import com.meowmere.main.requests.characters.image.ImageRenameRequest;
 import com.meowmere.main.requests.characters.quotes.EditQuoteRequest;
 import com.meowmere.main.requests.characters.quotes.NewQuoteForCharacterRequest;
+import com.meowmere.main.requests.characters.relationship.EditRelationshipRequest;
 import com.meowmere.main.requests.characters.relationship.RelationRequest;
 import com.meowmere.main.requests.characters.stories.CreateStoryForCharRequest;
 import com.meowmere.main.requests.characters.stories.EditStoryRequest;
@@ -73,6 +74,11 @@ public class CharacterController {
     @PatchMapping("/change-state")
     public ResponseEntity changeStateOfCharacter(@RequestBody ChangeCharacterStateRequest request){
         return charactersService.changeStatusForCharacter(request);
+    }
+
+    @PatchMapping("/edit-relationship")
+    public ResponseEntity editRelationships(@RequestBody EditRelationshipRequest editRelationshipRequest){
+        return charactersService.editRelationships(editRelationshipRequest);
     }
 
     @GetMapping("/get-titles")
@@ -147,4 +153,8 @@ public class CharacterController {
 
     @DeleteMapping("/delete-image")
     public ResponseEntity deleteImage(@RequestParam Long id) { return charactersService.deleteImage(id);}
+
+    @DeleteMapping("/delete-relationship")
+    public ResponseEntity deleteRelationship(@RequestParam Long characterId, @RequestParam Long relatedCharacterId)
+    {return charactersService.deleteRelationshipsForCharacters(characterId, relatedCharacterId);}
 }

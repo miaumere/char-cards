@@ -266,11 +266,13 @@
       <ng-container *ngIf="selectedCharacter">
 
         <ul *ngIf="relationshipsList.length > 0">
-          <form #relationshipsEditForm="ngForm" class="edit-relationships-form"
-            (ngSubmit)="editRelation(relationshipsEditForm)">
+          <form #relationshipsEditForm="ngForm" class="edit-relationships-form">
             <h2>{{selectedCharacter.fullName}} - relacje:</h2>
-            <li *ngFor="let rel of relationshipsList">
+            <li *ngFor="let rel of relationshipsList; index as i">
               <div class="relationship-form__container">
+                <button title="Usuń relację" (click)="deleteRelation(rel.relationship.relatedCharacter.id)">
+                  <app-icon [icon]="'archive'" [color]="'#b84343'"></app-icon>
+                </button>
                 <div class="relationship-form__box">
                   <span>Postać 1:</span>
                   <input type="text" class="global-input" readonly [value]="selectedCharacter.fullName">
@@ -280,14 +282,16 @@
                 <div class="relationship-form__box">
                   <span>Kim jest postać 1:
                   </span>
-                  <select class="global-select" [(ngModel)]="RelationshipType[rel.relationship.relationName]"
-                    [name]="'relationType__' + rel.relationship.relatedCharacter.id">
+                  <select class="global-select" [ngModel]="RelationshipType[rel.relationship.relationName]"
+                    [name]="'relationType__' + rel.relationship.relatedCharacter.id"
+                    (change)="editRelation(rel.relationship.relatedCharacter.id, $event.target.value, false)">
                     <option *ngFor="let type of RelationshipType | enumVal" [value]="type.key">{{type.value}}</option>
                   </select>
 
                   <select class="global-select relationship-box__input"
                     [name]="'reverseRelationType__' + rel.relationship.relatedCharacter.id"
-                    [(ngModel)]="RelationshipType[rel.reverseRelationshipType]">
+                    [ngModel]="RelationshipType[rel.reverseRelationshipType]"
+                    (change)="editRelation(rel.relationship.relatedCharacter.id, $event.target.value, true)">
 
                     <option *ngFor="let type of RelationshipType | enumVal" [value]="type.key">{{type.value}}
                     </option>

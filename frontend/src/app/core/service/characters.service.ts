@@ -21,6 +21,7 @@ import { IStoryForCharacter } from 'src/app/modules/admin-panel/models/story-for
 import { ITitle, Title } from 'src/app/modules/admin-panel/models/title.model';
 import { EditImageName } from 'src/app/modules/admin-panel/models/edit-image-name.model';
 import { IRelationshipsForCharacter } from 'src/app/modules/admin-panel/models/relationships-for-char.model';
+import { EditRelationship } from 'src/app/modules/admin-panel/models/edit-relationship.model';
 
 @Injectable({
   providedIn: 'root'
@@ -43,6 +44,7 @@ export class CharactersService {
   private readonly _patchTitlesSequenceURL = `${this.charControllerURL}/set-title-sequence`;
   private readonly _patchStoryURL = `${this.charControllerURL}/edit-story`;
   private readonly _patchImageNameURL = `${this.charControllerURL}/change-image-name`;
+  private readonly _patchRelationshipURL = `${this.charControllerURL}/edit-relationship`;
 
   private readonly _postStoryForCharacterURL = `${this.charControllerURL}/new-stories`;
   private readonly _postNewCharacterURL = `${this.charControllerURL}/new-character`;
@@ -57,6 +59,7 @@ export class CharactersService {
   private readonly _deleteTitleURL = `${this.charControllerURL}/delete-title`;
   private readonly _deleteStoryURL = `${this.charControllerURL}/delete-story`;
   private readonly _deleteImageURL = `${this.charControllerURL}/delete-image`;
+  private readonly _deleteRelationshipURL = `${this.charControllerURL}/delete-relationship`;
 
 
   public charList$ = new BehaviorSubject<CharacterItem[] | null>(null);
@@ -153,6 +156,10 @@ export class CharactersService {
     return this.http.patch<StoryToEdit>(this._patchStoryURL, requestBody);
   }
 
+  patchRelationship(requestBody: EditRelationship) {
+    return this.http.patch<EditRelationship>(this._patchRelationshipURL, requestBody);
+  }
+
   postStoryForCharacter(requestBody: StoryToSend) {
     return this.http.post<StoryToSend>(this._postStoryForCharacterURL, requestBody);
   }
@@ -216,6 +223,14 @@ export class CharactersService {
   deleteImage(imageId: number) {
     const params = new HttpParams().set('id', '' + imageId);
     return this.http.delete<void>(this._deleteImageURL, { params });
+  }
+
+  deleteRelationship(characterId: number, relatedCharacterId: number) {
+    const params = new HttpParams()
+      .set('characterId', '' + characterId)
+      .set('relatedCharacterId', '' + relatedCharacterId);
+
+    return this.http.delete<void>(this._deleteRelationshipURL, { params });
   }
 
   // custom methods:

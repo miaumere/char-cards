@@ -23,6 +23,7 @@ import { StoryToEdit } from './../../models/story-to-edit.model';
 import { IRelationRequest } from '../../models/relation-request.model';
 import { RelationshipsForCharacter } from '../../models/relationships-for-char.model';
 import { ICharacterForListItem } from 'src/app/modules/characters/models/character-for-list-item.model';
+import { EditRelationship } from '../../models/edit-relationship.model';
 
 type changeOptions = 'new-character' | 'edit-character' | 'delete-character' | 'story' | 'edit-images'
   | 'new-chars' | 'quotes' | 'story-for-char' | 'relationships' | 'edit-relationship';
@@ -684,7 +685,7 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
   private _openSelect(selectEl: HTMLSelectElement | undefined | null) {
     if (!!selectEl) {
       selectEl.style.display = 'block';
-      selectEl.style.width = '100%'
+      selectEl.style.width = '100%';
       selectEl.size = 5;
     }
   }
@@ -716,7 +717,7 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
       this._toastrService.error('Błąd walidacji. Co najmniej jedna z podanych postaci nie istnieje.');
       return;
     } else if (!relation || !reverseRelation) {
-      this._toastrService.error('Nie uzupełniono typu relacji.')
+      this._toastrService.error('Nie uzupełniono typu relacji.');
       return;
     }
 
@@ -727,7 +728,7 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
       reverseRelation: RelationshipType[reverseRelation]
     };
 
-    console.log(request)
+    console.log(request);
     this.subscriptions$.add(
       this._characterService.postNewRelationship(
         request
@@ -741,7 +742,7 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
       }, error => {
         this._toastrService.error(error.error);
       })
-    )
+    );
     console.warn(request);
   }
 
@@ -760,14 +761,61 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
           this.relationshipsList = relations;
           console.log(this.relationshipsList);
         })
+    );
+  }
+
+  editRelation(relatedCharacterId: number, targetValue: number, isReverse: boolean) {
+    this.loading = true;
+
+    const objToSend = new EditRelationship();
+    objToSend.characterId = this.selectedCharId;
+    objToSend.relatedCharacterId = relatedCharacterId;
+    if (isReverse) {
+      objToSend.reversedRelationType = RelationshipType[targetValue]
+      objToSend.relationType = null;
+
+    } else {
+      objToSend.relationType = RelationshipType[targetValue];
+      objToSend.reversedRelationType = null;
+
+    }
+    console.log(objToSend)
+
+    this.subscriptions$.add(
+      this._characterService
+        .patchRelationship(objToSend)
+        .pipe(
+          finalize(() => {
+            this.loading = false;
+          })
+        )
+        .subscribe(_ => {
+          this._toastrService.success('Udało się edytować relację.');
+          this.getRelationshipsForCharacter();
+        }, err => {
+          this._toastrService.error('Nie udało się edytować relacji.');
+        })
     )
   }
 
-  editRelation(form: NgForm) {
-    console.clear();
+  deleteRelation(relatedCharacterId: number) {
+    console.log(relatedCharacterId);
+    this.loading = true;
+    this.subscriptions$.add(
+      this._characterService
+        .deleteRelationship(this.selectedCharId, relatedCharacterId)
+        .pipe(
+          finalize(() => {
+            this.loading = false;
+          })
+        ).subscribe(_ => {
+          this._toastrService.success('Udało się usunąć relację!');
+          this.getRelationshipsForCharacter();
+        }, err => {
+          this._toastrService.error('Nie udało się usunąć relacji.');
+        })
+    );
 
-    console.log(form.form)
   }
-
 
 }

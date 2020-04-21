@@ -3,5 +3,5 @@ import { IRelatedCharacter } from './related-character.model';
 
 export interface IRelationship {
   relatedCharacter: IRelatedCharacter;
-  profilePic: IProfilePic;
+  relationName: string;
 }

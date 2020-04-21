@@ -12,7 +12,7 @@
         <div class="step__number" [ngClass]="{'step__number--active': (chosenForm === 'SUBMIT')}">
           <app-icon [icon]="'edit'" [color]="'white'" [size]="0.5"></app-icon>
         </div>
-        <span>Dodaj postać</span>
+        <span>{{type === 'NEW'? 'Dodaj postać' : 'Edytuj postać'}}</span>
         <div class="progress-bar__line">
         </div>
       </li>
@@ -79,7 +79,7 @@
 
         <div class="new-char-form__container form-container">
           <label class="global-label  form-container__label">
-            Wybierz płeć:
+            Wybierz płeć*:
           </label>
           <label *ngFor="let gen of Gender | enumVal">
             <app-icon [color]="gen.value === 'MALE' ? '#89cff0' : '#FFC0CB'" [icon]="gen.value | lowercase"
@@ -91,7 +91,7 @@
 
         <div class="new-char-form__container form-container">
           <label class="global-label  form-container__label">
-            Typ postaci:
+            Typ postaci*:
           </label>
           <select class="global-select" formControlName="characterType">
             <option *ngFor="let characterType of CharType | enumVal" [value]="characterType.value">
