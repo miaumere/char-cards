@@ -265,10 +265,11 @@
     <div *ngSwitchCase="'edit-relationship'" class="relationships admin-panel admin-panel--main admin-panel-main">
       <ng-container *ngIf="selectedCharacter">
 
-        <h2>{{selectedCharacter.fullName}} - relacje:</h2>
         <ul *ngIf="relationshipsList.length > 0">
-          <li *ngFor="let rel of relationshipsList">
-            <form class="relationship-form">
+          <form #relationshipsEditForm="ngForm" class="edit-relationships-form"
+            (ngSubmit)="editRelation(relationshipsEditForm)">
+            <h2>{{selectedCharacter.fullName}} - relacje:</h2>
+            <li *ngFor="let rel of relationshipsList">
               <div class="relationship-form__container">
                 <div class="relationship-form__box">
                   <span>Postać 1:</span>
@@ -279,30 +280,34 @@
                 <div class="relationship-form__box">
                   <span>Kim jest postać 1:
                   </span>
-                  <select class="global-select">
-                    <option value="-1" disabled>----</option>
+                  <select class="global-select" [(ngModel)]="RelationshipType[rel.relationship.relationName]"
+                    [name]="'relationType__' + rel.relationship.relatedCharacter.id">
                     <option *ngFor="let type of RelationshipType | enumVal" [value]="type.key">{{type.value}}</option>
                   </select>
 
-                  <select class="global-select relationship-box__input" selected="selected">
-                    <option value="-1" disabled>----</option>
+                  <select class="global-select relationship-box__input"
+                    [name]="'reverseRelationType__' + rel.relationship.relatedCharacter.id"
+                    [(ngModel)]="RelationshipType[rel.reverseRelationshipType]">
 
-                    <option *ngFor="let type of RelationshipType | enumVal" [value]="type.key">{{type.value}}</option>
+                    <option *ngFor="let type of RelationshipType | enumVal" [value]="type.key">{{type.value}}
+                    </option>
                   </select>
+
                 </div>
                 <div class="relationship-form__box">
                   <span>Dla kogo:
                   </span>
 
-                  <input type="text" class="global-input" readonly
+                  <input type="text" class="global-input" readonly name="relatedCharacter"
                     [value]="rel.relationship.relatedCharacter.charName + ' ' + rel.relationship.relatedCharacter.charSurname">
                   <input type="text" class="global-input  relationship-box__input" readonly
                     [value]="selectedCharacter.fullName">
 
                 </div>
+                <input type="submit" value="lol" />
               </div>
-            </form>
-          </li>
+            </li>
+          </form>
 
         </ul>
         <span *ngIf="relationshipsList.length === 0">Brak relacji dla tej postaci.</span>

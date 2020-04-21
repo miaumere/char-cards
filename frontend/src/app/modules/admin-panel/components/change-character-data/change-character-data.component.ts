@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators, NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs/operators';
@@ -763,8 +763,10 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
     )
   }
 
-  editRelation() {
+  editRelation(form: NgForm) {
+    console.clear();
 
+    console.log(form.form)
   }
 
 
