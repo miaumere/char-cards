@@ -87,6 +87,7 @@ public class CharactersService {
                 profilePic.setImage(image.getImage());
                 dto.setProfilePic(profilePic);
             }
+            dto.setCharacterType(characterFromDb.getCharType().name());
             dtoList.add(dto);
         }
         return new ResponseEntity(dtoList, HttpStatus.OK);

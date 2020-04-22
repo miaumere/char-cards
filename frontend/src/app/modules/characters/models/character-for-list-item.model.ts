@@ -6,6 +6,7 @@ export interface ICharacterForListItem {
   id: number;
   charName: string;
   charSurname: string;
+  characterType: string;
   profilePic: IProfilePic;
   archived: boolean;
 }
@@ -15,6 +16,7 @@ export class CharacterForListItem implements ICharacterForListItem {
   charName: string;
   charSurname: string;
   profilePic: IProfilePic;
+  characterType: string;
   archived: boolean;
 
   constructor(initialValues: ICharacterItem) {

@@ -6,6 +6,7 @@ public class CharactersMenuDTO {
     public Long id;
     public String charName;
     public String charSurname;
+    public String characterType;
     public ProfilePicForMainDTO profilePic;
 
     public ProfilePicForMainDTO getProfilePic() {
@@ -38,5 +39,13 @@ public class CharactersMenuDTO {
 
     public void setCharSurname(String charSurname) {
         this.charSurname = charSurname;
+    }
+
+    public String getCharacterType() {
+        return characterType;
+    }
+
+    public void setCharacterType(String characterType) {
+        this.characterType = characterType;
     }
 }
