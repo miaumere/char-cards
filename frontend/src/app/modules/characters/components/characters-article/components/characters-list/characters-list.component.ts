@@ -32,29 +32,22 @@ export class CharactersListComponent extends BaseComponent implements OnInit {
           let charactersList: any = [];
           const mainCharacters = charList?.filter(x => x.characterType === 'MAIN');
 
-          console.log('main characters: ', mainCharacters?.length);
           const sideCharacters = charList?.filter(x => x.characterType === 'SIDE');
-          console.log('side characters: ', sideCharacters?.length);
 
           const bgCharacters = charList?.filter(x => x.characterType === 'BACKGROUND');
-          console.log('bg characters: ', bgCharacters?.length);
 
           if (!!mainCharacters) {
             charactersList = mainCharacters;
           }
 
-
-
-
           if (!!sideCharacters) {
-            console.log('istnieją side char')
             charactersList = charactersList.concat(sideCharacters);
           }
           if (!!bgCharacters) {
             charactersList = charactersList.concat(bgCharacters);
           }
 
-          console.log(charactersList)
+          // console.log(charactersList)
           this.charList = charactersList;
 
 

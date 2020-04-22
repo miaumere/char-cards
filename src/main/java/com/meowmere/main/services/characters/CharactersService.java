@@ -104,7 +104,9 @@ public class CharactersService {
         CharacterDTO dto = modelMapper.map(oneCharacter, CharacterDTO.class);
 
         dto.setCharType(oneCharacter.getCharType().name());
-        dto.setGender(oneCharacter.getGender().name());
+        if(oneCharacter.getGender() != null) {
+            dto.setGender(oneCharacter.getGender().name());
+        }
 
         List<Story> storiesFromDb = storyRepository.getAllStoriesForCharacter(externalId);
         ArrayList<CharacterStoryDTO> stories = new ArrayList<>();
