@@ -1,0 +1,14 @@
+@import "../../../../../global_styles/variables.scss";
+
+.svg {
+  fill: initial;
+
+  &__path {
+    transform: scale(0.5) translateX(15px) translateY(10px);
+  }
+}
+
+.text {
+  @include font-regular;
+  font-weight: bolder;
+}

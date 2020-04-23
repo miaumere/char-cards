@@ -5,9 +5,11 @@ import { IconComponent } from './components/icon/icon.component';
 import { NulledPipe } from './pipes/nulled.pipe';
 import { SanitizerPipe } from './pipes/sanitizer.pipe';
 import { EnumValPipe } from './pipes/enum-values.pipe';
+import { BookIconComponent } from './components/book-icon/book-icon.component';
 
 const sharedDeclarations = [
   IconComponent,
+  BookIconComponent,
   LoaderComponent,
   NulledPipe,
   SanitizerPipe,
