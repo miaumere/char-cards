@@ -27,6 +27,9 @@
       @include font-special;
 
       text-transform: none;
+      &:checked {
+        text-decoration: none;
+      }
     }
 
     &--active {

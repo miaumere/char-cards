@@ -40,13 +40,14 @@ $gradient2: #435548;
 
     filter: grayscale(100);
 
+    transition: 0.2s;
+
     &--empty {
       margin-top: 2.3rem;
       margin-bottom: -2.3rem;
     }
-  }
-
-  &:hover {
-    filter: brightness(1.5);
+    &:hover {
+      transform: rotate(20deg);
+    }
   }
 }
