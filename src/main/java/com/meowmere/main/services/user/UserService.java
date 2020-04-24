@@ -20,6 +20,10 @@ import org.springframework.web.util.WebUtils;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.bind.DatatypeConverter;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 
 @Service
@@ -30,9 +34,29 @@ public class UserService {
     @Value("${alea.secretkey}")
     private String aleaSecretkey;
 
+    @Value("${alea.passKey}")
+    private String aleaPassKey;
+
     public Boolean userLogin(LoginRequest request) {
-        Users foundUser = usersRepository.findUserByUsernameAndPassword(request.getUsername(), request.getPassword());
-        return foundUser != null;
+        try {
+            Users foundUser = usersRepository.findUserByUsername(request.getUsername());
+            if(foundUser == null) {
+                return false;
+            }
+            String foundUserPassword = foundUser.getPassword().toUpperCase();
+
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            String passwordToEncode = request.getPassword() + aleaPassKey;
+            byte[] hash = digest.digest(passwordToEncode.getBytes(StandardCharsets.UTF_8));
+            String encoded = DatatypeConverter.printHexBinary(hash);
+            if(foundUserPassword.equals(encoded)) {
+                return true;
+            } else
+
+            return foundUserPassword.equals(encoded);
+        } catch (NoSuchAlgorithmException e){
+            return false;
+        }
     }
 
     public ResponseEntity createJWTToken(LoginRequest loginRequest, HttpServletResponse response) {
