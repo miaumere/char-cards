@@ -1,7 +1,7 @@
 CREATE TABLE public.character_story (
     id int8 NOT NULL,
     index_on_list int4 NULL,
-    story_desc varchar(255) NULL,
+    story_desc varchar(2000) NULL,
     title varchar(255) NULL,
     character_id int8 NULL,
     CONSTRAINT character_story_pkey PRIMARY KEY (id),

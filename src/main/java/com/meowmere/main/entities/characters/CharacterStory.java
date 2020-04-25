@@ -15,7 +15,7 @@ public class CharacterStory {
     @Column
     private String title;
 
-    @Column
+    @Column(length = 2000)
     private String storyDesc;
 
     @Column(name="index_on_list")
