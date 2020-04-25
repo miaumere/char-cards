@@ -15,10 +15,8 @@ public class Character {
     @GeneratedValue(strategy=GenerationType.AUTO)
     public Long externalId;
     @Column
-    @Length
     private String charName;
     @Column
-    @Length
     private String charSurname;
     @Column
     private Long birthday;
@@ -51,6 +49,9 @@ public class Character {
 
     @OneToMany(mappedBy = "character", cascade = CascadeType.ALL)
     private Set<Story> stories;
+
+    @OneToMany(mappedBy = "character", cascade = CascadeType.ALL)
+    private Set<CharacterStory> characterStory;
 
     @OneToMany(mappedBy = "character", cascade = CascadeType.ALL)
     private Set<Image> profilePics;
@@ -207,5 +208,13 @@ public class Character {
 
     public void setGender(Gender gender) {
         this.gender = gender;
+    }
+
+    public Set<CharacterStory> getStory() {
+        return characterStory;
+    }
+
+    public void setStory(Set<CharacterStory> story) {
+        this.characterStory = story;
     }
 };

@@ -15,9 +15,7 @@ import com.meowmere.main.dto.character.relationship.RelatedCharacterDTO;
 import com.meowmere.main.dto.character.relationship.RelationshipDTO;
 import com.meowmere.main.dto.character.relationship.RelationshipsForCharacterDTO;
 import com.meowmere.main.dto.character.story.CharacterStoryDTO;
-import com.meowmere.main.dto.character.story.StoryForListDTO;
 import com.meowmere.main.dto.character.temperament.CharacterTemperamentDTO;
-import com.meowmere.main.dto.character.titles.TitleDTO;
 import com.meowmere.main.entities.characters.Character;
 import com.meowmere.main.entities.characters.*;
 import com.meowmere.main.enums.AvailableExtensions;
@@ -32,10 +30,6 @@ import com.meowmere.main.requests.characters.quotes.EditQuoteRequest;
 import com.meowmere.main.requests.characters.quotes.NewQuoteForCharacterRequest;
 import com.meowmere.main.requests.characters.relationship.EditRelationshipRequest;
 import com.meowmere.main.requests.characters.relationship.RelationRequest;
-import com.meowmere.main.requests.characters.stories.CreateStoryForCharRequest;
-import com.meowmere.main.requests.characters.stories.EditStoryRequest;
-import com.meowmere.main.requests.characters.titles.EditTitleRequest;
-import com.meowmere.main.requests.characters.titles.NewTitleRequest;
 import org.apache.commons.io.FilenameUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -212,39 +206,6 @@ public class CharactersService {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    public ResponseEntity getTitles() {
-        ModelMapper modelMapper = new ModelMapper();
-        List<Titles> titlesFromDb = titlesRepository.findAll(Sort.by(Sort.Direction.ASC, "sequence"));
-        ArrayList<TitleDTO> result = new ArrayList<>();
-
-        titlesFromDb.forEach(title -> {
-            TitleDTO titleMapped = modelMapper.map(title, TitleDTO.class);
-            result.add(titleMapped);
-        });
-        return new ResponseEntity(result, HttpStatus.OK);
-    }
-
-    public ResponseEntity setTitlesSequence(List<TitleDTO> titles) {
-        for (int i = 0; i < titles.size(); i++) {
-            Titles title = titlesRepository.getOne(titles.get(i).getId());
-            if(title == null){
-                continue;
-            }
-            title.setSequence(new Long(i));
-            titlesRepository.saveAndFlush(title);
-        }
-        return new ResponseEntity(HttpStatus.OK);
-    }
-
-    public ResponseEntity newTitle(NewTitleRequest request) {
-        Titles title = new Titles();
-        Long titlesLength = new Long(titlesRepository.findAll().size());
-        title.setTitle(request.getTitle());
-        title.setSequence(titlesLength + 1);
-        titlesRepository.saveAndFlush(title);
-        return new ResponseEntity(HttpStatus.CREATED);
-    }
-
     public ResponseEntity newImages(MultipartHttpServletRequest multipartHttpServletRequest, Long id) {
         Map<String, MultipartFile> allFiles = multipartHttpServletRequest.getFileMap();
         Character character = characterRepository.getOne(id);
@@ -301,68 +262,6 @@ public class CharactersService {
         imageRepository.saveAndFlush(image);
 
         return new ResponseEntity(HttpStatus.NO_CONTENT);
-    }
-
-    public ResponseEntity getStoriesForCharacter(Long id) {
-        List<Titles> titlesFromDb = titlesRepository.findAll(Sort.by(Sort.Direction.ASC, "sequence"));
-
-        ArrayList<StoryForListDTO> stories = new ArrayList<>();
-
-        for (Titles titleFromDb : titlesFromDb) {
-            StoryForListDTO dto = new StoryForListDTO();
-            TitleDTO title = new TitleDTO();
-            title.setId(titleFromDb.getId());
-            title.setTitle(titleFromDb.getTitle());
-            dto.setTitle(title);
-            Story storyForChar = storyRepository.getStoryForCharacterAndTitle(id, titleFromDb.getId());
-            if(storyForChar != null) {
-                String storyToSet = storyForChar.getStory();
-                dto.setId(storyForChar.getId());
-                dto.setStory(storyToSet);
-            }
-            stories.add(dto);
-        }
-        return new ResponseEntity(stories, HttpStatus.OK);
-    }
-
-    public ResponseEntity createStoryForCharacter(CreateStoryForCharRequest request) {
-        String msg = "";
-        Story storyToCreate = new Story();
-        boolean emptyTitle = false;
-        boolean emptyStory = false;
-        boolean noTitle = false;
-
-        Character characterFromId = characterRepository.getOne(request.getCharacterId());
-
-        if(request.getStory() != null) {
-
-            Titles titleFromId = titlesRepository.getOne(request.getTitleId());
-            if(titleFromId == null) {
-                noTitle = true;
-            }
-            storyToCreate.setStory(request.getStory());
-            storyToCreate.setTitle(titleFromId);
-        } else {
-            emptyStory = true;
-        }
-        if(characterFromId == null) {
-            msg += "Brak postaci o podanym id. ";
-        } else if (request.getCharacterId() == null) {
-            msg += "Nie wybrano postaci. ";
-        } else if(request.story == null || emptyStory){
-            msg += "Brak historii do dodania. ";
-        } else if(emptyTitle) {
-            msg += "Nie sprecyzowano tytułu. ";
-        } else if(noTitle) {
-            msg += "Brak tytułu o podanym id. ";
-        }
-        if(msg.length() > 0) {
-            return new ResponseEntity(msg, HttpStatus.NOT_FOUND);
-        }
-
-        storyToCreate.setCharacter(characterFromId);
-        storyRepository.saveAndFlush(storyToCreate);
-        return new ResponseEntity(HttpStatus.CREATED);
     }
 
     public ResponseEntity createCharacter(MultipartHttpServletRequest multipartHttpServletRequest) {
@@ -585,26 +484,6 @@ public class CharactersService {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    public ResponseEntity deleteTitle(Long id) {
-        Titles titleToDelete = titlesRepository.getOne(id);
-        if (titleToDelete == null) {
-            String msg = "Nie ma takiego tytułu bądź został już wcześniej usunięty";
-            return new ResponseEntity(msg, HttpStatus.NOT_FOUND);
-        }
-        titlesRepository.delete(titleToDelete);
-        return new ResponseEntity(HttpStatus.OK);
-    }
-
-    public ResponseEntity deleteStory(Long id) {
-        Story storyToDelete = storyRepository.getOne(id);
-        if (storyToDelete == null) {
-            String msg = "Nie ma historii przypisanej do tej postaci o podanym tytule.";
-            return new ResponseEntity(msg, HttpStatus.NOT_FOUND);
-        }
-        storyRepository.delete(storyToDelete);
-        return new ResponseEntity(HttpStatus.OK);
-    }
-
     public ResponseEntity deleteImage(Long id) {
         Image imageToDelete = imageRepository.getOne(id);
         if (imageToDelete == null) {
@@ -625,28 +504,6 @@ public class CharactersService {
         quote.setContext(request.getContext());
         quoteRepository.saveAndFlush(quote);
 
-        return new ResponseEntity(HttpStatus.NO_CONTENT);
-    }
-
-    public ResponseEntity editTitle(EditTitleRequest request) {
-        Titles title = titlesRepository.getOne(request.getId());
-        if(title == null) {
-            String msg = "Nie znaleziono tytułu.";
-            return new ResponseEntity(msg, HttpStatus.NOT_FOUND);
-        }
-        title.setTitle(request.getTitle());
-        titlesRepository.saveAndFlush(title);
-        return new ResponseEntity(HttpStatus.NO_CONTENT);
-    }
-
-    public ResponseEntity editStory(EditStoryRequest request) {
-        Story story = storyRepository.getOne(request.getStoryId());
-        if(story == null) {
-            String msg = "Nie znaleziono historii dla wybranego tytułu i postaci.";
-            return new ResponseEntity(msg, HttpStatus.NOT_FOUND);
-        }
-        story.setStory(request.getStory());
-        storyRepository.saveAndFlush(story);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
