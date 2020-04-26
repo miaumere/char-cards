@@ -1,13 +1,15 @@
 export interface IStory {
-  titleId: number;
+  id: number;
   story: string;
+  title: string;
 }
 
 export class Story implements IStory {
-  constructor(titleId, story) {
-    this.titleId = titleId;
-    this.story = story;
-  }
-  titleId: number;
+  id: number;
   story: string;
+  title: string;
+
+  constructor(initialValues: IStory) {
+    Object.assign(this, initialValues);
+  }
 }

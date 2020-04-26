@@ -237,5 +237,9 @@
       </ng-container>
 
     </div>
+
+    <div *ngSwitchCase="'character-stories'">
+      <app-character-stories [charId]="selectedCharId"></app-character-stories>
+    </div>
   </div>
 </div>

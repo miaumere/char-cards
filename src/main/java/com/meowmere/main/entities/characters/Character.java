@@ -48,9 +48,6 @@ public class Character {
     private Set<Measurements> measurements;
 
     @OneToMany(mappedBy = "character", cascade = CascadeType.ALL)
-    private Set<Story> stories;
-
-    @OneToMany(mappedBy = "character", cascade = CascadeType.ALL)
     private Set<CharacterStory> characterStory;
 
     @OneToMany(mappedBy = "character", cascade = CascadeType.ALL)
@@ -168,14 +165,6 @@ public class Character {
 
     public void setArchived(Boolean archived) {
         this.archived = archived;
-    }
-
-    public Set<Story> getStories() {
-        return stories;
-    }
-
-    public void setStories(Set<Story> stories) {
-        this.stories = stories;
     }
 
     public Set<Image> getProfilePics() {

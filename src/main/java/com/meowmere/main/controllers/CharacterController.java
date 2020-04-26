@@ -31,7 +31,7 @@ public class CharacterController {
 
     @GetMapping("/get-character/{characterId}")
     public ResponseEntity getCharacterById(@PathVariable Long characterId) throws IOException {
-        return charactersService.findByExternalId(characterId);
+        return charactersService.getCharacter(characterId);
     }
 
     @GetMapping("/get-quotes")
@@ -47,6 +47,11 @@ public class CharacterController {
     @GetMapping("/get-relationships")
     public ResponseEntity getRelationshipsForCharacter(@RequestParam Long id) {
         return this.charactersService.getRelationships(id);
+    }
+
+    @GetMapping("/get-stories-for-character")
+    public ResponseEntity getStoriesForCharacter(@RequestParam Long id) {
+        return this.charactersService.getStoriesForCharacter(id);
     }
 
     @PostMapping("/new-character")
@@ -106,4 +111,7 @@ public class CharacterController {
     @DeleteMapping("/delete-relationship")
     public ResponseEntity deleteRelationship(@RequestParam Long characterId, @RequestParam Long relatedCharacterId)
     {return charactersService.deleteRelationshipsForCharacters(characterId, relatedCharacterId);}
+
+    @DeleteMapping("/delete-story")
+    public ResponseEntity deleteStory(@RequestParam Long id) { return charactersService.deleteStory(id);}
 }

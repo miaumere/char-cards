@@ -1,0 +1,8 @@
+<div>
+  stories
+  <ul *ngIf="stories.length > 0">
+    <li *ngFor="let story of stories">
+      {{story |json}}
+    </li>
+  </ul>
+</div>

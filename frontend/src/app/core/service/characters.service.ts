@@ -22,6 +22,7 @@ import { ITitle, Title } from 'src/app/modules/admin-panel/models/title.model';
 import { EditImageName } from 'src/app/modules/admin-panel/models/edit-image-name.model';
 import { IRelationshipsForCharacter } from 'src/app/modules/admin-panel/models/relationships-for-char.model';
 import { EditRelationship } from 'src/app/modules/admin-panel/models/edit-relationship.model';
+import { IStory, Story } from 'src/app/modules/admin-panel/models/story.model';
 
 @Injectable({
   providedIn: 'root'
@@ -35,6 +36,7 @@ export class CharactersService {
   private readonly _getCharacterDetailsURL = `${this.charControllerURL}/get-details`;
   private readonly _getQuotesURL = `${this.charControllerURL}/get-quotes`;
   private readonly _getRelationshipsForCharURL = `${this.charControllerURL}/get-relationships`;
+  private readonly _getStoriesForCharURL = `${this.charControllerURL}/get-stories-for-character`;
 
   private readonly _patchChangeStateURL = `${this.charControllerURL}/change-state`;
   private readonly _patchQuoteURL = `${this.charControllerURL}/edit-quote`;
@@ -52,6 +54,7 @@ export class CharactersService {
   private readonly _deleteQuoteURL = `${this.charControllerURL}/delete-quote`;
   private readonly _deleteImageURL = `${this.charControllerURL}/delete-image`;
   private readonly _deleteRelationshipURL = `${this.charControllerURL}/delete-relationship`;
+  private readonly _deleteStoryURL = `${this.charControllerURL}/delete-story`;
 
 
   public charList$ = new BehaviorSubject<CharacterItem[] | null>(null);
@@ -112,6 +115,18 @@ export class CharactersService {
     const params = new HttpParams().set('id', '' + id);
 
     return this.http.get<IEditCharacter>(this._getCharacterDetailsURL, { params });
+  }
+
+  getStoriesForCharacter(id: number) {
+    const params = new HttpParams().set('id', '' + id);
+    return this.http.get<IStory[]>(this._getStoriesForCharURL, { params })
+      .pipe(
+        map(response => {
+          const mappedResponse = response.map(r => new Story(r));
+          return mappedResponse;
+        })
+      );
+
   }
 
   patchCharacterState(requestBody: CharacterForChange) {
@@ -188,6 +203,11 @@ export class CharactersService {
       .set('relatedCharacterId', '' + relatedCharacterId);
 
     return this.http.delete<void>(this._deleteRelationshipURL, { params });
+  }
+
+  deleteStory(storyId: number) {
+    const params = new HttpParams().set('id', '' + storyId);
+    return this.http.delete<void>(this._deleteStoryURL, { params });
   }
 
   // custom methods:

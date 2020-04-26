@@ -59,13 +59,11 @@ public class CharactersService {
     @Autowired
     public MeasurementsRepository measurementsRepository;
     @Autowired
-    public StoryRepository storyRepository;
-    @Autowired
-    public TitlesRepository titlesRepository;
-    @Autowired
     public ImageRepository imageRepository;
     @Autowired
     public RelationshipRepository relationshipRepository;
+    @Autowired
+    public CharacterStoryRepository characterStoryRepository;
 
     public ResponseEntity findCharList() {
         List<Character> allCharactersFromDb = characterRepository.getNonArchivedCharacters();
@@ -87,7 +85,7 @@ public class CharactersService {
         return new ResponseEntity(dtoList, HttpStatus.OK);
     }
 
-    public ResponseEntity findByExternalId(Long externalId) {
+    public ResponseEntity getCharacter(Long externalId) {
         ModelMapper modelMapper = new ModelMapper();
         Character oneCharacter = characterRepository.getNonArchivedCharacter(externalId);
         if(oneCharacter == null) {
@@ -102,15 +100,13 @@ public class CharactersService {
             dto.setGender(oneCharacter.getGender().name());
         }
 
-        List<Story> storiesFromDb = storyRepository.getAllStoriesForCharacter(externalId);
+        List<CharacterStory> storiesForCharacter = characterStoryRepository.getStoriesForCharacter(externalId);
         ArrayList<CharacterStoryDTO> stories = new ArrayList<>();
-        if(storiesFromDb != null && storiesFromDb.size() > 0){
-            for (Story storyFromDb : storiesFromDb) {
-                stories.add(modelMapper.map(storyFromDb, CharacterStoryDTO.class));
+        if(storiesForCharacter != null && storiesForCharacter.size() > 0){
+            for(CharacterStory story : storiesForCharacter) {
+                stories.add(modelMapper.map(story, CharacterStoryDTO.class));
             }
         }
-        dto.setStory(stories);
-
         Colors colorsForCharacter = colorsRepository.getColorsForCharacter(externalId);
         if (colorsForCharacter != null) {
             dto.setColors(modelMapper.map(colorsForCharacter, CharacterColorDTO.class));
@@ -595,5 +591,27 @@ public class CharactersService {
             }
         }
         return new ResponseEntity(HttpStatus.NO_CONTENT);
+    }
+
+    public ResponseEntity getStoriesForCharacter(Long id) {
+        ModelMapper modelMapper = new ModelMapper();
+        List<CharacterStory> storiesForCharacter = characterStoryRepository.getStoriesForCharacter(id);
+        ArrayList<CharacterStoryDTO> stories = new ArrayList<>();
+        if(storiesForCharacter != null && storiesForCharacter.size() > 0){
+            for(CharacterStory story : storiesForCharacter) {
+                stories.add(modelMapper.map(story, CharacterStoryDTO.class));
+            }
+        }
+
+        return new ResponseEntity(stories, HttpStatus.OK);
+    }
+
+    public ResponseEntity deleteStory(Long storyId) {
+        CharacterStory characterStory = characterStoryRepository.getOne(storyId);
+        if(characterStory == null) {
+            return new ResponseEntity("Nie ma historii o takim id lub została wcześniej usunięta.", HttpStatus.NOT_FOUND);
+        }
+        characterStoryRepository.delete(characterStory);
+        return new ResponseEntity(HttpStatus.OK);
     }
 }
