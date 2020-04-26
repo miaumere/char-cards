@@ -24,7 +24,6 @@ import { SharedModule } from './modules/shared/shared.module';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    RouterModule,
     ReactiveFormsModule,
     AppRoutingModule,
     ToastrModule.forRoot({
@@ -36,7 +35,9 @@ import { SharedModule } from './modules/shared/shared.module';
     CharactersModule,
     LoginModule,
     SharedModule,
-    CoreModule
+    CoreModule,
+    RouterModule
+
   ],
   providers: [
     HttpClientModule,

@@ -10,6 +10,8 @@ import { CharacterModifyComponent } from './components/character-modify/characte
 import { AdminPanelForMainComponent } from './components/admin-panel-for-main/admin-panel-for-main.component';
 import { SharedModule } from '../shared/shared.module';
 import { CharacterStoriesComponent } from './components/character-stories/character-stories.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+
 
 @NgModule({
   declarations: [
