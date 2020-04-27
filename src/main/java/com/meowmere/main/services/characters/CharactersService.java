@@ -109,6 +109,8 @@ public class CharactersService {
                 stories.add(modelMapper.map(story, CharacterStoryDTO.class));
             }
         }
+        dto.setStory(stories);
+
         Colors colorsForCharacter = colorsRepository.getColorsForCharacter(externalId);
         if (colorsForCharacter != null) {
             dto.setColors(modelMapper.map(colorsForCharacter, CharacterColorDTO.class));

@@ -134,25 +134,27 @@ export class CharacterStoriesComponent extends BaseComponent implements OnInit {
 
     this.subscriptions$.add(
       dialogRef.afterClosed().subscribe(result => {
-        const objToSend: EditStory = new EditStory();
-        objToSend.storyId = storyId;
-        objToSend.desc = result.desc;
-        objToSend.title = result.title;
+        if (!!result) {
+          const objToSend: EditStory = new EditStory();
+          objToSend.storyId = storyId;
+          objToSend.desc = result.desc;
+          objToSend.title = result.title;
 
-        if (objToSend.desc?.length === 0 || objToSend.title?.length === 0) {
-          this._toastrService.warning('Uzupełnij wszystkie pola.');
-          return;
+          if (objToSend.desc?.length === 0 || objToSend.title?.length === 0) {
+            this._toastrService.warning('Uzupełnij wszystkie pola.');
+            return;
+          }
+
+          this.subscriptions$.add(
+            this._charactersService.
+              patchStory(objToSend).subscribe(_ => {
+                this._toastrService.success('Udało się zmienić historię!');
+                this.getStories();
+              }, err => {
+                this._toastrService.error('Nie udało się zmienić historii.');
+              })
+          )
         }
-
-        this.subscriptions$.add(
-          this._charactersService.
-            patchStory(objToSend).subscribe(_ => {
-              this._toastrService.success('Udało się zmienić historię!');
-              this.getStories();
-            }, err => {
-              this._toastrService.error('Nie udało się zmienić historii.');
-            })
-        )
       })
 
     )
