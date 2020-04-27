@@ -27,7 +27,8 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     FormsModule,
     ReactiveFormsModule,
     SharedModule,
-    AdminPanelRoutingModule
+    AdminPanelRoutingModule,
+    DragDropModule
   ],
   providers: [
     CharactersService

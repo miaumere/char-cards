@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 
 @RestController
@@ -73,6 +74,11 @@ public class CharacterController {
     public ResponseEntity editCharacter(@RequestBody EditCharacterRequest request,
                                         @RequestParam Boolean isDead) {
         return charactersService.editCharacter(request, isDead);
+    }
+
+    @PutMapping("/edit-story-indexes")
+    public ResponseEntity editStoryIndexes(@RequestBody ArrayList<Long> storyIds, @RequestParam Long id) {
+        return  charactersService.editStoryIndexes(storyIds, id);
     }
 
     @PatchMapping("/change-state")

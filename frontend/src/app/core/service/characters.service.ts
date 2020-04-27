@@ -1,28 +1,24 @@
-import { RelationshipsForCharacter } from './../../modules/admin-panel/models/relationships-for-char.model';
-import { IRelationRequest } from './../../modules/admin-panel/models/relation-request.model';
-import { NewTitle } from './../../modules/admin-panel/models/new-title.model';
-import { EditTitle } from './../../modules/admin-panel/models/edit-title.model';
-import { EditCharacter, IEditCharacter } from './../../modules/admin-panel/models/edit-character.model';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { tap, map } from 'rxjs/operators';
-import { CharacterItem, ICharacterItem } from 'src/app/modules/characters/models/character-item.model';
-import { Character, ICharacter } from 'src/app/modules/characters/models/character.model';
+import { map, tap } from 'rxjs/operators';
 import { CharacterForChange } from 'src/app/modules/admin-panel/models/character-for-change.model';
-import { Quote, IQuote } from 'src/app/modules/characters/models/quote.model';
-import { NewQuote } from 'src/app/modules/admin-panel/models/new-quote.model';
-import { EditQuote } from 'src/app/modules/admin-panel/models/edit-quote.model';
-import { StoryToSend } from 'src/app/modules/admin-panel/models/story-to-send.model';
-import { StoryToEdit } from 'src/app/modules/admin-panel/models/story-to-edit.model';
-import { ICharacterForListItem } from 'src/app/modules/characters/models/character-for-list-item.model';
-import { IStoryForCharacter } from 'src/app/modules/admin-panel/models/story-for-character.model';
-import { ITitle, Title } from 'src/app/modules/admin-panel/models/title.model';
 import { EditImageName } from 'src/app/modules/admin-panel/models/edit-image-name.model';
-import { IRelationshipsForCharacter } from 'src/app/modules/admin-panel/models/relationships-for-char.model';
+import { EditQuote } from 'src/app/modules/admin-panel/models/edit-quote.model';
 import { EditRelationship } from 'src/app/modules/admin-panel/models/edit-relationship.model';
+import { NewQuote } from 'src/app/modules/admin-panel/models/new-quote.model';
+import { IRelationshipsForCharacter } from 'src/app/modules/admin-panel/models/relationships-for-char.model';
+import { StoryToSend } from 'src/app/modules/admin-panel/models/character-story/story-to-send.model';
 import { IStory, Story } from 'src/app/modules/admin-panel/models/story.model';
+import { ICharacterForListItem } from 'src/app/modules/characters/models/character-for-list-item.model';
+import { CharacterItem, ICharacterItem } from 'src/app/modules/characters/models/character-item.model';
+import { ICharacter } from 'src/app/modules/characters/models/character.model';
+import { IQuote } from 'src/app/modules/characters/models/quote.model';
+import { EditCharacter, IEditCharacter } from './../../modules/admin-panel/models/edit-character.model';
+import { IRelationRequest } from './../../modules/admin-panel/models/relation-request.model';
+import { RelationshipsForCharacter } from './../../modules/admin-panel/models/relationships-for-char.model';
+
 
 @Injectable({
   providedIn: 'root'
@@ -50,6 +46,7 @@ export class CharactersService {
   private readonly _postNewRelationshipURL = `${this.charControllerURL}/new-relationship`;
 
   private readonly _putEditCharacterURL = `${this.charControllerURL}/edit-character`;
+  private readonly _putStoryIndexesURL = `${this.charControllerURL}/edit-story-indexes`;
 
   private readonly _deleteQuoteURL = `${this.charControllerURL}/delete-quote`;
   private readonly _deleteImageURL = `${this.charControllerURL}/delete-image`;
@@ -180,11 +177,16 @@ export class CharactersService {
     return this.http.post<NewQuote>(this._postNewQuoteURL, requestBody);
   }
 
-
   putCharacterDetails(requestBody: EditCharacter, idDead: boolean) {
     const params = new HttpParams().set('isDead', '' + idDead);
 
     return this.http.put<EditCharacter>(this._putEditCharacterURL, requestBody, { params });
+  }
+
+  putStoriesIndexes(requestBody: number[], charId: number) {
+    const params = new HttpParams().set('id', '' + charId);
+
+    return this.http.put<number[]>(this._putStoryIndexesURL, requestBody, { params });
   }
 
   deleteQuote(quoteId: number) {

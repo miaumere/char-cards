@@ -54,7 +54,7 @@ public class CharacterStory {
         return indexOnList;
     }
 
-    public void setIndexOnList(int indexOnList) {
+    public void setIndexOnList(Integer indexOnList) {
         this.indexOnList = indexOnList;
     }
 
