@@ -1,3 +1,11 @@
+.stories {
+  width: 100vw;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .box {
   cursor: move;
 
@@ -44,22 +52,24 @@
   border: dotted #ccc 2px;
 }
 
-.buttons-box {
-  margin-bottom: -1rem;
-}
+.stories-box {
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
 
-.button {
-  margin: 0.2rem;
-  padding: 0.4rem;
-  border-radius: 50%;
-
-  transition: 0.2s;
-
-  &:hover {
-    background: grey;
+  &--new-story {
+    width: 50vw;
   }
 }
 
-.stories-box {
-  display: flex;
+.new-story-form {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+
+  font-size: initial;
+
+  &__input {
+    width: 100%;
+  }
 }

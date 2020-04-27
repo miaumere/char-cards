@@ -9,7 +9,7 @@ import { EditQuote } from 'src/app/modules/admin-panel/models/edit-quote.model';
 import { EditRelationship } from 'src/app/modules/admin-panel/models/edit-relationship.model';
 import { NewQuote } from 'src/app/modules/admin-panel/models/new-quote.model';
 import { IRelationshipsForCharacter } from 'src/app/modules/admin-panel/models/relationships-for-char.model';
-import { StoryToSend } from 'src/app/modules/admin-panel/models/character-story/story-to-send.model';
+import { NewStory } from 'src/app/modules/admin-panel/models/character-story/new-story.model';
 import { IStory, Story } from 'src/app/modules/admin-panel/models/story.model';
 import { ICharacterForListItem } from 'src/app/modules/characters/models/character-for-list-item.model';
 import { CharacterItem, ICharacterItem } from 'src/app/modules/characters/models/character-item.model';
@@ -39,7 +39,7 @@ export class CharactersService {
   private readonly _patchImageNameURL = `${this.charControllerURL}/change-image-name`;
   private readonly _patchRelationshipURL = `${this.charControllerURL}/edit-relationship`;
 
-  private readonly _postStoryForCharacterURL = `${this.charControllerURL}/new-stories`;
+  private readonly _postStoryForCharacterURL = `${this.charControllerURL}/new-story`;
   private readonly _postNewCharacterURL = `${this.charControllerURL}/new-character`;
   private readonly _postNewQuoteURL = `${this.charControllerURL}/new-quote`;
   private readonly _postEditImagesURL = `${this.charControllerURL}/new-images`;
@@ -142,8 +142,8 @@ export class CharactersService {
     return this.http.patch<EditRelationship>(this._patchRelationshipURL, requestBody);
   }
 
-  postStoryForCharacter(requestBody: StoryToSend) {
-    return this.http.post<StoryToSend>(this._postStoryForCharacterURL, requestBody);
+  postStoryForCharacter(requestBody: NewStory) {
+    return this.http.post<NewStory>(this._postStoryForCharacterURL, requestBody);
   }
 
   postNewCharacter(formData: FormData) {

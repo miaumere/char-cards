@@ -5,6 +5,8 @@ import { BaseComponent } from 'src/app/core/base.component';
 import { Story } from '../../models/story.model';
 import { CharacterItem } from 'src/app/modules/characters/models/character-item.model';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { NewStory } from '../../models/character-story/new-story.model';
 
 @Component({
   selector: 'app-character-stories',
@@ -16,6 +18,13 @@ export class CharacterStoriesComponent extends BaseComponent implements OnInit {
   @Input() charId: number;
   stories: Story[] = [];
   selectedCharacter?: CharacterItem;
+
+  isStoryFormShown = false;
+
+  newStoryForm = new FormGroup({
+    title: new FormControl('', [Validators.required, Validators.maxLength(255)]),
+    desc: new FormControl('', [Validators.required, Validators.maxLength(2000)])
+  });
 
   constructor(
     private _charactersService: CharactersService,
@@ -94,5 +103,31 @@ export class CharacterStoriesComponent extends BaseComponent implements OnInit {
     console.log(title)
     console.log(story)
 
+  }
+
+  showNewStoryForm() {
+    this.isStoryFormShown = true;
+  }
+
+  createNewStory() {
+    const formValues: { [key: string]: string } = this.newStoryForm.value;
+    const objToSend: NewStory = new NewStory();
+    objToSend.characterId = this.charId;
+
+    for (const [key, value] of Object.entries(formValues)) {
+      objToSend[key] = value;
+    }
+
+    this.subscriptions$.add(
+      this._charactersService
+        .postStoryForCharacter(objToSend)
+        .subscribe(_ => {
+          this._toastrService.success('Udało się dodać nową historię!');
+          this.getStories();
+          this.isStoryFormShown = false;
+        },
+          err => {
+            this._toastrService.error('Nie udało się dodać historii.');
+          }));
   }
 }

@@ -11,6 +11,8 @@ import { AdminPanelForMainComponent } from './components/admin-panel-for-main/ad
 import { SharedModule } from '../shared/shared.module';
 import { CharacterStoriesComponent } from './components/character-stories/character-stories.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
 
 
 @NgModule({
@@ -28,7 +30,9 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     ReactiveFormsModule,
     SharedModule,
     AdminPanelRoutingModule,
-    DragDropModule
+    DragDropModule,
+    MatButtonModule,
+    MatInputModule
   ],
   providers: [
     CharactersService

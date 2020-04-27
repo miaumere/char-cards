@@ -30,6 +30,7 @@ import com.meowmere.main.requests.characters.quotes.EditQuoteRequest;
 import com.meowmere.main.requests.characters.quotes.NewQuoteForCharacterRequest;
 import com.meowmere.main.requests.characters.relationship.EditRelationshipRequest;
 import com.meowmere.main.requests.characters.relationship.RelationRequest;
+import com.meowmere.main.requests.characters.stories.CreateStoryForCharRequest;
 import org.apache.commons.io.FilenameUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -640,5 +641,23 @@ public class CharactersService {
 
 
         return new ResponseEntity(HttpStatus.OK);
+    }
+
+    public ResponseEntity createStoryForCharacter(CreateStoryForCharRequest request) {
+        Character character = characterRepository.getOne(request.getCharacterId());
+        if(character == null) {
+            return new ResponseEntity("Nie można utworzyć historii dla nieistniejącej postaci.", HttpStatus.NOT_FOUND);
+        }
+        CharacterStory characterStory = new CharacterStory();
+        characterStory.setCharacter(character);
+        characterStory.setStoryDesc(request.getDesc());
+        characterStory.setTitle(request.getTitle());
+
+        List<CharacterStory> characterStories = characterStoryRepository.getStoriesForCharacter(character.getExternalId());
+        characterStory.setIndexOnList(characterStories.size()+1);
+
+        characterStoryRepository.saveAndFlush(characterStory);
+
+        return new ResponseEntity(HttpStatus.CREATED);
     }
 }

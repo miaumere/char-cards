@@ -1,44 +1,39 @@
-<mat-toolbar>
-  <mat-toolbar-row>
+<ul class="navbar">
+  <li>
+    <a [routerLink]="['/main']">
+      <button class="title" mat-button>Alea iacta est</button>
+    </a>
+  </li>
 
-    <ul>
-      <li>
-        <a [routerLink]="['/main']">
-          <button class="title" mat-button>Alea iacta est</button>
-        </a>
-      </li>
+  <li>
+    <a [routerLink]="['/char-cards']" routerLinkActive="navbar__item--active">
+      <button mat-button>Postacie</button>
+    </a>
+  </li>
 
-      <li>
-        <a [routerLink]="['/char-cards']" routerLinkActive="navbar__item--active">
-          <button mat-button>Postacie</button>
-        </a>
-      </li>
+  <li>
+    <a [routerLink]="['/admin-panel']" routerLinkActive="navbar__item--active">
+      <button mat-button>Panel admina</button>
+    </a>
+  </li>
 
-      <li>
-        <a [routerLink]="['/admin-panel']" routerLinkActive="navbar__item--active">
-          <button mat-button>Panel admina</button>
-        </a>
-      </li>
-
-      <li>
-        <button mat-button [matMenuTriggerFor]="menu">
-          <mat-icon svgIcon="user"></mat-icon>
-          {{ (_authService.loggedUser$ | async) ? ((_authService.loggedUser$ | async).username) : "niezalogowany" }}
-        </button>
-      </li>
-      <mat-menu #menu="matMenu">
-        <button mat-menu-item (click)="logout()"
-          *ngIf="(_authService.loggedUser$ | async) && (_authService.loggedUser$ | async).username">
-          <mat-icon svgIcon="log-out"></mat-icon>
-          Wyloguj się
-        </button>
-        <button mat-menu-item *ngIf="!(_authService.loggedUser$ | async)">
-          <a [routerLink]="['/login']">
-            <mat-icon svgIcon="log-in"></mat-icon>
-            Zaloguj się
-          </a>
-        </button>
-      </mat-menu>
-    </ul>
-  </mat-toolbar-row>
-</mat-toolbar>
+  <li>
+    <button mat-button [matMenuTriggerFor]="menu">
+      <mat-icon svgIcon="user"></mat-icon>
+      {{ (_authService.loggedUser$ | async) ? ((_authService.loggedUser$ | async).username) : "niezalogowany" }}
+    </button>
+  </li>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item (click)="logout()"
+      *ngIf="(_authService.loggedUser$ | async) && (_authService.loggedUser$ | async).username">
+      <mat-icon svgIcon="log-out"></mat-icon>
+      Wyloguj się
+    </button>
+    <button mat-menu-item *ngIf="!(_authService.loggedUser$ | async)">
+      <a [routerLink]="['/login']">
+        <mat-icon svgIcon="log-in"></mat-icon>
+        Zaloguj się
+      </a>
+    </button>
+  </mat-menu>
+</ul>
