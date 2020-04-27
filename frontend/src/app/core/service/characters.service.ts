@@ -1,3 +1,4 @@
+import { EditStory } from './../../modules/admin-panel/models/character-story/story-to-edit.model';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
@@ -38,6 +39,7 @@ export class CharactersService {
   private readonly _patchQuoteURL = `${this.charControllerURL}/edit-quote`;
   private readonly _patchImageNameURL = `${this.charControllerURL}/change-image-name`;
   private readonly _patchRelationshipURL = `${this.charControllerURL}/edit-relationship`;
+  private readonly _patchStoryURL = `${this.charControllerURL}/edit-story`;
 
   private readonly _postStoryForCharacterURL = `${this.charControllerURL}/new-story`;
   private readonly _postNewCharacterURL = `${this.charControllerURL}/new-character`;
@@ -140,6 +142,10 @@ export class CharactersService {
 
   patchRelationship(requestBody: EditRelationship) {
     return this.http.patch<EditRelationship>(this._patchRelationshipURL, requestBody);
+  }
+
+  patchStory(requestBody: EditStory) {
+    return this.http.patch<EditStory>(this._patchStoryURL, requestBody);
   }
 
   postStoryForCharacter(requestBody: NewStory) {

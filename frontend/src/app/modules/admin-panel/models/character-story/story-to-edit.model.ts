@@ -1,5 +1,5 @@
-export class StoryToEdit {
+export class EditStory {
   storyId: number;
   title: string;
-  story: string;
+  desc: string;
 }

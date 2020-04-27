@@ -47,6 +47,7 @@
 
 .boundary {
   width: 400px;
+  height: 100%;
 
   max-width: 100%;
   border: dotted #ccc 2px;
@@ -62,7 +63,7 @@
   }
 }
 
-.new-story-form {
+.story-form {
   min-width: 150px;
   max-width: 500px;
   width: 100%;
@@ -71,5 +72,9 @@
 
   &__input {
     width: 100%;
+
+    &--edit textarea {
+      height: 12.5rem;
+    }
   }
 }

@@ -8,6 +8,7 @@ import com.meowmere.main.requests.characters.quotes.NewQuoteForCharacterRequest;
 import com.meowmere.main.requests.characters.relationship.EditRelationshipRequest;
 import com.meowmere.main.requests.characters.relationship.RelationRequest;
 import com.meowmere.main.requests.characters.stories.CreateStoryForCharRequest;
+import com.meowmere.main.requests.characters.stories.EditStoryRequest;
 import com.meowmere.main.services.characters.CharactersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -95,6 +96,11 @@ public class CharacterController {
     @PatchMapping("/edit-relationship")
     public ResponseEntity editRelationships(@RequestBody EditRelationshipRequest editRelationshipRequest){
         return charactersService.editRelationships(editRelationshipRequest);
+    }
+
+    @PatchMapping("/edit-story")
+    public ResponseEntity editStory(@RequestBody EditStoryRequest request) {
+        return charactersService.editStory(request);
     }
 
     @PostMapping("/new-images")

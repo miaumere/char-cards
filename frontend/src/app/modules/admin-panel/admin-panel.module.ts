@@ -9,10 +9,11 @@ import { AdminPanelMenuComponent } from './components/admin-panel-menu/admin-pan
 import { CharacterModifyComponent } from './components/character-modify/character-modify.component';
 import { AdminPanelForMainComponent } from './components/admin-panel-for-main/admin-panel-for-main.component';
 import { SharedModule } from '../shared/shared.module';
-import { CharacterStoriesComponent } from './components/character-stories/character-stories.component';
+import { CharacterStoriesComponent, EditCharacterStoryComponent } from './components/character-stories/character-stories.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
+import { MatDialogModule } from '@angular/material/dialog';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import { MatInputModule } from '@angular/material/input';
     AdminPanelMenuComponent,
     CharacterModifyComponent,
     AdminPanelForMainComponent,
-    CharacterStoriesComponent
+    CharacterStoriesComponent,
+    EditCharacterStoryComponent
   ],
   imports: [
     CommonModule,
@@ -32,7 +34,8 @@ import { MatInputModule } from '@angular/material/input';
     AdminPanelRoutingModule,
     DragDropModule,
     MatButtonModule,
-    MatInputModule
+    MatInputModule,
+    MatDialogModule
   ],
   providers: [
     CharactersService

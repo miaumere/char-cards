@@ -31,6 +31,7 @@ import com.meowmere.main.requests.characters.quotes.NewQuoteForCharacterRequest;
 import com.meowmere.main.requests.characters.relationship.EditRelationshipRequest;
 import com.meowmere.main.requests.characters.relationship.RelationRequest;
 import com.meowmere.main.requests.characters.stories.CreateStoryForCharRequest;
+import com.meowmere.main.requests.characters.stories.EditStoryRequest;
 import org.apache.commons.io.FilenameUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -659,5 +660,17 @@ public class CharactersService {
         characterStoryRepository.saveAndFlush(characterStory);
 
         return new ResponseEntity(HttpStatus.CREATED);
+    }
+
+    public ResponseEntity editStory(EditStoryRequest request){
+        CharacterStory characterStory = characterStoryRepository.getOne(request.getStoryId());
+        if(characterStory == null) {
+            return new ResponseEntity("Nie można edytować historii, która nie istnieje.", HttpStatus.NOT_FOUND);
+        }
+        characterStory.setTitle(request.getTitle());
+        characterStory.setStoryDesc(request.getDesc());
+        characterStoryRepository.saveAndFlush(characterStory);
+
+        return new ResponseEntity(HttpStatus.OK);
     }
 }

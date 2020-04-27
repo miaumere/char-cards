@@ -5,16 +5,17 @@
   <div class="stories-box">
     <div class="stories-box--new-story">
       <button mat-raised-button (click)="showNewStoryForm()" *ngIf="!isStoryFormShown">+ Nowa historia</button>
-
-      <form *ngIf="isStoryFormShown" class="new-story-form" [formGroup]="newStoryForm">
-        <mat-form-field class="new-story-form__input">
+      <form *ngIf="isStoryFormShown" class="story-form" [formGroup]="newStoryForm">
+        <mat-form-field class="story-form__input">
           <mat-label>Tytuł</mat-label>
-          <input matInput placeholder="Tytuł do historii" value="Np. dzieciństwo" formControlName="title">
+          <input matInput required placeholder="Tytuł do historii" spellcheck="false" value="Np. dzieciństwo"
+            formControlName="title">
         </mat-form-field>
 
-        <mat-form-field class="new-story-form__input">
+        <mat-form-field class="story-form__input">
           <mat-label>Opis</mat-label>
-          <textarea matInput placeholder="Historia postaci" formControlName="desc"></textarea>
+          <textarea matInput required placeholder="Historia postaci" spellcheck="false"
+            formControlName="desc"></textarea>
         </mat-form-field>
 
         <button mat-raised-button (click)="createNewStory()" [disabled]='newStoryForm.invalid'>+ Dodaj</button>
@@ -31,7 +32,7 @@
             <app-icon [icon]="'x'" [color]="'#1D1D1D'" [size]="0.6"></app-icon>
           </button>
 
-          <button mat-mini-fab (click)="toggleEditMode(story.id, title, story)">
+          <button mat-mini-fab (click)="openEditModal(story.title, story.story, story.id)">
             <app-icon [icon]="'edit'" [color]="'#1D1D1D'" [size]="0.6"></app-icon>
           </button>
         </div>

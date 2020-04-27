@@ -1,18 +1,43 @@
+import { EditStory } from './../../models/character-story/story-to-edit.model';
 import { ToastrService } from 'ngx-toastr';
 import { CharactersService } from 'src/app/core/service/characters.service';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Inject } from '@angular/core';
 import { BaseComponent } from 'src/app/core/base.component';
 import { Story } from '../../models/story.model';
 import { CharacterItem } from 'src/app/modules/characters/models/character-item.model';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { NewStory } from '../../models/character-story/new-story.model';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+
+export interface DialogData {
+  title: string;
+  desc: string;
+}
+
+@Component({
+  selector: 'app-edit-character-story',
+  templateUrl: './edit-character-story.component.html',
+  styleUrls: ['./character-stories.component.scss']
+})
+export class EditCharacterStoryComponent {
+
+  constructor(
+    public dialogRef: MatDialogRef<EditCharacterStoryComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData) { }
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+
+}
 
 @Component({
   selector: 'app-character-stories',
   templateUrl: './character-stories.component.html',
   styleUrls: ['./character-stories.component.scss']
 })
+
 
 export class CharacterStoriesComponent extends BaseComponent implements OnInit {
   @Input() charId: number;
@@ -26,9 +51,13 @@ export class CharacterStoriesComponent extends BaseComponent implements OnInit {
     desc: new FormControl('', [Validators.required, Validators.maxLength(2000)])
   });
 
+  title: string;
+  desc: string;
+
   constructor(
     private _charactersService: CharactersService,
-    private _toastrService: ToastrService) { super(); }
+    private _toastrService: ToastrService,
+    public dialog: MatDialog) { super(); }
 
   ngOnInit() {
     this.getCharacter();
@@ -97,12 +126,36 @@ export class CharacterStoriesComponent extends BaseComponent implements OnInit {
     )
   }
 
-  toggleEditMode(storyId: number, title: any, story: HTMLElement) {
+  openEditModal(title: string, desc: string, storyId: number) {
+    const dialogRef = this.dialog.open(EditCharacterStoryComponent, {
+      width: '500px',
+      data: { title, desc }
+    });
 
-    console.log(storyId)
-    console.log(title)
-    console.log(story)
+    this.subscriptions$.add(
+      dialogRef.afterClosed().subscribe(result => {
+        const objToSend: EditStory = new EditStory();
+        objToSend.storyId = storyId;
+        objToSend.desc = result.desc;
+        objToSend.title = result.title;
 
+        if (objToSend.desc?.length === 0 || objToSend.title?.length === 0) {
+          this._toastrService.warning('Uzupełnij wszystkie pola.');
+          return;
+        }
+
+        this.subscriptions$.add(
+          this._charactersService.
+            patchStory(objToSend).subscribe(_ => {
+              this._toastrService.success('Udało się zmienić historię!');
+              this.getStories();
+            }, err => {
+              this._toastrService.error('Nie udało się zmienić historii.');
+            })
+        )
+      })
+
+    )
   }
 
   showNewStoryForm() {
@@ -131,3 +184,6 @@ export class CharacterStoriesComponent extends BaseComponent implements OnInit {
           }));
   }
 }
+
+
+
