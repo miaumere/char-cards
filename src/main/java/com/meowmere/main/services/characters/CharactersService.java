@@ -41,10 +41,6 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceUnit;
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Stream;
@@ -68,10 +64,6 @@ public class CharactersService {
     public RelationshipRepository relationshipRepository;
     @Autowired
     public CharacterStoryRepository characterStoryRepository;
-    @PersistenceContext
-    private EntityManager entityManager;
-    @PersistenceUnit
-    private EntityManagerFactory entityManagerFactory;
 
     public ResponseEntity findCharList() {
         List<Character> allCharactersFromDb = characterRepository.getNonArchivedCharacters();
@@ -624,29 +616,13 @@ public class CharactersService {
     }
 
     public ResponseEntity editStoryIndexes(ArrayList<Long> storyIds, Long charId){
-        entityManager = entityManagerFactory.createEntityManager();
-        entityManager.getTransaction().begin();
-
         List<CharacterStory> characterStories = characterStoryRepository.getStoriesForCharacter(charId);
-//        HashMap<Long, Integer> idsToModificate = new HashMap<>();
         HashMap<Long, Integer> storyFromDatabase = new HashMap<>();
-        HashMap<Long, Integer> storyFromRequest = new HashMap<>();
 
         for (int i = 0; i < characterStories.size(); i++) {
             CharacterStory characterStory =  characterStories.get(i);
             storyFromDatabase.put(characterStory.getId(), characterStory.getIndexOnList());
         }
-//        for (int i = 0; i < storyIds.size(); i++) {
-//            storyFromRequest.put(storyIds.get(i), i);
-//        }
-//        storyFromRequest.forEach((key,value) -> {
-//            if(storyFromDatabase.containsKey(key)) {
-//                Integer databaseValue = storyFromDatabase.get(key);
-//                if(databaseValue != value){
-//                    idsToModificate.put(key, value);
-//                }
-//            }
-//        });
 
         storyFromDatabase.forEach((key, value) -> {
             CharacterStory characterStory = characterStoryRepository.getOne(key);
@@ -661,15 +637,6 @@ public class CharactersService {
             characterStoryRepository.saveAndFlush(characterStory);
 
         }
-
-//        idsToModificate.forEach((key, value) -> {
-//            CharacterStory characterStory = characterStoryRepository.getOne(key);
-//            characterStory.setIndexOnList(value);
-//            characterStoryRepository.save(characterStory);
-//            characterStoryRepository.flush();
-//        });
-
-        entityManager.getTransaction().commit();
 
 
         return new ResponseEntity(HttpStatus.OK);

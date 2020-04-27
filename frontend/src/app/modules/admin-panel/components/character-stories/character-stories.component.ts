@@ -24,7 +24,6 @@ export class CharacterStoriesComponent extends BaseComponent implements OnInit {
   ngOnInit() {
     this.getCharacter();
     this.getStories();
-
   }
 
   drop(e: CdkDragDrop<string[]>) {
@@ -87,5 +86,13 @@ export class CharacterStoriesComponent extends BaseComponent implements OnInit {
           this._toastrService.error('Nie udało się usunąć wybranej historii.')
         })
     )
+  }
+
+  toggleEditMode(storyId: number, title: any, story: HTMLElement) {
+
+    console.log(storyId)
+    console.log(title)
+    console.log(story)
+
   }
 }

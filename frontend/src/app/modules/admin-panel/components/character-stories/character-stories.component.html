@@ -1,19 +1,28 @@
 <div *ngIf="selectedCharacter">
   <h2>{{selectedCharacter.fullName}}</h2>
-  <div *ngIf="stories.length > 0" class="boundary" cdkDropList (cdkDropListDropped)="drop($event)">
-    <div *ngFor="let story of stories; index as i" class="box" cdkDragBoundary=".boundary" cdkDrag>
-      <div class="buttons-box">
-        <button (click)="insertDeleteInfo()" (dblclick)="deleteStory(story.id)" class="button">
-          <app-icon [icon]="'archive'" [color]="'#b84343'"></app-icon>
-        </button>
-      </div>
-      <div class="story-box">
-        <span class="story-box__title">{{story.title}}</span>
-        <span class="story-box__desc">{{story.story}}</span>
+  <div class="stories-box">
+
+
+    <div></div>
+    <div *ngIf="stories.length > 0" class="boundary" cdkDropList (cdkDropListDropped)="drop($event)">
+      <div *ngFor="let story of stories; index as i" class="box" cdkDragBoundary=".boundary" cdkDrag>
+        <div class="buttons-box">
+          <button (click)="insertDeleteInfo()" (dblclick)="deleteStory(story.id)" class="button" title="Usuń historię">
+            <app-icon [icon]="'x'" [color]="'#1D1D1D'" [size]="0.6"></app-icon>
+          </button>
+
+          <button class="button" (click)="toggleEditMode(story.id, title, story)" title="Edytuj historię">
+            <app-icon [icon]="'edit'" [color]="'#1D1D1D'" [size]="0.6"></app-icon>
+          </button>
+        </div>
+        <div class="story-box">
+          <span class="story-box__title" #title>{{story.title}}</span>
+          <span class="story-box__desc" #story>{{story.story}}</span>
+        </div>
       </div>
     </div>
-  </div>
-  <div *ngIf="stories.length === 0">
-    Brak.
+    <div *ngIf="stories.length === 0">
+      Brak.
+    </div>
   </div>
 </div>

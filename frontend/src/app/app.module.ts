@@ -9,6 +9,7 @@ import { HashLocationStrategy, LocationStrategy, CommonModule } from '@angular/c
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { MatSliderModule } from '@angular/material/slider';
+import { MatMenuModule } from '@angular/material/menu';
 
 
 import { AppComponent } from './app.component';
@@ -39,6 +40,7 @@ import { NavbarComponent } from './core/components/navbar/navbar.component';
     CharactersModule,
     LoginModule,
     SharedModule,
+    MatMenuModule,
     CoreModule,
     RouterModule,
     MatSliderModule

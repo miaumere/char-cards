@@ -17,32 +17,10 @@
 
   background: rgb(20, 20, 20);
   z-index: map-get($z-index, navbar);
-
-  &__item {
-    color: white;
-
-    text-transform: uppercase;
-
-    &--title {
-      @include font-special;
-
-      text-transform: none;
-      &:checked {
-        text-decoration: none;
-      }
-    }
-
-    &--active {
-      color: rgb(92, 92, 92);
-    }
-  }
 }
 
-.logout {
-  padding-right: 0.5rem;
-  &__icon {
-    transform: scale(0.7);
-  }
+.title {
+  @include font-special;
 }
 
 .logged-user {
