@@ -15,8 +15,10 @@ type charType = 'postać główna' | 'postać poboczna' | 'postać epizodyczna' 
   styleUrls: ['./character-card.component.scss']
 })
 export class CharacterCardComponent extends BaseComponent implements OnInit {
-  displayedColumns: string[] = ['Niemowlę', 'Dziecko', 'Nastolatek', 'Dorosły'];
-  measurementsData: IMeasurements;
+  displayedColumns: string[] = ['baby', 'child', 'teen', 'adult'];
+
+  measurementsData: any[] = [];
+
 
   @Output() bgColorFromChild = new EventEmitter<string>();
 
@@ -62,8 +64,23 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
         ).subscribe(character => {
           this.character = new Character(character);
           const measurementsInstance = new Measurements(character.measurements);
-          console.log("measurementsInstance: ", measurementsInstance)
           this.character.measurements = measurementsInstance;
+          const characterHeight = [
+            measurementsInstance.babyHeight + ' cm',
+            measurementsInstance.childHeight + ' cm',
+            measurementsInstance.teenHeight + ' cm',
+            measurementsInstance.adultHeight + ' cm'
+          ];
+          const charachterWeight = [
+            measurementsInstance.babyWeight + ' kg',
+            measurementsInstance.childWeight + ' kg',
+            measurementsInstance.teenWeight + ' kg',
+            measurementsInstance.adultWeight + ' kg'
+          ];
+          this.measurementsData = [characterHeight, charachterWeight];
+
+          console.dir(this.measurementsData)
+
           switch (this.character?.charType) {
             case 'MAIN':
               this.charType = 'postać główna';
@@ -97,8 +114,6 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
               themeColorForChar
             ).lighten(35).desaturate();
           }
-
-          this.measurementsData = character.measurements;
         });
     }
   }

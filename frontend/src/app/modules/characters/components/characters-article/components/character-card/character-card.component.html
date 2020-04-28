@@ -172,31 +172,31 @@
       </ul>
 
     </div>
+
     <div *ngIf="character.measurements?.hasAnyValues">
       <h2 class="story__title" [ngStyle]="{'color': themeColor1}">Tabela wzrostu i wagi</h2>
-      <table class="information__measurements measurements global-table">
-        <tr class="global-table__row">
-          <th class="global-table__header"></th>
-          <th class="global-table__header">Niemowlę <br />(0-3)</th>
-          <th class="global-table__header">Dziecko <br />(4-11)</th>
-          <th class="global-table__header">Nastolatek <br />(12-19)</th>
-          <th class="global-table__header">Dorosły <br />(20+)</th>
-        </tr>
-        <tr class="global-table__row">
-          <th class="global-table__header">Wzrost</th>
-          <td class="global-table__cell">{{character.measurements.babyHeight | nulled}} cm</td>
-          <td class="global-table__cell">{{character.measurements.childHeight | nulled}} cm</td>
-          <td class="global-table__cell">{{character.measurements.teenHeight | nulled}} cm</td>
-          <td class="global-table__cell">{{character.measurements.adultHeight | nulled}} cm</td>
-        </tr>
-        <tr class="global-table__row">
-          <th class="global-table__header">Waga</th>
-          <td class="global-table__cell">{{character.measurements.babyWeight | nulled}} kg</td>
-          <td class="global-table__cell">{{character.measurements.childWeight | nulled}} kg</td>
-          <td class="global-table__cell">{{character.measurements.teenWeight | nulled}} kg</td>
-          <td class="global-table__cell">{{character.measurements.adultWeight | nulled}} kg</td>
-        </tr>
+      <table mat-table [dataSource]="measurementsData" style="width: 100%">
+        <ng-container matColumnDef="baby" *ngIf="character.measurements.hasBabyValues">
+          <th mat-header-cell *matHeaderCellDef> Niemowlę (0-3) </th>
+          <td mat-cell *matCellDef="let element"> {{element[0] }}</td>
+        </ng-container>
+        <ng-container matColumnDef="child" *ngIf="character.measurements.hasChildValues">
+          <th mat-header-cell *matHeaderCellDef> Dziecko (4-11) </th>
+          <td mat-cell *matCellDef="let element"> {{element[1]}}</td>
+        </ng-container>
+        <ng-container matColumnDef="teen" *ngIf="character.measurements.hasTeenValues">
+          <th mat-header-cell *matHeaderCellDef> Nastolatek (12-19) </th>
+          <td mat-cell *matCellDef="let element"> {{element[2]}}</td>
+        </ng-container>
+        <ng-container matColumnDef="adult" *ngIf="character.measurements.hasAdultValues">
+          <th mat-header-cell *matHeaderCellDef> Dorosły (20+) </th>
+          <td mat-cell *matCellDef="let element"> {{element[3]}}</td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       </table>
+
     </div>
   </div>
 </section>
