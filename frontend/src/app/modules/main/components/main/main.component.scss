@@ -24,6 +24,9 @@
   &__desc {
     @include font-special;
 
+    height: 100%;
+    width: 100%;
+
     display: flex;
     justify-content: center;
     align-items: center;
@@ -34,6 +37,6 @@
     color: white;
     font-weight: bolder;
 
-    text-shadow: -1px 1px 7px white;
+    background: rgba(0, 0, 0, 0.6);
   }
 }
