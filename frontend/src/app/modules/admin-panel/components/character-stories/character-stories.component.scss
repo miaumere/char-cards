@@ -1,9 +1,12 @@
 .stories {
   width: 100vw;
+  color: inherit;
 
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  background: #1d1d1d;
 }
 
 .box {

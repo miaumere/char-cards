@@ -10,7 +10,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { NewStory } from '../../models/character-story/new-story.model';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 
-export interface DialogData {
+export interface IDialogData {
   title: string;
   desc: string;
 }
@@ -24,7 +24,7 @@ export class EditCharacterStoryComponent {
 
   constructor(
     public dialogRef: MatDialogRef<EditCharacterStoryComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData) { }
+    @Inject(MAT_DIALOG_DATA) public data: IDialogData) { }
 
   onNoClick(): void {
     this.dialogRef.close();
@@ -127,9 +127,11 @@ export class CharacterStoriesComponent extends BaseComponent implements OnInit {
   }
 
   openEditModal(title: string, desc: string, storyId: number) {
+    const data: IDialogData = { title, desc };
+
     const dialogRef = this.dialog.open(EditCharacterStoryComponent, {
       width: '500px',
-      data: { title, desc }
+      data
     });
 
     this.subscriptions$.add(

@@ -1,17 +1,17 @@
 <ul class="navbar">
-  <li>
+  <li class="navbar__item">
     <a [routerLink]="['/main']">
       <button class="title" mat-button>Alea iacta est</button>
     </a>
   </li>
 
-  <li>
+  <li class="navbar__item">
     <a [routerLink]="['/char-cards']" routerLinkActive="navbar__item--active">
       <button mat-button>Postacie</button>
     </a>
   </li>
 
-  <li>
+  <li class="navbar__item--user">
     <button mat-button [matMenuTriggerFor]="menu">
       <mat-icon svgIcon="user"></mat-icon>
       {{ (_authService.loggedUser$ | async) ? ((_authService.loggedUser$ | async).username) : "niezalogowany" }}

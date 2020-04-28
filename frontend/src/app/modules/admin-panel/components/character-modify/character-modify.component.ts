@@ -290,7 +290,7 @@ export class CharacterModifyComponent extends BaseComponent implements OnInit {
 
         objToSend.temperament = temperament;
 
-        const measurements = new Measurements();
+        let measurements;
         measurements.babyHeight = this.editCharacterForm.controls['babyHeight']?.value;
         measurements.babyWeight = this.editCharacterForm.controls['babyWeight']?.value;
         measurements.childHeight = this.editCharacterForm.controls['childHeight']?.value;

@@ -14,7 +14,7 @@ import { NewStory } from 'src/app/modules/admin-panel/models/character-story/new
 import { IStory, Story } from 'src/app/modules/admin-panel/models/story.model';
 import { ICharacterForListItem } from 'src/app/modules/characters/models/character-for-list-item.model';
 import { CharacterItem, ICharacterItem } from 'src/app/modules/characters/models/character-item.model';
-import { ICharacter } from 'src/app/modules/characters/models/character.model';
+import { ICharacter, Character } from 'src/app/modules/characters/models/character.model';
 import { IQuote } from 'src/app/modules/characters/models/quote.model';
 import { EditCharacter, IEditCharacter } from './../../modules/admin-panel/models/edit-character.model';
 import { IRelationRequest } from './../../modules/admin-panel/models/relation-request.model';
@@ -90,7 +90,13 @@ export class CharactersService {
   }
 
   getCharacterById(id: number) {
-    return this.http.get<ICharacter>(`${this._getCharacterByIdURL}/${id}`);
+    return this.http.get<ICharacter>(`${this._getCharacterByIdURL}/${id}`).pipe(
+      map(response => {
+        response = new Character(response);
+        return response;
+      }
+      )
+    )
   }
 
   getRelationshipsForCharacter(id: number) {

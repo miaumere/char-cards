@@ -1,10 +1,11 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { BaseComponent } from 'src/app/core/base.component';
-import { Character } from 'src/app/modules/characters/models/character.model';
+import { Character, ICharacter } from 'src/app/modules/characters/models/character.model';
 import { CharactersService } from 'src/app/core/service/characters.service';
 import { ActivatedRoute } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import * as tinycolor from 'tinycolor2';
+import { Measurements, IMeasurements } from 'src/app/modules/characters/models/measurements.model';
 
 type charType = 'postać główna' | 'postać poboczna' | 'postać epizodyczna' | '';
 
@@ -14,6 +15,8 @@ type charType = 'postać główna' | 'postać poboczna' | 'postać epizodyczna' 
   styleUrls: ['./character-card.component.scss']
 })
 export class CharacterCardComponent extends BaseComponent implements OnInit {
+  displayedColumns: string[] = ['Niemowlę', 'Dziecko', 'Nastolatek', 'Dorosły'];
+  measurementsData: IMeasurements;
 
   @Output() bgColorFromChild = new EventEmitter<string>();
 
@@ -57,9 +60,11 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
             this.loading = false;
           })
         ).subscribe(character => {
-          this.character = character;
-
-          switch (this.character.charType) {
+          this.character = new Character(character);
+          const measurementsInstance = new Measurements(character.measurements);
+          console.log("measurementsInstance: ", measurementsInstance)
+          this.character.measurements = measurementsInstance;
+          switch (this.character?.charType) {
             case 'MAIN':
               this.charType = 'postać główna';
               break;
@@ -75,7 +80,6 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
             default:
               break;
           }
-
           this.bgColorFromChild.emit(character.colors.themeColor1);
           const themeColorForChar = tinycolor(character?.colors?.themeColor1);
           const bgColorForChar = tinycolor(character?.colors?.themeColor2);
@@ -93,6 +97,8 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
               themeColorForChar
             ).lighten(35).desaturate();
           }
+
+          this.measurementsData = character.measurements;
         });
     }
   }

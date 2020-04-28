@@ -19,12 +19,15 @@
   z-index: map-get($z-index, navbar);
 
   &__item {
-    color: white;
-
-    text-transform: uppercase;
+    margin: 0 2rem;
 
     &--active {
       color: rgb(92, 92, 92);
+    }
+
+    &--user {
+      margin-left: auto;
+      margin-right: 2rem;
     }
   }
 }
@@ -35,16 +38,5 @@
   text-transform: none;
   &:checked {
     text-decoration: none;
-  }
-}
-
-.logged-user {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  &__name {
-    padding-left: 0.5rem;
-    color: grey;
   }
 }

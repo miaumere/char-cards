@@ -172,9 +172,9 @@
       </ul>
 
     </div>
-    <div>
+    <div *ngIf="character.measurements?.hasAnyValues">
       <h2 class="story__title" [ngStyle]="{'color': themeColor1}">Tabela wzrostu i wagi</h2>
-      <table *ngIf="character.measurements" class="information__measurements measurements global-table">
+      <table class="information__measurements measurements global-table">
         <tr class="global-table__row">
           <th class="global-table__header"></th>
           <th class="global-table__header">Niemowlę <br />(0-3)</th>

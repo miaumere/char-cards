@@ -2,7 +2,7 @@ import { Story } from '../../admin-panel/models/story.model';
 import { IColors } from './colors.model';
 import { IImageForMain } from './image-for-main.model';
 import { ITemperament } from './temperament.model';
-import { IMeasurements } from './measurements.model';
+import { IMeasurements, Measurements } from './measurements.model';
 import { IQuote } from './quote.model';
 import { IRelationship } from './relationship.model';
 
@@ -40,9 +40,14 @@ export class Character implements ICharacter {
   colors: IColors;
   imagesList: IImageForMain[];
   temperament: ITemperament;
-  measurements: IMeasurements;
+  measurements: Measurements;
   quotes: IQuote;
   charType: characterType;
   relationships: IRelationship[] | null;
+
+  constructor(initialValues: ICharacter) {
+    Object.assign(this, initialValues);
+  }
+
 }
 
