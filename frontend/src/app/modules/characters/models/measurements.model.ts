@@ -23,6 +23,21 @@ export class Measurements implements IMeasurements {
     Object.assign(this, initialValues);
   }
 
+  getValueWithUnit(value: number | null, type: 'height' | 'weight') {
+    if (!!value) {
+      switch (type) {
+        case 'height':
+          return value + ' cm';
+
+        case 'weight':
+          return value + ' kg';
+      }
+
+    } else {
+      return null;
+    }
+  }
+
   get hasBabyValues() {
     return !!(this.babyHeight && this.babyWeight);
   }
@@ -32,7 +47,7 @@ export class Measurements implements IMeasurements {
   }
 
   get hasTeenValues() {
-    return !!(this.teenHeight && this.teenWeight);
+    return !!(this.teenHeight || this.teenWeight);
   }
 
   get hasAdultValues() {

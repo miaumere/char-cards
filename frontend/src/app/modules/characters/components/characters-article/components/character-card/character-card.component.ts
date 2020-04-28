@@ -66,20 +66,20 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
           const measurementsInstance = new Measurements(character.measurements);
           this.character.measurements = measurementsInstance;
           const characterHeight = [
-            measurementsInstance.babyHeight + ' cm',
-            measurementsInstance.childHeight + ' cm',
-            measurementsInstance.teenHeight + ' cm',
-            measurementsInstance.adultHeight + ' cm'
+            measurementsInstance.getValueWithUnit(measurementsInstance.babyHeight, 'height'),
+            measurementsInstance.getValueWithUnit(measurementsInstance.childHeight, 'height'),
+            measurementsInstance.getValueWithUnit(measurementsInstance.teenHeight, 'height'),
+            measurementsInstance.getValueWithUnit(measurementsInstance.adultHeight, 'height')
           ];
           const charachterWeight = [
-            measurementsInstance.babyWeight + ' kg',
-            measurementsInstance.childWeight + ' kg',
-            measurementsInstance.teenWeight + ' kg',
-            measurementsInstance.adultWeight + ' kg'
+            measurementsInstance.getValueWithUnit(measurementsInstance.babyWeight, 'weight'),
+            measurementsInstance.getValueWithUnit(measurementsInstance.childWeight, 'weight'),
+            measurementsInstance.getValueWithUnit(measurementsInstance.teenWeight, 'weight'),
+            measurementsInstance.getValueWithUnit(measurementsInstance.adultWeight, 'weight')
           ];
           this.measurementsData = [characterHeight, charachterWeight];
 
-          console.dir(this.measurementsData)
+          console.log(measurementsInstance)
 
           switch (this.character?.charType) {
             case 'MAIN':

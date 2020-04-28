@@ -117,6 +117,10 @@
 
 .measurements {
   margin-top: auto;
+
+  &-table-cell {
+    text-align: center;
+  }
 }
 
 .card {
