@@ -1,3 +1,4 @@
+import { IMeasurements } from 'src/app/modules/characters/models/measurements.model';
 import { Measurements } from './../../../characters/models/measurements.model';
 import { Temperament } from './../../../characters/models/temperament.model';
 import { EditCharacter } from './../../models/edit-character.model';
@@ -104,6 +105,8 @@ export class CharacterModifyComponent extends BaseComponent implements OnInit {
   sanguineValue = 0;
   flegmaticValue = 0;
   cholericValue = 0;
+
+  measurements: IMeasurements;
 
   birthdayDate;
   deathDate;
@@ -290,7 +293,8 @@ export class CharacterModifyComponent extends BaseComponent implements OnInit {
 
         objToSend.temperament = temperament;
 
-        let measurements;
+        let measurements = new Measurements(this.measurements);
+
         measurements.babyHeight = this.editCharacterForm.controls['babyHeight']?.value;
         measurements.babyWeight = this.editCharacterForm.controls['babyWeight']?.value;
         measurements.childHeight = this.editCharacterForm.controls['childHeight']?.value;
@@ -300,9 +304,10 @@ export class CharacterModifyComponent extends BaseComponent implements OnInit {
         measurements.adultHeight = this.editCharacterForm.controls['adultHeight']?.value;
         measurements.adultWeight = this.editCharacterForm.controls['adultWeight']?.value;
 
+        console.log(measurements)
+        console.log(objToSend);
         objToSend.measurements = measurements;
 
-        console.log(objToSend);
         this.subscriptions$.add(
           this._charactersService
             .putCharacterDetails(objToSend, this.isDead)
@@ -334,6 +339,9 @@ export class CharacterModifyComponent extends BaseComponent implements OnInit {
           })
         ).subscribe(charDetails => {
           if (this.editCharacterForm) {
+
+            this.measurements = charDetails.measurements;
+
             this.birthdayDate = charDetails.birthday;
             this.deathDate = charDetails.death;
 
