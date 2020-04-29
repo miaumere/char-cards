@@ -1,3 +1,81 @@
+<mat-horizontal-stepper linear="false" #stepper>
+  <mat-step [stepControl]="personalInfoForm">
+    <form [formGroup]="personalInfoForm" class="character-modify-form">
+      <ng-template matStepLabel>Podstawowe dane</ng-template>
+      <mat-form-field>
+        <mat-label>Imię</mat-label>
+        <input matInput placeholder="Imię postaci" [formControlName]="'name'" required>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Nazwisko</mat-label>
+        <input matInput placeholder="Nazwisko postaci" [formControlName]="'name'" required>
+      </mat-form-field>
+
+      <label id="gender-radio-group">Płeć</label>
+      <mat-radio-group formControlName="gender" aria-labelledby="gender-radio-group">
+        <ng-container *ngFor="let gen of Gender | enumVal">
+          <mat-radio-button class="example-margin" [value]="gen.value" name="gender">
+            <span class="gender-icon">
+              <app-icon [color]="gen.value === 'MALE' ? '#89cff0' : '#FFC0CB'" [icon]="gen.value | lowercase"
+                [size]="'1.2'">
+              </app-icon>
+            </span>
+          </mat-radio-button>
+        </ng-container>
+      </mat-radio-group>
+
+      <mat-form-field>
+        <mat-label>Typ postaci</mat-label>
+        <mat-select formControlName="characterType">
+          <mat-option *ngFor="let characterType of CharType | enumVal" [value]="characterType.value">
+            {{characterType.value}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div>
+        <button mat-button matStepperNext>Dalej</button>
+      </div>
+    </form>
+  </mat-step>
+
+  <mat-step [stepControl]="addidionalPersonalInfoForm">
+    <form [formGroup]="addidionalPersonalInfoForm" class="character-modify-form">
+      <ng-template matStepLabel>Dodatkowe dane osobowe</ng-template>
+      <mat-form-field>
+        <mat-label>Zawód</mat-label>
+        <input matInput placeholder="Czym się zajmuje?" [formControlName]="'profession'">
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Data urodzenia</mat-label>
+        <input matInput [matDatepicker]="birthday" [formControlName]="'birthday'">
+        <mat-datepicker-toggle matSuffix [for]="birthday"></mat-datepicker-toggle>
+        <mat-datepicker #birthday></mat-datepicker>
+      </mat-form-field>
+
+      <mat-checkbox (change)="toggleIsDead()">Czy postać nie żyje?</mat-checkbox>
+
+      <mat-form-field>
+        <mat-label>Data śmierci</mat-label>
+        <input matInput [matDatepicker]="death" [formControlName]="'death'">
+        <mat-datepicker-toggle matSuffix [for]="death"></mat-datepicker-toggle>
+        <mat-datepicker #death></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Powód śmierci</mat-label>
+        <input matInput placeholder="Powód śmierci" [formControlName]="'deathReason'">
+      </mat-form-field>
+      <div>
+        <button mat-button matStepperNext>Dalej</button>
+      </div>
+    </form>
+  </mat-step>
+
+</mat-horizontal-stepper>
+
+
+
 <article class="new-char admin-panel admin-panel--main">
   <h2 class="changes__title">Uzupełnij poniższe pola, aby dodać nową postać główną:</h2>
   <div class="progress">

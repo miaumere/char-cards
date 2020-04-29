@@ -27,7 +27,22 @@ export class CharacterModifyComponent extends BaseComponent implements OnInit {
 
   formParts: string[] = [];
 
-  isDead = true;
+  isDead = false;
+
+  personalInfoForm = new FormGroup({
+    name: new FormControl('', Validators.required),
+    surname: new FormControl('', Validators.required),
+
+    gender: new FormControl('MALE', Validators.required),
+    characterType: new FormControl('', Validators.required),
+  });
+
+  addidionalPersonalInfoForm = new FormGroup({
+    birthday: new FormControl(''),
+    profession: new FormControl(''),
+    death: new FormControl(),
+    deathReason: new FormControl(''),
+  });
 
   newCharacterForm = new FormGroup({
     name: new FormControl('', Validators.required),
@@ -164,10 +179,6 @@ export class CharacterModifyComponent extends BaseComponent implements OnInit {
     });
   }
 
-  toggleDeathState() {
-    this.isDead = !this.isDead;
-  }
-
   setForm(formId: chooseFormType) {
     this.chosenForm = formId;
   }
@@ -193,7 +204,12 @@ export class CharacterModifyComponent extends BaseComponent implements OnInit {
                 'Kolory',
                 'Waga i wzrost',
                 'Zdjęcia'
-              ]
+              ];
+
+              const deathReason = this.addidionalPersonalInfoForm.controls['deathReason'];
+              const death = this.addidionalPersonalInfoForm.controls['death'];
+              deathReason.disable();
+              death.disable();
               break;
 
             case 'edit':
@@ -203,7 +219,7 @@ export class CharacterModifyComponent extends BaseComponent implements OnInit {
                 'Temperament',
                 'Kolory',
                 'Waga i wzrost'
-              ]
+              ];
 
               this.getCharacterDetails();
 
@@ -310,7 +326,7 @@ export class CharacterModifyComponent extends BaseComponent implements OnInit {
 
         objToSend.temperament = temperament;
 
-        let measurements = new Measurements(this.measurements);
+        const measurements = new Measurements(this.measurements);
 
         measurements.babyHeight = this.editCharacterForm.controls['babyHeight']?.value;
         measurements.babyWeight = this.editCharacterForm.controls['babyWeight']?.value;
@@ -339,7 +355,7 @@ export class CharacterModifyComponent extends BaseComponent implements OnInit {
               err => {
                 this._toastrService.error(err.error);
               })
-        )
+        );
     }
   }
 
@@ -394,7 +410,22 @@ export class CharacterModifyComponent extends BaseComponent implements OnInit {
           }
         }
         )
-    )
+    );
+  }
+
+  toggleIsDead() {
+    const deathReason = this.addidionalPersonalInfoForm.controls['deathReason'];
+    const death = this.addidionalPersonalInfoForm.controls['death'];
+
+    if (this.isDead) {
+      this.isDead = false;
+      deathReason.disable();
+      death.disable();
+    } else {
+      this.isDead = true;
+      death.enable();
+      deathReason.enable();
+    }
   }
 
 }

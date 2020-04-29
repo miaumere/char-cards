@@ -296,3 +296,17 @@ $background1: #0000007d;
   justify-content: center;
   align-items: center;
 }
+
+// nowe style
+.character-modify-form {
+  display: flex;
+  justify-content: space-around;
+  flex-direction: column;
+  align-items: baseline;
+
+  font-size: initial;
+}
+
+.gender-icon {
+  margin-right: 2rem;
+}

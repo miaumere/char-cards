@@ -16,7 +16,12 @@ import { AdminPanelForCharactersComponent } from './components/admin-panel-for-c
 import { CharacterQuotesComponent } from './components/character-quotes/character-quotes.component';
 import { CharacterImagesComponent } from './components/character-images/character-images.component';
 import { CharacterRelationsComponent } from './components/character-relations/character-relations.component';
-
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatSelectModule } from '@angular/material/select';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [
@@ -39,7 +44,13 @@ import { CharacterRelationsComponent } from './components/character-relations/ch
     MatButtonModule,
     MatInputModule,
     MatDialogModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatStepperModule,
+    MatRadioModule,
+    MatSelectModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatCheckboxModule
   ],
   providers: [
     CharactersService
