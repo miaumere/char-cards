@@ -4,10 +4,6 @@
 
   <div [ngSwitch]="changeType">
 
-    <div *ngSwitchCase="'new-character'">
-      <app-character-modify type="NEW"></app-character-modify>
-    </div>
-
     <div *ngSwitchCase="'edit-images'" class="story edit-main-pic  admin-panel admin-panel--main admin-panel-main">
       <form class="edit-main-pic__edit-main-pic-form edit-main-pic-form" enctype="multipart/form-data">
         <h2 class="changes__title">Dodaj zdjęcia do postaci:</h2>
@@ -107,10 +103,6 @@
       <div *ngIf="quotes?.length === 0" style="color: grey; margin-top: 1rem">
         Podana postać nie ma żadnych cytatów.
       </div>
-    </div>
-
-    <div *ngSwitchCase="'edit-character'">
-      <app-character-modify type="EDIT" [charId]="selectedCharId"></app-character-modify>
     </div>
 
     <div *ngSwitchCase="'relationships'" class="admin-panel quotes admin-panel--main admin-panel-main">

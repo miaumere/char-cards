@@ -2,7 +2,7 @@ import { IMeasurements } from 'src/app/modules/characters/models/measurements.mo
 import { Measurements } from './../../../characters/models/measurements.model';
 import { Temperament } from './../../../characters/models/temperament.model';
 import { EditCharacter } from './../../models/edit-character.model';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { CharactersService } from 'src/app/core/service/characters.service';
 import { ToastrService } from 'ngx-toastr';
 import { Component, OnInit, Input } from '@angular/core';
@@ -13,6 +13,8 @@ import { finalize } from 'rxjs/operators';
 import { validateImage } from 'src/app/modules/shared/functions/validate-image.function';
 import { Gender } from '../../enums/gender.enum';
 import { CharType } from '../../enums/character-type.enum';
+import { iif } from 'rxjs';
+import { FnParam } from '@angular/compiler/src/output/output_ast';
 
 type chooseFormType = 'SUBMIT' | number;
 @Component({
@@ -119,14 +121,17 @@ export class CharacterModifyComponent extends BaseComponent implements OnInit {
   form = new FormGroup({});
 
   loading = true;
+  type: 'new' | 'edit';
 
-  @Input() type: 'NEW' | 'EDIT';
-  @Input() charId: number;
+  charId: number;
+
 
   constructor(
     private _toastrService: ToastrService,
     private _charactersService: CharactersService,
-    private _route: Router) { super(); }
+    private _route: Router,
+    private _activatedRoute: ActivatedRoute,
+  ) { super(); }
 
   ngOnInit() {
     this.setModifyType();
@@ -170,30 +175,44 @@ export class CharacterModifyComponent extends BaseComponent implements OnInit {
   }
 
   setModifyType() {
-    switch (this.type) {
-      case 'NEW':
-        this.form = this.newCharacterForm;
-        this.formParts = [
-          'Podstawowe dane',
-          'Temperament',
-          'Kolory',
-          'Waga i wzrost',
-          'Zdjęcia'
-        ]
-        break;
 
-      case 'EDIT':
-        this.form = this.editCharacterForm;
-        this.formParts = [
-          'Podstawowe dane',
-          'Temperament',
-          'Kolory',
-          'Waga i wzrost'
-        ]
+    this._activatedRoute?.parent?.queryParams
+      .subscribe(queryParam => {
+        this.charId = +queryParam.id;
+      });
 
-        this.getCharacterDetails();
+    if (this._activatedRoute?.parent?.params) {
 
-        break;
+      this.subscriptions$.add(
+        this._activatedRoute.params.subscribe(param => {
+          this.type = param.type;
+          switch (param.type) {
+            case 'new':
+              this.form = this.newCharacterForm;
+              this.formParts = [
+                'Podstawowe dane',
+                'Temperament',
+                'Kolory',
+                'Waga i wzrost',
+                'Zdjęcia'
+              ]
+              break;
+
+            case 'edit':
+              this.form = this.editCharacterForm;
+              this.formParts = [
+                'Podstawowe dane',
+                'Temperament',
+                'Kolory',
+                'Waga i wzrost'
+              ]
+
+              this.getCharacterDetails();
+
+              break;
+          }
+        })
+      );
     }
   }
 
@@ -216,7 +235,7 @@ export class CharacterModifyComponent extends BaseComponent implements OnInit {
     }
 
     switch (this.type) {
-      case 'NEW':
+      case 'new':
         this.loading = true;
 
         const newCharFormValues: { [key: string]: string } = this.newCharacterForm.value;
@@ -245,7 +264,7 @@ export class CharacterModifyComponent extends BaseComponent implements OnInit {
         this.subscriptions$.add(
           this._charactersService.postNewCharacter(formData).subscribe(_ => {
             this._toastrService.success('Udało się dodać nową postać!');
-            this._route.navigate(['admin-panel/main']);
+            this._route.navigate(['../']);
           },
             err => {
               if (err && err.error) {
@@ -257,7 +276,7 @@ export class CharacterModifyComponent extends BaseComponent implements OnInit {
         break;
 
 
-      case 'EDIT':
+      case 'edit':
         this.loading = true;
 
         const objToSend = new EditCharacter();
@@ -304,8 +323,6 @@ export class CharacterModifyComponent extends BaseComponent implements OnInit {
         measurements.adultHeight = this.editCharacterForm.controls['adultHeight']?.value;
         measurements.adultWeight = this.editCharacterForm.controls['adultWeight']?.value;
 
-        console.log(measurements)
-        console.log(objToSend);
         objToSend.measurements = measurements;
 
         this.subscriptions$.add(
@@ -318,7 +335,7 @@ export class CharacterModifyComponent extends BaseComponent implements OnInit {
             )
             .subscribe(_ => {
               this._toastrService.success('Udało się zmienić dane o postaci!');
-              this._route.navigate(['admin-panel/main']);
+              this._route.navigate(['./admin-panel']);
               this.getCharacterDetails();
             },
               err => {
@@ -329,6 +346,7 @@ export class CharacterModifyComponent extends BaseComponent implements OnInit {
   }
 
   getCharacterDetails() {
+
     this.subscriptions$.add(
 
       this._charactersService

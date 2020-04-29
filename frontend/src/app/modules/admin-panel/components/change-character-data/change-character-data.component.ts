@@ -17,7 +17,7 @@ import { RelationshipsForCharacter } from '../../models/relationships-for-char.m
 import { CharactersService } from './../../../../core/service/characters.service';
 import { NewQuote } from './../../models/new-quote.model';
 
-type changeOptions = 'new-character' | 'edit-character' | 'delete-character' | 'edit-images'
+type changeOptions = 'delete-character' | 'edit-images'
   | 'new-chars' | 'quotes' | 'relationships' | 'edit-relationship' | 'character-stories';
 @Component({
   selector: 'app-change-character-data',
@@ -161,8 +161,6 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
         this.getRelationshipsForCharacter();
         break;
 
-      case 'edit-character':
-      case 'new-character':
       case 'character-stories':
         this.loading = false;
         break;

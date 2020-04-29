@@ -2,7 +2,7 @@
 
 <article class="admin-panel admin-panel--main">
   <div class="admin-panel-main__menu menu">
-    <div class="menu__item item item--new-char" title="Dodaj nową postać" [routerLink]="['../change', 'new-character']">
+    <div class="menu__item item item--new-char" title="Dodaj nową postać" [routerLink]="['./character-modify/new']">
       <app-icon [icon]="'new-character'" [color]="'white'" [size]="'3'"></app-icon>
     </div>
 
@@ -34,7 +34,7 @@
         <span class="char-info__name">{{character.charName}} {{character.charSurname}}</span>
       </div>
       <div class="item__sidebar sidebar">
-        <div class="sidebar__option" title="Edytuj postać" [routerLink]="['../change', 'edit-character']" [queryParams]="{
+        <div class="sidebar__option" title="Edytuj postać" [routerLink]="['./character-modify/edit']" [queryParams]="{
           id: character.id
         }">
           <app-icon [icon]="'edit'" [color]="'black'"></app-icon>

@@ -1,5 +1,5 @@
+import { CharacterModifyComponent } from './components/character-modify/character-modify.component';
 
-import { AdminPanelMenuComponent } from './components/admin-panel-menu/admin-panel-menu.component';
 import { NgModule } from '@angular/core';
 
 import { Routes, RouterModule } from '@angular/router';
@@ -14,15 +14,15 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: AdminPanelMenuComponent
-      },
-      {
-        path: 'main',
         component: AdminPanelForMainComponent
       },
       {
         path: 'change/:name',
         component: ChangeCharacterDataComponent
+      },
+      {
+        path: 'character-modify/:type',
+        component: CharacterModifyComponent
       }
     ]
   }
