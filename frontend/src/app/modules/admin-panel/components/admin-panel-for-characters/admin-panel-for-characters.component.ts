@@ -1,17 +1,17 @@
-import { CharacterForChange } from './../../models/character-for-change.model';
+import { CharacterForChange } from '../../models/character-for-change.model';
 import { ToastrService } from 'ngx-toastr';
-import { CharactersService } from './../../../../core/service/characters.service';
+import { CharactersService } from '../../../../core/service/characters.service';
 import { Component, OnInit } from '@angular/core';
 import { CharacterItem } from 'src/app/modules/characters/models/character-item.model';
 import { finalize } from 'rxjs/operators';
 import { BaseComponent } from 'src/app/core/base.component';
 
 @Component({
-  selector: 'app-admin-panel-for-main',
-  templateUrl: './admin-panel-for-main.component.html',
-  styleUrls: ['./admin-panel-for-main.component.scss']
+  selector: 'app-admin-panel-for-characters',
+  templateUrl: './admin-panel-for-characters.component.html',
+  styleUrls: ['./admin-panel-for-characters.component.scss']
 })
-export class AdminPanelForMainComponent extends BaseComponent implements OnInit {
+export class AdminPanelForCharactersComponent extends BaseComponent implements OnInit {
   charList: CharacterItem[] = [];
 
   loading = true;

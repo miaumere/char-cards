@@ -1,3 +1,4 @@
+import { CharacterStoriesComponent } from './components/character-stories/character-stories.component';
 import { CharacterModifyComponent } from './components/character-modify/character-modify.component';
 
 import { NgModule } from '@angular/core';
@@ -5,7 +6,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AdminPanelComponent } from './components/admin-panel/admin-panel.component';
 import { ChangeCharacterDataComponent } from './components/change-character-data/change-character-data.component';
-import { AdminPanelForMainComponent } from './components/admin-panel-for-main/admin-panel-for-main.component';
+import { AdminPanelForCharactersComponent } from './components/admin-panel-for-characters/admin-panel-for-characters.component';
 
 const routes: Routes = [
   {
@@ -14,7 +15,7 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: AdminPanelForMainComponent
+        component: AdminPanelForCharactersComponent
       },
       {
         path: 'change/:name',
@@ -23,6 +24,10 @@ const routes: Routes = [
       {
         path: 'character-modify/:type',
         component: CharacterModifyComponent
+      },
+      {
+        path: 'character-stories/:charId',
+        component: CharacterStoriesComponent
       }
     ]
   }

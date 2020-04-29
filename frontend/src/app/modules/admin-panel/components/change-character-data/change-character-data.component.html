@@ -172,7 +172,6 @@
       </form>
     </div>
 
-
     <div *ngSwitchCase="'edit-relationship'" class="relationships admin-panel admin-panel--main admin-panel-main">
       <ng-container *ngIf="selectedCharacter">
 
@@ -228,10 +227,6 @@
         <span *ngIf="relationshipsList.length === 0">Brak relacji dla tej postaci.</span>
       </ng-container>
 
-    </div>
-
-    <div *ngSwitchCase="'character-stories'">
-      <app-character-stories [charId]="selectedCharId"></app-character-stories>
     </div>
   </div>
 </div>

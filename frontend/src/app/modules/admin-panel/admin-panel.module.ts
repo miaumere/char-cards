@@ -6,7 +6,6 @@ import { AdminPanelRoutingModule } from './admin-panel-routing.module';
 import { AdminPanelComponent } from './components/admin-panel/admin-panel.component';
 import { ChangeCharacterDataComponent } from './components/change-character-data/change-character-data.component';
 import { CharacterModifyComponent } from './components/character-modify/character-modify.component';
-import { AdminPanelForMainComponent } from './components/admin-panel-for-main/admin-panel-for-main.component';
 import { SharedModule } from '../shared/shared.module';
 import { CharacterStoriesComponent, EditCharacterStoryComponent } from './components/character-stories/character-stories.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
@@ -14,6 +13,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { AdminPanelForCharactersComponent } from './components/admin-panel-for-characters/admin-panel-for-characters.component';
 
 
 @NgModule({
@@ -21,7 +21,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     AdminPanelComponent,
     ChangeCharacterDataComponent,
     CharacterModifyComponent,
-    AdminPanelForMainComponent,
+    AdminPanelForCharactersComponent,
     CharacterStoriesComponent,
     EditCharacterStoryComponent
   ],

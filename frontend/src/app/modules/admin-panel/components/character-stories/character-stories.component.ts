@@ -1,3 +1,4 @@
+import { ActivatedRoute } from '@angular/router';
 import { EditStory } from './../../models/character-story/story-to-edit.model';
 import { ToastrService } from 'ngx-toastr';
 import { CharactersService } from 'src/app/core/service/characters.service';
@@ -40,7 +41,7 @@ export class EditCharacterStoryComponent {
 
 
 export class CharacterStoriesComponent extends BaseComponent implements OnInit {
-  @Input() charId: number;
+  charId: number;
   stories: Story[] = [];
   selectedCharacter?: CharacterItem;
 
@@ -57,9 +58,15 @@ export class CharacterStoriesComponent extends BaseComponent implements OnInit {
   constructor(
     private _charactersService: CharactersService,
     private _toastrService: ToastrService,
+    private _activatedRoute: ActivatedRoute,
     public dialog: MatDialog) { super(); }
 
   ngOnInit() {
+    this._activatedRoute?.parent?.queryParams
+      .subscribe(queryParam => {
+        this.charId = +queryParam.id;
+      });
+
     this.getCharacter();
     this.getStories();
   }
