@@ -7,6 +7,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { AdminPanelComponent } from './components/admin-panel/admin-panel.component';
 import { ChangeCharacterDataComponent } from './components/change-character-data/change-character-data.component';
 import { AdminPanelForCharactersComponent } from './components/admin-panel-for-characters/admin-panel-for-characters.component';
+import { CharacterQuotesComponent } from './components/character-quotes/character-quotes.component';
 
 const routes: Routes = [
   {
@@ -26,8 +27,12 @@ const routes: Routes = [
         component: CharacterModifyComponent
       },
       {
-        path: 'character-stories/:charId',
+        path: 'character-stories',
         component: CharacterStoriesComponent
+      },
+      {
+        path: 'character-quotes',
+        component: CharacterQuotesComponent
       }
     ]
   }

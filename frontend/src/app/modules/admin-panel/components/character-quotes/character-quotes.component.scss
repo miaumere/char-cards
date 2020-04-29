@@ -1,0 +1,116 @@
+@import "../../../../../global_styles/variables.scss";
+$background1: #0000007d;
+
+.new-quote-form {
+  border: 1px solid white;
+  padding: 1rem;
+}
+.quotes {
+  height: calc(100vh - #{$navbar-height});
+  width: 100vw;
+  overflow-x: scroll;
+
+  &__button {
+    margin: 1rem 0;
+  }
+
+  &__button-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+  &__new-quote-form,
+  & label {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__new-quote-form {
+    width: 21.875rem;
+  }
+
+  &__textarea {
+    resize: vertical;
+
+    min-height: 3rem;
+    max-height: 10rem;
+  }
+
+  &__label {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    &--form {
+      display: flex;
+      justify-content: center;
+    }
+    &--quotes {
+    }
+  }
+}
+
+.quote {
+  display: flex;
+  flex-direction: column;
+
+  width: 15.625rem;
+
+  margin: 1rem;
+  border: 1px solid white;
+
+  background: $background1;
+
+  transition: 0.2s;
+
+  &--editable {
+    color: black;
+
+    background: white;
+  }
+  &__quote {
+    padding: 1rem;
+
+    font-size: 0.9rem;
+
+    &[contenteditable] {
+      outline: none;
+    }
+  }
+  &__context {
+    margin-left: auto;
+    margin-right: 1rem;
+    padding: 1rem;
+
+    color: cyan;
+
+    &[contenteditable] {
+      outline: none;
+      color: blue;
+      font-weight: bold;
+    }
+
+    &::before {
+      content: "~ ";
+    }
+  }
+}
+
+.quote-options {
+  display: flex;
+  justify-content: flex-end;
+
+  background: rgba(0, 0, 0, 0.4);
+  width: 100%;
+}
+
+.option {
+  margin-left: 0.5rem;
+
+  cursor: pointer;
+}

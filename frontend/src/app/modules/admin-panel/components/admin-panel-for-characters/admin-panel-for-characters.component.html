@@ -39,7 +39,7 @@
         }">
           <app-icon [icon]="'edit'" [color]="'black'"></app-icon>
         </div>
-        <div class="sidebar__option" title="Edytuj zdjęcia postaci" [routerLink]="['../change', 'edit-images']"
+        <div class="sidebar__option" title="Edytuj zdjęcia postaci" [routerLink]="['./change', 'edit-images']"
           [queryParams]="{
           id: character.id
         }">
@@ -51,12 +51,12 @@
       }">
           <app-icon [icon]="'story'" [color]="'black'" [size]="'0.8'"></app-icon>
         </div>
-        <div class="sidebar__option" title="Edytuj cytaty postaci" [routerLink]="['../change', 'quotes']" [queryParams]="{
+        <div class="sidebar__option" title="Edytuj cytaty postaci" [routerLink]="['./character-quotes']" [queryParams]="{
       id: character.id
     }">
           <app-icon [icon]="'quote'" [color]="'black'" [size]="'0.7'"></app-icon>
         </div>
-        <div class="sidebar__option" title="Edytuj relacje postaci" [routerLink]="['../change', 'edit-relationship']"
+        <div class="sidebar__option" title="Edytuj relacje postaci" [routerLink]="['./change', 'edit-relationship']"
           [queryParams]="{
           id: character.id
         }">

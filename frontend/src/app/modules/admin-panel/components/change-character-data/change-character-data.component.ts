@@ -52,9 +52,6 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
 
   changeType: string | null;
 
-  quotes: Quote[] | null = null;
-  isQuoteFormShown = false;
-
   selectedCharId: number;
 
   profilePicForMain: IProfilePic | null = null;
@@ -63,11 +60,6 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
 
   newProfilePicForm = new FormGroup({
     profilePic: new FormControl()
-  });
-
-  newQuoteForm = new FormGroup({
-    quote: new FormControl('', Validators.required),
-    context: new FormControl('', Validators.required)
   });
 
 
@@ -147,10 +139,6 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
         this.getCharacterImages();
         break;
 
-      case 'quotes':
-        this.getQuotes();
-        break;
-
       case 'relationships':
         this.getCharactersList();
         break;
@@ -191,116 +179,6 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
 
   insertDeleteInfo() {
     this._toastrService.warning('Aby usunąć wybrany element, naciśnij dwa razy.');
-  }
-
-
-
-  createNewQuote() {
-    this.loading = true;
-    const formValues: { [key: string]: string } = this.newQuoteForm.value;
-    const objToSend = new NewQuote();
-    objToSend.characterId = this.selectedCharId;
-
-    for (const [key, value] of Object.entries(formValues)) {
-      objToSend[key] = value;
-    }
-    this.subscriptions$.add(
-
-
-      this._characterService
-        .postNewQuote(objToSend)
-        .pipe(
-          finalize(() => {
-            this.loading = false;
-          })
-        ).subscribe(_ => {
-          this._toastrService.success('Udało się dodać nowy cytat!');
-          this.getQuotes();
-          this.newQuoteForm.reset();
-        },
-          err => {
-            this._toastrService.error(err?.error);
-          }));
-  }
-
-  getQuotes() {
-    this.loading = true;
-
-    this.subscriptions$.add(
-      this._characterService
-        .getQuotesForCharacter(this.selectedCharId)
-        .pipe(
-          finalize(() => {
-            this.loading = false;
-          })
-        ).subscribe(quotes => {
-          this.quotes = quotes;
-        })
-    );
-
-  }
-
-  showQuotesForm() {
-    this.isQuoteFormShown = true;
-  }
-
-  deleteQuote(quoteId: number) {
-    this.loading = true;
-    this._characterService.
-      deleteQuote(quoteId)
-      .pipe(
-        finalize(() => {
-          this.loading = false;
-        })
-      ).subscribe(_ => {
-        this._toastrService.success('Usunięto wybrany cytat.');
-        this.getQuotes();
-      }, err => {
-        this._toastrService.error(err?.error);
-      });
-  }
-
-  editQuote(quoteId: number, quoteElement: HTMLElement, contextEl: HTMLElement, quoteContainer: HTMLElement) {
-    if (!quoteElement.isContentEditable && !contextEl.isContentEditable) {
-      quoteElement.setAttribute('contentEditable', 'true');
-      contextEl.setAttribute('contentEditable', 'true');
-      quoteContainer.classList.add('quote--editable');
-
-      this._toastrService.info('Aby zapisać zmianę, naciśnij jeszcze raz na ikonkę edycji.');
-    } else {
-      if (quoteElement.textContent && contextEl.textContent) {
-        contextEl.removeAttribute('contentEditable');
-        quoteElement.removeAttribute('contentEditable');
-        quoteContainer.classList.remove('quote--editable');
-
-        const objToSend = new EditQuote();
-        objToSend.quoteId = quoteId;
-        objToSend.quote = quoteElement.textContent;
-        objToSend.context = contextEl.textContent;
-
-        this.loading = true;
-        this.subscriptions$.add(
-          this._characterService
-            .patchQuote(objToSend)
-            .pipe(
-              finalize(() => {
-                this.loading = false;
-              })
-            ).subscribe(
-              _ => {
-                this._toastrService.success('Udało się zmienić cytat!');
-                this.getQuotes();
-              },
-              err => {
-                this._toastrService.error(err?.error);
-              })
-        );
-      } else {
-        this._toastrService.warning('Treść cytatu i kontekst nie mogą być puste!');
-      }
-    }
-
-
   }
 
   deleteCharacterImage(imageId: number) {
