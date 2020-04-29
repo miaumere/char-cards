@@ -13,8 +13,6 @@ import { finalize } from 'rxjs/operators';
 import { validateImage } from 'src/app/modules/shared/functions/validate-image.function';
 import { Gender } from '../../enums/gender.enum';
 import { CharType } from '../../enums/character-type.enum';
-import { iif } from 'rxjs';
-import { FnParam } from '@angular/compiler/src/output/output_ast';
 
 type chooseFormType = 'SUBMIT' | number;
 @Component({
