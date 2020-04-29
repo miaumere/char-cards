@@ -15,6 +15,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { AdminPanelForCharactersComponent } from './components/admin-panel-for-characters/admin-panel-for-characters.component';
 import { CharacterQuotesComponent } from './components/character-quotes/character-quotes.component';
+import { CharacterImagesComponent } from './components/character-images/character-images.component';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { CharacterQuotesComponent } from './components/character-quotes/characte
     AdminPanelForCharactersComponent,
     CharacterStoriesComponent,
     EditCharacterStoryComponent,
-    CharacterQuotesComponent
+    CharacterQuotesComponent,
+    CharacterImagesComponent
   ],
   imports: [
     CommonModule,

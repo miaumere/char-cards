@@ -1,0 +1,68 @@
+@import "../../../../../global_styles/variables.scss";
+$border-radius: 3px;
+
+.submit-container {
+  display: flex;
+  align-items: flex-end;
+}
+.edit-main-pic-form {
+  border: 1px solid white;
+  padding: 1rem;
+}
+
+.profile-pic {
+  display: flex;
+  width: 7.5rem;
+  height: 7.5rem;
+  object-fit: scale-down;
+
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  margin: auto;
+
+  &__name {
+    margin-top: 0.5rem;
+    display: block;
+  }
+}
+
+.profile-pic-name {
+  &__option {
+    margin-left: -1rem;
+  }
+  transition: 0.3s;
+  &--editable {
+    transition: 0.3s;
+
+    font-size: larger;
+    font-weight: bold;
+  }
+}
+
+.images {
+  &__container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+  }
+
+  &__item {
+    margin: 5px;
+
+    border-radius: $border-radius;
+    padding: 1rem;
+    padding-top: 0;
+
+    background: rgba(0, 0, 0, 0.5);
+  }
+  &__option {
+    display: flex;
+
+    & span {
+      margin-right: -0.8rem;
+      margin-left: auto;
+    }
+  }
+}

@@ -54,26 +54,12 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
 
   selectedCharId: number;
 
-  profilePicForMain: IProfilePic | null = null;
-  imagesListForMain: IImageForMain[] | null = null;
-
-
-  newProfilePicForm = new FormGroup({
-    profilePic: new FormControl()
-  });
-
-
   charList: CharacterItem[] = [];
   filteredCharList: CharacterItem[] = [];
 
   selectedCharacter?: CharacterItem;
 
   relationshipsList: RelationshipsForCharacter[] = [];
-
-  profilePic: File | null = null;
-  images: FileList | null = null;
-
-  @ViewChild('newProfilePic') newProfilePic;
 
   relationForm = new FormGroup({
     firstChar: new FormControl(''),
@@ -135,10 +121,6 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
   displayInfo(changeOption: changeOptions) {
     switch (changeOption) {
 
-      case 'edit-images':
-        this.getCharacterImages();
-        break;
-
       case 'relationships':
         this.getCharactersList();
         break;
@@ -150,126 +132,6 @@ export class ChangeCharacterDataComponent extends BaseComponent implements OnIni
     }
   }
 
-  getCharacterImages() {
-    this.subscriptions$.add(
-      this._characterService
-        .getCharacter(this.selectedCharId)
-        .pipe(
-          finalize(() => {
-            this.loading = false;
-          })
-        ).subscribe(character => {
-          this.profilePicForMain = character[0]?.profilePic;
-        })
-    );
-    this.subscriptions$.add(
-      this._characterService
-        .getCharacterById(this.selectedCharId)
-        .pipe(
-          finalize(() => {
-            this.loading = false;
-          })
-        ).subscribe(character => {
-          this.imagesListForMain = character.imagesList;
-        }
-        )
-    );
-
-  }
-
-  insertDeleteInfo() {
-    this._toastrService.warning('Aby usunąć wybrany element, naciśnij dwa razy.');
-  }
-
-  deleteCharacterImage(imageId: number) {
-    this.loading = true;
-
-    this.subscriptions$.add(
-      this._characterService
-        .deleteImage(imageId)
-        .pipe(
-          finalize(() => {
-            this.loading = false;
-          })
-        ).subscribe(_ => {
-          this._toastrService.success('Udało się usunąć zdjęcie!');
-          this.getCharacterImages();
-        }, err => {
-          this._toastrService.error(err?.error);
-        })
-    );
-
-  }
-
-  handleFileInput(files: FileList, multiple: boolean) {
-    multiple ? this.images = files : this.profilePic = files.item(0);
-  }
-
-  setNewImages() {
-    this.loading = true;
-
-    const formData = new FormData();
-
-    if (this.profilePic) {
-      formData.append('profilePic', this.profilePic);
-    }
-    if (this.images) {
-      for (let i = 0; i < this.images.length; i++) {
-        formData.append('image' + i, this.images[i]);
-      }
-    }
-
-    this.subscriptions$.add(
-      this._characterService
-        .postEditImages(formData, this.selectedCharId)
-        .pipe(
-          finalize(() => {
-            this.loading = false;
-          })
-        )
-        .subscribe(_ => {
-          this._toastrService.success('Udało się zmienić zdjęcia dla postaci!');
-          this.getCharacterImages();
-        },
-          err => {
-            if (err?.error) {
-              this._toastrService.error(err.error);
-            }
-          })
-    );
-  }
-
-  changeImageName(imageId: number, imageElement: HTMLElement) {
-
-    if (!imageElement.isContentEditable) {
-      imageElement.setAttribute('contentEditable', 'true');
-      imageElement.classList.add('profile-pic-name--editable');
-
-      this._toastrService.info('Aby zapisać zmianę, naciśnij jeszcze raz na ikonkę edycji.');
-    } else {
-      if (imageElement.textContent) {
-        const objToSend = new EditImageName();
-        objToSend.id = imageId;
-        objToSend.name = imageElement.textContent;
-        this.subscriptions$.add(
-          this._characterService
-            .patchImageName(objToSend)
-            .pipe(
-              finalize(() => {
-                this.loading = false;
-              })
-            ).subscribe(_ => {
-              this._toastrService.success('Udało się zmienić nazwę zdjęcia!');
-              this.getCharacterImages();
-            }, err => {
-              this._toastrService.error(err?.error);
-            })
-        );
-      } else {
-        this._toastrService.warning('Nazwa obrazka nie może być pusta.');
-      }
-    }
-  }
 
   getCharactersList() {
     this.loading = true;
