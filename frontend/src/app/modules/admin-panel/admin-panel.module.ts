@@ -4,7 +4,6 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { AdminPanelRoutingModule } from './admin-panel-routing.module';
 import { AdminPanelComponent } from './components/admin-panel/admin-panel.component';
-import { ChangeCharacterDataComponent } from './components/change-character-data/change-character-data.component';
 import { CharacterModifyComponent } from './components/character-modify/character-modify.component';
 import { SharedModule } from '../shared/shared.module';
 import { CharacterStoriesComponent, EditCharacterStoryComponent } from './components/character-stories/character-stories.component';
@@ -16,18 +15,19 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { AdminPanelForCharactersComponent } from './components/admin-panel-for-characters/admin-panel-for-characters.component';
 import { CharacterQuotesComponent } from './components/character-quotes/character-quotes.component';
 import { CharacterImagesComponent } from './components/character-images/character-images.component';
+import { CharacterRelationsComponent } from './components/character-relations/character-relations.component';
 
 
 @NgModule({
   declarations: [
     AdminPanelComponent,
-    ChangeCharacterDataComponent,
     CharacterModifyComponent,
     AdminPanelForCharactersComponent,
     CharacterStoriesComponent,
     EditCharacterStoryComponent,
     CharacterQuotesComponent,
-    CharacterImagesComponent
+    CharacterImagesComponent,
+    CharacterRelationsComponent
   ],
   imports: [
     CommonModule,

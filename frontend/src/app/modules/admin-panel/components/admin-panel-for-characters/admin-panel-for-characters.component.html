@@ -6,8 +6,7 @@
       <app-icon [icon]="'new-character'" [color]="'white'" [size]="'3'"></app-icon>
     </div>
 
-    <div class="menu__item item item--new-char" title="Dodaj nową relację"
-      [routerLink]="['../change', 'relationships']">
+    <div class="menu__item item item--new-char" title="Dodaj nową relację" [routerLink]="['./character-relations/new']">
       <app-icon [icon]="'branch'" [color]="'white'" [size]="'3'"></app-icon>
     </div>
 
@@ -55,7 +54,7 @@
     }">
           <app-icon [icon]="'quote'" [color]="'black'" [size]="'0.7'"></app-icon>
         </div>
-        <div class="sidebar__option" title="Edytuj relacje postaci" [routerLink]="['./change', 'edit-relationship']"
+        <div class="sidebar__option" title="Edytuj relacje postaci" [routerLink]="['./character-relations/edit']"
           [queryParams]="{
           id: character.id
         }">
