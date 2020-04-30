@@ -8,7 +8,7 @@
       </mat-form-field>
       <mat-form-field>
         <mat-label>Nazwisko</mat-label>
-        <input matInput placeholder="Nazwisko postaci" [formControlName]="'name'" required>
+        <input matInput placeholder="Nazwisko postaci" [formControlName]="'surname'" required>
       </mat-form-field>
 
       <label id="gender-radio-group">Płeć</label>
@@ -53,7 +53,7 @@
         <mat-datepicker #birthday></mat-datepicker>
       </mat-form-field>
 
-      <mat-checkbox (change)="toggleIsDead()">Czy postać nie żyje?</mat-checkbox>
+      <mat-slide-toggle (change)="toggleIsDead()">Czy postać nie żyje?</mat-slide-toggle>
 
       <mat-form-field>
         <mat-label>Data śmierci</mat-label>
@@ -67,11 +67,152 @@
         <input matInput placeholder="Powód śmierci" [formControlName]="'deathReason'">
       </mat-form-field>
       <div>
+        <button mat-button matStepperPrevious>Wcześniej</button>
         <button mat-button matStepperNext>Dalej</button>
       </div>
     </form>
   </mat-step>
 
+  <mat-step [stepControl]="temperamentForm">
+    <form [formGroup]="temperamentForm" class="character-modify-form">
+      <ng-template matStepLabel>Temperament</ng-template>
+      <mat-label>Melancholizm</mat-label>
+      <mat-slider class="temperament-range" thumbLabel step="5" tickInterval="5" formControlName="melancholic">
+      </mat-slider>
+
+      <mat-label>Sangwinizm</mat-label>
+      <mat-slider class="temperament-range" thumbLabel step="5" tickInterval="5" formControlName="sanguine">
+      </mat-slider>
+
+      <mat-label>Flegmatyzm</mat-label>
+      <mat-slider class="temperament-range" thumbLabel step="5" tickInterval="5" formControlName="flegmatic">
+      </mat-slider>
+
+      <mat-label>Choleryzm</mat-label>
+      <mat-slider class="temperament-range" thumbLabel step="5" tickInterval="5" formControlName="choleric">
+      </mat-slider>
+
+      <div>
+        <button mat-button matStepperPrevious>Wcześniej</button>
+        <button mat-button matStepperNext>Dalej</button>
+      </div>
+    </form>
+  </mat-step>
+
+  <mat-step [stepControl]="colorForm">
+    <form [formGroup]="colorForm" class="character-modify-form">
+      <ng-template matStepLabel>Kolory</ng-template>
+
+      <div>
+        <mat-form-field>
+          <mat-label>Motyw kolorystyczny 1</mat-label>
+          <input matInput type="color" formControlName="themeColor1">
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Motyw kolorystyczny 2</mat-label>
+          <input matInput type="color" formControlName="themeColor2">
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Motyw kolorystyczny 3</mat-label>
+          <input matInput type="color" formControlName="themeColor3">
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field>
+          <mat-label>Kolor oczu 1</mat-label>
+          <input matInput type="color" formControlName="eyeColor1">
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Kolor oczu 2</mat-label>
+          <input matInput type="color" formControlName="eyeColor2">
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field>
+          <mat-label>Kolor włosów</mat-label>
+          <input matInput type="color" formControlName="hairColor">
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Kolor skóry</mat-label>
+          <input matInput type="color" formControlName="skinColor">
+        </mat-form-field>
+      </div>
+
+      <div>
+        <button mat-button matStepperPrevious>Wcześniej</button>
+        <button mat-button matStepperNext>Dalej</button>
+      </div>
+    </form>
+  </mat-step>
+
+  <mat-step [stepControl]="measurementsForm">
+    <form [formGroup]="measurementsForm" class="character-modify-form">
+      <ng-template matStepLabel>Waga i wzrost</ng-template>
+
+      <div>
+        <mat-form-field>
+          <mat-label>Wzrost jako niemowlę (0-3):</mat-label>
+          <input matInput type="number" min="30" max="200" formControlName="babyHeight">
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Wzrost jako dziecko (4-11):
+          </mat-label>
+          <input matInput type="number" min="30" max="200" formControlName="childHeight">
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Wzrost jako nastolatek (12-19):
+          </mat-label>
+          <input matInput type="number" min="30" max="200" formControlName="teenHeight">
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Wzrost jako dorosły (20+):
+          </mat-label>
+          <input matInput type="number" min="30" max="200" formControlName="adultHeight">
+        </mat-form-field>
+      </div>
+
+
+      <div>
+        <mat-form-field>
+          <mat-label>Waga jako niemowlę (0-3):</mat-label>
+          <input matInput type="number" min="1" max="150" formControlName="babyWeight">
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Waga jako dziecko (4-11):
+          </mat-label>
+          <input matInput type="number" min="1" max="150" formControlName="childWeight">
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Waga jako nastolatek (12-19):
+          </mat-label>
+          <input matInput type="number" min="1" max="150" formControlName="teenWeight">
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Waga jako dorosły (20+):
+          </mat-label>
+          <input matInput type="number" min="1" max="150" formControlName="adultWeight">
+        </mat-form-field>
+      </div>
+
+      <div>
+        <button mat-button matStepperPrevious>Wcześniej</button>
+        <button mat-button matStepperNext>Dalej</button>
+      </div>
+    </form>
+  </mat-step>
+
+  <mat-step>
+    <ng-template matStepLabel>Done</ng-template>
+    <p>You are now done.</p>
+    <div>
+      <button mat-button matStepperPrevious>Wcześniej</button>
+      <button mat-button (click)="submit()">Wyślij</button>
+    </div>
+  </mat-step>
 </mat-horizontal-stepper>
 
 

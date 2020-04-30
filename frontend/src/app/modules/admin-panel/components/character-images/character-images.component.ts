@@ -4,8 +4,8 @@ import { ToastrService } from 'ngx-toastr';
 import { BaseComponent } from 'src/app/core/base.component';
 import { CharactersService } from 'src/app/core/service/characters.service';
 import { finalize } from 'rxjs/operators';
-import { EditImageName } from '../../models/edit-image-name.model';
-import { IProfilePic } from '../../models/profile-pic.model';
+import { EditImageName } from '../../models/images/edit-image-name.model';
+import { IProfilePic } from '../../models/images/profile-pic.model';
 import { IImageForMain } from 'src/app/modules/characters/models/image-for-main.model';
 import { FormGroup, FormControl } from '@angular/forms';
 

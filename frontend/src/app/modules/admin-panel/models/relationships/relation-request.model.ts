@@ -1,4 +1,4 @@
-import { RelationshipType } from '../enums/relationship-type.enum';
+import { RelationshipType } from '../../enums/relationship-type.enum';
 
 export interface IRelationRequest {
   charId: number;

@@ -5,20 +5,20 @@ import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { CharacterForChange } from 'src/app/modules/admin-panel/models/character-for-change.model';
-import { EditImageName } from 'src/app/modules/admin-panel/models/edit-image-name.model';
-import { EditQuote } from 'src/app/modules/admin-panel/models/edit-quote.model';
-import { EditRelationship } from 'src/app/modules/admin-panel/models/edit-relationship.model';
-import { NewQuote } from 'src/app/modules/admin-panel/models/new-quote.model';
-import { IRelationshipsForCharacter } from 'src/app/modules/admin-panel/models/relationships-for-char.model';
+import { EditImageName } from 'src/app/modules/admin-panel/models/images/edit-image-name.model';
+import { EditQuote } from 'src/app/modules/admin-panel/models/quotes/edit-quote.model';
+import { EditRelationship } from 'src/app/modules/admin-panel/models/relationships/edit-relationship.model';
+import { NewQuote } from 'src/app/modules/admin-panel/models/quotes/new-quote.model';
+import { IRelationshipsForCharacter } from 'src/app/modules/admin-panel/models/relationships/relationships-for-char.model';
 import { NewStory } from 'src/app/modules/admin-panel/models/character-story/new-story.model';
-import { IStory, Story } from 'src/app/modules/admin-panel/models/story.model';
+import { IStory, Story } from 'src/app/modules/admin-panel/models/character-story/story.model';
 import { ICharacterForListItem } from 'src/app/modules/characters/models/character-for-list-item.model';
 import { CharacterItem, ICharacterItem } from 'src/app/modules/characters/models/character-item.model';
 import { ICharacter, Character } from 'src/app/modules/characters/models/character.model';
 import { IQuote } from 'src/app/modules/characters/models/quote.model';
 import { EditCharacter, IEditCharacter } from './../../modules/admin-panel/models/edit-character.model';
-import { IRelationRequest } from './../../modules/admin-panel/models/relation-request.model';
-import { RelationshipsForCharacter } from './../../modules/admin-panel/models/relationships-for-char.model';
+import { IRelationRequest } from '../../modules/admin-panel/models/relationships/relation-request.model';
+import { RelationshipsForCharacter } from '../../modules/admin-panel/models/relationships/relationships-for-char.model';
 
 
 @Injectable({

@@ -5,9 +5,9 @@ import { CharactersService } from 'src/app/core/service/characters.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Quote } from '@angular/compiler';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { NewQuote } from '../../models/new-quote.model';
+import { NewQuote } from '../../models/quotes/new-quote.model';
 import { finalize } from 'rxjs/operators';
-import { EditQuote } from '../../models/edit-quote.model';
+import { EditQuote } from '../../models/quotes/edit-quote.model';
 import { IQuote } from 'src/app/modules/characters/models/quote.model';
 
 @Component({

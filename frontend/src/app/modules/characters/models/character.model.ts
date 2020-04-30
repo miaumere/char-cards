@@ -1,4 +1,4 @@
-import { Story } from '../../admin-panel/models/story.model';
+import { Story } from '../../admin-panel/models/character-story/story.model';
 import { IColors } from './colors.model';
 import { IImageForMain } from './image-for-main.model';
 import { ITemperament } from './temperament.model';

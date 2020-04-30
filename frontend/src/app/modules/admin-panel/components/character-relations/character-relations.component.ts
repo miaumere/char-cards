@@ -7,9 +7,9 @@ import { finalize } from 'rxjs/operators';
 import { FormGroup, FormControl } from '@angular/forms';
 import { RelationshipType } from '../../enums/relationship-type.enum';
 import { CharacterItem } from 'src/app/modules/characters/models/character-item.model';
-import { RelationshipsForCharacter } from '../../models/relationships-for-char.model';
-import { IRelationRequest } from '../../models/relation-request.model';
-import { EditRelationship } from '../../models/edit-relationship.model';
+import { RelationshipsForCharacter } from '../../models/relationships/relationships-for-char.model';
+import { IRelationRequest } from '../../models/relationships/relation-request.model';
+import { EditRelationship } from '../../models/relationships/edit-relationship.model';
 
 @Component({
   selector: 'app-character-relations',

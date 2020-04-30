@@ -1,4 +1,4 @@
-import { IRelationship } from '../../characters/models/relationship.model';
+import { IRelationship } from '../../../characters/models/relationship.model';
 
 export interface IRelationshipsForCharacter {
   relationship: IRelationship;

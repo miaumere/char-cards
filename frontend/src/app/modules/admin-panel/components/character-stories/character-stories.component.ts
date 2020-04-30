@@ -4,7 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { CharactersService } from 'src/app/core/service/characters.service';
 import { Component, OnInit, Input, Inject } from '@angular/core';
 import { BaseComponent } from 'src/app/core/base.component';
-import { Story } from '../../models/story.model';
+import { Story } from '../../models/character-story/story.model';
 import { CharacterItem } from 'src/app/modules/characters/models/character-item.model';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
