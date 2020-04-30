@@ -161,9 +161,6 @@ export class CharacterModifyComponent extends BaseComponent implements OnInit {
   profilePic: File | null = null;
   images: FileList | null = null;
 
-  // TODO: poprawić typ, string nie moze byc dodawany
-  chosenForm: any = 1;
-  form = new FormGroup({});
 
   loading = true;
   type: 'new' | 'edit';
@@ -182,10 +179,6 @@ export class CharacterModifyComponent extends BaseComponent implements OnInit {
     this.setModifyType();
   }
 
-  setForm(formId: chooseFormType) {
-    this.chosenForm = formId;
-  }
-
   setModifyType() {
 
     this._activatedRoute?.parent?.queryParams
@@ -200,15 +193,6 @@ export class CharacterModifyComponent extends BaseComponent implements OnInit {
           this.type = param.type;
           switch (param.type) {
             case 'new':
-              this.form = this.newCharacterForm;
-              this.formParts = [
-                'Podstawowe dane',
-                'Temperament',
-                'Kolory',
-                'Waga i wzrost',
-                'Zdjęcia'
-              ];
-
               const deathReason = this.addidionalPersonalInfoForm.controls['deathReason'];
               const death = this.addidionalPersonalInfoForm.controls['death'];
               deathReason.disable();
@@ -216,14 +200,6 @@ export class CharacterModifyComponent extends BaseComponent implements OnInit {
               break;
 
             case 'edit':
-              this.form = this.editCharacterForm;
-              this.formParts = [
-                'Podstawowe dane',
-                'Temperament',
-                'Kolory',
-                'Waga i wzrost'
-              ];
-
               this.getCharacterDetails();
 
               break;

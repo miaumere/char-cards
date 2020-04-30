@@ -14,9 +14,7 @@ $gradient2: #435548;
   height: calc(100vh - #{$navbar-height});
   width: 100%;
 
-  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAF0lEQVQYV2NkQAJSN+83PFNXbGCkgSAAqjkUBj+3UZ0AAAAASUVORK5CYII="),
-    linear-gradient(to bottom, $gradient1 0%, $gradient1 33%, $gradient2 100%);
-  background-blend-mode: multiply;
+  background-image: linear-gradient(to top, #b9b9b9 0%, #3c3e3f 100%);
 
   overflow-y: scroll;
 }
@@ -37,17 +35,23 @@ $gradient2: #435548;
     width: 100px;
 
     border-radius: 50%;
+    border: 2px solid black;
 
     filter: grayscale(100);
 
     transition: 0.2s;
 
     &--empty {
-      margin-top: 2.3rem;
-      margin-bottom: -2.3rem;
+      background: grey;
+      background-image: url("../../../../../../../assets/svg/iconmonstr-user-19.svg");
     }
+
     &:hover {
       transform: rotate(20deg);
     }
+  }
+
+  &__name {
+    margin-top: 0.5rem;
   }
 }

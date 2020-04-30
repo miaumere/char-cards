@@ -207,10 +207,12 @@
 
   <mat-step>
     <ng-template matStepLabel>Koniec</ng-template>
-    <p>Naciśnij przycisk "Wyślij", żeby zatwierdzić zmiany.</p>
-    <div>
-      <button mat-button matStepperPrevious>Wcześniej</button>
-      <button mat-button (click)="submit()">Wyślij</button>
-    </div>
+    <form class="character-modify-form">
+      <p>Naciśnij przycisk "Wyślij", żeby zatwierdzić zmiany.</p>
+      <div>
+        <button mat-button matStepperPrevious>Wcześniej</button>
+        <button mat-button (click)="submit()" [disabled]="personalInfoForm.invalid">Wyślij</button>
+      </div>
+    </form>
   </mat-step>
 </mat-horizontal-stepper>
