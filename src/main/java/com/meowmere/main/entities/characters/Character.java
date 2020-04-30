@@ -2,7 +2,6 @@ package com.meowmere.main.entities.characters;
 
 import com.meowmere.main.enums.CharType;
 import com.meowmere.main.enums.Gender;
-import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import java.util.List;
@@ -60,16 +59,6 @@ public class Character {
     private List<Relationship> relatedTo;
 
     public Character() {};
-
-    public Character(@Length String charName,
-                     @Length String charSurname,
-                     Long birthday,
-                     String occupation) {
-        this.charName = charName;
-        this.charSurname = charSurname;
-        this.birthday = birthday;
-        this.occupation = occupation;
-    }
 
     public CharType getCharType() {
         return charType;

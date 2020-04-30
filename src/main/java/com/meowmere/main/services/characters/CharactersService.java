@@ -24,6 +24,7 @@ import com.meowmere.main.enums.Gender;
 import com.meowmere.main.enums.RelationshipType;
 import com.meowmere.main.repositories.character.*;
 import com.meowmere.main.requests.characters.character.ChangeCharacterStateRequest;
+import com.meowmere.main.requests.characters.character.CreateCharacterRequest;
 import com.meowmere.main.requests.characters.character.EditCharacterRequest;
 import com.meowmere.main.requests.characters.image.ImageRenameRequest;
 import com.meowmere.main.requests.characters.quotes.EditQuoteRequest;
@@ -264,93 +265,59 @@ public class CharactersService {
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
-    public ResponseEntity createCharacter(MultipartHttpServletRequest multipartHttpServletRequest) {
-        String name = multipartHttpServletRequest.getParameter("name");
-        String surname = multipartHttpServletRequest.getParameter("surname");
-        String birthday = multipartHttpServletRequest.getParameter("birthday");
-        String profession = multipartHttpServletRequest.getParameter("profession");
-        String death = multipartHttpServletRequest.getParameter("death");
-        String deathReason = multipartHttpServletRequest.getParameter("deathReason");
-        String gender = multipartHttpServletRequest.getParameter("gender");
-        String characterType = multipartHttpServletRequest.getParameter("characterType");
+    public ResponseEntity createCharacter(CreateCharacterRequest request) {
+        Character character = new Character();
+        if(request.getBirthday() != null) {
+            Date birthdayDate = new Date(request.getBirthday());
+            Long parsedBirthdayDate = birthdayDate.getTime() / 1000;
+            character.setBirthday(parsedBirthdayDate);
+        }
+        character.setCharName(request.getCharName());
+        character.setCharSurname(request.getCharSurname());
+        character.setOccupation(request.getOccupation());
+        character.setGender(Gender.valueOf(request.getGender()));
+        character.setCharType(CharType.valueOf(request.getCharacterType()));
 
-
-        Integer melancholic = Integer.parseInt(multipartHttpServletRequest.getParameter("melancholic"));
-        Integer sanguine = Integer.parseInt(multipartHttpServletRequest.getParameter("sanguine"));
-        Integer flegmatic = Integer.parseInt(multipartHttpServletRequest.getParameter("flegmatic"));
-        Integer choleric = Integer.parseInt(multipartHttpServletRequest.getParameter("choleric"));
-
-        String themeColor1 = multipartHttpServletRequest.getParameter("themeColor1");
-        String themeColor2 = multipartHttpServletRequest.getParameter("themeColor2");
-        String themeColor3 = multipartHttpServletRequest.getParameter("themeColor3");
-        String eyeColor1 = multipartHttpServletRequest.getParameter("eyeColor1");
-        String eyeColor2 = multipartHttpServletRequest.getParameter("eyeColor2");
-        String hairColor = multipartHttpServletRequest.getParameter("hairColor");
-        String skinColor = multipartHttpServletRequest.getParameter("skinColor");
-
-        Integer babyWeight = Integer.parseInt(multipartHttpServletRequest.getParameter("babyWeight"));
-        Integer childWeight = Integer.parseInt(multipartHttpServletRequest.getParameter("childWeight"));
-        Integer teenWeight = Integer.parseInt(multipartHttpServletRequest.getParameter("teenWeight"));
-        Integer adultWeight = Integer.parseInt(multipartHttpServletRequest.getParameter("adultWeight"));
-        Integer babyHeight = Integer.parseInt(multipartHttpServletRequest.getParameter("babyHeight"));
-        Integer childHeight = Integer.parseInt(multipartHttpServletRequest.getParameter("childHeight"));
-        Integer teenHeight = Integer.parseInt(multipartHttpServletRequest.getParameter("teenHeight"));
-        Integer adultHeight = Integer.parseInt(multipartHttpServletRequest.getParameter("adultHeight"));
-
-        Date birthdayDate = new Date(Long.parseLong(birthday));
-        Long parsedBirthdayDate = birthdayDate.getTime() / 1000;
-
-        Character character = new Character(name, surname, parsedBirthdayDate, profession);
-        character.setGender(Gender.valueOf(gender));
-        character.setCharType(CharType.valueOf(characterType));
-        try {
-            Date deathDate = new Date(Long.parseLong(death));
+        if(request.getDeath() != null) {
+            Date deathDate = new Date(request.getDeath());
             Long parsedDeathDate = deathDate.getTime() / 1000;
             character.setDeath(parsedDeathDate);
-            character.setDeathReason(deathReason);
-        } catch (NumberFormatException n) {
+            character.setDeathReason(request.getDeathReason());
         }
 
-        Temperament temperamentForCharacter = new Temperament(melancholic, sanguine, flegmatic, choleric, character);
-        Colors colorsForCharacter = new Colors(themeColor1, themeColor2, themeColor3, eyeColor1, eyeColor2, hairColor, skinColor, character);
-        Measurements measurementsForCharacter = new Measurements(babyHeight, babyWeight, childHeight, childWeight, teenHeight,
-                 teenWeight, adultHeight, adultWeight, character);
+        Temperament temperamentForCharacter = new Temperament(
+                request.getTemperament().getMelancholic(),
+                request.getTemperament().getSanguine(),
+                request.getTemperament().getFlegmatic(),
+                request.getTemperament().getCholeric(),
+                character
+        );
+        Colors colorsForCharacter = new Colors(
+                request.getColors().getThemeColor1(),
+                request.getColors().getThemeColor2(),
+                request.getColors().getThemeColor3(),
+                request.getColors().getEyeColor1(),
+                request.getColors().getEyeColor2(),
+                request.getColors().getHairColor(),
+                request.getColors().getSkinColor(),
+                character);
+
+        Measurements measurementsForCharacter = new Measurements(
+                request.getMeasurements().getBabyHeight(),
+                request.getMeasurements().getBabyWeight(),
+                request.getMeasurements().getChildHeight(),
+                request.getMeasurements().getChildWeight(),
+                request.getMeasurements().getTeenHeight(),
+                request.getMeasurements().getTeenWeight(),
+                request.getMeasurements().getAdultHeight(),
+                request.getMeasurements().getAdultWeight(),
+                character);
 
         characterRepository.saveAndFlush(character);
         temperamentRepository.saveAndFlush(temperamentForCharacter);
         colorsRepository.saveAndFlush(colorsForCharacter);
         measurementsRepository.saveAndFlush(measurementsForCharacter);
 
-        Map<String, MultipartFile> allFiles = multipartHttpServletRequest.getFileMap();
-        Iterator it = allFiles.entrySet().iterator();
-        while (it.hasNext()) {
-            Image imageToSave = new Image();
-            Map.Entry pair = (Map.Entry)it.next();
-            String key = String.valueOf(pair.getKey());
-            imageToSave.setIsProfilePic(!!key.equals("profilePic"));
-            MultipartFile file = (MultipartFile) pair.getValue();
-
-            if(file != null) {
-
-                String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-                String extension = FilenameUtils.getExtension(fileName);
-
-                if (!Stream.of(AvailableExtensions.values()).anyMatch(v -> v.name().toLowerCase().equals(extension.toLowerCase()))) {
-                    return new ResponseEntity(HttpStatus.UNSUPPORTED_MEDIA_TYPE);
-                }
-                try {
-                    byte [] byteArr = file.getBytes();
-                    imageToSave.setImage(byteArr);
-                    imageToSave.setName(file.getOriginalFilename());
-                    imageToSave.setExtension(extension);
-                    imageToSave.setCharacter(character);
-
-                    imageRepository.saveAndFlush(imageToSave);
-
-                } catch (IOException e) {}
-
-            it.remove();
-        }}
         return new ResponseEntity(HttpStatus.CREATED);
     }
 

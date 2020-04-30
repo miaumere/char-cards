@@ -1,6 +1,7 @@
 package com.meowmere.main.controllers;
 
 import com.meowmere.main.requests.characters.character.ChangeCharacterStateRequest;
+import com.meowmere.main.requests.characters.character.CreateCharacterRequest;
 import com.meowmere.main.requests.characters.character.EditCharacterRequest;
 import com.meowmere.main.requests.characters.image.ImageRenameRequest;
 import com.meowmere.main.requests.characters.quotes.EditQuoteRequest;
@@ -58,8 +59,8 @@ public class CharacterController {
     }
 
     @PostMapping("/new-character")
-    public ResponseEntity createCharacter(MultipartHttpServletRequest multipartHttpServletRequest) {
-        return charactersService.createCharacter(multipartHttpServletRequest);
+    public ResponseEntity createCharacter(@RequestBody CreateCharacterRequest request) {
+        return charactersService.createCharacter(request);
     }
 
     @PostMapping("/new-quote")

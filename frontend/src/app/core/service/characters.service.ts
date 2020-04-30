@@ -19,6 +19,7 @@ import { IQuote } from 'src/app/modules/characters/models/quote.model';
 import { EditCharacter, IEditCharacter } from './../../modules/admin-panel/models/edit-character.model';
 import { IRelationRequest } from '../../modules/admin-panel/models/relationships/relation-request.model';
 import { RelationshipsForCharacter } from '../../modules/admin-panel/models/relationships/relationships-for-char.model';
+import { CreateCharacter } from 'src/app/modules/admin-panel/models/create-character.model';
 
 
 @Injectable({
@@ -158,14 +159,8 @@ export class CharactersService {
     return this.http.post<NewStory>(this._postStoryForCharacterURL, requestBody);
   }
 
-  postNewCharacter(formData: FormData) {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        Accept: 'application/json',
-        CacheControl: 'max-age=0'
-      })
-    };
-    return this.http.post<void>(this._postNewCharacterURL, formData, httpOptions);
+  postNewCharacter(requestBody: CreateCharacter) {
+    return this.http.post<void>(this._postNewCharacterURL, requestBody);
   }
 
   postEditImages(formData: FormData, charId: number) {
