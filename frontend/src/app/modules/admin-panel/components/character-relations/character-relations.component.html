@@ -74,7 +74,7 @@
           <h2>{{selectedCharacter.fullName}} - relacje:</h2>
           <li *ngFor="let rel of relationshipsList; index as i">
             <div class="relationship-form__container">
-              <button title="Usuń relację" (click)="deleteRelation(rel.relationship.relatedCharacter.id)">
+              <button matTooltip="Usuń relację" (click)="deleteRelation(rel.relationship.relatedCharacter.id)">
                 <app-icon [icon]="'archive'" [color]="'#b84343'"></app-icon>
               </button>
               <div class="relationship-form__box">

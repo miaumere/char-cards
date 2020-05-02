@@ -11,7 +11,6 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatDialogModule } from '@angular/material/dialog';
-import { MatTooltipModule } from '@angular/material/tooltip';
 import { AdminPanelForCharactersComponent } from './components/admin-panel-for-characters/admin-panel-for-characters.component';
 import { CharacterQuotesComponent } from './components/character-quotes/character-quotes.component';
 import { CharacterImagesComponent } from './components/character-images/character-images.component';
@@ -24,6 +23,7 @@ import { MatNativeDateModule } from '@angular/material';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSliderModule } from '@angular/material/slider';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -54,7 +54,8 @@ import { MatSliderModule } from '@angular/material/slider';
     MatNativeDateModule,
     MatCheckboxModule,
     MatSlideToggleModule,
-    MatSliderModule
+    MatSliderModule,
+    MatTooltipModule
   ],
   providers: [
     CharactersService

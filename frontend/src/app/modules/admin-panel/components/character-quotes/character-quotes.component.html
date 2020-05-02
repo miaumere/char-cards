@@ -27,10 +27,11 @@
     <div *ngFor="let quote of quotes">
       <div class="quote" #quoteContainer>
         <div class="quote__options quote-options">
-          <span class="option" title="Edytuj cytat" (click)="editQuote(quote.id, quoteEl, contextEl, quoteContainer)">
+          <span class="option" matTooltip="Edytuj cytat"
+            (click)="editQuote(quote.id, quoteEl, contextEl, quoteContainer)">
             <app-icon [icon]="'edit'" [color]="'whitesmoke'" [size]="'0.9'"></app-icon>
           </span>
-          <span class="option" title="Usuń cytat" (click)="insertDeleteInfo()" (dblclick)="deleteQuote(quote.id)">
+          <span class="option" matTooltip="Usuń cytat" (click)="insertDeleteInfo()" (dblclick)="deleteQuote(quote.id)">
             <app-icon [icon]="'archive'" [color]="'#b84343'"></app-icon>
           </span>
         </div>
