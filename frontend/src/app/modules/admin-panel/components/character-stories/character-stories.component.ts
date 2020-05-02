@@ -189,12 +189,10 @@ export class CharacterStoriesComponent extends BaseComponent implements OnInit {
           this._toastrService.success('Udało się dodać nową historię!');
           this.getStories();
           this.isStoryFormShown = false;
+          this.newStoryForm.reset();
         },
           err => {
             this._toastrService.error('Nie udało się dodać historii.');
           }));
   }
 }
-
-
-

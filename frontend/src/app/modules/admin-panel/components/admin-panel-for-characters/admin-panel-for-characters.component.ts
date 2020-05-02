@@ -37,7 +37,9 @@ export class AdminPanelForCharactersComponent extends BaseComponent implements O
         )
         .subscribe(
           charList => {
-            this.charList = charList;
+            const archivedCharacters = charList.filter(x => x.archived);
+            const nonArchivedCharcaters = charList.filter(x => !x.archived);
+            this.charList = nonArchivedCharcaters.concat(archivedCharacters);
           })
     )
   }
