@@ -2,10 +2,8 @@
 
 <section class="characters-card" *ngIf="character && !loading">
   <div class="card">
-
-
     <mat-card class="example-card" [ngStyle]="{'background': bgColor1}">
-      <span [ngStyle]="{'background': bgColor2}">
+      <span class="card__type" [ngStyle]="{'background': bgColor2}">
         {{charType}}
       </span>
       <mat-card-header>
@@ -37,33 +35,36 @@
       <div class="card__profile-pic--empty" *ngIf="character.imagesList.length === 0">
         Brak zdjęć
       </div>
-      <div class="card__info info" [ngStyle]="{'background': bgColor2}">
+      <mat-card class="card__info info" [ngStyle]="{'background': bgColor2}">
         <ng-container *ngIf="character.birthday">
-          <span class="info__desc">Data urodzenia</span>
-          <span class="info__data">{{character.birthday | date: 'dd/MM/yyyy'}}
-          </span>
+          <div>
+            <span class="info__desc">Data urodzenia</span>
+            <span class="info__data">{{character.birthday | date: 'dd/MM/yyyy'}}
+            </span>
+          </div>
         </ng-container>
 
         <ng-container *ngIf="character.death">
-          <span class="info__desc">
-            Śmierć:
-          </span>
-          <span class="info__data info__data--death">
-            {{character.death | date: 'dd/MM/yyyy'}}
-            <br />
-            <span *ngIf="character.deathReason">
-              ({{character.deathReason}})
+          <div>
+            <span class="info__desc">
+              Śmierć:
             </span>
-          </span>
+            <span class="info__data info__data--death">
+              {{character.death | date: 'dd/MM/yyyy'}}
+              <span *ngIf="character.deathReason">
+                ({{character.deathReason}})
+              </span>
+            </span>
+          </div>
         </ng-container>
         <ng-container *ngIf="character.occupation">
-          <span class="info__desc">Zawód</span>
+          <span class="info__desc">Zajęcie</span>
           <span class="info__data">{{character.occupation}}</span>
         </ng-container>
 
         <ng-container *ngIf="character.colors">
           <div class="info__color color">
-            <span class="info__desc">Paleta kolorów</span>
+            <mat-divider></mat-divider>
             <div class="color__container">
               <span class="color__icon">
                 <app-icon [icon]="'clothing'" [color]="'white'"></app-icon>
@@ -98,7 +99,7 @@
         <ng-container
           *ngIf="character.temperament?.melancholic || character.temperament?.sanguine || character.temperament?.flegmatic || character.temperament?.choleric">
           <div class="info__temperament temperament">
-            <span class="info__desc">Temperament</span>
+            <mat-divider></mat-divider>
             <div class="temperament__container" *ngIf="character.temperament.melancholic">
               <span class="info__desc">Melancholik</span>
               <div appProgressBar [percentValue]="character.temperament.melancholic" temperamentType='melancholic'>
@@ -124,22 +125,24 @@
         </ng-container>
 
 
-      </div>
+      </mat-card>
     </mat-card>
 
-
   </div>
-  <div class="information">
+
+  <mat-card class="information">
     <div *ngIf="character.quote" class="information__quote quote">
       <blockquote class="quote__blockquote">
         {{character.quote.quote}}
       </blockquote>
       <cite *ngIf="character.quote.context" class="quote__cite" [ngStyle]="{'color': themeColor1}">~
         {{character.quote.context}}</cite>
+
     </div>
     <div class="information__story ">
       <ng-container *ngIf="character.story">
         <ng-container *ngFor="let story of character.story">
+
           <div class="story">
             <h2 class="story__title" [ngStyle]="{'color': themeColor1}">{{story.title}}</h2>
             <div class="story__story-block">
@@ -151,9 +154,11 @@
       <ng-container *ngIf="character.story.length === 0">
         Brak znanej historii.
       </ng-container>
-    </div>
 
+    </div>
     <div *ngIf="character.relationships && character.relationships.length > 0">
+      <mat-divider></mat-divider>
+
       <h2 class="story__title" [ngStyle]="{'color': themeColor1}">Relacje rodzinne</h2>
       <ul class="relationships">
         <ng-container *ngFor="let relationship of character.relationships">
@@ -176,6 +181,7 @@
     </div>
 
     <div *ngIf="character.measurements?.hasAnyValues">
+      <mat-divider></mat-divider>
       <h2 class="story__title" [ngStyle]="{'color': themeColor1}">Tabela wzrostu i wagi</h2>
       <table mat-table [dataSource]="measurementsData" style="width: 100%">
         <ng-container matColumnDef="baby">
@@ -213,5 +219,5 @@
       </table>
 
     </div>
-  </div>
+  </mat-card>
 </section>

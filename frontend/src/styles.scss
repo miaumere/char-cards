@@ -106,7 +106,6 @@ $button_gradient2: rgba(0, 0, 0, 0.2);
     width: 100px;
 
     margin: 0 1rem;
-    border: 1px white solid;
 
     background-color: #1d1d1d;
 
@@ -154,5 +153,11 @@ $button_gradient2: rgba(0, 0, 0, 0.2);
   background-size: 100%;
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}

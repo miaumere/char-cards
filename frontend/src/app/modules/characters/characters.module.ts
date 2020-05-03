@@ -12,6 +12,7 @@ import { SharedModule } from '../shared/shared.module';
 import { MatTableModule } from '@angular/material/table';
 import { MatRippleModule } from '@angular/material/core';
 import { MatCardModule } from '@angular/material/card';
+import { MatDividerModule } from '@angular/material/divider';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { MatCardModule } from '@angular/material/card';
     SharedModule,
     MatTableModule,
     MatRippleModule,
-    MatCardModule
+    MatCardModule,
+    MatDividerModule
   ],
   providers: []
 })
