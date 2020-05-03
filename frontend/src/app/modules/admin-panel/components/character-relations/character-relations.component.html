@@ -1,81 +1,134 @@
 <div [ngSwitch]="type">
-  <div *ngSwitchCase="'new'" class="admin-panel quotes admin-panel--main admin-panel-main">
+  <div *ngSwitchCase="'new'" class="relationship">
     <form [formGroup]="relationForm">
-      <mat-form-field>
-        <input matInput formControlName="firstChar" [matAutocomplete]="auto" />
-        <mat-autocomplete #auto="matAutocomplete">
-          <mat-option *ngFor="let char of filteredCharList" [value]="char.fullName" class="option">
-            <img *ngIf="char.profilePic"
-              [src]="'data:image/' + char.profilePic?.extension + ';base64, ' + char.profilePic?.image | sanitizer"
-              class="option__image">
-            <span>{{char.fullName}}</span>
-          </mat-option>
-        </mat-autocomplete>
-      </mat-form-field>
-    </form>
-    <!-- <form [formGroup]="relationForm" (ngSubmit)="createNewRelation()" class="relationship-form">
       <div class="relationship-form__container">
+
         <div class="relationship-form__box">
           <span>Postać 1:</span>
-          <div class="combo-box">
-            <input class="global-input combo-box__input" type="text" formControlName="firstChar"
-              (click)="openSelect($event, 1)" />
-
-            <select class="combo-box__select" #characterListOne (change)="onItemSelect($event, 'firstChar')">
-              <option disabled *ngIf="filteredCharList?.length === 0" value="">
-                Brak danych
-              </option>
-              <option *ngFor="let char of filteredCharList" [value]="char.fullName">
-                {{char.fullName}}
-              </option>
-            </select>
-          </div>
-
-          <input class="global-input relationship-box__input" type="text" formControlName="secondChar" disabled />
-
+          <mat-form-field>
+            <input matInput formControlName="firstChar" spellcheck="false" [matAutocomplete]="auto"
+              placeholder="Postać 1" class="relationship-box__input" />
+            <mat-autocomplete #auto="matAutocomplete">
+              <mat-option *ngFor="let char of filteredCharacters | async" [value]="char.fullName" class="option">
+                <img *ngIf="char.profilePic"
+                  [src]="'data:image/' + char.profilePic?.extension + ';base64, ' + char.profilePic?.image | sanitizer"
+                  class="option__image">
+                <span>{{char.fullName}}</span>
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput formControlName="secondChar" placeholder="Postać 2" class="relationship-box__input" />
+          </mat-form-field>
         </div>
-
         <div class="relationship-form__box">
           <span>Kim jest postać 1:</span>
-          <select class="global-select" formControlName="reverseRelation">
-            <option value="-1" disabled>----</option>
-            <option *ngFor="let type of RelationshipType | enumVal" [value]="type.key">{{type.value}}</option>
-          </select>
 
-          <select class="global-select relationship-box__input" formControlName="relation">
-            <option value="-1" disabled>----</option>
-            <option *ngFor="let type of RelationshipType | enumVal" [value]="type.key">{{type.value}}</option>
-          </select>
+          <mat-form-field>
+            <mat-select formControlName="reverseRelation" class=" relationship-box__input">
+              <mat-option *ngFor="let type of RelationshipType | enumVal" [value]="type.key">
+                {{type.value}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
 
+          <span>Kim jest postać 2:</span>
+          <mat-form-field>
+            <mat-select formControlName="relation" class=" relationship-box__input">
+              <mat-option *ngFor="let type of RelationshipType | enumVal" [value]="type.key">
+                {{type.value}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
-
-        <div class="relationship-form__box relationship-box">
-
+        <div class="relationship-form__box">
           <span>Dla kogo:</span>
+          <mat-form-field>
+            <input matInput formControlName="secondCharReversed" [matAutocomplete]="auto2" placeholder="Postać 2"
+              class="relationship-box__input" spellcheck="false" />
+            <mat-autocomplete #auto2="matAutocomplete">
+              <mat-option *ngFor="let char of filteredCharacters2 | async" [value]="char.fullName" class="option">
+                <img *ngIf="char.profilePic"
+                  [src]="'data:image/' + char.profilePic?.extension + ';base64, ' + char.profilePic?.image | sanitizer"
+                  class="option__image">
+                <span>{{char.fullName}}</span>
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput formControlName="firstCharReversed" placeholder="Postać 1"
+              class="relationship-box__input" />
+          </mat-form-field>
+        </div>
+      </div>
 
-          <div class="combo-box">
-            <input class="global-input combo-box__input" type="text" formControlName="secondChar"
-              (click)="openSelect($event, 2)" (input)="openSelect($event, 2)" />
+      <button mat-raised-button [disabled]="relationForm.invalid" (click)="createNewRelation()">Dodaj
+        relację</button>
 
-            <select class="combo-box__select" #characterListTwo (change)="onItemSelect($event, 'secondChar')">
-              <option disabled *ngIf="filteredCharList?.length === 0" value="">
-                Brak danych
-              </option>
-              <option *ngFor="let char of filteredCharList" [value]="char.fullName">
-                {{char.fullName}}
-              </option>
-            </select>
+    </form>
+    <!-- <form [formGroup]=" relationForm" (ngSubmit)="createNewRelation()" class="relationship-form">
+        <div class="relationship-form__container">
+          <div class="relationship-form__box">
+            <span>Postać 1:</span>
+            <div class="combo-box">
+              <input class="global-input combo-box__input" type="text" formControlName="firstChar"
+                (click)="openSelect($event, 1)" />
+
+              <select class="combo-box__select" #characterListOne (change)="onItemSelect($event, 'firstChar')">
+                <option disabled *ngIf="filteredCharList?.length === 0" value="">
+                  Brak danych
+                </option>
+                <option *ngFor="let char of filteredCharList" [value]="char.fullName">
+                  {{char.fullName}}
+                </option>
+              </select>
+            </div>
+
+            <input class="global-input relationship-box__input" type="text" formControlName="secondChar" disabled />
+
           </div>
 
+          <div class="relationship-form__box">
+            <span>Kim jest postać 1:</span>
+            <select class="global-select" formControlName="reverseRelation">
+              <option value="-1" disabled>----</option>
+              <option *ngFor="let type of RelationshipType | enumVal" [value]="type.key">{{type.value}}</option>
+            </select>
 
-          <input class="global-input relationship-box__input" type="text" formControlName="firstChar" disabled />
+            <select class="global-select relationship-box__input" formControlName="relation">
+              <option value="-1" disabled>----</option>
+              <option *ngFor="let type of RelationshipType | enumVal" [value]="type.key">{{type.value}}</option>
+            </select>
+
+          </div>
+
+          <div class="relationship-form__box relationship-box">
+
+            <span>Dla kogo:</span>
+
+            <div class="combo-box">
+              <input class="global-input combo-box__input" type="text" formControlName="secondChar"
+                (click)="openSelect($event, 2)" (input)="openSelect($event, 2)" />
+
+              <select class="combo-box__select" #characterListTwo (change)="onItemSelect($event, 'secondChar')">
+                <option disabled *ngIf="filteredCharList?.length === 0" value="">
+                  Brak danych
+                </option>
+                <option *ngFor="let char of filteredCharList" [value]="char.fullName">
+                  {{char.fullName}}
+                </option>
+              </select>
+            </div>
+
+
+            <input class="global-input relationship-box__input" type="text" formControlName="firstChar" disabled />
+
+          </div>
 
         </div>
-
-      </div>
-      <div class="relationship-form__container">
-        <input class="global-button" type="submit">
-      </div>
+        <div class="relationship-form__container">
+          <input class="global-button" type="submit">
+        </div>
     </form> -->
   </div>
 

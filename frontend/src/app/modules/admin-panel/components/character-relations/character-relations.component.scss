@@ -1,7 +1,6 @@
 @import "../../../../../global_styles/variables.scss";
 
 .relationship-form {
-  border: 1px solid white;
   padding: 1rem;
 }
 
@@ -20,13 +19,17 @@
     margin: 1rem;
   }
 }
-.relationships {
-  display: block;
+.relationship {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   height: calc(100vh - #{$navbar-height});
   width: 100vw;
 
   overflow-x: scroll;
+
+  font-size: initial;
 }
 
 .submit-container {
@@ -47,11 +50,6 @@
   }
 }
 
-.relationship-box {
-  &__input {
-    margin: 1rem 0;
-  }
-}
 .edit-relationships-form {
   display: flex;
   align-items: center;
@@ -64,8 +62,8 @@
   display: flex;
   align-items: center;
   &__image {
-    height: 2rem;
-    width: 2rem;
+    height: 1.75rem;
+    width: 1.75rem;
 
     border-radius: 50%;
     filter: grayscale(100);

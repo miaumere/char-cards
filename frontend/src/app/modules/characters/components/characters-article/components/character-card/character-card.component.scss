@@ -130,8 +130,6 @@
 
   text-align: center;
 
-  border-width: 1px;
-  border-style: solid;
   margin: 1rem;
 
   &__type {
@@ -174,6 +172,10 @@
 .name {
   display: flex;
   flex-direction: column;
+
+  &--pseudonim {
+    font-size: 0.8rem;
+  }
 }
 
 .profile-pic {

@@ -10,7 +10,7 @@ import { CharacterItem } from 'src/app/modules/characters/models/character-item.
 import { RelationshipsForCharacter } from '../../models/relationships/relationships-for-char.model';
 import { IRelationRequest } from '../../models/relationships/relation-request.model';
 import { EditRelationship } from '../../models/relationships/edit-relationship.model';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 @Component({
   selector: 'app-character-relations',
@@ -45,9 +45,8 @@ export class CharacterRelationsComponent extends BaseComponent implements OnInit
   changeType: string | null;
 
   charList: CharacterItem[] = [];
-  filteredCharList: CharacterItem[] = [];
-
-  filteredCharacters: Observable<CharacterItem[]>;
+  filteredCharacters = new Observable<CharacterItem[]>();
+  filteredCharacters2 = new Observable<CharacterItem[]>();
 
   selectedCharacter?: CharacterItem;
 
@@ -56,6 +55,8 @@ export class CharacterRelationsComponent extends BaseComponent implements OnInit
   relationForm = new FormGroup({
     firstChar: new FormControl(''),
     secondChar: new FormControl(''),
+    firstCharReversed: new FormControl(''),
+    secondCharReversed: new FormControl(''),
     relation: new FormControl(-1),
     reverseRelation: new FormControl(-1)
   });
@@ -71,33 +72,19 @@ export class CharacterRelationsComponent extends BaseComponent implements OnInit
     private _activatedRoute: ActivatedRoute,
   ) {
     super();
-    this.filteredCharacters = this.relationForm.controls['firstChar'].valueChanges
-      .pipe(
-        startWith(''),
-        map(character => character ? this._filterCharacters(character) : this.charList.slice())
-      );
+
   }
 
   private _filterCharacters(value: string) {
-    console.log(value)
     const filterValue = value.toLowerCase();
 
     return this.charList.filter(c => `${c.charName} ${c.charSurname}`.toLowerCase().indexOf(filterValue) === 0);
-  }
-
-  private _setFilteredList(value: string) {
-    this.filteredCharList = this.charList.filter(c => {
-      const charName = `${c.charName} ${c.charSurname}`.toLowerCase();
-      return charName.indexOf(value.toLowerCase()) !== -1;
-    });
   }
 
   ngOnInit() {
     this._activatedRoute?.parent?.queryParams
       .subscribe(queryParam => {
         this.charId = +queryParam.id;
-
-        console.log(this.charId)
       });
 
     if (this._activatedRoute?.parent?.params) {
@@ -105,15 +92,15 @@ export class CharacterRelationsComponent extends BaseComponent implements OnInit
       this.subscriptions$.add(
         this._activatedRoute.params.subscribe(param => {
           this.type = param.type;
-          console.log(this.type)
           switch (this.type) {
             case 'new':
               this.getCharactersList();
 
+              this.relationForm.controls['secondChar'].disable();
+              this.relationForm.controls['firstCharReversed'].disable();
               break;
 
             case 'edit':
-              console.log("edycja")
               this.getCharactersList();
               this.getRelationshipsForCharacter();
               break;
@@ -122,8 +109,19 @@ export class CharacterRelationsComponent extends BaseComponent implements OnInit
         }))
     }
 
-  }
+    this.relationForm
+      .controls['firstChar']
+      .valueChanges
+      .subscribe(x => {
+        this.relationForm.controls['firstCharReversed'].setValue(x);
+      })
 
+    this.relationForm
+      .controls['secondCharReversed']
+      .valueChanges.subscribe(x => {
+        this.relationForm.controls['secondChar'].setValue(x);
+      })
+  }
 
   getCharactersList() {
     this.loading = true;
@@ -138,10 +136,20 @@ export class CharacterRelationsComponent extends BaseComponent implements OnInit
         )
         .subscribe(charList => {
           this.charList = charList;
-          this.filteredCharList = charList;
+
+          this.filteredCharacters = this.relationForm.controls['firstChar'].valueChanges
+            .pipe(
+              startWith(''),
+              map(character => character ? this._filterCharacters(character) : this.charList)
+            );
+
+          this.filteredCharacters2 = this.relationForm.controls['secondCharReversed'].valueChanges
+            .pipe(
+              startWith(''),
+              map(character => character ? this._filterCharacters(character) : this.charList)
+            );
 
           this.selectedCharacter = charList.find(x => x.id === this.charId);
-
         })
     );
   }
@@ -149,9 +157,6 @@ export class CharacterRelationsComponent extends BaseComponent implements OnInit
   openSelect(event: MouseEvent, forSelectList: number) {
     this.closeAllSelects();
     event.stopPropagation();
-    const target = event.target as HTMLInputElement;
-
-    this._setFilteredList(target.value);
 
     switch (forSelectList) {
       case 1:
@@ -211,7 +216,6 @@ export class CharacterRelationsComponent extends BaseComponent implements OnInit
       reverseRelation: RelationshipType[reverseRelation]
     };
 
-    console.log(request);
     this.subscriptions$.add(
       this._characterService.postNewRelationship(
         request
@@ -228,6 +232,7 @@ export class CharacterRelationsComponent extends BaseComponent implements OnInit
     );
     console.warn(request);
   }
+
 
   getRelationshipsForCharacter() {
     this.loading = true;
