@@ -1,6 +1,19 @@
 <div [ngSwitch]="type">
   <div *ngSwitchCase="'new'" class="admin-panel quotes admin-panel--main admin-panel-main">
-    <form [formGroup]="relationForm" (ngSubmit)="createNewRelation()" class="relationship-form">
+    <form [formGroup]="relationForm">
+      <mat-form-field>
+        <input matInput formControlName="firstChar" [matAutocomplete]="auto" />
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngFor="let char of filteredCharList" [value]="char.fullName" class="option">
+            <img *ngIf="char.profilePic"
+              [src]="'data:image/' + char.profilePic?.extension + ';base64, ' + char.profilePic?.image | sanitizer"
+              class="option__image">
+            <span>{{char.fullName}}</span>
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </form>
+    <!-- <form [formGroup]="relationForm" (ngSubmit)="createNewRelation()" class="relationship-form">
       <div class="relationship-form__container">
         <div class="relationship-form__box">
           <span>Postać 1:</span>
@@ -63,7 +76,7 @@
       <div class="relationship-form__container">
         <input class="global-button" type="submit">
       </div>
-    </form>
+    </form> -->
   </div>
 
   <div *ngSwitchCase="'edit'" class="relationships admin-panel admin-panel--main admin-panel-main">

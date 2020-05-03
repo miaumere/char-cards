@@ -10,6 +10,8 @@ import { CharacterCardComponent } from './components/characters-article/componen
 import { ProgressBarDirective } from './directives/progress-bar.directive';
 import { SharedModule } from '../shared/shared.module';
 import { MatTableModule } from '@angular/material/table';
+import { MatRippleModule } from '@angular/material/core';
+import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
   declarations: [
@@ -25,7 +27,9 @@ import { MatTableModule } from '@angular/material/table';
     CommonModule,
     CharactersRoutingModule,
     SharedModule,
-    MatTableModule
+    MatTableModule,
+    MatRippleModule,
+    MatCardModule
   ],
   providers: []
 })

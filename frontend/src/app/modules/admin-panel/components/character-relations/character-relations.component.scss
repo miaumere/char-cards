@@ -58,3 +58,16 @@
   flex-direction: column;
   width: 100vw;
 }
+
+// nowe style
+.option {
+  display: flex;
+  align-items: center;
+  &__image {
+    height: 2rem;
+    width: 2rem;
+
+    border-radius: 50%;
+    filter: grayscale(100);
+  }
+}

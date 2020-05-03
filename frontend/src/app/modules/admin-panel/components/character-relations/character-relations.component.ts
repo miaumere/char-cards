@@ -3,13 +3,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { BaseComponent } from 'src/app/core/base.component';
 import { CharactersService } from 'src/app/core/service/characters.service';
-import { finalize } from 'rxjs/operators';
+import { finalize, startWith, map } from 'rxjs/operators';
 import { FormGroup, FormControl } from '@angular/forms';
 import { RelationshipType } from '../../enums/relationship-type.enum';
 import { CharacterItem } from 'src/app/modules/characters/models/character-item.model';
 import { RelationshipsForCharacter } from '../../models/relationships/relationships-for-char.model';
 import { IRelationRequest } from '../../models/relationships/relation-request.model';
 import { EditRelationship } from '../../models/relationships/edit-relationship.model';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-character-relations',
@@ -46,6 +47,8 @@ export class CharacterRelationsComponent extends BaseComponent implements OnInit
   charList: CharacterItem[] = [];
   filteredCharList: CharacterItem[] = [];
 
+  filteredCharacters: Observable<CharacterItem[]>;
+
   selectedCharacter?: CharacterItem;
 
   relationshipsList: RelationshipsForCharacter[] = [];
@@ -65,10 +68,22 @@ export class CharacterRelationsComponent extends BaseComponent implements OnInit
   constructor(
     private _toastrService: ToastrService,
     private _characterService: CharactersService,
-    private _route: Router,
     private _activatedRoute: ActivatedRoute,
-  ) { super(); }
+  ) {
+    super();
+    this.filteredCharacters = this.relationForm.controls['firstChar'].valueChanges
+      .pipe(
+        startWith(''),
+        map(character => character ? this._filterCharacters(character) : this.charList.slice())
+      );
+  }
 
+  private _filterCharacters(value: string) {
+    console.log(value)
+    const filterValue = value.toLowerCase();
+
+    return this.charList.filter(c => `${c.charName} ${c.charSurname}`.toLowerCase().indexOf(filterValue) === 0);
+  }
 
   private _setFilteredList(value: string) {
     this.filteredCharList = this.charList.filter(c => {

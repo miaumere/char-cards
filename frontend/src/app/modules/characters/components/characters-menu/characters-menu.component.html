@@ -1,16 +1,20 @@
 <app-loader [visible]="loading && !charList"></app-loader>
 
+
+
 <aside class="characters-menu global-section">
   <ng-container *ngIf="!loading && charList && charList.length > 0 ">
     <ng-container *ngFor="let character of charList;">
-      <span class="characters-menu__item" [routerLink]="['/char-cards', character.id]"
-        routerLinkActive="router-link-active">
-        {{character.charName}}
-        {{character.charSurname}}
-      </span>
+      <a [routerLink]="['/char-cards', character.id]">
+        <div matRipple routerLinkActive="router-link-active" class="characters-menu__item">
+          {{character.fullName}}
+        </div>
+      </a>
     </ng-container>
 
   </ng-container>
+
+
 </aside>
 
 

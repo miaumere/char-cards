@@ -4,6 +4,24 @@
   <div class="card" [ngStyle]="{'border-color': character.colors.themeColor2
 }">
 
+    <!--
+<mat-card class="example-card">
+  <mat-card-header>
+     <span class="card__type" [ngStyle]="{'background': bgColor2}">
+        {{charType}}
+      </span>
+      <span class="card__name" [ngStyle]="{'background': bgColor2}">
+        <app-icon *ngIf="character.gender" [icon]="character.gender | lowercase"
+          [color]="character.gender === 'MALE' ? '#89cff0' : '#FFC0CB'" [size]="'0.7'">
+        </app-icon>
+        <span class="name">
+          {{character.charName}} {{ character.charSurname}}
+          <span [ngStyle]="{'color': character.colors.themeColor1}"> {{character.pseudonim}}</span>
+        </span>
+      </span>
+  </mat-card-header>
+
+</mat-card> -->
 
     <div class="card__profile-pic profile-pic" [ngStyle]="{'background': bgColor1
   }"> <span class="card__type" [ngStyle]="{'background': bgColor2}">
@@ -26,7 +44,7 @@
           }">
         <div>
 
-          <button class="profile-pic__button" [ngStyle]="{'background': bgColor2}"
+          <button class="profile-pic__button" [ngStyle]="{'background': bgColor2}" matRipple
             *ngFor="let image of character.imagesList; index as i"
             (click)="setImage(i)">{{image.name | filenameModifier}}</button>
         </div>
