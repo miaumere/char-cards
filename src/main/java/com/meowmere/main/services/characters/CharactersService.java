@@ -272,6 +272,7 @@ public class CharactersService {
             Long parsedBirthdayDate = birthdayDate.getTime() / 1000;
             character.setBirthday(parsedBirthdayDate);
         }
+        character.setPseudonim(request.getPseudonim());
         character.setCharName(request.getCharName());
         character.setCharSurname(request.getCharSurname());
         character.setOccupation(request.getOccupation());
@@ -328,7 +329,7 @@ public class CharactersService {
             String msg = "Postać o podanym id nie istnieje.";
             return new ResponseEntity(msg, HttpStatus.NOT_FOUND);
         }
-
+        character.setPseudonim(request.getPseudonim());
         character.setCharName(request.getCharName());
         character.setCharSurname(request.getCharSurname());
         character.setGender(Gender.valueOf(request.getGender()));

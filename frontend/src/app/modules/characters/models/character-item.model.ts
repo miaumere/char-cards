@@ -1,4 +1,3 @@
-import { CharType } from './../../admin-panel/enums/character-type.enum';
 import { IProfilePic } from '../../admin-panel/models/images/profile-pic.model';
 
 export interface ICharacterItem {

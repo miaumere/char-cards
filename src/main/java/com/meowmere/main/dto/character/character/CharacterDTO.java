@@ -15,6 +15,7 @@ public class CharacterDTO {
     public String charType;
     public String charName;
     public String charSurname;
+    public String pseudonim;
     public String gender;
     public Long birthday;
     public Long death;
@@ -154,5 +155,13 @@ public class CharacterDTO {
 
     public void setRelationships(List<RelationshipDTO> relationships) {
         this.relationships = relationships;
+    }
+
+    public String getPseudonim() {
+        return pseudonim;
+    }
+
+    public void setPseudonim(String pseudonim) {
+        this.pseudonim = pseudonim;
     }
 }

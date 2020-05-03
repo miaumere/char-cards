@@ -12,6 +12,7 @@ export interface ICharacter {
   externalId: number;
   charName: string;
   charSurname: string;
+  pseudonim: string;
   birthday: number;
   gender: gender;
   death: number;
@@ -31,6 +32,7 @@ export class Character implements ICharacter {
   externalId: number;
   charName: string;
   charSurname: string;
+  pseudonim: string;
   birthday: number;
   gender: gender;
   death: number;

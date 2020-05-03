@@ -18,6 +18,8 @@ public class Character {
     @Column
     private String charSurname;
     @Column
+    private String pseudonim;
+    @Column
     private Long birthday;
     @Column
     private Long death;
@@ -195,4 +197,13 @@ public class Character {
     public void setStory(Set<CharacterStory> story) {
         this.characterStory = story;
     }
+
+    public String getPseudonim() {
+        return pseudonim;
+    }
+
+    public void setPseudonim(String pseudonim) {
+        this.pseudonim = pseudonim;
+    }
+
 };

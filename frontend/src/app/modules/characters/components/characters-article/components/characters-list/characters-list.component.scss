@@ -44,6 +44,10 @@ $gradient2: #435548;
     &--empty {
       background: grey;
       background-image: url("../../../../../../../assets/svg/iconmonstr-user-19.svg");
+
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: contain;
     }
 
     &:hover {

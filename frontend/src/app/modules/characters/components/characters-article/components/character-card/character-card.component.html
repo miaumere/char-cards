@@ -13,7 +13,10 @@
         <app-icon *ngIf="character.gender" [icon]="character.gender | lowercase"
           [color]="character.gender === 'MALE' ? '#89cff0' : '#FFC0CB'" [size]="'0.7'">
         </app-icon>
-        {{character.charName}} {{ character.charSurname}}
+        <span class="name">
+          {{character.charName}} {{ character.charSurname}}
+          <span [ngStyle]="{'color': character.colors.themeColor1}"> {{character.pseudonim}}</span>
+        </span>
       </span>
       <ng-container *ngIf="character.imagesList.length > 0">
         <img *ngFor="let image of character.imagesList;index as i"

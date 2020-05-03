@@ -8,6 +8,7 @@ public class CharacterDetailsDTO {
     public Long externalId;
     public String charName;
     public String charSurname;
+    public String pseudonim;
     public Long birthday;
     public Long death;
     public String gender;
@@ -112,5 +113,13 @@ public class CharacterDetailsDTO {
 
     public void setCharacterType(String characterType) {
         this.characterType = characterType;
+    }
+
+    public String getPseudonim() {
+        return pseudonim;
+    }
+
+    public void setPseudonim(String pseudonim) {
+        this.pseudonim = pseudonim;
     }
 }

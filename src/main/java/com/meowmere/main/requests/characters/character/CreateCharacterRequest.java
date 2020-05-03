@@ -7,6 +7,7 @@ import com.meowmere.main.dto.character.temperament.CharacterTemperamentDTO;
 public class CreateCharacterRequest {
     public String charName;
     public String charSurname;
+    public String pseudonim;
     public Long birthday;
     public String gender;
     public String characterType;
@@ -16,6 +17,14 @@ public class CreateCharacterRequest {
     public CharacterTemperamentDTO temperament;
     public CharacterColorDTO colors;
     public CharacterMeasurementsDTO measurements;
+
+    public String getPseudonim() {
+        return pseudonim;
+    }
+
+    public void setPseudonim(String pseudonim) {
+        this.pseudonim = pseudonim;
+    }
 
     public String getCharName() {
         return charName;

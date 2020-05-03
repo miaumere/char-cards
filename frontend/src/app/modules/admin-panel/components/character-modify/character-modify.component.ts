@@ -10,10 +10,8 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { BaseComponent } from 'src/app/core/base.component';
 import { Colors } from 'src/app/modules/characters/models/colors.model';
 import { finalize } from 'rxjs/operators';
-import { validateImage } from 'src/app/modules/shared/functions/validate-image.function';
 import { Gender } from '../../enums/gender.enum';
 import { CharType } from '../../enums/character-type.enum';
-import { Character } from 'src/app/modules/characters/models/character.model';
 import { CreateCharacter } from '../../models/create-character.model';
 
 type chooseFormType = 'SUBMIT' | number;
@@ -42,6 +40,7 @@ export class CharacterModifyComponent extends BaseComponent implements OnInit {
   addidionalPersonalInfoForm = new FormGroup({
     birthday: new FormControl(''),
     profession: new FormControl(''),
+    pseudonim: new FormControl(''),
     death: new FormControl(),
     deathReason: new FormControl(''),
   });
@@ -230,6 +229,7 @@ export class CharacterModifyComponent extends BaseComponent implements OnInit {
           this.personalInfoForm.get('gender')?.setValue(charDetails.gender);
           this.personalInfoForm.get('characterType')?.setValue(charDetails.characterType);
 
+          this.addidionalPersonalInfoForm.get('pseudonim')?.setValue(charDetails.pseudonim);
           this.addidionalPersonalInfoForm.get('profession')?.setValue(charDetails.occupation);
           this.addidionalPersonalInfoForm.get('deathReason')?.setValue(charDetails.deathReason);
 
@@ -310,7 +310,7 @@ export class CharacterModifyComponent extends BaseComponent implements OnInit {
       character.deathReason = null;
     }
     character.occupation = this.addidionalPersonalInfoForm.controls['profession']?.value;
-
+    character.pseudonim = this.addidionalPersonalInfoForm.controls['pseudonim']?.value;
 
     const colors = new Colors();
     colors.themeColor1 = this.colorForm.controls['themeColor1']?.value;

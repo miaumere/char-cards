@@ -8,6 +8,7 @@ public class EditCharacterRequest {
     public Long externalId;
     public String charName;
     public String charSurname;
+    public String pseudonim;
     public Long birthday;
     public String gender;
     public String characterType;
@@ -108,5 +109,17 @@ public class EditCharacterRequest {
 
     public void setCharacterType(String characterType) {
         this.characterType = characterType;
+    }
+
+    public void setExternalId(Long externalId) {
+        this.externalId = externalId;
+    }
+
+    public String getPseudonim() {
+        return pseudonim;
+    }
+
+    public void setPseudonim(String pseudonim) {
+        this.pseudonim = pseudonim;
     }
 }

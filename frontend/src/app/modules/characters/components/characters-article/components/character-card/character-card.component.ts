@@ -79,8 +79,6 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
           ];
           this.measurementsData = [characterHeight, charachterWeight];
 
-          console.log(measurementsInstance)
-
           switch (this.character?.charType) {
             case 'MAIN':
               this.charType = 'postać główna';

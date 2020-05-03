@@ -42,6 +42,10 @@
     <form [formGroup]="addidionalPersonalInfoForm" class="character-modify-form">
       <ng-template matStepLabel>Dodatkowe dane osobowe</ng-template>
       <mat-form-field>
+        <mat-label>Pseudonim</mat-label>
+        <input matInput placeholder="Pseudonim" [formControlName]="'pseudonim'">
+      </mat-form-field>
+      <mat-form-field>
         <mat-label>Zawód</mat-label>
         <input matInput placeholder="Czym się zajmuje?" [formControlName]="'profession'">
       </mat-form-field>
