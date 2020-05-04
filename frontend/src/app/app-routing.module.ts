@@ -24,6 +24,11 @@ const routes: Routes = [
     path: 'admin-panel',
     canActivate: [AdminPermissionsGuard],
     loadChildren: () => import('./modules/admin-panel/admin-panel.module').then(m => m.AdminPanelModule)
+  },
+  {
+    path: 'edit-story-panel',
+    canActivate: [AdminPermissionsGuard],
+    loadChildren: () => import('./modules/edit-story-panel/edit-story-panel.module').then(m => m.EditStoryPanelModule)
   }
 ];
 

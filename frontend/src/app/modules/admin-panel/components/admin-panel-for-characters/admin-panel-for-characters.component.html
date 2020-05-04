@@ -2,17 +2,17 @@
 
 <article class="admin-panel admin-panel--main">
   <div class="admin-panel-main__menu menu">
-    <div class="menu__item item item--new-char" matTooltip="Dodaj nową postać"
+    <mat-card class="menu__item item item--new-char" matTooltip="Dodaj nową postać"
       [routerLink]="['./character-modify/new']">
       <app-icon [icon]="'new-character'" [color]="'white'" [size]="'3'"></app-icon>
-    </div>
+    </mat-card>
 
-    <div class="menu__item item item--new-char" matTooltip="Dodaj nową relację"
+    <mat-card class="menu__item item item--new-char" matTooltip="Dodaj nową relację"
       [routerLink]="['./character-relations/new']">
       <app-icon [icon]="'branch'" [color]="'white'" [size]="'3'"></app-icon>
-    </div>
+    </mat-card>
 
-    <div class="menu__item item" *ngFor="let character of charList">
+    <mat-card class="menu__item item" *ngFor="let character of charList">
       <div class="item__char-info char-info">
         <div matTooltip="Zmień stan postaci" (click)="changeStateOfChar(character.id)" class="change-state">
           <span [ngSwitch]="character.archived">
@@ -68,7 +68,7 @@
       </div>
 
 
-    </div>
+    </mat-card>
 
   </div>
 </article>

@@ -24,7 +24,7 @@
         Panel admina - postacie
       </button>
     </a>
-    <a>
+    <a [routerLink]="['/edit-story-panel']">
       <button mat-menu-item *ngIf="(_authService.loggedUser$ | async) && (_authService.loggedUser$ | async).username">
         Panel admina - części
       </button>

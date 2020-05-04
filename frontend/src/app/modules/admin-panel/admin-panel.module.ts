@@ -25,6 +25,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
   declarations: [
@@ -57,7 +58,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     MatSlideToggleModule,
     MatSliderModule,
     MatTooltipModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatCardModule
   ],
   providers: [
     CharactersService
