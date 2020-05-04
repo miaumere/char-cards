@@ -1,0 +1,23 @@
+.books {
+  display: flex;
+}
+
+.books-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.book-card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  height: 100px;
+  width: 100px;
+
+  margin: 1rem;
+}
+
+.boundary {
+  border: 2px dotted white;
+}

@@ -1,25 +1,4 @@
-import { EditStory } from './../../modules/admin-panel/models/character-story/story-to-edit.model';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import { BehaviorSubject, Observable, of } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
-import { CharacterForChange } from 'src/app/modules/admin-panel/models/character-for-change.model';
-import { EditImageName } from 'src/app/modules/admin-panel/models/images/edit-image-name.model';
-import { EditQuote } from 'src/app/modules/admin-panel/models/quotes/edit-quote.model';
-import { EditRelationship } from 'src/app/modules/admin-panel/models/relationships/edit-relationship.model';
-import { NewQuote } from 'src/app/modules/admin-panel/models/quotes/new-quote.model';
-import { IRelationshipsForCharacter } from 'src/app/modules/admin-panel/models/relationships/relationships-for-char.model';
-import { NewStory } from 'src/app/modules/admin-panel/models/character-story/new-story.model';
-import { IStory, Story } from 'src/app/modules/admin-panel/models/character-story/story.model';
-import { ICharacterForListItem } from 'src/app/modules/characters/models/character-for-list-item.model';
-import { CharacterItem, ICharacterItem } from 'src/app/modules/characters/models/character-item.model';
-import { ICharacter, Character } from 'src/app/modules/characters/models/character.model';
-import { IQuote } from 'src/app/modules/characters/models/quote.model';
-import { EditCharacter, IEditCharacter } from './../../modules/admin-panel/models/edit-character.model';
-import { IRelationRequest } from '../../modules/admin-panel/models/relationships/relation-request.model';
-import { RelationshipsForCharacter } from '../../modules/admin-panel/models/relationships/relationships-for-char.model';
-import { CreateCharacter } from 'src/app/modules/admin-panel/models/create-character.model';
+import { Injectable } from '@angular/core'; import { BehaviorSubject, Observable, of } from 'rxjs'; import { CharacterItem, ICharacterItem } from 'src/app/modules/characters/models/character-item.model'; import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http'; import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router'; import { map, tap } from 'rxjs/operators'; import { ICharacterForListItem } from 'src/app/modules/characters/models/character-for-list-item.model'; import { Character, ICharacter } from 'src/app/modules/characters/models/character.model'; import { IRelationshipsForCharacter, RelationshipsForCharacter } from 'src/app/modules/admin-panel/models/relationships/relationships-for-char.model'; import { IQuote } from 'src/app/modules/characters/models/quote.model'; import { IEditCharacter, EditCharacter } from 'src/app/modules/admin-panel/models/edit-character.model'; import { IStory, Story } from 'src/app/modules/admin-panel/models/character-story/story.model'; import { CharacterForChange } from 'src/app/modules/admin-panel/models/character-for-change.model'; import { EditQuote } from 'src/app/modules/admin-panel/models/quotes/edit-quote.model'; import { EditImageName } from 'src/app/modules/admin-panel/models/images/edit-image-name.model'; import { EditRelationship } from 'src/app/modules/admin-panel/models/relationships/edit-relationship.model'; import { EditStory } from 'src/app/modules/admin-panel/models/character-story/story-to-edit.model'; import { NewStory } from 'src/app/modules/admin-panel/models/character-story/new-story.model'; import { CreateCharacter } from 'src/app/modules/admin-panel/models/create-character.model'; import { IRelationRequest } from 'src/app/modules/admin-panel/models/relationships/relation-request.model'; import { NewQuote } from 'src/app/modules/admin-panel/models/quotes/new-quote.model';
 
 
 @Injectable({

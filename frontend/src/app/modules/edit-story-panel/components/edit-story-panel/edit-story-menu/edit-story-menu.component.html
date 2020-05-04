@@ -1,1 +1,13 @@
-edit story menu
+<article *ngIf="books?.length > 0" class="books">
+  <div>
+    <button mat-raised-button>+ Nowy szkicownik</button>
+
+  </div>
+  <div cdkDropList class="boundary books-container">
+    <mat-card *ngFor="let book of books; index as i" class="book-card" cdkDrag cdkDragBoundary=".boundary">
+      <app-book-icon [icon]="'book'" [color]="book.color" [size]='4' [number]='i+1'></app-book-icon>
+    </mat-card>
+  </div>
+
+
+</article>

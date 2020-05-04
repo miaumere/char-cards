@@ -11,17 +11,19 @@ import {
 } from '@angular/material';
 import { EditStoryPanelComponent } from './components/edit-story-panel/edit-story-panel.component';
 import { EditStoryPanelRoutingModule } from './edit-story-panel-routing.module';
+import { EditStoryMenuComponent } from './components/edit-story-panel/edit-story-menu/edit-story-menu.component';
 
 @NgModule({
   declarations: [
-    EditStoryPanelComponent
+    EditStoryPanelComponent,
+    EditStoryMenuComponent
   ],
   imports: [
     CommonModule,
     FormsModule,
-    EditStoryPanelRoutingModule,
     ReactiveFormsModule,
     SharedModule,
+    EditStoryPanelRoutingModule,
     DragDropModule,
     MatButtonModule,
     MatInputModule,

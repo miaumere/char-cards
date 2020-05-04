@@ -1,3 +1,4 @@
+import { EditStoryPanelModule } from './modules/edit-story-panel/edit-story-panel.module';
 import { CoreModule } from './core/core.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -38,6 +39,7 @@ import { NavbarComponent } from './core/components/navbar/navbar.component';
     MainModule,
     PagesModule,
     CharactersModule,
+    EditStoryPanelModule,
     LoginModule,
     SharedModule,
     MatMenuModule,
