@@ -12,6 +12,7 @@ import {
 import { EditStoryPanelComponent } from './components/edit-story-panel/edit-story-panel.component';
 import { EditStoryPanelRoutingModule } from './edit-story-panel-routing.module';
 import { EditStoryMenuComponent } from './components/edit-story-panel/edit-story-menu/edit-story-menu.component';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { EditStoryMenuComponent } from './components/edit-story-panel/edit-story
     MatSliderModule,
     MatTooltipModule,
     MatAutocompleteModule,
-    MatCardModule
+    MatCardModule,
+    MatIconModule
   ],
   providers: [
   ]

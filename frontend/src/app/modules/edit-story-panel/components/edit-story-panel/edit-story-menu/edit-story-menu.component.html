@@ -1,12 +1,46 @@
 <article *ngIf="books?.length > 0" class="books">
-  <div>
-    <button mat-raised-button>+ Nowy szkicownik</button>
+  <div class="new-book-form-container">
+    <form class="new-book-form" [formGroup]="newBookForm">
+      <mat-form-field>
+        <mat-label>Nazwa szkicownika</mat-label>
+        <input matInput placeholder="Np. różowy szkicownik" formControlName="bookName">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Kolor szkicownika</mat-label>
+        <input matInput type="color" formControlName="bookColor">
+      </mat-form-field>
+      <button mat-raised-button color="primary">
+        <mat-icon>library_add</mat-icon>
+        Dodaj szkicownik
+      </button>
+    </form>
+    <div class="preview-box">
+      <span>Podgląd</span>
+      <div class="preview">
+        <app-book-icon [icon]="'book'" [color]="newBookForm.controls['bookColor'].value" [size]='5'></app-book-icon>
 
+      </div>
+    </div>
   </div>
   <div cdkDropList class="boundary books-container">
-    <mat-card *ngFor="let book of books; index as i" class="book-card" cdkDrag cdkDragBoundary=".boundary">
-      <app-book-icon [icon]="'book'" [color]="book.color" [size]='4' [number]='i+1'></app-book-icon>
-    </mat-card>
+    <div *ngFor="let book of books; index as i" cdkDrag cdkDragBoundary=".boundary">
+      <mat-card class="book-card">
+        <mat-card-header>
+          <mat-card-title class="book-card__header">{{book.name}}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <app-book-icon [icon]="'book'" [color]="book.color" [size]='3' [number]='i+1'></app-book-icon>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-mini-fab color="warn" aria-label="Example icon button with a delete icon">
+            <mat-icon>delete_forever</mat-icon>
+          </button>
+          <button mat-mini-fab color="primary" aria-label="Example icon button with a delete icon">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
   </div>
 
 
