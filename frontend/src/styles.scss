@@ -105,12 +105,14 @@ $button_gradient2: rgba(0, 0, 0, 0.2);
     height: 100%;
     width: 100px;
 
+    border-radius: 3px;
     margin: 0 1rem;
 
     background-color: #1d1d1d;
 
     &__color {
       height: 10px;
+      border-radius: 3px;
       text-align: center;
 
       &--melancholic {

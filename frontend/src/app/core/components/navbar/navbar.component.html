@@ -21,7 +21,12 @@
 
     <a [routerLink]="['/admin-panel']">
       <button mat-menu-item *ngIf="(_authService.loggedUser$ | async) && (_authService.loggedUser$ | async).username">
-        Panel admina
+        Panel admina - postacie
+      </button>
+    </a>
+    <a>
+      <button mat-menu-item *ngIf="(_authService.loggedUser$ | async) && (_authService.loggedUser$ | async).username">
+        Panel admina - części
       </button>
     </a>
     <a [routerLink]="['/login']">

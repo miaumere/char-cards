@@ -195,6 +195,7 @@ export class CharacterRelationsComponent extends BaseComponent implements OnInit
 
   createNewRelation() {
     this.loading = true;
+    console.log(this.relationForm.controls)
 
     const firstChar = this.charList.find(c => c.fullName === this.relationForm.get('firstChar')?.value);
     const secondChar = this.charList.find(c => c.fullName === this.relationForm.get('secondChar')?.value);
@@ -204,7 +205,7 @@ export class CharacterRelationsComponent extends BaseComponent implements OnInit
     if (!firstChar || !secondChar) {
       this._toastrService.error('Błąd walidacji. Co najmniej jedna z podanych postaci nie istnieje.');
       return;
-    } else if (!relation || !reverseRelation) {
+    } else if (relation === null || reverseRelation === null) {
       this._toastrService.error('Nie uzupełniono typu relacji.');
       return;
     }
