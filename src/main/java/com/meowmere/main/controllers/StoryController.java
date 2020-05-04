@@ -1,11 +1,10 @@
 package com.meowmere.main.controllers;
 
+import com.meowmere.main.requests.story.books.CreateBookRequest;
 import com.meowmere.main.services.story.StoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/stories/")
@@ -17,4 +16,6 @@ public class StoryController {
     @GetMapping("/get-all-books")
     public ResponseEntity getBooks() {return storyService.getBooks();}
 
+    @PostMapping("/new-book")
+    public ResponseEntity createBook(@RequestBody CreateBookRequest request) {return storyService.createBook(request);}
 }

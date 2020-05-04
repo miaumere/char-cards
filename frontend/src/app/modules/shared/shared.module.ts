@@ -6,6 +6,7 @@ import { NulledPipe } from './pipes/nulled.pipe';
 import { SanitizerPipe } from './pipes/sanitizer.pipe';
 import { EnumValPipe } from './pipes/enum-values.pipe';
 import { BookIconComponent } from './components/book-icon/book-icon.component';
+import { MatIconModule } from '@angular/material/icon';
 
 const sharedDeclarations = [
   IconComponent,
@@ -21,7 +22,8 @@ const sharedDeclarations = [
     ...sharedDeclarations
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    MatIconModule
   ],
   exports: [
     ...sharedDeclarations

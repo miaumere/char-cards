@@ -2,7 +2,9 @@ package com.meowmere.main.services.story;
 
 import com.meowmere.main.dto.story.books.BookDTO;
 import com.meowmere.main.entities.story.Book;
+import com.meowmere.main.enums.AvailableIcon;
 import com.meowmere.main.repositories.story.BookRepository;
+import com.meowmere.main.requests.story.books.CreateBookRequest;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -30,4 +32,18 @@ public class StoryService {
         }
         return new ResponseEntity(bookDTOS, HttpStatus.OK);
     }
+
+    public ResponseEntity createBook(CreateBookRequest request) {
+        Book book = new Book();
+        Long booksNumber = bookRepository.count();
+        book.setBookOrder(booksNumber+1);
+        book.setColor(request.getColor());
+        book.setName(request.getName());
+        book.setIcon(AvailableIcon.valueOf(request.getIcon()));
+
+        bookRepository.saveAndFlush(book);
+
+        return new ResponseEntity(HttpStatus.CREATED);
+    }
+
 }

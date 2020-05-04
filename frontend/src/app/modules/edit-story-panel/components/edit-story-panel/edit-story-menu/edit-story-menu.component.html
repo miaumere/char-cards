@@ -9,7 +9,18 @@
         <mat-label>Kolor szkicownika</mat-label>
         <input matInput type="color" formControlName="bookColor">
       </mat-form-field>
-      <button mat-raised-button color="primary">
+
+      <mat-form-field>
+        <mat-label>Ikonka szkicownika:</mat-label>
+        <mat-select formControlName="icon">
+          <mat-option [value]="null">Bez ikonki</mat-option>
+          <mat-option *ngFor="let icon of AvailableIcons  | enumVal" [value]="icon.value">
+            {{icon.value}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" (click)="createNewBook()" [disabled]="newBookForm.invalid">
         <mat-icon>library_add</mat-icon>
         Dodaj szkicownik
       </button>
@@ -17,7 +28,9 @@
     <div class="preview-box">
       <span>Podgląd</span>
       <div class="preview">
-        <app-book-icon [icon]="'book'" [color]="newBookForm.controls['bookColor'].value" [size]='5'></app-book-icon>
+        <app-book-icon [icon]="newBookForm.controls['icon'].value" [color]="newBookForm.controls['bookColor'].value"
+          [size]='5'>
+        </app-book-icon>
 
       </div>
     </div>

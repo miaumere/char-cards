@@ -1,7 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import * as tinycolor from 'tinycolor2';
-
-type iconType = '';
+import { MatIconRegistry } from '@angular/material';
+import { DomSanitizer } from '@angular/platform-browser';
+import { TAvailableIcons } from 'src/app/modules/edit-story-panel/enums/availableIcons.enum';
 
 @Component({
   selector: 'app-book-icon',
@@ -11,7 +12,7 @@ type iconType = '';
 
 export class BookIconComponent implements OnInit {
 
-  @Input() icon: iconType = '';
+  @Input() icon: TAvailableIcons = null;
   @Input() color = '';
   @Input() size = '';
   @Input() number?: number;
@@ -19,11 +20,17 @@ export class BookIconComponent implements OnInit {
   numberFontColor = 'black';
 
 
-  constructor() {
+  constructor(
+    iconRegistry: MatIconRegistry,
+    sanitizer: DomSanitizer
+  ) {
+    iconRegistry.addSvgIcon(
+      'pampera',
+      sanitizer.bypassSecurityTrustResourceUrl('../../../../../assets/svg/pampera.svg'));
 
   }
   // Przykładowe zastosowanie komponentu z ikonką:
-  // <app-book-icon [icon]="'warning'" [color]="'red'" [size]='4' [number]='4'></app-book-icon>
+  // <app-book-icon [icon]="'BIOHAZARD'" [color]="'red'" [size]='4' [number]='4'></app-book-icon>
   ngOnInit() {
     if (this.size) {
       this.size = 'scale(' + this.size + ')';
