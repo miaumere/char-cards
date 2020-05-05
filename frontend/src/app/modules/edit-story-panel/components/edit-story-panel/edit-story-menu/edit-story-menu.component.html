@@ -1,6 +1,6 @@
 <article *ngIf="books?.length > 0" class="books">
   <div class="new-book-form-container">
-    <form class="new-book-form" [formGroup]="newBookForm">
+    <form class="new-book-form" [formGroup]="form">
       <mat-form-field>
         <mat-label>Nazwa szkicownika</mat-label>
         <input matInput placeholder="Np. różowy szkicownik" formControlName="bookName">
@@ -20,16 +20,26 @@
         </mat-select>
       </mat-form-field>
 
-      <button mat-raised-button color="primary" (click)="createNewBook()" [disabled]="newBookForm.invalid">
-        <mat-icon>library_add</mat-icon>
-        Dodaj szkicownik
-      </button>
+      <div>
+        <button mat-raised-button color="primary" (click)="createNewBook()" [disabled]="form.invalid" style="margin-right: 1rem;
+        ">
+          <mat-icon>library_add</mat-icon>
+          Dodaj szkicownik
+        </button>
+
+        <button mat-raised-button color="accent" (click)="editBook()" [disabled]="!editMode">
+          <mat-icon>edit</mat-icon>
+          Edytuj szkicownik
+        </button>
+      </div>
     </form>
+
+
+
     <div class="preview-box">
       <span>Podgląd</span>
       <div class="preview">
-        <app-book-icon [icon]="newBookForm.controls['icon'].value" [color]="newBookForm.controls['bookColor'].value"
-          [size]='5'>
+        <app-book-icon [icon]="form.controls['icon'].value" [color]="form.controls['bookColor'].value" [size]='5'>
         </app-book-icon>
 
       </div>
@@ -48,7 +58,7 @@
           <button mat-mini-fab color="warn" (click)="insertDeleteInfo()" (dblclick)="deleteBook(book.id)">
             <mat-icon>delete_forever</mat-icon>
           </button>
-          <button mat-mini-fab color="primary">
+          <button mat-mini-fab color="primary" (click)="enableEditForm(book)">
             <mat-icon>edit</mat-icon>
           </button>
         </mat-card-actions>

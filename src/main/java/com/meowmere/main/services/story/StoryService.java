@@ -5,6 +5,7 @@ import com.meowmere.main.entities.story.Book;
 import com.meowmere.main.enums.AvailableIcon;
 import com.meowmere.main.repositories.story.BookRepository;
 import com.meowmere.main.requests.story.books.CreateBookRequest;
+import com.meowmere.main.requests.story.books.EditBookRequest;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -54,5 +55,20 @@ public class StoryService {
             bookRepository.delete(book);
         }
         return  new ResponseEntity(HttpStatus.OK);
+    }
+
+    public ResponseEntity editBook(EditBookRequest request) {
+        Book book = bookRepository.getOne(request.getId());
+        if (book == null) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+        if(request.getIcon() != null) {
+            book.setIcon(AvailableIcon.valueOf(request.getIcon()));
+        }
+        book.setName(request.getName());
+        book.setColor(request.getColor());
+        bookRepository.saveAndFlush(book);
+
+        return new ResponseEntity(HttpStatus.OK);
     }
 }

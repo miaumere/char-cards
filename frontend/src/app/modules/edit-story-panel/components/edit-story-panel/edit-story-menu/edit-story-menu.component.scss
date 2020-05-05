@@ -41,9 +41,12 @@ $book-card-width: 132px;
 .new-book-form-container {
   font-size: initial;
   width: 50%;
+  height: fit-content;
 
   display: flex;
-  justify-content: space-around;
+  flex-direction: column-reverse;
+  justify-content: center;
+  align-items: center;
 }
 
 .new-book-form {

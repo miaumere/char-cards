@@ -6,6 +6,7 @@ import { BaseComponent } from 'src/app/core/base.component';
 import { Book } from '../../../models/books/book.model';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { CreateBook } from '../../../models/books/create-book.model';
+import { EditBook } from '../../../models/books/edit-book.model';
 
 @Component({
   selector: 'app-edit-story-menu-quotes',
@@ -17,8 +18,11 @@ export class EditStoryMenuComponent extends BaseComponent implements OnInit {
   readonly AvailableIcons = AvailableIcons;
   books: Book[];
 
+  editedBookId: number;
 
-  newBookForm = new FormGroup({
+  editMode = false;
+
+  form = new FormGroup({
     bookName: new FormControl('', Validators.required),
     bookColor: new FormControl('#C1C1C1'),
     icon: new FormControl()
@@ -47,9 +51,9 @@ export class EditStoryMenuComponent extends BaseComponent implements OnInit {
 
   createNewBook() {
     const objToSend = new CreateBook();
-    objToSend.name = this.newBookForm.controls['bookName'].value;
-    objToSend.color = this.newBookForm.controls['bookColor'].value;
-    objToSend.icon = this.newBookForm.controls['icon'].value;
+    objToSend.name = this.form.controls['bookName'].value;
+    objToSend.color = this.form.controls['bookColor'].value;
+    objToSend.icon = this.form.controls['icon'].value;
 
     console.log(objToSend)
     this._storyService
@@ -77,5 +81,30 @@ export class EditStoryMenuComponent extends BaseComponent implements OnInit {
       })
   }
 
+  enableEditForm(book: Book) {
+    this.editMode = true;
+    this.editedBookId = book.id;
+    this.form.controls['bookName'].setValue(book.name);
+    this.form.controls['bookColor'].setValue(book.color);
+    this.form.controls['icon'].setValue(book.icon);
+  }
+
+  editBook() {
+    const objToSend = new EditBook();
+    objToSend.id = this.editedBookId;
+    objToSend.color = this.form.controls['bookColor'].value;
+    objToSend.name = this.form.controls['bookName'].value;
+    objToSend.icon = this.form.controls['icon'].value;
+
+    this._storyService
+      .putEditBook(objToSend)
+      .subscribe(_ => {
+        this._toastrService.success('Udało się edytować szkicownik!');
+        this.getAllBooks();
+      }, err => {
+        this._toastrService.error('Wystąpił błąd przy edycji szkicownika.')
+      });
+
+  }
 
 }
