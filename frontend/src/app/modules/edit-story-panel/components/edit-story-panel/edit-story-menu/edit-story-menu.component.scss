@@ -1,4 +1,4 @@
-$book-card-width: 132px;
+$book-card-width: 164px;
 
 .books {
   display: flex;
@@ -15,7 +15,8 @@ $book-card-width: 132px;
   justify-content: center;
   align-items: center;
 
-  width: 100px;
+  width: 6.25rem;
+  height: 9.375rem;
 
   margin: 1rem;
 

@@ -7,6 +7,7 @@ import { Book } from '../../../models/books/book.model';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { CreateBook } from '../../../models/books/create-book.model';
 import { EditBook } from '../../../models/books/edit-book.model';
+import { CdkDragDrop } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-edit-story-menu-quotes',
@@ -107,4 +108,26 @@ export class EditStoryMenuComponent extends BaseComponent implements OnInit {
 
   }
 
+  drop(e: CdkDragDrop<string[]>) {
+    const book = this.books[e.previousIndex]
+    this.books.splice(e.previousIndex, 1);
+    this.books.splice(e.currentIndex, 0, book);
+
+    const ids: number[] = [];
+    for (const key in this.books) {
+      if (this.books.hasOwnProperty(key)) {
+        const element = this.books[key];
+        ids.push(element.id);
+      }
+    }
+
+    this._storyService
+      .patchBookSequence(ids)
+      .subscribe(_ => {
+        this.getAllBooks();
+      }, err => {
+        this._toastrService.success('Nie udało się zmienić kolejności szkicowników.');
+      })
+
+  }
 }

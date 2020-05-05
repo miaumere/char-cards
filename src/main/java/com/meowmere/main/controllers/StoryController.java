@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+
 @RestController
 @RequestMapping("/api/stories/")
 public class StoryController {
@@ -22,6 +24,10 @@ public class StoryController {
 
     @PutMapping("/edit-book")
     public ResponseEntity editBook(@RequestBody EditBookRequest request) {return storyService.editBook(request);}
+
+    @PatchMapping("edit-book-order")
+    public ResponseEntity editBookOrder(@RequestBody ArrayList<Long> request)
+    {return storyService.editBookOrder(request);}
 
     @DeleteMapping("/delete-book")
     public ResponseEntity deleteBook(@RequestParam Long id) {return storyService.deleteBook(id);}

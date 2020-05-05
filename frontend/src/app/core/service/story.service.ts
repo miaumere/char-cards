@@ -15,6 +15,7 @@ export class StoryService {
   private readonly _createBookURL = `${this.storyControllerURL}/new-book`;
   private readonly _deleteBookURL = `${this.storyControllerURL}/delete-book`;
   private readonly _editBookURL = `${this.storyControllerURL}/edit-book`;
+  private readonly _patchBookOrderURL = `${this.storyControllerURL}/edit-book-order`;
 
   constructor(private http: HttpClient) {
   }
@@ -34,6 +35,10 @@ export class StoryService {
 
   putEditBook(requestBody: EditBook) {
     return this.http.put<EditBook>(this._editBookURL, requestBody);
+  }
+
+  patchBookSequence(requestBody: number[]) {
+    return this.http.patch<number[]>(this._patchBookOrderURL, requestBody);
   }
 
   deleteBook(id: number) {
