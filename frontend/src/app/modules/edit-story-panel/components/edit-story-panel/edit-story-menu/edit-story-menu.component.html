@@ -42,13 +42,13 @@
           <mat-card-title class="book-card__header">{{book.name}}</mat-card-title>
         </mat-card-header>
         <mat-card-content>
-          <app-book-icon [icon]="'book'" [color]="book.color" [size]='3' [number]='i+1'></app-book-icon>
+          <app-book-icon [icon]="book.icon" [color]="book.color" [size]='3' [number]='i+1'></app-book-icon>
         </mat-card-content>
-        <mat-card-actions>
-          <button mat-mini-fab color="warn" aria-label="Example icon button with a delete icon">
+        <mat-card-actions class="book-card__buttons-container">
+          <button mat-mini-fab color="warn" (click)="insertDeleteInfo()" (dblclick)="deleteBook(book.id)">
             <mat-icon>delete_forever</mat-icon>
           </button>
-          <button mat-mini-fab color="primary" aria-label="Example icon button with a delete icon">
+          <button mat-mini-fab color="primary">
             <mat-icon>edit</mat-icon>
           </button>
         </mat-card-actions>

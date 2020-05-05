@@ -61,4 +61,21 @@ export class EditStoryMenuComponent extends BaseComponent implements OnInit {
         this._toastrService.error('Nie udało się dodać nowego szkicownika.');
       })
   }
+
+  insertDeleteInfo() {
+    this._toastrService.warning('Aby usunąć wybrany szkicownik, naciśnij dwa razy.');
+  }
+
+  deleteBook(bookId: number) {
+    this._storyService
+      .deleteBook(bookId)
+      .subscribe(_ => {
+        this._toastrService.success('Udało się usunąć wybrany szkicownik.');
+        this.getAllBooks();
+      }, err => {
+        this._toastrService.error('Nie udało się usunąć wybranego szkicownika.')
+      })
+  }
+
+
 }

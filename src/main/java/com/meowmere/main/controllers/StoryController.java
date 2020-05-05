@@ -18,4 +18,7 @@ public class StoryController {
 
     @PostMapping("/new-book")
     public ResponseEntity createBook(@RequestBody CreateBookRequest request) {return storyService.createBook(request);}
+
+    @DeleteMapping("/delete-book")
+    public ResponseEntity deleteBook(@RequestParam Long id) {return storyService.deleteBook(id);}
 }

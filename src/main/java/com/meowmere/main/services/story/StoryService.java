@@ -39,11 +39,20 @@ public class StoryService {
         book.setBookOrder(booksNumber+1);
         book.setColor(request.getColor());
         book.setName(request.getName());
-        book.setIcon(AvailableIcon.valueOf(request.getIcon()));
+        if(request.getIcon() != null) {
+            book.setIcon(AvailableIcon.valueOf(request.getIcon()));
+        }
 
         bookRepository.saveAndFlush(book);
 
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
+    public ResponseEntity deleteBook(Long id) {
+        Book book = bookRepository.getOne(id);
+        if(book != null) {
+            bookRepository.delete(book);
+        }
+        return  new ResponseEntity(HttpStatus.OK);
+    }
 }

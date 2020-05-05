@@ -25,6 +25,12 @@ $book-card-width: 132px;
     font-size: 0.8rem;
     margin-bottom: 2rem !important;
   }
+
+  &__buttons-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
 }
 
 .boundary {
