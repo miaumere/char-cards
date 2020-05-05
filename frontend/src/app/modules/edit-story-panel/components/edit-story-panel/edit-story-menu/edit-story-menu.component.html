@@ -55,11 +55,15 @@
           <app-book-icon [icon]="book.icon" [color]="book.color" [size]='3' [number]='i+1'></app-book-icon>
         </mat-card-content>
         <mat-card-actions class="book-card__buttons-container">
-          <button mat-mini-fab color="warn" (click)="insertDeleteInfo()" (dblclick)="deleteBook(book.id)">
+          <button mat-mini-fab color="warn" (click)="insertDeleteInfo()" (dblclick)="deleteBook(book.id)"
+            matTooltip="Usuń szkicownik">
             <mat-icon>delete_forever</mat-icon>
           </button>
-          <button mat-mini-fab color="primary" (click)="enableEditForm(book)">
+          <button mat-mini-fab color="primary" (click)="enableEditForm(book)" matTooltip="Edytuj szkicownik">
             <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-mini-fab color="primary" matTooltip="Edycja części">
+            <mat-icon>more_vert</mat-icon>
           </button>
         </mat-card-actions>
       </mat-card>

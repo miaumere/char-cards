@@ -1,4 +1,4 @@
-$book-card-width: 164px;
+$book-card-width: 192px;
 
 .books {
   display: flex;
@@ -15,7 +15,7 @@ $book-card-width: 164px;
   justify-content: center;
   align-items: center;
 
-  width: 6.25rem;
+  width: 8rem;
   height: 9.375rem;
 
   margin: 1rem;
@@ -36,7 +36,7 @@ $book-card-width: 164px;
 
 .boundary {
   border: 1px dotted white;
-  width: $book-card-width * 3;
+  width: $book-card-width;
 }
 
 .new-book-form-container {
