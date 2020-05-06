@@ -1,9 +1,12 @@
 package com.meowmere.main.services.story;
 
 import com.meowmere.main.dto.story.books.BookDTO;
+import com.meowmere.main.dto.story.chapters.ChapterDTO;
 import com.meowmere.main.entities.story.Book;
+import com.meowmere.main.entities.story.Chapter;
 import com.meowmere.main.enums.AvailableIcon;
 import com.meowmere.main.repositories.story.BookRepository;
+import com.meowmere.main.repositories.story.ChapterRepository;
 import com.meowmere.main.requests.story.books.CreateBookRequest;
 import com.meowmere.main.requests.story.books.EditBookRequest;
 import org.modelmapper.ModelMapper;
@@ -21,6 +24,8 @@ import java.util.List;
 public class StoryService {
     @Autowired
     BookRepository bookRepository;
+    @Autowired
+    ChapterRepository chapterRepository;
 
     public ResponseEntity getBooks() {
         ModelMapper modelMapper = new ModelMapper();
@@ -33,6 +38,20 @@ public class StoryService {
             }
         }
         return new ResponseEntity(bookDTOS, HttpStatus.OK);
+    }
+
+    public ResponseEntity getChaptersForBook(Long bookId) {
+        ArrayList<Chapter> chapters = chapterRepository.getChaptersForBook(bookId);
+        ArrayList<ChapterDTO> chapterDTOS = new ArrayList<>();
+        if(chapters != null) {
+            ModelMapper modelMapper = new ModelMapper();
+            for (Chapter chapter: chapters) {
+            ChapterDTO chapterDTO = modelMapper.map(chapter, ChapterDTO.class);
+            chapterDTOS.add(chapterDTO);
+            }
+        }
+
+        return new ResponseEntity(chapterDTOS, HttpStatus.OK);
     }
 
     public ResponseEntity createBook(CreateBookRequest request) {

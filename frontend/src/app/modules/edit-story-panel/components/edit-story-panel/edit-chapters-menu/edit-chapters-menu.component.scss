@@ -1,0 +1,26 @@
+@import "../../../../../../global_styles/variables.scss";
+
+.edit-chapters-menu {
+  display: flex;
+
+  &__aside {
+    display: flex;
+    flex-direction: column;
+
+    // height: calc(100vh - #{$navbar-height});
+    height: calc(100vh - 5rem);
+
+    align-items: center;
+    display: flex;
+  }
+}
+
+.book {
+  margin-top: 5rem !important;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  height: 5rem;
+}

@@ -19,6 +19,9 @@ public class StoryController {
     @GetMapping("/get-all-books")
     public ResponseEntity getBooks() {return storyService.getBooks();}
 
+    @GetMapping("/get-chapters-for-book")
+    public ResponseEntity getChaptersForBook(@RequestParam Long id) {return  storyService.getChaptersForBook(id);}
+
     @PostMapping("/new-book")
     public ResponseEntity createBook(@RequestBody CreateBookRequest request) {return storyService.createBook(request);}
 

@@ -13,11 +13,15 @@ import { EditStoryPanelComponent } from './components/edit-story-panel/edit-stor
 import { EditStoryPanelRoutingModule } from './edit-story-panel-routing.module';
 import { EditStoryMenuComponent } from './components/edit-story-panel/edit-story-menu/edit-story-menu.component';
 import { MatIconModule } from '@angular/material/icon';
+import { EditChaptersMenuComponent } from './components/edit-story-panel/edit-chapters-menu/edit-chapters-menu.component';
+import { MatTreeModule } from '@angular/material/tree';
+import { MatListModule } from '@angular/material/list';
 
 @NgModule({
   declarations: [
     EditStoryPanelComponent,
-    EditStoryMenuComponent
+    EditStoryMenuComponent,
+    EditChaptersMenuComponent
   ],
   imports: [
     CommonModule,
@@ -41,7 +45,9 @@ import { MatIconModule } from '@angular/material/icon';
     MatTooltipModule,
     MatAutocompleteModule,
     MatCardModule,
-    MatIconModule
+    MatIconModule,
+    MatTreeModule,
+    MatListModule
   ],
   providers: [
   ]

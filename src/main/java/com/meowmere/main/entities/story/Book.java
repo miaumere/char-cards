@@ -3,6 +3,8 @@ package com.meowmere.main.entities.story;
 import com.meowmere.main.enums.AvailableIcon;
 
 import javax.persistence.*;
+import java.util.Set;
+
 @Entity
 @Table(name = "book")
 public class Book {
@@ -22,6 +24,9 @@ public class Book {
     @Column
     @Enumerated(EnumType.STRING)
     private AvailableIcon icon;
+
+    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
+    private Set<Chapter> chapters;
 
     public Book(){}
 

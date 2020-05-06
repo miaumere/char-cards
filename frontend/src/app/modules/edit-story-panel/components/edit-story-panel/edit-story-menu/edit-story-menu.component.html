@@ -62,8 +62,11 @@
           <button mat-mini-fab color="primary" (click)="enableEditForm(book)" matTooltip="Edytuj szkicownik">
             <mat-icon>edit</mat-icon>
           </button>
-          <button mat-mini-fab color="primary" matTooltip="Edycja części">
-            <mat-icon>more_vert</mat-icon>
+          <button mat-mini-fab color="primary" matTooltip="Lista części" [routerLink]="['./edit-chapters']"
+            [queryParams]="{
+          id: book.id
+        }">
+            <mat-icon>library_books</mat-icon>
           </button>
         </mat-card-actions>
       </mat-card>
