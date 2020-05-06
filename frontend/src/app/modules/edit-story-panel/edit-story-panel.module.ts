@@ -1,3 +1,4 @@
+import { StoryService } from 'src/app/core/service/story.service';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -50,6 +51,7 @@ import { MatListModule } from '@angular/material/list';
     MatListModule
   ],
   providers: [
+    StoryService
   ]
 })
 export class EditStoryPanelModule { }

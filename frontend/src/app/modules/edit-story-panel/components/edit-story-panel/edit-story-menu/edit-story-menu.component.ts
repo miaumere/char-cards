@@ -43,11 +43,14 @@ export class EditStoryMenuComponent extends BaseComponent implements OnInit {
   }
 
   getAllBooks() {
-    this._storyService
-      .getAllBooks()
-      .subscribe(books => {
-        this.books = books;
-      })
+    this.subscriptions$.add(
+      this._storyService
+        .getAllBooks()
+        .subscribe(books => {
+          this.books = books;
+        })
+
+    )
   }
 
   createNewBook() {
@@ -72,14 +75,17 @@ export class EditStoryMenuComponent extends BaseComponent implements OnInit {
   }
 
   deleteBook(bookId: number) {
-    this._storyService
-      .deleteBook(bookId)
-      .subscribe(_ => {
-        this._toastrService.success('Udało się usunąć wybrany szkicownik.');
-        this.getAllBooks();
-      }, err => {
-        this._toastrService.error('Nie udało się usunąć wybranego szkicownika.')
-      })
+    this.subscriptions$.add(
+      this._storyService
+        .deleteBook(bookId)
+        .subscribe(_ => {
+          this._toastrService.success('Udało się usunąć wybrany szkicownik.');
+          this.getAllBooks();
+        }, err => {
+          this._toastrService.error('Nie udało się usunąć wybranego szkicownika.')
+        })
+
+    )
   }
 
   enableEditForm(book: Book) {
@@ -97,14 +103,17 @@ export class EditStoryMenuComponent extends BaseComponent implements OnInit {
     objToSend.name = this.form.controls['bookName'].value;
     objToSend.icon = this.form.controls['icon'].value;
 
-    this._storyService
-      .putEditBook(objToSend)
-      .subscribe(_ => {
-        this._toastrService.success('Udało się edytować szkicownik!');
-        this.getAllBooks();
-      }, err => {
-        this._toastrService.error('Wystąpił błąd przy edycji szkicownika.')
-      });
+    this.subscriptions$.add(
+      this._storyService
+        .putEditBook(objToSend)
+        .subscribe(_ => {
+          this._toastrService.success('Udało się edytować szkicownik!');
+          this.getAllBooks();
+        }, err => {
+          this._toastrService.error('Wystąpił błąd przy edycji szkicownika.')
+        })
+
+    )
 
   }
 

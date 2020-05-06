@@ -11,6 +11,12 @@
     </a>
   </li>
 
+  <li class="navbar__item">
+    <a [routerLink]="['/pages']" routerLinkActive="navbar__item--active">
+      <button mat-button>Części</button>
+    </a>
+  </li>
+
   <li class="navbar__item--user">
     <button mat-button [matMenuTriggerFor]="menu">
       <mat-icon svgIcon="user"></mat-icon>
