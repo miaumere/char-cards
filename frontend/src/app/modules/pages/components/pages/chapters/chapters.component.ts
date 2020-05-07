@@ -28,6 +28,9 @@ export class ChaptersComponent extends BaseComponent implements OnInit {
     this._activatedRoute?.parent?.queryParams
       .subscribe(queryParam => {
         this.bookId = +queryParam.id;
+        if (queryParam.chapterId) {
+          this.getChapters();
+        }
       });
 
     this.getBook();
@@ -54,6 +57,16 @@ export class ChaptersComponent extends BaseComponent implements OnInit {
         })
 
     )
+  }
+
+  getChapters() {
+    this.subscriptions$.add(
+      this._storyService
+        .getChaptersForBook(this.bookId)
+        .subscribe(chapters => {
+          this.chapters = chapters;
+        })
+    );
   }
 
 

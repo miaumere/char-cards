@@ -6,6 +6,7 @@
   align-items: center;
 
   height: calc(100vh - #{$navbar-height});
+  width: 15rem;
 
   background-image: linear-gradient(to top, #b9b9b9 0%, #3c3e3f 100%);
 }
@@ -16,8 +17,30 @@
   justify-content: space-between;
 
   height: calc(100vh - #{$navbar-height});
+  width: 15rem;
 }
 
 .book-name {
   font-size: xx-large;
+}
+
+.chapter-list {
+  &__item {
+    white-space: nowrap !important;
+    width: 200px !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+
+    &--active {
+      background: rgba(255, 255, 255, 0.4);
+      border-radius: 0.188rem;
+    }
+  }
+}
+
+.ellipsis {
+  white-space: nowrap;
+  width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

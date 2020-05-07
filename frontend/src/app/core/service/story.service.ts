@@ -15,6 +15,7 @@ export class StoryService {
 
   private readonly _getAllBooksURL = `${this.storyControllerURL}/get-all-books`;
   private readonly _getChapterForBookURL = `${this.storyControllerURL}/get-chapters-for-book`;
+  private readonly _getPagesForChapterURL = `${this.storyControllerURL}/get-pages-for-chapters`;
 
   private readonly _createBookURL = `${this.storyControllerURL}/new-book`;
   private readonly _editChapterURL = `${this.storyControllerURL}/edit-chapter`;
@@ -48,6 +49,12 @@ export class StoryService {
         return mappedResponse;
       })
     );
+  }
+
+  getPagesForChapter(id: number) {
+    const params = new HttpParams().set('id', '' + id);
+
+    return this.http.get<void>(this._getPagesForChapterURL, { params });
   }
 
   createBook(requestBody: CreateBook) {

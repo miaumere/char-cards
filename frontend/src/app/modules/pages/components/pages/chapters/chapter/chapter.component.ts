@@ -12,6 +12,7 @@ export class ChapterComponent extends BaseComponent implements OnInit {
   bookColor: string;
   chapterId: number;
 
+
   constructor(
     private _activatedRoute: ActivatedRoute,
     private _storyService: StoryService
@@ -24,6 +25,17 @@ export class ChapterComponent extends BaseComponent implements OnInit {
         this.bookColor = queryParam.color;
       });
 
+    this.getPagesForChapter();
+  }
+
+  getPagesForChapter() {
+    this.subscriptions$.add(
+      this._storyService
+        .getPagesForChapter(this.chapterId)
+        .subscribe(chapters => {
+          console.log(chapters)
+        })
+    )
   }
 
 }

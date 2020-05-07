@@ -4,9 +4,11 @@ import com.meowmere.main.dto.story.books.BookDTO;
 import com.meowmere.main.dto.story.chapters.ChapterDTO;
 import com.meowmere.main.entities.story.Book;
 import com.meowmere.main.entities.story.Chapter;
+import com.meowmere.main.entities.story.Page;
 import com.meowmere.main.enums.AvailableIcon;
 import com.meowmere.main.repositories.story.BookRepository;
 import com.meowmere.main.repositories.story.ChapterRepository;
+import com.meowmere.main.repositories.story.PageRepository;
 import com.meowmere.main.requests.story.books.CreateBookRequest;
 import com.meowmere.main.requests.story.books.EditBookRequest;
 import com.meowmere.main.requests.story.chapters.ChapterRequest;
@@ -27,6 +29,8 @@ public class StoryService {
     BookRepository bookRepository;
     @Autowired
     ChapterRepository chapterRepository;
+    @Autowired
+    PageRepository pageRepository;
 
     public ResponseEntity getBooks() {
         ModelMapper modelMapper = new ModelMapper();
@@ -53,6 +57,15 @@ public class StoryService {
         }
 
         return new ResponseEntity(chapterDTOS, HttpStatus.OK);
+    }
+
+    public ResponseEntity getPagesForChapter(Long chapterId) {
+        ArrayList<Page> pages = pageRepository.getPagesForChapter(chapterId);
+        if(pages != null) {
+            
+        }
+
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     public ResponseEntity createBook(CreateBookRequest request) {
