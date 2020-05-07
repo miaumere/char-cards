@@ -12,13 +12,17 @@ import { MatSelectModule, MatIconModule, MatListModule } from '@angular/material
 import { MatRippleModule } from '@angular/material/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { ChaptersComponent } from './components/pages/chapters/chapters.component';
+import { ChaptersListComponent } from './components/pages/chapters/chapters-list/chapters-list.component';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 
 @NgModule({
   declarations: [
     PagesComponent,
     BooksListComponent,
-    ChaptersComponent
+    ChaptersComponent,
+    ChaptersListComponent
+
   ],
   imports: [
     CommonModule,
@@ -32,7 +36,8 @@ import { ChaptersComponent } from './components/pages/chapters/chapters.componen
     MatIconModule,
     MatListModule,
     MatRippleModule,
-    MatSidenavModule
+    MatSidenavModule,
+    MatExpansionModule
 
   ],
   providers: [

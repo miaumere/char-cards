@@ -1,0 +1,38 @@
+<div class="chapters-list">
+
+  <div *ngIf="chapters.length > 0">
+    <h2>Dostępne części:</h2>
+    <mat-card *ngFor="let chapter of chapters; index as i" class="chapter-card">
+      <mat-card-header>
+        <div mat-card-avatar>
+          <mat-icon mat-list-icon>bookmark</mat-icon>
+        </div>
+        <mat-card-title [ngStyle]="{'color': bookColor}">{{i+1}}. {{chapter.name}}</mat-card-title>
+        <mat-card-subtitle>{{chapter.chapterDesc}}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+
+        <mat-expansion-panel>
+          <mat-expansion-panel-header style="background: rgba(119, 119, 119, 0.62);
+          ">
+            Postacie występujące:
+          </mat-expansion-panel-header>
+        </mat-expansion-panel>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-stroked-button [ngStyle]="{'background': bookColor}" [routerLink]="['./']"
+          [routerLink]="['./chapters']" [queryParams]="{
+          id: bookId,
+          color: bookColor
+        }">
+          <mat-icon>navigate_next</mat-icon>
+          Przejdź do części
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+
+  <div *ngIf="chapters.length === 0">
+    Brak części w tym szkicowniku.
+  </div>
+</div>

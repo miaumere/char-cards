@@ -9,9 +9,6 @@
 
   background-image: linear-gradient(to top, #b9b9b9 0%, #3c3e3f 100%);
 }
-.chapter-card {
-  background: $card-bg;
-}
 
 .chapters-sidenav {
   display: flex;
@@ -19,4 +16,8 @@
   justify-content: space-between;
 
   height: 100%;
+}
+
+.book-name {
+  font-size: xx-large;
 }

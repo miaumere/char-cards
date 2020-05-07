@@ -3,7 +3,7 @@
     <div class="chapters-sidenav">
       <span>
         Wybrany szkicownik:
-        <h2>{{book?.name}}</h2>
+        <h2 class="book-name">{{book?.name}}</h2>
       </span>
 
       <button mat-stroked-button [ngStyle]="{'background': book?.color}" [routerLink]="['../']">
@@ -13,22 +13,7 @@
     </div>
   </mat-sidenav>
 
-  <mat-sidenav-content class="chapters-list">
-    <div *ngIf="chapters.length > 0">
-      <mat-card *ngFor="let chapter of chapters" class="chapter-card">
-        <mat-card-header>
-          <div mat-card-avatar>
-            <mat-icon mat-list-icon>bookmark</mat-icon>
-          </div>
-          <mat-card-title [ngStyle]="{'color': book?.color}">{{chapter.name}}</mat-card-title>
-          <mat-card-subtitle>{{chapter.chapterDesc}}</mat-card-subtitle>
-        </mat-card-header>
-      </mat-card>
-    </div>
-
-    <div *ngIf="chapters.length === 0">
-      Brak części w tym szkicowniku.
-    </div>
-
+  <mat-sidenav-content>
+    <router-outlet></router-outlet>
   </mat-sidenav-content>
 </mat-sidenav-container>
