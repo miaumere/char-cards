@@ -20,7 +20,7 @@ export class EditChaptersMenuComponent extends BaseComponent implements OnInit {
 
   isNewChapterFormVisible = true;
 
-  newChapterForm = new FormGroup({
+  chapterForm = new FormGroup({
     name: new FormControl('', Validators.required),
     chapterDesc: new FormControl('', Validators.required),
   });
@@ -30,6 +30,8 @@ export class EditChaptersMenuComponent extends BaseComponent implements OnInit {
   book: Book;
 
   chapters: Chapter[] = [];
+
+  editedChapter: Chapter | null = null;
 
   constructor(
     private _activatedRoute: ActivatedRoute,
@@ -81,25 +83,76 @@ export class EditChaptersMenuComponent extends BaseComponent implements OnInit {
   }
 
   createNewChapter() {
+    this.editedChapter = null;
     const objToSend: EditChapter = {
       id: null,
-      chapterDesc: this.newChapterForm.get('chapterDesc')?.value,
-      name: this.newChapterForm.get('name')?.value,
+      chapterDesc: this.chapterForm.get('chapterDesc')?.value,
+      name: this.chapterForm.get('name')?.value,
       bookId: this.bookId
     }
 
-    this._storyService
-      .editChapter(objToSend)
-      .subscribe(_ => {
-        this._toastrService.success('Udało się dodać nową część!');
-        this.getChapters();
-      }, err => {
-        this._toastrService.error('Nie udało się dodać nowej części.');
-      })
+    this.subscriptions$.add(
+      this._storyService
+        .editChapter(objToSend)
+        .subscribe(_ => {
+          this._toastrService.success('Udało się dodać nową część!');
+          this.getChapters();
+        }, err => {
+          this._toastrService.error('Nie udało się dodać nowej części.');
+        })
 
+    )
 
 
 
   }
 
+  editChapter() {
+    if (this.editedChapter) {
+      const objToSend: EditChapter = {
+        id: this.editedChapter.id,
+        chapterDesc: this.chapterForm.get('chapterDesc')?.value,
+        name: this.chapterForm.get('name')?.value,
+        bookId: this.bookId
+      }
+
+      this.subscriptions$.add(
+        this._storyService
+          .editChapter(objToSend)
+          .subscribe(_ => {
+            this._toastrService.success('Udało się edytować część!');
+            this.getChapters();
+          }, err => {
+            this._toastrService.error('Nie udało się edytować części.');
+          })
+
+      )
+    }
+  }
+
+  insertEditInfoToForm(chapter: Chapter) {
+    this.chapterForm.get('chapterDesc')?.setValue(chapter.chapterDesc);
+    this.chapterForm.get('name')?.setValue(chapter.name);
+
+    this.editedChapter = chapter;
+  }
+
+  insertDeleteInfo() {
+    this._toastrService.warning('Aby usunąć część, naciśnij dwa razy.');
+  }
+
+  deleteChapter(id: number) {
+    this.subscriptions$.add(
+      this._storyService
+        .deleteChapter(id)
+        .subscribe(_ => {
+          this._toastrService.success('Udało się usunąć część!');
+          this.getChapters();
+        }, err => {
+          this._toastrService.error('Nie udało się usunąć części.');
+        })
+
+    )
+
+  }
 }

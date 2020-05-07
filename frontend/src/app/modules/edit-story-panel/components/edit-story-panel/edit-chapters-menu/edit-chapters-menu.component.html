@@ -11,7 +11,7 @@
   </mat-sidenav>
   <mat-sidenav-content class="edit-chapters-content">
     <div>
-      <form [formGroup]="newChapterForm" *ngIf="isNewChapterFormVisible" class="edit-chapters-form">
+      <form [formGroup]="chapterForm" *ngIf="isNewChapterFormVisible" class="edit-chapters-form">
         <mat-form-field>
           <mat-label>Tytuł części</mat-label>
           <input matInput placeholder="Np. Prolog" formControlName="name" required>
@@ -23,10 +23,16 @@
 
       </form>
 
-      <button mat-raised-button [ngStyle]="{'background': book.color}" *ngIf="isNewChapterFormVisible"
-        [disabled]="newChapterForm.invalid" (click)="createNewChapter()">
+      <button mat-raised-button [ngStyle]="{'background': book.color}" [disabled]="chapterForm.invalid"
+        (click)="createNewChapter()">
         <mat-icon>library_add</mat-icon>
-        Dodaj część
+        Nowa część
+      </button>
+
+      <button mat-raised-button [ngStyle]="{'background': book.color}"
+        [disabled]="chapterForm.invalid || !editedChapter" (click)="editChapter()">
+        <mat-icon>library_add</mat-icon>
+        Edytuj
       </button>
 
     </div>
@@ -34,13 +40,27 @@
     <div>
       <mat-list *ngIf="chapters.length > 0">
         <div mat-subheader>Części</div>
-        <mat-list-item *ngFor="let chapter of chapters">
-          <mat-icon mat-list-icon>bookmark</mat-icon>
-          <div mat-line>{{chapter.name}}</div>
-          <div mat-line>{{chapter.chapterDesc}}</div>
+        <mat-card *ngFor="let chapter of chapters">
+          <mat-card-header>
+            <div mat-card-avatar>
+              <mat-icon mat-list-icon>bookmark</mat-icon>
+            </div>
+            <mat-card-title>{{chapter.name}}</mat-card-title>
+            <mat-card-subtitle>{{chapter.chapterDesc}}</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-actions class="chapter-buttons-container">
+            <button mat-mini-fab [ngStyle]="{'background': book.color}" (click)="insertEditInfoToForm(chapter)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-mini-fab color="primary">
+              <mat-icon>library_books</mat-icon>
+            </button>
+            <button mat-mini-fab color="warn" (click)="insertDeleteInfo()" (dblclick)="deleteChapter(chapter.id)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </mat-card-actions>
 
-
-        </mat-list-item>
+        </mat-card>
 
 
       </mat-list>

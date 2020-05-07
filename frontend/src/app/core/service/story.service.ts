@@ -24,6 +24,7 @@ export class StoryService {
   private readonly _patchBookOrderURL = `${this.storyControllerURL}/edit-book-order`;
 
   private readonly _deleteBookURL = `${this.storyControllerURL}/delete-book`;
+  private readonly _deleteChapterURL = `${this.storyControllerURL}/delete-chapter`;
 
   constructor(private http: HttpClient) {
   }
@@ -67,5 +68,10 @@ export class StoryService {
   deleteBook(id: number) {
     const params = new HttpParams().set('id', '' + id);
     return this.http.delete<void>(this._deleteBookURL, { params });
+  }
+
+  deleteChapter(id: number) {
+    const params = new HttpParams().set('id', '' + id);
+    return this.http.delete<void>(this._deleteChapterURL, { params });
   }
 }

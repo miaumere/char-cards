@@ -107,6 +107,14 @@ public class StoryService {
         return  new ResponseEntity(HttpStatus.OK);
     }
 
+    public ResponseEntity deleteChapter(Long id) {
+        Chapter chapter = chapterRepository.getOne(id);
+        if(chapter != null) {
+            chapterRepository.delete(chapter);
+        }
+        return  new ResponseEntity(HttpStatus.OK);
+    }
+
     public ResponseEntity editBook(EditBookRequest request) {
         Book book = bookRepository.getOne(request.getId());
         if (book == null) {
