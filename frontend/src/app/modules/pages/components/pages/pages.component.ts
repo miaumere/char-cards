@@ -13,4 +13,5 @@ export class PagesComponent extends BaseComponent implements OnInit {
   ngOnInit() {
   }
 
+
 }

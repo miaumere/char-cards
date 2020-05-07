@@ -1,0 +1,22 @@
+@import "../../../../../../global_styles/variables.scss";
+
+.chapters-list {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  height: calc(100vh - #{$navbar-height});
+
+  background-image: linear-gradient(to top, #b9b9b9 0%, #3c3e3f 100%);
+}
+.chapter-card {
+  background: $card-bg;
+}
+
+.chapters-sidenav {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  height: 100%;
+}

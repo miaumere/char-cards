@@ -1,0 +1,34 @@
+<mat-sidenav-container>
+  <mat-sidenav mode="side" opened [ngStyle]="{'background': book?.color, 'color': fontColor}">
+    <div class="chapters-sidenav">
+      <span>
+        Wybrany szkicownik:
+        <h2>{{book?.name}}</h2>
+      </span>
+
+      <button mat-stroked-button [ngStyle]="{'background': book?.color}" [routerLink]="['../']">
+        <mat-icon>keyboard_backspace</mat-icon>
+        Powrót
+      </button>
+    </div>
+  </mat-sidenav>
+
+  <mat-sidenav-content class="chapters-list">
+    <div *ngIf="chapters.length > 0">
+      <mat-card *ngFor="let chapter of chapters" class="chapter-card">
+        <mat-card-header>
+          <div mat-card-avatar>
+            <mat-icon mat-list-icon>bookmark</mat-icon>
+          </div>
+          <mat-card-title [ngStyle]="{'color': book?.color}">{{chapter.name}}</mat-card-title>
+          <mat-card-subtitle>{{chapter.chapterDesc}}</mat-card-subtitle>
+        </mat-card-header>
+      </mat-card>
+    </div>
+
+    <div *ngIf="chapters.length === 0">
+      Brak części w tym szkicowniku.
+    </div>
+
+  </mat-sidenav-content>
+</mat-sidenav-container>

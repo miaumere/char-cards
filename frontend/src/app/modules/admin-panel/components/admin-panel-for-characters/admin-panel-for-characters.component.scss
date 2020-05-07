@@ -1,3 +1,5 @@
+@import "../../../../../global_styles/variables.scss";
+
 .profile-pic {
   height: 5rem;
   width: 5rem;
@@ -48,7 +50,7 @@
   margin: 1rem;
   border-radius: 3px;
 
-  background: #ffffff1c;
+  background: $card-bg;
   transition: 0.2s;
 
   &:hover {

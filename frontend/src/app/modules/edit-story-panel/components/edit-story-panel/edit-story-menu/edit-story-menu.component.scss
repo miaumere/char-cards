@@ -1,7 +1,15 @@
+@import "../../../../../../global_styles/variables.scss";
 $book-card-width: 192px;
 
 .books {
   display: flex;
+  flex-wrap: wrap;
+
+  justify-content: space-evenly;
+  height: calc(100vh - 3rem);
+  width: 100%;
+  position: fixed;
+  overflow-y: scroll;
 }
 
 .books-container {
@@ -19,6 +27,8 @@ $book-card-width: 192px;
   height: 9.375rem;
 
   margin: 1rem;
+
+  background: $card-bg;
 
   cursor: all-scroll;
 

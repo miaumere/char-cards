@@ -11,12 +11,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule, MatIconModule, MatListModule } from '@angular/material';
 import { MatRippleModule } from '@angular/material/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { ChaptersComponent } from './components/pages/chapters/chapters.component';
 
 
 @NgModule({
   declarations: [
     PagesComponent,
-    BooksListComponent
+    BooksListComponent,
+    ChaptersComponent
   ],
   imports: [
     CommonModule,
