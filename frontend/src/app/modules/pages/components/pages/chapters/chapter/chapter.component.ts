@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { BaseComponent } from 'src/app/core/base.component';
 import { ActivatedRoute } from '@angular/router';
 import { StoryService } from 'src/app/core/service/story.service';
+import * as tinycolor from 'tinycolor2';
 
 @Component({
   selector: 'app-chapter',
@@ -10,6 +11,7 @@ import { StoryService } from 'src/app/core/service/story.service';
 })
 export class ChapterComponent extends BaseComponent implements OnInit {
   bookColor: string;
+  bgColor: string;
   chapterId: number;
 
 
@@ -23,6 +25,9 @@ export class ChapterComponent extends BaseComponent implements OnInit {
       .subscribe(queryParam => {
         this.chapterId = +queryParam.chapterId;
         this.bookColor = queryParam.color;
+        const bookColor = tinycolor(queryParam.color);
+        this.bgColor = bookColor.darken(35).desaturate(30)
+
       });
 
     this.getPagesForChapter();

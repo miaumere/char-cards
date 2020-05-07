@@ -106,11 +106,11 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
           if (themeColorForChar.isLight()) {
             this.themeColor1 = tinycolor(
               themeColorForChar
-            ).darken(15).desaturate();
+            ).darken(15);
           } else {
             this.themeColor1 = tinycolor(
               themeColorForChar
-            ).lighten(35).desaturate();
+            ).lighten(35);
           }
         });
     }

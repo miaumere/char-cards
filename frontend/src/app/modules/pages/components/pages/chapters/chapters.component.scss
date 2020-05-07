@@ -3,7 +3,6 @@
 .chapters-sidenav {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
 
   height: calc(100vh - #{$navbar-height});
   width: 15rem;

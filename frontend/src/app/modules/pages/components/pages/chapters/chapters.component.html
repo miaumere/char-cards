@@ -1,8 +1,11 @@
 <mat-sidenav-container>
   <mat-sidenav mode="side" opened [ngStyle]="{'background': book?.color, 'color': fontColor}">
     <div class="chapters-sidenav">
+      <button mat-stroked-button [ngStyle]="{'background': book?.color}" [routerLink]="['../']">
+        <mat-icon>keyboard_backspace</mat-icon>
+        Powrót
+      </button>
       <div>
-        Wybrany szkicownik:
         <h2 class="book-name">{{book?.name}}</h2>
         <div *ngIf="chapters.length > 0" [ngStyle]="{'color': fontColor}">
           <h2>Spis treści</h2>
@@ -10,7 +13,7 @@
             <a [routerLink]="['./pages']" [queryParams]="{
             id: bookId,
           chapterId: chapter.id,
-          color: bookColor
+          color: book?.color
         }">
               <mat-list-item role="listitem" [ngStyle]="{'color': fontColor}" class="chapter-list__item"
                 routerLinkActive="chapter-list__item--active" class="ellipsis">
@@ -23,10 +26,7 @@
 
       </div>
 
-      <button mat-stroked-button [ngStyle]="{'background': book?.color}" [routerLink]="['../']">
-        <mat-icon>keyboard_backspace</mat-icon>
-        Powrót
-      </button>
+
     </div>
   </mat-sidenav>
 
