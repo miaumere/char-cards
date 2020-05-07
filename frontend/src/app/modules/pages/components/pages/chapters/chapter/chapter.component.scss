@@ -1,0 +1,11 @@
+@import "../../../../../../../global_styles/variables.scss";
+
+.chapter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  height: calc(100vh - #{$navbar-height});
+
+  background-image: linear-gradient(to top, #b9b9b9 0%, #3c3e3f 100%);
+}

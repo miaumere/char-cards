@@ -14,6 +14,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { ChaptersComponent } from './components/pages/chapters/chapters.component';
 import { ChaptersListComponent } from './components/pages/chapters/chapters-list/chapters-list.component';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { ChapterComponent } from './components/pages/chapters/chapter/chapter.component';
 
 
 @NgModule({
@@ -21,8 +22,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
     PagesComponent,
     BooksListComponent,
     ChaptersComponent,
-    ChaptersListComponent
-
+    ChaptersListComponent,
+    ChapterComponent
   ],
   imports: [
     CommonModule,

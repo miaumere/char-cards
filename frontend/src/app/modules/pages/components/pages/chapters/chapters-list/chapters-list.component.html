@@ -21,8 +21,9 @@
       </mat-card-content>
       <mat-card-actions>
         <button mat-stroked-button [ngStyle]="{'background': bookColor}" [routerLink]="['./']"
-          [routerLink]="['./chapters']" [queryParams]="{
-          id: bookId,
+          [routerLink]="['./pages']" [queryParams]="{
+            id: bookId,
+          chapterId: chapter.id,
           color: bookColor
         }">
           <mat-icon>navigate_next</mat-icon>

@@ -4,6 +4,7 @@ import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(uniqueConstraints = {@UniqueConstraint(columnNames ={"book_id","chapter_number"})})
@@ -25,6 +26,9 @@ public class Chapter {
 
     @Column(name="chapter_number")
     private int chapterNumber;
+
+    @ManyToMany(mappedBy = "chapters")
+    Set<Page> pages;
 
     public Long getExternalId() {
         return externalId;
@@ -64,5 +68,13 @@ public class Chapter {
 
     public void setChapterNumber(int chapterNumber) {
         this.chapterNumber = chapterNumber;
+    }
+
+    public Set<Page> getPages() {
+        return pages;
+    }
+
+    public void setPages(Set<Page> pages) {
+        this.pages = pages;
     }
 }

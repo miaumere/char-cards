@@ -28,7 +28,6 @@ export class ChaptersListComponent extends BaseComponent implements OnInit {
       .subscribe(queryParam => {
         this.bookId = +queryParam.id;
         this.bookColor = queryParam.color;
-        console.log("bookColor: ", this.bookColor)
       });
 
     this.getChapters();

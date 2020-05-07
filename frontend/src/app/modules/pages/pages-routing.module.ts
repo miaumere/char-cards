@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { BooksListComponent } from './components/pages/books-list/books-list.component';
 import { ChaptersComponent } from './components/pages/chapters/chapters.component';
 import { ChaptersListComponent } from './components/pages/chapters/chapters-list/chapters-list.component';
+import { ChapterComponent } from './components/pages/chapters/chapter/chapter.component';
 
 const routes: Routes = [
   {
@@ -22,10 +23,10 @@ const routes: Routes = [
             path: '',
             component: ChaptersListComponent
           },
-          // {
-          //   path: 'chapter',
-          //   component:
-          // }
+          {
+            path: 'pages',
+            component: ChapterComponent
+          }
 
         ]
       }
