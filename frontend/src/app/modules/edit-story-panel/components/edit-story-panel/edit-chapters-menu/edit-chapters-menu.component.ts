@@ -97,6 +97,7 @@ export class EditChaptersMenuComponent extends BaseComponent implements OnInit {
         .editChapter(objToSend)
         .subscribe(_ => {
           this._toastrService.success('Udało się dodać nową część!');
+          this.chapterForm.reset();
           this.getChapters();
         }, err => {
           this._toastrService.error('Nie udało się dodać nowej części.');

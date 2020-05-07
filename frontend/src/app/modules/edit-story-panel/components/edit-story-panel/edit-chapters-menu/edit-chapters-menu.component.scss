@@ -25,7 +25,11 @@
   justify-content: space-evenly;
   align-items: center;
 
+  height: calc(100vh - #{$navbar-height});
   width: 100%;
+
+  position: fixed;
+  overflow: scroll;
 }
 
 .edit-chapters-form {
@@ -33,6 +37,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+
+  margin-top: 5rem;
 
   font-size: initial;
 }
@@ -49,4 +55,7 @@
 
 .boundary {
   border: 1px dotted white;
+  margin-top: 1rem;
+
+  overflow-y: scroll;
 }

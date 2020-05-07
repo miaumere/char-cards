@@ -8,6 +8,8 @@
   height: calc(100vh - #{$navbar-height});
 
   background-image: linear-gradient(to top, #b9b9b9 0%, #3c3e3f 100%);
+
+  overflow: scroll;
 }
 .chapter-card {
   background: $card-bg;
