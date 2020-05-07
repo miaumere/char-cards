@@ -3,12 +3,15 @@
   <div class="book-list-container">
 
     <mat-card *ngFor="let book of books" class="book-card" matRipple [matRippleColor]="book.color">
-      <mat-card-header>
-        <mat-card-title>{{book.name}}</mat-card-title>
-      </mat-card-header>
-      <div class="book-card__icon-container">
-        <app-book-icon [icon]="book.icon" [color]="book.color" [size]='3'></app-book-icon>
-      </div>
+      <a>
+        <mat-card-header>
+          <mat-card-title>{{book.name}}</mat-card-title>
+        </mat-card-header>
+        <div class="book-card__icon-container">
+          <app-book-icon [icon]="book.icon" [color]="book.color" [size]='3'></app-book-icon>
+        </div>
+
+      </a>
 
     </mat-card>
   </div>

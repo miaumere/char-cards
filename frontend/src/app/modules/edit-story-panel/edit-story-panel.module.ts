@@ -8,7 +8,7 @@ import {
   MatButtonModule, MatInputModule, MatDialogModule,
   MatTooltipModule, MatStepperModule, MatRadioModule, MatSelectModule, MatDatepickerModule,
   MatNativeDateModule, MatCheckboxModule, MatSlideToggleModule, MatSliderModule, MatAutocompleteModule,
-  MatCardModule
+  MatCardModule, MatSidenavModule
 } from '@angular/material';
 import { EditStoryPanelComponent } from './components/edit-story-panel/edit-story-panel.component';
 import { EditStoryPanelRoutingModule } from './edit-story-panel-routing.module';
@@ -48,7 +48,8 @@ import { MatListModule } from '@angular/material/list';
     MatCardModule,
     MatIconModule,
     MatTreeModule,
-    MatListModule
+    MatListModule,
+    MatSidenavModule
   ],
   providers: [
     StoryService

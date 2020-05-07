@@ -2,25 +2,37 @@
 
 .edit-chapters-menu {
   display: flex;
+  height: calc(100vh - #{$navbar-height});
 
   &__aside {
     display: flex;
     flex-direction: column;
 
-    // height: calc(100vh - #{$navbar-height});
-    height: calc(100vh - 5rem);
-
     align-items: center;
-    display: flex;
+    justify-content: center;
   }
 }
 
 .book {
-  margin-top: 5rem !important;
+  &__title {
+    font-size: xx-large;
+  }
+}
 
+.edit-chapters-content {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-evenly;
+  align-items: center;
 
-  height: 5rem;
+  width: 100%;
+}
+
+.edit-chapters-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  font-size: initial;
 }

@@ -9,6 +9,7 @@ import com.meowmere.main.repositories.story.BookRepository;
 import com.meowmere.main.repositories.story.ChapterRepository;
 import com.meowmere.main.requests.story.books.CreateBookRequest;
 import com.meowmere.main.requests.story.books.EditBookRequest;
+import com.meowmere.main.requests.story.chapters.ChapterRequest;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -67,6 +68,35 @@ public class StoryService {
         bookRepository.saveAndFlush(book);
 
         return new ResponseEntity(HttpStatus.CREATED);
+    }
+
+    public ResponseEntity editChapter(ChapterRequest request) {
+        Book book = bookRepository.getOne(request.getBookId());
+        if(book == null) {
+            return  new ResponseEntity("Nie istnieje szkicownik o podanym id.",HttpStatus.NOT_FOUND);
+        }
+        if(request.getId() == null) {
+            Chapter chapter = new Chapter();
+            chapter.setBook(book);
+            chapter.setChapterDesc(request.getChapterDesc());
+            chapter.setName(request.getName());
+
+            Integer chaptersForBookSize = chapterRepository.getChaptersForBook(request.getBookId()).size();
+            chapter.setChapterNumber(chaptersForBookSize);
+
+            chapterRepository.saveAndFlush(chapter);
+            return new ResponseEntity(HttpStatus.CREATED);
+        }
+        Chapter chapter = chapterRepository.getOne(request.getId());
+        if(chapter == null) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+        chapter.setName(request.getName());
+        chapter.setChapterDesc(request.getChapterDesc());
+        chapterRepository.saveAndFlush(chapter);
+
+
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     public ResponseEntity deleteBook(Long id) {

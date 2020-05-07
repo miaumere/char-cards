@@ -10,6 +10,7 @@ import { SharedModule } from '../shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule, MatIconModule, MatListModule } from '@angular/material';
 import { MatRippleModule } from '@angular/material/core';
+import { MatSidenavModule } from '@angular/material/sidenav';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import { MatRippleModule } from '@angular/material/core';
     MatCardModule,
     MatIconModule,
     MatListModule,
-    MatRippleModule
+    MatRippleModule,
+    MatSidenavModule
 
   ],
   providers: [

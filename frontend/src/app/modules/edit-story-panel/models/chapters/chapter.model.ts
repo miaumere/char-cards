@@ -1,11 +1,11 @@
 export interface IChapter {
-  id: number;
+  id: number | null;
   name: string;
   chapterDesc: string;
 }
 
 export class Chapter implements IChapter {
-  id: number;
+  id: number | null;
   name: string;
   chapterDesc: string;
 

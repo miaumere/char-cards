@@ -1,30 +1,56 @@
-<div class="edit-chapters-menu">
-  <mat-card class="edit-chapters-menu__aside">
-    <button mat-raised-button color="primary" [routerLink]="['../']">Wróć do listy szkicowników</button>
+<mat-sidenav-container class="edit-chapters-menu" *ngIf="book">
+  <mat-sidenav class="edit-chapters-menu__aside" mode="side" opened [ngStyle]="{'background': book?.color}">
 
-    <div *ngIf="book" class="book">
-      <app-book-icon [icon]="book.icon" [color]="book.color" [size]='4'></app-book-icon>
-      {{book.name}}
+    <div class="book">
+      <h2 class="book__title">
+        {{book.name}}
+      </h2>
     </div>
 
-  </mat-card>
+    <button mat-raised-button [routerLink]="['../']">Wróć do listy szkicowników</button>
+  </mat-sidenav>
+  <mat-sidenav-content class="edit-chapters-content">
+    <div>
+      <form [formGroup]="newChapterForm" *ngIf="isNewChapterFormVisible" class="edit-chapters-form">
+        <mat-form-field>
+          <mat-label>Tytuł części</mat-label>
+          <input matInput placeholder="Np. Prolog" formControlName="name" required>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Krótki opis części</mat-label>
+          <textarea matInput maxlength="255" placeholder="Np. Prolog" formControlName="chapterDesc" required></textarea>
+        </mat-form-field>
 
-  <div>
-    <mat-list *ngIf="chapters.length > 0">
-      <div mat-subheader>Części</div>
-      <mat-list-item *ngFor="let chapter of chapters">
-        <mat-icon mat-list-icon>bookmark</mat-icon>
-        <div mat-line>{{chapter.name}}</div>
-        <div mat-line>{{chapter.chapterDesc}}</div>
+      </form>
+
+      <button mat-raised-button [ngStyle]="{'background': book.color}" *ngIf="isNewChapterFormVisible"
+        [disabled]="newChapterForm.invalid" (click)="createNewChapter()">
+        <mat-icon>library_add</mat-icon>
+        Dodaj część
+      </button>
+
+    </div>
+
+    <div>
+      <mat-list *ngIf="chapters.length > 0">
+        <div mat-subheader>Części</div>
+        <mat-list-item *ngFor="let chapter of chapters">
+          <mat-icon mat-list-icon>bookmark</mat-icon>
+          <div mat-line>{{chapter.name}}</div>
+          <div mat-line>{{chapter.chapterDesc}}</div>
 
 
-      </mat-list-item>
+        </mat-list-item>
 
 
-    </mat-list>
-    <span *ngIf="chapters.length === 0">
-      Brak części dla tego szkicownika.
-    </span>
+      </mat-list>
+      <span *ngIf="chapters.length === 0">
 
-  </div>
-</div>
+        Brak części dla tego szkicownika.
+      </span>
+
+    </div>
+  </mat-sidenav-content>
+
+
+</mat-sidenav-container>

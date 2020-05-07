@@ -1,3 +1,4 @@
+import { EditChapter } from './../../modules/edit-story-panel/models/chapters/edit-chapter.model';
 import { IChapter, Chapter } from './../../modules/edit-story-panel/models/chapters/chapter.model';
 import { EditBook } from './../../modules/edit-story-panel/models/books/edit-book.model';
 import { CreateBook } from './../../modules/edit-story-panel/models/books/create-book.model';
@@ -16,6 +17,7 @@ export class StoryService {
   private readonly _getChapterForBookURL = `${this.storyControllerURL}/get-chapters-for-book`;
 
   private readonly _createBookURL = `${this.storyControllerURL}/new-book`;
+  private readonly _editChapterURL = `${this.storyControllerURL}/edit-chapter`;
 
   private readonly _editBookURL = `${this.storyControllerURL}/edit-book`;
 
@@ -48,6 +50,10 @@ export class StoryService {
 
   createBook(requestBody: CreateBook) {
     return this.http.post<CreateBook>(this._createBookURL, requestBody);
+  }
+
+  editChapter(requestBody: EditChapter) {
+    return this.http.post<EditChapter>(this._editChapterURL, requestBody);
   }
 
   putEditBook(requestBody: EditBook) {

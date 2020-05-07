@@ -2,6 +2,7 @@ package com.meowmere.main.controllers;
 
 import com.meowmere.main.requests.story.books.CreateBookRequest;
 import com.meowmere.main.requests.story.books.EditBookRequest;
+import com.meowmere.main.requests.story.chapters.ChapterRequest;
 import com.meowmere.main.services.story.StoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +25,9 @@ public class StoryController {
 
     @PostMapping("/new-book")
     public ResponseEntity createBook(@RequestBody CreateBookRequest request) {return storyService.createBook(request);}
+
+    @PostMapping("/edit-chapter")
+    public ResponseEntity editChapter(@RequestBody ChapterRequest request) {return storyService.editChapter(request);}
 
     @PutMapping("/edit-book")
     public ResponseEntity editBook(@RequestBody EditBookRequest request) {return storyService.editBook(request);}
