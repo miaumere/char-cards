@@ -36,6 +36,13 @@ public class StoryController {
     public ResponseEntity editBookOrder(@RequestBody ArrayList<Long> request)
     {return storyService.editBookOrder(request);}
 
+    @PatchMapping("edit-chapter-order")
+    public ResponseEntity editChapterOrder(
+            @RequestBody ArrayList<Long> request,
+            @RequestParam Long bookId) {
+        return storyService.editChapterOrder(request, bookId);
+    }
+
     @DeleteMapping("/delete-book")
     public ResponseEntity deleteBook(@RequestParam Long id) {return storyService.deleteBook(id);}
 

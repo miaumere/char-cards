@@ -9,6 +9,7 @@ import { Book } from '../../../models/books/book.model';
 import { find, filter, map } from 'rxjs/operators';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { EditChapter } from '../../../models/chapters/edit-chapter.model';
+import { CdkDragDrop } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-edit-chapters-menu',
@@ -152,6 +153,30 @@ export class EditChaptersMenuComponent extends BaseComponent implements OnInit {
           this._toastrService.error('Nie udało się usunąć części.');
         })
 
+    )
+
+  }
+
+  drop(e: CdkDragDrop<string[]>) {
+    const chapter = this.chapters[e.previousIndex];
+    this.chapters.splice(e.previousIndex, 1);
+    this.chapters.splice(e.currentIndex, 0, chapter);
+
+    const ids: any[] = [];
+    for (const key in this.chapters) {
+      if (this.chapters.hasOwnProperty(key)) {
+        const element = this.chapters[key];
+        ids.push(element.id);
+      }
+    }
+    this.subscriptions$.add(
+      this._storyService
+        .patchChapterSequence(ids, this.bookId)
+        .subscribe(_ => {
+          this.getChapters();
+        }, err => {
+          this._toastrService.error('Nie udało się zmienić kolejności części.');
+        })
     )
 
   }

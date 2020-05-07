@@ -151,4 +151,27 @@ public class StoryService {
         }
         return new ResponseEntity(HttpStatus.OK);
     }
+
+    public ResponseEntity editChapterOrder(ArrayList<Long> chapterIds, Long bookId){
+        List<Chapter> chapters = chapterRepository.getChaptersForBook(bookId);
+        HashMap<Long, Integer> booksFromDb = new HashMap<>();
+
+        for (int i = 0; i < chapters.size() ; i++) {
+            Chapter chapter = chapters.get(i);
+            booksFromDb.put(chapter.getExternalId(), chapter.getChapterNumber());
+        }
+        booksFromDb.forEach((key, value) -> {
+            Chapter chapter = chapterRepository.getOne(key);
+            chapter.setChapterNumber(9999 + value);
+            chapterRepository.saveAndFlush(chapter);
+        });
+
+        for (int i = 0; i < chapterIds.size() ; i++) {
+            Chapter chapter = chapterRepository.getOne(chapterIds.get(i));
+            chapter.setChapterNumber(i);
+            chapterRepository.saveAndFlush(chapter);
+        }
+
+        return new ResponseEntity(HttpStatus.OK);
+    }
 }

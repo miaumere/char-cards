@@ -22,6 +22,7 @@ export class StoryService {
   private readonly _editBookURL = `${this.storyControllerURL}/edit-book`;
 
   private readonly _patchBookOrderURL = `${this.storyControllerURL}/edit-book-order`;
+  private readonly _patchChapterOrderURL = `${this.storyControllerURL}/edit-chapter-order`;
 
   private readonly _deleteBookURL = `${this.storyControllerURL}/delete-book`;
   private readonly _deleteChapterURL = `${this.storyControllerURL}/delete-chapter`;
@@ -63,6 +64,12 @@ export class StoryService {
 
   patchBookSequence(requestBody: number[]) {
     return this.http.patch<number[]>(this._patchBookOrderURL, requestBody);
+  }
+
+  patchChapterSequence(requestBody: number[], bookId: number) {
+    const params = new HttpParams().set('bookId', '' + bookId);
+
+    return this.http.patch<number[]>(this._patchChapterOrderURL, requestBody, { params });
   }
 
   deleteBook(id: number) {

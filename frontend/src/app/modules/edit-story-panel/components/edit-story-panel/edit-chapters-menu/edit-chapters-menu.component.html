@@ -18,13 +18,13 @@
         </mat-form-field>
         <mat-form-field>
           <mat-label>Krótki opis części</mat-label>
-          <textarea matInput maxlength="255" placeholder="Np. Prolog" formControlName="chapterDesc" required></textarea>
+          <textarea matInput maxlength="255" formControlName="chapterDesc" required></textarea>
         </mat-form-field>
 
       </form>
 
       <button mat-raised-button [ngStyle]="{'background': book.color}" [disabled]="chapterForm.invalid"
-        (click)="createNewChapter()">
+        (click)="createNewChapter()" style="margin-right: 1rem">
         <mat-icon>library_add</mat-icon>
         Nowa część
       </button>
@@ -37,10 +37,9 @@
 
     </div>
 
-    <div>
-      <mat-list *ngIf="chapters.length > 0">
-        <div mat-subheader>Części</div>
-        <mat-card *ngFor="let chapter of chapters">
+    <div *ngIf="chapters.length > 0" cdkDropList (cdkDropListDropped)="drop($event)" class="boundary">
+      <div *ngFor="let chapter of chapters" cdkDragBoundary=".boundary" cdkDrag style="margin: 1rem;">
+        <mat-card class="chapter-card">
           <mat-card-header>
             <div mat-card-avatar>
               <mat-icon mat-list-icon>bookmark</mat-icon>
@@ -61,15 +60,12 @@
           </mat-card-actions>
 
         </mat-card>
-
-
-      </mat-list>
-      <span *ngIf="chapters.length === 0">
-
-        Brak części dla tego szkicownika.
-      </span>
-
+      </div>
     </div>
+    <span *ngIf="chapters.length === 0">
+
+      Brak części dla tego szkicownika.
+    </span>
   </mat-sidenav-content>
 
 
