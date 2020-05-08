@@ -16,6 +16,7 @@ export class ChaptersListComponent extends BaseComponent implements OnInit {
   chapters: Chapter[] = [];
   fontColor = 'white';
   bookColor: string;
+  bgColor: string;
   bookId: number;
 
   constructor(
@@ -28,6 +29,8 @@ export class ChaptersListComponent extends BaseComponent implements OnInit {
       .subscribe(queryParam => {
         this.bookId = +queryParam.id;
         this.bookColor = queryParam.color;
+        const bookColor = tinycolor(queryParam.color);
+        this.bgColor = bookColor.darken(35).desaturate(30)
       });
 
     this.getChapters();

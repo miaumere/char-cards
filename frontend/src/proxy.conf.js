@@ -4,7 +4,8 @@ const PROXY_CONFIG = [
       "/api/",
       "/login",
       "/logout",
-      "/relogin"
+      "/relogin",
+      "/story"
     ],
     "target": "http://localhost:8082",
     "secure": false

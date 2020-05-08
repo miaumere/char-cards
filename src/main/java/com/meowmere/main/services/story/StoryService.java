@@ -2,6 +2,7 @@ package com.meowmere.main.services.story;
 
 import com.meowmere.main.dto.story.books.BookDTO;
 import com.meowmere.main.dto.story.chapters.ChapterDTO;
+import com.meowmere.main.dto.story.pages.PageDTO;
 import com.meowmere.main.entities.story.Book;
 import com.meowmere.main.entities.story.Chapter;
 import com.meowmere.main.entities.story.Page;
@@ -14,11 +15,15 @@ import com.meowmere.main.requests.story.books.EditBookRequest;
 import com.meowmere.main.requests.story.chapters.ChapterRequest;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -60,12 +65,36 @@ public class StoryService {
     }
 
     public ResponseEntity getPagesForChapter(Long chapterId) {
+//              <img src="/story/{{bookId}}/{{chapterId}}/{{page}}/{{character.profilePic}}"
+        Chapter chapter = chapterRepository.getOne(chapterId);
+        if(chapter == null) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+        Long bookId = chapter.getBook().getExternalId();
         ArrayList<Page> pages = pageRepository.getPagesForChapter(chapterId);
+        ArrayList<PageDTO> pagesDTOs = new ArrayList<>();
         if(pages != null) {
-            
+            for (Page page : pages) {
+            try {
+                PageDTO pageDTO = new PageDTO();
+                Resource resource = new ClassPathResource(page.getFileLocation());
+                File file = resource.getFile();
+                File[] images = file.listFiles();
+                if(images.length > 0) {
+                    pageDTO.setFileName(images[0].getName());
+                    pageDTO.setId(page.getId());
+                    pageDTO.setPageNumber(page.getPageNumber());
+                }
+                pagesDTOs.add(pageDTO);
+
+            }catch (IOException e) {
+            }
+
+            }
+
         }
 
-        return new ResponseEntity(HttpStatus.OK);
+        return new ResponseEntity(pagesDTOs, HttpStatus.OK);
     }
 
     public ResponseEntity createBook(CreateBookRequest request) {

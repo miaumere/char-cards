@@ -1,3 +1,9 @@
 <div class="chapter" [ngStyle]="{'background': bgColor}">
   strona
+
+  <div *ngFor="let page of pages; index as i">
+    <img src="/story/{{bookId}}/{{chapterId}}/{{page.pageNumber}}/{{page.fileName}}" />
+  </div>
+
+
 </div>

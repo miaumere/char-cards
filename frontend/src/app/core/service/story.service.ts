@@ -6,6 +6,7 @@ import { IBook, Book } from './../../modules/edit-story-panel/models/books/book.
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { map } from 'rxjs/operators';
+import { Page, IPage } from 'src/app/modules/pages/models/pages/page.model';
 
 @Injectable({
   providedIn: 'root'
@@ -54,7 +55,12 @@ export class StoryService {
   getPagesForChapter(id: number) {
     const params = new HttpParams().set('id', '' + id);
 
-    return this.http.get<void>(this._getPagesForChapterURL, { params });
+    return this.http.get<IPage[]>(this._getPagesForChapterURL, { params }).pipe(
+      map(response => {
+        const mappedResponse = response.map(r => new Page(r));
+        return mappedResponse;
+      })
+    )
   }
 
   createBook(requestBody: CreateBook) {

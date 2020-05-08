@@ -14,4 +14,5 @@ public interface PageRepository extends JpaRepository<Page, Long> {
     @Query("SELECT DISTINCT p FROM Page p " +
             "JOIN p.chapters c WHERE c.externalId = :chapterId")
     ArrayList<Page> getPagesForChapter(@Param("chapterId") Long chapterId);
+
 }
