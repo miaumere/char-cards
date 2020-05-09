@@ -19,6 +19,8 @@ export class ChapterComponent extends BaseComponent implements OnInit {
 
   pages: Page[];
 
+  currentImageIndex = 0;
+
 
   constructor(
     private _activatedRoute: ActivatedRoute,
@@ -35,9 +37,9 @@ export class ChapterComponent extends BaseComponent implements OnInit {
         const bookColor = tinycolor(queryParam.color);
         this.bgColor = bookColor.darken(35).desaturate(30)
 
+        this.getPagesForChapter();
       });
 
-    this.getPagesForChapter();
   }
 
   getPagesForChapter() {
@@ -49,6 +51,12 @@ export class ChapterComponent extends BaseComponent implements OnInit {
           this.pages = pages;
         })
     )
+  }
+
+
+
+  setImage(imageIndex: number) {
+    this.currentImageIndex = imageIndex;
   }
 
 }

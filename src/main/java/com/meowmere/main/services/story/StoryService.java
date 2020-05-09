@@ -70,7 +70,6 @@ public class StoryService {
         if(chapter == null) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
-        Long bookId = chapter.getBook().getExternalId();
         ArrayList<Page> pages = pageRepository.getPagesForChapter(chapterId);
         ArrayList<PageDTO> pagesDTOs = new ArrayList<>();
         if(pages != null) {

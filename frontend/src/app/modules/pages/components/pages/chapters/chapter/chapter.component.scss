@@ -7,3 +7,26 @@
 
   height: calc(100vh - #{$navbar-height});
 }
+
+.image-container {
+  display: flex;
+  align-items: center;
+}
+
+.image {
+  max-height: calc(100vh - #{$navbar-height});
+  object-fit: scale-down;
+
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  &--inactive {
+    display: none;
+  }
+
+  &--active {
+    display: block;
+    border: 3px solid black;
+  }
+}

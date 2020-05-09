@@ -1,9 +1,21 @@
 <div class="chapter" [ngStyle]="{'background': bgColor}">
-  strona
-
-  <div *ngFor="let page of pages; index as i">
-    <img src="/story/{{bookId}}/{{chapterId}}/{{page.pageNumber}}/{{page.fileName}}" />
+  <ng-container *ngIf="pages?.length > 0">
+    <button mat-mini-fab (click)="setImage(currentImageIndex-1)" [disabled]="currentImageIndex === 0"
+      [ngStyle]="{'background': bookColor}">
+      <mat-icon>keyboard_arrow_left</mat-icon>
+    </button>
+    <div *ngFor="let page of pages; index as i" class="image-container">
+      <img src="/story/{{bookId}}/{{chapterId}}/{{page.pageNumber}}/{{page.fileName}}" class="image image--inactive"
+        [ngClass]="{
+      'image--active': i === currentImageIndex
+    }" />
+    </div>
+    <button mat-mini-fab (click)="setImage(currentImageIndex+1)" [disabled]="currentImageIndex === pages?.length - 1"
+      [ngStyle]="{'background': bookColor}">
+      <mat-icon>keyboard_arrow_right</mat-icon>
+    </button>
+  </ng-container>
+  <div *ngIf="pages?.length === 0">
+    Brak stron w tej części.
   </div>
-
-
 </div>
