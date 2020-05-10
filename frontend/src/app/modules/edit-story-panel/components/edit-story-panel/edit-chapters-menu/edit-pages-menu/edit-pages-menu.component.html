@@ -1,1 +1,55 @@
-edit pages menu
+<mat-tab-group>
+  <mat-tab label="Edycja stron">
+
+    <div class="new-pages">
+      <div>
+        <button (click)="fileInput.click()" mat-stroked-button [ngStyle]="{'background': bookColor}">
+          <mat-icon> attach_file</mat-icon>
+
+          Wybrano: {{filesListNumber}} plików.
+          <input #fileInput type="file" (change)="onFileInput($event.target.files)" style="display:none;" multiple />
+        </button>
+
+      </div>
+
+      <button mat-stroked-button [ngStyle]="{'background': bookColor}" [disabled]="filesListNumber === 0"
+        style="margin: 1rem;" (click)="addNewPages()">
+        <mat-icon>library_add</mat-icon>
+        Dodaj nowe strony
+      </button>
+
+    </div>
+
+
+    <div class="edit-pages" *ngIf="pages.length > 0" class="boundary" cdkDropList (cdkDropListDropped)="drop($event)">
+
+      <mat-card *ngFor="let page of pages; index as i" class="page-card" [ngStyle]="{'background': bookColor}"
+        cdkDragBoundary=".boundary" cdkDrag>
+        <mat-card-header>
+          <mat-card-title>
+            <span style="font-size: xx-large;">
+              {{i+1}}.
+            </span>
+            {{page.fileName}}
+          </mat-card-title>
+
+        </mat-card-header>
+        <img src="/story/{{bookId}}/{{chapterId}}/{{page.pageNumber}}/{{page.fileName}}" class="image" />
+        <mat-card-actions>
+          <button mat-mini-fab color="warn" (click)="insertDeleteInfo()" (dblclick)="deletePage(page.id)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+    <div class="edit-pages" *ngIf="pages.length === 0">
+      Brak stron dla tej części.
+    </div>
+  </mat-tab>
+
+  <mat-tab label="Edycja postaci występujących">
+
+
+  </mat-tab>
+
+</mat-tab-group>

@@ -48,7 +48,8 @@
             [ngStyle]="{'background': book.color, 'color': fontColor}" [queryParams]="{
           id: bookId,
         chapterId: chapter.id,
-        color: bookColor
+        color: book.color,
+        fontColor: fontColor
       }">
             <mat-icon>library_books</mat-icon>
           </button>

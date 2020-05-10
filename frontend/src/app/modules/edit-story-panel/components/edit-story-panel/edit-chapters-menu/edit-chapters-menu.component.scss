@@ -20,3 +20,16 @@
   height: calc(100vh - #{$navbar-height});
   width: 15rem;
 }
+.chapter-list {
+  &__item {
+    white-space: nowrap !important;
+    width: 200px !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+
+    &--active {
+      background: rgba(255, 255, 255, 0.4);
+      border-radius: 0.188rem;
+    }
+  }
+}

@@ -65,7 +65,6 @@ public class StoryService {
     }
 
     public ResponseEntity getPagesForChapter(Long chapterId) {
-//              <img src="/story/{{bookId}}/{{chapterId}}/{{page}}/{{character.profilePic}}"
         Chapter chapter = chapterRepository.getOne(chapterId);
         if(chapter == null) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
@@ -154,6 +153,28 @@ public class StoryService {
             chapterRepository.delete(chapter);
         }
         return  new ResponseEntity(HttpStatus.OK);
+    }
+
+    public ResponseEntity deletePage(Long id) {
+        Page page = pageRepository.getOne(id);
+        if(page != null) {
+        Resource resource = new ClassPathResource(page.getFileLocation());
+        try {
+            File file = resource.getFile();
+            File[] images = file.listFiles();
+            if(images != null && images.length > 0) {
+                for (File image : images) {
+                    image.delete();
+                }
+            }
+            pageRepository.delete(page);
+
+
+        } catch (IOException e) {
+        }
+        }
+
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     public ResponseEntity editBook(EditBookRequest request) {

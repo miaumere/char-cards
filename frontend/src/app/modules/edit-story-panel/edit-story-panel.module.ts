@@ -19,6 +19,7 @@ import { MatTreeModule } from '@angular/material/tree';
 import { MatListModule } from '@angular/material/list';
 import { EditPagesMenuComponent } from './components/edit-story-panel/edit-chapters-menu/edit-pages-menu/edit-pages-menu.component';
 import { EditChaptersListMenuComponent } from './components/edit-story-panel/edit-chapters-menu/edit-chapters-list/edit-chapters-list.component';
+import { MatTabsModule } from '@angular/material/tabs';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import { EditChaptersListMenuComponent } from './components/edit-story-panel/edi
     MatIconModule,
     MatTreeModule,
     MatListModule,
-    MatSidenavModule
+    MatSidenavModule,
+    MatTabsModule
   ],
   providers: [
     StoryService

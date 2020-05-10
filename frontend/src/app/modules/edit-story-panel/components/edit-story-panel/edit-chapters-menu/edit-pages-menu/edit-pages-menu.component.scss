@@ -1,0 +1,40 @@
+.edit-pages {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.page-card {
+  width: fit-content;
+
+  margin: 1rem;
+
+  cursor: all-scroll;
+}
+
+.image {
+  object-fit: scale-down;
+
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  width: 200px;
+}
+
+.new-pages {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.boundary {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  border: 1px dotted white;
+  margin-top: 1rem;
+}

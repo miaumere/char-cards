@@ -51,4 +51,7 @@ public class StoryController {
 
     @DeleteMapping("/delete-chapter")
     public ResponseEntity deleteChapter(@RequestParam Long id) {return storyService.deleteChapter(id);}
+
+    @DeleteMapping("/delete-page")
+    public ResponseEntity deletePage(@RequestParam Long id) {return storyService.deletePage(id);}
 }

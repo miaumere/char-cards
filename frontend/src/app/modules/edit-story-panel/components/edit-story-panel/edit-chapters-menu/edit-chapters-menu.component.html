@@ -11,7 +11,7 @@
         <div *ngIf="chapters.length > 0" [ngStyle]="{'color': fontColor}">
           <h2>Spis treści</h2>
           <mat-list role="list" *ngFor="let chapter of chapters; index as i" class="chapter-list">
-            <a [routerLink]="['./pages']" [queryParams]="{
+            <a [routerLink]="['./edit-pages']" [queryParams]="{
             id: bookId,
           chapterId: chapter.id,
           color: book?.color
