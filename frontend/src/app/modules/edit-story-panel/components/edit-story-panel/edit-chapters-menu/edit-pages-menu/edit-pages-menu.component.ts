@@ -80,17 +80,39 @@ export class EditPagesMenuComponent extends BaseComponent implements OnInit {
         ids.push(element.id);
       }
     }
+
+    this.subscriptions$.add(
+      this._storyService
+        .patchPageSequence(ids, this.chapterId, this.bookId)
+        .subscribe(_ => {
+          this.getPages();
+        }, err => {
+          this._toastrService.error('Nie udało się zmienić kolejności stron.')
+        })
+    )
   }
 
 
   addNewPages() {
-
     const formData = new FormData();
     if (this.fileList) {
       for (let i = 0; i < this.fileList.length; i++) {
         formData.append('image' + i, this.fileList[i]);
       }
     }
+
+    this.subscriptions$.add(
+      this._storyService
+        .postPages(
+          formData, this.chapterId, this.bookId
+        ).subscribe(_ => {
+          this._toastrService.success('Udało się dodać nowe strony!');
+          this.getPages();
+        }, err => {
+          this._toastrService.error('Nie udało się dodać nowych stron.');
+        })
+    )
+
   }
 
   deletePage(id: number) {

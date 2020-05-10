@@ -29,6 +29,14 @@ public class StoryController {
     @PostMapping("/new-book")
     public ResponseEntity createBook(@RequestBody CreateBookRequest request) {return storyService.createBook(request);}
 
+//    @PostMapping("/new-pages")
+//    public ResponseEntity createNewPages(MultipartHttpServletRequest multipartHttpServletRequest,
+//                                         @RequestParam Long chapterId,
+//                                         @RequestParam Long bookId
+//                                         ){
+//        return storyService.
+//    }
+
     @PostMapping("/edit-chapter")
     public ResponseEntity editChapter(@RequestBody ChapterRequest request) {return storyService.editChapter(request);}
 
@@ -45,6 +53,11 @@ public class StoryController {
             @RequestParam Long bookId) {
         return storyService.editChapterOrder(request, bookId);
     }
+
+//    @PatchMapping("/edit-pages-order")
+//    public ResponseEntity editPagesOrder(@RequestBody ArrayList<Long> request, @RequestParam Long bookId, @RequestParam Long chapterId){
+//        return storyService.
+//    }
 
     @DeleteMapping("/delete-book")
     public ResponseEntity deleteBook(@RequestParam Long id) {return storyService.deleteBook(id);}

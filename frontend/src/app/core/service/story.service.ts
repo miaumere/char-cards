@@ -4,7 +4,7 @@ import { EditBook } from './../../modules/edit-story-panel/models/books/edit-boo
 import { CreateBook } from './../../modules/edit-story-panel/models/books/create-book.model';
 import { IBook, Book } from './../../modules/edit-story-panel/models/books/book.model';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { Page, IPage } from 'src/app/modules/pages/models/pages/page.model';
 
@@ -20,11 +20,13 @@ export class StoryService {
 
   private readonly _createBookURL = `${this.storyControllerURL}/new-book`;
   private readonly _editChapterURL = `${this.storyControllerURL}/edit-chapter`;
+  private readonly _newPagesURL = `${this.storyControllerURL}/new-pages`;
 
   private readonly _editBookURL = `${this.storyControllerURL}/edit-book`;
 
   private readonly _patchBookOrderURL = `${this.storyControllerURL}/edit-book-order`;
   private readonly _patchChapterOrderURL = `${this.storyControllerURL}/edit-chapter-order`;
+  private readonly _patchPagesOrderURL = `${this.storyControllerURL}/edit-pages-order`;
 
   private readonly _deleteBookURL = `${this.storyControllerURL}/delete-book`;
   private readonly _deleteChapterURL = `${this.storyControllerURL}/delete-chapter`;
@@ -68,6 +70,21 @@ export class StoryService {
     return this.http.post<CreateBook>(this._createBookURL, requestBody);
   }
 
+  postPages(formData: FormData, chapterId: number, bookId: number) {
+    const params = new HttpParams()
+      .set('chapterId', '' + chapterId)
+      .set('bookId', '' + bookId);
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        Accept: 'application/json',
+        CacheControl: 'max-age=0'
+      }),
+      params
+    };
+    return this.http.post<void>(this._newPagesURL, formData, httpOptions);
+  }
+
   editChapter(requestBody: EditChapter) {
     return this.http.post<EditChapter>(this._editChapterURL, requestBody);
   }
@@ -84,6 +101,14 @@ export class StoryService {
     const params = new HttpParams().set('bookId', '' + bookId);
 
     return this.http.patch<number[]>(this._patchChapterOrderURL, requestBody, { params });
+  }
+
+  patchPageSequence(requestBody: number[], chapterId: number, bookId: number) {
+    const params = new HttpParams()
+      .set('chapterId', '' + chapterId)
+      .set('bookId', '' + bookId)
+
+    return this.http.patch<number[]>(this._patchPagesOrderURL, { params });
   }
 
   deleteBook(id: number) {
