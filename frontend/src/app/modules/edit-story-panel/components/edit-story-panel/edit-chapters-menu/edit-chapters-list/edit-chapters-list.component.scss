@@ -1,0 +1,50 @@
+@import "../../../../../../../global_styles/variables.scss";
+
+.edit-chapters-buttons {
+  display: flex;
+  justify-content: center;
+}
+
+.edit-chapters-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  margin-top: 5rem;
+
+  font-size: initial;
+}
+
+.chapter-buttons-container {
+  display: flex !important;
+  justify-content: space-evenly;
+}
+
+.chapter-card {
+  cursor: all-scroll;
+  width: 30rem;
+
+  background-color: $card-bg;
+}
+
+.boundary {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  width: fit-content;
+
+  border: 1px dotted white;
+  margin-top: 1rem;
+
+  overflow-y: scroll;
+}
+
+.edit-chapters-list {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}

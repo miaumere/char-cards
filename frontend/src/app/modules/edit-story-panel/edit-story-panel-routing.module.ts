@@ -2,6 +2,8 @@ import { EditStoryPanelComponent } from './components/edit-story-panel/edit-stor
 import { NgModule } from '@angular/core'; import { RouterModule, Routes } from '@angular/router';
 import { EditStoryMenuComponent } from './components/edit-story-panel/edit-story-menu/edit-story-menu.component';
 import { EditChaptersMenuComponent } from './components/edit-story-panel/edit-chapters-menu/edit-chapters-menu.component';
+import { EditPagesMenuComponent } from './components/edit-story-panel/edit-chapters-menu/edit-pages-menu/edit-pages-menu.component';
+import { EditChaptersListMenuComponent } from './components/edit-story-panel/edit-chapters-menu/edit-chapters-list/edit-chapters-list.component';
 
 const routes: Routes = [
   {
@@ -14,7 +16,18 @@ const routes: Routes = [
       },
       {
         path: 'edit-chapters',
-        component: EditChaptersMenuComponent
+        component: EditChaptersMenuComponent,
+        children: [
+          {
+            path: '',
+            component: EditChaptersListMenuComponent
+          },
+          {
+            path: 'edit-pages',
+            component: EditPagesMenuComponent
+          }
+
+        ]
       }
     ]
   }

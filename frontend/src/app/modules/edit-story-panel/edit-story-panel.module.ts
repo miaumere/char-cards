@@ -17,12 +17,16 @@ import { MatIconModule } from '@angular/material/icon';
 import { EditChaptersMenuComponent } from './components/edit-story-panel/edit-chapters-menu/edit-chapters-menu.component';
 import { MatTreeModule } from '@angular/material/tree';
 import { MatListModule } from '@angular/material/list';
+import { EditPagesMenuComponent } from './components/edit-story-panel/edit-chapters-menu/edit-pages-menu/edit-pages-menu.component';
+import { EditChaptersListMenuComponent } from './components/edit-story-panel/edit-chapters-menu/edit-chapters-list/edit-chapters-list.component';
 
 @NgModule({
   declarations: [
     EditStoryPanelComponent,
     EditStoryMenuComponent,
-    EditChaptersMenuComponent
+    EditChaptersMenuComponent,
+    EditPagesMenuComponent,
+    EditChaptersListMenuComponent
   ],
   imports: [
     CommonModule,

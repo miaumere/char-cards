@@ -13,49 +13,10 @@
   }
 }
 
-.book {
-  &__title {
-    font-size: xx-large;
-  }
+.book-name {
+  font-size: xx-large;
 }
-
-.edit-chapters-content {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  align-items: center;
-
+.edit-chapters-sidenav {
   height: calc(100vh - #{$navbar-height});
-  width: 100%;
-
-  position: fixed;
-  overflow: scroll;
-}
-
-.edit-chapters-form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-  margin-top: 5rem;
-
-  font-size: initial;
-}
-
-.chapter-buttons-container {
-  display: flex !important;
-  justify-content: space-evenly;
-}
-
-.chapter-card {
-  cursor: all-scroll;
-  width: 30rem;
-}
-
-.boundary {
-  border: 1px dotted white;
-  margin-top: 1rem;
-
-  overflow-y: scroll;
+  width: 15rem;
 }

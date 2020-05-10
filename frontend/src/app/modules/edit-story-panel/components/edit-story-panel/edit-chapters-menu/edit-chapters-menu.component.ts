@@ -10,6 +10,7 @@ import { find, filter, map } from 'rxjs/operators';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { EditChapter } from '../../../models/chapters/edit-chapter.model';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
+import * as tinycolor from 'tinycolor2';
 
 @Component({
   selector: 'app-edit-chapters-menu',
@@ -18,36 +19,29 @@ import { CdkDragDrop } from '@angular/cdk/drag-drop';
 
 })
 export class EditChaptersMenuComponent extends BaseComponent implements OnInit {
-
-  isNewChapterFormVisible = true;
-
-  chapterForm = new FormGroup({
-    name: new FormControl('', Validators.required),
-    chapterDesc: new FormControl('', Validators.required),
-  });
-
-
   bookId: number;
   book: Book;
-
   chapters: Chapter[] = [];
-
-  editedChapter: Chapter | null = null;
+  fontColor = 'white';
+  bgColor: string;
 
   constructor(
     private _activatedRoute: ActivatedRoute,
-    private _storyService: StoryService,
-    private _toastrService: ToastrService
+    private _storyService: StoryService
   ) { super(); }
 
   ngOnInit() {
     this._activatedRoute?.parent?.queryParams
       .subscribe(queryParam => {
         this.bookId = +queryParam.id;
+        if (queryParam.chapterId) {
+          this.getChapters();
+        }
+
+
       });
 
     this.getBook();
-    this.getChapters();
 
   }
 
@@ -62,6 +56,13 @@ export class EditChaptersMenuComponent extends BaseComponent implements OnInit {
         .subscribe(book => {
           if (book) {
             this.book = book;
+
+            const bookColor = tinycolor(book?.color);
+
+            this.bgColor = bookColor.darken(35).desaturate(30);
+            if (bookColor.isLight()) {
+              this.fontColor = 'black';
+            }
           }
         })
 
@@ -76,109 +77,8 @@ export class EditChaptersMenuComponent extends BaseComponent implements OnInit {
           this.chapters = chapters;
         })
     );
-
   }
 
-  insertNewChapterForm() {
-    this.isNewChapterFormVisible = true;
-  }
-
-  createNewChapter() {
-    this.editedChapter = null;
-    const objToSend: EditChapter = {
-      id: null,
-      chapterDesc: this.chapterForm.get('chapterDesc')?.value,
-      name: this.chapterForm.get('name')?.value,
-      bookId: this.bookId
-    }
-
-    this.subscriptions$.add(
-      this._storyService
-        .editChapter(objToSend)
-        .subscribe(_ => {
-          this._toastrService.success('Udało się dodać nową część!');
-          this.chapterForm.reset();
-          this.getChapters();
-        }, err => {
-          this._toastrService.error('Nie udało się dodać nowej części.');
-        })
-
-    )
 
 
-
-  }
-
-  editChapter() {
-    if (this.editedChapter) {
-      const objToSend: EditChapter = {
-        id: this.editedChapter.id,
-        chapterDesc: this.chapterForm.get('chapterDesc')?.value,
-        name: this.chapterForm.get('name')?.value,
-        bookId: this.bookId
-      }
-
-      this.subscriptions$.add(
-        this._storyService
-          .editChapter(objToSend)
-          .subscribe(_ => {
-            this._toastrService.success('Udało się edytować część!');
-            this.getChapters();
-          }, err => {
-            this._toastrService.error('Nie udało się edytować części.');
-          })
-
-      )
-    }
-  }
-
-  insertEditInfoToForm(chapter: Chapter) {
-    this.chapterForm.get('chapterDesc')?.setValue(chapter.chapterDesc);
-    this.chapterForm.get('name')?.setValue(chapter.name);
-
-    this.editedChapter = chapter;
-  }
-
-  insertDeleteInfo() {
-    this._toastrService.warning('Aby usunąć część, naciśnij dwa razy.');
-  }
-
-  deleteChapter(id: number) {
-    this.subscriptions$.add(
-      this._storyService
-        .deleteChapter(id)
-        .subscribe(_ => {
-          this._toastrService.success('Udało się usunąć część!');
-          this.getChapters();
-        }, err => {
-          this._toastrService.error('Nie udało się usunąć części.');
-        })
-
-    )
-
-  }
-
-  drop(e: CdkDragDrop<string[]>) {
-    const chapter = this.chapters[e.previousIndex];
-    this.chapters.splice(e.previousIndex, 1);
-    this.chapters.splice(e.currentIndex, 0, chapter);
-
-    const ids: any[] = [];
-    for (const key in this.chapters) {
-      if (this.chapters.hasOwnProperty(key)) {
-        const element = this.chapters[key];
-        ids.push(element.id);
-      }
-    }
-    this.subscriptions$.add(
-      this._storyService
-        .patchChapterSequence(ids, this.bookId)
-        .subscribe(_ => {
-          this.getChapters();
-        }, err => {
-          this._toastrService.error('Nie udało się zmienić kolejności części.');
-        })
-    )
-
-  }
 }

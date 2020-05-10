@@ -1,75 +1,37 @@
-<mat-sidenav-container class="edit-chapters-menu" *ngIf="book">
-  <mat-sidenav class="edit-chapters-menu__aside" mode="side" opened [ngStyle]="{'background': book?.color}">
-
-    <div class="book">
-      <h2 class="book__title">
-        {{book.name}}
-      </h2>
-    </div>
-
-    <button mat-raised-button [ngStyle]="{'background': book?.color}" [routerLink]="['../']">
-      <mat-icon>keyboard_backspace</mat-icon>
-      Powrót
-    </button>
-  </mat-sidenav>
-  <mat-sidenav-content class="edit-chapters-content">
-    <div>
-      <form [formGroup]="chapterForm" *ngIf="isNewChapterFormVisible" class="edit-chapters-form">
-        <mat-form-field>
-          <mat-label>Tytuł części</mat-label>
-          <input matInput placeholder="Np. Prolog" formControlName="name" required>
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>Krótki opis części</mat-label>
-          <textarea matInput maxlength="255" formControlName="chapterDesc" required></textarea>
-        </mat-form-field>
-
-      </form>
-
-      <button mat-raised-button [ngStyle]="{'background': book.color}" [disabled]="chapterForm.invalid"
-        (click)="createNewChapter()" style="margin-right: 1rem">
-        <mat-icon>library_add</mat-icon>
-        Nowa część
+<mat-sidenav-container class="edit-chapters-menu">
+  <mat-sidenav mode="side" opened [ngStyle]="{'background': book?.color, 'color': fontColor}"
+    class="edit-chapters-sidenav">
+    <div class="chapters-sidenav">
+      <button mat-stroked-button [ngStyle]="{'background': book?.color}" [routerLink]="['../']">
+        <mat-icon>keyboard_backspace</mat-icon>
+        Powrót
       </button>
+      <div>
+        <h2 class="book-name">{{book?.name}}</h2>
+        <div *ngIf="chapters.length > 0" [ngStyle]="{'color': fontColor}">
+          <h2>Spis treści</h2>
+          <mat-list role="list" *ngFor="let chapter of chapters; index as i" class="chapter-list">
+            <a [routerLink]="['./pages']" [queryParams]="{
+            id: bookId,
+          chapterId: chapter.id,
+          color: book?.color
+        }">
+              <mat-list-item role="listitem" [ngStyle]="{'color': fontColor}" class="chapter-list__item"
+                routerLinkActive="chapter-list__item--active" class="ellipsis">
+                <div class="ellipsis">{{i+1}}. {{chapter.name}}</div>
+              </mat-list-item>
+            </a>
 
-      <button mat-raised-button [ngStyle]="{'background': book.color}"
-        [disabled]="chapterForm.invalid || !editedChapter" (click)="editChapter()">
-        <mat-icon>library_add</mat-icon>
-        Edytuj
-      </button>
+          </mat-list>
+        </div>
 
-    </div>
-
-    <div *ngIf="chapters.length > 0" cdkDropList (cdkDropListDropped)="drop($event)" class="boundary">
-      <div *ngFor="let chapter of chapters" cdkDragBoundary=".boundary" cdkDrag style="margin: 1rem;">
-        <mat-card class="chapter-card">
-          <mat-card-header>
-            <div mat-card-avatar>
-              <mat-icon mat-list-icon>bookmark</mat-icon>
-            </div>
-            <mat-card-title>{{chapter.name}}</mat-card-title>
-            <mat-card-subtitle>{{chapter.chapterDesc}}</mat-card-subtitle>
-          </mat-card-header>
-          <mat-card-actions class="chapter-buttons-container">
-            <button mat-mini-fab [ngStyle]="{'background': book.color}" (click)="insertEditInfoToForm(chapter)">
-              <mat-icon>edit</mat-icon>
-            </button>
-            <button mat-mini-fab color="primary">
-              <mat-icon>library_books</mat-icon>
-            </button>
-            <button mat-mini-fab color="warn" (click)="insertDeleteInfo()" (dblclick)="deleteChapter(chapter.id)">
-              <mat-icon>delete</mat-icon>
-            </button>
-          </mat-card-actions>
-
-        </mat-card>
       </div>
+
+
     </div>
-    <span *ngIf="chapters.length === 0">
+  </mat-sidenav>
 
-      Brak części dla tego szkicownika.
-    </span>
+  <mat-sidenav-content style="width: 100%;" [ngStyle]="{'background': bgColor}">
+    <router-outlet></router-outlet>
   </mat-sidenav-content>
-
-
 </mat-sidenav-container>
