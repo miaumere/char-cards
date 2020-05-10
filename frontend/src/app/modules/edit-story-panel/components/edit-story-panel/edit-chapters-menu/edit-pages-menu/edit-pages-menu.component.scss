@@ -37,3 +37,28 @@
 
   margin-top: 1rem;
 }
+
+.edit-existing-characters {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+
+  font-size: initial;
+
+  &__form-field {
+    width: 15rem;
+  }
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  &__image {
+    height: 1.75rem;
+    width: 1.75rem;
+
+    border-radius: 50%;
+    filter: grayscale(100);
+  }
+}

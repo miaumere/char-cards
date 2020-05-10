@@ -1,3 +1,4 @@
+import { CharactersService } from './../../../../../../core/service/characters.service';
 import { ToastrService } from 'ngx-toastr';
 import { StoryService } from 'src/app/core/service/story.service';
 import { ActivatedRoute } from '@angular/router';
@@ -7,6 +8,10 @@ import { BaseComponent } from 'src/app/core/base.component';
 import * as tinycolor from 'tinycolor2';
 import { Page } from 'src/app/modules/pages/models/pages/page.model';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { CharacterItem } from 'src/app/modules/characters/models/character-item.model';
+import { finalize, startWith, map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-edit-pages-menu',
@@ -25,10 +30,19 @@ export class EditPagesMenuComponent extends BaseComponent implements OnInit {
 
   pages: Page[] = [];
 
+  charactersInChapterForm = new FormGroup({
+    character: new FormControl('', Validators.required),
+  });
+
+  charList: CharacterItem[] = [];
+  filteredCharacters = new Observable<CharacterItem[]>();
+  selectedCharacter?: CharacterItem;
+
   constructor(
     private _activatedRoute: ActivatedRoute,
     private _storyService: StoryService,
-    private _toastrService: ToastrService
+    private _toastrService: ToastrService,
+    private _characterService: CharactersService
   ) { super(); }
 
   ngOnInit() {
@@ -41,9 +55,15 @@ export class EditPagesMenuComponent extends BaseComponent implements OnInit {
         this.getPages();
       });
 
+    this.getCharactersList();
 
   }
 
+  private _filterCharacters(value: string) {
+    const filterValue = value.toLowerCase();
+
+    return this.charList.filter(c => `${c.charName} ${c.charSurname}`.toLowerCase().indexOf(filterValue) === 0);
+  }
 
   getPages() {
     this.subscriptions$.add(
@@ -58,6 +78,24 @@ export class EditPagesMenuComponent extends BaseComponent implements OnInit {
   }
 
 
+  getCharactersList() {
+
+    this.subscriptions$.add(
+      this._characterService
+        .getCharacters()
+        .subscribe(charList => {
+          this.charList = charList;
+
+          this.filteredCharacters = this.charactersInChapterForm.controls['character'].valueChanges
+            .pipe(
+              startWith(''),
+              map(character => character ? this._filterCharacters(character) : this.charList)
+            );
+        })
+    );
+  }
+
+
   insertDeleteInfo() {
     this._toastrService.warning('Aby usunąć stronę, naciśnij dwa razy.');
   }
@@ -66,7 +104,6 @@ export class EditPagesMenuComponent extends BaseComponent implements OnInit {
     this.fileList = fileList;
     this.filesListNumber = fileList.length;
   }
-
 
   drop(e: CdkDragDrop<string[]>) {
     const page = this.pages[e.previousIndex]
@@ -91,7 +128,6 @@ export class EditPagesMenuComponent extends BaseComponent implements OnInit {
         })
     )
   }
-
 
   addNewPages() {
     const formData = new FormData();

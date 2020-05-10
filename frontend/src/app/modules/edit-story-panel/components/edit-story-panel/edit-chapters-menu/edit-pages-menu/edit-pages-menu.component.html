@@ -48,7 +48,28 @@
   </mat-tab>
 
   <mat-tab label="Edycja postaci występujących">
+    <div class="edit-existing-characters">
+      <form [formGroup]="charactersInChapterForm">
+        <mat-form-field class="edit-existing-characters__form-field">
+          <mat-label>Dodaj postać, która występuje w części:</mat-label>
+          <input matInput placeholder="Imię postaci" formControlName="character" required [matAutocomplete]="auto">
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option *ngFor="let char of filteredCharacters | async" [value]="char.fullName">
+              <img *ngIf="char.profilePic"
+                [src]="'data:image/' + char.profilePic?.extension + ';base64, ' + char.profilePic?.image | sanitizer"
+                class="option__image">
+              <span>{{char.fullName}}</span>
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
 
+      </form>
+
+      <div>
+        <span>Obecne występujące postacie:</span>
+      </div>
+
+    </div>
 
   </mat-tab>
 
