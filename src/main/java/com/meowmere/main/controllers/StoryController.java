@@ -7,6 +7,7 @@ import com.meowmere.main.services.story.StoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.util.ArrayList;
 
@@ -31,13 +32,12 @@ public class StoryController {
     @PostMapping("/new-book")
     public ResponseEntity createBook(@RequestBody CreateBookRequest request) {return storyService.createBook(request);}
 
-//    @PostMapping("/new-pages")
-//    public ResponseEntity createNewPages(MultipartHttpServletRequest multipartHttpServletRequest,
-//                                         @RequestParam Long chapterId,
-//                                         @RequestParam Long bookId
-//                                         ){
-//        return storyService.
-//    }
+    @PostMapping("/new-pages")
+    public ResponseEntity createNewPages(MultipartHttpServletRequest multipartHttpServletRequest,
+                                         @RequestParam Long chapterId
+                                         ){
+        return storyService.createPages(multipartHttpServletRequest, chapterId);
+    }
 
     @PostMapping("/edit-chapter")
     public ResponseEntity editChapter(@RequestBody ChapterRequest request) {return storyService.editChapter(request);}

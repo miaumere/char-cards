@@ -5,6 +5,7 @@ import com.meowmere.main.dto.story.chapters.ChapterDTO;
 import com.meowmere.main.entities.story.Book;
 import com.meowmere.main.entities.story.Chapter;
 import com.meowmere.main.entities.story.Page;
+import com.meowmere.main.enums.AvailableExtensions;
 import com.meowmere.main.enums.AvailableIcon;
 import com.meowmere.main.repositories.story.BookRepository;
 import com.meowmere.main.repositories.story.ChapterRepository;
@@ -12,6 +13,7 @@ import com.meowmere.main.repositories.story.PageRepository;
 import com.meowmere.main.requests.story.books.CreateBookRequest;
 import com.meowmere.main.requests.story.books.EditBookRequest;
 import com.meowmere.main.requests.story.chapters.ChapterRequest;
+import org.apache.commons.io.FilenameUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -23,10 +25,15 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Stream;
 
 @Service
 public class StoryService {
@@ -110,6 +117,48 @@ public class StoryService {
         }
 
         bookRepository.saveAndFlush(book);
+
+        return new ResponseEntity(HttpStatus.CREATED);
+    }
+
+    public ResponseEntity createPages(MultipartHttpServletRequest multipartHttpServletRequest, Long chapterId){
+        Map<String, MultipartFile> allFiles = multipartHttpServletRequest.getFileMap();
+        Chapter chapter = chapterRepository.getOne(chapterId);
+        if(chapter == null) {
+            return  new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+        Iterator it = allFiles.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry)it.next();
+
+            String uri = "C:\\tmp\\story\\";
+
+            MultipartFile file = (MultipartFile) pair.getValue();
+            if(file != null) {
+                String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+                String extension = FilenameUtils.getExtension(fileName);
+                if (!Stream.of(AvailableExtensions.values()).anyMatch(v -> v.name().toLowerCase().equals(extension.toLowerCase()))) {
+                    return new ResponseEntity(HttpStatus.UNSUPPORTED_MEDIA_TYPE);
+                }
+                try {
+                    byte [] byteArr = file.getBytes();
+                    File fileToSave = new File(uri, fileName);
+                    FileOutputStream fos = new FileOutputStream(fileToSave);
+                    fos.write(byteArr);
+                    fos.close();
+
+                    Page pageToSave = new Page();
+                    pageToSave.setPageNumber(pageRepository.getPagesForChapter(chapterId).size()+1);
+                    pageToSave.setChapter(chapter);
+                    pageToSave.setFileLocation("xxxx");
+
+                    pageRepository.saveAndFlush(pageToSave);
+                } catch (IOException e) {}
+
+                it.remove();
+            }}
+
+
 
         return new ResponseEntity(HttpStatus.CREATED);
     }

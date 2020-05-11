@@ -110,8 +110,6 @@ export class EditPagesMenuComponent extends BaseComponent implements OnInit {
   }
 
   drop(e: CdkDragDrop<string[]>) {
-    console.log("this.pageNumber: ", this.pagesNumber);
-
     const number = this.pagesNumber[e.previousIndex]
     this.pagesNumber.splice(e.previousIndex, 1);
     this.pagesNumber.splice(e.currentIndex, 0, number);
@@ -123,8 +121,6 @@ export class EditPagesMenuComponent extends BaseComponent implements OnInit {
         ids.push(element);
       }
     }
-
-    console.log("ids: ", ids);
 
     this.subscriptions$.add(
       this._storyService
@@ -148,7 +144,7 @@ export class EditPagesMenuComponent extends BaseComponent implements OnInit {
     this.subscriptions$.add(
       this._storyService
         .postPages(
-          formData, this.chapterId, this.bookId
+          formData, this.chapterId
         ).subscribe(_ => {
           this._toastrService.success('Udało się dodać nowe strony!');
           this.getChapter(this.chapterId)

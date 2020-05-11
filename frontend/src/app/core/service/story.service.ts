@@ -70,10 +70,9 @@ export class StoryService {
     return this.http.post<CreateBook>(this._createBookURL, requestBody);
   }
 
-  postPages(formData: FormData, chapterId: number, bookId: number) {
+  postPages(formData: FormData, chapterId: number) {
     const params = new HttpParams()
       .set('chapterId', '' + chapterId)
-      .set('bookId', '' + bookId);
 
     const httpOptions = {
       headers: new HttpHeaders({
