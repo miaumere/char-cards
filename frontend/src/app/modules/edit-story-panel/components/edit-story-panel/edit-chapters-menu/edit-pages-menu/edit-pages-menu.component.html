@@ -24,7 +24,7 @@
     <div class="edit-pages" *ngIf="pagesNumber.length > 0" class="boundary" cdkDropList
       (cdkDropListDropped)="drop($event)">
 
-      <mat-card *ngFor="let i of pagesNumber" class="page-card" [ngStyle]="{'background': bookColor}"
+      <mat-card *ngFor="let pageId of pagesNumber; index as i;" class="page-card" [ngStyle]="{'background': bookColor}"
         cdkDragBoundary=".boundary" cdkDrag>
         <mat-card-header>
           <mat-card-title>
@@ -36,7 +36,7 @@
         </mat-card-header>
         <img src="{{pageURL}}/{{chapterId}}/{{i}}" class="image" />
         <mat-card-actions>
-          <button mat-mini-fab color="warn" (click)="insertDeleteInfo()" (dblclick)="deletePage(i)">
+          <button mat-mini-fab color="warn" (click)="insertDeleteInfo()" (dblclick)="deletePage(pageId)">
             <mat-icon>delete</mat-icon>
           </button>
         </mat-card-actions>

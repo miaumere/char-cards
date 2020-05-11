@@ -11,7 +11,7 @@ import java.util.ArrayList;
 @Repository
 public interface PageRepository extends JpaRepository<Page, Long> {
 
-    @Query("SELECT DISTINCT p FROM Page p WHERE p.chapter.id = :chapterId")
+    @Query("SELECT DISTINCT p FROM Page p WHERE p.chapter.id = :chapterId ORDER BY p.pageNumber")
     ArrayList<Page> getPagesForChapter(@Param("chapterId") Long chapterId);
 
     @Query("SELECT p FROM Page p WHERE p.pageNumber = :pageNumber and p.chapter.id = :chapterId")

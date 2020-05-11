@@ -60,7 +60,12 @@ public class StoryService {
             ModelMapper modelMapper = new ModelMapper();
             for (Chapter chapter: chapters) {
             ChapterDTO chapterDTO = modelMapper.map(chapter, ChapterDTO.class);
-            chapterDTO.setPagesNumber(chapter.getPages().size());
+            ArrayList<Long> pagesIds = new ArrayList<>();
+            ArrayList<Page> pages = pageRepository.getPagesForChapter(chapter.getExternalId());
+                for (Page page : pages) {
+                    pagesIds.add(page.getId());
+                }
+            chapterDTO.setPagesIds(pagesIds);
             chapterDTOS.add(chapterDTO);
             }
         }
@@ -154,8 +159,8 @@ public class StoryService {
         return  new ResponseEntity(HttpStatus.OK);
     }
 
-    public ResponseEntity deletePage(Integer chapterOrder, Long chapterId) {
-        Page page = pageRepository.getPageByPageNumber(chapterOrder, chapterId);
+    public ResponseEntity deletePage(Long pageId) {
+        Page page = pageRepository.getOne(pageId);
 
         if(page != null) {
             String uri = "C:\\tmp\\story\\";
@@ -173,13 +178,13 @@ public class StoryService {
             image.delete();
             pageRepository.delete(page);
 
-            ArrayList<Page> pagesFromDb = pageRepository.getPagesForChapter(chapterId);
-            for (int i = 0; i < pagesFromDb.size(); i++) {
-                pagesFromDb.get(i).setPageNumber(i);
-                pageRepository.saveAndFlush(pagesFromDb.get(i));
+            ArrayList<Page> pagesFromDb = pageRepository.getPagesForChapter(page.getChapter().getExternalId());
+            if(pagesFromDb.size() > 0) {
+                for (int i = 0; i < pagesFromDb.size(); i++) {
+                    pagesFromDb.get(i).setPageNumber(i);
+                    pageRepository.saveAndFlush(pagesFromDb.get(i));
+                }
             }
-
-
         } catch (IOException e) {
         }
         }
@@ -242,6 +247,29 @@ public class StoryService {
             Chapter chapter = chapterRepository.getOne(chapterIds.get(i));
             chapter.setChapterNumber(i);
             chapterRepository.saveAndFlush(chapter);
+        }
+
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    public ResponseEntity editPagesOrder(ArrayList<Long> pagesIds, Long chapterId){
+        List<Page> pages = pageRepository.getPagesForChapter(chapterId);
+        HashMap<Long, Integer> chaptersFromDb = new HashMap<>();
+
+        for (int i = 0; i < pages.size() ; i++) {
+            Page page = pages.get(i);
+            chaptersFromDb.put(page.getId(), page.getPageNumber());
+        }
+        chaptersFromDb.forEach((key, value) -> {
+            Page page = pageRepository.getOne(key);
+            page.setPageNumber(9999 + value);
+            pageRepository.saveAndFlush(page);
+        });
+
+        for (int i = 0; i < pagesIds.size() ; i++) {
+            Page page = pageRepository.getOne(pagesIds.get(i));
+            page.setPageNumber(i);
+            pageRepository.saveAndFlush(page);
         }
 
         return new ResponseEntity(HttpStatus.OK);

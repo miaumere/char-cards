@@ -1,10 +1,12 @@
 package com.meowmere.main.dto.story.chapters;
 
+import java.util.ArrayList;
+
 public class ChapterDTO {
     public Long id;
     public String chapterDesc;
     public String name;
-    public Integer pagesNumber;
+    public ArrayList<Long> pagesIds;
 
     public Long getId() {
         return id;
@@ -30,11 +32,11 @@ public class ChapterDTO {
         this.name = name;
     }
 
-    public Integer getPagesNumber() {
-        return pagesNumber;
+    public ArrayList<Long> getPagesIds() {
+        return pagesIds;
     }
 
-    public void setPagesNumber(Integer pagesNumber) {
-        this.pagesNumber = pagesNumber;
+    public void setPagesIds(ArrayList<Long> pagesIds) {
+        this.pagesIds = pagesIds;
     }
 }

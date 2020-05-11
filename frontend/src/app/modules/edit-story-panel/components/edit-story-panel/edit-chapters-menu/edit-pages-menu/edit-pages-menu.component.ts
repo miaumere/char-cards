@@ -31,8 +31,6 @@ export class EditPagesMenuComponent extends BaseComponent implements OnInit {
 
   chapterId: number;
 
-  pages: Page[] = [];
-
   charactersInChapterForm = new FormGroup({
     character: new FormControl('', Validators.required),
   });
@@ -55,7 +53,6 @@ export class EditPagesMenuComponent extends BaseComponent implements OnInit {
         this.bookColor = queryParam.color;
         this.fontColor = queryParam.fontColor;
         this.bookId = +queryParam.id;
-        this.getPages();
         this.getChapter(this.chapterId);
       });
 
@@ -69,17 +66,6 @@ export class EditPagesMenuComponent extends BaseComponent implements OnInit {
     return this.charList.filter(c => `${c.charName} ${c.charSurname}`.toLowerCase().indexOf(filterValue) === 0);
   }
 
-  getPages() {
-    this.subscriptions$.add(
-      this._storyService
-        .getPagesForChapter(this.chapterId)
-        .subscribe(pages => {
-          this.pages = pages;
-          console.log(pages)
-        })
-    );
-
-  }
 
   getChapter(id: number) {
     this.subscriptions$.add(
@@ -89,11 +75,8 @@ export class EditPagesMenuComponent extends BaseComponent implements OnInit {
           map(arr => arr.find(x => x.id === id)
           )
         ).subscribe(chapter => {
-          if (chapter?.pagesNumber) {
-            for (let index = 0; index < chapter.pagesNumber; index++) {
-              this.pagesNumber.push(index)
-            }
-            console.log(this.pagesNumber)
+          if (chapter?.pagesIds) {
+            this.pagesNumber = chapter.pagesIds;
           }
         })
     )
@@ -126,29 +109,33 @@ export class EditPagesMenuComponent extends BaseComponent implements OnInit {
     this.filesListNumber = fileList.length;
   }
 
-  // drop(e: CdkDragDrop<string[]>) {
-  //   const page = this.pages[e.previousIndex]
-  //   this.pages.splice(e.previousIndex, 1);
-  //   this.pages.splice(e.currentIndex, 0, page);
+  drop(e: CdkDragDrop<string[]>) {
+    console.log("this.pageNumber: ", this.pagesNumber);
 
-  //   const ids: number[] = [];
-  //   for (const key in this.pages) {
-  //     if (this.pages.hasOwnProperty(key)) {
-  //       const element = this.pages[key];
-  //       ids.push(element.id);
-  //     }
-  //   }
+    const number = this.pagesNumber[e.previousIndex]
+    this.pagesNumber.splice(e.previousIndex, 1);
+    this.pagesNumber.splice(e.currentIndex, 0, number);
 
-  //   this.subscriptions$.add(
-  //     this._storyService
-  //       .patchPageSequence(ids, this.chapterId, this.bookId)
-  //       .subscribe(_ => {
-  //         this.getPages();
-  //       }, err => {
-  //         this._toastrService.error('Nie udało się zmienić kolejności stron.')
-  //       })
-  //   )
-  // }
+    const ids: number[] = [];
+    for (const key in this.pagesNumber) {
+      if (this.pagesNumber.hasOwnProperty(key)) {
+        const element = this.pagesNumber[key];
+        ids.push(element);
+      }
+    }
+
+    console.log("ids: ", ids);
+
+    this.subscriptions$.add(
+      this._storyService
+        .patchPageSequence(ids, this.chapterId)
+        .subscribe(_ => {
+          this.getChapter(this.chapterId);
+        }, err => {
+          this._toastrService.error('Nie udało się zmienić kolejności stron.')
+        })
+    )
+  }
 
   addNewPages() {
     const formData = new FormData();
@@ -164,7 +151,7 @@ export class EditPagesMenuComponent extends BaseComponent implements OnInit {
           formData, this.chapterId, this.bookId
         ).subscribe(_ => {
           this._toastrService.success('Udało się dodać nowe strony!');
-          this.getPages();
+          this.getChapter(this.chapterId)
         }, err => {
           this._toastrService.error('Nie udało się dodać nowych stron.');
         })
@@ -172,10 +159,10 @@ export class EditPagesMenuComponent extends BaseComponent implements OnInit {
 
   }
 
-  deletePage(order: number) {
+  deletePage(pageId: number) {
     this.subscriptions$.add(
       this._storyService
-        .deletePage(order, this.chapterId)
+        .deletePage(pageId)
         .subscribe(_ => {
           this._toastrService.success('Udało się usunąć wybraną stronę!');
           this.getChapter(this.chapterId);

@@ -2,14 +2,14 @@ export interface IChapter {
   id: number | null;
   name: string;
   chapterDesc: string;
-  pagesNumber: number;
+  pagesIds: number[];
 }
 
 export class Chapter implements IChapter {
   id: number | null;
   name: string;
   chapterDesc: string;
-  pagesNumber: number;
+  pagesIds: number[];
 
   constructor(initialValues: IChapter) {
     Object.assign(this, initialValues);

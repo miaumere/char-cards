@@ -56,10 +56,10 @@ public class StoryController {
         return storyService.editChapterOrder(request, bookId);
     }
 
-//    @PatchMapping("/edit-pages-order")
-//    public ResponseEntity editPagesOrder(@RequestBody ArrayList<Long> request, @RequestParam Long bookId, @RequestParam Long chapterId){
-//        return storyService.
-//    }
+    @PatchMapping("/edit-pages-order")
+    public ResponseEntity editPagesOrder(@RequestBody ArrayList<Long> request, @RequestParam Long chapterId){
+        return storyService.editPagesOrder(request, chapterId);
+    }
 
     @DeleteMapping("/delete-book")
     public ResponseEntity deleteBook(@RequestParam Long id) {return storyService.deleteBook(id);}
@@ -68,6 +68,6 @@ public class StoryController {
     public ResponseEntity deleteChapter(@RequestParam Long id) {return storyService.deleteChapter(id);}
 
     @DeleteMapping("/delete-page")
-    public ResponseEntity deletePage(@RequestParam Integer chapterOrder, @RequestParam Long chapterId)
-    {return storyService.deletePage(chapterOrder, chapterId);}
+    public ResponseEntity deletePage(@RequestParam Long pageId)
+    {return storyService.deletePage(pageId);}
 }

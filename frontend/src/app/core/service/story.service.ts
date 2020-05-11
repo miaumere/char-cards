@@ -103,12 +103,11 @@ export class StoryService {
     return this.http.patch<number[]>(this._patchChapterOrderURL, requestBody, { params });
   }
 
-  patchPageSequence(requestBody: number[], chapterId: number, bookId: number) {
+  patchPageSequence(requestBody: number[], chapterId: number) {
     const params = new HttpParams()
       .set('chapterId', '' + chapterId)
-      .set('bookId', '' + bookId)
 
-    return this.http.patch<number[]>(this._patchPagesOrderURL, { params });
+    return this.http.patch<number[]>(this._patchPagesOrderURL, requestBody, { params });
   }
 
   deleteBook(id: number) {
@@ -121,10 +120,9 @@ export class StoryService {
     return this.http.delete<void>(this._deleteChapterURL, { params });
   }
 
-  deletePage(chapterOrder: number, chapterId: number) {
+  deletePage(pageId: number) {
     const params = new HttpParams()
-      .set('chapterOrder', '' + chapterOrder)
-      .set('chapterId', '' + chapterId)
+      .set('pageId', '' + pageId);
     return this.http.delete<void>(this._deletePageURL, { params });
   }
 }
