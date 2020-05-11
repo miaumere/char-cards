@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { StoryService } from 'src/app/core/service/story.service';
 import * as tinycolor from 'tinycolor2';
 import { Page } from 'src/app/modules/pages/models/pages/page.model';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-chapter',
@@ -11,7 +12,8 @@ import { Page } from 'src/app/modules/pages/models/pages/page.model';
   styleUrls: ['./chapter.component.scss']
 })
 export class ChapterComponent extends BaseComponent implements OnInit {
-  pageURL = ``;
+  private readonly pageURL = '/api/stories/get-images';
+  pagesNumber: number[];
   bookColor: string;
   bgColor: string;
   chapterId: number;
@@ -37,18 +39,22 @@ export class ChapterComponent extends BaseComponent implements OnInit {
         const bookColor = tinycolor(queryParam.color);
         this.bgColor = bookColor.darken(35).desaturate(30)
 
-        this.getPagesForChapter();
+        this.getChapter(this.chapterId);
       });
 
   }
 
-  getPagesForChapter() {
+  getChapter(id: number) {
     this.subscriptions$.add(
       this._storyService
-        .getPagesForChapter(this.chapterId)
-        .subscribe(pages => {
-          console.log(pages)
-          this.pages = pages;
+        .getChaptersForBook(this.bookId)
+        .pipe(
+          map(arr => arr.find(x => x.id === id)
+          )
+        ).subscribe(chapter => {
+          if (chapter?.pagesIds) {
+            this.pagesNumber = chapter.pagesIds;
+          }
         })
     )
   }

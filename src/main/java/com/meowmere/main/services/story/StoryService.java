@@ -32,7 +32,11 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Service
@@ -84,20 +88,21 @@ public class StoryService {
         byte[] bytes = new byte[]{};
             Page page = pageRepository.getPageByPageNumber(pageNumber, chapterId);
             if(page != null) {
-                try {
-                    String uri = "C:\\tmp\\story\\";
-                    Resource resource = resourceLoader.getResource("file:" + uri);
-                    File file = resource.getFile();
-                    File[] images = file.listFiles();
+                String uri = "C:\\tmp\\story\\";
+                try (Stream<Path> walk = Files.walk(Paths.get(uri))) {
+                    List<String> allFilesInDir = walk.filter(Files::isRegularFile)
+                            .map(x -> x.toString()).collect(Collectors.toList());
 
-                    File image  = Arrays
-                            .stream(images)
-                            .filter(x -> Objects.equals(page.getFileLocation(), x.getName()))
-                            .findFirst()
-                            .orElse(null);
-                bytes = FileCopyUtils.copyToByteArray(image);
-                }catch (IOException e) {
+                    for (String fileInDir: allFilesInDir) {
+                        if(Objects.equals(fileInDir, uri + page.getFileLocation())) {
+                            File image = new File(fileInDir);
+                            bytes = FileCopyUtils.copyToByteArray(image);
+                        }
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
+
             }
 
 
@@ -142,7 +147,24 @@ public class StoryService {
                 }
                 try {
                     byte [] byteArr = file.getBytes();
-                    File fileToSave = new File(uri, fileName);
+                    UUID uuid = UUID.randomUUID();
+
+                    int leftLimit = 97; // 'a'
+                    int rightLimit = 122; // 'z'
+                    int targetStringLength = 10;
+                    Random random = new Random();
+
+                    String generatedString = random.ints(leftLimit, rightLimit + 1)
+                            .limit(targetStringLength)
+                            .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                            .toString();
+
+                    String fileToSaveName = generatedString + uuid + "." + extension;
+
+
+
+
+                    File fileToSave = new File(uri, fileToSaveName);
                     FileOutputStream fos = new FileOutputStream(fileToSave);
                     fos.write(byteArr);
                     fos.close();
@@ -150,7 +172,7 @@ public class StoryService {
                     Page pageToSave = new Page();
                     pageToSave.setPageNumber(pageRepository.getPagesForChapter(chapterId).size()+1);
                     pageToSave.setChapter(chapter);
-                    pageToSave.setFileLocation("xxxx");
+                    pageToSave.setFileLocation(fileToSaveName);
 
                     pageRepository.saveAndFlush(pageToSave);
                 } catch (IOException e) {}

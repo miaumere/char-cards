@@ -55,16 +55,6 @@ export class StoryService {
     );
   }
 
-  getPagesForChapter(id: number) {
-    const params = new HttpParams().set('id', '' + id);
-
-    return this.http.get<IPage[]>(this._getPagesForChapterURL, { params }).pipe(
-      map(response => {
-        const mappedResponse = response.map(r => new Page(r));
-        return mappedResponse;
-      })
-    )
-  }
 
   createBook(requestBody: CreateBook) {
     return this.http.post<CreateBook>(this._createBookURL, requestBody);
