@@ -169,6 +169,7 @@ public class StoryService {
                     .filter(x -> Objects.equals(page.getFileLocation(), x.getName()))
                     .findFirst()
                     .orElse(null);
+
             image.delete();
             pageRepository.delete(page);
 
