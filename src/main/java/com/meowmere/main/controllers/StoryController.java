@@ -29,6 +29,11 @@ public class StoryController {
         return storyService.getPagesForChapter(chapterId, pageNumber);
     }
 
+    @GetMapping("/get-starring-characters")
+    public ResponseEntity getStarringCharacters(@RequestParam Long chapterId){
+        return storyService.getStarringCharactersForChapter(chapterId);
+    }
+
     @PostMapping("/new-book")
     public ResponseEntity createBook(@RequestBody CreateBookRequest request) {return storyService.createBook(request);}
 
@@ -70,4 +75,7 @@ public class StoryController {
     @DeleteMapping("/delete-page")
     public ResponseEntity deletePage(@RequestParam Long pageId)
     {return storyService.deletePage(pageId);}
-}
+
+    @DeleteMapping("/delete-char-from-chapter")
+    public ResponseEntity deleteStarringCharacterFromChapter(@RequestParam Long id)
+    {return  storyService.deleteStarringCharacterFromChapter(id);}}

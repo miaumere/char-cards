@@ -7,6 +7,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { Page, IPage } from 'src/app/modules/pages/models/pages/page.model';
+import { IStarringCharacter, StarringCharacter } from 'src/app/modules/edit-story-panel/models/starring/starring-character.model';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,7 @@ export class StoryService {
 
   private readonly _getAllBooksURL = `${this.storyControllerURL}/get-all-books`;
   private readonly _getChapterForBookURL = `${this.storyControllerURL}/get-chapters-for-book`;
-  private readonly _getPagesForChapterURL = `${this.storyControllerURL}/get-pages-for-chapters`;
+  private readonly _getStarringCharactersForChapterURL = `${this.storyControllerURL}/get-starring-characters`;
 
   private readonly _createBookURL = `${this.storyControllerURL}/new-book`;
   private readonly _editChapterURL = `${this.storyControllerURL}/edit-chapter`;
@@ -31,6 +32,7 @@ export class StoryService {
   private readonly _deleteBookURL = `${this.storyControllerURL}/delete-book`;
   private readonly _deleteChapterURL = `${this.storyControllerURL}/delete-chapter`;
   private readonly _deletePageURL = `${this.storyControllerURL}/delete-page`;
+  private readonly _deleteCharFromChapterURL = `${this.storyControllerURL}/delete-char-from-chapter`;
 
   constructor(private http: HttpClient) {
   }
@@ -53,6 +55,17 @@ export class StoryService {
         return mappedResponse;
       })
     );
+  }
+
+  getStarringCharactersForChapter(id: number) {
+    const params = new HttpParams().set('chapterId', '' + id);
+
+    return this.http.get<IStarringCharacter[]>(this._getStarringCharactersForChapterURL, { params }).pipe(
+      map(response => {
+        const mappedResponse = response.map(r => new StarringCharacter(r));
+        return mappedResponse;
+      })
+    )
   }
 
 
@@ -114,4 +127,10 @@ export class StoryService {
       .set('pageId', '' + pageId);
     return this.http.delete<void>(this._deletePageURL, { params });
   }
+
+  deleteCharFromChapter(id: number) {
+    const params = new HttpParams().set('id', '' + id);
+    return this.http.delete<void>(this._deleteCharFromChapterURL, { params });
+  }
+
 }

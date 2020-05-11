@@ -27,6 +27,9 @@ public class Chapter {
     @OneToMany(mappedBy = "chapter", cascade = CascadeType.ALL)
     private List<Page> pages;
 
+    @OneToMany(mappedBy = "chapter", cascade = CascadeType.ALL)
+    private List<StarringCharacters> starringCharacters;
+
     @Column(name="chapter_number")
     private int chapterNumber;
 
@@ -76,5 +79,13 @@ public class Chapter {
 
     public void setPages(List<Page> pages) {
         this.pages = pages;
+    }
+
+    public List<StarringCharacters> getStarringCharacters() {
+        return starringCharacters;
+    }
+
+    public void setStarringCharacters(List<StarringCharacters> starringCharacters) {
+        this.starringCharacters = starringCharacters;
     }
 }

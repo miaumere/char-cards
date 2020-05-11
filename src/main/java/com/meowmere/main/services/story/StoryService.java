@@ -1,15 +1,23 @@
 package com.meowmere.main.services.story;
 
+import com.meowmere.main.dto.character.character.CharactersMenuDTO;
+import com.meowmere.main.dto.character.image.ProfilePicForMainDTO;
 import com.meowmere.main.dto.story.books.BookDTO;
 import com.meowmere.main.dto.story.chapters.ChapterDTO;
+import com.meowmere.main.dto.story.starring.StarringCharacterDTO;
+import com.meowmere.main.entities.characters.Character;
+import com.meowmere.main.entities.characters.Image;
 import com.meowmere.main.entities.story.Book;
 import com.meowmere.main.entities.story.Chapter;
 import com.meowmere.main.entities.story.Page;
+import com.meowmere.main.entities.story.StarringCharacters;
 import com.meowmere.main.enums.AvailableExtensions;
 import com.meowmere.main.enums.AvailableIcon;
+import com.meowmere.main.repositories.character.ImageRepository;
 import com.meowmere.main.repositories.story.BookRepository;
 import com.meowmere.main.repositories.story.ChapterRepository;
 import com.meowmere.main.repositories.story.PageRepository;
+import com.meowmere.main.repositories.story.StarringCharactersRepository;
 import com.meowmere.main.requests.story.books.CreateBookRequest;
 import com.meowmere.main.requests.story.books.EditBookRequest;
 import com.meowmere.main.requests.story.chapters.ChapterRequest;
@@ -49,6 +57,10 @@ public class StoryService {
     PageRepository pageRepository;
     @Autowired
     ResourceLoader resourceLoader;
+    @Autowired
+    StarringCharactersRepository starringCharactersRepository;
+    @Autowired
+    ImageRepository imageRepository;
 
 
     public ResponseEntity getBooks() {
@@ -109,6 +121,39 @@ public class StoryService {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.IMAGE_JPEG);
         return new ResponseEntity(bytes, httpHeaders, HttpStatus.OK);
+    }
+
+    public ResponseEntity getStarringCharactersForChapter(Long chapterId) {
+        ArrayList<StarringCharacters> starringCharacters = starringCharactersRepository.getStarringCharactersByChapterId(chapterId);
+        ArrayList<StarringCharacterDTO> starringCharacterDTOS = new ArrayList<>();
+        if(starringCharacters != null && starringCharacters.size() > 0) {
+            for (StarringCharacters starringCharacter : starringCharacters) {
+                StarringCharacterDTO dto = new StarringCharacterDTO();
+
+                CharactersMenuDTO charactersMenuDTO = new CharactersMenuDTO();
+                Character character = starringCharacter.getCharacter();
+
+                charactersMenuDTO.setId(character.getExternalId());
+                charactersMenuDTO.setCharacterType(character.getCharType().name());
+                charactersMenuDTO.setCharName(character.getCharName());
+                charactersMenuDTO.setCharSurname(character.getCharSurname());
+
+                ProfilePicForMainDTO profilePicForMainDTO = new ProfilePicForMainDTO();
+
+                Image image = imageRepository.getProfilePicForCharacter(character.getExternalId());
+                profilePicForMainDTO.setImage(image.getImage());
+                profilePicForMainDTO.setExtension(image.getExtension());
+                charactersMenuDTO.setProfilePic(profilePicForMainDTO);
+
+                dto.setCharacter(charactersMenuDTO);
+                dto.setStarringType(starringCharacter.getStarringType().name());
+                dto.setId(starringCharacter.getExternalId());
+
+                starringCharacterDTOS.add(dto);
+            }
+
+        }
+        return new ResponseEntity(starringCharacterDTOS, HttpStatus.OK);
     }
 
     public ResponseEntity createBook(CreateBookRequest request) {
@@ -260,6 +305,14 @@ public class StoryService {
         }
         }
 
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    public ResponseEntity deleteStarringCharacterFromChapter(Long id) {
+        StarringCharacters starringCharacter = starringCharactersRepository.getOne(id);
+        if (starringCharacter != null ) {
+            starringCharactersRepository.delete(starringCharacter);
+        }
         return new ResponseEntity(HttpStatus.OK);
     }
 

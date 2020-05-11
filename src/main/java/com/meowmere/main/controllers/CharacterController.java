@@ -133,4 +133,5 @@ public class CharacterController {
 
     @DeleteMapping("/delete-story")
     public ResponseEntity deleteStory(@RequestParam Long id) { return charactersService.deleteStory(id);}
+
 }

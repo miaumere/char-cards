@@ -1,3 +1,4 @@
+import { StarringCharacter } from './../../../../models/starring/starring-character.model';
 import { CharactersService } from './../../../../../../core/service/characters.service';
 import { ToastrService } from 'ngx-toastr';
 import { StoryService } from 'src/app/core/service/story.service';
@@ -39,6 +40,8 @@ export class EditPagesMenuComponent extends BaseComponent implements OnInit {
   filteredCharacters = new Observable<CharacterItem[]>();
   selectedCharacter?: CharacterItem;
 
+  starringCharacters: StarringCharacter[] = [];
+
   constructor(
     private _activatedRoute: ActivatedRoute,
     private _storyService: StoryService,
@@ -54,6 +57,7 @@ export class EditPagesMenuComponent extends BaseComponent implements OnInit {
         this.fontColor = queryParam.fontColor;
         this.bookId = +queryParam.id;
         this.getChapter(this.chapterId);
+        this.getStarringCharactersForChapter()
       });
 
     this.getCharactersList();
@@ -99,9 +103,18 @@ export class EditPagesMenuComponent extends BaseComponent implements OnInit {
     );
   }
 
+  getStarringCharactersForChapter() {
+    this.subscriptions$.add(
+      this._storyService
+        .getStarringCharactersForChapter(this.chapterId)
+        .subscribe(starringCharacters => {
+          this.starringCharacters = starringCharacters;
+        })
+    )
+  }
 
   insertDeleteInfo() {
-    this._toastrService.warning('Aby usunąć stronę, naciśnij dwa razy.');
+    this._toastrService.warning('Aby usunąć element, naciśnij dwa razy.');
   }
 
   onFileInput(fileList: FileList) {
@@ -168,4 +181,16 @@ export class EditPagesMenuComponent extends BaseComponent implements OnInit {
     )
   }
 
+  deleteStarringCharacter(starringId: number) {
+    this.subscriptions$.add(
+      this._storyService
+        .deleteCharFromChapter(starringId)
+        .subscribe(_ => {
+          this._toastrService.success('Udało się usunąć postać z części!');
+          this.getStarringCharactersForChapter();
+        }, err => {
+          this._toastrService.error('Nie udało się usunąć postaci z części.');
+        })
+    )
+  }
 }

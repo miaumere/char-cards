@@ -1,5 +1,6 @@
 package com.meowmere.main.entities.characters;
 
+import com.meowmere.main.entities.story.StarringCharacters;
 import com.meowmere.main.enums.CharType;
 import com.meowmere.main.enums.Gender;
 
@@ -53,6 +54,9 @@ public class Character {
 
     @OneToMany(mappedBy = "character", cascade = CascadeType.ALL)
     private Set<Image> profilePics;
+
+    @OneToMany(mappedBy = "character", cascade = CascadeType.ALL)
+    private Set<StarringCharacters> existingCharacters;
 
     @OneToMany(mappedBy = "character", cascade = CascadeType.ALL)
     private List<Relationship> relationships;
@@ -206,4 +210,19 @@ public class Character {
         this.pseudonim = pseudonim;
     }
 
+    public Set<CharacterStory> getCharacterStory() {
+        return characterStory;
+    }
+
+    public void setCharacterStory(Set<CharacterStory> characterStory) {
+        this.characterStory = characterStory;
+    }
+
+    public Set<StarringCharacters> getExistingCharacters() {
+        return existingCharacters;
+    }
+
+    public void setExistingCharacters(Set<StarringCharacters> existingCharacters) {
+        this.existingCharacters = existingCharacters;
+    }
 };
