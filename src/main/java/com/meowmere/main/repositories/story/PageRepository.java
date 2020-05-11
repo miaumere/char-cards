@@ -11,10 +11,9 @@ import java.util.ArrayList;
 @Repository
 public interface PageRepository extends JpaRepository<Page, Long> {
 
-    @Query("SELECT DISTINCT p FROM Page p " +
-            "JOIN p.chapters c WHERE c.externalId = :chapterId")
+    @Query("SELECT DISTINCT p FROM Page p WHERE p.chapter.id = :chapterId")
     ArrayList<Page> getPagesForChapter(@Param("chapterId") Long chapterId);
 
-    @Query("SELECT p FROM Page p WHERE p.pageNumber = :pageNumber")
-    Page getPageByPageNumber(@Param("pageNumber") Integer pageNumber);
+    @Query("SELECT p FROM Page p WHERE p.pageNumber = :pageNumber and p.chapter.id = :chapterId")
+    Page getPageByPageNumber(@Param("pageNumber") Integer pageNumber, @Param("chapterId") Long chapterId);
 }

@@ -39,6 +39,9 @@
           <mat-card-title>{{chapter.name}}</mat-card-title>
           <mat-card-subtitle>{{chapter.chapterDesc}}</mat-card-subtitle>
         </mat-card-header>
+        <p>
+          Ilość stron: {{chapter.pagesNumber}}
+        </p>
         <mat-card-actions class="chapter-buttons-container">
           <button mat-mini-fab [ngStyle]="{'background': book.color, 'color': fontColor}"
             (click)="insertEditInfoToForm(chapter)">

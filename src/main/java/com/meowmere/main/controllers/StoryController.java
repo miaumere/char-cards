@@ -5,7 +5,6 @@ import com.meowmere.main.requests.story.books.EditBookRequest;
 import com.meowmere.main.requests.story.chapters.ChapterRequest;
 import com.meowmere.main.services.story.StoryService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,19 +23,10 @@ public class StoryController {
     @GetMapping("/get-chapters-for-book")
     public ResponseEntity getChaptersForBook(@RequestParam Long id) {return  storyService.getChaptersForBook(id);}
 
-//    @GetMapping("/get-pages-for-chapters")
-//    public ResponseEntity getPages(@RequestParam Long id) {
-//        HttpHeaders httpHeaders = new HttpHeaders();
-//                httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-//        return storyService.getPagesForChapter(id, httpHeaders);}
-
     @GetMapping("/get-images/{chapterId}/{pageNumber}")
     public ResponseEntity getImages(@PathVariable Long chapterId, @PathVariable Integer pageNumber) {
-        HttpHeaders httpHeaders = new HttpHeaders();
-//        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        return storyService.getPagesForChapter(chapterId, pageNumber, httpHeaders);
+        return storyService.getPagesForChapter(chapterId, pageNumber);
     }
-
 
     @PostMapping("/new-book")
     public ResponseEntity createBook(@RequestBody CreateBookRequest request) {return storyService.createBook(request);}
@@ -78,5 +68,6 @@ public class StoryController {
     public ResponseEntity deleteChapter(@RequestParam Long id) {return storyService.deleteChapter(id);}
 
     @DeleteMapping("/delete-page")
-    public ResponseEntity deletePage(@RequestParam Long id) {return storyService.deletePage(id);}
+    public ResponseEntity deletePage(@RequestParam Integer chapterOrder, @RequestParam Long chapterId)
+    {return storyService.deletePage(chapterOrder, chapterId);}
 }

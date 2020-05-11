@@ -4,6 +4,7 @@ public class ChapterDTO {
     public Long id;
     public String chapterDesc;
     public String name;
+    public Integer pagesNumber;
 
     public Long getId() {
         return id;
@@ -27,5 +28,13 @@ public class ChapterDTO {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Integer getPagesNumber() {
+        return pagesNumber;
+    }
+
+    public void setPagesNumber(Integer pagesNumber) {
+        this.pagesNumber = pagesNumber;
     }
 }

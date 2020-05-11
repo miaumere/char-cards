@@ -4,7 +4,7 @@ import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table(uniqueConstraints = {@UniqueConstraint(columnNames ={"book_id","chapter_number"})})
@@ -24,11 +24,11 @@ public class Chapter {
     @JoinColumn(name = "book_id")
     public Book book;
 
+    @OneToMany(mappedBy = "chapter", cascade = CascadeType.ALL)
+    private List<Page> pages;
+
     @Column(name="chapter_number")
     private int chapterNumber;
-
-    @ManyToMany(mappedBy = "chapters")
-    Set<Page> pages;
 
     public Long getExternalId() {
         return externalId;
@@ -70,11 +70,11 @@ public class Chapter {
         this.chapterNumber = chapterNumber;
     }
 
-    public Set<Page> getPages() {
+    public List<Page> getPages() {
         return pages;
     }
 
-    public void setPages(Set<Page> pages) {
+    public void setPages(List<Page> pages) {
         this.pages = pages;
     }
 }

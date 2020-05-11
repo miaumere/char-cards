@@ -1,7 +1,9 @@
 package com.meowmere.main.entities.story;
 
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+
 import javax.persistence.*;
-import java.util.Set;
 
 @Entity
 public class Page {
@@ -15,8 +17,10 @@ public class Page {
     @Column
     private String fileLocation;
 
-    @ManyToMany
-    private Set<Chapter> chapters;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @NotFound(action = NotFoundAction.IGNORE)
+    @JoinColumn(name = "chapter_id")
+    public Chapter chapter;
 
     public Long getId() {
         return id;
@@ -42,11 +46,11 @@ public class Page {
         this.fileLocation = fileLocation;
     }
 
-    public Set<Chapter> getChapters() {
-        return chapters;
+    public Chapter getChapter() {
+        return chapter;
     }
 
-    public void setChapters(Set<Chapter> chapters) {
-        this.chapters = chapters;
+    public void setChapter(Chapter chapter) {
+        this.chapter = chapter;
     }
 }

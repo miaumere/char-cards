@@ -19,9 +19,12 @@ import { Observable } from 'rxjs';
   styleUrls: ['./edit-pages-menu.component.scss']
 })
 export class EditPagesMenuComponent extends BaseComponent implements OnInit {
+  private readonly pageURL = '/api/stories/get-images';
   fontColor = 'white';
   bookColor: string;
   bookId: number;
+
+  pagesNumber: number[] = [];
 
   filesListNumber = 0;
   fileList: FileList;
@@ -53,6 +56,7 @@ export class EditPagesMenuComponent extends BaseComponent implements OnInit {
         this.fontColor = queryParam.fontColor;
         this.bookId = +queryParam.id;
         this.getPages();
+        this.getChapter(this.chapterId);
       });
 
     this.getCharactersList();
@@ -77,6 +81,23 @@ export class EditPagesMenuComponent extends BaseComponent implements OnInit {
 
   }
 
+  getChapter(id: number) {
+    this.subscriptions$.add(
+      this._storyService
+        .getChaptersForBook(this.bookId)
+        .pipe(
+          map(arr => arr.find(x => x.id === id)
+          )
+        ).subscribe(chapter => {
+          if (chapter?.pagesNumber) {
+            for (let index = 0; index < chapter.pagesNumber; index++) {
+              this.pagesNumber.push(index)
+            }
+            console.log(this.pagesNumber)
+          }
+        })
+    )
+  }
 
   getCharactersList() {
 
@@ -105,29 +126,29 @@ export class EditPagesMenuComponent extends BaseComponent implements OnInit {
     this.filesListNumber = fileList.length;
   }
 
-  drop(e: CdkDragDrop<string[]>) {
-    const page = this.pages[e.previousIndex]
-    this.pages.splice(e.previousIndex, 1);
-    this.pages.splice(e.currentIndex, 0, page);
+  // drop(e: CdkDragDrop<string[]>) {
+  //   const page = this.pages[e.previousIndex]
+  //   this.pages.splice(e.previousIndex, 1);
+  //   this.pages.splice(e.currentIndex, 0, page);
 
-    const ids: number[] = [];
-    for (const key in this.pages) {
-      if (this.pages.hasOwnProperty(key)) {
-        const element = this.pages[key];
-        ids.push(element.id);
-      }
-    }
+  //   const ids: number[] = [];
+  //   for (const key in this.pages) {
+  //     if (this.pages.hasOwnProperty(key)) {
+  //       const element = this.pages[key];
+  //       ids.push(element.id);
+  //     }
+  //   }
 
-    this.subscriptions$.add(
-      this._storyService
-        .patchPageSequence(ids, this.chapterId, this.bookId)
-        .subscribe(_ => {
-          this.getPages();
-        }, err => {
-          this._toastrService.error('Nie udało się zmienić kolejności stron.')
-        })
-    )
-  }
+  //   this.subscriptions$.add(
+  //     this._storyService
+  //       .patchPageSequence(ids, this.chapterId, this.bookId)
+  //       .subscribe(_ => {
+  //         this.getPages();
+  //       }, err => {
+  //         this._toastrService.error('Nie udało się zmienić kolejności stron.')
+  //       })
+  //   )
+  // }
 
   addNewPages() {
     const formData = new FormData();
@@ -151,13 +172,13 @@ export class EditPagesMenuComponent extends BaseComponent implements OnInit {
 
   }
 
-  deletePage(id: number) {
+  deletePage(order: number) {
     this.subscriptions$.add(
       this._storyService
-        .deletePage(id)
+        .deletePage(order, this.chapterId)
         .subscribe(_ => {
           this._toastrService.success('Udało się usunąć wybraną stronę!');
-          this.getPages();
+          this.getChapter(this.chapterId);
         }, err => {
           this._toastrService.error('Nie udało się usunąć wybranej części.');
         })

@@ -2,7 +2,6 @@ package com.meowmere.main.services.story;
 
 import com.meowmere.main.dto.story.books.BookDTO;
 import com.meowmere.main.dto.story.chapters.ChapterDTO;
-import com.meowmere.main.dto.story.pages.PageDTO;
 import com.meowmere.main.entities.story.Book;
 import com.meowmere.main.entities.story.Chapter;
 import com.meowmere.main.entities.story.Page;
@@ -15,14 +14,15 @@ import com.meowmere.main.requests.story.books.EditBookRequest;
 import com.meowmere.main.requests.story.chapters.ChapterRequest;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.FileCopyUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -60,6 +60,7 @@ public class StoryService {
             ModelMapper modelMapper = new ModelMapper();
             for (Chapter chapter: chapters) {
             ChapterDTO chapterDTO = modelMapper.map(chapter, ChapterDTO.class);
+            chapterDTO.setPagesNumber(chapter.getPages().size());
             chapterDTOS.add(chapterDTO);
             }
         }
@@ -67,15 +68,9 @@ public class StoryService {
         return new ResponseEntity(chapterDTOS, HttpStatus.OK);
     }
 
-    public ResponseEntity getPagesForChapter(Long chapterId, Integer pageNumber, HttpHeaders httpHeaders) {
-        Chapter chapter = chapterRepository.getOne(chapterId);
-        if(chapter == null) {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
-        }
-        ArrayList<Page> pages = pageRepository.getPagesForChapter(chapterId);
-        PageDTO pageDTO = new PageDTO();
-        if(pages != null) {
-            Page page = pageRepository.getPageByPageNumber(pageNumber);
+    public ResponseEntity getPagesForChapter(Long chapterId, Integer pageNumber) {
+        byte[] bytes = new byte[]{};
+            Page page = pageRepository.getPageByPageNumber(pageNumber, chapterId);
             if(page != null) {
                 try {
                     String uri = "C:\\tmp\\story\\";
@@ -88,18 +83,15 @@ public class StoryService {
                             .filter(x -> Objects.equals(page.getFileLocation(), x.getName()))
                             .findFirst()
                             .orElse(null);
-
-//                byte[] bytes = FileCopyUtils.copyToByteArray(image);
-                    if(image != null) {
-                        pageDTO.setFileName(image.getName());
-                        pageDTO.setId(page.getId());
-                        pageDTO.setPageNumber(page.getPageNumber());
-                    }
+                bytes = FileCopyUtils.copyToByteArray(image);
                 }catch (IOException e) {
                 }
             }
-        }
-        return new ResponseEntity(pageDTO, httpHeaders, HttpStatus.OK);
+
+
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.IMAGE_JPEG);
+        return new ResponseEntity(bytes, httpHeaders, HttpStatus.OK);
     }
 
     public ResponseEntity createBook(CreateBookRequest request) {
@@ -162,19 +154,29 @@ public class StoryService {
         return  new ResponseEntity(HttpStatus.OK);
     }
 
-    public ResponseEntity deletePage(Long id) {
-        Page page = pageRepository.getOne(id);
+    public ResponseEntity deletePage(Integer chapterOrder, Long chapterId) {
+        Page page = pageRepository.getPageByPageNumber(chapterOrder, chapterId);
+
         if(page != null) {
-        Resource resource = new ClassPathResource(page.getFileLocation());
+            String uri = "C:\\tmp\\story\\";
+            Resource resource = resourceLoader.getResource("file:" + uri);
         try {
             File file = resource.getFile();
             File[] images = file.listFiles();
-            if(images != null && images.length > 0) {
-                for (File image : images) {
-                    image.delete();
-                }
-            }
+
+            File image  = Arrays
+                    .stream(images)
+                    .filter(x -> Objects.equals(page.getFileLocation(), x.getName()))
+                    .findFirst()
+                    .orElse(null);
+            image.delete();
             pageRepository.delete(page);
+
+            ArrayList<Page> pagesFromDb = pageRepository.getPagesForChapter(chapterId);
+            for (int i = 0; i < pagesFromDb.size(); i++) {
+                pagesFromDb.get(i).setPageNumber(i);
+                pageRepository.saveAndFlush(pagesFromDb.get(i));
+            }
 
 
         } catch (IOException e) {

@@ -121,8 +121,10 @@ export class StoryService {
     return this.http.delete<void>(this._deleteChapterURL, { params });
   }
 
-  deletePage(id: number) {
-    const params = new HttpParams().set('id', '' + id);
+  deletePage(chapterOrder: number, chapterId: number) {
+    const params = new HttpParams()
+      .set('chapterOrder', '' + chapterOrder)
+      .set('chapterId', '' + chapterId)
     return this.http.delete<void>(this._deletePageURL, { params });
   }
 }
