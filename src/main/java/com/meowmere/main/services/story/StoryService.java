@@ -17,16 +17,16 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class StoryService {
@@ -36,6 +36,9 @@ public class StoryService {
     ChapterRepository chapterRepository;
     @Autowired
     PageRepository pageRepository;
+    @Autowired
+    ResourceLoader resourceLoader;
+
 
     public ResponseEntity getBooks() {
         ModelMapper modelMapper = new ModelMapper();
@@ -64,35 +67,39 @@ public class StoryService {
         return new ResponseEntity(chapterDTOS, HttpStatus.OK);
     }
 
-    public ResponseEntity getPagesForChapter(Long chapterId) {
+    public ResponseEntity getPagesForChapter(Long chapterId, Integer pageNumber, HttpHeaders httpHeaders) {
         Chapter chapter = chapterRepository.getOne(chapterId);
         if(chapter == null) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
         ArrayList<Page> pages = pageRepository.getPagesForChapter(chapterId);
-        ArrayList<PageDTO> pagesDTOs = new ArrayList<>();
+        PageDTO pageDTO = new PageDTO();
         if(pages != null) {
-            for (Page page : pages) {
-            try {
-                PageDTO pageDTO = new PageDTO();
-                Resource resource = new ClassPathResource(page.getFileLocation());
-                File file = resource.getFile();
-                File[] images = file.listFiles();
-                if(images.length > 0) {
-                    pageDTO.setFileName(images[0].getName());
-                    pageDTO.setId(page.getId());
-                    pageDTO.setPageNumber(page.getPageNumber());
+            Page page = pageRepository.getPageByPageNumber(pageNumber);
+            if(page != null) {
+                try {
+                    String uri = "C:\\tmp\\story\\";
+                    Resource resource = resourceLoader.getResource("file:" + uri);
+                    File file = resource.getFile();
+                    File[] images = file.listFiles();
+
+                    File image  = Arrays
+                            .stream(images)
+                            .filter(x -> Objects.equals(page.getFileLocation(), x.getName()))
+                            .findFirst()
+                            .orElse(null);
+
+//                byte[] bytes = FileCopyUtils.copyToByteArray(image);
+                    if(image != null) {
+                        pageDTO.setFileName(image.getName());
+                        pageDTO.setId(page.getId());
+                        pageDTO.setPageNumber(page.getPageNumber());
+                    }
+                }catch (IOException e) {
                 }
-                pagesDTOs.add(pageDTO);
-
-            }catch (IOException e) {
             }
-
-            }
-
         }
-
-        return new ResponseEntity(pagesDTOs, HttpStatus.OK);
+        return new ResponseEntity(pageDTO, httpHeaders, HttpStatus.OK);
     }
 
     public ResponseEntity createBook(CreateBookRequest request) {
