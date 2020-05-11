@@ -17,6 +17,8 @@
   max-height: calc(100vh - #{$navbar-height});
   object-fit: scale-down;
 
+  max-width: 50vw;
+
   background-position: 50% 50%;
   background-repeat: no-repeat;
   background-size: cover;
