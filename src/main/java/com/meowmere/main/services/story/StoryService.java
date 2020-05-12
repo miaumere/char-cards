@@ -28,6 +28,7 @@ import com.meowmere.main.requests.story.chapters.ChapterRequest;
 import org.apache.commons.io.FilenameUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.data.domain.Sort;
@@ -67,6 +68,8 @@ public class StoryService {
     ImageRepository imageRepository;
     @Autowired
     CharacterRepository characterRepository;
+    @Value("${alea.storyLocation}")
+    private String aleaStoryLocation;
 
     public ResponseEntity getBooks() {
         ModelMapper modelMapper = new ModelMapper();
@@ -161,13 +164,12 @@ public class StoryService {
         byte[] bytes = new byte[]{};
             Page page = pageRepository.getPageByPageNumber(pageNumber, chapterId);
             if(page != null) {
-                String uri = "C:\\tmp\\story\\";
-                try (Stream<Path> walk = Files.walk(Paths.get(uri))) {
+                try (Stream<Path> walk = Files.walk(Paths.get(aleaStoryLocation))) {
                     List<String> allFilesInDir = walk.filter(Files::isRegularFile)
                             .map(x -> x.toString()).collect(Collectors.toList());
 
                     for (String fileInDir: allFilesInDir) {
-                        if(Objects.equals(fileInDir, uri + page.getFileLocation())) {
+                        if(Objects.equals(fileInDir, aleaStoryLocation + page.getFileLocation())) {
                             File image = new File(fileInDir);
                             bytes = FileCopyUtils.copyToByteArray(image);
                         }
@@ -244,7 +246,6 @@ public class StoryService {
         while (it.hasNext()) {
             Map.Entry pair = (Map.Entry)it.next();
 
-            String uri = "C:\\tmp\\story\\";
 
             MultipartFile file = (MultipartFile) pair.getValue();
             if(file != null) {
@@ -272,7 +273,7 @@ public class StoryService {
 
 
 
-                    File fileToSave = new File(uri, fileToSaveName);
+                    File fileToSave = new File(aleaStoryLocation, fileToSaveName);
                     FileOutputStream fos = new FileOutputStream(fileToSave);
                     fos.write(byteArr);
                     fos.close();
@@ -364,8 +365,7 @@ public class StoryService {
         Page page = pageRepository.getOne(pageId);
 
         if(page != null) {
-            String uri = "C:\\tmp\\story\\";
-            Resource resource = resourceLoader.getResource("file:" + uri);
+            Resource resource = resourceLoader.getResource("file:" + aleaStoryLocation);
         try {
             File file = resource.getFile();
             File[] images = file.listFiles();
