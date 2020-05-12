@@ -9,7 +9,9 @@
         <div matRipple routerLinkActive="router-link-active" class="characters-menu__item">
 
           {{character.fullName}}
-          <span *ngIf="character.characterType === 'MAIN'">🌙</span>
+          <span *ngIf="character.characterType === 'MAIN'">
+            <img src="../../../../../assets/svg/rdest.svg" style="    height: 15px; margin-left: 3px            ">
+          </span>
         </div>
       </a>
     </ng-container>

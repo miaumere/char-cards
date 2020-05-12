@@ -8,7 +8,8 @@
       <div *ngIf="!character.profilePic" class="character__profile-pic character__profile-pic--empty">
       </div>
       <span class="character__name">
-        <span *ngIf="character.characterType === 'MAIN'">🌙</span>
+        <span *ngIf="character.characterType === 'MAIN'"> <img src="../../../../../assets/svg/rdest.svg">
+        </span>
         {{ character.fullName }}
       </span>
     </a>
