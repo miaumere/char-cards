@@ -9,9 +9,10 @@
       'image--active': i === currentImageIndex
     }" />
     </div>
-    <button mat-mini-fab (click)="setImage(currentImageIndex+1)" [disabled]="currentImageIndex === pages?.length - 1"
-      [ngStyle]="{'background': bookColor}">
+    <button mat-mini-fab (click)="setImage(currentImageIndex+1)"
+      [disabled]="currentImageIndex === pagesNumber?.length - 1" [ngStyle]="{'background': bookColor}">
       <mat-icon>keyboard_arrow_right</mat-icon>
+
     </button>
   </ng-container>
   <div *ngIf="pagesNumber?.length === 0">
