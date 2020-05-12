@@ -10,5 +10,24 @@
 }
 .chapter-card {
   background: $card-bg;
-  min-width: 20rem;
+  margin: 3rem;
+}
+
+.char-card {
+  background: $card-bg;
+  margin: 1rem;
+
+  width: 12.5;
+
+  &__avatar {
+    width: 3.125rem;
+    height: 3.125rem;
+
+    border-radius: 50%;
+  }
+}
+
+.char-card-container {
+  display: flex;
+  flex-wrap: wrap;
 }

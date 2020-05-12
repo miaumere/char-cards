@@ -4,6 +4,7 @@ import com.meowmere.main.dto.character.character.CharactersMenuDTO;
 import com.meowmere.main.dto.character.image.ProfilePicForMainDTO;
 import com.meowmere.main.dto.story.books.BookDTO;
 import com.meowmere.main.dto.story.chapters.ChapterDTO;
+import com.meowmere.main.dto.story.chapters.ChapterWithCharsDTO;
 import com.meowmere.main.dto.story.starring.StarringCharacterDTO;
 import com.meowmere.main.entities.characters.Character;
 import com.meowmere.main.entities.characters.Image;
@@ -13,11 +14,14 @@ import com.meowmere.main.entities.story.Page;
 import com.meowmere.main.entities.story.StarringCharacters;
 import com.meowmere.main.enums.AvailableExtensions;
 import com.meowmere.main.enums.AvailableIcon;
+import com.meowmere.main.enums.StarringType;
+import com.meowmere.main.repositories.character.CharacterRepository;
 import com.meowmere.main.repositories.character.ImageRepository;
 import com.meowmere.main.repositories.story.BookRepository;
 import com.meowmere.main.repositories.story.ChapterRepository;
 import com.meowmere.main.repositories.story.PageRepository;
 import com.meowmere.main.repositories.story.StarringCharactersRepository;
+import com.meowmere.main.requests.characters.stories.EditStarringCharacterRequest;
 import com.meowmere.main.requests.story.books.CreateBookRequest;
 import com.meowmere.main.requests.story.books.EditBookRequest;
 import com.meowmere.main.requests.story.chapters.ChapterRequest;
@@ -61,7 +65,8 @@ public class StoryService {
     StarringCharactersRepository starringCharactersRepository;
     @Autowired
     ImageRepository imageRepository;
-
+    @Autowired
+    CharacterRepository characterRepository;
 
     public ResponseEntity getBooks() {
         ModelMapper modelMapper = new ModelMapper();
@@ -94,6 +99,62 @@ public class StoryService {
         }
 
         return new ResponseEntity(chapterDTOS, HttpStatus.OK);
+    }
+
+    public ResponseEntity getChaptersWithCharactersForBook(Long bookId) {
+        ArrayList<ChapterWithCharsDTO> chapterWithCharsDTOS = new ArrayList<>();
+        ArrayList<Chapter> chapters = chapterRepository.getChaptersForBook(bookId);
+        if(chapters != null) {
+            ModelMapper modelMapper = new ModelMapper();
+            for (Chapter chapter: chapters) {
+                ChapterWithCharsDTO chapterWithCharsDTO = modelMapper.map(chapter, ChapterWithCharsDTO.class);
+                ArrayList<Long> pagesIds = new ArrayList<>();
+                ArrayList<Page> pages = pageRepository.getPagesForChapter(chapter.getExternalId());
+                for (Page page : pages) {
+                    pagesIds.add(page.getId());
+                }
+                chapterWithCharsDTO.setPagesIds(pagesIds);
+                chapterWithCharsDTOS.add(chapterWithCharsDTO);
+
+                ArrayList<StarringCharacters> starringCharacters = starringCharactersRepository
+                        .getStarringCharactersByChapterId(chapter.getExternalId());
+                ArrayList<StarringCharacterDTO> characterDTOS = new ArrayList<>();
+
+                if(starringCharacters != null && starringCharacters.size() > 0) {
+                    for (StarringCharacters starringCharacter : starringCharacters) {
+                        StarringCharacterDTO dto = new StarringCharacterDTO();
+
+                        CharactersMenuDTO charactersMenuDTO = new CharactersMenuDTO();
+                        Character character = starringCharacter.getCharacter();
+
+                        charactersMenuDTO.setId(character.getExternalId());
+                        charactersMenuDTO.setCharacterType(character.getCharType().name());
+                        charactersMenuDTO.setCharName(character.getCharName());
+                        charactersMenuDTO.setCharSurname(character.getCharSurname());
+
+                        ProfilePicForMainDTO profilePicForMainDTO = new ProfilePicForMainDTO();
+
+                        Image image = imageRepository.getProfilePicForCharacter(character.getExternalId());
+                        if(image != null) {
+                            profilePicForMainDTO.setImage(image.getImage());
+                            profilePicForMainDTO.setExtension(image.getExtension());
+                            charactersMenuDTO.setProfilePic(profilePicForMainDTO);
+                        }
+
+                        dto.setCharacter(charactersMenuDTO);
+                        dto.setStarringType(starringCharacter.getStarringType().name());
+                        dto.setId(starringCharacter.getExternalId());
+
+                        characterDTOS.add(dto);
+                    }
+                    chapterWithCharsDTO.setStarringChars(characterDTOS);
+
+
+                }
+            }
+        }
+
+        return new ResponseEntity(chapterWithCharsDTOS, HttpStatus.OK);
     }
 
     public ResponseEntity getPagesForChapter(Long chapterId, Integer pageNumber) {
@@ -141,9 +202,11 @@ public class StoryService {
                 ProfilePicForMainDTO profilePicForMainDTO = new ProfilePicForMainDTO();
 
                 Image image = imageRepository.getProfilePicForCharacter(character.getExternalId());
-                profilePicForMainDTO.setImage(image.getImage());
-                profilePicForMainDTO.setExtension(image.getExtension());
-                charactersMenuDTO.setProfilePic(profilePicForMainDTO);
+                if(image != null) {
+                    profilePicForMainDTO.setImage(image.getImage());
+                    profilePicForMainDTO.setExtension(image.getExtension());
+                    charactersMenuDTO.setProfilePic(profilePicForMainDTO);
+                }
 
                 dto.setCharacter(charactersMenuDTO);
                 dto.setStarringType(starringCharacter.getStarringType().name());
@@ -254,6 +317,28 @@ public class StoryService {
         chapter.setName(request.getName());
         chapter.setChapterDesc(request.getChapterDesc());
         chapterRepository.saveAndFlush(chapter);
+
+
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    public ResponseEntity editStarringCharacters(EditStarringCharacterRequest request) {
+        Chapter chapter = chapterRepository.getOne(request.getChapterId());
+        if(chapter == null) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+        if(request.getId() == null) {
+            StarringCharacters starringCharacter = new StarringCharacters();
+            Character character = characterRepository.getOne(request.getCharacterId());
+            if(character == null) {
+                return new ResponseEntity(HttpStatus.NOT_FOUND);
+            }
+            starringCharacter.setCharacter(character);
+            starringCharacter.setChapter(chapter);
+            starringCharacter.setStarringType(StarringType.valueOf(request.getStarringType()));
+            starringCharactersRepository.saveAndFlush(starringCharacter);
+        }
+
 
 
         return new ResponseEntity(HttpStatus.OK);

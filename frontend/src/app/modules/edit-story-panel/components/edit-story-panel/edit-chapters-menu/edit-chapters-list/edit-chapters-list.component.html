@@ -40,7 +40,7 @@
           <mat-card-subtitle>{{chapter.chapterDesc}}</mat-card-subtitle>
         </mat-card-header>
         <p>
-          Ilość stron: {{chapter.pagesNumber}}
+          Ilość stron: {{chapter.pagesIds?.length}}
         </p>
         <mat-card-actions class="chapter-buttons-container">
           <button mat-mini-fab [ngStyle]="{'background': book.color, 'color': fontColor}"

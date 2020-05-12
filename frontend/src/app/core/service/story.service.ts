@@ -1,3 +1,5 @@
+import { IEditStarringCharacter } from 'src/app/modules/edit-story-panel/models/starring/edit-starring-character.model';
+import { StarringCharacter } from './../../modules/edit-story-panel/models/starring/starring-character.model';
 import { EditChapter } from './../../modules/edit-story-panel/models/chapters/edit-chapter.model';
 import { IChapter, Chapter } from './../../modules/edit-story-panel/models/chapters/chapter.model';
 import { EditBook } from './../../modules/edit-story-panel/models/books/edit-book.model';
@@ -6,8 +8,8 @@ import { IBook, Book } from './../../modules/edit-story-panel/models/books/book.
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/operators';
-import { Page, IPage } from 'src/app/modules/pages/models/pages/page.model';
-import { IStarringCharacter, StarringCharacter } from 'src/app/modules/edit-story-panel/models/starring/starring-character.model';
+import { IStarringCharacter } from 'src/app/modules/edit-story-panel/models/starring/starring-character.model';
+import { IChapterWithChars, ChapterWithChars } from 'src/app/modules/pages/models/pages/chapter-with-chars.model';
 
 @Injectable({
   providedIn: 'root'
@@ -18,10 +20,12 @@ export class StoryService {
   private readonly _getAllBooksURL = `${this.storyControllerURL}/get-all-books`;
   private readonly _getChapterForBookURL = `${this.storyControllerURL}/get-chapters-for-book`;
   private readonly _getStarringCharactersForChapterURL = `${this.storyControllerURL}/get-starring-characters`;
+  private readonly _getChaptersWithCharsURL = `${this.storyControllerURL}/get-chapters-with-characters`;
 
   private readonly _createBookURL = `${this.storyControllerURL}/new-book`;
   private readonly _editChapterURL = `${this.storyControllerURL}/edit-chapter`;
   private readonly _newPagesURL = `${this.storyControllerURL}/new-pages`;
+  private readonly _editStarringCharacterURL = `${this.storyControllerURL}/edit-starring-character`;
 
   private readonly _editBookURL = `${this.storyControllerURL}/edit-book`;
 
@@ -57,6 +61,17 @@ export class StoryService {
     );
   }
 
+  getChaptersWithChars(bookId: number) {
+    const params = new HttpParams().set('id', '' + bookId);
+
+    return this.http.get<IChapterWithChars[]>(this._getChaptersWithCharsURL, { params }).pipe(
+      map(response => {
+        const mappedResponse = response.map(r => new ChapterWithChars(r));
+        return mappedResponse;
+      })
+    );
+  }
+
   getStarringCharactersForChapter(id: number) {
     const params = new HttpParams().set('chapterId', '' + id);
 
@@ -68,6 +83,9 @@ export class StoryService {
     )
   }
 
+  postStarringCharacters(requestBody: IEditStarringCharacter) {
+    return this.http.post<IEditStarringCharacter>(this._editStarringCharacterURL, requestBody);
+  }
 
   createBook(requestBody: CreateBook) {
     return this.http.post<CreateBook>(this._createBookURL, requestBody);

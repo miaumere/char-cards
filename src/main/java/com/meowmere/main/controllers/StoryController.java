@@ -1,5 +1,6 @@
 package com.meowmere.main.controllers;
 
+import com.meowmere.main.requests.characters.stories.EditStarringCharacterRequest;
 import com.meowmere.main.requests.story.books.CreateBookRequest;
 import com.meowmere.main.requests.story.books.EditBookRequest;
 import com.meowmere.main.requests.story.chapters.ChapterRequest;
@@ -34,6 +35,11 @@ public class StoryController {
         return storyService.getStarringCharactersForChapter(chapterId);
     }
 
+    @GetMapping("/get-chapters-with-characters")
+    public ResponseEntity getChaptersWithCharacters(@RequestParam Long id) {
+        return storyService.getChaptersWithCharactersForBook(id);
+    }
+
     @PostMapping("/new-book")
     public ResponseEntity createBook(@RequestBody CreateBookRequest request) {return storyService.createBook(request);}
 
@@ -42,6 +48,11 @@ public class StoryController {
                                          @RequestParam Long chapterId
                                          ){
         return storyService.createPages(multipartHttpServletRequest, chapterId);
+    }
+
+    @PostMapping("/edit-starring-character")
+    public ResponseEntity editStarringCharactersInChapter(@RequestBody EditStarringCharacterRequest request) {
+        return storyService.editStarringCharacters(request);
     }
 
     @PostMapping("/edit-chapter")

@@ -1,13 +1,13 @@
 import { ICharacterItem } from 'src/app/modules/characters/models/character-item.model';
 
 export interface IStarringCharacter {
-  id: number;
+  id: number | null;
   character: ICharacterItem;
   starringType: string;
 }
 
 export class StarringCharacter implements IStarringCharacter {
-  id: number;
+  id: number | null;
   character: ICharacterItem;
   starringType: string;
 

@@ -49,7 +49,7 @@
 
   <mat-tab label="Edycja postaci występujących">
     <div class="edit-existing-characters">
-      <form [formGroup]="charactersInChapterForm">
+      <form [formGroup]="charactersInChapterForm" class="starring-characters-form">
         <mat-form-field class="edit-existing-characters__form-field">
           <mat-label>Dodaj postać, która występuje w części:</mat-label>
           <input matInput placeholder="Imię postaci" formControlName="character" required [matAutocomplete]="auto">
@@ -63,31 +63,48 @@
           </mat-autocomplete>
         </mat-form-field>
 
+        <label id="type-radio-group">Rodzaj występowania:</label>
+        <mat-radio-group formControlName="starringType" aria-labelledby="type-radio-group"
+          class="starring-characters-form__radio-group radio-group">
+          <ng-container *ngFor="let gen of StarringType | enumVal">
+            <mat-radio-button class="example-margin" [value]="gen.key" name="gender" class="radio-group__item">
+              {{gen.value}}
+            </mat-radio-button>
+          </ng-container>
+        </mat-radio-group>
+
+        <button mat-stroked-button [ngStyle]="{'background': bookColor}" [disabled]="charactersInChapterForm.invalid"
+          (click)="createStarringCharacter()">
+          Dodaj postać do części
+        </button>
       </form>
 
-      <div>
-        <span>Obecne występujące postacie:</span>
-        <div *ngIf="starringCharacters.length > 0">
-          <mat-card *ngFor="let starringCharacter of starringCharacters" class="starring-char-card">
-            <mat-card-header>
-              <div mat-card-avatar>
-                <img *ngIf="starringCharacter.character.profilePic" class="header-image"
-                  [src]="'data:image/' + starringCharacter.character.profilePic?.extension + ';base64, ' +starringCharacter.character.profilePic?.image | sanitizer">
-              </div>
-              <mat-card-title>{{starringCharacter.character.charName}} {{starringCharacter.character.charSurname}}
-              </mat-card-title>
-              <mat-card-subtitle>{{starringCharacter.starringType}}</mat-card-subtitle>
-            </mat-card-header>
-            <mat-card-actions>
-              <button mat-stroked-button color="warn" (click)="insertDeleteInfo()"
-                (dblclick)="deleteStarringCharacter(starringCharacter.id)">
-                <mat-icon>delete</mat-icon>
-                Usuń postać z tej części
-              </button>
-            </mat-card-actions>
-          </mat-card>
-        </div>
-        <div *ngIf="starringCharacters.length === 0"> Brak.</div>
+      <div class="starring-characters">
+        <ng-container *ngIf="starringCharacters.length > 0">
+          <span>Obecne występujące postacie:</span>
+          <div class="starring-characters__container">
+            <mat-card *ngFor="let starringCharacter of starringCharacters" class="starring-char-card">
+              <mat-card-header>
+                <div mat-card-avatar>
+                  <img *ngIf="starringCharacter.character.profilePic" class="header-image"
+                    [src]="'data:image/' + starringCharacter.character.profilePic?.extension + ';base64, ' +starringCharacter.character.profilePic?.image | sanitizer">
+                </div>
+                <mat-card-title>{{starringCharacter.character.charName}} {{starringCharacter.character.charSurname}}
+                </mat-card-title>
+                <mat-card-subtitle>{{starringCharacter.starringType}}</mat-card-subtitle>
+              </mat-card-header>
+              <mat-card-actions>
+                <button mat-stroked-button color="warn" (click)="insertDeleteInfo()"
+                  (dblclick)="deleteStarringCharacter(starringCharacter.id)">
+                  <mat-icon>delete</mat-icon>
+                  Usuń postać z tej części
+                </button>
+              </mat-card-actions>
+            </mat-card>
+
+          </div>
+        </ng-container>
+        <div *ngIf="starringCharacters.length === 0"> Brak występujących postaci w tej części.</div>
       </div>
 
     </div>

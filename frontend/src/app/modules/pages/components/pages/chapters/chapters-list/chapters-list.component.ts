@@ -2,10 +2,9 @@ import { StoryService } from 'src/app/core/service/story.service';
 import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { BaseComponent } from 'src/app/core/base.component';
-import { Book } from 'src/app/modules/edit-story-panel/models/books/book.model';
-import { map } from 'rxjs/operators';
-import { Chapter } from 'src/app/modules/edit-story-panel/models/chapters/chapter.model';
+
 import * as tinycolor from 'tinycolor2';
+import { IChapterWithChars } from 'src/app/modules/pages/models/pages/chapter-with-chars.model';
 
 @Component({
   selector: 'app-chapters-list',
@@ -13,7 +12,7 @@ import * as tinycolor from 'tinycolor2';
   styleUrls: ['./chapters-list.component.scss']
 })
 export class ChaptersListComponent extends BaseComponent implements OnInit {
-  chapters: Chapter[] = [];
+  chapters: IChapterWithChars[] = [];
   fontColor = 'white';
   bookColor: string;
   bgColor: string;
@@ -30,18 +29,22 @@ export class ChaptersListComponent extends BaseComponent implements OnInit {
         this.bookId = +queryParam.id;
         this.bookColor = queryParam.color;
         const bookColor = tinycolor(queryParam.color);
-        this.bgColor = bookColor.darken(35).desaturate(30)
+        this.bgColor = bookColor.darken(35).desaturate(30);
+
+        if (bookColor.isLight()) {
+          this.fontColor = 'black';
+        }
       });
 
-    this.getChapters();
+    this.getChaptersWithCharacters();
 
   }
 
 
-  getChapters() {
+  getChaptersWithCharacters() {
     this.subscriptions$.add(
       this._storyService
-        .getChaptersForBook(this.bookId)
+        .getChaptersWithChars(this.bookId)
         .subscribe(chapters => {
           this.chapters = chapters;
         })

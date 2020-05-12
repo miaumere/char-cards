@@ -1,4 +1,5 @@
-import { StarringCharacter } from './../../../../models/starring/starring-character.model';
+import { StarringType } from './../../../../enums/StarringType.enum';
+import { StarringCharacter, IStarringCharacter } from './../../../../models/starring/starring-character.model';
 import { CharactersService } from './../../../../../../core/service/characters.service';
 import { ToastrService } from 'ngx-toastr';
 import { StoryService } from 'src/app/core/service/story.service';
@@ -13,6 +14,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { CharacterItem } from 'src/app/modules/characters/models/character-item.model';
 import { finalize, startWith, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { IEditStarringCharacter } from 'src/app/modules/edit-story-panel/models/starring/edit-starring-character.model';
 
 @Component({
   selector: 'app-edit-pages-menu',
@@ -21,6 +23,9 @@ import { Observable } from 'rxjs';
 })
 export class EditPagesMenuComponent extends BaseComponent implements OnInit {
   private readonly pageURL = '/api/stories/get-images';
+  readonly StarringType = StarringType;
+
+
   fontColor = 'white';
   bookColor: string;
   bookId: number;
@@ -32,8 +37,11 @@ export class EditPagesMenuComponent extends BaseComponent implements OnInit {
 
   chapterId: number;
 
+  editedCharacterId: number;
+
   charactersInChapterForm = new FormGroup({
     character: new FormControl('', Validators.required),
+    starringType: new FormControl('', Validators.required)
   });
 
   charList: CharacterItem[] = [];
@@ -165,6 +173,39 @@ export class EditPagesMenuComponent extends BaseComponent implements OnInit {
           this._toastrService.error('Nie udało się dodać nowych stron.');
         })
     )
+
+  }
+
+  createStarringCharacter() {
+    const charFormValue = this.charactersInChapterForm.get('character')?.value;
+    if (charFormValue) {
+      const foundChar = this.charList.find(c => `${c.charName} ${c.charSurname}`.toLowerCase() === charFormValue.toLowerCase());
+
+
+      if (foundChar) {
+        const objToSend: IEditStarringCharacter = {
+          id: this.editedCharacterId ? +this.editedCharacterId : null,
+          characterId: foundChar.id,
+          chapterId: this.chapterId,
+          starringType: StarringType[this.charactersInChapterForm.get('starringType')?.value]
+        };
+
+        this.subscriptions$.add(
+          this._storyService
+            .postStarringCharacters(
+              objToSend
+            ).subscribe(_ => {
+              this._toastrService.success('Udało się dodać postać do części!');
+              this.getStarringCharactersForChapter();
+            }, err => {
+              this._toastrService.error('Nie udało się dodać postaci do części.')
+            })
+        )
+      }
+    }
+
+
+
 
   }
 
