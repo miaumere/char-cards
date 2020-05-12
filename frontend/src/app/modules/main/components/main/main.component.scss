@@ -10,7 +10,8 @@
 }
 
 .bg {
-  background-image: url("../../../../../assets/images/bg.jpg");
+  // background-image: url("../../../../../assets/images/bg.jpg");
+  background-image: linear-gradient(to top, #61b7ac 0%, #ffd1ff 30%, #ff9a9e 100%);
 
   object-fit: scale-down;
 
@@ -37,6 +38,6 @@
     color: white;
     font-weight: bolder;
 
-    background: rgba(0, 0, 0, 0.6);
+    background: rgba(0, 0, 0, 0.3);
   }
 }

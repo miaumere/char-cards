@@ -7,14 +7,21 @@
     &--biohazard {
       transform: scale(1.5) translate(-10px, 1px);
     }
-
-    &--panther {
-      transform: scale(1.5) translate(-10px, 1px);
-    }
   }
 }
 
 .text {
   font-weight: bolder;
   font-size: 0.6rem;
+}
+
+.panther {
+  position: absolute;
+
+  height: 50px;
+  width: 50px;
+
+  margin-left: -2rem;
+
+  z-index: 1000;
 }
