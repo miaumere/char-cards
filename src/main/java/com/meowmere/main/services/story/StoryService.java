@@ -25,10 +25,10 @@ import com.meowmere.main.requests.characters.stories.EditStarringCharacterReques
 import com.meowmere.main.requests.story.books.CreateBookRequest;
 import com.meowmere.main.requests.story.books.EditBookRequest;
 import com.meowmere.main.requests.story.chapters.ChapterRequest;
+import com.meowmere.main.utils.UtilsShared;
 import org.apache.commons.io.FilenameUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.data.domain.Sort;
@@ -68,8 +68,8 @@ public class StoryService {
     ImageRepository imageRepository;
     @Autowired
     CharacterRepository characterRepository;
-    @Value("${alea.storyLocation}")
-    private String aleaStoryLocation;
+
+    String storiesPath = UtilsShared.GetMainDir()+"stories";
 
     public ResponseEntity getBooks() {
         ModelMapper modelMapper = new ModelMapper();
@@ -164,16 +164,24 @@ public class StoryService {
         byte[] bytes = new byte[]{};
             Page page = pageRepository.getPageByPageNumber(pageNumber, chapterId);
             if(page != null) {
-                Path path= Paths.get(aleaStoryLocation);
+                Path path= Paths.get(storiesPath);
                 if(!Files.exists(path)){
-                    new File(aleaStoryLocation).mkdirs();
+                    new File(storiesPath).mkdirs();
                 }
-                try (Stream<Path> walk = Files.walk(Paths.get(aleaStoryLocation))) {
+
+                String separator = System.getProperty("file.separator");
+
+                if(!storiesPath.endsWith(separator)) {
+                    storiesPath += separator;
+                }
+
+
+                try (Stream<Path> walk = Files.walk(Paths.get(storiesPath))) {
                     List<String> allFilesInDir = walk.filter(Files::isRegularFile)
                             .map(x -> x.toString()).collect(Collectors.toList());
 
                     for (String fileInDir: allFilesInDir) {
-                        if(Objects.equals(fileInDir, aleaStoryLocation + page.getFileLocation())) {
+                        if(Objects.equals(fileInDir, storiesPath + page.getFileLocation())) {
                             File image = new File(fileInDir);
                             bytes = FileCopyUtils.copyToByteArray(image);
                         }
@@ -274,12 +282,12 @@ public class StoryService {
 
                     String fileToSaveName = generatedString + uuid + "." + extension;
 
-                    Path path= Paths.get(aleaStoryLocation);
+                    Path path= Paths.get(storiesPath);
                     if(!Files.exists(path)){
-                        new File(aleaStoryLocation).mkdirs();
+                        new File(storiesPath).mkdirs();
                     }
 
-                    File fileToSave = new File(aleaStoryLocation, fileToSaveName);
+                    File fileToSave = new File(storiesPath, fileToSaveName);
                     FileOutputStream fos = new FileOutputStream(fileToSave);
                     fos.write(byteArr);
                     fos.close();
@@ -371,7 +379,7 @@ public class StoryService {
         Page page = pageRepository.getOne(pageId);
 
         if(page != null) {
-            Resource resource = resourceLoader.getResource("file:" + aleaStoryLocation);
+            Resource resource = resourceLoader.getResource("file:" + storiesPath);
         try {
             File file = resource.getFile();
             File[] images = file.listFiles();

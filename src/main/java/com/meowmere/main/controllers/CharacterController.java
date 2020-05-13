@@ -16,7 +16,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 
@@ -34,7 +33,7 @@ public class CharacterController {
     public ResponseEntity getEveryCharacter() { return charactersService.getEveryCharacter();}
 
     @GetMapping("/get-character/{characterId}")
-    public ResponseEntity getCharacterById(@PathVariable Long characterId) throws IOException {
+    public ResponseEntity getCharacterById(@PathVariable Long characterId) {
         return charactersService.getCharacter(characterId);
     }
 
