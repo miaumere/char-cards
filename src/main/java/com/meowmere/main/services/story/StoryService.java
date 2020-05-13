@@ -164,6 +164,10 @@ public class StoryService {
         byte[] bytes = new byte[]{};
             Page page = pageRepository.getPageByPageNumber(pageNumber, chapterId);
             if(page != null) {
+                Path path= Paths.get(aleaStoryLocation);
+                if(!Files.exists(path)){
+                    new File(aleaStoryLocation).mkdirs();
+                }
                 try (Stream<Path> walk = Files.walk(Paths.get(aleaStoryLocation))) {
                     List<String> allFilesInDir = walk.filter(Files::isRegularFile)
                             .map(x -> x.toString()).collect(Collectors.toList());
@@ -270,8 +274,10 @@ public class StoryService {
 
                     String fileToSaveName = generatedString + uuid + "." + extension;
 
-
-
+                    Path path= Paths.get(aleaStoryLocation);
+                    if(!Files.exists(path)){
+                        new File(aleaStoryLocation).mkdirs();
+                    }
 
                     File fileToSave = new File(aleaStoryLocation, fileToSaveName);
                     FileOutputStream fos = new FileOutputStream(fileToSave);

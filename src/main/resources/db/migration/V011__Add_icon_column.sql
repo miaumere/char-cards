@@ -1,0 +1,1 @@
+alter table public.book add icon varchar(255);
