@@ -24,22 +24,24 @@ export class CharacterImagesComponent extends BaseComponent implements OnInit {
   profilePic: File | null = null;
   images: FileList | null = null;
 
-  @ViewChild('newProfilePic') newProfilePic;
+  isProfilePicChosen = false;
 
+  @ViewChild('newProfilePic') newProfilePic;
 
   profilePicForMain: IProfilePic | null = null;
   imagesListForMain: IImageForMain[] | null = null;
 
+  filesListNumber = 0;
 
   newProfilePicForm = new FormGroup({
     profilePic: new FormControl()
   });
 
+  imgURLList: any[] = [];
 
   constructor(
     private _toastrService: ToastrService,
     private _characterService: CharactersService,
-    private _route: Router,
     private _activatedRoute: ActivatedRoute,
   ) { super(); }
 
@@ -112,7 +114,30 @@ export class CharacterImagesComponent extends BaseComponent implements OnInit {
 
   handleFileInput(files: FileList, multiple: boolean) {
     multiple ? this.images = files : this.profilePic = files.item(0);
+
+    !multiple && files[0] ? this.isProfilePicChosen = true : this.isProfilePicChosen = false;
+    if (multiple) {
+      this.filesListNumber = files.length;
+    }
   }
+
+  preview(files: FileList) {
+    this.imgURLList = [];
+    if (files.length === 0) {
+      return;
+    }
+
+    for (let i = 0; i < files.length; i++) {
+      const reader = new FileReader();
+      reader.readAsDataURL(files[i]);
+      reader.onload = e => {
+        this.imgURLList.push(reader.result);
+      }
+
+    }
+
+  }
+
 
   setNewImages() {
     this.loading = true;
@@ -139,6 +164,9 @@ export class CharacterImagesComponent extends BaseComponent implements OnInit {
         .subscribe(_ => {
           this._toastrService.success('Udało się zmienić zdjęcia dla postaci!');
           this.getCharacterImages();
+          this.imgURLList = [];
+          this.filesListNumber = 0;
+          this.isProfilePicChosen = false;
         },
           err => {
             if (err?.error) {

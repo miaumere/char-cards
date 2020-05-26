@@ -1,16 +1,23 @@
 @import "../../../../../global_styles/variables.scss";
-$border-radius: 3px;
 
-.submit-container {
-  display: flex;
-  align-items: flex-end;
-}
 .edit-main-pic-form {
-  border: 1px solid white;
-  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  height: calc(100vh - #{$navbar-height});
 }
 
-.profile-pic {
+.form-subitems-container {
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  align-items: center;
+
+  width: 100%;
+}
+
+.image {
   display: flex;
   width: 7.5rem;
   height: 7.5rem;
@@ -20,18 +27,31 @@ $border-radius: 3px;
   background-repeat: no-repeat;
   background-size: cover;
 
-  margin: auto;
+  &--profile-pic {
+    max-height: 6rem;
+    max-width: 6rem;
 
-  &__name {
-    margin-top: 0.5rem;
-    display: block;
+    margin: auto;
+    border-radius: 50%;
+    padding: 1rem 0;
   }
 }
 
+.profile-pic-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-pic-card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  background: $card-bg;
+}
+
 .profile-pic-name {
-  &__option {
-    margin-left: -1rem;
-  }
   transition: 0.3s;
   &--editable {
     transition: 0.3s;
@@ -41,28 +61,39 @@ $border-radius: 3px;
   }
 }
 
-.images {
-  &__container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
-  }
+.images-list {
+  display: flex;
+  flex-wrap: wrap;
+}
 
-  &__item {
-    margin: 5px;
+.images-container {
+  width: 50%;
+}
 
-    border-radius: $border-radius;
-    padding: 1rem;
-    padding-top: 0;
+.image-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
-    background: rgba(0, 0, 0, 0.5);
-  }
-  &__option {
-    display: flex;
+  margin: 0.5rem;
 
-    & span {
-      margin-right: -0.8rem;
-      margin-left: auto;
-    }
-  }
+  background: $card-bg;
+}
+
+.image-preview-card {
+  width: fit-content;
+
+  margin: 0.5rem;
+
+  background: $card-bg;
+}
+
+.image-preview {
+  max-height: 5rem;
+  max-width: 5rem;
+}
+
+.image-previews-container {
+  display: flex;
+  flex-wrap: wrap;
 }
