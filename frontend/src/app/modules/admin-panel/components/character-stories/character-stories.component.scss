@@ -52,11 +52,19 @@
 }
 
 .boundary {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
   width: 400px;
   height: 100%;
+  max-height: calc(100vh - #{2 * $navbar-height});
 
   max-width: 100%;
   border: dotted #ccc 2px;
+
+  overflow: scroll;
 
   &__placeholder {
     background: #ccc;

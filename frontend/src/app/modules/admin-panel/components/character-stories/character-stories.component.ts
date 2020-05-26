@@ -45,8 +45,6 @@ export class CharacterStoriesComponent extends BaseComponent implements OnInit {
   stories: Story[] = [];
   selectedCharacter?: CharacterItem;
 
-  isStoryFormShown = false;
-
   newStoryForm = new FormGroup({
     title: new FormControl('', [Validators.required, Validators.maxLength(255)]),
     desc: new FormControl('', [Validators.required, Validators.maxLength(2000)])
@@ -169,9 +167,6 @@ export class CharacterStoriesComponent extends BaseComponent implements OnInit {
     )
   }
 
-  showNewStoryForm() {
-    this.isStoryFormShown = true;
-  }
 
   createNewStory() {
     const formValues: { [key: string]: string } = this.newStoryForm.value;
@@ -188,7 +183,6 @@ export class CharacterStoriesComponent extends BaseComponent implements OnInit {
         .subscribe(_ => {
           this._toastrService.success('Udało się dodać nową historię!');
           this.getStories();
-          this.isStoryFormShown = false;
           this.newStoryForm.reset();
         },
           err => {

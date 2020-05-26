@@ -1,3 +1,4 @@
+import { CharacterItem } from './../../../characters/models/character-item.model';
 import { Component, OnInit } from '@angular/core';
 import { BaseComponent } from 'src/app/core/base.component';
 import { ToastrService } from 'ngx-toastr';
@@ -20,7 +21,6 @@ export class CharacterQuotesComponent extends BaseComponent implements OnInit {
 
   loading = true;
   quotes: IQuote[] | null = null;
-  isQuoteFormShown = false;
 
 
   newQuoteForm = new FormGroup({
@@ -29,12 +29,12 @@ export class CharacterQuotesComponent extends BaseComponent implements OnInit {
   });
 
   charId: number;
+  selectedCharacter?: CharacterItem;
 
 
   constructor(
     private _toastrService: ToastrService,
     private _characterService: CharactersService,
-    private _route: Router,
     private _activatedRoute: ActivatedRoute,
   ) { super(); }
 
@@ -43,6 +43,7 @@ export class CharacterQuotesComponent extends BaseComponent implements OnInit {
       .subscribe(queryParam => {
         this.charId = +queryParam.id;
       });
+    this.getCharacter();
     this.getQuotes();
 
   }
@@ -91,10 +92,6 @@ export class CharacterQuotesComponent extends BaseComponent implements OnInit {
         })
     );
 
-  }
-
-  showQuotesForm() {
-    this.isQuoteFormShown = true;
   }
 
   deleteQuote(quoteId: number) {
@@ -154,5 +151,16 @@ export class CharacterQuotesComponent extends BaseComponent implements OnInit {
     }
 
 
+  }
+
+
+  getCharacter() {
+    this.subscriptions$.add(
+      this._characterService
+        .getCharacters()
+        .subscribe(charList => {
+          this.selectedCharacter = charList.find(x => x.id === this.charId);
+        })
+    )
   }
 }

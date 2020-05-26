@@ -4,8 +4,8 @@
   </div>
   <div class="stories-box">
     <div class="stories-box--new-story">
-      <button mat-raised-button (click)="showNewStoryForm()" *ngIf="!isStoryFormShown">+ Nowa historia</button>
-      <form *ngIf="isStoryFormShown" class="story-form" [formGroup]="newStoryForm">
+
+      <form class="story-form" [formGroup]="newStoryForm">
         <mat-form-field class="story-form__input">
           <mat-label>Tytuł</mat-label>
           <input matInput required placeholder="Tytuł do historii" spellcheck="false" value="Np. dzieciństwo"
@@ -18,7 +18,10 @@
             formControlName="desc"></textarea>
         </mat-form-field>
 
-        <button mat-raised-button (click)="createNewStory()" [disabled]='newStoryForm.invalid'>+ Dodaj</button>
+        <button mat-raised-button color="accent" (click)="createNewStory()" [disabled]='newStoryForm.invalid'>
+          <mat-icon>library_add</mat-icon>
+          Dodaj historię
+        </button>
 
       </form>
     </div>
@@ -30,12 +33,12 @@
         <div class="boundary__placeholder" *cdkDragPlaceholder></div>
 
         <div class="buttons-box">
-          <button mat-mini-fab (click)="insertDeleteInfo()" (dblclick)="deleteStory(story.id)">
-            <app-icon [icon]="'x'" [color]="'#1D1D1D'" [size]="0.6"></app-icon>
+          <button mat-mini-fab color="warn" (click)="insertDeleteInfo()" (dblclick)="deleteStory(story.id)">
+            <mat-icon>delete</mat-icon>
           </button>
 
           <button mat-mini-fab (click)="openEditModal(story.title, story.story, story.id)">
-            <app-icon [icon]="'edit'" [color]="'#1D1D1D'" [size]="0.6"></app-icon>
+            <mat-icon>edit</mat-icon>
           </button>
         </div>
         <div class="story-box">
