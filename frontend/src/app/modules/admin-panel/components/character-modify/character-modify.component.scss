@@ -1,3 +1,5 @@
+@import "../../../../../global_styles/variables.scss";
+
 .character-modify-form {
   display: flex;
   justify-content: space-around;
@@ -15,4 +17,9 @@
 
 .temperament-range {
   width: 200px;
+}
+
+.stepper {
+  height: calc(100vh - #{$navbar-height});
+  background: $card-bg-second;
 }

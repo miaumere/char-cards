@@ -5,9 +5,10 @@
         <mat-label>Tytuł części</mat-label>
         <input matInput placeholder="Np. Prolog" formControlName="name" required>
       </mat-form-field>
-      <mat-form-field>
+      <mat-form-field class="edit-chapters-form__textarea">
         <mat-label>Krótki opis części</mat-label>
-        <textarea matInput maxlength="255" formControlName="chapterDesc" required></textarea>
+        <textarea matInput maxlength="255" style="width: 15rem;" formControlName="chapterDesc" required
+          class="edit-chapters-form__textarea"></textarea>
       </mat-form-field>
 
     </form>

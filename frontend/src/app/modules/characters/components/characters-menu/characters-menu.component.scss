@@ -31,5 +31,7 @@
 }
 
 .router-link-active {
-  color: white;
+  background: black;
+  color: grey;
+  pointer-events: none;
 }

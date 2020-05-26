@@ -7,7 +7,6 @@
     <ng-container *ngFor="let character of charList;">
       <a [routerLink]="['/char-cards', character.id]">
         <div matRipple routerLinkActive="router-link-active" class="characters-menu__item">
-
           {{character.fullName}}
           <span *ngIf="character.characterType === 'MAIN'">
             <img src="../../../../../assets/svg/rdest.svg" style="    height: 15px; margin-left: 3px            ">
