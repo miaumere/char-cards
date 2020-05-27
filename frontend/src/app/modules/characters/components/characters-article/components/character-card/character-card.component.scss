@@ -12,7 +12,7 @@
     font-weight: bold;
     font-size: smaller;
     text-transform: uppercase;
-    color: grey;
+    color: rgba(255, 255, 255, 0.4);
   }
 
   &__data {
@@ -111,9 +111,6 @@
   padding: 1rem;
 
   background: rgba(0, 0, 0, 0.5);
-
-  &__cite {
-  }
 
   &__blockquote {
     line-height: 1.5;

@@ -248,6 +248,7 @@ export class CharacterModifyComponent extends BaseComponent implements OnInit {
           this.addidionalPersonalInfoForm.get('pseudonim')?.setValue(charDetails.pseudonim);
           this.addidionalPersonalInfoForm.get('profession')?.setValue(charDetails.occupation);
           this.addidionalPersonalInfoForm.get('deathReason')?.setValue(charDetails.deathReason);
+          this.addidionalPersonalInfoForm.get('nationality')?.setValue(charDetails.nationality);
 
           this.colorForm.get('themeColor1')?.setValue(charDetails.colors.themeColor1);
           this.colorForm.get('themeColor2')?.setValue(charDetails.colors.themeColor2);
@@ -389,7 +390,6 @@ export class CharacterModifyComponent extends BaseComponent implements OnInit {
             )
             .subscribe(_ => {
               this._toastrService.success('Udało się zmienić dane o postaci!');
-              this._route.navigate(['./admin-panel']);
               this.getCharacterDetails();
             },
               err => {

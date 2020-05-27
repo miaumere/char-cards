@@ -1,11 +1,13 @@
+@import "../../../../../global_styles/variables.scss";
+
 .characters-menu {
   display: flex;
   flex-direction: column;
   justify-content: left;
 
-  width: 230px;
+  width: 13rem;
+  height: calc(100vh - #{$navbar-height});
 
-  font-size: 0.7rem;
   color: rgb(155, 155, 155);
 
   overflow-y: scroll;

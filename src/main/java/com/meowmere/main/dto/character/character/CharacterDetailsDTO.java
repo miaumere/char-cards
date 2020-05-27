@@ -15,6 +15,7 @@ public class CharacterDetailsDTO {
     public String characterType;
     public String deathReason;
     public String occupation;
+    public String nationality;
     public CharacterColorDTO colors;
     public CharacterTemperamentDTO temperament;
     public CharacterMeasurementsDTO measurements;
@@ -121,5 +122,13 @@ public class CharacterDetailsDTO {
 
     public void setPseudonim(String pseudonim) {
         this.pseudonim = pseudonim;
+    }
+
+    public String getNationality() {
+        return nationality;
+    }
+
+    public void setNationality(String nationality) {
+        this.nationality = nationality;
     }
 }
