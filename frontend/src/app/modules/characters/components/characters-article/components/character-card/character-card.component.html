@@ -36,6 +36,11 @@
         Brak zdjęć
       </div>
       <mat-card class="card__info info" [ngStyle]="{'background': bgColor2}">
+        <div class="nationality" *ngIf="flagURL">
+          <span class="info__desc">Narodowość</span>
+          <img class="info__data flag" [src]="flagURL">
+        </div>
+
         <ng-container *ngIf="character.birthday">
           <div>
             <span class="info__desc">Data urodzenia</span>

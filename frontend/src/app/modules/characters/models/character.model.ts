@@ -26,6 +26,7 @@ export interface ICharacter {
   quotes: IQuote;
   charType: characterType;
   relationships: IRelationship[] | null;
+  nationality: string;
 }
 
 export class Character implements ICharacter {
@@ -46,6 +47,7 @@ export class Character implements ICharacter {
   quotes: IQuote;
   charType: characterType;
   relationships: IRelationship[] | null;
+  nationality: string;
 
   constructor(initialValues: ICharacter) {
     Object.assign(this, initialValues);

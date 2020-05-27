@@ -13,6 +13,8 @@ import { finalize } from 'rxjs/operators';
 import { Gender } from '../../enums/gender.enum';
 import { CharType } from '../../enums/character-type.enum';
 import { CreateCharacter } from '../../models/create-character.model';
+import { CountriesService } from 'src/app/core/service/countries.service';
+import { Country } from '../../models/countries/country.model';
 
 type chooseFormType = 'SUBMIT' | number;
 @Component({
@@ -43,6 +45,7 @@ export class CharacterModifyComponent extends BaseComponent implements OnInit {
     pseudonim: new FormControl(''),
     death: new FormControl(),
     deathReason: new FormControl(''),
+    nationality: new FormControl(''),
   });
 
   temperamentForm = new FormGroup({
@@ -166,16 +169,30 @@ export class CharacterModifyComponent extends BaseComponent implements OnInit {
 
   charId: number;
 
+  countries: Country[];
 
   constructor(
     private _toastrService: ToastrService,
     private _charactersService: CharactersService,
     private _route: Router,
     private _activatedRoute: ActivatedRoute,
+    private _countriesService: CountriesService
   ) { super(); }
 
   ngOnInit() {
     this.setModifyType();
+    this.getCountriesList();
+  }
+
+  getCountriesList() {
+    this.subscriptions$.add(
+      this._countriesService
+        .getCountries()
+        .subscribe(countries => {
+          this.countries = countries;
+          console.log(countries)
+        })
+    )
   }
 
   setModifyType() {
@@ -288,9 +305,6 @@ export class CharacterModifyComponent extends BaseComponent implements OnInit {
         character.externalId = +this.charId;
         break;
     }
-
-    console.log(this.type)
-
     character.charName = this.personalInfoForm.controls['name']?.value;
     character.charSurname = this.personalInfoForm.controls['surname']?.value;
     character.characterType = this.personalInfoForm.controls['characterType']?.value;
@@ -311,6 +325,7 @@ export class CharacterModifyComponent extends BaseComponent implements OnInit {
     }
     character.occupation = this.addidionalPersonalInfoForm.controls['profession']?.value;
     character.pseudonim = this.addidionalPersonalInfoForm.controls['pseudonim']?.value;
+    character.nationality = this.addidionalPersonalInfoForm.controls['nationality']?.value;
 
     const colors = new Colors();
     colors.themeColor1 = this.colorForm.controls['themeColor1']?.value;

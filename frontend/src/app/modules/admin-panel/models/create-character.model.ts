@@ -14,4 +14,6 @@ export class CreateCharacter {
   colors: IColors;
   temperament: ITemperament;
   measurements: IMeasurements;
+  nationality: string;
+
 }

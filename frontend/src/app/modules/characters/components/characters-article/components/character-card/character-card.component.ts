@@ -1,3 +1,4 @@
+import { CountriesService } from 'src/app/core/service/countries.service';
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { BaseComponent } from 'src/app/core/base.component';
 import { Character, ICharacter } from 'src/app/modules/characters/models/character.model';
@@ -34,9 +35,13 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
 
   charType: charType = '';
 
+  flagURL = '';
+
   constructor(
     private _charactersService: CharactersService,
-    private _route: ActivatedRoute) {
+    private _route: ActivatedRoute,
+    private _countriesService: CountriesService
+  ) {
     super();
   }
 
@@ -65,6 +70,18 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
           this.character = new Character(character);
           const measurementsInstance = new Measurements(character.measurements);
           this.character.measurements = measurementsInstance;
+
+          this.subscriptions$.add(
+            this._countriesService
+              .getFlagByCode(this.character.nationality).subscribe(flag => {
+                if (flag) {
+                this.flagURL = flag;
+                }
+
+              })
+          );
+
+
           const characterHeight = [
             measurementsInstance.getValueWithUnit(measurementsInstance.babyHeight, 'height'),
             measurementsInstance.getValueWithUnit(measurementsInstance.childHeight, 'height'),

@@ -70,6 +70,16 @@
         <mat-label>Powód śmierci</mat-label>
         <input matInput placeholder="Powód śmierci" [formControlName]="'deathReason'">
       </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Narodowość</mat-label>
+        <mat-select formControlName="nationality">
+          <mat-option *ngFor="let country of countries" [value]="country.alpha2Code">
+            <img [src]="country.flag" class="flag">
+            {{country.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
       <div>
         <button mat-button matStepperPrevious>Wcześniej</button>
         <button mat-button matStepperNext>Dalej</button>

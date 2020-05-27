@@ -26,6 +26,7 @@ import { MatSliderModule } from '@angular/material/slider';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatCardModule } from '@angular/material/card';
+import { CountriesService } from 'src/app/core/service/countries.service';
 
 @NgModule({
   declarations: [
@@ -65,7 +66,8 @@ import { MatCardModule } from '@angular/material/card';
     MatSidenavModule
   ],
   providers: [
-    CharactersService
+    CharactersService,
+    CountriesService
   ]
 })
 export class AdminPanelModule { }

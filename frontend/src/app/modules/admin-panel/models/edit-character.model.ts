@@ -20,6 +20,7 @@ export interface IEditCharacter {
   colors: IColors;
   temperament: ITemperament;
   measurements: IMeasurements;
+  nationality: string;
 }
 
 export class EditCharacter implements IEditCharacter {
@@ -36,4 +37,6 @@ export class EditCharacter implements IEditCharacter {
   colors: IColors;
   temperament: ITemperament;
   measurements: IMeasurements;
+  nationality: string;
+
 }
