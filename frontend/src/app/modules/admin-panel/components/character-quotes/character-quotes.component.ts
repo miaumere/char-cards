@@ -29,8 +29,6 @@ export class CharacterQuotesComponent extends BaseComponent implements OnInit {
   });
 
   charId: number;
-  selectedCharacter?: CharacterItem;
-
 
   constructor(
     private _toastrService: ToastrService,
@@ -43,7 +41,6 @@ export class CharacterQuotesComponent extends BaseComponent implements OnInit {
       .subscribe(queryParam => {
         this.charId = +queryParam.id;
       });
-    this.getCharacter();
     this.getQuotes();
 
   }
@@ -153,14 +150,4 @@ export class CharacterQuotesComponent extends BaseComponent implements OnInit {
 
   }
 
-
-  getCharacter() {
-    this.subscriptions$.add(
-      this._characterService
-        .getCharacters()
-        .subscribe(charList => {
-          this.selectedCharacter = charList.find(x => x.id === this.charId);
-        })
-    )
-  }
 }

@@ -2,70 +2,80 @@
 
 <article class="admin-panel admin-panel--main">
   <div class="admin-panel-main__menu menu">
-    <mat-card class="menu__item item item--new-char" matTooltip="Dodaj nową postać"
-      [routerLink]="['./character-modify/new']">
-      <app-icon [icon]="'new-character'" [color]="'white'" [size]="'3'"></app-icon>
-    </mat-card>
+    <button mat-fab matTooltip="Dodaj nową postać" [routerLink]="['./character-modify/new']">
+      <mat-icon>person_add</mat-icon>
+    </button>
 
-    <mat-card class="menu__item item item--new-char" matTooltip="Dodaj nową relację"
-      [routerLink]="['./character-relations/new']">
-      <app-icon [icon]="'branch'" [color]="'white'" [size]="'3'"></app-icon>
-    </mat-card>
+    <button mat-fab matTooltip="Dodaj nową relację" [routerLink]="['./character-relations/new']">
+      <mat-icon>people</mat-icon>
+    </button>
 
-    <mat-card class="menu__item item" *ngFor="let character of charList">
-      <div class="item__char-info char-info">
-        <div matTooltip="Zmień stan postaci" (click)="changeStateOfChar(character.id)" class="change-state">
-          <span [ngSwitch]="character.archived">
-            <span *ngSwitchCase="true">
-              <app-icon [icon]="'non-archive'" [color]="'#317142'"></app-icon>
-            </span>
-            <span *ngSwitchCase="false">
-              <app-icon [icon]="'archive'" [color]="'#b84343'"></app-icon>
-            </span>
-          </span>
+    <mat-card class="menu__item item character-card" *ngFor="let character of charList">
+      <mat-card-header>
+        <mat-card-title class="character-card__title">
+          <div (click)="changeStateOfChar(character.id)">
+            <ng-container [ngSwitch]="character.archived">
+              <button *ngSwitchCase="true" mat-mini-fab color="accent" matTooltip="Przywróć postać">
+                <mat-icon>done</mat-icon>
+              </button>
+
+              <button *ngSwitchCase="false" mat-mini-fab color="warn" matTooltip="Zarchiwizuj postać postać">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </ng-container>
+          </div>
+          <span class="character-card__name">{{character.charName}} {{character.charSurname}}</span>
+        </mat-card-title>
+
+      </mat-card-header>
+      <mat-card-content class="character-card__content">
+
+
+        <div class="char-info">
+
+          <div class="char-info__profile-pic" *ngIf="character.profilePic">
+            <img
+              [src]="'data:image/'+  profilePicForSide?.extension + ';base64, ' + character.profilePic.image | sanitizer"
+              class="profile-pic">
+          </div>
+          <div class="char-info__profile-pic profile-pic profile-pic--empty" *ngIf="!character.profilePic">
+            <app-icon [icon]="'character'" [color]="'#0000007a'" [size]="3"></app-icon>
+          </div>
         </div>
-        <div class="char-info__profile-pic profile-pic" *ngIf="character.profilePic">
-          <img
-            [src]="'data:image/'+  profilePicForSide?.extension + ';base64, ' + character.profilePic.image | sanitizer"
-            class="profile-pic__image">
-        </div>
-        <div class="char-info__profile-pic profile-pic profile-pic--empty" *ngIf="!character.profilePic">
-          <app-icon [icon]="'character'" [color]="'#0000007a'" [size]="3"></app-icon>
-        </div>
-        <span class="char-info__name">{{character.charName}} {{character.charSurname}}</span>
-      </div>
-      <div class="item__sidebar sidebar">
-        <div class="sidebar__option" matTooltip="Edytuj postać" [routerLink]="['./character-modify/edit']"
-          [queryParams]="{
+        <mat-card-actions class="sidebar">
+          <button mat-icon-button class="sidebar__option" matTooltip="Edytuj postać"
+            [routerLink]="['./panel/character-modify/edit']" [queryParams]="{
           id: character.id
         }">
-          <app-icon [icon]="'edit'" [color]="'black'"></app-icon>
-        </div>
-        <div class="sidebar__option" matTooltip="Edytuj zdjęcia postaci" [routerLink]="['./character-images']"
-          [queryParams]="{
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button class="sidebar__option" matTooltip="Edytuj zdjęcia postaci"
+            [routerLink]="['./panel/character-images']" [queryParams]="{
           id: character.id
         }">
-          <app-icon [icon]="'edit-picture'" [color]="'black'"></app-icon>
-        </div>
-        <div class="sidebar__option" matTooltip="Dodaj/Edytuj historię do postaci" [routerLink]="['character-stories']"
-          [queryParams]="{
+            <mat-icon>image</mat-icon>
+          </button>
+          <button mat-icon-button class="sidebar__option" matTooltip="Dodaj/Edytuj historię do postaci"
+            [routerLink]="['./panel/character-stories']" [queryParams]="{
         id: character.id
       }">
-          <app-icon [icon]="'story'" [color]="'black'" [size]="'0.8'"></app-icon>
-        </div>
-        <div class="sidebar__option" matTooltip="Edytuj cytaty postaci" [routerLink]="['./character-quotes']"
-          [queryParams]="{
+            <mat-icon> format_align_left</mat-icon>
+          </button>
+          <button mat-icon-button class="sidebar__option" class="sidebar__option" matTooltip="Edytuj cytaty postaci"
+            [routerLink]="['./panel/character-quotes']" [queryParams]="{
       id: character.id
     }">
-          <app-icon [icon]="'quote'" [color]="'black'" [size]="'0.7'"></app-icon>
-        </div>
-        <div class="sidebar__option" matTooltip="Edytuj relacje postaci" [routerLink]="['./character-relations/edit']"
-          [queryParams]="{
+            <mat-icon> format_quote</mat-icon>
+          </button>
+          <button mat-icon-button class="sidebar__option" matTooltip="Edytuj relacje postaci"
+            [routerLink]="['./panel/character-relations/edit']" [queryParams]="{
           id: character.id
         }">
-          <app-icon [icon]="'branch'" [color]="'black'" [size]="'0.7'"></app-icon>
-        </div>
-      </div>
+            <mat-icon>people</mat-icon>
+          </button>
+
+        </mat-card-actions>
+      </mat-card-content>
 
 
     </mat-card>

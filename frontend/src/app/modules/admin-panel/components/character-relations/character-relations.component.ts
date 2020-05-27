@@ -268,7 +268,6 @@ export class CharacterRelationsComponent extends BaseComponent implements OnInit
       objToSend.reversedRelationType = null;
 
     }
-    console.log(objToSend)
 
     this.subscriptions$.add(
       this._characterService

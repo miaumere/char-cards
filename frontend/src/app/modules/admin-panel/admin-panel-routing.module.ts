@@ -13,12 +13,26 @@ import { CharacterImagesComponent } from './components/character-images/characte
 const routes: Routes = [
   {
     path: '',
-    component: AdminPanelComponent,
+    component: AdminPanelForCharactersComponent,
     children: [
       {
         path: '',
         component: AdminPanelForCharactersComponent
       },
+      {
+        path: 'character-modify/:type',
+        component: CharacterModifyComponent
+      },
+      {
+        path: 'character-relations/:type',
+        component: CharacterRelationsComponent
+      }
+    ]
+  },
+  {
+    path: 'panel',
+    component: AdminPanelComponent,
+    children: [
       {
         path: 'character-modify/:type',
         component: CharacterModifyComponent
@@ -40,6 +54,8 @@ const routes: Routes = [
         component: CharacterRelationsComponent
       }
     ]
+
+
   }
 ];
 

@@ -43,7 +43,6 @@ export class EditCharacterStoryComponent {
 export class CharacterStoriesComponent extends BaseComponent implements OnInit {
   charId: number;
   stories: Story[] = [];
-  selectedCharacter?: CharacterItem;
 
   newStoryForm = new FormGroup({
     title: new FormControl('', [Validators.required, Validators.maxLength(255)]),
@@ -65,7 +64,6 @@ export class CharacterStoriesComponent extends BaseComponent implements OnInit {
         this.charId = +queryParam.id;
       });
 
-    this.getCharacter();
     this.getStories();
   }
 
@@ -93,15 +91,6 @@ export class CharacterStoriesComponent extends BaseComponent implements OnInit {
     )
   }
 
-  getCharacter() {
-    this.subscriptions$.add(
-      this._charactersService
-        .getCharacters()
-        .subscribe(charList => {
-          this.selectedCharacter = charList.find(x => x.id === this.charId);
-        })
-    )
-  }
 
   getStories() {
     this.subscriptions$.add(

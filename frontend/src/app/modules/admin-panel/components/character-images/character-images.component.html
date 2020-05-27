@@ -1,4 +1,4 @@
-<mat-tab-group>
+<mat-tab-group class="character-images">
   <mat-tab label="Dodaj nowe zdjęcia">
     <form class="edit-main-pic-form" enctype="multipart/form-data">
       <div class="form-subitems-container">
@@ -10,7 +10,7 @@
             </mat-card-header>
             <img *ngIf="profilePicForMain"
               [src]="'data:image/' + profilePicForMain?.extension + ';base64, ' + profilePicForMain?.image | sanitizer"
-              class="image--profile-pic">
+              class="profile-pic">
             <mat-card-actions>
               <button (click)="profilePicInput.click()" color="primary" mat-raised-button>
                 <mat-icon> attach_file</mat-icon>

@@ -73,49 +73,53 @@
 
       <ul *ngIf="relationshipsList.length > 0">
         <form #relationshipsEditForm="ngForm" class="edit-relationships-form">
-          <h2>{{selectedCharacter.fullName}} - relacje:</h2>
-          <li *ngFor="let rel of relationshipsList; index as i">
-            <div class="relationship-form__container">
-              <button matTooltip="Usuń relację" (click)="deleteRelation(rel.relationship.relatedCharacter.id)">
-                <app-icon [icon]="'archive'" [color]="'#b84343'"></app-icon>
+          <h2>Dostępne relacje:</h2>
+          <div *ngFor="let rel of relationshipsList; index as i">
+            <mat-card class="relationship-form__container relationship-form__container--edit">
+              <button mat-mini-fab color="warn" (click)="deleteRelation(rel.relationship.relatedCharacter.id)">
+                <mat-icon>delete</mat-icon>
               </button>
               <div class="relationship-form__box">
+
                 <span>Postać 1:</span>
-                <input type="text" class="global-input" readonly [value]="selectedCharacter.fullName">
-                <input type="text" class="global-input relationship-box__input" readonly
-                  [value]="rel.relationship.relatedCharacter.charName + ' ' + rel.relationship.relatedCharacter.charSurname">
+                <div class="character-name character-name--one">{{selectedCharacter.fullName}}</div>
+
+                <div class="character-name character-name--two">
+                  {{rel.relationship.relatedCharacter.charName + ' ' + rel.relationship.relatedCharacter.charSurname}}
+                </div>
               </div>
               <div class="relationship-form__box">
                 <span>Kim jest postać 1:
                 </span>
-                <select class="global-select" [ngModel]="RelationshipType[rel.relationship.relationName]"
+                <mat-select [ngModel]="RelationshipType[rel.relationship.relationName]" class="select"
                   [name]="'relationType__' + rel.relationship.relatedCharacter.id"
                   (change)="editRelation(rel.relationship.relatedCharacter.id, $event.target.value, false)">
-                  <option *ngFor="let type of RelationshipType | enumVal" [value]="type.key">{{type.value}}</option>
-                </select>
+                  <mat-option *ngFor="let type of RelationshipType | enumVal" [value]="type.key">{{type.value}}
+                  </mat-option>
+                </mat-select>
 
-                <select class="global-select relationship-box__input"
-                  [name]="'reverseRelationType__' + rel.relationship.relatedCharacter.id"
+                <mat-select [name]="'reverseRelationType__' + rel.relationship.relatedCharacter.id" class="select"
                   [ngModel]="RelationshipType[rel.reverseRelationshipType]"
                   (change)="editRelation(rel.relationship.relatedCharacter.id, $event.target.value, true)">
 
-                  <option *ngFor="let type of RelationshipType | enumVal" [value]="type.key">{{type.value}}
-                  </option>
-                </select>
+                  <mat-option *ngFor="let type of RelationshipType | enumVal" [value]="type.key">{{type.value}}
+                  </mat-option>
+                </mat-select>
 
               </div>
               <div class="relationship-form__box">
                 <span>Dla kogo:
                 </span>
+                <div class="character-name character-name--two">
+                  {{rel.relationship.relatedCharacter.charName + ' ' + rel.relationship.relatedCharacter.charSurname}}
+                </div>
 
-                <input type="text" class="global-input" readonly name="relatedCharacter"
-                  [value]="rel.relationship.relatedCharacter.charName + ' ' + rel.relationship.relatedCharacter.charSurname">
-                <input type="text" class="global-input  relationship-box__input" readonly
-                  [value]="selectedCharacter.fullName">
+                <div class="character-name character-name--one">{{selectedCharacter.fullName}}</div>
+
 
               </div>
-            </div>
-          </li>
+            </mat-card>
+          </div>
         </form>
 
       </ul>

@@ -1,1 +1,69 @@
-<router-outlet></router-outlet>
+<mat-sidenav-container>
+  <mat-sidenav mode="side" opened class="sidenav">
+    <div *ngIf="selectedCharacter" class="sidenav">
+      <h2 class="char-name">{{selectedCharacter.fullName}}</h2>
+
+      <div *ngIf="selectedCharacter.profilePic">
+        <img
+          [src]="'data:image/'+  selectedCharacter.profilePic?.extension + ';base64, ' + selectedCharacter.profilePic.image | sanitizer"
+          class="profile-pic">
+      </div>
+
+      <ul class="options-container">
+        <li class="option">
+          <button mat-stroked-button color="accent" [routerLink]="['./character-modify/edit']" [queryParams]="{
+          id: charId
+        }" class="button">
+            <mat-icon>edit</mat-icon>
+            Edytuj postać
+          </button>
+        </li>
+
+        <li class="option">
+          <button mat-stroked-button class="sidebar__option" [routerLink]="['./character-images']" [queryParams]="{
+        id: charId
+      }">
+            <mat-icon>image</mat-icon>Edytuj zdjęcia
+          </button>
+        </li>
+
+        <li class="option">
+          <button mat-stroked-button class="sidebar__option" [routerLink]="['./character-stories']" [queryParams]="{
+      id: charId
+    }">
+            <mat-icon> format_align_left</mat-icon>Dodaj/Edytuj historię
+          </button>
+        </li>
+
+        <li class="option">
+          <button mat-stroked-button class="sidebar__option" class="sidebar__option"
+            [routerLink]="['./character-quotes']" [queryParams]="{
+      id: charId
+    }">
+            <mat-icon> format_quote</mat-icon>
+            Edytuj cytaty
+          </button>
+        </li>
+
+        <li class="option">
+          <button mat-stroked-button class="sidebar__option" [routerLink]="['./character-relations/edit']"
+            [queryParams]="{
+          id: charId
+        }">
+            <mat-icon>people</mat-icon>Edytuj relacje
+          </button>
+
+        </li>
+
+
+      </ul>
+      <button mat-stroked-button color="accent" [routerLink]="['../']" class="button">
+        <mat-icon>keyboard_backspace</mat-icon>
+        Powrót
+      </button>
+    </div>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

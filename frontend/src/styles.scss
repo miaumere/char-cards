@@ -100,7 +100,6 @@ button {
 
   //   outline: none;
   // }
-
   &-progress-bar {
     height: 100%;
     width: 100px;
@@ -136,21 +135,6 @@ button {
       text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
     }
   }
-
-  // &-file {
-  //   outline: none;
-
-  //   font-size: 0.6rem;
-  // }
-
-  // &-select {
-  //   padding: 5px;
-  //   border-radius: 5px;
-  //   border: 1px solid #ccc;
-  //   box-shadow: 1px 1px 1px #999;
-
-  //   outline: none;
-  // }
 }
 
 ::-webkit-resizer {

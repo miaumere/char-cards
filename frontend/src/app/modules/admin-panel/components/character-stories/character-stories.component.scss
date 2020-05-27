@@ -1,7 +1,6 @@
 @import "../../../../../global_styles/variables.scss";
 
 .stories {
-  width: 100vw;
   color: inherit;
 
   display: flex;
@@ -9,7 +8,6 @@
   align-items: center;
 
   height: calc(100vh - #{$navbar-height});
-  background: $card-bg-second;
 }
 
 .box {
@@ -59,12 +57,13 @@
 
   width: 400px;
   height: 100%;
-  max-height: calc(100vh - #{2 * $navbar-height});
+  max-height: calc(100vh - #{$navbar-height});
 
   max-width: 100%;
   border: dotted #ccc 2px;
 
   overflow: scroll;
+  box-sizing: border-box;
 
   &__placeholder {
     background: #ccc;
@@ -78,10 +77,6 @@
   display: flex;
   justify-content: space-evenly;
   width: 100%;
-
-  &--new-story {
-    width: 50vw;
-  }
 }
 
 .story-form {

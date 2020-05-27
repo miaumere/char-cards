@@ -19,7 +19,7 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule, MatIconModule, MatTabsModule } from '@angular/material';
+import { MatNativeDateModule, MatIconModule, MatTabsModule, MatSidenavModule } from '@angular/material';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSliderModule } from '@angular/material/slider';
@@ -61,7 +61,8 @@ import { MatCardModule } from '@angular/material/card';
     MatAutocompleteModule,
     MatCardModule,
     MatIconModule,
-    MatTabsModule
+    MatTabsModule,
+    MatSidenavModule
   ],
   providers: [
     CharactersService

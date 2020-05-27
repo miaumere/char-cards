@@ -2,7 +2,6 @@
 
 .quotes {
   height: calc(100vh - #{$navbar-height});
-  width: 100vw;
   overflow-x: scroll;
 
   display: flex;
