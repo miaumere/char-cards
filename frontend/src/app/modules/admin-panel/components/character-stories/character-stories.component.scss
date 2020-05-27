@@ -57,12 +57,10 @@
 
   width: 400px;
   height: 100%;
-  max-height: calc(100vh - #{$navbar-height});
 
   max-width: 100%;
   border: dotted #ccc 2px;
 
-  overflow: scroll;
   box-sizing: border-box;
 
   &__placeholder {

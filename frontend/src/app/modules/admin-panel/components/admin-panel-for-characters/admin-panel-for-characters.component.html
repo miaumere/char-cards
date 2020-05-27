@@ -2,13 +2,17 @@
 
 <article class="admin-panel admin-panel--main">
   <div class="admin-panel-main__menu menu">
-    <button mat-fab matTooltip="Dodaj nową postać" [routerLink]="['./character-modify/new']">
-      <mat-icon>person_add</mat-icon>
-    </button>
+    <div class="buttons-container">
+      <button class="button-option" mat-fab matTooltip="Dodaj nową postać" [routerLink]="['./character-modify/new']">
+        <mat-icon>person_add</mat-icon>
+      </button>
 
-    <button mat-fab matTooltip="Dodaj nową relację" [routerLink]="['./character-relations/new']">
-      <mat-icon>people</mat-icon>
-    </button>
+      <button class="button-option" mat-fab matTooltip="Dodaj nową relację"
+        [routerLink]="['./character-relations/new']">
+        <mat-icon>people</mat-icon>
+      </button>
+    </div>
+
 
     <mat-card class="menu__item item character-card" *ngFor="let character of charList">
       <mat-card-header>
