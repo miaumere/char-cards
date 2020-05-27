@@ -123,14 +123,10 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
 
   getNationalityForCharacter() {
     if (this.character?.nationality) {
-
-      console.log("postać ma narodowość")
       this.subscriptions$.add(
         this._countriesService
           .getFlagByCode(this.character.nationality).subscribe(flag => {
             if (flag) {
-              console.log(flag)
-
               this.flagURL = flag;
             }
 
