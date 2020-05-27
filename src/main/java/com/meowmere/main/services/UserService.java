@@ -1,4 +1,4 @@
-package com.meowmere.main.services.user;
+package com.meowmere.main.services;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;

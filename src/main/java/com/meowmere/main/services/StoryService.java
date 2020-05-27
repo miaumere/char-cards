@@ -1,4 +1,4 @@
-package com.meowmere.main.services.story;
+package com.meowmere.main.services;
 
 import com.meowmere.main.dto.character.character.CharactersMenuDTO;
 import com.meowmere.main.dto.character.image.ProfilePicForMainDTO;

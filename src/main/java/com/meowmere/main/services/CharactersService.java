@@ -1,4 +1,4 @@
-package com.meowmere.main.services.characters;
+package com.meowmere.main.services;
 
 
 import com.meowmere.main.dto.character.character.CharacterDTO;

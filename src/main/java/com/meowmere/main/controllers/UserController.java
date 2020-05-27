@@ -1,7 +1,7 @@
 package com.meowmere.main.controllers;
 
 import com.meowmere.main.requests.user.LoginRequest;
-import com.meowmere.main.services.user.UserService;
+import com.meowmere.main.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

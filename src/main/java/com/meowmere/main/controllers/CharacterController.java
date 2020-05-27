@@ -10,7 +10,7 @@ import com.meowmere.main.requests.characters.relationship.EditRelationshipReques
 import com.meowmere.main.requests.characters.relationship.RelationRequest;
 import com.meowmere.main.requests.characters.stories.CreateStoryForCharRequest;
 import com.meowmere.main.requests.characters.stories.EditStoryRequest;
-import com.meowmere.main.services.characters.CharactersService;
+import com.meowmere.main.services.CharactersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

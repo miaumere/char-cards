@@ -4,7 +4,7 @@ import com.meowmere.main.requests.characters.stories.EditStarringCharacterReques
 import com.meowmere.main.requests.story.books.CreateBookRequest;
 import com.meowmere.main.requests.story.books.EditBookRequest;
 import com.meowmere.main.requests.story.chapters.ChapterRequest;
-import com.meowmere.main.services.story.StoryService;
+import com.meowmere.main.services.StoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
