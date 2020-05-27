@@ -10,6 +10,7 @@ public class CreateCharacterRequest {
     public String pseudonim;
     public Long birthday;
     public String gender;
+    public String nationality;
     public String characterType;
     public String occupation;
     public Long death;
@@ -112,5 +113,13 @@ public class CreateCharacterRequest {
 
     public void setMeasurements(CharacterMeasurementsDTO measurements) {
         this.measurements = measurements;
+    }
+
+    public String getNationality() {
+        return nationality;
+    }
+
+    public void setNationality(String nationality) {
+        this.nationality = nationality;
     }
 }

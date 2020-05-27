@@ -13,6 +13,7 @@ public class EditCharacterRequest {
     public String gender;
     public String characterType;
     public String occupation;
+    public String nationality;
     public Long death;
     public String deathReason;
     public CharacterTemperamentDTO temperament;
@@ -121,5 +122,13 @@ public class EditCharacterRequest {
 
     public void setPseudonim(String pseudonim) {
         this.pseudonim = pseudonim;
+    }
+
+    public String getNationality() {
+        return nationality;
+    }
+
+    public void setNationality(String nationality) {
+        this.nationality = nationality;
     }
 }

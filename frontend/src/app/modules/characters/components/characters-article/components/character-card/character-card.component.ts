@@ -1,5 +1,5 @@
 import { CountriesService } from 'src/app/core/service/countries.service';
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { BaseComponent } from 'src/app/core/base.component';
 import { Character, ICharacter } from 'src/app/modules/characters/models/character.model';
 import { CharactersService } from 'src/app/core/service/characters.service';
@@ -46,8 +46,6 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit() {
-    // FIXME tutaj ten ... sub
-
     this._route.params.subscribe(route => {
       this.routeId = route.id;
       this.currentImageIndex = 0;
@@ -68,19 +66,9 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
           })
         ).subscribe(character => {
           this.character = new Character(character);
+          this.getNationalityForCharacter();
           const measurementsInstance = new Measurements(character.measurements);
           this.character.measurements = measurementsInstance;
-
-          this.subscriptions$.add(
-            this._countriesService
-              .getFlagByCode(this.character.nationality).subscribe(flag => {
-                if (flag) {
-                this.flagURL = flag;
-                }
-
-              })
-          );
-
 
           const characterHeight = [
             measurementsInstance.getValueWithUnit(measurementsInstance.babyHeight, 'height'),
@@ -133,7 +121,29 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
     }
   }
 
+  getNationalityForCharacter() {
+    if (this.character?.nationality) {
+
+      console.log("postać ma narodowość")
+      this.subscriptions$.add(
+        this._countriesService
+          .getFlagByCode(this.character.nationality).subscribe(flag => {
+            if (flag) {
+              console.log(flag)
+
+              this.flagURL = flag;
+            }
+
+          })
+      );
+    } else {
+      this.flagURL = '';
+    }
+
+  }
+
   setImage(imageIndex: number) {
     this.currentImageIndex = imageIndex;
   }
+
 }

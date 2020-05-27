@@ -33,6 +33,9 @@ public class Character {
     private String occupation;
     @Column
     public Boolean archived = false;
+    @Column
+    public String nationality;
+
     @Column(name = "character_type")
     @Enumerated(EnumType.STRING)
     public CharType charType;
@@ -224,5 +227,13 @@ public class Character {
 
     public void setExistingCharacters(Set<StarringCharacters> existingCharacters) {
         this.existingCharacters = existingCharacters;
+    }
+
+    public String getNationality() {
+        return nationality;
+    }
+
+    public void setNationality(String nationality) {
+        this.nationality = nationality;
     }
 };

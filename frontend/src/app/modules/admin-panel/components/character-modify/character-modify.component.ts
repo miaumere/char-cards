@@ -190,7 +190,6 @@ export class CharacterModifyComponent extends BaseComponent implements OnInit {
         .getCountries()
         .subscribe(countries => {
           this.countries = countries;
-          console.log(countries)
         })
     )
   }
