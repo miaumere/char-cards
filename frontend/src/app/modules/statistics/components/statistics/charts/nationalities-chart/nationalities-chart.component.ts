@@ -22,9 +22,14 @@ export class NationalitiesChartComponent extends BaseComponent implements OnInit
   @ViewChild('chart')
   private chartContainer: ElementRef;
 
+  @ViewChild('extraInfo')
+  private extraInfoContainer: ElementRef;
+
+
   @Input() nationalitiesStatistics: INationalitiesStatistics[];
 
   sortedStatistics: INationalityStatistic[] = [];
+  otherNationalities: INationalityStatistic[] = [];
 
   private allCharactersNumber: number;
 
@@ -35,6 +40,7 @@ export class NationalitiesChartComponent extends BaseComponent implements OnInit
   ngOnInit() {
     setTimeout(() => {
       this.chartContainer = this.chartContainer;
+      this.extraInfoContainer = this.extraInfoContainer;
       const unsortedStatistics: INationalityStatistic[] = [];
       let charsNumber = 0;
       for (const statistic of this.nationalitiesStatistics) {
@@ -52,12 +58,10 @@ export class NationalitiesChartComponent extends BaseComponent implements OnInit
       this.sortedStatistics = unsortedStatistics.splice(0, 3);
 
       let otherCountriesNum = 0;
+      this.otherNationalities = unsortedStatistics;
 
       for (const stat of unsortedStatistics) {
         otherCountriesNum += stat.num;
-
-        console.log('unsortedStatistics: ', unsortedStatistics);
-
       }
       const otherNationalities: INationalityStatistic = {
         nationality: 'INNE',
@@ -90,6 +94,8 @@ export class NationalitiesChartComponent extends BaseComponent implements OnInit
 
   createChart() {
     const element = this.chartContainer.nativeElement;
+    const extraInfoElement = this.extraInfoContainer.nativeElement;
+
     const color = d3.scaleOrdinal(['#7E27CF', '#5A57B1', '#9c27b0', '#2CE2E7']);
 
     const margin = { top: 30, right: 30, bottom: 70, left: 60 };
@@ -105,15 +111,6 @@ export class NationalitiesChartComponent extends BaseComponent implements OnInit
       .attr('transform',
         'translate(' + margin.left + ',' + margin.top + ')');
 
-
-    // tooltip
-    const tooltip = d3.select('body')
-      .append('div')
-      .attr('id', 'mytooltip')
-      .style('position', 'absolute')
-      .style('z-index', '10')
-      .style('visibility', 'hidden')
-      .text('a simple tooltip');
 
     // X axis
     const x = d3.scaleBand()
@@ -144,6 +141,7 @@ export class NationalitiesChartComponent extends BaseComponent implements OnInit
       .attr('height', 15)
       .attr('transform', 'rotate(-45)');
 
+
     // Add Y axis
     const y = d3.scaleLinear()
       .domain([0, this.allCharactersNumber])
@@ -152,7 +150,7 @@ export class NationalitiesChartComponent extends BaseComponent implements OnInit
       .call(d3.axisLeft(y));
 
     // Bars
-    svg.selectAll('mybar')
+    const bars = svg.selectAll('mybar')
       .data(this.sortedStatistics)
       .enter()
       .append('rect')
@@ -163,20 +161,85 @@ export class NationalitiesChartComponent extends BaseComponent implements OnInit
       .attr('stroke-width', '1px')
 
 
-      .attr("width", x.bandwidth())
-      .attr("y", d => { return height; })
-      .attr("x", d => { return x(d.nationality); })
+      .attr('width', x.bandwidth())
+      .attr('y', d => height)
+      .attr('x', d => x(d.nationality) as any);
+
+    bars
       .transition()
       .duration(750)
-      .delay(function (d, i) {
+      .delay((d, i) => {
         return i * 150;
       })
-
-
       .attr('x', (d): any => x(d.nationality))
       .attr('y', (d) => y(d.num))
-      .attr('height', (d) => height - y(d.num))
+      .attr('height', (d) => height - y(d.num));
 
+
+    const tooltip = d3.select(extraInfoElement)
+      .append('div')
+      .style('opacity', 0)
+      .style('transition', '0.2s')
+      .attr('class', 'tooltip')
+      .style('background-color', 'white')
+      .style('color', 'black')
+      .style('padding', '0.5rem')
+      .style('border-radius', '3px')
+      .style('margin-left', '15rem')
+
+      .style('position', 'fixed');
+
+    // Three function that change the tooltip when user hover / move / leave a cell
+    const mouseover = function (d) {
+      tooltip
+        .style('opacity', 1);
+      d3.select(this)
+        .style('stroke', 'black');
+    };
+    const otherNationalities = this.otherNationalities;
+
+    let tooltipMessageForOthers = '';
+    for (const nationality of this.otherNationalities) {
+
+      if (nationality.flagURL) {
+        tooltipMessageForOthers += `<img src="${nationality.flagURL}"  width="20"/>`
+      }
+      tooltipMessageForOthers += `
+<strong> ${nationality.nationality} </strong>
+      Ilość postaci: ${nationality.num}
+
+      <br />
+   `
+
+
+    }
+
+
+    const mousemove = (d) => {
+      if (d.nationality === 'INNE') {
+        tooltip
+          .html(tooltipMessageForOthers);
+      } else {
+        tooltip
+          .html(`Ilość postaci: <strong> ${d.num}</strong>
+          <br />
+          `);
+      }
+
+    };
+    const mouseleave = function (d) {
+      tooltip
+        .style('opacity', 0);
+      d3.select(this)
+        .style('stroke', 'white');
+    };
+
+
+
+    bars
+      .on('mouseover', mouseover)
+      .on('mousemove', mousemove)
+      .on('mouseleave', mouseleave);
 
 
   }
