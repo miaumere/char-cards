@@ -3,15 +3,15 @@ package com.meowmere.main.dto.statistics;
 import java.util.List;
 
 public class StatisticsDTO {
-    public GenderStatisticDTO genderStatisticDTO;
+    public GenderStatisticDTO genderStatistics;
     public List<NationalitiesStatisticsDTO> nationalitiesStatistics;
 
-    public GenderStatisticDTO getGenderStatisticDTO() {
-        return genderStatisticDTO;
+    public GenderStatisticDTO getGenderStatistics() {
+        return genderStatistics;
     }
 
-    public void setGenderStatisticDTO(GenderStatisticDTO genderStatisticDTO) {
-        this.genderStatisticDTO = genderStatisticDTO;
+    public void setGenderStatistics(GenderStatisticDTO genderStatistics) {
+        this.genderStatistics = genderStatistics;
     }
 
     public List<NationalitiesStatisticsDTO> getNationalitiesStatistics() {

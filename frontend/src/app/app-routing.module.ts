@@ -29,6 +29,10 @@ const routes: Routes = [
     path: 'edit-story-panel',
     // canActivate: [AdminPermissionsGuard],
     loadChildren: () => import('./modules/edit-story-panel/edit-story-panel.module').then(m => m.EditStoryPanelModule)
+  },
+  {
+    path: 'statistics',
+    loadChildren: () => import('./modules/statistics/statistics.module').then(m => m.StatisticsModule)
   }
 ];
 

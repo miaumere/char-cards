@@ -29,7 +29,7 @@ public class StatisticsService {
 
         List<NationalitiesStatisticsDTO> nationalitiesStatisticsDTOS = characterRepository.getNationalitiesStatistics();
 
-        statisticsDTO.setGenderStatisticDTO(genderStatisticDTO);
+        statisticsDTO.setGenderStatistics(genderStatisticDTO);
         statisticsDTO.setNationalitiesStatistics(nationalitiesStatisticsDTOS);
 
         return new ResponseEntity(statisticsDTO, HttpStatus.OK);
