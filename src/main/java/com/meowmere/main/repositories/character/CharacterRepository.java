@@ -1,5 +1,6 @@
 package com.meowmere.main.repositories.character;
 
+import com.meowmere.main.dto.statistics.NationalitiesStatisticsDTO;
 import com.meowmere.main.entities.characters.Character;
 import com.meowmere.main.enums.Gender;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -20,6 +21,7 @@ public interface CharacterRepository extends JpaRepository<Character, Long> {
     @Query("SELECT count(c) FROM Character c WHERE c.gender = :gender")
     int getCharactersForGender(@Param("gender") Gender gender);
 
-    @Query("select c.nationality, count(*) as num from Character c group by c.nationality")
-    int getNationalitiesNumber();
+    @Query("select new com.meowmere.main.dto.statistics.NationalitiesStatisticsDTO(c.nationality, count(c)) " +
+            "from Character c group by c.nationality")
+    List<NationalitiesStatisticsDTO> getNationalitiesStatistics();
 }
