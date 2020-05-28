@@ -6,6 +6,7 @@ import { SharedModule } from '../shared/shared.module';
 import { StatisticsRoutingModule } from './statistics-routing.module';
 import { StatisticsComponent } from './components/statistics/statistics.component';
 import { GenderChartComponent } from './components/statistics/charts/gender-chart.component';
+import { MatCardModule } from '@angular/material/card';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { GenderChartComponent } from './components/statistics/charts/gender-char
     FormsModule,
     ReactiveFormsModule,
     SharedModule,
-    StatisticsRoutingModule
+    StatisticsRoutingModule,
+    MatCardModule
   ],
   providers: [
     StatisticsService

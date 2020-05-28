@@ -14,12 +14,6 @@ export class GenderChartComponent extends BaseComponent implements OnInit {
 
 
   @Input() genderStatistics: IGenderStatistics;
-
-  margin = { top: 20, right: 20, bottom: 30, left: 40 };
-
-  private width: number;
-  private height: number;
-
   constructor(
   ) { super(); }
 
@@ -35,7 +29,8 @@ export class GenderChartComponent extends BaseComponent implements OnInit {
     const element = this.chartContainer.nativeElement;
     const svg = d3.select(element).append('svg')
       .attr('width', element.offsetWidth)
-      .attr('height', element.offsetHeight);
+      .attr('height', element.offsetHeight)
+      .attr('stroke', 'white')
 
     const data = [this.genderStatistics.femaleNumber, this.genderStatistics.maleNumber];
 
@@ -43,28 +38,56 @@ export class GenderChartComponent extends BaseComponent implements OnInit {
     const height: number = +svg.attr('height');
 
     const radius = Math.min(width, height) / 2;
-    const g = svg.append('g').attr('transform', 'translate(' + width / 2 + ',' + height / 2 + ')');
+    const g = svg.append('g')
+      .attr('transform', 'translate(' + width / 2 + ',' + height / 2 + ')');
+
 
     const color = d3.scaleOrdinal(['#EDA4D5', '#5EC9E4']);
-
-    const pie = d3.pie()(data);
-
     const arc = d3.arc()
       .outerRadius(radius)
-      .innerRadius(0);
+      .innerRadius(40)
 
+    const label = d3.arc()
+      .outerRadius(radius)
+      .innerRadius(radius - 30)
 
-    let arcs = d3.pie()(data);
-
-    g.selectAll('path')
-      .data(arcs)
+    const group = g.selectAll('arc')
+      .data(d3.pie()(data))
       .enter()
-      .append('path')
-      .attr('fill', function (d, i) {
-        return color(i as any);
-      }).attr('d', arc as any);
 
+
+    group
+      .append('path')
+      .attr('fill', (d, i) => {
+        return color(i as any);
+      })
+      .attr('class', 'test')
+      .transition()
+      .duration(1000)
+      .attrTween('d', (d) => {
+        var i = d3.interpolate(d.startAngle + 0.1, d.endAngle);
+        return t => {
+          d.endAngle = i(t);
+          return arc(<any>d);
+        }
+      });
+
+    group
+      .append('text')
+      .attr('fill', 'transparent')
+      .transition()
+      .duration(1000)
+      .attr('transform', (d) => {
+        return 'translate(' + label.centroid(d as any) + ')';
+      })
+      .attr('fill', 'black')
+      .attr('stroke', 'none')
+      .text((d) => { return '' + d.data; })
+  }
+
+  test() {
 
   }
 
 }
+
