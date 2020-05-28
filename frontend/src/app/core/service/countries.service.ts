@@ -1283,4 +1283,13 @@ export class CountriesService {
     )
   }
 
+  getCountryByCode(code: string) {
+    return this.getCountries().pipe(
+      map(response => {
+        const mappedResponse = response.map(c => new Country(c));
+        return mappedResponse.find(x => x.alpha2Code === code);
+      })
+    )
+  }
+
 }

@@ -1,5 +1,24 @@
-statystykiiii
-<div *ngIf="statistics">
-  <app-gender-chart [genderStatistics]="statistics.genderStatistics"></app-gender-chart>
+<article *ngIf="statistics">
+  <div class="statistics-container">
 
-</div>
+    <div class="gender-chart-container">
+      <mat-card class="gender-chart-card">
+        <mat-card-header>
+          <mat-card-title>Ilość kobiet i mężczyzn</mat-card-title>
+        </mat-card-header>
+        <app-gender-chart [genderStatistics]="statistics.genderStatistics"></app-gender-chart>
+      </mat-card>
+    </div>
+
+    <div class="nationalities-chart-container">
+      <mat-card class="nationalities-chart-card">
+        <mat-card-header>
+          <mat-card-title>Narodowość postaci</mat-card-title>
+        </mat-card-header>
+        <app-nationalities-chart [nationalitiesStatistics]="statistics.nationalitiesStatistics">
+        </app-nationalities-chart>
+      </mat-card>
+    </div>
+  </div>
+
+</article>

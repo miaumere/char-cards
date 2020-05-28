@@ -1,4 +1,4 @@
-import { IGenderStatistics } from './../../../models/gender-statistics.model';
+import { IGenderStatistics } from '../../../../models/gender-statistics.model';
 import { BaseComponent } from 'src/app/core/base.component';
 import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
 import * as d3 from 'd3';
@@ -85,10 +85,6 @@ export class GenderChartComponent extends BaseComponent implements OnInit {
       .attr('font-size', '0.7rem')
       .attr('stroke-width', '1px')
       .text((d) => { return '' + d.data; })
-  }
-
-  test() {
-
   }
 
 }
