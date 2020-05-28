@@ -49,7 +49,7 @@ export class GenderChartComponent extends BaseComponent implements OnInit {
 
     const label = d3.arc()
       .outerRadius(radius)
-      .innerRadius(radius - 30)
+      .innerRadius(radius - 35)
 
     const group = g.selectAll('arc')
       .data(d3.pie()(data))
@@ -64,7 +64,7 @@ export class GenderChartComponent extends BaseComponent implements OnInit {
       .attr('class', 'test')
       .transition()
       .duration(1000)
-      .attrTween('d', (d) => {
+      .attrTween('d', (d): any => {
         var i = d3.interpolate(d.startAngle + 0.1, d.endAngle);
         return t => {
           d.endAngle = i(t);
@@ -80,8 +80,10 @@ export class GenderChartComponent extends BaseComponent implements OnInit {
       .attr('transform', (d) => {
         return 'translate(' + label.centroid(d as any) + ')';
       })
-      .attr('fill', 'black')
-      .attr('stroke', 'none')
+      .attr('fill', 'white')
+      .attr('stroke', 'rgba(0, 0, 0, 0.7)')
+      .attr('font-size', '0.7rem')
+      .attr('stroke-width', '1px')
       .text((d) => { return '' + d.data; })
   }
 
