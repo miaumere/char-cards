@@ -56,7 +56,7 @@ export class NationalitiesChartComponent extends BaseComponent implements OnInit
       for (const stat of unsortedStatistics) {
         otherCountriesNum += stat.num;
 
-        console.log("unsortedStatistics: ", unsortedStatistics)
+        console.log('unsortedStatistics: ', unsortedStatistics);
 
       }
       const otherNationalities: INationalityStatistic = {
@@ -105,7 +105,15 @@ export class NationalitiesChartComponent extends BaseComponent implements OnInit
       .attr('transform',
         'translate(' + margin.left + ',' + margin.top + ')');
 
-    // Parse the Data
+
+    // tooltip
+    const tooltip = d3.select('body')
+      .append('div')
+      .attr('id', 'mytooltip')
+      .style('position', 'absolute')
+      .style('z-index', '10')
+      .style('visibility', 'hidden')
+      .text('a simple tooltip');
 
     // X axis
     const x = d3.scaleBand()
@@ -126,16 +134,15 @@ export class NationalitiesChartComponent extends BaseComponent implements OnInit
       .attr('xlink:href', (d) => {
         if (d.flagURL) {
           return d.flagURL;
-        } else { return '' }
+        } else { return ''; }
       })
       .attr('class', 'flag')
       .attr('x', (d, i) => {
-        return i - 35
+        return i - 35;
       })
       .attr('width', 15)
       .attr('height', 15)
-      .attr('transform', 'rotate(-45)')
-
+      .attr('transform', 'rotate(-45)');
 
     // Add Y axis
     const y = d3.scaleLinear()
@@ -152,10 +159,25 @@ export class NationalitiesChartComponent extends BaseComponent implements OnInit
       .attr('fill', (d, i) => {
         return color(i as any);
       })
+      .attr('stroke', 'white')
+      .attr('stroke-width', '1px')
+
+
+      .attr("width", x.bandwidth())
+      .attr("y", d => { return height; })
+      .attr("x", d => { return x(d.nationality); })
+      .transition()
+      .duration(750)
+      .delay(function (d, i) {
+        return i * 150;
+      })
+
+
       .attr('x', (d): any => x(d.nationality))
       .attr('y', (d) => y(d.num))
-      .attr('width', x.bandwidth())
-      .attr('height', (d) => height - y(d.num));
+      .attr('height', (d) => height - y(d.num))
+
+
 
   }
 
