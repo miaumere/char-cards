@@ -159,7 +159,7 @@ export class NationalitiesChartComponent extends BaseComponent implements OnInit
       })
       .attr('stroke', 'white')
       .attr('stroke-width', '1px')
-
+      .style('transition', '0.2s')
 
       .attr('width', x.bandwidth())
       .attr('y', d => height)
@@ -189,12 +189,13 @@ export class NationalitiesChartComponent extends BaseComponent implements OnInit
 
       .style('position', 'fixed');
 
-    // Three function that change the tooltip when user hover / move / leave a cell
     const mouseover = function (d) {
       tooltip
         .style('opacity', 1);
       d3.select(this)
-        .style('stroke', 'black');
+        .style('stroke', 'black')
+        .style('opacity', '0.5');
+
     };
     const otherNationalities = this.otherNationalities;
 
@@ -211,7 +212,6 @@ export class NationalitiesChartComponent extends BaseComponent implements OnInit
       <br />
    `
 
-
     }
 
 
@@ -222,7 +222,6 @@ export class NationalitiesChartComponent extends BaseComponent implements OnInit
       } else {
         tooltip
           .html(`Ilość postaci: <strong> ${d.num}</strong>
-          <br />
           `);
       }
 
@@ -231,16 +230,15 @@ export class NationalitiesChartComponent extends BaseComponent implements OnInit
       tooltip
         .style('opacity', 0);
       d3.select(this)
-        .style('stroke', 'white');
+        .style('stroke', 'white')
+        .style('opacity', '1');
+
     };
-
-
 
     bars
       .on('mouseover', mouseover)
       .on('mousemove', mousemove)
       .on('mouseleave', mouseleave);
-
 
   }
 
