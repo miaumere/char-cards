@@ -1,2 +1,5 @@
 statystykiiii
-<app-gender-chart [genderStatistics]="statistics.genderStatistics"></app-gender-chart>
+<div *ngIf="statistics">
+  <app-gender-chart [genderStatistics]="statistics.genderStatistics"></app-gender-chart>
+
+</div>
