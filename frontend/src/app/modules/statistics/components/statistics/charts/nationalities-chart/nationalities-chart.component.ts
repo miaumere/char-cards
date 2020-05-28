@@ -134,11 +134,11 @@ export class NationalitiesChartComponent extends BaseComponent implements OnInit
       .attr('gradientTransform', 'rotate(90)');
     bgGradient
       .append('stop')
-      .attr('stop-color', '#6722FF')
+      .attr('stop-color', '#EE7676')
       .attr('offset', '0%');
     bgGradient
       .append('stop')
-      .attr('stop-color', '#261288')
+      .attr('stop-color', '#7E65DE')
       .attr('offset', '100%');
 
     const defs2 = svg.append('defs');
@@ -148,11 +148,11 @@ export class NationalitiesChartComponent extends BaseComponent implements OnInit
       .attr('gradientTransform', 'rotate(90)');
     bgGradient2
       .append('stop')
-      .attr('stop-color', '#F88AFF')
+      .attr('stop-color', '#FFA666')
       .attr('offset', '0%');
     bgGradient2
       .append('stop')
-      .attr('stop-color', '#E10291')
+      .attr('stop-color', '#F77492')
       .attr('offset', '100%');
 
 
@@ -163,11 +163,11 @@ export class NationalitiesChartComponent extends BaseComponent implements OnInit
       .attr('gradientTransform', 'rotate(90)');
     bgGradient3
       .append('stop')
-      .attr('stop-color', '#8AF4FF')
+      .attr('stop-color', '#68DCBF')
       .attr('offset', '0%');
     bgGradient3
       .append('stop')
-      .attr('stop-color', '#0285E1')
+      .attr('stop-color', '#5735B1')
       .attr('offset', '100%');
 
 

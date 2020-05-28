@@ -41,8 +41,6 @@ export class GenderChartComponent extends BaseComponent implements OnInit {
     const g = svg.append('g')
       .attr('transform', 'translate(' + width / 2 + ',' + height / 2 + ')');
 
-
-    const color = d3.scaleOrdinal(['#EDA4D5', '#5EC9E4']);
     const arc = d3.arc()
       .outerRadius(radius)
       .innerRadius(40)
@@ -55,11 +53,41 @@ export class GenderChartComponent extends BaseComponent implements OnInit {
       .data(d3.pie()(data))
       .enter()
 
+    // gradients
+    const defs0 = svg.append('defs');
+    const bgGradient0 = defs0
+      .append('linearGradient')
+      .attr('id', 'gender-gradient0')
+      .attr('gradientTransform', 'rotate(45)');
+    bgGradient0
+      .append('stop')
+      .attr('stop-color', '#FFC3E4')
+      .attr('offset', '0%');
+    bgGradient0
+      .append('stop')
+      .attr('stop-color', '#F855AD')
+      .attr('offset', '100%');
+
+    const defs1 = svg.append('defs');
+    const bgGradient = defs1
+      .append('linearGradient')
+      .attr('id', 'gender-gradient1')
+      .attr('gradientTransform', 'rotate(45)');
+    bgGradient
+      .append('stop')
+      .attr('stop-color', '#C3EFFF')
+      .attr('offset', '0%');
+    bgGradient
+      .append('stop')
+      .attr('stop-color', '#3492F5')
+      .attr('offset', '100%');
+
+
 
     group
       .append('path')
       .attr('fill', (d, i) => {
-        return color(i as any);
+        return `url(#gender-gradient${i})`
       })
       .transition()
       .duration(1000)
