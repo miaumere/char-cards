@@ -61,7 +61,6 @@ export class GenderChartComponent extends BaseComponent implements OnInit {
       .attr('fill', (d, i) => {
         return color(i as any);
       })
-      .attr('class', 'test')
       .transition()
       .duration(1000)
       .attrTween('d', (d): any => {

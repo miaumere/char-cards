@@ -112,6 +112,65 @@ export class NationalitiesChartComponent extends BaseComponent implements OnInit
         'translate(' + margin.left + ',' + margin.top + ')');
 
 
+    // gradients
+    const defs0 = svg.append('defs');
+    const bgGradient0 = defs0
+      .append('linearGradient')
+      .attr('id', 'bg-gradient0')
+      .attr('gradientTransform', 'rotate(90)');
+    bgGradient0
+      .append('stop')
+      .attr('stop-color', '#855898')
+      .attr('offset', '0%');
+    bgGradient0
+      .append('stop')
+      .attr('stop-color', '#4C238F')
+      .attr('offset', '100%');
+
+    const defs1 = svg.append('defs');
+    const bgGradient = defs1
+      .append('linearGradient')
+      .attr('id', 'bg-gradient1')
+      .attr('gradientTransform', 'rotate(90)');
+    bgGradient
+      .append('stop')
+      .attr('stop-color', '#6722FF')
+      .attr('offset', '0%');
+    bgGradient
+      .append('stop')
+      .attr('stop-color', '#261288')
+      .attr('offset', '100%');
+
+    const defs2 = svg.append('defs');
+    const bgGradient2 = defs2
+      .append('linearGradient')
+      .attr('id', 'bg-gradient2')
+      .attr('gradientTransform', 'rotate(90)');
+    bgGradient2
+      .append('stop')
+      .attr('stop-color', '#F88AFF')
+      .attr('offset', '0%');
+    bgGradient2
+      .append('stop')
+      .attr('stop-color', '#E10291')
+      .attr('offset', '100%');
+
+
+    const defs3 = svg.append('defs');
+    const bgGradient3 = defs3
+      .append('linearGradient')
+      .attr('id', 'bg-gradient3')
+      .attr('gradientTransform', 'rotate(90)');
+    bgGradient3
+      .append('stop')
+      .attr('stop-color', '#8AF4FF')
+      .attr('offset', '0%');
+    bgGradient3
+      .append('stop')
+      .attr('stop-color', '#0285E1')
+      .attr('offset', '100%');
+
+
     // X axis
     const x = d3.scaleBand()
       .range([0, width])
@@ -155,8 +214,10 @@ export class NationalitiesChartComponent extends BaseComponent implements OnInit
       .enter()
       .append('rect')
       .attr('fill', (d, i) => {
-        return color(i as any);
+        console.log(i)
+        return `url(#bg-gradient${i})`
       })
+
       .attr('stroke', 'white')
       .attr('stroke-width', '1px')
       .style('transition', '0.2s')
@@ -203,14 +264,14 @@ export class NationalitiesChartComponent extends BaseComponent implements OnInit
     for (const nationality of this.otherNationalities) {
 
       if (nationality.flagURL) {
-        tooltipMessageForOthers += `<img src="${nationality.flagURL}"  width="20"/>`
+        tooltipMessageForOthers += `<img src="${nationality.flagURL}"  width="20"/>`;
       }
       tooltipMessageForOthers += `
-<strong> ${nationality.nationality} </strong>
-      Ilość postaci: ${nationality.num}
+<strong> ${nationality.nationality ? nationality.nationality : 'brak'} </strong>
+      Ilość postaci: <strong>${nationality.num}</strong>
 
       <br />
-   `
+   `;
 
     }
 
