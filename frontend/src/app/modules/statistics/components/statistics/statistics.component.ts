@@ -29,6 +29,4 @@ export class StatisticsComponent extends BaseComponent implements OnInit {
     )
   }
 
-
-
 }

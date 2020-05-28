@@ -5,11 +5,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../shared/shared.module';
 import { StatisticsRoutingModule } from './statistics-routing.module';
 import { StatisticsComponent } from './components/statistics/statistics.component';
+import { GenderChartComponent } from './components/statistics/charts/gender-chart.component';
 
 
 @NgModule({
   declarations: [
-    StatisticsComponent
+    StatisticsComponent,
+    GenderChartComponent
   ],
   imports: [
     CommonModule,
