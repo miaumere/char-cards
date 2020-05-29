@@ -9,6 +9,7 @@ import { StatisticsComponent } from './components/statistics/statistics.componen
 import { GenderChartComponent } from './components/statistics/charts/gender-chart/gender-chart.component';
 import { MatCardModule } from '@angular/material/card';
 import { TypeChartComponent } from './components/statistics/charts/type-chart/type-chart.component';
+import { AgeChartComponent } from './components/statistics/charts/age-chart/age-chart.component';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { TypeChartComponent } from './components/statistics/charts/type-chart/ty
     StatisticsComponent,
     GenderChartComponent,
     NationalitiesChartComponent,
-    TypeChartComponent
+    TypeChartComponent,
+    AgeChartComponent
   ],
   imports: [
     CommonModule,

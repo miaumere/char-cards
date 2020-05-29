@@ -11,6 +11,7 @@
 }
 
 .gender-chart-container,
+.age-chart-container,
 .nationalities-chart-container {
   display: flex;
   flex-direction: column;
@@ -19,6 +20,7 @@
 }
 
 .gender-chart-card,
+.age-chart-card,
 .nationalities-chart-card {
   display: flex;
   flex-direction: column;

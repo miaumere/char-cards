@@ -96,8 +96,6 @@ export class NationalitiesChartComponent extends BaseComponent implements OnInit
     const element = this.chartContainer.nativeElement;
     const extraInfoElement = this.extraInfoContainer.nativeElement;
 
-    const color = d3.scaleOrdinal(['#7E27CF', '#5A57B1', '#9c27b0', '#2CE2E7']);
-
     const margin = { top: 30, right: 30, bottom: 70, left: 60 };
     const width = 460 - margin.left - margin.right;
     const height = 400 - margin.top - margin.bottom;
