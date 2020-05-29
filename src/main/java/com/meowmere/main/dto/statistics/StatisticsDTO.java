@@ -5,6 +5,7 @@ import java.util.List;
 public class StatisticsDTO {
     public GenderStatisticDTO genderStatistics;
     public List<NationalitiesStatisticsDTO> nationalitiesStatistics;
+    public TypeStatisticsDTO typeStatistics;
 
     public GenderStatisticDTO getGenderStatistics() {
         return genderStatistics;
@@ -20,5 +21,13 @@ public class StatisticsDTO {
 
     public void setNationalitiesStatistics(List<NationalitiesStatisticsDTO> nationalitiesStatistics) {
         this.nationalitiesStatistics = nationalitiesStatistics;
+    }
+
+    public TypeStatisticsDTO getTypeStatistics() {
+        return typeStatistics;
+    }
+
+    public void setTypeStatistics(TypeStatisticsDTO typeStatistics) {
+        this.typeStatistics = typeStatistics;
     }
 }

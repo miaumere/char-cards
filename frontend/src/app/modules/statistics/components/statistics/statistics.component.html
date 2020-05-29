@@ -1,14 +1,27 @@
 <article *ngIf="statistics">
   <div class="statistics-container">
 
-    <div class="gender-chart-container">
-      <mat-card class="gender-chart-card">
-        <mat-card-header>
-          <mat-card-title>Ilość kobiet i mężczyzn</mat-card-title>
-        </mat-card-header>
-        <app-gender-chart [genderStatistics]="statistics.genderStatistics"></app-gender-chart>
-      </mat-card>
+    <div>
+      <div class="gender-chart-container">
+        <mat-card class="gender-chart-card">
+          <mat-card-header>
+            <mat-card-title>Ilość kobiet i mężczyzn</mat-card-title>
+          </mat-card-header>
+          <app-gender-chart [genderStatistics]="statistics.genderStatistics"></app-gender-chart>
+        </mat-card>
+      </div>
+
+      <div class="types-chart-container">
+        <mat-card class="nationalities-chart-card">
+          <mat-card-header>
+            <mat-card-title>Rodzaje postaci</mat-card-title>
+          </mat-card-header>
+          <app-type-chart [typeStatistics]="statistics.typeStatistics"></app-type-chart>
+
+        </mat-card>
+      </div>
     </div>
+
 
     <div class="nationalities-chart-container">
       <mat-card class="nationalities-chart-card">

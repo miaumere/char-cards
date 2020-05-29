@@ -8,13 +8,15 @@ import { StatisticsRoutingModule } from './statistics-routing.module';
 import { StatisticsComponent } from './components/statistics/statistics.component';
 import { GenderChartComponent } from './components/statistics/charts/gender-chart/gender-chart.component';
 import { MatCardModule } from '@angular/material/card';
+import { TypeChartComponent } from './components/statistics/charts/type-chart/type-chart.component';
 
 
 @NgModule({
   declarations: [
     StatisticsComponent,
     GenderChartComponent,
-    NationalitiesChartComponent
+    NationalitiesChartComponent,
+    TypeChartComponent
   ],
   imports: [
     CommonModule,
