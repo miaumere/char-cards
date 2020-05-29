@@ -212,7 +212,6 @@ export class NationalitiesChartComponent extends BaseComponent implements OnInit
       .enter()
       .append('rect')
       .attr('fill', (d, i) => {
-        console.log(i)
         return `url(#bg-gradient${i})`
       })
 

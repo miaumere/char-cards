@@ -5,7 +5,6 @@ import com.meowmere.main.dto.statistics.NationalitiesStatisticsDTO;
 import com.meowmere.main.dto.statistics.StatisticsDTO;
 import com.meowmere.main.dto.statistics.TypeStatisticsDTO;
 import com.meowmere.main.dto.statistics.age.AgeDTO;
-import com.meowmere.main.dto.statistics.age.AgeStatisticsDTO;
 import com.meowmere.main.enums.CharType;
 import com.meowmere.main.enums.Gender;
 import com.meowmere.main.repositories.character.CharacterRepository;
@@ -40,7 +39,6 @@ public class StatisticsService {
         typeStatisticsDTO.setSideCharactersNum(characterRepository.getCharTypeNumber(CharType.SIDE));
         typeStatisticsDTO.setBgCharactersNum(characterRepository.getCharTypeNumber(CharType.BACKGROUND));
 
-        AgeStatisticsDTO ageStatisticsDTO = new AgeStatisticsDTO();
         List<Long> birthdays = characterRepository.getCharactersBirthdays();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYY");
         Date currentDate = new Date();
@@ -56,12 +54,14 @@ public class StatisticsService {
         Integer sixtiesAges = 0;
         String sixtiesLabel = "60+";
         Integer undefinedAges = allCharsNumber - birthdays.size();
+        String noAgeLabel = "Nieznany";
 
         AgeDTO childAgesDTO = new AgeDTO(childLabel, new HashMap<>());
         AgeDTO youngAdultDTO = new AgeDTO(youngAdultLabel, new HashMap<>());
         AgeDTO thirtiesDTO = new AgeDTO(thirtiesLabel, new HashMap<>());
         AgeDTO fourtiesDTO = new AgeDTO(fourtiesLabel, new HashMap<>());
         AgeDTO sixtiesDTO = new AgeDTO(sixtiesLabel, new HashMap<>());
+        AgeDTO noAgeDTO = new AgeDTO(noAgeLabel, new HashMap<>());
 
         if(birthdays != null && birthdays.size() > 0){
         for (Long birthday : birthdays) {
@@ -122,7 +122,7 @@ public class StatisticsService {
         thirtiesDTO.setCount(thirtiesAges);
         fourtiesDTO.setCount(fourtiesAges);
         sixtiesDTO.setCount(sixtiesAges);
-        ageStatisticsDTO.setUndefinedAges(undefinedAges);
+        noAgeDTO.setCount(undefinedAges);
 
         List<AgeDTO> ageDTOS = new ArrayList<>();
         ageDTOS.add(childAgesDTO);
@@ -130,13 +130,12 @@ public class StatisticsService {
         ageDTOS.add(thirtiesDTO);
         ageDTOS.add(fourtiesDTO);
         ageDTOS.add(sixtiesDTO);
-
-        ageStatisticsDTO.setAgeStats(ageDTOS);
+        ageDTOS.add(noAgeDTO);
 
         statisticsDTO.setGenderStatistics(genderStatisticDTO);
         statisticsDTO.setNationalitiesStatistics(nationalitiesStatisticsDTOS);
         statisticsDTO.setTypeStatistics(typeStatisticsDTO);
-        statisticsDTO.setAgeStatistics(ageStatisticsDTO);
+        statisticsDTO.setAgeStatistics(ageDTOS);
 
         return new ResponseEntity(statisticsDTO, HttpStatus.OK);
     }
