@@ -1,18 +1,21 @@
 <article class="admin-panel admin-panel--login">
   <h2 class="login__info">Aby wejść do panelu admina, zaloguj się:</h2>
 
-  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login__form">
-    <label class="form__label global-label">
-      Nazwa użytkownika:
-      <input type="text" class="form__input global-input" required formControlName="username">
-    </label>
+  <form [formGroup]="loginForm" class="login__form">
 
-    <label class="form__label global-label">
-      Hasło:
-      <input type="password" class="form__input global-input" required type="password" formControlName="password">
-    </label>
+    <mat-form-field class="example-full-width">
+      <mat-label>Nazwa użytkownika</mat-label>
+      <input matInput value="" formControlName="username">
+    </mat-form-field>
 
-    <input class="form__submit-button global-button" type="submit" value="Zaloguj">
+    <mat-form-field class="example-full-width">
+      <mat-label>Hasło</mat-label>
+      <input type="password" matInput value="" formControlName="password">
+    </mat-form-field>
+
+
+    <button mat-raised-button color="accent" class="form__submit-button" (click)="onSubmit()"
+      [disabled]="loginForm.invalid">Zaloguj</button>
   </form>
 
 </article>

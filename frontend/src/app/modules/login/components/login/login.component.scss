@@ -10,25 +10,16 @@
     justify-content: center;
     display: flex;
     flex-direction: column;
+
+    font-size: initial;
   }
 
   &__info {
-    color: #9a9a9a;
-    font-size: 0.8rem;
+    font-size: initial;
   }
 }
 
 .form {
-  &__label {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-  }
-
-  &__input {
-    margin: 0 0 1rem 1rem;
-  }
-
   &__submit-button {
     width: 5rem;
     margin: auto;
