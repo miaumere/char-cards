@@ -30,13 +30,15 @@ export class TypeChartComponent extends BaseComponent implements OnInit {
     const svg = d3.select(element).append('svg')
       .attr('width', element.offsetWidth)
       .attr('height', element.offsetHeight)
-      .attr('stroke', 'white')
+      .attr('stroke', 'white');
 
     const data = [
       this.typeStatistics.mainCharactersNum,
       this.typeStatistics.sideCharactersNum,
       this.typeStatistics.bgCharactersNum
     ];
+
+    const keys = ['Główni', 'Poboczni', 'Epizodyczni'];
 
     const width: number = +svg.attr('width');
     const height: number = +svg.attr('height');
@@ -47,15 +49,15 @@ export class TypeChartComponent extends BaseComponent implements OnInit {
 
     const arc = d3.arc()
       .outerRadius(radius)
-      .innerRadius(40)
+      .innerRadius(40);
 
     const label = d3.arc()
       .outerRadius(radius)
-      .innerRadius(radius - 35)
+      .innerRadius(radius - 35);
 
     const group = g.selectAll('arc')
       .data(d3.pie()(data))
-      .enter()
+      .enter();
 
     // gradients
     const defs0 = svg.append('defs');
@@ -103,16 +105,16 @@ export class TypeChartComponent extends BaseComponent implements OnInit {
     group
       .append('path')
       .attr('fill', (d, i) => {
-        return `url(#type-gradient${i})`
+        return `url(#type-gradient${i})`;
       })
       .transition()
       .duration(1000)
       .attrTween('d', (d): any => {
-        var i = d3.interpolate(d.startAngle + 0.1, d.endAngle);
+        let i = d3.interpolate(d.startAngle + 0.1, d.endAngle);
         return t => {
           d.endAngle = i(t);
-          return arc(<any>d);
-        }
+          return arc(d as any);
+        };
       });
 
     group
@@ -127,7 +129,32 @@ export class TypeChartComponent extends BaseComponent implements OnInit {
       .attr('stroke', 'rgba(0, 0, 0, 0.7)')
       .attr('font-size', '0.7rem')
       .attr('stroke-width', '1px')
-      .text((d) => { return '' + d.data; })
+      .text((d) => '' + d.data);
+
+
+    svg.selectAll('mydots')
+      .data(keys)
+      .enter()
+      .append('circle')
+      .attr('cx', 230)
+      .attr('cy', function (d, i) { return 10 + i * 25; })
+      .attr('r', 3)
+      .style('stroke', 'none')
+      .attr('fill', (d, i) => {
+        return `url(#type-gradient${i})`;
+      });
+
+    svg.selectAll('mylabels')
+      .data(keys)
+      .enter()
+      .append('text')
+      .attr('x', 240)
+      .attr('y', function (d, i) { return 10 + i * 25; })
+      .style('fill', 'black')
+      .style('stroke', 'none')
+      .text(function (d) { return d; })
+      .attr('text-anchor', 'left')
+      .style('alignment-baseline', 'middle');
   }
 
 }
