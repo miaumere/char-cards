@@ -1,11 +1,14 @@
 package com.meowmere.main.dto.statistics;
 
+import com.meowmere.main.dto.statistics.age.AgeStatisticsDTO;
+
 import java.util.List;
 
 public class StatisticsDTO {
     public GenderStatisticDTO genderStatistics;
     public List<NationalitiesStatisticsDTO> nationalitiesStatistics;
     public TypeStatisticsDTO typeStatistics;
+    public AgeStatisticsDTO ageStatistics;
 
     public GenderStatisticDTO getGenderStatistics() {
         return genderStatistics;
@@ -29,5 +32,13 @@ public class StatisticsDTO {
 
     public void setTypeStatistics(TypeStatisticsDTO typeStatistics) {
         this.typeStatistics = typeStatistics;
+    }
+
+    public AgeStatisticsDTO getAgeStatistics() {
+        return ageStatistics;
+    }
+
+    public void setAgeStatistics(AgeStatisticsDTO ageStatistics) {
+        this.ageStatistics = ageStatistics;
     }
 }
