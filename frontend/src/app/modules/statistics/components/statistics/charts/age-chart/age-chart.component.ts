@@ -49,6 +49,21 @@ export class AgeChartComponent extends BaseComponent implements OnInit {
         'translate(' + margin.left + ',' + margin.top + ')');
 
 
+
+    const defs0 = svg.append('defs');
+    const bgGradient0 = defs0
+      .append('linearGradient')
+      .attr('id', 'bg-gradient0')
+      .attr('gradientTransform', 'rotate(90)');
+    bgGradient0
+      .append('stop')
+      .attr('stop-color', '#855898')
+      .attr('offset', '0%');
+    bgGradient0
+      .append('stop')
+      .attr('stop-color', '#4C238F')
+      .attr('offset', '100%');
+
     const keys: string[] = [];
     let allCharsNum = 0;
     for (const ageStat of this.ageStatistics) {
@@ -77,7 +92,9 @@ export class AgeChartComponent extends BaseComponent implements OnInit {
       .data(this.ageStatistics)
       .enter()
       .append('rect')
-      .attr('fill', 'pink')
+      .attr('fill', (d, i) => {
+        return `url(#bg-gradient${i})`;
+      })
 
       .attr('stroke', 'white')
       .attr('stroke-width', '1px')
@@ -121,10 +138,16 @@ export class AgeChartComponent extends BaseComponent implements OnInit {
 
     };
 
-    // console.log(this.ageStatistics.ageStats)
 
     const mousemove = (d) => {
-      // tooltip.html(`Ilość postaci: <strong> ${d.label}</strong>`)
+      let msg = '<table>';
+      msg += '<th><br/>WIEK</th><th>ILOŚĆ <br/> POSTACI</th> <br/ >';
+
+      for (const key of Object.keys(d.details)) {
+        msg += `<tr> <th>${key}</th><th>${d.details[key]}</th></tr>`
+      }
+      msg += `</table>`
+      tooltip.html(msg)
     };
     const mouseleave = function (d) {
       tooltip

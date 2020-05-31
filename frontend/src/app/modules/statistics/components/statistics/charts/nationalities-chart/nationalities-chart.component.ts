@@ -118,11 +118,11 @@ export class NationalitiesChartComponent extends BaseComponent implements OnInit
       .attr('gradientTransform', 'rotate(90)');
     bgGradient0
       .append('stop')
-      .attr('stop-color', '#855898')
+      .attr('stop-color', '#aa457d')
       .attr('offset', '0%');
     bgGradient0
       .append('stop')
-      .attr('stop-color', '#4C238F')
+      .attr('stop-color', '#855898')
       .attr('offset', '100%');
 
     const defs1 = svg.append('defs');
@@ -132,11 +132,11 @@ export class NationalitiesChartComponent extends BaseComponent implements OnInit
       .attr('gradientTransform', 'rotate(90)');
     bgGradient
       .append('stop')
-      .attr('stop-color', '#EE7676')
+      .attr('stop-color', '#68DCBF')
       .attr('offset', '0%');
     bgGradient
       .append('stop')
-      .attr('stop-color', '#7E65DE')
+      .attr('stop-color', '#636363')
       .attr('offset', '100%');
 
     const defs2 = svg.append('defs');
@@ -165,9 +165,36 @@ export class NationalitiesChartComponent extends BaseComponent implements OnInit
       .attr('offset', '0%');
     bgGradient3
       .append('stop')
-      .attr('stop-color', '#5735B1')
+      .attr('stop-color', '#1d90c5')
       .attr('offset', '100%');
 
+    const defs4 = svg.append('defs');
+    const bgGradient4 = defs4
+      .append('linearGradient')
+      .attr('id', 'bg-gradient4')
+      .attr('gradientTransform', 'rotate(90)');
+    bgGradient4
+      .append('stop')
+      .attr('stop-color', 'brown')
+      .attr('offset', '0%');
+    bgGradient4
+      .append('stop')
+      .attr('stop-color', '#aa457d')
+      .attr('offset', '100%');
+
+    const defs5 = svg.append('defs');
+    const bgGradient5 = defs5
+      .append('linearGradient')
+      .attr('id', 'bg-gradient5')
+      .attr('gradientTransform', 'rotate(90)');
+    bgGradient5
+      .append('stop')
+      .attr('stop-color', '#d6d6d6')
+      .attr('offset', '0%');
+    bgGradient5
+      .append('stop')
+      .attr('stop-color', '#636363')
+      .attr('offset', '100%');
 
     // X axis
     const x = d3.scaleBand()
@@ -212,7 +239,7 @@ export class NationalitiesChartComponent extends BaseComponent implements OnInit
       .enter()
       .append('rect')
       .attr('fill', (d, i) => {
-        return `url(#bg-gradient${i})`
+        return `url(#bg-gradient${i})`;
       })
 
       .attr('stroke', 'white')
