@@ -44,7 +44,6 @@ export class EditChaptersListMenuComponent extends BaseComponent implements OnIn
   ngOnInit() {
     this._activatedRoute?.parent?.queryParams
       .subscribe(queryParam => {
-        console.log(queryParam)
         this.bookId = +queryParam.id;
       });
 
@@ -65,6 +64,7 @@ export class EditChaptersListMenuComponent extends BaseComponent implements OnIn
           if (book) {
             this.book = book;
             const bookColor = tinycolor(book?.color);
+            console.log(this.bookId)
             if (bookColor.isLight()) {
               this.fontColor = 'black';
             }

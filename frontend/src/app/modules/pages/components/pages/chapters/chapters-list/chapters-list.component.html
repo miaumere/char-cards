@@ -22,7 +22,8 @@
             Postacie występujące:
           </mat-expansion-panel-header>
           <div class="char-card-container">
-            <mat-card class="char-card" *ngFor="let starringChar of chapter.starringChars">
+            <mat-card class="char-card" *ngFor="let starringChar of chapter.starringChars"
+              [ngStyle]="{'color': fontColor}">
               <mat-card-header>
                 <div mat-card-avatar *ngIf="starringChar?.character?.profilePic">
                   <img mat-card-image class="char-card__avatar"
@@ -30,7 +31,7 @@
                 </div>
                 <mat-card-title>{{starringChar?.character?.charName}} {{starringChar?.character?.charSurname}}
                 </mat-card-title>
-                <mat-card-subtitle>{{starringChar?.starringType}}</mat-card-subtitle>
+                <mat-card-subtitle [ngStyle]="{'color': fontColor}">{{starringChar?.starringType}}</mat-card-subtitle>
               </mat-card-header>
 
             </mat-card>
@@ -39,7 +40,7 @@
         </mat-expansion-panel>
       </mat-card-content>
       <mat-card-actions>
-        <button mat-stroked-button [ngStyle]="{'background': bookColor}" [routerLink]="['./']"
+        <button mat-stroked-button [ngStyle]="{'background': bookColor, 'color': fontColor}" [routerLink]="['./']"
           [routerLink]="['./pages']" [queryParams]="{
             id: bookId,
           chapterId: chapter.id,

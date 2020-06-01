@@ -1,10 +1,11 @@
+import { IStarringCharacter } from './../../../edit-story-panel/models/starring/starring-character.model';
 import { CharacterItem } from './../../../characters/models/character-item.model';
 export interface IChapterWithChars {
   id: number;
   chapterDesc: string;
   name: string;
   pagesIds: number[];
-  starringChars: CharacterItem[];
+  starringChars: IStarringCharacter[];
 }
 
 export class ChapterWithChars implements IChapterWithChars {
@@ -12,7 +13,7 @@ export class ChapterWithChars implements IChapterWithChars {
   chapterDesc: string;
   name: string;
   pagesIds: number[];
-  starringChars: CharacterItem[];
+  starringChars: IStarringCharacter[];
 
   constructor(initialValues: IChapterWithChars) {
     Object.assign(this, initialValues);

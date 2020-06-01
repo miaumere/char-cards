@@ -5,6 +5,7 @@ import { BaseComponent } from 'src/app/core/base.component';
 
 import * as tinycolor from 'tinycolor2';
 import { IChapterWithChars } from 'src/app/modules/pages/models/pages/chapter-with-chars.model';
+import { StarringCharacter } from 'src/app/modules/edit-story-panel/models/starring/starring-character.model';
 
 @Component({
   selector: 'app-chapters-list',
@@ -26,14 +27,14 @@ export class ChaptersListComponent extends BaseComponent implements OnInit {
   ngOnInit() {
     this._activatedRoute?.parent?.queryParams
       .subscribe(queryParam => {
+        console.log(queryParam)
         this.bookId = +queryParam.id;
         this.bookColor = queryParam.color;
         const bookColor = tinycolor(queryParam.color);
-        this.bgColor = bookColor.darken(35).desaturate(30);
-
         if (bookColor.isLight()) {
           this.fontColor = 'black';
         }
+        this.bgColor = bookColor.darken(35).desaturate(30);
       });
 
     this.getChaptersWithCharacters();
@@ -47,6 +48,29 @@ export class ChaptersListComponent extends BaseComponent implements OnInit {
         .getChaptersWithChars(this.bookId)
         .subscribe(chapters => {
           this.chapters = chapters;
+
+          for (const chapter of chapters) {
+            console.log(chapter.starringChars)
+            let sortedChars: StarringCharacter[] = [];
+            const mainCharacters = chapter.starringChars?.filter(x => x.starringType === 'MAIN');
+            const sideCharacters = chapter.starringChars?.filter(x => x.starringType === 'SIDE');
+            const bgCharacters = chapter.starringChars?.filter(x => x.starringType === 'BACKGROUND');
+            const mentionedCharacters = chapter.starringChars?.filter(x => x.starringType === 'MENTIONED');
+
+            if (!!mainCharacters) {
+              sortedChars = mainCharacters;
+            }
+            if (!!sideCharacters) {
+              sortedChars = sortedChars.concat(sideCharacters);
+            }
+            if (!!bgCharacters) {
+              sortedChars = sortedChars.concat(bgCharacters);
+            }
+            if (!!mentionedCharacters) {
+              sortedChars = sortedChars.concat(mentionedCharacters);
+            }
+            chapter.starringChars = sortedChars;
+          }
         })
     );
 

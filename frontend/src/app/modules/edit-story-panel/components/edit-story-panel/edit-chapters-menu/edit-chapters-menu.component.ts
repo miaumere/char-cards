@@ -55,14 +55,15 @@ export class EditChaptersMenuComponent extends BaseComponent implements OnInit {
         )
         .subscribe(book => {
           if (book) {
+
             this.book = book;
 
             const bookColor = tinycolor(book?.color);
 
-            this.bgColor = bookColor.darken(35).desaturate(30);
             if (bookColor.isLight()) {
               this.fontColor = 'black';
             }
+            this.bgColor = bookColor.darken(35).desaturate(30);
           }
         })
 

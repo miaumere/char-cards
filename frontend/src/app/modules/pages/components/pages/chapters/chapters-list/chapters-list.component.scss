@@ -15,15 +15,16 @@
 
 .char-card {
   background: $card-bg;
+
   margin: 1rem;
+  padding-bottom: 0;
 
   width: 15rem;
 
   &__avatar {
+    @include profile-pic;
     width: 3.125rem;
     height: 3.125rem;
-
-    border-radius: 50%;
   }
 }
 

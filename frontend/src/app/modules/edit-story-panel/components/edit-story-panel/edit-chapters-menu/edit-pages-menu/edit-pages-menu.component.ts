@@ -65,7 +65,7 @@ export class EditPagesMenuComponent extends BaseComponent implements OnInit {
         this.fontColor = queryParam.fontColor;
         this.bookId = +queryParam.id;
         this.getChapter(this.chapterId);
-        this.getStarringCharactersForChapter()
+        this.getStarringCharactersForChapter();
       });
 
     this.getCharactersList();
@@ -91,7 +91,7 @@ export class EditPagesMenuComponent extends BaseComponent implements OnInit {
             this.pagesNumber = chapter.pagesIds;
           }
         })
-    )
+    );
   }
 
   getCharactersList() {
@@ -116,9 +116,28 @@ export class EditPagesMenuComponent extends BaseComponent implements OnInit {
       this._storyService
         .getStarringCharactersForChapter(this.chapterId)
         .subscribe(starringCharacters => {
-          this.starringCharacters = starringCharacters;
+          let sortedChars: StarringCharacter[] = [];
+          const mainCharacters = starringCharacters.filter(x => x.starringType === 'MAIN');
+          const sideCharacters = starringCharacters.filter(x => x.starringType === 'SIDE');
+          const bgCharacters = starringCharacters.filter(x => x.starringType === 'BACKGROUND');
+          const mentionedCharacters = starringCharacters.filter(x => x.starringType === 'MENTIONED');
+
+          if (!!mainCharacters) {
+            sortedChars = mainCharacters;
+          }
+          if (!!sideCharacters) {
+            sortedChars = sortedChars.concat(sideCharacters);
+          }
+          if (!!bgCharacters) {
+            sortedChars = sortedChars.concat(bgCharacters);
+          }
+          if (!!mentionedCharacters) {
+            sortedChars = sortedChars.concat(mentionedCharacters);
+          }
+
+          this.starringCharacters = sortedChars;
         })
-    )
+    );
   }
 
   insertDeleteInfo() {
@@ -131,7 +150,7 @@ export class EditPagesMenuComponent extends BaseComponent implements OnInit {
   }
 
   drop(e: CdkDragDrop<string[]>) {
-    const number = this.pagesNumber[e.previousIndex]
+    const number = this.pagesNumber[e.previousIndex];
     this.pagesNumber.splice(e.previousIndex, 1);
     this.pagesNumber.splice(e.currentIndex, 0, number);
 
@@ -149,9 +168,9 @@ export class EditPagesMenuComponent extends BaseComponent implements OnInit {
         .subscribe(_ => {
           this.getChapter(this.chapterId);
         }, err => {
-          this._toastrService.error('Nie udało się zmienić kolejności stron.')
+          this._toastrService.error('Nie udało się zmienić kolejności stron.');
         })
-    )
+    );
   }
 
   addNewPages() {
@@ -168,11 +187,11 @@ export class EditPagesMenuComponent extends BaseComponent implements OnInit {
           formData, this.chapterId
         ).subscribe(_ => {
           this._toastrService.success('Udało się dodać nowe strony!');
-          this.getChapter(this.chapterId)
+          this.getChapter(this.chapterId);
         }, err => {
           this._toastrService.error('Nie udało się dodać nowych stron.');
         })
-    )
+    );
 
   }
 
@@ -198,9 +217,9 @@ export class EditPagesMenuComponent extends BaseComponent implements OnInit {
               this._toastrService.success('Udało się dodać postać do części!');
               this.getStarringCharactersForChapter();
             }, err => {
-              this._toastrService.error('Nie udało się dodać postaci do części.')
+              this._toastrService.error('Nie udało się dodać postaci do części.');
             })
-        )
+        );
       }
     }
 
@@ -219,7 +238,7 @@ export class EditPagesMenuComponent extends BaseComponent implements OnInit {
         }, err => {
           this._toastrService.error('Nie udało się usunąć wybranej części.');
         })
-    )
+    );
   }
 
   deleteStarringCharacter(starringId: number) {
@@ -232,6 +251,6 @@ export class EditPagesMenuComponent extends BaseComponent implements OnInit {
         }, err => {
           this._toastrService.error('Nie udało się usunąć postaci z części.');
         })
-    )
+    );
   }
 }
