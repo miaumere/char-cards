@@ -5,6 +5,7 @@ import { Component, OnInit } from '@angular/core';
 import { CharacterItem } from 'src/app/modules/characters/models/character-item.model';
 import { finalize } from 'rxjs/operators';
 import { BaseComponent } from 'src/app/core/base.component';
+import { FormGroup, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-admin-panel-for-characters',
@@ -13,6 +14,11 @@ import { BaseComponent } from 'src/app/core/base.component';
 })
 export class AdminPanelForCharactersComponent extends BaseComponent implements OnInit {
   charList: CharacterItem[] = [];
+  filteredChars: CharacterItem[] = [];
+
+  searchForm = new FormGroup({
+    char: new FormControl(''),
+  });
 
   loading = true;
   constructor(
@@ -40,10 +46,10 @@ export class AdminPanelForCharactersComponent extends BaseComponent implements O
             const archivedCharacters = charList.filter(x => x.archived);
             const nonArchivedCharcaters = charList.filter(x => !x.archived);
             this.charList = nonArchivedCharcaters.concat(archivedCharacters);
+            this.filteredChars = nonArchivedCharcaters.concat(archivedCharacters);
           })
     )
   }
-
 
   changeStateOfChar(id: number) {
     const matchingChar = this.charList.find(c =>
@@ -64,5 +70,12 @@ export class AdminPanelForCharactersComponent extends BaseComponent implements O
             })
       )
     }
+  }
+
+  searchCharacter() {
+    const inputValue: string = '' + this.searchForm.get('char')?.value.toLowerCase();
+
+    const filteredChars = this.charList.filter(c => `${c.charName} ${c.charSurname}`.toLowerCase().indexOf(inputValue) === 0);
+    this.filteredChars = filteredChars;
   }
 }

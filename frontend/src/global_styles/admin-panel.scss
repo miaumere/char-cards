@@ -13,25 +13,4 @@ $gradient2: #0b1725;
   overflow-x: scroll;
 
   height: calc(100vh - #{$navbar-height});
-
-  // background-image: url($image-url), linear-gradient(60deg, $gradient1 0%, $gradient2 100%);
-
-  // &--main {
-  //   background-image: url($image-url), linear-gradient(60deg, $gradient1 0%, $gradient2 100%);
-  // }
-}
-
-.admin-panel-main {
-  &__menu {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-evenly;
-    align-items: center;
-
-    height: calc(100vh - #{$navbar-height});
-    width: 100%;
-
-    position: fixed;
-    overflow-y: scroll;
-  }
 }

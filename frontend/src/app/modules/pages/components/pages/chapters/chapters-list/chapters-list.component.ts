@@ -50,7 +50,6 @@ export class ChaptersListComponent extends BaseComponent implements OnInit {
           this.chapters = chapters;
 
           for (const chapter of chapters) {
-            console.log(chapter.starringChars)
             let sortedChars: StarringCharacter[] = [];
             const mainCharacters = chapter.starringChars?.filter(x => x.starringType === 'MAIN');
             const sideCharacters = chapter.starringChars?.filter(x => x.starringType === 'SIDE');
