@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { BaseComponent } from 'src/app/core/base.component';
+import * as tinycolor from 'tinycolor2';
+
 
 @Component({
   selector: 'app-characters',
@@ -7,18 +9,16 @@ import { BaseComponent } from 'src/app/core/base.component';
   styleUrls: ['./characters.component.scss']
 })
 export class CharactersComponent extends BaseComponent implements OnInit {
-  childBackground = 'grey';
-  bgUrl = `url(
-    data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAF0lEQVQYV2NkQAJSN+83PFNXbGCkgSAAqjkUBj+3UZ0AAAAASUVORK5CYII=
-    )`
-
+  childBackground = '';
   ngOnInit() {
-
   }
 
   bgColorFromChild(bgColor: string) {
-    this.childBackground = bgColor;
-  }
+    this.childBackground = tinycolor(
+      this.childBackground
+    ).darken(20).desaturate(45);
 
+    this.childBackground = bgColor ? bgColor : 'grey';
+  }
 
 }

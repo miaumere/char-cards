@@ -6,10 +6,14 @@
       <img class="character__profile-pic" *ngIf="character.profilePic"
         [src]="'data:image/' + character.profilePic?.extension + ';base64, ' + character.profilePic.image | sanitizer">
       <div *ngIf="!character.profilePic" class="character__profile-pic character__profile-pic--empty">
-        <app-icon [icon]="'unknown'" [color]="'rgba(0, 0, 0, 0.5)'" [size]="4"></app-icon>
       </div>
-      <span>
-        {{ character.charName }}
+      <span class="character__name">
+        <span *ngIf="character.characterType === 'MAIN'"> <img src="../../../../../assets/svg/rdest.svg" class="rdest">
+        </span>
+        <span *ngIf="character.characterType === 'SIDE'"> <img src="../../../../../assets/svg/rdest.svg"
+            class="rdest rdest--side">
+        </span>
+        {{ character.fullName }}
       </span>
     </a>
   </ng-container>

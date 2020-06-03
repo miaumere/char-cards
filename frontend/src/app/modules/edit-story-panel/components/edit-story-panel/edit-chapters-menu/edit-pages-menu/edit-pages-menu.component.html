@@ -1,0 +1,114 @@
+<mat-tab-group>
+  <mat-tab label="Edycja stron">
+
+    <div class="new-pages">
+      <div>
+        <button (click)="fileInput.click()" mat-stroked-button [ngStyle]="{'background': bookColor}">
+          <mat-icon> attach_file</mat-icon>
+
+          Wybrano: {{filesListNumber}} plików.
+          <input #fileInput type="file" (change)="onFileInput($event.target.files)" style="display:none;" multiple />
+        </button>
+
+      </div>
+
+      <button mat-stroked-button [ngStyle]="{'background': bookColor}" [disabled]="filesListNumber === 0"
+        style="margin: 1rem;" (click)="addNewPages()">
+        <mat-icon>library_add</mat-icon>
+        Dodaj nowe strony
+      </button>
+
+    </div>
+
+
+    <div class="edit-pages" *ngIf="pagesNumber.length > 0" class="boundary" cdkDropList
+      (cdkDropListDropped)="drop($event)">
+
+      <mat-card *ngFor="let pageId of pagesNumber; index as i;" class="page-card" [ngStyle]="{'background': bookColor}"
+        cdkDragBoundary=".boundary" cdkDrag>
+        <mat-card-header>
+          <mat-card-title>
+            <span style="font-size: xx-large;">
+              {{+i + 1}}.
+            </span>
+          </mat-card-title>
+
+        </mat-card-header>
+        <img src="{{pageURL}}/{{chapterId}}/{{i}}" class="image" />
+        <mat-card-actions>
+          <button mat-mini-fab color="warn" (click)="insertDeleteInfo()" (dblclick)="deletePage(pageId)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+    <div class="edit-pages" *ngIf="pagesNumber.length === 0">
+      Brak stron dla tej części.
+    </div>
+  </mat-tab>
+
+  <mat-tab label="Edycja postaci występujących">
+    <div class="edit-existing-characters">
+      <form [formGroup]="charactersInChapterForm" class="starring-characters-form">
+        <mat-form-field class="edit-existing-characters__form-field">
+          <mat-label>Dodaj postać, która występuje w części:</mat-label>
+          <input matInput placeholder="Imię postaci" formControlName="character" required [matAutocomplete]="auto">
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option *ngFor="let char of filteredCharacters | async" [value]="char.fullName">
+              <img *ngIf="char.profilePic"
+                [src]="'data:image/' + char.profilePic?.extension + ';base64, ' + char.profilePic?.image | sanitizer"
+                class="option__image">
+              <span>{{char.fullName}}</span>
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+
+        <label id="type-radio-group">Rodzaj występowania:</label>
+        <mat-radio-group formControlName="starringType" aria-labelledby="type-radio-group"
+          class="starring-characters-form__radio-group radio-group">
+          <ng-container *ngFor="let gen of StarringType | enumVal">
+            <mat-radio-button class="example-margin" [value]="gen.key" name="gender" class="radio-group__item">
+              {{gen.value}}
+            </mat-radio-button>
+          </ng-container>
+        </mat-radio-group>
+
+        <button mat-stroked-button [ngStyle]="{'background': bookColor}" [disabled]="charactersInChapterForm.invalid"
+          (click)="createStarringCharacter()">
+          Dodaj postać do części
+        </button>
+      </form>
+
+      <div class="starring-characters">
+        <ng-container *ngIf="starringCharacters.length > 0">
+          <span>Obecne występujące postacie:</span>
+          <div class="starring-characters__container">
+            <mat-card *ngFor="let starringCharacter of starringCharacters" class="starring-char-card">
+              <mat-card-header>
+                <div mat-card-avatar>
+                  <img *ngIf="starringCharacter.character.profilePic" class="header-image"
+                    [src]="'data:image/' + starringCharacter.character.profilePic?.extension + ';base64, ' +starringCharacter.character.profilePic?.image | sanitizer">
+                </div>
+                <mat-card-title>{{starringCharacter.character.charName}} {{starringCharacter.character.charSurname}}
+                </mat-card-title>
+                <mat-card-subtitle>{{starringCharacter.starringType}}</mat-card-subtitle>
+              </mat-card-header>
+              <mat-card-actions>
+                <button mat-stroked-button color="warn" (click)="insertDeleteInfo()"
+                  (dblclick)="deleteStarringCharacter(starringCharacter.id)">
+                  <mat-icon>delete</mat-icon>
+                  Usuń postać z tej części
+                </button>
+              </mat-card-actions>
+            </mat-card>
+
+          </div>
+        </ng-container>
+        <div *ngIf="starringCharacters.length === 0"> Brak występujących postaci w tej części.</div>
+      </div>
+
+    </div>
+
+  </mat-tab>
+
+</mat-tab-group>

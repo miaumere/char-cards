@@ -1,18 +1,40 @@
-import { Colors } from '../../characters/models/colors.model';
+import { IColors } from '../../characters/models/colors.model';
 
-import { Temperament } from '../../characters/models/temperament.model';
+import {
+  ITemperament
+} from '../../characters/models/temperament.model';
 
-import { Measurements } from '../../characters/models/measurements.model';
+import { IMeasurements } from '../../characters/models/measurements.model';
 
-export class EditCharacter {
+export interface IEditCharacter {
   externalId: number;
   charName: string;
   charSurname: string;
+  pseudonim: string;
+  gender: string;
   birthday: number;
   death: number | null;
   deathReason: string | null;
   occupation: string;
-  colors: Colors;
-  temperament: Temperament;
-  measurements: Measurements;
+  colors: IColors;
+  temperament: ITemperament;
+  measurements: IMeasurements;
+  nationality: string;
+}
+
+export class EditCharacter implements IEditCharacter {
+  externalId: number;
+  charName: string;
+  charSurname: string;
+  pseudonim: string;
+  gender: string;
+  birthday: number;
+  death: number | null;
+  deathReason: string | null;
+  occupation: string;
+  colors: IColors;
+  temperament: ITemperament;
+  measurements: IMeasurements;
+  nationality: string;
+
 }

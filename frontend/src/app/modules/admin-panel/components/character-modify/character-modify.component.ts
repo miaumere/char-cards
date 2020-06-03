@@ -1,15 +1,20 @@
+import { IMeasurements } from 'src/app/modules/characters/models/measurements.model';
 import { Measurements } from './../../../characters/models/measurements.model';
 import { Temperament } from './../../../characters/models/temperament.model';
 import { EditCharacter } from './../../models/edit-character.model';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { CharactersService } from 'src/app/core/service/characters.service';
 import { ToastrService } from 'ngx-toastr';
 import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { BaseComponent } from 'src/app/core/base.component';
-import { validateImage } from 'src/app/shared/functions/validate-image.function';
 import { Colors } from 'src/app/modules/characters/models/colors.model';
 import { finalize } from 'rxjs/operators';
+import { Gender } from '../../enums/gender.enum';
+import { CharType } from '../../enums/character-type.enum';
+import { CreateCharacter } from '../../models/create-character.model';
+import { CountriesService } from 'src/app/core/service/countries.service';
+import { Country } from '../../models/countries/country.model';
 
 type chooseFormType = 'SUBMIT' | number;
 @Component({
@@ -19,9 +24,58 @@ type chooseFormType = 'SUBMIT' | number;
 })
 
 export class CharacterModifyComponent extends BaseComponent implements OnInit {
+  readonly Gender = Gender;
+  readonly CharType = CharType;
+
   formParts: string[] = [];
 
-  isDead = true;
+  isDead = false;
+
+  personalInfoForm = new FormGroup({
+    name: new FormControl('', Validators.required),
+    surname: new FormControl('', Validators.required),
+
+    gender: new FormControl('MALE', Validators.required),
+  });
+
+  addidionalPersonalInfoForm = new FormGroup({
+    birthday: new FormControl(''),
+    profession: new FormControl(''),
+    pseudonim: new FormControl(''),
+    death: new FormControl(),
+    deathReason: new FormControl(''),
+    nationality: new FormControl(''),
+  });
+
+  temperamentForm = new FormGroup({
+    melancholic: new FormControl(0),
+    sanguine: new FormControl(0),
+    flegmatic: new FormControl(0),
+    choleric: new FormControl(0),
+  })
+
+  colorForm = new FormGroup({
+    themeColor1: new FormControl('#C1C1C1'),
+    themeColor2: new FormControl('#828282'),
+    themeColor3: new FormControl('#414141'),
+
+    eyeColor1: new FormControl('#8A8E91'),
+    eyeColor2: new FormControl('#CBCBCB'),
+    hairColor: new FormControl('#4E4E4E'),
+    skinColor: new FormControl('#FFE6D8'),
+  })
+
+  measurementsForm = new FormGroup({
+    babyWeight: new FormControl(50, [Validators.min(1), Validators.max(100)]),
+    childWeight: new FormControl(50, [Validators.min(1), Validators.max(100)]),
+    teenWeight: new FormControl(50, [Validators.min(1), Validators.max(100)]),
+    adultWeight: new FormControl(50, [Validators.min(1), Validators.max(100)]),
+
+    babyHeight: new FormControl(100, [Validators.min(30), Validators.max(200)]),
+    childHeight: new FormControl(100, [Validators.min(30), Validators.max(200)]),
+    teenHeight: new FormControl(100, [Validators.min(30), Validators.max(200)]),
+    adultHeight: new FormControl(100, [Validators.min(30), Validators.max(200)]),
+  })
 
   newCharacterForm = new FormGroup({
     name: new FormControl('', Validators.required),
@@ -31,6 +85,7 @@ export class CharacterModifyComponent extends BaseComponent implements OnInit {
     profession: new FormControl(''),
     death: new FormControl(''),
     deathReason: new FormControl(''),
+    gender: new FormControl('', Validators.required),
 
     melancholic: new FormControl(0),
     sanguine: new FormControl(0),
@@ -65,6 +120,7 @@ export class CharacterModifyComponent extends BaseComponent implements OnInit {
     profession: new FormControl(''),
     death: new FormControl(''),
     deathReason: new FormControl(''),
+    gender: new FormControl('', Validators.required),
 
     melancholic: new FormControl(0),
     sanguine: new FormControl(0),
@@ -96,209 +152,232 @@ export class CharacterModifyComponent extends BaseComponent implements OnInit {
   flegmaticValue = 0;
   cholericValue = 0;
 
+  measurements: IMeasurements;
+
   birthdayDate;
   deathDate;
 
   profilePic: File | null = null;
   images: FileList | null = null;
 
-  // TODO: poprawić typ, string nie moze byc dodawany
-  chosenForm: any = 1;
-  form: FormGroup;
 
   loading = true;
+  type: 'new' | 'edit';
 
-  @Input() type;
-  @Input() charId;
+  charId: number;
+
+  countries: Country[];
 
   constructor(
     private _toastrService: ToastrService,
     private _charactersService: CharactersService,
-    private _route: Router) { super(); }
+    private _route: Router,
+    private _activatedRoute: ActivatedRoute,
+    private _countriesService: CountriesService
+  ) { super(); }
 
   ngOnInit() {
     this.setModifyType();
-    const melancholic = this.form.get('melancholic');
-    const sanguine = this.form.get('sanguine');
-    const flegmatic = this.form.get('flegmatic');
-    const choleric = this.form.get('choleric');
-
-    const temperamentArray = [melancholic, sanguine, flegmatic, choleric];
-
-    temperamentArray.forEach(element => {
-      if (element) {
-        this.subscriptions$.add(
-          element.valueChanges.subscribe(val => {
-            switch (element) {
-              case melancholic:
-                this.melancholicValue = val;
-                break;
-              case sanguine:
-                this.sanguineValue = val;
-                break;
-              case flegmatic:
-                this.flegmaticValue = val;
-                break;
-              case choleric:
-                this.cholericValue = val;
-                break;
-            }
-          })
-        );
-      }
-    });
+    this.getCountriesList();
   }
 
-  changeDeathState() {
-    this.isDead = !this.isDead;
-  }
-
-  setForm(formId: chooseFormType) {
-    this.chosenForm = formId;
+  getCountriesList() {
+    this.subscriptions$.add(
+      this._countriesService
+        .getCountries()
+        .subscribe(countries => {
+          this.countries = countries;
+        })
+    )
   }
 
   setModifyType() {
-    switch (this.type) {
-      case 'NEW':
-        this.form = this.newCharacterForm;
-        this.formParts = [
-          'Podstawowe dane',
-          'Temperament',
-          'Kolory',
-          'Waga i wzrost',
-          'Zdjęcia'
-        ]
-        break;
 
-      case 'EDIT':
-        this.form = this.editCharacterForm;
-        this.formParts = [
-          'Podstawowe dane',
-          'Temperament',
-          'Kolory',
-          'Waga i wzrost'
-        ]
+    this._activatedRoute?.parent?.queryParams
+      .subscribe(queryParam => {
+        this.charId = +queryParam.id;
+      });
 
-        this.getCharacterDetails();
+    if (this._activatedRoute?.parent?.params) {
 
-        break;
+      this.subscriptions$.add(
+        this._activatedRoute.params.subscribe(param => {
+          this.type = param.type;
+          switch (param.type) {
+            case 'new':
+              const deathReason = this.addidionalPersonalInfoForm.controls['deathReason'];
+              const death = this.addidionalPersonalInfoForm.controls['death'];
+              deathReason.disable();
+              death.disable();
+              break;
+
+            case 'edit':
+              this.getCharacterDetails();
+
+              break;
+          }
+        })
+      );
     }
   }
 
-  handleFileInput(files: FileList, multiple: boolean) {
-    multiple ? this.images = files : this.profilePic = files.item(0);
+  getCharacterDetails() {
+
+    this.subscriptions$.add(
+
+      this._charactersService
+        .getCharacterDetails(this.charId)
+        .pipe(
+          finalize(() => {
+            this.loading = false;
+          })
+        ).subscribe(charDetails => {
+          this.measurements = charDetails.measurements;
+
+          this.birthdayDate = charDetails.birthday;
+          this.deathDate = charDetails.death;
+
+          this.personalInfoForm.get('name')?.setValue(charDetails.charName);
+          this.personalInfoForm.get('surname')?.setValue(charDetails.charSurname);
+          this.personalInfoForm.get('gender')?.setValue(charDetails.gender);
+
+          this.addidionalPersonalInfoForm.get('pseudonim')?.setValue(charDetails.pseudonim);
+          this.addidionalPersonalInfoForm.get('profession')?.setValue(charDetails.occupation);
+          this.addidionalPersonalInfoForm.get('deathReason')?.setValue(charDetails.deathReason);
+          this.addidionalPersonalInfoForm.get('nationality')?.setValue(charDetails.nationality);
+
+          this.colorForm.get('themeColor1')?.setValue(charDetails.colors.themeColor1);
+          this.colorForm.get('themeColor2')?.setValue(charDetails.colors.themeColor2);
+          this.colorForm.get('themeColor3')?.setValue(charDetails.colors.themeColor3);
+          this.colorForm.get('eyeColor1')?.setValue(charDetails.colors.eyeColor1);
+          this.colorForm.get('eyeColor2')?.setValue(charDetails.colors.eyeColor2);
+          this.colorForm.get('hairColor')?.setValue(charDetails.colors.hairColor);
+          this.colorForm.get('skinColor')?.setValue(charDetails.colors.skinColor);
+
+          this.temperamentForm.get('melancholic')?.setValue(charDetails.temperament.melancholic);
+          this.temperamentForm.get('flegmatic')?.setValue(charDetails.temperament.flegmatic);
+          this.temperamentForm.get('sanguine')?.setValue(charDetails.temperament.sanguine);
+          this.temperamentForm.get('choleric')?.setValue(charDetails.temperament.choleric);
+
+          this.measurementsForm.get('babyHeight')?.setValue(charDetails.measurements.babyHeight);
+          this.measurementsForm.get('babyWeight')?.setValue(charDetails.measurements.babyWeight);
+          this.measurementsForm.get('childHeight')?.setValue(charDetails.measurements.childHeight);
+          this.measurementsForm.get('childWeight')?.setValue(charDetails.measurements.childWeight);
+          this.measurementsForm.get('teenHeight')?.setValue(charDetails.measurements.teenHeight);
+          this.measurementsForm.get('teenWeight')?.setValue(charDetails.measurements.teenWeight);
+          this.measurementsForm.get('adultHeight')?.setValue(charDetails.measurements.adultHeight);
+          this.measurementsForm.get('adultWeight')?.setValue(charDetails.measurements.adultWeight);
+
+        }
+        )
+    );
   }
 
-  modifyCharacter() {
-    if (this.profilePic) {
-      validateImage(this.profilePic, this._toastrService);
-    }
+  toggleIsDead() {
+    const deathReason = this.addidionalPersonalInfoForm.controls['deathReason'];
+    const death = this.addidionalPersonalInfoForm.controls['death'];
 
-    if (this.images && this.images.length > 0) {
-      for (const key in this.images) {
-        if (this.images.hasOwnProperty(key)) {
-          const image = this.images[key];
-          validateImage(image, this._toastrService);
-        }
-      }
+    if (this.isDead) {
+      this.isDead = false;
+      deathReason.disable();
+      death.disable();
+    } else {
+      this.isDead = true;
+      death.enable();
+      deathReason.enable();
     }
+  }
+
+  submit() {
+    let character;
 
     switch (this.type) {
-      case 'NEW':
-        this.loading = true;
-
-        const newCharFormValues: { [key: string]: string } = this.newCharacterForm.value;
-
-        const formData = new FormData();
-        for (const [key, value] of Object.entries(newCharFormValues)) {
-          if (key === 'birthday') {
-            formData.append(key, '' + new Date(value).getTime());
-          } else if (key === 'death') {
-            this.isDead ? formData.append(key, '' + new Date(value).getTime()) : formData.append(key, '');
-          } else if (key === 'deathReason') {
-            this.isDead ? formData.append(key, value) : formData.append(key, '');
-          } else {
-            formData.append(key, value);
-          }
-        }
-        if (this.profilePic) {
-          formData.append('profilePic', this.profilePic);
-        }
-        if (this.images) {
-          for (let i = 0; i < this.images.length; i++) {
-            formData.append('image' + i, this.images[i]);
-          }
-        }
-
-        this.subscriptions$.add(
-          this._charactersService.postNewCharacter(formData).subscribe(_ => {
-            this._toastrService.success('Udało się dodać nową postać!');
-            this._route.navigate(['admin-panel/main']);
-          },
-            err => {
-              if (err && err.error) {
-                this._toastrService.error(err.error);
-              }
-            })
-        );
-
+      case 'new':
+        character = new CreateCharacter();
         break;
 
+      case 'edit':
+        character = new EditCharacter();
+        character.externalId = +this.charId;
+        break;
+    }
+    character.charName = this.personalInfoForm.controls['name']?.value;
+    character.charSurname = this.personalInfoForm.controls['surname']?.value;
+    character.gender = this.personalInfoForm.controls['gender']?.value;
 
-      case 'EDIT':
-        this.loading = true;
+    const birthday = this.addidionalPersonalInfoForm.controls['birthday']?.value;
+    const birthdayDate = new Date(birthday).getTime();
+    isNaN(birthdayDate) ? character.birthday = null : character.birthday = birthdayDate;
 
-        const objToSend = new EditCharacter();
+    if (this.isDead) {
+      const death = this.addidionalPersonalInfoForm.controls['death']?.value;
+      const deathDate = new Date(death).getTime();
+      isNaN(deathDate) ? character.death = null : character.death = deathDate;
+      character.deathReason = this.addidionalPersonalInfoForm.controls['deathReason']?.value;
+    } else {
+      character.death = null;
+      character.deathReason = null;
+    }
+    character.occupation = this.addidionalPersonalInfoForm.controls['profession']?.value;
+    character.pseudonim = this.addidionalPersonalInfoForm.controls['pseudonim']?.value;
+    character.nationality = this.addidionalPersonalInfoForm.controls['nationality']?.value;
 
-        objToSend.externalId = +this.charId;
+    const colors = new Colors();
+    colors.themeColor1 = this.colorForm.controls['themeColor1']?.value;
+    colors.themeColor2 = this.colorForm.controls['themeColor2']?.value;
+    colors.themeColor3 = this.colorForm.controls['themeColor3']?.value;
+    colors.eyeColor1 = this.colorForm.controls['eyeColor1']?.value;
+    colors.eyeColor2 = this.colorForm.controls['eyeColor2']?.value;
+    colors.hairColor = this.colorForm.controls['hairColor']?.value;
+    colors.skinColor = this.colorForm.controls['skinColor']?.value;
 
-        objToSend.charName = this.editCharacterForm.controls['name']?.value;
-        objToSend.charSurname = this.editCharacterForm.controls['surname']?.value;
-        objToSend.birthday = new Date(this.editCharacterForm.controls['birthday']?.value).getTime();
-        if (this.isDead) {
-          objToSend.death = new Date(this.editCharacterForm.controls['death']?.value).getTime();
-          objToSend.deathReason = this.editCharacterForm.controls['deathReason']?.value;
-        } else {
-          objToSend.death = null;
-          objToSend.deathReason = null;
-        }
-        objToSend.occupation = this.editCharacterForm.controls['profession']?.value;
+    character.colors = colors;
 
-        const colors = new Colors();
-        colors.themeColor1 = this.editCharacterForm.controls['themeColor1']?.value;
-        colors.themeColor2 = this.editCharacterForm.controls['themeColor2']?.value;
-        colors.themeColor3 = this.editCharacterForm.controls['themeColor3']?.value;
-        colors.eyeColor1 = this.editCharacterForm.controls['eyeColor1']?.value;
-        colors.eyeColor2 = this.editCharacterForm.controls['eyeColor2']?.value;
-        colors.hairColor = this.editCharacterForm.controls['hairColor']?.value;
-        colors.skinColor = this.editCharacterForm.controls['skinColor']?.value;
 
-        objToSend.colors = colors;
+    const temperament = new Temperament(
+      this.temperamentForm.controls['choleric']?.value,
+      this.temperamentForm.controls['flegmatic']?.value,
+      this.temperamentForm.controls['melancholic']?.value,
+      this.temperamentForm.controls['sanguine']?.value
+    );
 
-        const temperament = new Temperament();
-        temperament.choleric = this.cholericValue;
-        temperament.flegmatic = this.flegmaticValue;
-        temperament.melancholic = this.melancholicValue;
-        temperament.sanguine = this.sanguineValue;
+    character.temperament = temperament;
+    const measurements = new Measurements(this.measurements);
 
-        objToSend.temperament = temperament;
+    measurements.babyHeight = this.measurementsForm.controls['babyHeight']?.value;
+    measurements.babyWeight = this.measurementsForm.controls['babyWeight']?.value;
+    measurements.childHeight = this.measurementsForm.controls['childHeight']?.value;
+    measurements.childWeight = this.measurementsForm.controls['childWeight']?.value;
+    measurements.teenHeight = this.measurementsForm.controls['teenHeight']?.value;
+    measurements.teenWeight = this.measurementsForm.controls['teenWeight']?.value;
+    measurements.adultHeight = this.measurementsForm.controls['adultHeight']?.value;
+    measurements.adultWeight = this.measurementsForm.controls['adultWeight']?.value;
 
-        const measurements = new Measurements();
-        measurements.babyHeight = this.editCharacterForm.controls['babyHeight']?.value;
-        measurements.babyWeight = this.editCharacterForm.controls['babyWeight']?.value;
-        measurements.childHeight = this.editCharacterForm.controls['childHeight']?.value;
-        measurements.childWeight = this.editCharacterForm.controls['childWeight']?.value;
-        measurements.teenHeight = this.editCharacterForm.controls['teenHeight']?.value;
-        measurements.teenWeight = this.editCharacterForm.controls['teenWeight']?.value;
-        measurements.adultHeight = this.editCharacterForm.controls['adultHeight']?.value;
-        measurements.adultWeight = this.editCharacterForm.controls['adultWeight']?.value;
+    character.measurements = measurements;
 
-        objToSend.measurements = measurements;
+    console.log(character);
 
-        console.log(objToSend);
+    switch (this.type) {
+      case 'new':
         this.subscriptions$.add(
           this._charactersService
-            .putCharacterDetails(objToSend, this.isDead)
+            .postNewCharacter(character)
+            .subscribe(_ => {
+              this._toastrService.success('Udało się dodać nową postać!');
+              this._route.navigate(['./admin-panel']);
+            },
+              err => {
+                if (err && err.error) {
+                  this._toastrService.error(err.error);
+                }
+              })
+        );
+        break;
+
+      case 'edit':
+        this.subscriptions$.add(
+          this._charactersService
+            .putCharacterDetails(character, this.isDead)
             .pipe(
               finalize(() => {
                 this.loading = false;
@@ -306,59 +385,16 @@ export class CharacterModifyComponent extends BaseComponent implements OnInit {
             )
             .subscribe(_ => {
               this._toastrService.success('Udało się zmienić dane o postaci!');
-              this._route.navigate(['admin-panel/main']);
               this.getCharacterDetails();
             },
               err => {
                 this._toastrService.error(err.error);
               })
-        )
+        );
+        break;
     }
+
+
+
   }
-
-  getCharacterDetails() {
-    this._charactersService
-      .getCharacterDetails(this.charId)
-      .pipe(
-        finalize(() => {
-          this.loading = false;
-        })
-      ).subscribe(charDetails => {
-        if (this.editCharacterForm) {
-          this.birthdayDate = charDetails.birthday;
-          this.deathDate = charDetails.death;
-
-          this.editCharacterForm.get('name')?.setValue(charDetails.charName);
-          this.editCharacterForm.get('surname')?.setValue(charDetails.charSurname);
-          // this.editCharacterForm.get('birthday')?.setValue(charDetails.birthday ? timestampToDate(charDetails.birthday) : null);
-          // this.editCharacterForm.get('death')?.setValue(charDetails.death ? timestampToDate(charDetails.death) : null);
-          this.editCharacterForm.get('deathReason')?.setValue(charDetails.deathReason);
-          this.editCharacterForm.get('profession')?.setValue(charDetails.occupation);
-
-          this.editCharacterForm.get('themeColor1')?.setValue(charDetails.colors.themeColor1);
-          this.editCharacterForm.get('themeColor2')?.setValue(charDetails.colors.themeColor2);
-          this.editCharacterForm.get('themeColor3')?.setValue(charDetails.colors.themeColor3);
-          this.editCharacterForm.get('eyeColor1')?.setValue(charDetails.colors.eyeColor1);
-          this.editCharacterForm.get('eyeColor2')?.setValue(charDetails.colors.eyeColor2);
-          this.editCharacterForm.get('hairColor')?.setValue(charDetails.colors.hairColor);
-          this.editCharacterForm.get('skinColor')?.setValue(charDetails.colors.skinColor);
-
-          this.editCharacterForm.get('melancholic')?.setValue(charDetails.temperament.melancholic);
-          this.editCharacterForm.get('flegmatic')?.setValue(charDetails.temperament.flegmatic);
-          this.editCharacterForm.get('sanguine')?.setValue(charDetails.temperament.sanguine);
-          this.editCharacterForm.get('choleric')?.setValue(charDetails.temperament.choleric);
-
-          this.editCharacterForm.get('babyHeight')?.setValue(charDetails.measurements.babyHeight);
-          this.editCharacterForm.get('babyWeight')?.setValue(charDetails.measurements.babyWeight);
-          this.editCharacterForm.get('childHeight')?.setValue(charDetails.measurements.childHeight);
-          this.editCharacterForm.get('childWeight')?.setValue(charDetails.measurements.childWeight);
-          this.editCharacterForm.get('teenHeight')?.setValue(charDetails.measurements.teenHeight);
-          this.editCharacterForm.get('teenWeight')?.setValue(charDetails.measurements.teenWeight);
-          this.editCharacterForm.get('adultHeight')?.setValue(charDetails.measurements.adultHeight);
-          this.editCharacterForm.get('adultWeight')?.setValue(charDetails.measurements.adultWeight);
-        }
-      }
-      )
-  }
-
 }

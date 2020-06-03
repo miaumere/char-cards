@@ -1,0 +1,1 @@
+alter table public.character add pseudonim varchar(255);

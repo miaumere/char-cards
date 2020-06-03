@@ -1,5 +1,8 @@
 @import "../../../../../../../global_styles/variables.scss";
 
+$gradient1: #420730;
+$gradient2: #435548;
+
 .char-menu {
   display: flex;
   flex-wrap: wrap;
@@ -11,9 +14,7 @@
   height: calc(100vh - #{$navbar-height});
   width: 100%;
 
-  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAF0lEQVQYV2NkQAJSN+83PFNXbGCkgSAAqjkUBj+3UZ0AAAAASUVORK5CYII="),
-    linear-gradient(to bottom, #191244 0%, #191244 33%, #85383e 100%);
-  background-blend-mode: multiply;
+  background-image: linear-gradient(to top, #b9b9b9 0%, #3c3e3f 100%);
 
   overflow-y: scroll;
 }
@@ -27,15 +28,42 @@
 
   text-align: center;
 
+  transition: 0.2s;
+
   &__profile-pic {
     height: 100px;
     width: 100px;
 
     border-radius: 50%;
+    border: 2px solid black;
+
+    filter: grayscale(100);
+
+    transition: 0.2s;
 
     &--empty {
-      margin-top: 2.3rem;
-      margin-bottom: -2.3rem;
+      background: grey;
+      background-image: url("../../../../../../../assets/svg/iconmonstr-user-19.svg");
+
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: contain;
     }
+
+    &:hover {
+      transform: rotate(20deg);
+    }
+  }
+
+  &__name {
+    font-size: larger;
+    margin-top: 0.5rem;
+  }
+}
+
+.rdest {
+  &--side {
+    opacity: 0.4;
+    filter: grayscale(100);
   }
 }

@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.meowmere</groupId>
 	<artifactId>main</artifactId>
-	<version>1.0.1</version>
+	<version>1.1.0</version>
 	<name>main</name>
 	<description>Alea iacta est - project </description>
 	<packaging>jar</packaging>

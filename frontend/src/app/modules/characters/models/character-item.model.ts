@@ -1,17 +1,30 @@
-import { ProfilePic } from '../../admin-panel/models/profile-pic.model';
+import { IProfilePic } from '../../admin-panel/models/images/profile-pic.model';
 
-export class CharacterItem {
+export interface ICharacterItem {
   id: number;
   charName: string;
   charSurname: string;
-  profilePic?: ProfilePic | null;
+  characterType: string;
+  profilePic: IProfilePic | null;
   archived: boolean;
 }
 
-export class CharacterForListItem {
+export class CharacterItem implements ICharacterItem {
   id: number;
   charName: string;
   charSurname: string;
-  profilePic: ProfilePic;
+  characterType: string;
+  profilePic: IProfilePic | null;
   archived: boolean;
+
+  get fullName() {
+    return `${this.charName} ${this.charSurname}`;
+  }
+
+  constructor(initialValues: ICharacterItem) {
+    Object.assign(this, initialValues);
+  }
+
+
+
 }

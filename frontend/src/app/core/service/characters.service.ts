@@ -1,55 +1,39 @@
-import { NewTitle } from './../../modules/admin-panel/models/new-title.model';
-import { EditTitle } from './../../modules/admin-panel/models/edit-title.model';
-import { EditCharacter } from './../../modules/admin-panel/models/edit-character.model';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import { BehaviorSubject, Observable, of } from 'rxjs';
-import { tap, map } from 'rxjs/operators';
-import { CharacterItem, CharacterForListItem } from 'src/app/modules/characters/models/character-item.model';
-import { Character } from 'src/app/modules/characters/models/character.model';
-import { CharacterForChange } from 'src/app/modules/admin-panel/models/character-for-change.model';
-import { Titles } from 'src/app/modules/admin-panel/models/titles.model';
-import { StoryForCharacter } from 'src/app/modules/admin-panel/models/story.model';
-import { Quote } from 'src/app/modules/characters/models/quote.model';
-import { NewQuote } from 'src/app/modules/admin-panel/models/new-quote.model';
-import { EditQuote } from 'src/app/modules/admin-panel/models/edit-quote.model';
-import { StoryToSend } from 'src/app/modules/admin-panel/models/story-to-send.model';
-import { StoryToEdit } from 'src/app/modules/admin-panel/models/story-to-edit.model';
+import { Injectable } from '@angular/core'; import { BehaviorSubject, Observable, of } from 'rxjs'; import { CharacterItem, ICharacterItem } from 'src/app/modules/characters/models/character-item.model'; import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http'; import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router'; import { map, tap } from 'rxjs/operators'; import { ICharacterForListItem } from 'src/app/modules/characters/models/character-for-list-item.model'; import { Character, ICharacter } from 'src/app/modules/characters/models/character.model'; import { IRelationshipsForCharacter, RelationshipsForCharacter } from 'src/app/modules/admin-panel/models/relationships/relationships-for-char.model'; import { IQuote } from 'src/app/modules/characters/models/quote.model'; import { IEditCharacter, EditCharacter } from 'src/app/modules/admin-panel/models/edit-character.model'; import { IStory, Story } from 'src/app/modules/admin-panel/models/character-story/story.model'; import { CharacterForChange } from 'src/app/modules/admin-panel/models/character-for-change.model'; import { EditQuote } from 'src/app/modules/admin-panel/models/quotes/edit-quote.model'; import { EditImageName } from 'src/app/modules/admin-panel/models/images/edit-image-name.model'; import { EditRelationship } from 'src/app/modules/admin-panel/models/relationships/edit-relationship.model'; import { EditStory } from 'src/app/modules/admin-panel/models/character-story/story-to-edit.model'; import { NewStory } from 'src/app/modules/admin-panel/models/character-story/new-story.model'; import { CreateCharacter } from 'src/app/modules/admin-panel/models/create-character.model'; import { IRelationRequest } from 'src/app/modules/admin-panel/models/relationships/relation-request.model'; import { NewQuote } from 'src/app/modules/admin-panel/models/quotes/new-quote.model';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class CharactersService {
+  private readonly charControllerURL = '/api/characters';
 
-  charControllerURL = '/api/characters';
+  private readonly _getNonArchivedCharactersURL = `${this.charControllerURL}/get-characters`;
+  private readonly _getCharacterByIdURL = `${this.charControllerURL}/get-character`;
+  private readonly _getAllCharactersURL = `${this.charControllerURL}/get-all-characters`;
+  private readonly _getCharacterDetailsURL = `${this.charControllerURL}/get-details`;
+  private readonly _getQuotesURL = `${this.charControllerURL}/get-quotes`;
+  private readonly _getRelationshipsForCharURL = `${this.charControllerURL}/get-relationships`;
+  private readonly _getStoriesForCharURL = `${this.charControllerURL}/get-stories-for-character`;
 
-  private _getNonArchivedCharactersURL = `${this.charControllerURL}/get-characters`;
-  private _getCharacterByIdURL = `${this.charControllerURL}/get-character`;
-  private _getAllCharactersURL = `${this.charControllerURL}/get-all-characters`;
-  private _getStoryTitlesURL = `${this.charControllerURL}/get-titles`;
-  private _getCharacterDetailsURL = `${this.charControllerURL}/get-details`;
-  private _getQuotesURL = `${this.charControllerURL}/get-quotes`;
-  private _getStoriesForCharURL = `${this.charControllerURL}/get-stories`;
+  private readonly _patchChangeStateURL = `${this.charControllerURL}/change-state`;
+  private readonly _patchQuoteURL = `${this.charControllerURL}/edit-quote`;
+  private readonly _patchImageNameURL = `${this.charControllerURL}/change-image-name`;
+  private readonly _patchRelationshipURL = `${this.charControllerURL}/edit-relationship`;
+  private readonly _patchStoryURL = `${this.charControllerURL}/edit-story`;
 
-  private _patchChangeStateURL = `${this.charControllerURL}/change-state`;
-  private _patchQuoteURL = `${this.charControllerURL}/edit-quote`;
-  private _patchTitleURL = `${this.charControllerURL}/edit-title`;
-  private _patchTitlesSequenceURL = `${this.charControllerURL}/set-title-sequence`;
-  private _patchStoryURL = `${this.charControllerURL}/edit-story`;
+  private readonly _postStoryForCharacterURL = `${this.charControllerURL}/new-story`;
+  private readonly _postNewCharacterURL = `${this.charControllerURL}/new-character`;
+  private readonly _postNewQuoteURL = `${this.charControllerURL}/new-quote`;
+  private readonly _postEditImagesURL = `${this.charControllerURL}/new-images`;
+  private readonly _postNewRelationshipURL = `${this.charControllerURL}/new-relationship`;
 
-  private _postStoryForCharacterURL = `${this.charControllerURL}/new-stories`;
-  private _postNewCharacterURL = `${this.charControllerURL}/new-character`;
-  private _postNewQuoteURL = `${this.charControllerURL}/new-quote`;
-  private _postNewTitleURL = `${this.charControllerURL}/new-title`;
-  private _postEditImagesURL = `${this.charControllerURL}/new-images`;
+  private readonly _putEditCharacterURL = `${this.charControllerURL}/edit-character`;
+  private readonly _putStoryIndexesURL = `${this.charControllerURL}/edit-story-indexes`;
 
-  private _putEditCharacterURL = `${this.charControllerURL}/edit-character`;
-
-  private _deleteQuoteURL = `${this.charControllerURL}/delete-quote`;
-  private _deleteTitleURL = `${this.charControllerURL}/delete-title`;
-  private _deleteStoryURL = `${this.charControllerURL}/delete-story`;
-  private _deleteImageURL = `${this.charControllerURL}/delete-image`;
+  private readonly _deleteQuoteURL = `${this.charControllerURL}/delete-quote`;
+  private readonly _deleteImageURL = `${this.charControllerURL}/delete-image`;
+  private readonly _deleteRelationshipURL = `${this.charControllerURL}/delete-relationship`;
+  private readonly _deleteStoryURL = `${this.charControllerURL}/delete-story`;
 
 
   public charList$ = new BehaviorSubject<CharacterItem[] | null>(null);
@@ -63,78 +47,99 @@ export class CharactersService {
   }
 
   // only characters which aren't archived:
-  getCharacters(): Observable<CharacterItem[]> {
-    return this.http.get<CharacterItem[]>(this._getNonArchivedCharactersURL)
+  getCharacters() {
+    return this.http.get<ICharacterItem[]>(this._getNonArchivedCharactersURL)
       .pipe(
-        tap(response => {
-          this.charList$.next(response);
+        map(response => {
+          const mappedResponse = response.map(r => new CharacterItem(r));
+          this.charList$.next(mappedResponse);
+          return mappedResponse;
         })
       );
   }
 
   // archived and non-archived characters:
-  getAllCharacters(): Observable<CharacterForListItem[]> {
-    return this.http.get<CharacterForListItem[]>(this._getAllCharactersURL);
+  getAllCharacters() {
+    return this.http.get<ICharacterForListItem[]>(this._getAllCharactersURL).pipe(
+      map(response => {
+        const mappedResponse = response.map(r => new CharacterItem(r));
+        this.charList$.next(mappedResponse);
+        return mappedResponse;
+      })
+    );
   }
 
-  getCharacterById(id: number): Observable<Character> {
-    return this.http.get<Character>(`${this._getCharacterByIdURL}/${id}`);
+  getCharacterById(id: number) {
+    return this.http.get<ICharacter>(`${this._getCharacterByIdURL}/${id}`).pipe(
+      map(response => {
+        response = new Character(response);
+        return response;
+      }
+      )
+    )
   }
 
-  getStoryTitles(): Observable<Titles[]> {
-    return this.http.get<Titles[]>(this._getStoryTitlesURL);
-  }
-
-  getStoriesForCharacter(id: number): Observable<StoryForCharacter[]> {
+  getRelationshipsForCharacter(id: number) {
     const params = new HttpParams().set('id', '' + id);
 
-    return this.http.get<StoryForCharacter[]>(this._getStoriesForCharURL, { params });
+    return this.http.get<IRelationshipsForCharacter[]>(this._getRelationshipsForCharURL, { params }).pipe(
+      map(response => {
+        const mappedResponse = response.map(r => new RelationshipsForCharacter(r));
+        return mappedResponse;
+      })
+    );;
   }
 
-  getQuotesForCharacter(id: number): Observable<Quote[]> {
+  getQuotesForCharacter(id: number) {
     const params = new HttpParams().set('id', '' + id);
 
-    return this.http.get<Quote[]>(this._getQuotesURL, { params });
+    return this.http.get<IQuote[]>(this._getQuotesURL, { params });
   }
 
-  getCharacterDetails(id: number): Observable<EditCharacter> {
+  getCharacterDetails(id: number) {
     const params = new HttpParams().set('id', '' + id);
 
-    return this.http.get<EditCharacter>(this._getCharacterDetailsURL, { params });
+    return this.http.get<IEditCharacter>(this._getCharacterDetailsURL, { params });
   }
 
-  patchCharacterState(requestBody: CharacterForChange): Observable<CharacterForChange> {
+  getStoriesForCharacter(id: number) {
+    const params = new HttpParams().set('id', '' + id);
+    return this.http.get<IStory[]>(this._getStoriesForCharURL, { params })
+      .pipe(
+        map(response => {
+          const mappedResponse = response.map(r => new Story(r));
+          return mappedResponse;
+        })
+      );
+
+  }
+
+  patchCharacterState(requestBody: CharacterForChange) {
     return this.http.patch<CharacterForChange>(this._patchChangeStateURL, requestBody);
   }
 
-  patchQuote(requestBody: EditQuote): Observable<EditQuote> {
+  patchQuote(requestBody: EditQuote) {
     return this.http.patch<EditQuote>(this._patchQuoteURL, requestBody);
   }
 
-  patchTitle(requestBody: EditTitle): Observable<EditTitle> {
-    return this.http.patch<EditTitle>(this._patchTitleURL, requestBody);
+  patchImageName(requestBody: EditImageName) {
+    return this.http.patch<EditImageName>(this._patchImageNameURL, requestBody);
   }
 
-  patchTitlesSequence(requestBody: Titles[]): Observable<Titles[]> {
-    return this.http.patch<Titles[]>(this._patchTitlesSequenceURL, requestBody);
+  patchRelationship(requestBody: EditRelationship) {
+    return this.http.patch<EditRelationship>(this._patchRelationshipURL, requestBody);
   }
 
-  patchStory(requestBody: StoryToEdit): Observable<StoryToEdit> {
-    return this.http.patch<StoryToEdit>(this._patchStoryURL, requestBody);
+  patchStory(requestBody: EditStory) {
+    return this.http.patch<EditStory>(this._patchStoryURL, requestBody);
   }
 
-  postStoryForCharacter(requestBody: StoryToSend): Observable<StoryToSend> {
-    return this.http.post<StoryToSend>(this._postStoryForCharacterURL, requestBody);
+  postStoryForCharacter(requestBody: NewStory) {
+    return this.http.post<NewStory>(this._postStoryForCharacterURL, requestBody);
   }
 
-  postNewCharacter(formData: FormData) {
-    const httpOptions = {
-      headers: new HttpHeaders({
-        Accept: 'application/json',
-        CacheControl: 'max-age=0'
-      })
-    };
-    return this.http.post<void>(this._postNewCharacterURL, formData, httpOptions);
+  postNewCharacter(requestBody: CreateCharacter) {
+    return this.http.post<void>(this._postNewCharacterURL, requestBody);
   }
 
   postEditImages(formData: FormData, charId: number) {
@@ -150,46 +155,54 @@ export class CharactersService {
     return this.http.post<void>(this._postEditImagesURL, formData, httpOptions);
   }
 
+  postNewRelationship(requestBody: IRelationRequest) {
+    return this.http.post<IRelationRequest>(this._postNewRelationshipURL, requestBody);
+  }
 
-  postNewQuote(requestBody: NewQuote): Observable<NewQuote> {
+  postNewQuote(requestBody: NewQuote) {
     return this.http.post<NewQuote>(this._postNewQuoteURL, requestBody);
   }
 
-  postNewTitle(requestBody: NewTitle): Observable<NewTitle> {
-    return this.http.post<NewTitle>(this._postNewTitleURL, requestBody);
-  }
-
-  putCharacterDetails(requestBody: EditCharacter, idDead: boolean): Observable<EditCharacter> {
+  putCharacterDetails(requestBody: EditCharacter, idDead: boolean) {
     const params = new HttpParams().set('isDead', '' + idDead);
 
     return this.http.put<EditCharacter>(this._putEditCharacterURL, requestBody, { params });
   }
 
-  deleteQuote(quoteId: number): Observable<void> {
+  putStoriesIndexes(requestBody: number[], charId: number) {
+    const params = new HttpParams().set('id', '' + charId);
+
+    return this.http.put<number[]>(this._putStoryIndexesURL, requestBody, { params });
+  }
+
+  deleteQuote(quoteId: number) {
     const params = new HttpParams().set('id', '' + quoteId);
     return this.http.delete<void>(this._deleteQuoteURL, { params });
   }
 
-  deleteTitle(titleId: number): Observable<void> {
-    const params = new HttpParams().set('id', '' + titleId);
-    return this.http.delete<void>(this._deleteTitleURL, { params });
-  }
-
-  deleteStory(storyId: number): Observable<void> {
-    const params = new HttpParams().set('id', '' + storyId);
-    return this.http.delete<void>(this._deleteStoryURL, { params });
-  }
-
-  deleteImage(imageId: number): Observable<void> {
+  deleteImage(imageId: number) {
     const params = new HttpParams().set('id', '' + imageId);
     return this.http.delete<void>(this._deleteImageURL, { params });
   }
 
+  deleteRelationship(characterId: number, relatedCharacterId: number) {
+    const params = new HttpParams()
+      .set('characterId', '' + characterId)
+      .set('relatedCharacterId', '' + relatedCharacterId);
+
+    return this.http.delete<void>(this._deleteRelationshipURL, { params });
+  }
+
+  deleteStory(storyId: number) {
+    const params = new HttpParams().set('id', '' + storyId);
+    return this.http.delete<void>(this._deleteStoryURL, { params });
+  }
+
   // custom methods:
 
-  getCharacter(charId: number): Observable<CharacterForListItem[]> {
+  getCharacter(charId: number) {
     return this.getAllCharacters().pipe(
-      map(charArray => charArray.filter(char => char.id === charId))
+      tap(charArray => charArray.filter(char => char.id === charId))
     );
   }
 

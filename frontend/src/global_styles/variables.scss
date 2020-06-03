@@ -6,8 +6,27 @@
   font-family: "Halimun";
 }
 
+@mixin profile-pic {
+  height: 100px;
+  width: 100px;
+
+  border-radius: 50%;
+  border: 2px solid black;
+
+  background: darkslategrey;
+
+  filter: grayscale(100);
+
+  transition: 0.2s;
+}
+
 $navbar-height: 3rem;
 
+$card-bg: #ffffff1c;
+$card-bg-second: rgba(0, 0, 0, 0.4);
+$accent: #69f0ae;
+$primary: #9c27b0;
+
 $z-index: (
-  navbar: 1000
+  navbar: 1000,
 );

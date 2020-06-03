@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AuthGuard } from './core/guards/auth-guard.service';
+import { AdminPermissionsGuard } from './core/guards/admin-permissions-guard.service';
 
 
 const routes: Routes = [
@@ -13,11 +13,6 @@ const routes: Routes = [
     loadChildren: () => import('./modules/characters/characters.module').then(m => m.CharactersModule)
   },
   {
-    path: 'side-characters',
-    loadChildren: () => import('./modules/side-characters/side-characters.module')
-      .then(m => m.SideCharactersModule)
-  },
-  {
     path: 'pages',
     loadChildren: () => import('./modules/pages/pages.module').then(m => m.PagesModule)
   },
@@ -27,8 +22,17 @@ const routes: Routes = [
   },
   {
     path: 'admin-panel',
-    canActivate: [AuthGuard],
+    canActivate: [AdminPermissionsGuard],
     loadChildren: () => import('./modules/admin-panel/admin-panel.module').then(m => m.AdminPanelModule)
+  },
+  {
+    path: 'edit-story-panel',
+    // canActivate: [AdminPermissionsGuard],
+    loadChildren: () => import('./modules/edit-story-panel/edit-story-panel.module').then(m => m.EditStoryPanelModule)
+  },
+  {
+    path: 'statistics',
+    loadChildren: () => import('./modules/statistics/statistics.module').then(m => m.StatisticsModule)
   }
 ];
 

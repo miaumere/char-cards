@@ -1,0 +1,1 @@
+alter table public.character add nationality varchar(255);

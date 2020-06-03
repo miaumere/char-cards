@@ -1,9 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LoginComponent } from './components/login/login.component';
-import { SharedModule } from 'src/app/shared/shared.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { LoginRoutingModule } from './login-routing.module';
+import { SharedModule } from '../shared/shared.module';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [
@@ -13,7 +15,9 @@ import { LoginRoutingModule } from './login-routing.module';
     CommonModule,
     SharedModule,
     ReactiveFormsModule,
-    LoginRoutingModule
+    LoginRoutingModule,
+    MatInputModule,
+    MatButtonModule
   ]
 })
 export class LoginModule { }

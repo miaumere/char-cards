@@ -1,0 +1,87 @@
+<mat-tab-group class="character-images">
+  <mat-tab label="Dodaj nowe zdjęcia">
+    <form class="edit-main-pic-form" enctype="multipart/form-data">
+      <div class="form-subitems-container">
+
+        <div class="profile-pic-container">
+          <mat-card class="profile-pic-card">
+            <mat-card-header>
+              <mat-card-title>Obecne zdjęcie profilowe</mat-card-title>
+            </mat-card-header>
+            <img *ngIf="profilePicForMain"
+              [src]="'data:image/' + profilePicForMain?.extension + ';base64, ' + profilePicForMain?.image | sanitizer"
+              class="profile-pic">
+            <mat-card-actions>
+              <button (click)="profilePicInput.click()" color="primary" mat-raised-button>
+                <mat-icon> attach_file</mat-icon>
+                {{isProfilePicChosen ? "Wybrano plik" : "Wybierz plik" }}
+                <input #profilePicInput type="file" (change)="handleFileInput($event.target.files, false)"
+                  style="display:none;" />
+              </button>
+            </mat-card-actions>
+          </mat-card>
+
+
+
+        </div>
+
+
+        <div class="images-container">
+
+          <button (click)="fileInput.click()" color="primary" mat-raised-button>
+            <mat-icon> attach_file</mat-icon>
+            Wybrano: {{filesListNumber}} plików.
+            <input #fileInput type="file"
+              (change)="handleFileInput($event.target.files, true); preview($event.target.files)" multiple
+              style="display:none;" />
+          </button>
+          <div *ngIf="imgURLList?.length > 0" class="image-previews-container">
+            <mat-card *ngFor="let imgURL of imgURLList" class="image-preview-card">
+              <img [src]="imgURL" *ngIf="imgURL" class="image-preview">
+            </mat-card>
+          </div>
+        </div>
+      </div>
+      <button mat-raised-button color="accent" (click)="setNewImages()"
+        [disabled]="!isProfilePicChosen && !filesListNumber">
+        <mat-icon>library_add</mat-icon>
+        Zatwierdź zmiany
+      </button>
+
+    </form>
+  </mat-tab>
+
+  <mat-tab label="Obecne zdjęcia">
+    <div *ngIf="imagesListForMain?.length > 0" class="images-list">
+      <mat-card *ngFor="let image of imagesListForMain" class="image-card">
+        <mat-card-header>
+          <mat-card-title>
+            <div class="profile-pic-name">
+              <span #imageElement spellcheck="false">
+                {{image?.name}}
+              </span>
+            </div>
+          </mat-card-title>
+        </mat-card-header>
+        <img [src]="'data:image/' + image?.extension + ';base64, ' + image?.image | sanitizer" class="image">
+        <mat-card-actions>
+          <button mat-raised-button color="warn" (click)="insertDeleteInfo()"
+            (dblclick)="deleteCharacterImage(image.id)">
+            <mat-icon>delete</mat-icon>
+            Usuń
+          </button>
+          <button mat-raised-button color="accent" (click)="changeImageName(image.id, imageElement)">
+            <mat-icon>edit</mat-icon>
+            Edytuj nazwę
+          </button>
+        </mat-card-actions>
+
+
+      </mat-card>
+    </div>
+
+    <div *ngIf="imagesListForMain?.length === 0">
+      Brak zdjęć dla postaci.
+    </div>
+  </mat-tab>
+</mat-tab-group>

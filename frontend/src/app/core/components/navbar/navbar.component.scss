@@ -19,36 +19,24 @@
   z-index: map-get($z-index, navbar);
 
   &__item {
-    color: white;
-
-    text-transform: uppercase;
-
-    &--title {
-      @include font-special;
-
-      text-transform: none;
-    }
+    margin: 0 2rem;
 
     &--active {
       color: rgb(92, 92, 92);
     }
+
+    &--user {
+      margin-left: auto;
+      margin-right: 2rem;
+    }
   }
 }
 
-.logout {
-  padding-right: 0.5rem;
-  &__icon {
-    transform: scale(0.7);
-  }
-}
+.title {
+  @include font-special;
 
-.logged-user {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  &__name {
-    padding-left: 0.5rem;
-    color: grey;
+  text-transform: none;
+  &:checked {
+    text-decoration: none;
   }
 }

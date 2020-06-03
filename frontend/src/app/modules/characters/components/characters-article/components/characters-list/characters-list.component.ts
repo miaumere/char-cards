@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CharactersService } from 'src/app/core/service/characters.service';
 import { CharacterItem } from 'src/app/modules/characters/models/character-item.model';
-import { ActivatedRouteSnapshot, Router, ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 import { BaseComponent } from 'src/app/core/base.component';
 import { finalize } from 'rxjs/operators';
 
@@ -29,8 +28,29 @@ export class CharactersListComponent extends BaseComponent implements OnInit {
           })
         )
         .subscribe(charList => {
-          // console.log('CHARACTERS LIST SUBUJE LISTE POSTACI Z SERVISU 2:', charList);
-          this.charList = charList;
+
+          let charactersList: any = [];
+          const mainCharacters = charList?.filter(x => x.characterType === 'MAIN');
+
+          const sideCharacters = charList?.filter(x => x.characterType === 'SIDE');
+
+          const bgCharacters = charList?.filter(x => x.characterType === 'BACKGROUND');
+
+          if (!!mainCharacters) {
+            charactersList = mainCharacters;
+          }
+
+          if (!!sideCharacters) {
+            charactersList = charactersList.concat(sideCharacters);
+          }
+          if (!!bgCharacters) {
+            charactersList = charactersList.concat(bgCharacters);
+          }
+
+          // console.log(charactersList)
+          this.charList = charactersList;
+
+
           this.loading = false;
         })
     );

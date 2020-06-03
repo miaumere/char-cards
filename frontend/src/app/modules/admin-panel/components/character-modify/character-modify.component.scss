@@ -1,90 +1,32 @@
-@import "../change-character-data/change-character-data.component.scss";
+@import "../../../../../global_styles/variables.scss";
 
-.progress {
-}
-
-.progress-bar {
+.character-modify-form {
   display: flex;
-
-  &__steps {
-    display: flex;
-    justify-content: space-between;
-  }
-
-  &__line {
-    background: rgba(255, 255, 255, 0.3);
-    width: 20px;
-    height: 1px;
-  }
-}
-
-.steps {
-  &__step,
-  .step {
-    display: flex;
-    align-items: center;
-
-    border-radius: 3px;
-
-    transition: 0.2s;
-    cursor: pointer;
-
-    &:hover {
-      background: rgba(255, 255, 255, 0.3);
-
-      .step__number {
-        transition: 0.2s;
-
-        background: #3d2691;
-      }
-    }
-
-    &__number {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-
-      padding: 5px;
-      margin: 5px;
-      height: 0.5rem;
-      width: 0.5rem;
-      border-radius: 50%;
-
-      background: grey;
-
-      &--active {
-        background: #3f51b5;
-      }
-    }
-  }
-}
-
-.buttons {
-  display: flex;
-  justify-content: space-between;
-
-  width: 100vw;
-
-  &__arrow {
-    margin: 0 5rem;
-
-    font-size: 2.5rem;
-
-    transition: 0.2s;
-
-    &[disabled] {
-      color: grey;
-      pointer-events: none;
-    }
-    &:hover {
-      color: #576bda;
-    }
-  }
-}
-
-.submit-container {
-  display: flex;
+  justify-content: space-around;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  align-items: baseline;
+
+  font-size: initial;
+}
+
+.gender-icon {
+  margin-right: 2rem;
+}
+
+.temperament-range {
+  width: 200px;
+}
+
+.stepper {
+  height: calc(100vh - #{$navbar-height});
+}
+
+.flag {
+  max-width: 20px;
+  max-height: 20px;
+
+  margin-left: 1rem;
+
+  border: 1px solid white;
+  border-radius: 3px;
 }

@@ -1,276 +1,223 @@
-<article class="new-char admin-panel admin-panel--main">
-  <h2 class="changes__title">Uzupełnij poniższe pola, aby dodać nową postać główną:</h2>
-  <div class="progress">
-    <ul class="progress-bar__steps steps">
-      <li class="steps__step step" *ngFor="let formPart of formParts; index as i" (click)="setForm(i+1)">
-        <div class="step__number" [ngClass]="{'step__number--active': (chosenForm === i+1)}">{{i+1}}</div>
-        <span>{{formPart}}</span>
-        <div class="progress-bar__line">
-        </div>
-      </li>
-      <li class="steps__step step" (click)="setForm('SUBMIT')">
-        <div class="step__number" [ngClass]="{'step__number--active': (chosenForm === 'SUBMIT')}">
-          <app-icon [icon]="'edit'" [color]="'white'" [size]="0.5"></app-icon>
-        </div>
-        <span>Dodaj postać</span>
-        <div class="progress-bar__line">
-        </div>
-      </li>
-    </ul>
-  </div>
-  <div class="buttons">
-    <button class="buttons__arrow" [disabled]="chosenForm === 1"
-      (click)="setForm(chosenForm === 'SUBMIT' ? formParts.length : +chosenForm - 1 )">
-      🡄
-    </button>
-    <button class="buttons__arrow" [disabled]="chosenForm === 'SUBMIT'"
-      (click)="setForm(chosenForm === formParts.length ? 'SUBMIT' : +chosenForm + 1)">
-      🡆
-    </button>
-  </div>
+<mat-horizontal-stepper linear="false" #stepper class="stepper">
+  <mat-step [stepControl]="personalInfoForm">
+    <form [formGroup]="personalInfoForm" class="character-modify-form">
+      <ng-template matStepLabel>Podstawowe dane</ng-template>
+      <mat-form-field>
+        <mat-label>Imię</mat-label>
+        <input matInput placeholder="Imię postaci" [formControlName]="'name'" required>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Nazwisko</mat-label>
+        <input matInput placeholder="Nazwisko postaci" [formControlName]="'surname'" required>
+      </mat-form-field>
 
-  <form [formGroup]="form" enctype="multipart/form-data" class="new-char__form new-char-form">
-    <div [ngSwitch]="chosenForm">
-      <div *ngSwitchCase="1">
-        <h2 class="changes__title">Dodaj imię, nazwisko i inne ważne dane:</h2>
-        <div class="new-char-form__container form-container">
+      <label id="gender-radio-group">Płeć</label>
+      <mat-radio-group formControlName="gender" aria-labelledby="gender-radio-group">
+        <ng-container *ngFor="let gen of Gender | enumVal">
+          <mat-radio-button class="example-margin" [value]="gen.value" name="gender">
+            <span class="gender-icon">
+              <app-icon [color]="gen.value === 'MALE' ? '#89cff0' : '#FFC0CB'" [icon]="gen.value | lowercase"
+                [size]="'1.2'">
+              </app-icon>
+            </span>
+          </mat-radio-button>
+        </ng-container>
+      </mat-radio-group>
+      <div>
+        <button mat-button matStepperNext>Dalej</button>
+      </div>
+    </form>
+  </mat-step>
 
-          <label class="global-label  form-container__label">
-            *Imię:
-            <input type="text" class="global-input" formControlName="name" />
-          </label>
-          <label class="global-label  form-container__label">
-            *Nazwisko:
-            <input type="text" class="global-input" formControlName="surname" />
-          </label>
-        </div>
-        <div class="new-char-form__container form-container">
-          <div class="form-container--personal-info">
-            <label class="global-label  form-container__label">
-              *Data urodzenia:
-              <span style="font-size: 0.5rem;" *ngIf="birthdayDate">Obecna data:
-                {{birthdayDate | date: 'dd/MM/yyyy'}}</span>
-              <input class="global-input" type="date" formControlName="birthday" />
-            </label>
-            <label class="global-label  form-container__label">
-              *Zawód:
-              <input class="global-input" type="text" formControlName="profession" />
-            </label>
-          </div>
+  <mat-step [stepControl]="addidionalPersonalInfoForm">
+    <form [formGroup]="addidionalPersonalInfoForm" class="character-modify-form">
+      <ng-template matStepLabel>Dodatkowe dane osobowe</ng-template>
+      <mat-form-field>
+        <mat-label>Pseudonim</mat-label>
+        <input matInput placeholder="Pseudonim" [formControlName]="'pseudonim'">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Zawód</mat-label>
+        <input matInput placeholder="Czym się zajmuje?" [formControlName]="'profession'">
+      </mat-form-field>
 
-          <label class="global-label  form-container__label">
-            Śmierć:
-            <span style="font-size: 0.5rem;" *ngIf="deathDate">Obecna data: {{deathDate | date: 'dd/MM/yyyy'}}</span>
-            <input type="checkbox" checked (change)="changeDeathState()" />
-            <details class="form-container__details details">
-              <summary>Detale dot. śmierci:</summary>
-              <label class="global-label form-container__label">
-                Data śmierci:
-                <input class="global-input details__death-date" type="date" formControlName="death" max="2090-01-01"
-                  min="1970-01-01" />
-              </label>
-              <label class="global-label form-container__label">
-                Powód śmierci:
-                <input class="global-input" type="text" formControlName="deathReason" />
-              </label>
-            </details>
-          </label>
-        </div>
+      <mat-form-field>
+        <mat-label>Data urodzenia</mat-label>
+        <input matInput [matDatepicker]="birthday" [formControlName]="'birthday'">
+        <mat-datepicker-toggle matSuffix [for]="birthday"></mat-datepicker-toggle>
+        <mat-datepicker #birthday></mat-datepicker>
+      </mat-form-field>
+
+      <mat-slide-toggle (change)="toggleIsDead()">Czy postać nie żyje?</mat-slide-toggle>
+
+      <mat-form-field>
+        <mat-label>Data śmierci</mat-label>
+        <input matInput [matDatepicker]="death" [formControlName]="'death'">
+        <mat-datepicker-toggle matSuffix [for]="death"></mat-datepicker-toggle>
+        <mat-datepicker #death></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Powód śmierci</mat-label>
+        <input matInput placeholder="Powód śmierci" [formControlName]="'deathReason'">
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Narodowość</mat-label>
+        <mat-select formControlName="nationality">
+          <mat-option *ngFor="let country of countries" [value]="country.alpha2Code">
+            <img [src]="country.flag" class="flag">
+            {{country.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div>
+        <button mat-button matStepperPrevious>Wcześniej</button>
+        <button mat-button matStepperNext>Dalej</button>
+      </div>
+    </form>
+  </mat-step>
+
+  <mat-step [stepControl]="temperamentForm">
+    <form [formGroup]="temperamentForm" class="character-modify-form">
+      <ng-template matStepLabel>Temperament</ng-template>
+      <mat-label>Melancholizm</mat-label>
+      <mat-slider class="temperament-range" thumbLabel step="5" tickInterval="5" formControlName="melancholic">
+      </mat-slider>
+
+      <mat-label>Sangwinizm</mat-label>
+      <mat-slider class="temperament-range" thumbLabel step="5" tickInterval="5" formControlName="sanguine">
+      </mat-slider>
+
+      <mat-label>Flegmatyzm</mat-label>
+      <mat-slider class="temperament-range" thumbLabel step="5" tickInterval="5" formControlName="flegmatic">
+      </mat-slider>
+
+      <mat-label>Choleryzm</mat-label>
+      <mat-slider class="temperament-range" thumbLabel step="5" tickInterval="5" formControlName="choleric">
+      </mat-slider>
+
+      <div>
+        <button mat-button matStepperPrevious>Wcześniej</button>
+        <button mat-button matStepperNext>Dalej</button>
+      </div>
+    </form>
+  </mat-step>
+
+  <mat-step [stepControl]="colorForm">
+    <form [formGroup]="colorForm" class="character-modify-form">
+      <ng-template matStepLabel>Kolory</ng-template>
+
+      <div>
+        <mat-form-field>
+          <mat-label>Motyw kolorystyczny 1</mat-label>
+          <input matInput type="color" formControlName="themeColor1">
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Motyw kolorystyczny 2</mat-label>
+          <input matInput type="color" formControlName="themeColor2">
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Motyw kolorystyczny 3</mat-label>
+          <input matInput type="color" formControlName="themeColor3">
+        </mat-form-field>
       </div>
 
-      <div *ngSwitchCase="2">
-        <h2 class="changes__title">Zdefiniuj temperament postaci:</h2>
-        <div class="new-char-form__container form-container">
-          <label class="global-label form-container__label">
-            Melancholizm - {{melancholicValue}}%
-            <div class="form-container__range-container range range__container">
-              <input class="global-input" type="range" min="0" max="100" formControlName="melancholic" />
-              <div class="range__values">
-                <span>0</span><span>50</span><span>100</span>
-              </div>
-            </div>
-          </label>
-          <label class="global-label form-container__label">
-            Sangwinizm - {{sanguineValue}}%
-            <div class="form-container__range-container range range__container">
-              <input class="global-input" type="range" min="0" max="100" formControlName="sanguine" />
-              <div class="range__values">
-                <span>0</span><span>50</span><span>100</span>
-              </div>
-            </div>
-          </label>
-          <label class="global-label form-container__label">
-            Flegmatyzm - {{flegmaticValue}}%
-            <div class="form-container__range-container range range__container">
-              <input class="global-input range__item" type="range" min="0" max="100" formControlName="flegmatic" />
-              <div class="range__values">
-                <span>0</span><span>50</span><span>100</span>
-              </div>
-            </div>
-          </label>
-          <label class="global-label form-container__label">
-            Choleryzm - {{cholericValue}}%
-            <div class="form-container__range-container range range__container">
-              <input class="global-input" type="range" min="0" max="100" formControlName="choleric" />
-              <div class="range__values">
-                <span>0</span><span>50</span><span>100</span>
-              </div>
-            </div>
-          </label>
-        </div>
+      <div>
+        <mat-form-field>
+          <mat-label>Kolor oczu 1</mat-label>
+          <input matInput type="color" formControlName="eyeColor1">
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Kolor oczu 2</mat-label>
+          <input matInput type="color" formControlName="eyeColor2">
+        </mat-form-field>
       </div>
 
-      <div *ngSwitchCase="3">
-        <h2 class="changes__title">Wybierz kolory postaci:</h2>
-        <div class="new-char-form__container form-container">
-          <label class="global-label color">
-            <span class="color__label">Motyw kolorystyczny 1:</span>
-            <input class="global-input" formControlName="themeColor1" type="color" />
-          </label>
-          <label class="global-label color">
-            <span class="color__label"> Motyw kolorystyczny 2:</span>
-            <input class="global-input" formControlName="themeColor2" type="color" />
-          </label>
-          <label class="global-label color">
-            <span class="color__label">Motyw kolorystyczny 3:</span>
-            <input class="global-input" formControlName="themeColor3" type="color" />
-          </label>
-        </div>
-
-        <div class="new-char-form__container form-container">
-          <label class="global-label color">
-            <span class="color__label">Kolor oczu 1:</span>
-            <input class="global-input" formControlName="eyeColor1" type="color" />
-          </label>
-          <label class="global-label color">
-            <span class="color__label">Kolor oczu 2:</span>
-            <input class="global-input" formControlName="eyeColor2" type="color" />
-          </label>
-          <label class="global-label color">
-            <span class="color__label">Kolor włosów:</span>
-            <input class="global-input" formControlName="hairColor" type="color" />
-          </label>
-          <label class="global-label color">
-            <span class="color__label"> Kolor skóry:</span>
-            <input class="global-input" formControlName="skinColor" type="color" />
-          </label>
-        </div>
+      <div>
+        <mat-form-field>
+          <mat-label>Kolor włosów</mat-label>
+          <input matInput type="color" formControlName="hairColor">
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Kolor skóry</mat-label>
+          <input matInput type="color" formControlName="skinColor">
+        </mat-form-field>
       </div>
 
-      <div *ngSwitchCase="4">
-        <h2 class="changes__title">Zdefiniuj wagę i wzrost postaci w poszczególnych etapach życia:</h2>
-        <div class="new-char-form__container form-container">
-          <details class="form-container__details--new-char details">
-            <summary>Waga postaci:</summary>
-            <div class="details__container">
+      <div>
+        <button mat-button matStepperPrevious>Wcześniej</button>
+        <button mat-button matStepperNext>Dalej</button>
+      </div>
+    </form>
+  </mat-step>
 
-              <label class="global-label details__measurements">
-                Waga jako niemowlę (0-3):
-                <div style="margin-bottom: 1rem;">
-                  <input class="global-input measurements__input" min="0" type="number" formControlName="babyWeight" />
-                  KG
-                </div>
-              </label>
+  <mat-step [stepControl]="measurementsForm">
+    <form [formGroup]="measurementsForm" class="character-modify-form">
+      <ng-template matStepLabel>Waga i wzrost</ng-template>
 
-              <label class="global-label details__measurements">
-                Waga jako dziecko (4-11):
-                <div style="margin-bottom: 1rem;">
-                  <input class="global-input measurements__input" min="0" type="number" formControlName="childWeight" />
-                  KG
-                </div>
-              </label>
-
-              <label class="global-label details__measurements">
-                Waga jako nastolatek (12-19):
-                <div style="margin-bottom: 1rem;">
-                  <input class="global-input measurements__input" min="0" type="number" formControlName="teenWeight" />
-                  KG
-                </div>
-              </label>
-
-              <label class="global-label details__measurements">
-                Waga jako dorosły (20+):
-                <div style="margin-bottom: 1rem;">
-                  <input class="global-input measurements__input" min="0" type="number" formControlName="adultWeight" />
-                  KG
-                </div>
-              </label>
-            </div>
-          </details>
-
-          <details class="form-container__details--new-char details">
-            <summary>Wzrost postaci:</summary>
-
-            <div class="details__container">
-              <label class="global-label details__measurements">
-                Wzrost jako niemowlę (0-3):
-                <div style="margin-bottom: 1rem;">
-                  <input class="global-input measurements__input" min="100" max="200" type="number"
-                    formControlName="babyHeight" /> CM
-                </div>
-              </label>
-            </div>
-
-            <div class="details__container">
-              <label class="global-label details__measurements">
-                Wzrost jako dziecko (4-11):
-                <div style="margin-bottom: 1rem;">
-                  <input class="global-input measurements__input" min="100" max="200" type="number"
-                    formControlName="childHeight" /> CM
-                </div>
-              </label>
-            </div>
-
-            <div class="details__container">
-              <label class="global-label details__measurements">
-                Wzrost jako nastolatek (11-19):
-                <div style="margin-bottom: 1rem;">
-                  <input class="global-input measurements__input" min="100" max="200" type="number"
-                    formControlName="teenHeight" /> CM
-                </div>
-              </label>
-            </div>
-
-            <div class="details__container">
-              <label class="global-label details__measurements">
-                Wzrost jako dorosły (20+):
-                <div style="margin-bottom: 1rem;">
-                  <input class="global-input measurements__input" min="100" max="200" type="number"
-                    formControlName="adultHeight" /> CM
-                </div>
-              </label>
-            </div>
-
-          </details>
-        </div>
+      <div>
+        <mat-form-field>
+          <mat-label>Wzrost jako niemowlę (0-3):</mat-label>
+          <input matInput type="number" min="30" max="200" formControlName="babyHeight">
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Wzrost jako dziecko (4-11):
+          </mat-label>
+          <input matInput type="number" min="30" max="200" formControlName="childHeight">
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Wzrost jako nastolatek (12-19):
+          </mat-label>
+          <input matInput type="number" min="30" max="200" formControlName="teenHeight">
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Wzrost jako dorosły (20+):
+          </mat-label>
+          <input matInput type="number" min="30" max="200" formControlName="adultHeight">
+        </mat-form-field>
       </div>
 
-      <div *ngSwitchCase="5">
-        <h2 class="changes__title">Dodaj zdjęcia z postacią:</h2>
-        <div class="new-char-form__container form-container">
-          <label class="form-container__label global-label">
-            <span>Zdjęcia postaci:</span>
-            <input (change)="handleFileInput($event.target.files, true)" class="global-file" type="file"
-              accept="image/*" multiple />
-          </label>
-          <label class="form-container__label global-label">
-            <span>Zdjęcie profilowe postaci:</span>
-            <input (change)="handleFileInput($event.target.files, false)" class="global-file" type="file"
-              accept="image/*" />
-          </label>
-        </div>
+
+      <div>
+        <mat-form-field>
+          <mat-label>Waga jako niemowlę (0-3):</mat-label>
+          <input matInput type="number" min="1" max="150" formControlName="babyWeight">
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Waga jako dziecko (4-11):
+          </mat-label>
+          <input matInput type="number" min="1" max="150" formControlName="childWeight">
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Waga jako nastolatek (12-19):
+          </mat-label>
+          <input matInput type="number" min="1" max="150" formControlName="teenWeight">
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Waga jako dorosły (20+):
+          </mat-label>
+          <input matInput type="number" min="1" max="150" formControlName="adultWeight">
+        </mat-form-field>
       </div>
 
-      <div *ngSwitchCase="'SUBMIT'" class="submit-container">
-        <span *ngIf="form.invalid">
-          Niektóre pola nie zostały uzupełnione. Jeszcze nie można dodać postaci.
-        </span>
-        <button class="global-button" style="margin: 1rem 10rem;" (click)="modifyCharacter()" [disabled]="form.invalid">
-          Wyślij
-        </button>
+      <div>
+        <button mat-button matStepperPrevious>Wcześniej</button>
+        <button mat-button matStepperNext>Dalej</button>
       </div>
+    </form>
+  </mat-step>
 
-    </div>
-  </form>
-
-</article>
+  <mat-step>
+    <ng-template matStepLabel>Koniec</ng-template>
+    <form class="character-modify-form">
+      <p>Naciśnij przycisk "Wyślij", żeby zatwierdzić zmiany.</p>
+      <div>
+        <button mat-button matStepperPrevious>Wcześniej</button>
+        <button mat-button (click)="submit()" [disabled]="personalInfoForm.invalid">Wyślij</button>
+      </div>
+    </form>
+  </mat-step>
+</mat-horizontal-stepper>

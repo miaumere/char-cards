@@ -10,7 +10,8 @@
 }
 
 .bg {
-  background-image: url("../../../../../assets/images/bg.jpg");
+  // background-image: url("../../../../../assets/images/bg.jpg");
+  background-image: linear-gradient(to top, #61b7ac 0%, #ffd1ff 30%, #ff9a9e 100%);
 
   object-fit: scale-down;
 
@@ -18,10 +19,14 @@
   background-repeat: no-repeat;
   background-size: cover;
 
+  height: calc(100vh - #{$navbar-height});
   width: 100vw;
 
   &__desc {
     @include font-special;
+
+    height: 100%;
+    width: 100%;
 
     display: flex;
     justify-content: center;
@@ -33,6 +38,6 @@
     color: white;
     font-weight: bolder;
 
-    text-shadow: -1px 1px 7px white;
+    background: rgba(0, 0, 0, 0.3);
   }
 }
