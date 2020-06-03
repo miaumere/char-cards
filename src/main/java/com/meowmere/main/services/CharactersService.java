@@ -68,7 +68,7 @@ public class CharactersService {
     @Autowired
     public CharacterStoryRepository characterStoryRepository;
 
-    public ResponseEntity findCharList() {
+    public ResponseEntity getNonArchivedCharacters() {
         List<Character> allCharactersFromDb = characterRepository.getNonArchivedCharacters();
         ModelMapper modelMapper = new ModelMapper();
         ArrayList<CharactersMenuDTO> dtoList = new ArrayList<>();
@@ -277,8 +277,8 @@ public class CharactersService {
         character.setCharSurname(request.getCharSurname());
         character.setOccupation(request.getOccupation());
         character.setGender(Gender.valueOf(request.getGender()));
-        character.setCharType(CharType.valueOf(request.getCharacterType()));
         character.setNationality(request.getNationality());
+        character.setCharType(CharType.BACKGROUND);
 
         if(request.getDeath() != null) {
             Date deathDate = new Date(request.getDeath());
@@ -334,7 +334,6 @@ public class CharactersService {
         character.setCharName(request.getCharName());
         character.setCharSurname(request.getCharSurname());
         character.setGender(Gender.valueOf(request.getGender()));
-        character.setCharType(CharType.valueOf(request.getCharacterType()));
         character.setNationality(request.getNationality());
         if(request.getBirthday() != null) {
             character.setBirthday(request.getBirthday());

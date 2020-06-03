@@ -27,7 +27,7 @@ public class CharacterController {
     CharactersService charactersService;
 
     @GetMapping("/get-characters")
-    public ResponseEntity getCharactersList(){ return charactersService.findCharList(); }
+    public ResponseEntity getCharactersList(){ return charactersService.getNonArchivedCharacters(); }
 
     @GetMapping("/get-all-characters")
     public ResponseEntity getEveryCharacter() { return charactersService.getEveryCharacter();}

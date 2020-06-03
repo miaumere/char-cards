@@ -11,7 +11,6 @@ public class CreateCharacterRequest {
     public Long birthday;
     public String gender;
     public String nationality;
-    public String characterType;
     public String occupation;
     public Long death;
     public String deathReason;
@@ -57,14 +56,6 @@ public class CreateCharacterRequest {
 
     public void setGender(String gender) {
         this.gender = gender;
-    }
-
-    public String getCharacterType() {
-        return characterType;
-    }
-
-    public void setCharacterType(String characterType) {
-        this.characterType = characterType;
     }
 
     public String getOccupation() {

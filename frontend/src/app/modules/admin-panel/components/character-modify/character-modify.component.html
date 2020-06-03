@@ -23,15 +23,6 @@
           </mat-radio-button>
         </ng-container>
       </mat-radio-group>
-
-      <mat-form-field>
-        <mat-label>Typ postaci</mat-label>
-        <mat-select formControlName="characterType">
-          <mat-option *ngFor="let characterType of CharType | enumVal" [value]="characterType.value">
-            {{characterType.value}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
       <div>
         <button mat-button matStepperNext>Dalej</button>
       </div>

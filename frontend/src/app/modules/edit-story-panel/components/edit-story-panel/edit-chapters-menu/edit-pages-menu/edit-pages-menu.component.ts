@@ -215,6 +215,7 @@ export class EditPagesMenuComponent extends BaseComponent implements OnInit {
               objToSend
             ).subscribe(_ => {
               this._toastrService.success('Udało się dodać postać do części!');
+              this.charactersInChapterForm.reset();
               this.getStarringCharactersForChapter();
             }, err => {
               this._toastrService.error('Nie udało się dodać postaci do części.');

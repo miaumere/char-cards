@@ -36,7 +36,6 @@ export class CharacterModifyComponent extends BaseComponent implements OnInit {
     surname: new FormControl('', Validators.required),
 
     gender: new FormControl('MALE', Validators.required),
-    characterType: new FormControl('', Validators.required),
   });
 
   addidionalPersonalInfoForm = new FormGroup({
@@ -87,7 +86,6 @@ export class CharacterModifyComponent extends BaseComponent implements OnInit {
     death: new FormControl(''),
     deathReason: new FormControl(''),
     gender: new FormControl('', Validators.required),
-    characterType: new FormControl('', Validators.required),
 
     melancholic: new FormControl(0),
     sanguine: new FormControl(0),
@@ -123,7 +121,6 @@ export class CharacterModifyComponent extends BaseComponent implements OnInit {
     death: new FormControl(''),
     deathReason: new FormControl(''),
     gender: new FormControl('', Validators.required),
-    characterType: new FormControl(''),
 
     melancholic: new FormControl(0),
     sanguine: new FormControl(0),
@@ -243,7 +240,6 @@ export class CharacterModifyComponent extends BaseComponent implements OnInit {
           this.personalInfoForm.get('name')?.setValue(charDetails.charName);
           this.personalInfoForm.get('surname')?.setValue(charDetails.charSurname);
           this.personalInfoForm.get('gender')?.setValue(charDetails.gender);
-          this.personalInfoForm.get('characterType')?.setValue(charDetails.characterType);
 
           this.addidionalPersonalInfoForm.get('pseudonim')?.setValue(charDetails.pseudonim);
           this.addidionalPersonalInfoForm.get('profession')?.setValue(charDetails.occupation);
@@ -307,7 +303,6 @@ export class CharacterModifyComponent extends BaseComponent implements OnInit {
     }
     character.charName = this.personalInfoForm.controls['name']?.value;
     character.charSurname = this.personalInfoForm.controls['surname']?.value;
-    character.characterType = this.personalInfoForm.controls['characterType']?.value;
     character.gender = this.personalInfoForm.controls['gender']?.value;
 
     const birthday = this.addidionalPersonalInfoForm.controls['birthday']?.value;

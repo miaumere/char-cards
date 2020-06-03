@@ -4,6 +4,7 @@ $card-height: 14rem;
 $title-margin-bottom: -2rem;
 
 .profile-pic {
+  background: darkslategrey;
   @include profile-pic;
   margin-right: 1rem;
 

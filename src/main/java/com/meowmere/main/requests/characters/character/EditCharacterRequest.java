@@ -11,7 +11,6 @@ public class EditCharacterRequest {
     public String pseudonim;
     public Long birthday;
     public String gender;
-    public String characterType;
     public String occupation;
     public String nationality;
     public Long death;
@@ -102,14 +101,6 @@ public class EditCharacterRequest {
 
     public void setGender(String gender) {
         this.gender = gender;
-    }
-
-    public String getCharacterType() {
-        return characterType;
-    }
-
-    public void setCharacterType(String characterType) {
-        this.characterType = characterType;
     }
 
     public void setExternalId(Long externalId) {

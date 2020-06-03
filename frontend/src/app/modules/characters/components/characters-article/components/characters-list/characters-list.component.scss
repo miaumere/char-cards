@@ -60,3 +60,10 @@ $gradient2: #435548;
     margin-top: 0.5rem;
   }
 }
+
+.rdest {
+  &--side {
+    opacity: 0.4;
+    filter: grayscale(100);
+  }
+}
