@@ -1,5 +1,13 @@
 {
   "NAVBAR": {
-    "CHARACTERS": "Postacie"
-  }
+    "CHARACTERS": "Postacie",
+    "CHAPTERS": "Części",
+    "STATISTICS": "Statystyki",
+    "ADMIN_CHARACTERS": "Panel admina - postacie",
+    "ADMIN_CHAPTERS": "Panel admina - części",
+    "LOGIN": "Zaloguj się",
+    "LOGOUT": "Wyloguj się",
+    "NO_USER": "Niezalogowany"
+  },
+  "BOOKS_LIST": {}
 }

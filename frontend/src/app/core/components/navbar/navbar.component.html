@@ -20,44 +20,49 @@
 
   <li class="navbar__item">
     <a [routerLink]="['/pages']" routerLinkActive="navbar__item--active">
-      <button mat-button>Części</button>
+      <button mat-button>{{ 'NAVBAR.CHAPTERS' | translate }}</button>
     </a>
   </li>
 
   <li class="navbar__item">
     <a [routerLink]="['/statistics']" routerLinkActive="navbar__item--active">
-      <button mat-button>Statystyki</button>
+      <button mat-button>{{ 'NAVBAR.STATISTICS' | translate }}</button>
     </a>
   </li>
 
   <li class="navbar__item--user">
     <button mat-button [matMenuTriggerFor]="menu">
       <mat-icon svgIcon="user"></mat-icon>
-      {{ (_authService.loggedUser$ | async) ? ((_authService.loggedUser$ | async).username) : "niezalogowany" }}
+      <span *ngIf="(_authService.loggedUser$ | async)">
+        {{((_authService.loggedUser$ | async).username)}}
+      </span>
+      <span *ngIf="!(_authService.loggedUser$ | async)">
+        {{ 'NAVBAR.NO_USER' | translate }}
+      </span>
     </button>
   </li>
   <mat-menu #menu="matMenu">
 
     <a [routerLink]="['/admin-panel']">
       <button mat-menu-item *ngIf="(_authService.loggedUser$ | async) && (_authService.loggedUser$ | async).username">
-        Panel admina - postacie
+        {{ 'NAVBAR.ADMIN_CHARACTERS' | translate }}
       </button>
     </a>
     <a [routerLink]="['/edit-story-panel']">
       <button mat-menu-item *ngIf="(_authService.loggedUser$ | async) && (_authService.loggedUser$ | async).username">
-        Panel admina - części
+        {{ 'NAVBAR.ADMIN_CHAPTERS' | translate }}
       </button>
     </a>
     <a [routerLink]="['/login']">
       <button mat-menu-item *ngIf="!(_authService.loggedUser$ | async)">
         <mat-icon svgIcon="log-in"></mat-icon>
-        Zaloguj się
+        {{ 'NAVBAR.LOGIN' | translate }}
       </button>
     </a>
     <button mat-menu-item (click)="logout()"
       *ngIf="(_authService.loggedUser$ | async) && (_authService.loggedUser$ | async).username">
       <mat-icon>exit_to_app</mat-icon>
-      Wyloguj się
+      {{ 'NAVBAR.LOGOUT' | translate }}
     </button>
 
 
@@ -65,8 +70,12 @@
   <li class="navbar__item--lang">
     <ng-container *ngFor="let lang of supportedLanguages">
       <button (click)="translate.use(lang.language); saveLang()">
-        <img [src]="lang.flag" class="lang-icon"
-          [ngClass]="{'lang-icon--active': lang.language === translate.currentLang}" />
+        <div [style.background]="'url('+ lang.flag + ')' " class="lang-icon"
+          [ngClass]="{'lang-icon--active': lang.language === translate.currentLang}">
+
+        </div>
+        <!-- <img [src]="lang.flag" class="lang-icon"
+          [ngClass]="{'lang-icon--active': lang.language === translate.currentLang}" /> -->
       </button>
     </ng-container>
 

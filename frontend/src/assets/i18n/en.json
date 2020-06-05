@@ -1,5 +1,13 @@
 {
   "NAVBAR": {
-    "CHARACTERS": "Characters"
-  }
+    "CHARACTERS": "Characters",
+    "CHAPTERS": "Chapters",
+    "STATISTICS": "Statistics",
+    "ADMIN_CHARACTERS": "Admin panel - characters",
+    "ADMIN_CHAPTERS": "Admin panel - chapters",
+    "LOGIN": "Login",
+    "LOGOUT": "Logout",
+    "NO_USER": "User not logged in"
+  },
+  "BOOKS_LIST": {}
 }

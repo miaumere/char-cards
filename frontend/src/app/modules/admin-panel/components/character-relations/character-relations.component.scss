@@ -1,5 +1,4 @@
 @import "../../../../../global_styles/variables.scss";
-
 .relationship-form {
   padding: 1rem;
 }
@@ -27,12 +26,13 @@
     margin: 1rem;
   }
 }
-.relationship {
+.relationship,
+.relationships {
   display: flex;
   justify-content: center;
   align-items: center;
 
-  height: calc(100vh - #{$navbar-height});
+  height: calc(100vh - #{$navbar-height}) !important;
 
   overflow-x: scroll;
 
