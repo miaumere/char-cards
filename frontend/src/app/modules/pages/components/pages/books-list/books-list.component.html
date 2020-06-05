@@ -1,5 +1,6 @@
-<div *ngIf="books.length > 0" class="book-list book-list-container">
-  <h2 class="book-list__title">Wybierz szkicownik</h2>
+<div *ngIf="books.length > 0" class="book-list">
+  <h2 class="book-list__title">{{ 'BOOKS_LIST.BOOKS_LIST_TITLE' | translate }}
+  </h2>
   <div class="book-list-container">
 
     <mat-card *ngFor="let book of books" class="book-card" matRipple [matRippleColor]="book.color">

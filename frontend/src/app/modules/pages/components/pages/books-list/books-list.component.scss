@@ -1,6 +1,14 @@
 @import "../../../../../../global_styles/variables.scss";
 
 .book-list {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  height: calc(100vh - #{$navbar-height});
+  overflow: scroll;
+
   &__title {
     font-size: xx-large;
   }
@@ -8,10 +16,6 @@
 .book-list-container {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
-
-  height: calc(100vh - #{$navbar-height});
-  overflow: scroll;
 }
 
 .book-card {

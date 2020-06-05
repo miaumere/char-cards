@@ -1,4 +1,7 @@
 {
+  "SHARED": {
+    "RETURN": "Powrót"
+  },
   "NAVBAR": {
     "CHARACTERS": "Postacie",
     "CHAPTERS": "Części",
@@ -9,5 +12,16 @@
     "LOGOUT": "Wyloguj się",
     "NO_USER": "Niezalogowany"
   },
-  "BOOKS_LIST": {}
+  "BOOKS_LIST": {
+    "BOOKS_LIST_TITLE": "Wybierz szkicownik"
+  },
+  "CHAPTERS": {
+    "TABLE_OF_CONTESTS": "Spis treści",
+    "AVAILABLE_CHAPTERS": "Dostępne części",
+    "GO_TO_CHAPTER": "Przejdź do części",
+    "PAGES_COUNT": "Ilość stron:",
+    "STARRING_CHARACTERS": "Postacie występujące:",
+    "NO_CHAPTERS_MSG": "Brak części w tym szkicowniku.",
+    "NO_PAGES_MSG": "Brak stron w tej części."
+  }
 }

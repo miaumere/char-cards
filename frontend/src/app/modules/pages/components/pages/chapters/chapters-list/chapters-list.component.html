@@ -1,8 +1,7 @@
 <div class="chapters-list" [ngStyle]="{'background': bgColor}">
 
-  <div *ngIf="chapters.length > 0" style="width: 100%; text-align: center;
-    ">
-    <h2>Dostępne części:</h2>
+  <div *ngIf="chapters.length > 0" class="chapters-list__container chapters-list-container">
+    <h2 class="chapters-list-container__title">{{ 'CHAPTERS.AVAILABLE_CHAPTERS' | translate }}</h2>
     <mat-card *ngFor="let chapter of chapters; index as i" class="chapter-card">
       <mat-card-header>
         <div mat-card-avatar>
@@ -13,13 +12,13 @@
       </mat-card-header>
       <mat-card-content>
         <p>
-          Ilość stron: {{chapter.pagesIds?.length}}
+          {{ 'CHAPTERS.PAGES_COUNT' | translate }} {{chapter.pagesIds?.length}}
         </p>
 
         <mat-expansion-panel [ngStyle]="{'background': bookColor, 'color': fontColor}"
           *ngIf="chapter.starringChars?.length > 0">
           <mat-expansion-panel-header>
-            Postacie występujące:
+            {{ 'CHAPTERS.STARRING_CHARACTERS' | translate }}
           </mat-expansion-panel-header>
           <div class="char-card-container">
             <mat-card class="char-card" *ngFor="let starringChar of chapter.starringChars"
@@ -47,13 +46,13 @@
           color: bookColor
         }">
           <mat-icon>navigate_next</mat-icon>
-          Przejdź do części
+          {{ 'CHAPTERS.GO_TO_CHAPTER' | translate }}
+
         </button>
       </mat-card-actions>
     </mat-card>
   </div>
 
   <div *ngIf="chapters.length === 0">
-    Brak części w tym szkicowniku.
-  </div>
+    {{ 'CHAPTERS.NO_CHAPTERS_MSG' | translate }} </div>
 </div>

@@ -7,6 +7,16 @@
   height: calc(100vh - #{$navbar-height});
 
   overflow: scroll;
+
+  &__container {
+    width: 100%;
+    text-align: center;
+  }
+}
+.chapters-list-container {
+  &__title {
+    font-size: xx-large;
+  }
 }
 .chapter-card {
   background: $card-bg;

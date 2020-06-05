@@ -1,4 +1,7 @@
 {
+  "SHARED": {
+    "RETURN": "Return"
+  },
   "NAVBAR": {
     "CHARACTERS": "Characters",
     "CHAPTERS": "Chapters",
@@ -9,5 +12,16 @@
     "LOGOUT": "Logout",
     "NO_USER": "User not logged in"
   },
-  "BOOKS_LIST": {}
+  "BOOKS_LIST": {
+    "BOOKS_LIST_TITLE": "Choose a book"
+  },
+  "CHAPTERS": {
+    "TABLE_OF_CONTESTS": "Table of contests",
+    "AVAILABLE_CHAPTERS": "Available chapters",
+    "GO_TO_CHAPTER": "Go to chapter",
+    "PAGES_COUNT": "Pages count:",
+    "STARRING_CHARACTERS": "Starring characters:",
+    "NO_CHAPTERS_MSG": "No chapters in this book.",
+    "NO_PAGES_MSG": "No pages in this chapter."
+  }
 }

@@ -15,6 +15,7 @@ import { ChaptersComponent } from './components/pages/chapters/chapters.componen
 import { ChaptersListComponent } from './components/pages/chapters/chapters-list/chapters-list.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { ChapterComponent } from './components/pages/chapters/chapter/chapter.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 @NgModule({
@@ -38,8 +39,8 @@ import { ChapterComponent } from './components/pages/chapters/chapter/chapter.co
     MatListModule,
     MatRippleModule,
     MatSidenavModule,
-    MatExpansionModule
-
+    MatExpansionModule,
+    TranslateModule
   ],
   providers: [
     StoryService
