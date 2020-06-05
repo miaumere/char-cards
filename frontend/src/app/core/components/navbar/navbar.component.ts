@@ -18,18 +18,24 @@ export class NavbarComponent extends BaseComponent implements OnInit {
   username = '';
   loggedUser: LoggedUser | null = null;
 
+
+  supportedLanguages = [{
+    'flag': 'https://restcountries.eu/data/gbr.svg',
+    'language': 'en'
+  }, {
+    'flag': 'https://restcountries.eu/data/pol.svg',
+    'language': 'pl'
+  }
+  ];
   constructor(
     public _authService: AuthService,
     private _toastr: ToastrService,
     private _route: Router,
     iconRegistry: MatIconRegistry,
     sanitizer: DomSanitizer,
-    translate: TranslateService
+    public translate: TranslateService
   ) {
     super();
-    iconRegistry.addSvgIcon(
-      'log-out',
-      sanitizer.bypassSecurityTrustResourceUrl('../../../../assets/svg/iconmonstr-log-out-9.svg'));
     iconRegistry.addSvgIcon(
       'log-in',
       sanitizer.bypassSecurityTrustResourceUrl('../../../../assets/svg/iconmonstr-key-3.svg'));
@@ -37,9 +43,13 @@ export class NavbarComponent extends BaseComponent implements OnInit {
       'user',
       sanitizer.bypassSecurityTrustResourceUrl('../../../../assets/svg/iconmonstr-user-19.svg'));
 
+
+    translate.addLangs(['en', 'pl']);
     translate.setDefaultLang('en');
 
-    translate.use('en');
+
+    // const lang = translate.getDefaultLang();
+    // translate.use(lang.match(/en|pl/) ? lang : 'en');
   }
 
   ngOnInit() {
@@ -47,14 +57,25 @@ export class NavbarComponent extends BaseComponent implements OnInit {
 
   logout() {
     this._authService.logout().subscribe(_ => {
-      this._toastr.success('Wylogowano użytkownika.')
+      this._toastr.success('Wylogowano użytkownika.');
       this._route.navigate(['/main']);
 
     },
       () => {
-        this._toastr.error('Nie udało się wylogować użytkownika.')
+        this._toastr.error('Nie udało się wylogować użytkownika.');
       }
-    )
+    );
+  }
+
+  saveLang() {
+    const item = localStorage.getItem('language');
+    if (item) {
+      localStorage.removeItem(item);
+      localStorage.setItem('language', this.translate.currentLang);
+    } else {
+      localStorage.setItem('language', this.translate.currentLang);
+    }
+
   }
 
 }

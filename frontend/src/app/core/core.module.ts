@@ -7,6 +7,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { TranslateModule } from '@ngx-translate/core';
+import { MatSelectModule } from '@angular/material/select';
+
 @NgModule({
   declarations: [
     NavbarComponent
@@ -18,7 +20,8 @@ import { TranslateModule } from '@ngx-translate/core';
     MatMenuModule,
     MatIconModule,
     MatButtonModule,
-    TranslateModule
+    TranslateModule,
+    MatSelectModule
   ],
   exports: [
     NavbarComponent
