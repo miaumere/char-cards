@@ -6,7 +6,7 @@ import { SharedModule } from '../modules/shared/shared.module';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-
+import { TranslateModule } from '@ngx-translate/core';
 @NgModule({
   declarations: [
     NavbarComponent
@@ -17,7 +17,9 @@ import { MatButtonModule } from '@angular/material/button';
     RouterModule,
     MatMenuModule,
     MatIconModule,
-    MatButtonModule],
+    MatButtonModule,
+    TranslateModule
+  ],
   exports: [
     NavbarComponent
   ]

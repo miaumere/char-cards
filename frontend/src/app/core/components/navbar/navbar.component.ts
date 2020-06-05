@@ -6,6 +6,7 @@ import { LoggedUser } from 'src/app/modules/login/models/logged-user.model';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-navbar',
@@ -22,7 +23,8 @@ export class NavbarComponent extends BaseComponent implements OnInit {
     private _toastr: ToastrService,
     private _route: Router,
     iconRegistry: MatIconRegistry,
-    sanitizer: DomSanitizer
+    sanitizer: DomSanitizer,
+    translate: TranslateService
   ) {
     super();
     iconRegistry.addSvgIcon(
@@ -35,6 +37,9 @@ export class NavbarComponent extends BaseComponent implements OnInit {
       'user',
       sanitizer.bypassSecurityTrustResourceUrl('../../../../assets/svg/iconmonstr-user-19.svg'));
 
+    translate.setDefaultLang('en');
+
+    translate.use('en');
   }
 
   ngOnInit() {

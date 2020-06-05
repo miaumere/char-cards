@@ -11,6 +11,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatMenuModule } from '@angular/material/menu';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 import { AppComponent } from './app.component';
@@ -45,7 +46,10 @@ import { NavbarComponent } from './core/components/navbar/navbar.component';
     MatMenuModule,
     CoreModule,
     RouterModule,
-    MatSliderModule
+    MatSliderModule,
+    TranslateModule.forRoot({
+      defaultLanguage: 'en'
+    })
   ],
   providers: [
     HttpClientModule,
