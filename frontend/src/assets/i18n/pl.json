@@ -7,7 +7,8 @@
     "PREVIOUS": "Powrót",
     "CHOOSE_FILE": "Wybierz plik",
     "SAVE_CHANGES": "Zatwierdź zmiany",
-    "DELETE": "Usuń"
+    "DELETE": "Usuń",
+    "SEND": "Wyślij"
   },
   "NAVBAR": {
     "CHARACTERS": "Postacie",
@@ -55,7 +56,8 @@
     "EDIT_RELATIONSHIPS": "Edytuj relacje postaci",
     "ARCHIVE": "Zarchiwizuj postać",
     "UNARCHIVE": "Przywróć postać",
-    "SEND": "Wyślij"
+    "SEND": "Wyślij",
+    "NO_CHARACTERS": "Nie znaleziono postaci. 😥"
   },
   "CHARACTER_MODIFY": {
     "NAME": "Imię",

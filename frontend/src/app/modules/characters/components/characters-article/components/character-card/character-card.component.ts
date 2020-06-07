@@ -8,7 +8,6 @@ import { finalize } from 'rxjs/operators';
 import * as tinycolor from 'tinycolor2';
 import { Measurements, IMeasurements } from 'src/app/modules/characters/models/measurements.model';
 
-type charType = 'postać główna' | 'postać poboczna' | 'postać epizodyczna' | '';
 
 @Component({
   selector: 'app-character-card',
@@ -32,8 +31,6 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
   themeColor1 = '';
   bgColor1 = '';
   bgColor2 = '';
-
-  charType: charType = '';
 
   flagURL = '';
 

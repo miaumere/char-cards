@@ -1,3 +1,4 @@
+import { TranslateService, TranslateModule } from '@ngx-translate/core';
 import { CharactersService } from './../../core/service/characters.service';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
@@ -63,7 +64,8 @@ import { CountriesService } from 'src/app/core/service/countries.service';
     MatCardModule,
     MatIconModule,
     MatTabsModule,
-    MatSidenavModule
+    MatSidenavModule,
+    TranslateModule
   ],
   providers: [
     CharactersService,
