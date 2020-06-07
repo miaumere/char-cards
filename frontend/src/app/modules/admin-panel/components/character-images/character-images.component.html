@@ -1,12 +1,12 @@
 <mat-tab-group class="character-images">
-  <mat-tab label="Dodaj nowe zdjęcia">
+  <mat-tab [label]="'EDIT_IMAGES.ADD_IMAGES' | translate">
     <form class="edit-main-pic-form" enctype="multipart/form-data">
       <div class="form-subitems-container">
 
         <div class="profile-pic-container">
           <mat-card class="profile-pic-card">
             <mat-card-header>
-              <mat-card-title>Obecne zdjęcie profilowe</mat-card-title>
+              <mat-card-title>{{'EDIT_IMAGES.CURRENT_PROFILE_PIC' | translate}}</mat-card-title>
             </mat-card-header>
             <img *ngIf="profilePicForMain"
               [src]="'data:image/' + profilePicForMain?.extension + ';base64, ' + profilePicForMain?.image | sanitizer"
@@ -14,23 +14,18 @@
             <mat-card-actions>
               <button (click)="profilePicInput.click()" color="primary" mat-raised-button>
                 <mat-icon> attach_file</mat-icon>
-                {{isProfilePicChosen ? "Wybrano plik" : "Wybierz plik" }}
+                {{isProfilePicChosen ? ('EDIT_IMAGES.PROFILE_PIC_CHOSEN' | translate) : ('SHARED.CHOOSE_FILE' | translate) }}
                 <input #profilePicInput type="file" (change)="handleFileInput($event.target.files, false)"
                   style="display:none;" />
               </button>
             </mat-card-actions>
           </mat-card>
-
-
-
         </div>
 
-
         <div class="images-container">
-
           <button (click)="fileInput.click()" color="primary" mat-raised-button>
             <mat-icon> attach_file</mat-icon>
-            Wybrano: {{filesListNumber}} plików.
+            <span [translate]="'SHARED.FILE_INPUT'" [translateParams]="{num: filesListNumber}"> </span>
             <input #fileInput type="file"
               (change)="handleFileInput($event.target.files, true); preview($event.target.files)" multiple
               style="display:none;" />
@@ -45,13 +40,14 @@
       <button mat-raised-button color="accent" (click)="setNewImages()"
         [disabled]="!isProfilePicChosen && !filesListNumber">
         <mat-icon>library_add</mat-icon>
-        Zatwierdź zmiany
+        {{ 'SHARED.SAVE_CHANGES' | translate }}
+
       </button>
 
     </form>
   </mat-tab>
 
-  <mat-tab label="Obecne zdjęcia">
+  <mat-tab [label]="'EDIT_IMAGES.CURRENT_IMAGES' | translate">
     <div *ngIf="imagesListForMain?.length > 0" class="images-list">
       <mat-card *ngFor="let image of imagesListForMain" class="image-card">
         <mat-card-header>
@@ -68,11 +64,13 @@
           <button mat-raised-button color="warn" (click)="insertDeleteInfo()"
             (dblclick)="deleteCharacterImage(image.id)">
             <mat-icon>delete</mat-icon>
-            Usuń
+            {{ 'SHARED.DELETE' | translate }}
+
           </button>
           <button mat-raised-button color="accent" (click)="changeImageName(image.id, imageElement)">
             <mat-icon>edit</mat-icon>
-            Edytuj nazwę
+            {{ 'EDIT_IMAGES.EDIT_NAME' | translate }}
+
           </button>
         </mat-card-actions>
 

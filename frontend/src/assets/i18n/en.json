@@ -2,12 +2,12 @@
   "SHARED": {
     "RETURN": "Return",
     "EDIT": "Edytuj",
-    "FILE_INPUT": "Wybrano {{num}} plików",
+    "FILE_INPUT": "Chosen {{num}} files",
     "NEXT": "Next",
     "PREVIOUS": "Previous",
-    "CHOOSE_FILE": "Wybierz plik",
-    "SAVE_CHANGES": "Zatwierdź zmiany",
-    "DELETE": "Usuń",
+    "CHOOSE_FILE": "Choose file",
+    "SAVE_CHANGES": "Save changes",
+    "DELETE": "Delete",
     "SEND": "Send"
   },
   "NAVBAR": {
@@ -53,7 +53,7 @@
     "EDIT_IMAGES": "Edit images",
     "EDIT_STORY": "Add/Edit story",
     "EDIT_QUOTES": "Edit quotes",
-    "EDIT_RELATIONSHIPS": "Edit character's relationship",
+    "EDIT_RELATIONSHIPS": "Edit relationships",
     "ARCHIVE": "Archive character",
     "UNARCHIVE": "Unarchive character",
     "SEND": "Send",
@@ -97,10 +97,11 @@
     "END": "Done"
   },
   "EDIT_IMAGES": {
-    "ADD_IMAGES": "Dodaj nowe zdjęcia",
-    "CURRENT_IMAGES": "Obecne zdjęcia",
-    "CURRENT_PROFILE_PIC": "Obecne zdjęcie profilowe",
-    "EDIT_NAME": "Edytuj nazwę zdjęcia"
+    "ADD_IMAGES": "Add new images",
+    "CURRENT_IMAGES": "Current images",
+    "CURRENT_PROFILE_PIC": "Current profile pic",
+    "EDIT_NAME": "Edit image name",
+    "PROFILE_PIC_CHOSEN": "Chosen 1 file"
   },
   "EDIT_STORIES": {
     "TITLE": "Tytuł do historii",

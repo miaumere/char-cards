@@ -15,7 +15,7 @@
           id: charId
         }" class="button">
             <mat-icon>edit</mat-icon>
-            Edytuj postać
+            {{'CHARS_PANEL.EDIT_CHAR' | translate}}
           </button>
         </li>
 
@@ -23,7 +23,8 @@
           <button mat-stroked-button class="sidebar__option" [routerLink]="['./character-images']" [queryParams]="{
         id: charId
       }">
-            <mat-icon>image</mat-icon>Edytuj zdjęcia
+            <mat-icon>image</mat-icon> {{'CHARS_PANEL.EDIT_IMAGES' | translate}}
+
           </button>
         </li>
 
@@ -31,7 +32,8 @@
           <button mat-stroked-button class="sidebar__option" [routerLink]="['./character-stories']" [queryParams]="{
       id: charId
     }">
-            <mat-icon> format_align_left</mat-icon>Dodaj/Edytuj historię
+            <mat-icon> format_align_left</mat-icon> {{'CHARS_PANEL.EDIT_STORY' | translate}}
+
           </button>
         </li>
 
@@ -41,7 +43,8 @@
       id: charId
     }">
             <mat-icon> format_quote</mat-icon>
-            Edytuj cytaty
+            {{'CHARS_PANEL.EDIT_QUOTES' | translate}}
+
           </button>
         </li>
 
@@ -50,7 +53,8 @@
             [queryParams]="{
           id: charId
         }">
-            <mat-icon>people</mat-icon>Edytuj relacje
+            <mat-icon>people</mat-icon> {{'CHARS_PANEL.EDIT_RELATIONSHIPS' | translate}}
+
           </button>
 
         </li>
@@ -59,7 +63,8 @@
       </ul>
       <button mat-stroked-button color="accent" [routerLink]="['../']" class="button">
         <mat-icon>keyboard_backspace</mat-icon>
-        Powrót
+        {{'SHARED.PREVIOUS' | translate}}
+
       </button>
     </div>
   </mat-sidenav>

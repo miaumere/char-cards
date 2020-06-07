@@ -1,3 +1,4 @@
+import { TranslateService } from '@ngx-translate/core';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -16,7 +17,6 @@ import { FormGroup, FormControl } from '@angular/forms';
 })
 
 export class CharacterImagesComponent extends BaseComponent implements OnInit {
-
   loading = true;
 
   charId: number;
@@ -32,6 +32,7 @@ export class CharacterImagesComponent extends BaseComponent implements OnInit {
   imagesListForMain: IImageForMain[] | null = null;
 
   filesListNumber = 0;
+  param = { num: 0 };
 
   newProfilePicForm = new FormGroup({
     profilePic: new FormControl()
@@ -43,6 +44,7 @@ export class CharacterImagesComponent extends BaseComponent implements OnInit {
     private _toastrService: ToastrService,
     private _characterService: CharactersService,
     private _activatedRoute: ActivatedRoute,
+    private _translate: TranslateService
   ) { super(); }
 
   ngOnInit() {
@@ -118,6 +120,7 @@ export class CharacterImagesComponent extends BaseComponent implements OnInit {
     !multiple && files[0] ? this.isProfilePicChosen = true : this.isProfilePicChosen = false;
     if (multiple) {
       this.filesListNumber = files.length;
+      this.param.num = files.length;
     }
   }
 

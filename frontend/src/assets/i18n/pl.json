@@ -100,7 +100,8 @@
     "ADD_IMAGES": "Dodaj nowe zdjęcia",
     "CURRENT_IMAGES": "Obecne zdjęcia",
     "CURRENT_PROFILE_PIC": "Obecne zdjęcie profilowe",
-    "EDIT_NAME": "Edytuj nazwę zdjęcia"
+    "EDIT_NAME": "Edytuj nazwę zdjęcia",
+    "PROFILE_PIC_CHOSEN": "Wybrano plik"
   },
   "EDIT_STORIES": {
     "TITLE": "Tytuł do historii",
