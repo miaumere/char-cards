@@ -1,3 +1,4 @@
+import { TranslateModule } from '@ngx-translate/core';
 import { FilenameModifierPipe } from './pipes/filename-modifier.pipe';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
@@ -31,7 +32,8 @@ import { MatDividerModule } from '@angular/material/divider';
     MatTableModule,
     MatRippleModule,
     MatCardModule,
-    MatDividerModule
+    MatDividerModule,
+    TranslateModule
   ],
   providers: []
 })

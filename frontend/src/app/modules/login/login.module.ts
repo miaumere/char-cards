@@ -1,3 +1,4 @@
+import { TranslateModule } from '@ngx-translate/core';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LoginComponent } from './components/login/login.component';
@@ -17,7 +18,8 @@ import { MatButtonModule } from '@angular/material/button';
     ReactiveFormsModule,
     LoginRoutingModule,
     MatInputModule,
-    MatButtonModule
+    MatButtonModule,
+    TranslateModule
   ]
 })
 export class LoginModule { }

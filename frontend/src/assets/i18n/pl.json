@@ -1,6 +1,13 @@
 {
   "SHARED": {
-    "RETURN": "Powrót"
+    "RETURN": "Powrót",
+    "EDIT": "Edytuj",
+    "FILE_INPUT": "Wybrano {{num}} plików",
+    "NEXT": "Dalej",
+    "PREVIOUS": "Powrót",
+    "CHOOSE_FILE": "Wybierz plik",
+    "SAVE_CHANGES": "Zatwierdź zmiany",
+    "DELETE": "Usuń"
   },
   "NAVBAR": {
     "CHARACTERS": "Postacie",
@@ -11,6 +18,110 @@
     "LOGIN": "Zaloguj się",
     "LOGOUT": "Wyloguj się",
     "NO_USER": "Niezalogowany"
+  },
+  "LOGIN_PAGE": {
+    "LOGIN_MSG": "Aby wejść do panelu admina, zaloguj się",
+    "USERNAME": "Nazwa użytkownika",
+    "PASSWORD": "Hasło",
+    "LOGIN": "Zaloguj"
+  },
+  "CHARACTER_CARD": {
+    "NO_CHARS": "Brak postaci",
+    "NATIONALITY": "Narodowość",
+    "DEATH": "Śmierć",
+    "BIRTHDAY": "Data urodzenia",
+    "PROFESSION": "Zajęcie",
+    "MELANCHOLIC": "Melancholik",
+    "SANGUINE": "Sangwinik",
+    "FLEGMATIC": "Flegmatyk",
+    "CHOLERIC": "Choleryk",
+    "FAMILY_RELATIONS": "Relacje rodzinne",
+    "WEIGHT_HEIGHT_TABLE": "Tabela wzrostu i wagi",
+    "BABY": "Niemowlę",
+    "CHILD": "Dziecko",
+    "TEEN": "Nastolatek",
+    "ADULT": "Dorosły",
+    "NO_PHOTOS": "Brak zdjęć",
+    "NO_STORY": "Brak znanej historii."
+  },
+  "CHARS_PANEL": {
+    "NEW_CHAR": "Dodaj nową postać",
+    "NEW_RELATIONSHIP": "Dodaj nową relację",
+    "SEARCH_CHAR": "Wyszukaj postać",
+    "EDIT_CHAR": "Edytuj postać",
+    "EDIT_IMAGES": "Edytuj zdjęcia postaci",
+    "EDIT_STORY": "Edytuj historię postaci",
+    "EDIT_QUOTES": "Edytuj cytaty postaci",
+    "EDIT_RELATIONSHIPS": "Edytuj relacje postaci",
+    "ARCHIVE": "Zarchiwizuj postać",
+    "UNARCHIVE": "Przywróć postać",
+    "SEND": "Wyślij"
+  },
+  "CHARACTER_MODIFY": {
+    "NAME": "Imię",
+    "SURNAME": "Surname",
+    "GENDER": "Płeć",
+    "PSEUDONIM": "Pseudonim",
+    "PROFESSION": "Zajęcie",
+    "BIRTHDATE": "Data urodzenia",
+    "IS_DEAD": "Czy ta postać nie żyje?",
+    "DEATH_REASON": "Powód śmierci",
+    "NATIONALITY": "Narodowość",
+    "MELANCHOLIC": "Melancholizm",
+    "SANGUINE": "Sangwinizm",
+    "FLEGMATIC": "Flegmatyzm",
+    "CHOLERIC": "Choleryzm",
+    "THEMECOLOR1": "Motyw kolorystyczny 1",
+    "THEMECOLOR2": "Motyw kolorystyczny 2",
+    "THEMECOLOR3": "Motyw kolorystyczny 3",
+    "EYECOLOR1": "Kolor oczu 1",
+    "EYECOLOR2": "Kolor oczu 2",
+    "HAIRCOLOR": "Kolor włosów",
+    "SKINCOLOR": "Kolor skóry",
+    "HEIGHT_BABY": "Wzrost jako niemowlę",
+    "WEIGHT_BABY": "Waga jako niemowlę",
+    "HEIGHT_CHILD": "Wzrost jako dziecko",
+    "WEIGHT_CHILD": "Waga jako dziecko",
+    "HEIGHT_TEEN": "Wzrost jako nastolatek",
+    "WEIGHT_TEEN": "Waga jako nastolatek",
+    "HEIGHT_ADULT": "Wzrost jako dorosły",
+    "WEIGHT_ADULT": "Waga jako dorosły",
+    "FORM_END_MSG": "Naciśnij przycisk \"Wyślij\", żeby zatwierdzić zmiany.",
+    "PERSONAL_INFO": "Podstawowe dane",
+    "ADDITIONAL_PERSONAL_INFO": "Dodatkowe dane osobowe",
+    "TEMPERAMENT": "Temperament",
+    "COLORS": "Kolory",
+    "WEIGHT_HEIGHT": "Waga i wzrost",
+    "END": "Koniec"
+  },
+  "EDIT_IMAGES": {
+    "ADD_IMAGES": "Dodaj nowe zdjęcia",
+    "CURRENT_IMAGES": "Obecne zdjęcia",
+    "CURRENT_PROFILE_PIC": "Obecne zdjęcie profilowe",
+    "EDIT_NAME": "Edytuj nazwę zdjęcia"
+  },
+  "EDIT_STORIES": {
+    "TITLE": "Tytuł do historii",
+    "DESC": "Historia postaci",
+    "ADD_STORY": "Dodaj historię"
+  },
+  "EDIT_QUOTES": {
+    "EDIT_QUOTES_MSG": "Uzupełnij poniższe pola, aby dodać nowy cytat:",
+    "QUOTE_CONTENT": "Treść cytatu",
+    "QUOTE_CONTEXT": "Kontekst cytatu",
+    "ADD_QUOTE": "Dodaj cytat",
+    "DELETE_QUOTE": "Usuń cytat",
+    "EDIT_QUOTE": "Edytuj cytat"
+  },
+  "EDIT_RELATIONS": {
+    "RELATIONS_TITLE": "Dostępne relacje:",
+    "CHARACTER1": "Postać 1",
+    "CHARACTER2": "Postać 2",
+    "RELATION_TYPE_TITLE": "Kim jest postać 1:",
+    "REVERSED_RELATION_TYPE_TITLE": "Kim jest postać 2:",
+    "CHARACTER2_TITLE": "Dla kogo:",
+    "NO_RELATIONS_MSG": "Brak relacji dla tej postaci.",
+    "ADD_RELATIONS": "Dodaj relację"
   },
   "BOOKS_LIST": {
     "BOOKS_LIST_TITLE": "Wybierz szkicownik"
@@ -23,5 +134,56 @@
     "STARRING_CHARACTERS": "Postacie występujące:",
     "NO_CHAPTERS_MSG": "Brak części w tym szkicowniku.",
     "NO_PAGES_MSG": "Brak stron w tej części."
+  },
+  "BOOKS_PANEL": {
+    "PREVIEW": "Podgląd",
+    "BOOK_NAME": "Nazwa szkicownika",
+    "BOOK_COLOR": "Kolor szkicownika",
+    "BOOK_ICON": "Ikonka szkicownika",
+    "ADD_BOOK": "Dodaj szkicownik",
+    "EDIT_BOOK": "Edytuj szkicownik",
+    "DELETE_BOOK": "Usuń szkicownik",
+    "CHAPTERS_LIST": "Lista części",
+    "NO_ICON": "Bez ikonki"
+  },
+  "CHAPTERS_PANEL": {
+    "CHAPTER_TITLE": "Tytuł części",
+    "CHAPTER_DESC": "Krótki opis części",
+    "NEW_CHAPTER": "Nowa część"
+  },
+  "PAGES_PANEL": {
+    "EDIT_PAGES": "Edycja stron",
+    "EDIT_CHARS": "Edycja postaci występujących",
+    "ADD_PAGES": "Dodaj nowe strony",
+    "ADD_STARRING_CHAR_MSG": "Dodaj postać, która występuje w części",
+    "STARRING_TYPE": "Rodzaj występowania",
+    "ADD_STARRING_CHAR": "Dodaj postać do części",
+    "STARRING_CHARS": "Obecnie występujące postacie:",
+    "DELETE_STARRING": "Usuń postać z tej części",
+    "NO_PAGES_MSG": "Brak stron dla tej części."
+  },
+  "STATISTICS": {
+    "GENDER_CHART_TITLE": "Ilość kobiet i mężczyzn",
+    "CHARS_TYPE_CHART_TITLE": "Rodzaje postaci",
+    "MAIN": "Główni",
+    "SIDE": "Poboczni",
+    "BG": "Epizodyczni",
+    "NATIONALITY_CHART_TITLE": "Narodowość postaci",
+    "OTHERS": "Inne",
+    "NONE": "Brak",
+    "AGE_CHART_TITLE": "Wiek postaci",
+    "AGE": "Wiek",
+    "CHARS_NUM": "Ilość postaci",
+    "AGE_UNKNOWN": "Nieznany"
+  },
+  "TOASTR_MESSAGE": {
+    "ERROR": "Wystąpił błąd."
+  },
+  "enum": {
+    "charType": {
+      "MAIN": "Postać główna",
+      "SIDE": "Postać poboczna",
+      "BACKGROUND": "Postać epizodyczna"
+    }
   }
 }

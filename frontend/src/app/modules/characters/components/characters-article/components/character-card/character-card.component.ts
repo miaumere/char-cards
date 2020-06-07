@@ -84,22 +84,6 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
           ];
           this.measurementsData = [characterHeight, charachterWeight];
 
-          switch (this.character?.charType) {
-            case 'MAIN':
-              this.charType = 'postać główna';
-              break;
-
-            case 'SIDE':
-              this.charType = 'postać poboczna';
-              break;
-
-            case 'BACKGROUND':
-              this.charType = 'postać epizodyczna';
-              break;
-
-            default:
-              break;
-          }
           this.bgColorFromChild.emit(character.colors.themeColor1);
           const themeColorForChar = tinycolor(character?.colors?.themeColor1);
           const bgColorForChar = tinycolor(character?.colors?.themeColor2);
