@@ -1,7 +1,8 @@
 <h1 mat-dialog-title>
 
   <mat-form-field class="story-form__input">
-    <mat-label>Tytuł</mat-label>
+    <mat-label> {{ 'EDIT_STORIES.TITLE' | translate }}
+    </mat-label>
     <input matInput required maxlength="255" placeholder="Tytuł do historii" spellcheck="false"
       [(ngModel)]="data.title">
   </mat-form-field>
@@ -9,12 +10,15 @@
 </h1>
 <div mat-dialog-content class="story-form" style="width: 100%">
   <mat-form-field class="story-form__input story-form__input--edit">
-    <mat-label>Opis</mat-label>
+    <mat-label> {{ 'EDIT_STORIES.DESC' | translate }}
+    </mat-label>
     <textarea matInput required maxlength="2000" [(ngModel)]="data.desc" spellcheck="false"></textarea>
   </mat-form-field>
 
 </div>
 <div mat-dialog-actions>
-  <button mat-button (click)="onNoClick()">Powrót</button>
-  <button mat-raised-button color="accent" [mat-dialog-close]="data" cdkFocusInitial>Edytuj</button>
+  <button mat-button (click)="onNoClick()"> {{ 'SHARED.PREVIOUS' | translate }}
+  </button>
+  <button mat-raised-button color="accent" [mat-dialog-close]="data" cdkFocusInitial> {{ 'SHARED.EDIT' | translate }}
+  </button>
 </div>

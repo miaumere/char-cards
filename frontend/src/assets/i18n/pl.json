@@ -106,7 +106,7 @@
   "EDIT_STORIES": {
     "TITLE": "Tytuł do historii",
     "DESC": "Historia postaci",
-    "ADD_STORY": "Dodaj historię"
+    "NO_STORIES": "Brak historii dla tej postaci."
   },
   "EDIT_QUOTES": {
     "EDIT_QUOTES_MSG": "Uzupełnij poniższe pola, aby dodać nowy cytat:",

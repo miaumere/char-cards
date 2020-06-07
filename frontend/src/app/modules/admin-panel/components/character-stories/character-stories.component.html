@@ -4,20 +4,20 @@
 
       <form class="story-form" [formGroup]="newStoryForm">
         <mat-form-field class="story-form__input">
-          <mat-label>Tytuł</mat-label>
-          <input matInput required placeholder="Tytuł do historii" spellcheck="false" value="Np. dzieciństwo"
-            formControlName="title">
+          <mat-label> {{ 'EDIT_STORIES.TITLE' | translate }}
+          </mat-label>
+          <input matInput required spellcheck="false" formControlName="title">
         </mat-form-field>
 
         <mat-form-field class="story-form__input">
-          <mat-label>Opis</mat-label>
-          <textarea matInput required placeholder="Historia postaci" spellcheck="false"
-            formControlName="desc"></textarea>
+          <mat-label> {{ 'EDIT_STORIES.DESC' | translate }}
+          </mat-label>
+          <textarea matInput required spellcheck="false" formControlName="desc"></textarea>
         </mat-form-field>
 
         <button mat-raised-button color="accent" (click)="createNewStory()" [disabled]='newStoryForm.invalid'>
           <mat-icon>library_add</mat-icon>
-          Dodaj historię
+          {{ 'SHARED.SAVE_CHANGES' | translate }}
         </button>
 
       </form>
@@ -45,7 +45,7 @@
       </div>
     </div>
     <div *ngIf="stories.length === 0">
-      Brak.
+      {{ 'EDIT_STORIES.NO_STORIES' | translate }}
     </div>
   </div>
 </div>
