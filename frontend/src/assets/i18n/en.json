@@ -168,21 +168,21 @@
     "NO_STARRING_CHARS": "No starring characters in this chapter."
   },
   "STATISTICS": {
-    "GENDER_CHART_TITLE": "Ilość kobiet i mężczyzn",
-    "CHARS_TYPE_CHART_TITLE": "Rodzaje postaci",
-    "MAIN": "Główni",
-    "SIDE": "Poboczni",
-    "BG": "Epizodyczni",
-    "NATIONALITY_CHART_TITLE": "Narodowość postaci",
-    "OTHERS": "Inne",
-    "NONE": "Brak",
-    "AGE_CHART_TITLE": "Wiek postaci",
-    "AGE": "Wiek",
-    "CHARS_NUM": "Ilość postaci",
-    "AGE_UNKNOWN": "Nieznany"
+    "GENDER_CHART_TITLE": "Male & Female number",
+    "CHARS_TYPE_CHART_TITLE": "Character types",
+    "MAIN": "Main",
+    "SIDE": "Side",
+    "BG": "Background",
+    "NATIONALITY_CHART_TITLE": "Characters nationality",
+    "OTHERS": "Others",
+    "NONE": "None",
+    "AGE_CHART_TITLE": "Characters age",
+    "AGE": "Age",
+    "CHARS_NUM": "Characters",
+    "AGE_UNKNOWN": "Age unknown"
   },
   "TOASTR_MESSAGE": {
-    "ERROR": "Wystąpił błąd."
+    "ERROR": "An error has occured."
   },
   "enum": {
     "charType": {

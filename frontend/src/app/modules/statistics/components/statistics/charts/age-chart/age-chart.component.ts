@@ -1,7 +1,7 @@
+import { TranslateService } from '@ngx-translate/core';
 import { IAgeStat } from './../../../../models/age-stat.model';
 import { BaseComponent } from 'src/app/core/base.component';
 import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
-import { IAgeStatistics } from 'src/app/modules/statistics/models/age-statistics.model';
 import * as d3 from 'd3';
 
 @Component({
@@ -20,6 +20,7 @@ export class AgeChartComponent extends BaseComponent implements OnInit {
   @Input() ageStatistics: IAgeStat[];
 
   constructor(
+    private translate: TranslateService
   ) { super(); }
 
   ngOnInit() {
@@ -68,6 +69,10 @@ export class AgeChartComponent extends BaseComponent implements OnInit {
     let allCharsNum = 0;
     for (const ageStat of this.ageStatistics) {
       allCharsNum += ageStat.count;
+      console.log(ageStat)
+      if (ageStat.label === 'Nieznany') {
+        ageStat.label = this.translate.instant('STATISTICS.AGE_UNKNOWN');
+      }
       keys.push(ageStat.label);
     }
     const x = d3.scaleBand()
@@ -140,14 +145,21 @@ export class AgeChartComponent extends BaseComponent implements OnInit {
 
 
     const mousemove = (d) => {
-      let msg = '<table>';
-      msg += '<th><br/>WIEK</th><th>ILOŚĆ <br/> POSTACI</th> <br/ >';
-
-      for (const key of Object.keys(d.details)) {
-        msg += `<tr> <th>${key}</th><th>${d.details[key]}</th></tr>`
+      if (d?.label !== 'Nieznany') {
+        let msg = '<table>';
+        msg += `<th><br/>${this.translate.instant('STATISTICS.AGE')
+          }</th><th>${this.translate.instant('STATISTICS.CHARS_NUM')
+          }</th> <br/ >`;
+        for (const key of Object.keys(d.details)) {
+          msg += `<tr> <th>${key}</th><th>${d.details[key]}</th></tr>`
+        }
+        msg += `</table>`
+        tooltip.html(msg);
+      } else {
+        let msg = '';
+        msg += `<strong>${this.translate.instant('STATISTICS.CHARS_NUM')}:</strong> ${d?.count}`
+        tooltip.html(msg);
       }
-      msg += `</table>`
-      tooltip.html(msg)
     };
     const mouseleave = function (d) {
       tooltip

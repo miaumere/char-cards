@@ -1,3 +1,4 @@
+import { TranslateService } from '@ngx-translate/core';
 import { CountriesService } from 'src/app/core/service/countries.service';
 import { INationalitiesStatistics, NationalitiesStatistics } from '../../../../models/nationalities-statistics.model';
 import { BaseComponent } from 'src/app/core/base.component';
@@ -34,7 +35,8 @@ export class NationalitiesChartComponent extends BaseComponent implements OnInit
   private allCharactersNumber: number;
 
   constructor(
-    private _countriesService: CountriesService
+    private _countriesService: CountriesService,
+    private _translate: TranslateService
   ) { super(); }
 
   ngOnInit() {
@@ -54,7 +56,7 @@ export class NationalitiesChartComponent extends BaseComponent implements OnInit
         unsortedStatistics.push(nationalityStatistic);
       }
       unsortedStatistics.sort((a, b) => b.num - a.num);
-      unsortedStatistics.map(x => x.nationality === null ? x.nationality = 'brak' : '');
+      unsortedStatistics.map(x => x.nationality === null ? x.nationality = this._translate.instant('STATISTICS.NONE') : '');
       this.sortedStatistics = unsortedStatistics.splice(0, 3);
 
       let otherCountriesNum = 0;
@@ -64,7 +66,7 @@ export class NationalitiesChartComponent extends BaseComponent implements OnInit
         otherCountriesNum += stat.num;
       }
       const otherNationalities: INationalityStatistic = {
-        nationality: 'INNE',
+        nationality: this._translate.instant('STATISTICS.OTHERS'),
         num: otherCountriesNum,
         flagURL: ''
       };
@@ -206,7 +208,7 @@ export class NationalitiesChartComponent extends BaseComponent implements OnInit
       .attr('transform', 'translate(0,' + height + ')')
       .call(d3.axisBottom(x))
       .selectAll('text')
-      .attr('transform', 'translate(-10,0)rotate(-45)');
+      .attr('transform', 'translate(-10,10)rotate(-45)');
 
 
     svg.selectAll('.tick')
@@ -223,7 +225,7 @@ export class NationalitiesChartComponent extends BaseComponent implements OnInit
       })
       .attr('width', 15)
       .attr('height', 15)
-      .attr('transform', 'rotate(-45)');
+      .attr('transform', 'translate(-10,5)rotate(-45)');
 
 
     // Add Y axis
@@ -291,8 +293,8 @@ export class NationalitiesChartComponent extends BaseComponent implements OnInit
         tooltipMessageForOthers += `<img src="${nationality.flagURL}"  width="20"/>`;
       }
       tooltipMessageForOthers += `
-<strong> ${nationality.nationality ? nationality.nationality : 'brak'} </strong>
-      Ilość postaci: <strong>${nationality.num}</strong>
+<strong> ${nationality.nationality ? nationality.nationality : this._translate.instant('STATISTICS.NONE')} </strong>
+      ${this._translate.instant('STATISTICS.CHARS_NUM')}: <strong>${nationality.num}</strong>
 
       <br />
    `;
@@ -301,12 +303,12 @@ export class NationalitiesChartComponent extends BaseComponent implements OnInit
 
 
     const mousemove = (d) => {
-      if (d.nationality === 'INNE') {
+      if (d.nationality === this._translate.instant('STATISTICS.OTHERS')) {
         tooltip
           .html(tooltipMessageForOthers);
       } else {
         tooltip
-          .html(`Ilość postaci: <strong> ${d.num}</strong>
+          .html(`${this._translate.instant('STATISTICS.CHARS_NUM')}: <strong> ${d.num}</strong>
           `);
       }
 

@@ -1,3 +1,4 @@
+import { TranslateService } from '@ngx-translate/core';
 import { BaseComponent } from 'src/app/core/base.component';
 import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
 import * as d3 from 'd3';
@@ -15,6 +16,7 @@ export class TypeChartComponent extends BaseComponent implements OnInit {
 
   @Input() typeStatistics: ITypeStatistics;
   constructor(
+    private _translate: TranslateService
   ) { super(); }
 
   ngOnInit() {
@@ -38,7 +40,11 @@ export class TypeChartComponent extends BaseComponent implements OnInit {
       this.typeStatistics.bgCharactersNum
     ];
 
-    const keys = ['Główni', 'Poboczni', 'Epizodyczni'];
+    const keys = [
+      this._translate.instant('STATISTICS.MAIN'),
+      this._translate.instant('STATISTICS.SIDE'),
+      this._translate.instant('STATISTICS.BG')
+    ];
 
     const width: number = +svg.attr('width');
     const height: number = +svg.attr('height');

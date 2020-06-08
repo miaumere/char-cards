@@ -1,3 +1,4 @@
+import { TranslateModule } from '@ngx-translate/core';
 import { NationalitiesChartComponent } from './components/statistics/charts/nationalities-chart/nationalities-chart.component';
 import { StatisticsService } from './../../core/service/statistics.service';
 import { NgModule } from '@angular/core';
@@ -26,7 +27,8 @@ import { AgeChartComponent } from './components/statistics/charts/age-chart/age-
     ReactiveFormsModule,
     SharedModule,
     StatisticsRoutingModule,
-    MatCardModule
+    MatCardModule,
+    TranslateModule
   ],
   providers: [
     StatisticsService

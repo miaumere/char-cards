@@ -178,7 +178,7 @@
     "NONE": "Brak",
     "AGE_CHART_TITLE": "Wiek postaci",
     "AGE": "Wiek",
-    "CHARS_NUM": "Ilość postaci",
+    "CHARS_NUM": "Ilość <br /> postaci",
     "AGE_UNKNOWN": "Nieznany"
   },
   "TOASTR_MESSAGE": {
