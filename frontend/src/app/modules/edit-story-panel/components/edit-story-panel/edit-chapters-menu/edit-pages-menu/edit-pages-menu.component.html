@@ -5,19 +5,16 @@
       <div>
         <button (click)="fileInput.click()" mat-stroked-button [ngStyle]="{'background': bookColor}">
           <mat-icon> attach_file</mat-icon>
-
-          Wybrano: {{filesListNumber}} plików.
+          <span [translate]="'SHARED.FILE_INPUT'" [translateParams]="{num: filesListNumber}"> </span>
           <input #fileInput type="file" (change)="onFileInput($event.target.files)" style="display:none;" multiple />
         </button>
-
       </div>
 
       <button mat-stroked-button [ngStyle]="{'background': bookColor}" [disabled]="filesListNumber === 0"
         style="margin: 1rem;" (click)="addNewPages()">
         <mat-icon>library_add</mat-icon>
-        Dodaj nowe strony
+        {{ 'PAGES_PANEL.ADD_PAGES' | translate }}
       </button>
-
     </div>
 
 
@@ -43,7 +40,7 @@
       </mat-card>
     </div>
     <div class="edit-pages" *ngIf="pagesNumber.length === 0">
-      Brak stron dla tej części.
+      {{ 'CHAPTERS.NO_PAGES_MSG' | translate }}
     </div>
   </mat-tab>
 
@@ -51,8 +48,8 @@
     <div class="edit-existing-characters">
       <form [formGroup]="charactersInChapterForm" class="starring-characters-form">
         <mat-form-field class="edit-existing-characters__form-field">
-          <mat-label>Dodaj postać, która występuje w części:</mat-label>
-          <input matInput placeholder="Imię postaci" formControlName="character" required [matAutocomplete]="auto">
+          <mat-label>{{ 'PAGES_PANEL.ADD_STARRING_CHAR_MSG' | translate }}</mat-label>
+          <input matInput formControlName="character" required [matAutocomplete]="auto">
           <mat-autocomplete #auto="matAutocomplete">
             <mat-option *ngFor="let char of filteredCharacters | async" [value]="char.fullName">
               <img *ngIf="char.profilePic"
@@ -63,7 +60,7 @@
           </mat-autocomplete>
         </mat-form-field>
 
-        <label id="type-radio-group">Rodzaj występowania:</label>
+        <label id="type-radio-group">{{ 'PAGES_PANEL.STARRING_TYPE' | translate }}</label>
         <mat-radio-group formControlName="starringType" aria-labelledby="type-radio-group"
           class="starring-characters-form__radio-group radio-group">
           <ng-container *ngFor="let gen of StarringType | enumVal">
@@ -75,13 +72,14 @@
 
         <button mat-stroked-button [ngStyle]="{'background': bookColor}" [disabled]="charactersInChapterForm.invalid"
           (click)="createStarringCharacter()">
-          Dodaj postać do części
+          <mat-icon>library_add</mat-icon>
+          {{ 'PAGES_PANEL.ADD_STARRING_CHAR' | translate }}
         </button>
       </form>
 
       <div class="starring-characters">
         <ng-container *ngIf="starringCharacters.length > 0">
-          <span>Obecne występujące postacie:</span>
+          <span>{{ 'PAGES_PANEL.STARRING_CHARS' | translate }}</span>
           <div class="starring-characters__container">
             <mat-card *ngFor="let starringCharacter of starringCharacters" class="starring-char-card">
               <mat-card-header>
@@ -97,14 +95,14 @@
                 <button mat-stroked-button color="warn" (click)="insertDeleteInfo()"
                   (dblclick)="deleteStarringCharacter(starringCharacter.id)">
                   <mat-icon>delete</mat-icon>
-                  Usuń postać z tej części
+                  {{ 'PAGES_PANEL.DELETE_STARRING' | translate }}
                 </button>
               </mat-card-actions>
             </mat-card>
 
           </div>
         </ng-container>
-        <div *ngIf="starringCharacters.length === 0"> Brak występujących postaci w tej części.</div>
+        <div *ngIf="starringCharacters.length === 0"> {{ 'PAGES_PANEL.NO_STARRING_CHARS' | translate }}</div>
       </div>
 
     </div>

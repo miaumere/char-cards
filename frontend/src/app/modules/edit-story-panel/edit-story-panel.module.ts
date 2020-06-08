@@ -1,3 +1,4 @@
+import { TranslateModule } from '@ngx-translate/core';
 import { StoryService } from 'src/app/core/service/story.service';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -55,7 +56,8 @@ import { MatTabsModule } from '@angular/material/tabs';
     MatTreeModule,
     MatListModule,
     MatSidenavModule,
-    MatTabsModule
+    MatTabsModule,
+    TranslateModule
   ],
   providers: [
     StoryService

@@ -164,7 +164,8 @@
     "ADD_STARRING_CHAR": "Dodaj postać do części",
     "STARRING_CHARS": "Obecnie występujące postacie:",
     "DELETE_STARRING": "Usuń postać z tej części",
-    "NO_PAGES_MSG": "Brak stron dla tej części."
+    "NO_PAGES_MSG": "Brak stron dla tej części.",
+    "NO_STARRING_CHARS": "Brak postaci przypisanych do tej części."
   },
   "STATISTICS": {
     "GENDER_CHART_TITLE": "Ilość kobiet i mężczyzn",

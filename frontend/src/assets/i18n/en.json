@@ -131,7 +131,7 @@
     "BOOKS_LIST_TITLE": "Choose a book"
   },
   "CHAPTERS": {
-    "TABLE_OF_CONTESTS": "Table of contests",
+    "TABLE_OF_CONTESTS": "Table of contents",
     "AVAILABLE_CHAPTERS": "Available chapters",
     "GO_TO_CHAPTER": "Go to chapter",
     "PAGES_COUNT": "Pages count:",
@@ -140,31 +140,32 @@
     "NO_PAGES_MSG": "No pages in this chapter."
   },
   "BOOKS_PANEL": {
-    "PREVIEW": "Podgląd",
-    "BOOK_NAME": "Nazwa szkicownika",
-    "BOOK_COLOR": "Kolor szkicownika",
-    "BOOK_ICON": "Ikonka szkicownika",
-    "ADD_BOOK": "Dodaj szkicownik",
-    "EDIT_BOOK": "Edytuj szkicownik",
-    "DELETE_BOOK": "Usuń szkicownik",
-    "CHAPTERS_LIST": "Lista części",
-    "NO_ICON": "Bez ikonki"
+    "PREVIEW": "Preview",
+    "BOOK_NAME": "Book name",
+    "BOOK_COLOR": "Book color",
+    "BOOK_ICON": "Book icon",
+    "ADD_BOOK": "Add book",
+    "EDIT_BOOK": "Edit book",
+    "DELETE_BOOK": "Delete book",
+    "CHAPTERS_LIST": "Chapters list",
+    "NO_ICON": "No icon"
   },
   "CHAPTERS_PANEL": {
-    "CHAPTER_TITLE": "Tytuł części",
-    "CHAPTER_DESC": "Krótki opis części",
-    "NEW_CHAPTER": "Nowa część"
+    "CHAPTER_TITLE": "Chapter title",
+    "CHAPTER_DESC": "Short chapter description",
+    "NEW_CHAPTER": "Add new chapter"
   },
   "PAGES_PANEL": {
-    "EDIT_PAGES": "Edycja stron",
-    "EDIT_CHARS": "Edycja postaci występujących",
-    "ADD_PAGES": "Dodaj nowe strony",
-    "ADD_STARRING_CHAR_MSG": "Dodaj postać, która występuje w części",
-    "STARRING_TYPE": "Rodzaj występowania",
-    "ADD_STARRING_CHAR": "Dodaj postać do części",
-    "STARRING_CHARS": "Obecnie występujące postacie:",
-    "DELETE_STARRING": "Usuń postać z tej części",
-    "NO_PAGES_MSG": "Brak stron dla tej części."
+    "EDIT_PAGES": "Edit pages",
+    "EDIT_CHARS": "Edit starring characters",
+    "ADD_PAGES": "Add new pages",
+    "ADD_STARRING_CHAR_MSG": "Add starring character",
+    "STARRING_TYPE": "Choose starring type",
+    "ADD_STARRING_CHAR": "Add character to chapter",
+    "STARRING_CHARS": "Starring characters:",
+    "DELETE_STARRING": "Delete character from chapter",
+    "NO_PAGES_MSG": "No pages for this chapter.",
+    "NO_STARRING_CHARS": "No starring characters in this chapter."
   },
   "STATISTICS": {
     "GENDER_CHART_TITLE": "Ilość kobiet i mężczyzn",

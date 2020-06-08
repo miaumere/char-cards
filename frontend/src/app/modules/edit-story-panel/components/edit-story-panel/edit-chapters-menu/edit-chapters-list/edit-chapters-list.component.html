@@ -2,11 +2,11 @@
   <div *ngIf="book">
     <form [formGroup]="chapterForm" *ngIf="isNewChapterFormVisible" class="edit-chapters-form">
       <mat-form-field>
-        <mat-label>Tytuł części</mat-label>
-        <input matInput placeholder="Np. Prolog" formControlName="name" required>
+        <mat-label>{{ 'CHAPTERS_PANEL.CHAPTER_TITLE' | translate }}</mat-label>
+        <input matInput formControlName="name" required>
       </mat-form-field>
       <mat-form-field class="edit-chapters-form__textarea">
-        <mat-label>Krótki opis części</mat-label>
+        <mat-label>{{ 'CHAPTERS_PANEL.CHAPTER_DESC' | translate }}</mat-label>
         <textarea matInput maxlength="255" style="width: 15rem;" formControlName="chapterDesc" required
           class="edit-chapters-form__textarea"></textarea>
       </mat-form-field>
@@ -16,13 +16,13 @@
       <button mat-raised-button [ngStyle]="{'background': book.color, 'color': fontColor}"
         [disabled]="chapterForm.invalid" (click)="createNewChapter()" style="margin-right: 1rem">
         <mat-icon>library_add</mat-icon>
-        Nowa część
+        {{ 'CHAPTERS_PANEL.NEW_CHAPTER' | translate }}
       </button>
 
       <button mat-raised-button [ngStyle]="{'background': book.color, 'color': fontColor}"
         [disabled]="chapterForm.invalid || !editedChapter" (click)="editChapter()">
         <mat-icon>library_add</mat-icon>
-        Edytuj
+        {{ 'SHARED.EDIT' | translate }}
       </button>
 
     </div>
@@ -41,7 +41,7 @@
           <mat-card-subtitle>{{chapter.chapterDesc}}</mat-card-subtitle>
         </mat-card-header>
         <p>
-          Ilość stron: {{chapter.pagesIds?.length}}
+          {{ 'CHAPTERS.PAGES_COUNT' | translate }} {{chapter.pagesIds?.length}}
         </p>
         <mat-card-actions class="chapter-buttons-container">
           <button mat-mini-fab [ngStyle]="{'background': book.color, 'color': fontColor}"
@@ -66,7 +66,6 @@
     </div>
   </div>
   <span *ngIf="chapters.length === 0">
-
-    Brak części dla tego szkicownika.
+    {{ 'CHAPTERS.NO_CHAPTERS_MSG' | translate }}
   </span>
 </div>
