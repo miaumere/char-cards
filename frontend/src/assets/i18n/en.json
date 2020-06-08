@@ -2,7 +2,7 @@
   "SHARED": {
     "RETURN": "Return",
     "EDIT": "Edit",
-    "FILE_INPUT": "Chosen {{num}} files",
+    "FILE_INPUT": "{{num}} files chosen",
     "NEXT": "Next",
     "PREVIOUS": "Previous",
     "CHOOSE_FILE": "Choose file",
@@ -109,22 +109,23 @@
     "NO_STORIES": "No stories for this character."
   },
   "EDIT_QUOTES": {
-    "EDIT_QUOTES_MSG": "Uzupełnij poniższe pola, aby dodać nowy cytat:",
-    "QUOTE_CONTENT": "Treść cytatu",
-    "QUOTE_CONTEXT": "Kontekst cytatu",
-    "ADD_QUOTE": "Dodaj cytat",
-    "DELETE_QUOTE": "Usuń cytat",
-    "EDIT_QUOTE": "Edytuj cytat"
+    "EDIT_QUOTES_MSG": "Fill fields below in order to add new quote:",
+    "QUOTE_CONTENT": "Quote content",
+    "QUOTE_CONTEXT": "Quote context",
+    "ADD_QUOTE": "Add quote",
+    "DELETE_QUOTE": "Delete quote",
+    "EDIT_QUOTE": "Edit quote",
+    "NO_QUOTES": "No quotes for this character."
   },
   "EDIT_RELATIONS": {
-    "RELATIONS_TITLE": "Dostępne relacje:",
-    "CHARACTER1": "Postać 1",
-    "CHARACTER2": "Postać 2",
-    "RELATION_TYPE_TITLE": "Kim jest postać 1:",
-    "REVERSED_RELATION_TYPE_TITLE": "Kim jest postać 2:",
-    "CHARACTER2_TITLE": "Dla kogo:",
-    "NO_RELATIONS_MSG": "Brak relacji dla tej postaci.",
-    "ADD_RELATIONS": "Dodaj relację"
+    "RELATIONS_TITLE": "Available relations:",
+    "CHARACTER1": "Character 1",
+    "CHARACTER2": "Character 2",
+    "RELATION_TYPE_TITLE": "Who character 1 is?",
+    "REVERSED_RELATION_TYPE_TITLE": "Who character 2 is?",
+    "CHARACTER2_TITLE": "For whom?",
+    "NO_RELATIONS_MSG": "No relations for this character.",
+    "ADD_RELATIONS": "Add relation"
   },
   "BOOKS_LIST": {
     "BOOKS_LIST_TITLE": "Choose a book"

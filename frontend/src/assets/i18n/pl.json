@@ -114,7 +114,8 @@
     "QUOTE_CONTEXT": "Kontekst cytatu",
     "ADD_QUOTE": "Dodaj cytat",
     "DELETE_QUOTE": "Usuń cytat",
-    "EDIT_QUOTE": "Edytuj cytat"
+    "EDIT_QUOTE": "Edytuj cytat",
+    "NO_QUOTES": "Podana postać nie ma żadnych cytatów."
   },
   "EDIT_RELATIONS": {
     "RELATIONS_TITLE": "Dostępne relacje:",

@@ -1,20 +1,25 @@
 <div class="quotes">
   <div class="quotes__container quotes__container--form">
     <form class="quotes__new-quote-form new-quote-form" [formGroup]="newQuoteForm">
-      <h2>Uzupełnij poniższe pola, aby dodać nowy cytat:</h2>
+      <h2>
+        {{ 'EDIT_QUOTES.EDIT_QUOTES_MSG' | translate }}
+      </h2>
       <mat-form-field>
-        <mat-label>Treść cytatu</mat-label>
+        <mat-label> {{ 'EDIT_QUOTES.QUOTE_CONTENT' | translate }}
+        </mat-label>
         <textarea matInput required maxlength="2000" spellcheck="false" formControlName="quote"
           class="new-quote-form__textarea"></textarea>
       </mat-form-field>
 
       <mat-form-field>
-        <mat-label>Kontekst cytatu</mat-label>
+        <mat-label> {{ 'EDIT_QUOTES.QUOTE_CONTEXT' | translate }}
+        </mat-label>
         <input matInput type="text" formControlName="context" />
       </mat-form-field>
 
       <button mat-raised-button color="accent" [disabled]="newQuoteForm.invalid" (click)="createNewQuote()">
-        <mat-icon>library_add</mat-icon>Dodaj cytat
+        <mat-icon>library_add</mat-icon> {{ 'EDIT_QUOTES.ADD_QUOTE' | translate }}
+
       </button>
     </form>
   </div>
@@ -30,11 +35,12 @@
       <mat-card-actions>
         <div class="buttons-box">
           <button mat-mini-fab color="warn" (click)="insertDeleteInfo()" (dblclick)="deleteQuote(quote.id)"
-            matTooltip="Usuń cytat">
+            [matTooltip]="'EDIT_QUOTES.DELETE_QUOTE' | translate
+            ">
             <mat-icon>delete</mat-icon>
           </button>
 
-          <button mat-mini-fab matTooltip="Edytuj cytat"
+          <button mat-mini-fab [matTooltip]="'EDIT_QUOTES.EDIT_QUOTE' | translate"
             (click)="editQuote(quote.id, quoteEl, contextEl, quoteContainer)">
             <mat-icon>edit</mat-icon>
           </button>
@@ -44,6 +50,7 @@
   </div>
 
   <div *ngIf="quotes?.length === 0" style="margin-top: 1rem">
-    Podana postać nie ma żadnych cytatów.
+    {{ 'EDIT_QUOTES.NO_QUOTES' | translate }}
+
   </div>
 </div>
