@@ -91,7 +91,7 @@ export class CharacterImagesComponent extends BaseComponent implements OnInit {
   }
 
   insertDeleteInfo() {
-    this._toastrService.warning('Aby usunąć wybrany element, naciśnij dwa razy.');
+    this._toastrService.warning(this._translate.instant('TOASTR_MESSAGE.DELETE_INFO'));
   }
 
   deleteCharacterImage(imageId: number) {
@@ -105,10 +105,10 @@ export class CharacterImagesComponent extends BaseComponent implements OnInit {
             this.loading = false;
           })
         ).subscribe(_ => {
-          this._toastrService.success('Udało się usunąć zdjęcie!');
+          this._toastrService.success(this._translate.instant('TOASTR_MESSAGE.SAVE_SUCCESS'));
           this.getCharacterImages();
         }, err => {
-          this._toastrService.error(err?.error);
+          this._toastrService.error(this._translate.instant('TOASTR_MESSAGE.ERROR'));
         })
     );
 
@@ -165,16 +165,14 @@ export class CharacterImagesComponent extends BaseComponent implements OnInit {
           })
         )
         .subscribe(_ => {
-          this._toastrService.success('Udało się zmienić zdjęcia dla postaci!');
+          this._toastrService.success(this._translate.instant('TOASTR_MESSAGE.SAVE_SUCCESS'));
           this.getCharacterImages();
           this.imgURLList = [];
           this.filesListNumber = 0;
           this.isProfilePicChosen = false;
         },
           err => {
-            if (err?.error) {
-              this._toastrService.error(err.error);
-            }
+            this._toastrService.error(this._translate.instant('TOASTR_MESSAGE.ERROR'))
           })
     );
   }
@@ -185,7 +183,7 @@ export class CharacterImagesComponent extends BaseComponent implements OnInit {
       imageElement.setAttribute('contentEditable', 'true');
       imageElement.classList.add('profile-pic-name--editable');
 
-      this._toastrService.info('Aby zapisać zmianę, naciśnij jeszcze raz na ikonkę edycji.');
+      this._toastrService.info(this._translate.instant('TOASTR_MESSAGE.DBLCLICK_INFO'));
     } else {
       if (imageElement.textContent) {
         const objToSend = new EditImageName();
@@ -199,14 +197,14 @@ export class CharacterImagesComponent extends BaseComponent implements OnInit {
                 this.loading = false;
               })
             ).subscribe(_ => {
-              this._toastrService.success('Udało się zmienić nazwę zdjęcia!');
+              this._toastrService.success(this._translate.instant('TOASTR_MESSAGE.SAVE_SUCCESS'));
               this.getCharacterImages();
             }, err => {
-              this._toastrService.error(err?.error);
+              this._toastrService.error(this._translate.instant('TOASTR_MESSAGE.ERROR'));
             })
         );
       } else {
-        this._toastrService.warning('Nazwa obrazka nie może być pusta.');
+        this._toastrService.warning(this._translate.instant('TOASTR_MESSAGE.IMG_NAME_WARN'));
       }
     }
   }

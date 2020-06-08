@@ -182,7 +182,17 @@
     "AGE_UNKNOWN": "Nieznany"
   },
   "TOASTR_MESSAGE": {
-    "ERROR": "Wystąpił błąd."
+    "ERROR": "Wystąpił błąd.",
+    "LOGIN_SUCCESS": "Udało się zalogować.",
+    "LOGOUT_SUCCESS": "Wylogowano użytkownika.",
+    "SAVE_SUCCESS": "Zmiany zostały zapisane.",
+    "DELETE_INFO": "Aby usunąć wybrany element - naciśnij dwa razy.",
+    "DBLCLICK_INFO": "Aby zapisać zmiany - naciśnij dwa razy.",
+    "IMG_NAME_WARN": "Nazwa obrazka nie może być pusta!",
+    "QUOTE_NAME_WARN": "Treść cytatu nie może być pusta!",
+    "NO_RELATION_TYPE": "Nie uzupełniono typu relacji.",
+    "NO_CHARACTER": "Błąd walidacji! <br/> Postać nie istnieje.",
+    "EMPTY_FIELDS": "Uzupełnij wszystkie pola!"
   },
   "enum": {
     "charType": {

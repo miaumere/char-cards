@@ -1,3 +1,4 @@
+import { TranslateService } from '@ngx-translate/core';
 
 import { AuthService } from '../../../../core/service/auth.service';
 import { Component, OnInit } from '@angular/core';
@@ -22,7 +23,8 @@ export class LoginComponent extends BaseComponent implements OnInit {
   constructor(
     private _authService: AuthService,
     private _toastr: ToastrService,
-    private _router: Router
+    private _router: Router,
+    private _translate: TranslateService
   ) {
     super()
   }
@@ -36,12 +38,12 @@ export class LoginComponent extends BaseComponent implements OnInit {
     user.password = this.loginForm.controls['password'].value;
 
     this._authService.login(user).subscribe(_ => {
-      this._toastr.success('Logowanie zakończone powodzeniem.');
+      this._toastr.success(this._translate.instant('TOASTR_MESSAGE.LOGIN_SUCCESS'));
       this._router.navigateByUrl('/admin-panel');
 
     },
       err => {
-        this._toastr.error('Nie udało się zalogować.');
+        this._toastr.error(this._translate.instant('TOASTR_MESSAGE.ERROR'));
       }
     )
 

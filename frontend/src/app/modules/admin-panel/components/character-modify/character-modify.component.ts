@@ -1,3 +1,4 @@
+import { TranslateService } from '@ngx-translate/core';
 import { IMeasurements } from 'src/app/modules/characters/models/measurements.model';
 import { Measurements } from './../../../characters/models/measurements.model';
 import { Temperament } from './../../../characters/models/temperament.model';
@@ -173,7 +174,8 @@ export class CharacterModifyComponent extends BaseComponent implements OnInit {
     private _charactersService: CharactersService,
     private _route: Router,
     private _activatedRoute: ActivatedRoute,
-    private _countriesService: CountriesService
+    private _countriesService: CountriesService,
+    private _translate: TranslateService
   ) { super(); }
 
   ngOnInit() {
@@ -363,13 +365,11 @@ export class CharacterModifyComponent extends BaseComponent implements OnInit {
           this._charactersService
             .postNewCharacter(character)
             .subscribe(_ => {
-              this._toastrService.success('Udało się dodać nową postać!');
+              this._toastrService.success(this._translate.instant('TOASTR_MESSAGE.SAVE_SUCCESS'));
               this._route.navigate(['./admin-panel']);
             },
               err => {
-                if (err && err.error) {
-                  this._toastrService.error(err.error);
-                }
+                this._toastrService.error(this._translate.instant('TOASTR_MESSAGE.ERROR'))
               })
         );
         break;
@@ -384,11 +384,11 @@ export class CharacterModifyComponent extends BaseComponent implements OnInit {
               })
             )
             .subscribe(_ => {
-              this._toastrService.success('Udało się zmienić dane o postaci!');
+              this._toastrService.success(this._translate.instant('TOASTR_MESSAGE.SAVE_SUCESS'));
               this.getCharacterDetails();
             },
               err => {
-                this._toastrService.error(err.error);
+                this._toastrService.error(this._translate.instant('TOASTR_MESSAGE.ERROR'));
               })
         );
         break;

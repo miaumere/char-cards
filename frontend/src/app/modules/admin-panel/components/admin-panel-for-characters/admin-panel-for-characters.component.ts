@@ -1,3 +1,4 @@
+import { TranslateService } from '@ngx-translate/core';
 import { CharacterForChange } from '../../models/character-for-change.model';
 import { ToastrService } from 'ngx-toastr';
 import { CharactersService } from '../../../../core/service/characters.service';
@@ -23,7 +24,9 @@ export class AdminPanelForCharactersComponent extends BaseComponent implements O
   loading = true;
   constructor(
     private _charactersService: CharactersService,
-    private _toastrService: ToastrService) {
+    private _toastrService: ToastrService,
+    private _translate: TranslateService
+  ) {
     super();
   }
 
@@ -60,13 +63,11 @@ export class AdminPanelForCharactersComponent extends BaseComponent implements O
         this._charactersService
           .patchCharacterState(new CharacterForChange(id, !matchingChar.archived))
           .subscribe(_ => {
-            this._toastrService.success('Udało się zmienić stan zaznaczonej postaci.');
+            this._toastrService.success(this._translate.instant('TOASTR_MESSAGE.SAVE_SUCCESS'));
             this.getAllCharacters();
           },
             err => {
-              if (err && err.error) {
-                this._toastrService.error(err.error);
-              }
+              this._toastrService.error(this._translate.instant('TOASTR_MESSAGE.ERROR'))
             })
       )
     }

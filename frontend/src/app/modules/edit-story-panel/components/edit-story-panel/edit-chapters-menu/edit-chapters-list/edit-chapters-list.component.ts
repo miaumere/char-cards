@@ -1,3 +1,4 @@
+import { TranslateService } from '@ngx-translate/core';
 import { Component, OnInit } from '@angular/core';
 import { BaseComponent } from 'src/app/core/base.component';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
@@ -38,7 +39,8 @@ export class EditChaptersListMenuComponent extends BaseComponent implements OnIn
   constructor(
     private _activatedRoute: ActivatedRoute,
     private _storyService: StoryService,
-    private _toastrService: ToastrService
+    private _toastrService: ToastrService,
+    private _translate: TranslateService
   ) { super(); }
 
   ngOnInit() {
@@ -102,11 +104,11 @@ export class EditChaptersListMenuComponent extends BaseComponent implements OnIn
       this._storyService
         .editChapter(objToSend)
         .subscribe(_ => {
-          this._toastrService.success('Udało się dodać nową część!');
+          this._toastrService.success(this._translate.instant('TOASTR_MESSAGE.SAVE_SUCCESS'));
           this.chapterForm.reset();
           this.getChapters();
         }, err => {
-          this._toastrService.error('Nie udało się dodać nowej części.');
+          this._toastrService.error(this._translate.instant('TOASTR_MESSAGE.ERROR'));
         })
 
     );
@@ -128,10 +130,10 @@ export class EditChaptersListMenuComponent extends BaseComponent implements OnIn
         this._storyService
           .editChapter(objToSend)
           .subscribe(_ => {
-            this._toastrService.success('Udało się edytować część!');
+            this._toastrService.success(this._translate.instant('TOASTR_MESSAGE.SAVE_SUCCESS'));
             this.getChapters();
           }, err => {
-            this._toastrService.error('Nie udało się edytować części.');
+            this._toastrService.error(this._translate.instant('TOASTR_MESSAGE.ERROR'));
           })
 
       );
@@ -146,7 +148,7 @@ export class EditChaptersListMenuComponent extends BaseComponent implements OnIn
   }
 
   insertDeleteInfo() {
-    this._toastrService.warning('Aby usunąć część, naciśnij dwa razy.');
+    this._toastrService.warning(this._translate.instant('TOASTR_MESSAGE.DELETE_INFO'));
   }
 
   deleteChapter(id: number) {
@@ -154,10 +156,10 @@ export class EditChaptersListMenuComponent extends BaseComponent implements OnIn
       this._storyService
         .deleteChapter(id)
         .subscribe(_ => {
-          this._toastrService.success('Udało się usunąć część!');
+          this._toastrService.success(this._translate.instant('TOASTR_MESSAGE.SAVE_SUCCESS'));
           this.getChapters();
         }, err => {
-          this._toastrService.error('Nie udało się usunąć części.');
+          this._toastrService.error(this._translate.instant('TOASTR_MESSAGE.ERROR'));
         })
 
     );
@@ -182,7 +184,7 @@ export class EditChaptersListMenuComponent extends BaseComponent implements OnIn
         .subscribe(_ => {
           this.getChapters();
         }, err => {
-          this._toastrService.error('Nie udało się zmienić kolejności części.');
+          this._toastrService.error(this._translate.instant('TOASTR_MESSAGE.ERROR'));
         })
     );
 

@@ -1,3 +1,4 @@
+import { TranslateService } from '@ngx-translate/core';
 import { ActivatedRoute } from '@angular/router';
 import { EditStory } from './../../models/character-story/story-to-edit.model';
 import { ToastrService } from 'ngx-toastr';
@@ -56,7 +57,9 @@ export class CharacterStoriesComponent extends BaseComponent implements OnInit {
     private _charactersService: CharactersService,
     private _toastrService: ToastrService,
     private _activatedRoute: ActivatedRoute,
-    public dialog: MatDialog) { super(); }
+    private _translate: TranslateService,
+    public dialog: MatDialog
+  ) { super(); }
 
   ngOnInit() {
     this._activatedRoute?.parent?.queryParams
@@ -86,7 +89,7 @@ export class CharacterStoriesComponent extends BaseComponent implements OnInit {
           this.getStories();
 
         }, err => {
-          this._toastrService.error('Nie udało się zmienić kolejności historii.');
+          this._toastrService.error(this._translate.instant('TOASTR_MESSAGE.ERROR'));
         })
     )
   }
@@ -104,7 +107,7 @@ export class CharacterStoriesComponent extends BaseComponent implements OnInit {
   }
 
   insertDeleteInfo() {
-    this._toastrService.warning('Aby usunąć wybrany element, naciśnij dwa razy.');
+    this._toastrService.warning(this._translate.instant('TOASTR_MESSAGE.DELETE_INFO'));
   }
 
   deleteStory(storyId: number) {
@@ -112,10 +115,10 @@ export class CharacterStoriesComponent extends BaseComponent implements OnInit {
       this._charactersService
         .deleteStory(storyId)
         .subscribe(_ => {
-          this._toastrService.success('Udało się usunąć wybraną historię!');
+          this._toastrService.success(this._translate.instant('TOASTR_MESSAGE.SAVE_SUCCESS'));
           this.getStories();
         }, err => {
-          this._toastrService.error('Nie udało się usunąć wybranej historii.')
+          this._toastrService.error(this._translate.instant('TOASTR_MESSAGE.ERROR'))
         })
     )
   }
@@ -137,17 +140,17 @@ export class CharacterStoriesComponent extends BaseComponent implements OnInit {
           objToSend.title = result.title;
 
           if (objToSend.desc?.length === 0 || objToSend.title?.length === 0) {
-            this._toastrService.warning('Uzupełnij wszystkie pola.');
+            this._toastrService.warning(this._translate.instant('TOASTR_MESSAGE.EMPTY_FIELDS'));
             return;
           }
 
           this.subscriptions$.add(
             this._charactersService.
               patchStory(objToSend).subscribe(_ => {
-                this._toastrService.success('Udało się zmienić historię!');
+                this._toastrService.success(this._translate.instant('TOASTR_MESSAGE.SAVE_SUCCESS'));
                 this.getStories();
               }, err => {
-                this._toastrService.error('Nie udało się zmienić historii.');
+                this._toastrService.error(this._translate.instant('TOASTR_MESSAGE.ERROR'));
               })
           )
         }
@@ -170,12 +173,12 @@ export class CharacterStoriesComponent extends BaseComponent implements OnInit {
       this._charactersService
         .postStoryForCharacter(objToSend)
         .subscribe(_ => {
-          this._toastrService.success('Udało się dodać nową historię!');
+          this._toastrService.success(this._translate.instant('TOASTR_MESSAGE.SAVE_SUCCESS'));
           this.getStories();
           this.newStoryForm.reset();
         },
           err => {
-            this._toastrService.error('Nie udało się dodać historii.');
+            this._toastrService.error(this._translate.instant('TOASTR_MESSAGE.ERROR'));
           }));
   }
 }

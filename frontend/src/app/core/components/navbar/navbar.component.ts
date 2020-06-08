@@ -46,10 +46,6 @@ export class NavbarComponent extends BaseComponent implements OnInit {
 
     translate.addLangs(['en', 'pl']);
     translate.setDefaultLang('en');
-
-
-    // const lang = translate.getDefaultLang();
-    // translate.use(lang.match(/en|pl/) ? lang : 'en');
   }
 
   ngOnInit() {
@@ -57,12 +53,12 @@ export class NavbarComponent extends BaseComponent implements OnInit {
 
   logout() {
     this._authService.logout().subscribe(_ => {
-      this._toastr.success('Wylogowano użytkownika.');
+      this._toastr.success(this.translate.instant('TOASTR_MESSAGE.LOGOUT_SUCCESS'));
       this._route.navigate(['/main']);
 
     },
       () => {
-        this._toastr.error('Nie udało się wylogować użytkownika.');
+        this._toastr.error(this.translate.instant('TOASTR_MESSAGE.ERROR'));
       }
     );
   }

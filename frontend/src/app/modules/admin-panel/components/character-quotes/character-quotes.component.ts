@@ -1,3 +1,4 @@
+import { TranslateService } from '@ngx-translate/core';
 import { CharacterItem } from './../../../characters/models/character-item.model';
 import { Component, OnInit } from '@angular/core';
 import { BaseComponent } from 'src/app/core/base.component';
@@ -34,6 +35,7 @@ export class CharacterQuotesComponent extends BaseComponent implements OnInit {
     private _toastrService: ToastrService,
     private _characterService: CharactersService,
     private _activatedRoute: ActivatedRoute,
+    private _translate: TranslateService
   ) { super(); }
 
   ngOnInit() {
@@ -65,12 +67,12 @@ export class CharacterQuotesComponent extends BaseComponent implements OnInit {
             this.loading = false;
           })
         ).subscribe(_ => {
-          this._toastrService.success('Udało się dodać nowy cytat!');
+          this._toastrService.success(this._translate.instant('TOASTR_MESSAGE.SAVE_SUCCESS'));
           this.getQuotes();
           this.newQuoteForm.reset();
         },
           err => {
-            this._toastrService.error(err?.error);
+            this._toastrService.error(this._translate.instant('TOASTR_MESSAGE.ERROR'));
           }));
   }
 
@@ -100,10 +102,10 @@ export class CharacterQuotesComponent extends BaseComponent implements OnInit {
           this.loading = false;
         })
       ).subscribe(_ => {
-        this._toastrService.success('Usunięto wybrany cytat.');
+        this._toastrService.success(this._translate.instant('TOASTR_MESSAGE.SAVE_SUCCESS'));
         this.getQuotes();
       }, err => {
-        this._toastrService.error(err?.error);
+        this._toastrService.error(this._translate.instant('TOASTR_MESSAGE.ERROR'));
       });
   }
 
@@ -113,7 +115,7 @@ export class CharacterQuotesComponent extends BaseComponent implements OnInit {
       contextEl.setAttribute('contentEditable', 'true');
       quoteContainer.classList.add('quote--editable');
 
-      this._toastrService.info('Aby zapisać zmianę, naciśnij jeszcze raz na ikonkę edycji.');
+      this._toastrService.info(this._translate.instant('TOASTR_MESSAGE.DBLCLICK_INFO'));
     } else {
       if (quoteElement.textContent && contextEl.textContent) {
         contextEl.removeAttribute('contentEditable');
@@ -135,15 +137,15 @@ export class CharacterQuotesComponent extends BaseComponent implements OnInit {
               })
             ).subscribe(
               _ => {
-                this._toastrService.success('Udało się zmienić cytat!');
+                this._toastrService.success(this._translate.instant('TOASTR_MESSAGE.SAVE_SUCCESS'));
                 this.getQuotes();
               },
               err => {
-                this._toastrService.error(err?.error);
+                this._toastrService.error(this._translate.instant('TOASTR_MESSAGE.ERROR'));
               })
         );
       } else {
-        this._toastrService.warning('Treść cytatu i kontekst nie mogą być puste!');
+        this._toastrService.warning(this._translate.instant('TOASTR_MESSAGE.QUOTE_NAME_WARN'));
       }
     }
 

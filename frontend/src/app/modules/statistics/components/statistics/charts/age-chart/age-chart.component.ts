@@ -69,7 +69,6 @@ export class AgeChartComponent extends BaseComponent implements OnInit {
     let allCharsNum = 0;
     for (const ageStat of this.ageStatistics) {
       allCharsNum += ageStat.count;
-      console.log(ageStat)
       if (ageStat.label === 'Nieznany') {
         ageStat.label = this.translate.instant('STATISTICS.AGE_UNKNOWN');
       }

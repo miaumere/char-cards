@@ -1,3 +1,4 @@
+import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { AvailableIcons } from './../../../enums/AvailableIcons.enum';
 import { StoryService } from './../../../../../core/service/story.service';
@@ -32,7 +33,8 @@ export class EditStoryMenuComponent extends BaseComponent implements OnInit {
 
   constructor(
     private _storyService: StoryService,
-    private _toastrService: ToastrService
+    private _toastrService: ToastrService,
+    private _translate: TranslateService
   ) {
     super();
   }
@@ -63,15 +65,15 @@ export class EditStoryMenuComponent extends BaseComponent implements OnInit {
     this._storyService
       .createBook(objToSend)
       .subscribe(_ => {
-        this._toastrService.success('Udało się dodać nowy szkicownik!');
+        this._toastrService.success(this._translate.instant('TOASTR_MESSAGE.SAVE_SUCCESS'));
         this.getAllBooks();
       }, err => {
-        this._toastrService.error('Nie udało się dodać nowego szkicownika.');
+        this._toastrService.error(this._translate.instant('TOASTR_MESSAGE.ERROR'));
       })
   }
 
   insertDeleteInfo() {
-    this._toastrService.warning('Aby usunąć wybrany szkicownik, naciśnij dwa razy.');
+    this._toastrService.warning(this._translate.instant('TOASTR_MESSAGE.DELETE_INFO'));
   }
 
   deleteBook(bookId: number) {
@@ -79,10 +81,10 @@ export class EditStoryMenuComponent extends BaseComponent implements OnInit {
       this._storyService
         .deleteBook(bookId)
         .subscribe(_ => {
-          this._toastrService.success('Udało się usunąć wybrany szkicownik.');
+          this._toastrService.success(this._translate.instant('TOASTR_MESSAGE.SAVE_SUCCESS'));
           this.getAllBooks();
         }, err => {
-          this._toastrService.error('Nie udało się usunąć wybranego szkicownika.')
+          this._toastrService.error(this._translate.instant('TOASTR_MESSAGE.ERROR'))
         })
 
     )
@@ -107,10 +109,10 @@ export class EditStoryMenuComponent extends BaseComponent implements OnInit {
       this._storyService
         .putEditBook(objToSend)
         .subscribe(_ => {
-          this._toastrService.success('Udało się edytować szkicownik!');
+          this._toastrService.success(this._translate.instant('TOASTR_MESSAGE.SAVE_SUCCESS'));
           this.getAllBooks();
         }, err => {
-          this._toastrService.error('Wystąpił błąd przy edycji szkicownika.')
+          this._toastrService.error(this._translate.instant('TOASTR_MESSAGE.ERROR'))
         })
 
     )
@@ -135,7 +137,7 @@ export class EditStoryMenuComponent extends BaseComponent implements OnInit {
       .subscribe(_ => {
         this.getAllBooks();
       }, err => {
-        this._toastrService.success('Nie udało się zmienić kolejności szkicowników.');
+        this._toastrService.success(this._translate.instant('TOASTR_MESSAGE.ERROR'));
       })
 
   }

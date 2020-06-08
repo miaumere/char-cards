@@ -182,7 +182,17 @@
     "AGE_UNKNOWN": "Age unknown"
   },
   "TOASTR_MESSAGE": {
-    "ERROR": "An error has occured."
+    "ERROR": "An error has occured.",
+    "LOGIN_SUCCESS": "User successfully logged in",
+    "LOGOUT_SUCCESS": "User successfully logged out.",
+    "SAVE_SUCCESS": "Changes were successfully saved.",
+    "DELETE_INFO": "To delete element - double click on delete button.",
+    "DBLCLICK_INFO": "To save changes - double click on button",
+    "IMG_NAME_WARN": "Image name can't be empty!",
+    "QUOTE_NAME_WARN": "Quote name can't be empty!",
+    "NO_RELATION_TYPE": "Relation type is empty!",
+    "NO_CHARACTER": "Validation error! <br/> Character does not exist.",
+    "EMPTY_FIELDS": "Fill all fields!"
   },
   "enum": {
     "charType": {

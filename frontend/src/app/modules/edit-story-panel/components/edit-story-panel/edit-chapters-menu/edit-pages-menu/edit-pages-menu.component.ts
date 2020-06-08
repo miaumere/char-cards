@@ -1,3 +1,4 @@
+import { TranslateService } from '@ngx-translate/core';
 import { StarringType } from './../../../../enums/StarringType.enum';
 import { StarringCharacter, IStarringCharacter } from './../../../../models/starring/starring-character.model';
 import { CharactersService } from './../../../../../../core/service/characters.service';
@@ -54,7 +55,8 @@ export class EditPagesMenuComponent extends BaseComponent implements OnInit {
     private _activatedRoute: ActivatedRoute,
     private _storyService: StoryService,
     private _toastrService: ToastrService,
-    private _characterService: CharactersService
+    private _characterService: CharactersService,
+    private _translate: TranslateService
   ) { super(); }
 
   ngOnInit() {
@@ -141,7 +143,7 @@ export class EditPagesMenuComponent extends BaseComponent implements OnInit {
   }
 
   insertDeleteInfo() {
-    this._toastrService.warning('Aby usunąć element, naciśnij dwa razy.');
+    this._toastrService.warning(this._translate.instant('TOASTR_MESSAGE.DBLCLICK_INFO'));
   }
 
   onFileInput(fileList: FileList) {
@@ -168,7 +170,7 @@ export class EditPagesMenuComponent extends BaseComponent implements OnInit {
         .subscribe(_ => {
           this.getChapter(this.chapterId);
         }, err => {
-          this._toastrService.error('Nie udało się zmienić kolejności stron.');
+          this._toastrService.error(this._translate.instant('TOASTR_MESSAGE.ERROR'));
         })
     );
   }
@@ -186,10 +188,10 @@ export class EditPagesMenuComponent extends BaseComponent implements OnInit {
         .postPages(
           formData, this.chapterId
         ).subscribe(_ => {
-          this._toastrService.success('Udało się dodać nowe strony!');
+          this._toastrService.success(this._translate.instant('TOASTR_MESSAGE.SAVE_SUCCESS'));
           this.getChapter(this.chapterId);
         }, err => {
-          this._toastrService.error('Nie udało się dodać nowych stron.');
+          this._toastrService.error(this._translate.instant('TOASTR_MESSAGE.ERROR'));
         })
     );
 
@@ -214,11 +216,11 @@ export class EditPagesMenuComponent extends BaseComponent implements OnInit {
             .postStarringCharacters(
               objToSend
             ).subscribe(_ => {
-              this._toastrService.success('Udało się dodać postać do części!');
+              this._toastrService.success(this._translate.instant('TOASTR_MESSAGE.SAVE_SUCCESS'));
               this.charactersInChapterForm.reset();
               this.getStarringCharactersForChapter();
             }, err => {
-              this._toastrService.error('Nie udało się dodać postaci do części.');
+              this._toastrService.error(this._translate.instant('TOASTR_MESSAGE.ERROR'));
             })
         );
       }
@@ -234,10 +236,10 @@ export class EditPagesMenuComponent extends BaseComponent implements OnInit {
       this._storyService
         .deletePage(pageId)
         .subscribe(_ => {
-          this._toastrService.success('Udało się usunąć wybraną stronę!');
+          this._toastrService.success(this._translate.instant('TOASTR_MESSAGE.SAVE_SUCCESS'));
           this.getChapter(this.chapterId);
         }, err => {
-          this._toastrService.error('Nie udało się usunąć wybranej części.');
+          this._toastrService.error(this._translate.instant('TOASTR_MESSAGE.ERROR'));
         })
     );
   }
@@ -247,10 +249,10 @@ export class EditPagesMenuComponent extends BaseComponent implements OnInit {
       this._storyService
         .deleteCharFromChapter(starringId)
         .subscribe(_ => {
-          this._toastrService.success('Udało się usunąć postać z części!');
+          this._toastrService.success(this._translate.instant('TOASTR_MESSAGE.SAVE_SUCCESS'));
           this.getStarringCharactersForChapter();
         }, err => {
-          this._toastrService.error('Nie udało się usunąć postaci z części.');
+          this._toastrService.error(this._translate.instant('TOASTR_MESSAGE.ERROR'));
         })
     );
   }

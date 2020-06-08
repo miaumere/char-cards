@@ -1,3 +1,4 @@
+import { TranslateService } from '@ngx-translate/core';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -70,6 +71,7 @@ export class CharacterRelationsComponent extends BaseComponent implements OnInit
     private _toastrService: ToastrService,
     private _characterService: CharactersService,
     private _activatedRoute: ActivatedRoute,
+    private _translate: TranslateService
   ) {
     super();
 
@@ -203,10 +205,10 @@ export class CharacterRelationsComponent extends BaseComponent implements OnInit
     const reverseRelation = this.relationForm.get('reverseRelation')?.value;
 
     if (!firstChar || !secondChar) {
-      this._toastrService.error('Błąd walidacji. Co najmniej jedna z podanych postaci nie istnieje.');
+      this._toastrService.error(this._translate.instant('TOASTR_MESSAGE.NO_CHARACTER'));
       return;
     } else if (relation === null || reverseRelation === null) {
-      this._toastrService.error('Nie uzupełniono typu relacji.');
+      this._toastrService.error(this._translate.instant('TOASTR_MESSAGE.NO_RELATION_TYPE'));
       return;
     }
 
@@ -225,10 +227,10 @@ export class CharacterRelationsComponent extends BaseComponent implements OnInit
           this.loading = false;
         })
       ).subscribe(_ => {
-        this._toastrService.success('Udało się dodać nową relację.');
+        this._toastrService.success(this._translate.instant('TOASTR_MESSAGE.SAVE_SUCCESS'));
         this.relationForm.reset();
       }, error => {
-        this._toastrService.error(error.error);
+        this._toastrService.error(this._translate.instant('TOASTR_MESSAGE.ERROR'));
       })
     );
     console.warn(request);
@@ -278,10 +280,10 @@ export class CharacterRelationsComponent extends BaseComponent implements OnInit
           })
         )
         .subscribe(_ => {
-          this._toastrService.success('Udało się edytować relację.');
+          this._toastrService.success(this._translate.instant('TOASTR_MESSAGE.SAVE_SUCCESS'));
           this.getRelationshipsForCharacter();
         }, err => {
-          this._toastrService.error('Nie udało się edytować relacji.');
+          this._toastrService.error(this._translate.instant('TOASTR_MESSAGE.ERROR'));
         })
     )
   }
@@ -297,10 +299,10 @@ export class CharacterRelationsComponent extends BaseComponent implements OnInit
             this.loading = false;
           })
         ).subscribe(_ => {
-          this._toastrService.success('Udało się usunąć relację!');
+          this._toastrService.success(this._translate.instant('TOASTR_MESSAGE.SAVE_SUCCESS'));
           this.getRelationshipsForCharacter();
         }, err => {
-          this._toastrService.error('Nie udało się usunąć relacji.');
+          this._toastrService.error(this._translate.instant('TOASTR_MESSAGE.ERROR'));
         })
     );
 
