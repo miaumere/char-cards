@@ -72,10 +72,7 @@
       <button (click)="translate.use(lang.language); saveLang()">
         <div [style.background]="'url('+ lang.flag + ')' " class="lang-icon"
           [ngClass]="{'lang-icon--active': lang.language === translate.currentLang}">
-
         </div>
-        <!-- <img [src]="lang.flag" class="lang-icon"
-          [ngClass]="{'lang-icon--active': lang.language === translate.currentLang}" /> -->
       </button>
     </ng-container>
 

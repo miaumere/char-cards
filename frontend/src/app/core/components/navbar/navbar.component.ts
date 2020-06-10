@@ -20,12 +20,15 @@ export class NavbarComponent extends BaseComponent implements OnInit {
 
 
   supportedLanguages = [{
-    'flag': 'https://restcountries.eu/data/gbr.svg',
-    'language': 'en'
+    flag: 'https://restcountries.eu/data/gbr.svg',
+    language: 'en'
   }, {
-    'flag': 'https://restcountries.eu/data/pol.svg',
-    'language': 'pl'
-  }
+    flag: 'https://restcountries.eu/data/pol.svg',
+    language: 'pl'
+  }, {
+    flag: 'https://restcountries.eu/data/deu.svg',
+    language: 'de'
+  },
   ];
   constructor(
     public _authService: AuthService,
