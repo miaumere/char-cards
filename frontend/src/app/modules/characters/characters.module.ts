@@ -14,6 +14,10 @@ import { MatTableModule } from '@angular/material/table';
 import { MatRippleModule } from '@angular/material/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -28,12 +32,17 @@ import { MatDividerModule } from '@angular/material/divider';
   imports: [
     CommonModule,
     CharactersRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
     SharedModule,
     MatTableModule,
     MatRippleModule,
     MatCardModule,
     MatDividerModule,
-    TranslateModule
+    TranslateModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatIconModule
   ],
   providers: []
 })

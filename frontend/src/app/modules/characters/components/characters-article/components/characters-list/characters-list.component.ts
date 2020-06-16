@@ -4,6 +4,7 @@ import { CharacterItem } from 'src/app/modules/characters/models/character-item.
 import { ActivatedRoute } from '@angular/router';
 import { BaseComponent } from 'src/app/core/base.component';
 import { finalize } from 'rxjs/operators';
+import { FormGroup, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-characters-list',
@@ -12,13 +13,18 @@ import { finalize } from 'rxjs/operators';
 })
 export class CharactersListComponent extends BaseComponent implements OnInit {
 
-  charList: CharacterItem[] | null = null;
+  charList: CharacterItem[];
+  filteredChars: CharacterItem[] = [];
+
   loading = true;
+
+  searchForm = new FormGroup({
+    char: new FormControl(''),
+  });
 
   constructor(private _charactersService: CharactersService, private _route: ActivatedRoute) { super(); }
 
   ngOnInit() {
-    // Sposob pobierania danych z servisu bez resolvera
     this.subscriptions$.add(
       this._charactersService
         .charList$
@@ -49,6 +55,7 @@ export class CharactersListComponent extends BaseComponent implements OnInit {
 
           // console.log(charactersList)
           this.charList = charactersList;
+          this.filteredChars = charactersList;
 
 
           this.loading = false;
@@ -56,4 +63,10 @@ export class CharactersListComponent extends BaseComponent implements OnInit {
     );
   }
 
+  searchCharacter() {
+    const inputValue: string = '' + this.searchForm.get('char')?.value.toLowerCase();
+
+    const filteredChars = this.charList.filter(c => `${c.charName} ${c.charSurname}`.toLowerCase().indexOf(inputValue) === 0);
+    this.filteredChars = filteredChars;
+  }
 }

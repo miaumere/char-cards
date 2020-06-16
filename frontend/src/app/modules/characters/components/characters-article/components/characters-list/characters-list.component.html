@@ -1,7 +1,15 @@
 <app-loader [visible]="!charList && loading"></app-loader>
 
 <aside class="global-section" class="char-menu" *ngIf="!loading && charList && charList.length > 0">
-  <ng-container *ngFor="let character of charList; index as i">
+
+  <form [formGroup]="searchForm" class="search-form">
+    <mat-icon>search</mat-icon>
+    <mat-form-field>
+      <mat-label>{{'CHARS_PANEL.SEARCH_CHAR' | translate}}</mat-label>
+      <input matInput formControlName="char" (input)="searchCharacter()">
+    </mat-form-field>
+  </form>
+  <ng-container *ngFor="let character of filteredChars; index as i">
     <a class="character" [routerLink]="['/char-cards', character.id]" routerLinkActive="router-link-active">
       <img class="character__profile-pic" *ngIf="character.profilePic"
         [src]="'data:image/' + character.profilePic?.extension + ';base64, ' + character.profilePic.image | sanitizer">
