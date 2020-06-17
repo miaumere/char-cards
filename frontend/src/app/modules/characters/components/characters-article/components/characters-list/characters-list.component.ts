@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { BaseComponent } from 'src/app/core/base.component';
 import { finalize } from 'rxjs/operators';
 import { FormGroup, FormControl } from '@angular/forms';
+import { CharType } from 'src/app/modules/admin-panel/enums/character-type.enum';
 
 @Component({
   selector: 'app-characters-list',
@@ -22,6 +23,10 @@ export class CharactersListComponent extends BaseComponent implements OnInit {
     char: new FormControl(''),
   });
 
+  isMain = true;
+  isSide = true;
+  isBackground = true;
+
   constructor(private _charactersService: CharactersService, private _route: ActivatedRoute) { super(); }
 
   ngOnInit() {
@@ -35,7 +40,7 @@ export class CharactersListComponent extends BaseComponent implements OnInit {
         )
         .subscribe(charList => {
 
-          let charactersList: any = [];
+          let charactersList: CharacterItem[] = [];
           const mainCharacters = charList?.filter(x => x.characterType === 'MAIN');
 
           const sideCharacters = charList?.filter(x => x.characterType === 'SIDE');
@@ -64,9 +69,32 @@ export class CharactersListComponent extends BaseComponent implements OnInit {
   }
 
   searchCharacter() {
+    let finalFilteredChars: CharacterItem[] = [];
     const inputValue: string = '' + this.searchForm.get('char')?.value.toLowerCase();
 
     const filteredChars = this.charList.filter(c => `${c.charName} ${c.charSurname}`.toLowerCase().indexOf(inputValue) === 0);
-    this.filteredChars = filteredChars;
+    const mainChars = filteredChars.filter(c => c.characterType === CharType[0]);
+    const sideChars = filteredChars.filter(c => c.characterType === CharType[1]);
+    const bgChars = filteredChars.filter(c => c.characterType === CharType[2]);
+
+
+    if (this.isMain && !!mainChars) {
+      finalFilteredChars = mainChars
+    }
+    if (this.isSide && !!sideChars) {
+      finalFilteredChars = finalFilteredChars.concat(sideChars);
+    }
+    if (this.isBackground && !!bgChars) {
+      finalFilteredChars = finalFilteredChars.concat(bgChars);
+    }
+
+
+    console.log("main", mainChars)
+    console.log("side", sideChars)
+
+
+    console.log("filteredChars", finalFilteredChars)
+
+    this.filteredChars = finalFilteredChars;
   }
 }
