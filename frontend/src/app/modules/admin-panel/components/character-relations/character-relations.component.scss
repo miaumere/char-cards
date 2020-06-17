@@ -30,7 +30,7 @@
 .relationships {
   display: flex;
   justify-content: center;
-  align-items: center;
+  // align-items: center;
 
   height: calc(100vh - #{$navbar-height}) !important;
 
@@ -41,6 +41,8 @@
 
 .relationship {
   flex-direction: column;
+
+  // height: calc(100vh - #{$navbar-height}) !important;
 }
 
 .edit-relationships-form {

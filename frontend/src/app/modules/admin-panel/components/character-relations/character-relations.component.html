@@ -1,6 +1,6 @@
 <div [ngSwitch]="type">
   <div *ngSwitchCase="'new'">
-    <form [formGroup]="relationForm" class="relationship">
+    <form [formGroup]="relationForm" class="relationship" (input)="setRelationType()">
       <div class="relationship-form__container">
 
         <div class="relationship-form__box">
@@ -31,7 +31,7 @@
           </span>
 
           <mat-form-field>
-            <mat-select formControlName="reverseRelation" class=" relationship-box__input">
+            <mat-select formControlName="reverseRelation" class="relationship-box__input">
               <mat-option *ngFor="let type of RelationshipType | enumVal" [value]="type.key">
                 {{type.value}}
               </mat-option>
@@ -41,11 +41,12 @@
           <span> {{ 'EDIT_RELATIONS.REVERSED_RELATION_TYPE_TITLE' | translate }}
           </span>
           <mat-form-field>
-            <mat-select formControlName="relation" class=" relationship-box__input">
+            <!-- <mat-select formControlName="relation" class=" relationship-box__input">
               <mat-option *ngFor="let type of RelationshipType | enumVal" [value]="type.key">
                 {{type.value}}
               </mat-option>
-            </mat-select>
+            </mat-select> -->
+            <input matInput formControlName="relation" class="relationship-box__input" />
           </mat-form-field>
         </div>
         <div class="relationship-form__box">
@@ -107,18 +108,24 @@
                 </span>
                 <mat-select [ngModel]="RelationshipType[rel.relationship.relationName]" class="select"
                   [name]="'relationType__' + rel.relationship.relatedCharacter.id"
-                  (change)="editRelation(rel.relationship.relatedCharacter.id, $event.target.value, false)">
+                  (selectionChange)="editRelation(rel.relationship.relatedCharacter.id, $event.value, false)">
                   <mat-option *ngFor="let type of RelationshipType | enumVal" [value]="type.key">{{type.value}}
                   </mat-option>
                 </mat-select>
 
+                <mat-form-field>
+                  <input matInput [ngModel]="rel.reverseRelationshipType" disabled
+                    [name]="'reverseRelationType__' + rel.relationship.relatedCharacter.id" />
+                </mat-form-field>
+
+                <!--
                 <mat-select [name]="'reverseRelationType__' + rel.relationship.relatedCharacter.id" class="select"
                   [ngModel]="RelationshipType[rel.reverseRelationshipType]"
-                  (change)="editRelation(rel.relationship.relatedCharacter.id, $event.target.value, true)">
+                  (selectionChange)="editRelation(rel.relationship.relatedCharacter.id, $event.value, true)">
 
                   <mat-option *ngFor="let type of RelationshipType | enumVal" [value]="type.key">{{type.value}}
                   </mat-option>
-                </mat-select>
+                </mat-select> -->
 
               </div>
               <div class="relationship-form__box">

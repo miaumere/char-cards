@@ -191,7 +191,7 @@
     "IMG_NAME_WARN": "Bildname kann nicht leer sein!",
     "QUOTE_NAME_WARN": "Zitatname kann nicht leer sein!",
     "NO_RELATION_TYPE": "Beziehungtype kann nicht leer sein!!",
-    "NO_CHARACTER": "Validierungsfehler! <br/> Figur existiert nicht.",
+    "NO_CHARACTER": "Validierungsfehler!  Figur existiert nicht.",
     "EMPTY_FIELDS": "Füllen Sie alle Felder aus!"
   },
   "enum": {

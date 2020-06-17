@@ -191,7 +191,7 @@
     "IMG_NAME_WARN": "Image name can't be empty!",
     "QUOTE_NAME_WARN": "Quote name can't be empty!",
     "NO_RELATION_TYPE": "Relation type is empty!",
-    "NO_CHARACTER": "Validation error! <br/> Character does not exist.",
+    "NO_CHARACTER": "Validation error! Character does not exist.",
     "EMPTY_FIELDS": "Fill all fields!"
   },
   "enum": {
