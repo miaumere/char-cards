@@ -67,6 +67,12 @@ public class Character {
     @OneToMany(mappedBy = "relatedCharacter", cascade = CascadeType.ALL)
     private List<Relationship> relatedTo;
 
+    @OneToMany(mappedBy = "character", cascade = CascadeType.ALL)
+    private List<Preference> preferences;
+
+    @OneToMany(mappedBy = "preferedCharacter", cascade = CascadeType.ALL)
+    private List<Preference> preferedBy;
+
     public Character() {};
 
     public CharType getCharType() {
@@ -235,5 +241,21 @@ public class Character {
 
     public void setNationality(String nationality) {
         this.nationality = nationality;
+    }
+
+    public List<Preference> getPreferences() {
+        return preferences;
+    }
+
+    public void setPreferences(List<Preference> preferences) {
+        this.preferences = preferences;
+    }
+
+    public List<Preference> getPreferedBy() {
+        return preferedBy;
+    }
+
+    public void setPreferedBy(List<Preference> preferedBy) {
+        this.preferedBy = preferedBy;
     }
 };

@@ -28,6 +28,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatCardModule } from '@angular/material/card';
 import { CountriesService } from 'src/app/core/service/countries.service';
+import { CharacterPreferencesComponent } from './components/character-preferences/character-preferences.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { CountriesService } from 'src/app/core/service/countries.service';
     EditCharacterStoryComponent,
     CharacterQuotesComponent,
     CharacterImagesComponent,
-    CharacterRelationsComponent
+    CharacterRelationsComponent,
+    CharacterPreferencesComponent
   ],
   imports: [
     CommonModule,

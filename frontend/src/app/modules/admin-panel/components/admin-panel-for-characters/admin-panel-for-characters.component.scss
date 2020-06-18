@@ -1,6 +1,5 @@
 @import "../../../../../global_styles/variables.scss";
 $card-width: 10rem;
-$card-height: 14rem;
 $title-margin-bottom: -2rem;
 
 .profile-pic {
@@ -27,7 +26,6 @@ $title-margin-bottom: -2rem;
   background: $card-bg;
   transition: 0.2s;
 
-  height: 14rem;
   width: 10rem;
 
   &__title {

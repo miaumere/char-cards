@@ -54,11 +54,17 @@
           id: charId
         }">
             <mat-icon>people</mat-icon> {{'CHARS_PANEL.EDIT_RELATIONSHIPS' | translate}}
-
           </button>
-
         </li>
 
+
+        <li class="option">
+          <button mat-stroked-button class="sidebar__option" [routerLink]="['./character-preferences']" [queryParams]="{
+          id: charId
+        }">
+            <mat-icon>favorite</mat-icon> {{'CHARS_PANEL.EDIT_PREFERENCES' | translate}}
+          </button>
+        </li>
 
       </ul>
       <button mat-stroked-button color="accent" [routerLink]="['../']" class="button">

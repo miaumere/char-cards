@@ -9,6 +9,7 @@ import { AdminPanelComponent } from './components/admin-panel/admin-panel.compon
 import { AdminPanelForCharactersComponent } from './components/admin-panel-for-characters/admin-panel-for-characters.component';
 import { CharacterQuotesComponent } from './components/character-quotes/character-quotes.component';
 import { CharacterImagesComponent } from './components/character-images/character-images.component';
+import { CharacterPreferencesComponent } from './components/character-preferences/character-preferences.component';
 
 const routes: Routes = [
   {
@@ -47,6 +48,10 @@ const routes: Routes = [
       {
         path: 'character-relations/:type',
         component: CharacterRelationsComponent
+      },
+      {
+        path: 'character-preferences',
+        component: CharacterPreferencesComponent
       }
     ]
 
