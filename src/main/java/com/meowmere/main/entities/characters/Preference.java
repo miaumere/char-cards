@@ -4,8 +4,10 @@ import io.micrometer.core.lang.Nullable;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Entity
@@ -26,8 +28,7 @@ public class Preference {
     private Character preferedCharacter;
 
     @Column
-    @Length(min = 0, max = 100)
-    @Nullable
+    @Range(min=0, max=100)
     private int range;
 
     @Column(name="date_of_origin")

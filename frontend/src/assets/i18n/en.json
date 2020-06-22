@@ -8,7 +8,8 @@
     "CHOOSE_FILE": "Choose file",
     "SAVE_CHANGES": "Save changes",
     "DELETE": "Delete",
-    "SEND": "Send"
+    "SEND": "Send",
+    "CHOOSE_CHAR": "Choose character"
   },
   "NAVBAR": {
     "CHARACTERS": "Characters",
@@ -118,6 +119,12 @@
     "EDIT_QUOTE": "Edit quote",
     "NO_QUOTES": "No quotes for this character."
   },
+  "EDIT_PREFERENCES": {
+    "PREFERENCES": "Preferences",
+    "NEW_PREFERENCES": "New preferences",
+    "CURRENT_PREFERENCES": "Current preferences",
+    "ADD_PREFERENCE": "Add preference"
+  },
   "EDIT_RELATIONS": {
     "RELATIONS_TITLE": "Available relations:",
     "CHARACTER1": "Character 1",
@@ -181,6 +188,15 @@
     "AGE": "Age",
     "CHARS_NUM": "Characters",
     "AGE_UNKNOWN": "Age unknown"
+  },
+  "PREFERENCES": {
+    "LOVE": "Love",
+    "ADMIRATION": "Admiration",
+    "SYMPATHY": "Sympathy",
+    "NEUTRAL": "Neutral",
+    "CONFLICT": "Conflict",
+    "ENEMY": "Enemy",
+    "HATRED": "Hatred"
   },
   "TOASTR_MESSAGE": {
     "ERROR": "An error has occured.",

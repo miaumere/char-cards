@@ -1,4 +1,59 @@
 <article class="preferences">
-  character preferences
+  <h2 class="preferences__title">{{ 'EDIT_PREFERENCES.PREFERENCES' | translate}}</h2>
+  <mat-tab-group class="preferences__tab-group">
+    <mat-tab [label]="'EDIT_PREFERENCES.NEW_PREFERENCES' | translate">
+      <form class="preferences__form preferences-form" [formGroup]="preferencesForm">
+
+        <div class="preferences-form__field preferences-form__field--range">
+          <div class="legend">
+            <div *ngFor="let preference of preferencesTypes"
+              class="legend__item legend-item legend-item--{{preference.preferenceType}}"
+              [ngClass]="{'legend-item--chosen': chosenType === preference.preferenceType}">
+              <span class="legend-item__value">{{preference.preferenceMin}}-{{preference.preferenceMax}}</span>
+              <span> {{preference.preferenceName}}</span>
+
+            </div>
+
+          </div>
+
+          <mat-slider thumbLabel (input)="setRangeValue($event.value)" vertical formControlName="range"></mat-slider>
+        </div>
+
+        <mat-form-field class="preferences-form__field">
+          <mat-label>{{ 'SHARED.CHOOSE_CHAR' | translate }}</mat-label>
+          <input matInput formControlName="character" required [matAutocomplete]="auto">
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option *ngFor="let char of filteredCharacters | async" [value]="char.fullName" class="option">
+              <img *ngIf="char.profilePic"
+                [src]="'data:image/' + char.profilePic?.extension + ';base64, ' + char.profilePic?.image | sanitizer"
+                class="option__image">
+              <span>{{char.fullName}}</span>
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+
+        <mat-form-field class="preferences-form__field">
+          <!-- <mat-label>{{'EDIT_PREFERENCES.CHOOSE_DATE' | translate}}</mat-label> -->
+          {{date ? (date | date:'yyyy / MMMM') : ('EDIT_PREFERENCES.CHOOSE_DATE' | translate)}}
+          <input matInput [matDatepicker]="dp" formControlName="date" style="display: none;">
+          <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+          <mat-datepicker #dp startView="multi-year" (monthSelected)="chosenMonthHandler($event, dp)">
+          </mat-datepicker>
+        </mat-form-field>
+
+        <button mat-raised-button color="accent" class="preferences__button"
+          [disabled]="!chosenType || preferencesForm.invalid" (click)="addPreference()">
+          <mat-icon>library_add</mat-icon>
+          {{ 'EDIT_PREFERENCES.ADD_PREFERENCE' | translate}}
+        </button>
+
+      </form>
+    </mat-tab>
+    <mat-tab [label]="'EDIT_PREFERENCES.CURRENT_PREFERENCES' | translate">
+
+    </mat-tab>
+
+  </mat-tab-group>
+
 
 </article>

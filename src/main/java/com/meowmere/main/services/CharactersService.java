@@ -27,6 +27,7 @@ import com.meowmere.main.requests.characters.character.ChangeCharacterStateReque
 import com.meowmere.main.requests.characters.character.CreateCharacterRequest;
 import com.meowmere.main.requests.characters.character.EditCharacterRequest;
 import com.meowmere.main.requests.characters.image.ImageRenameRequest;
+import com.meowmere.main.requests.characters.preference.PreferenceRequest;
 import com.meowmere.main.requests.characters.quotes.EditQuoteRequest;
 import com.meowmere.main.requests.characters.quotes.NewQuoteForCharacterRequest;
 import com.meowmere.main.requests.characters.relationship.EditRelationshipRequest;
@@ -67,6 +68,8 @@ public class CharactersService {
     public RelationshipRepository relationshipRepository;
     @Autowired
     public CharacterStoryRepository characterStoryRepository;
+    @Autowired
+    public PreferenceRepository preferenceRepository;
 
     public ResponseEntity getNonArchivedCharacters() {
         List<Character> allCharactersFromDb = characterRepository.getNonArchivedCharacters();
@@ -643,5 +646,23 @@ public class CharactersService {
         characterStoryRepository.saveAndFlush(characterStory);
 
         return new ResponseEntity(HttpStatus.OK);
+    }
+
+    public ResponseEntity editPreferences(PreferenceRequest preferenceRequest) {
+        Preference preference = new Preference();
+        Character character = characterRepository.getOne(preferenceRequest.getCharacterId());
+        Character preferedCharacter = characterRepository.getOne(preferenceRequest.getPreferedCharacterId());
+
+        if(character == null || preferedCharacter == null) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+        preference.setCharacter(character);
+        preference.setPreferedCharacter(preferedCharacter);
+        preference.setRange(preferenceRequest.getRange());
+        preference.setDateOfOrigin(preferenceRequest.getDate());
+
+        preferenceRepository.saveAndFlush(preference);
+
+        return new ResponseEntity(HttpStatus.CREATED);
     }
 }

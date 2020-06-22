@@ -8,7 +8,8 @@
     "CHOOSE_FILE": "Datei auswählen",
     "SAVE_CHANGES": "Änderungen speichern",
     "DELETE": "Löschen",
-    "SEND": "Speichern"
+    "SEND": "Speichern",
+    "CHOOSE_CHAR": "Figuren wählen"
   },
   "NAVBAR": {
     "CHARACTERS": "Figuren",
@@ -118,6 +119,13 @@
     "EDIT_QUOTE": "Zitat bearbeiten",
     "NO_QUOTES": "Keine Zitaten für diesen Figure."
   },
+  "EDIT_PREFERENCES": {
+    "PREFERENCES": "Vorlieben",
+    "NEW_PREFERENCES": "Neue Vorlieben",
+    "CURRENT_PREFERENCES": "Aktuelle Vorlieben",
+    "ADD_PREFERENCE": "Vorlieben hinzufügen",
+    "CHOOSE_DATE": "Datum auswählen"
+  },
   "EDIT_RELATIONS": {
     "RELATIONS_TITLE": "Verfügbar Beziehungen:",
     "CHARACTER1": "Figur 1",
@@ -181,6 +189,15 @@
     "AGE": "Alter",
     "CHARS_NUM": "Figuren",
     "AGE_UNKNOWN": "Alter unbekann"
+  },
+  "PREFERENCES": {
+    "LOVE": "Liebe",
+    "ADMIRATION": "Bewunderung",
+    "SYMPATHY": "Neigung",
+    "NEUTRAL": "Neutralität",
+    "CONFLICT": "Konflikt",
+    "ENEMY": "Feindschaft",
+    "HATRED": "Hass"
   },
   "TOASTR_MESSAGE": {
     "ERROR": "Ein Fehler ist aufgetreten.",

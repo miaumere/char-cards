@@ -8,7 +8,8 @@
     "CHOOSE_FILE": "Wybierz plik",
     "SAVE_CHANGES": "Zatwierdź zmiany",
     "DELETE": "Usuń",
-    "SEND": "Wyślij"
+    "SEND": "Wyślij",
+    "CHOOSE_CHAR": "Wybierz postać"
   },
   "NAVBAR": {
     "CHARACTERS": "Postacie",
@@ -118,6 +119,12 @@
     "EDIT_QUOTE": "Edytuj cytat",
     "NO_QUOTES": "Podana postać nie ma żadnych cytatów."
   },
+  "EDIT_PREFERENCES": {
+    "PREFERENCES": "Preferencje",
+    "NEW_PREFERENCES": "Nowe preferencje",
+    "CURRENT_PREFERENCES": "Obecne preferencje",
+    "ADD_PREFERENCE": "Dodaj preferencję"
+  },
   "EDIT_RELATIONS": {
     "RELATIONS_TITLE": "Dostępne relacje:",
     "CHARACTER1": "Postać 1",
@@ -181,6 +188,15 @@
     "AGE": "Wiek",
     "CHARS_NUM": "Ilość <br /> postaci",
     "AGE_UNKNOWN": "Nieznany"
+  },
+  "PREFERENCES": {
+    "LOVE": "Miłość",
+    "ADMIRATION": "Admiracja",
+    "SYMPATHY": "Sympatia",
+    "NEUTRAL": "Neutralność",
+    "CONFLICT": "Konflikt",
+    "ENEMY": "Wrogość",
+    "HATRED": "Nienawiść"
   },
   "TOASTR_MESSAGE": {
     "ERROR": "Wystąpił błąd.",

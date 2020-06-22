@@ -34,11 +34,11 @@ public interface CharacterRepository extends JpaRepository<Character, Long> {
 
     @Query("select c from Character c, StarringCharacters sc " +
             "where c.externalId = sc.character.externalId and sc.starringType = 'MAIN' group by c.externalId " +
-            "having count(c)>3")
+            "having count(c) > 3")
     List<Character> getCharsWithEnoughChaptersToBeMain();
 
     @Query("select c from Character c, StarringCharacters sc " +
             "where c.externalId = sc.character.externalId and sc.starringType = 'SIDE' group by c.externalId " +
-            "having count(c) > 3")
+            "having count(c) > 2")
     List<Character> getCharsWithEnoughChaptersToBeSide();
 }

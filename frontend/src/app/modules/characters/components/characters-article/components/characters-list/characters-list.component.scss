@@ -22,6 +22,8 @@ $gradient2: #435548;
 .character {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
 
   margin: 0.5rem;
   padding: 1rem;
@@ -56,6 +58,10 @@ $gradient2: #435548;
   }
 
   &__name {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
     font-size: larger;
     margin-top: 0.5rem;
   }

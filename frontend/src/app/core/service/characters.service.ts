@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core'; import { BehaviorSubject, Observable, of } from 'rxjs'; import { CharacterItem, ICharacterItem } from 'src/app/modules/characters/models/character-item.model'; import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http'; import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router'; import { map, tap } from 'rxjs/operators'; import { ICharacterForListItem } from 'src/app/modules/characters/models/character-for-list-item.model'; import { Character, ICharacter } from 'src/app/modules/characters/models/character.model'; import { IRelationshipsForCharacter, RelationshipsForCharacter } from 'src/app/modules/admin-panel/models/relationships/relationships-for-char.model'; import { IQuote } from 'src/app/modules/characters/models/quote.model'; import { IEditCharacter, EditCharacter } from 'src/app/modules/admin-panel/models/edit-character.model'; import { IStory, Story } from 'src/app/modules/admin-panel/models/character-story/story.model'; import { CharacterForChange } from 'src/app/modules/admin-panel/models/character-for-change.model'; import { EditQuote } from 'src/app/modules/admin-panel/models/quotes/edit-quote.model'; import { EditImageName } from 'src/app/modules/admin-panel/models/images/edit-image-name.model'; import { EditRelationship } from 'src/app/modules/admin-panel/models/relationships/edit-relationship.model'; import { EditStory } from 'src/app/modules/admin-panel/models/character-story/story-to-edit.model'; import { NewStory } from 'src/app/modules/admin-panel/models/character-story/new-story.model'; import { CreateCharacter } from 'src/app/modules/admin-panel/models/create-character.model'; import { IRelationRequest } from 'src/app/modules/admin-panel/models/relationships/relation-request.model'; import { NewQuote } from 'src/app/modules/admin-panel/models/quotes/new-quote.model';
+import { IEditPreference } from 'src/app/modules/admin-panel/models/preferences/edit-preferences.model';
 
 
 @Injectable({
@@ -26,6 +27,7 @@ export class CharactersService {
   private readonly _postNewQuoteURL = `${this.charControllerURL}/new-quote`;
   private readonly _postEditImagesURL = `${this.charControllerURL}/new-images`;
   private readonly _postNewRelationshipURL = `${this.charControllerURL}/new-relationship`;
+  private readonly _postEditPreferenceURL = `${this.charControllerURL}/edit-preferences`;
 
   private readonly _putEditCharacterURL = `${this.charControllerURL}/edit-character`;
   private readonly _putStoryIndexesURL = `${this.charControllerURL}/edit-story-indexes`;
@@ -153,6 +155,10 @@ export class CharactersService {
       params
     };
     return this.http.post<void>(this._postEditImagesURL, formData, httpOptions);
+  }
+
+  postEditPreferences(requestBody: IEditPreference) {
+    return this.http.post<IEditPreference>(this._postEditPreferenceURL, requestBody);
   }
 
   postNewRelationship(requestBody: IRelationRequest) {
