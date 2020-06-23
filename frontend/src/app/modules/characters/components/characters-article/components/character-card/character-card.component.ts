@@ -62,6 +62,7 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
             this.loading = false;
           })
         ).subscribe(character => {
+          console.log("występuje w: ", character.starringIn)
           this.character = new Character(character);
           this.getNationalityForCharacter();
           const measurementsInstance = new Measurements(character.measurements);

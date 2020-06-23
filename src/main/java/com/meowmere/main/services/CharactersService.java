@@ -16,13 +16,22 @@ import com.meowmere.main.dto.character.relationship.RelationshipDTO;
 import com.meowmere.main.dto.character.relationship.RelationshipsForCharacterDTO;
 import com.meowmere.main.dto.character.story.CharacterStoryDTO;
 import com.meowmere.main.dto.character.temperament.CharacterTemperamentDTO;
+import com.meowmere.main.dto.story.books.BookDTO;
+import com.meowmere.main.dto.story.starring.BookWithStarringCharsDTO;
+import com.meowmere.main.dto.story.starring.ChaptersWithCharStarringTypeDTO;
 import com.meowmere.main.entities.characters.Character;
 import com.meowmere.main.entities.characters.*;
+import com.meowmere.main.entities.story.Book;
+import com.meowmere.main.entities.story.Chapter;
+import com.meowmere.main.entities.story.StarringCharacters;
 import com.meowmere.main.enums.AvailableExtensions;
 import com.meowmere.main.enums.CharType;
 import com.meowmere.main.enums.Gender;
 import com.meowmere.main.enums.RelationshipType;
 import com.meowmere.main.repositories.character.*;
+import com.meowmere.main.repositories.story.BookRepository;
+import com.meowmere.main.repositories.story.ChapterRepository;
+import com.meowmere.main.repositories.story.StarringCharactersRepository;
 import com.meowmere.main.requests.characters.character.ChangeCharacterStateRequest;
 import com.meowmere.main.requests.characters.character.CreateCharacterRequest;
 import com.meowmere.main.requests.characters.character.EditCharacterRequest;
@@ -47,6 +56,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Service
@@ -70,6 +80,12 @@ public class CharactersService {
     public CharacterStoryRepository characterStoryRepository;
     @Autowired
     public PreferenceRepository preferenceRepository;
+    @Autowired
+    public StarringCharactersRepository starringCharactersRepository;
+    @Autowired
+    public ChapterRepository chapterRepository;
+    @Autowired
+    public BookRepository bookRepository;
 
     public ResponseEntity getNonArchivedCharacters() {
         List<Character> allCharactersFromDb = characterRepository.getNonArchivedCharacters();
@@ -174,6 +190,39 @@ public class CharactersService {
             }
         }
         dto.setImagesList(imagesList);
+
+        ArrayList<BookWithStarringCharsDTO> bookWithStarringCharsDTOS = new ArrayList<>();
+        List<Book> books = bookRepository.findAll();
+        if(books != null) {
+            for (Book book: books) {
+                BookWithStarringCharsDTO withStarringCharsDTO = new BookWithStarringCharsDTO();
+                ArrayList<Chapter> chapters = chapterRepository.getChaptersForBook(book.getExternalId());
+                ArrayList<ChaptersWithCharStarringTypeDTO> chaptersWithCharStarringTypeDTOS = new ArrayList<>();
+                if(chapters != null){
+                    for (Chapter chap: chapters) {
+                        ChaptersWithCharStarringTypeDTO chapter = new ChaptersWithCharStarringTypeDTO();
+
+                        chapter.setChapterNumber(chap.getChapterNumber());
+
+                        List<StarringCharacters> starringCharactersList = chap.getStarringCharacters().stream()
+                                .filter(character -> character.getCharacter().getExternalId().equals(externalId))
+                                .collect(Collectors.toList());
+                        if(starringCharactersList != null && starringCharactersList.size() > 0){
+                            StarringCharacters starringCharacterFromList = starringCharactersList.get(0);
+                            chapter.setStarringType(starringCharacterFromList.getStarringType().name());
+                        }
+                        chaptersWithCharStarringTypeDTOS.add(chapter);
+                    }
+                    if(chaptersWithCharStarringTypeDTOS.size() > 0) {
+                        withStarringCharsDTO.setBook(modelMapper.map(book, BookDTO.class));
+                        withStarringCharsDTO.setChapters(chaptersWithCharStarringTypeDTOS);
+                        bookWithStarringCharsDTOS.add(withStarringCharsDTO);
+                    }
+                }
+            }
+        }
+        dto.setStarringIn(bookWithStarringCharsDTOS);
+
 
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }

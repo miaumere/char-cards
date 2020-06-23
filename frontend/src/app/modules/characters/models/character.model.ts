@@ -5,6 +5,7 @@ import { ITemperament } from './temperament.model';
 import { IMeasurements, Measurements } from './measurements.model';
 import { IQuote } from './quote.model';
 import { IRelationship } from './relationship.model';
+import { IStarringIn } from './starring-in.model';
 
 type characterType = 'MAIN' | 'SIDE' | 'BACKGROUND' | null;
 type gender = 'MALE' | 'FEMALE' | null;
@@ -27,6 +28,7 @@ export interface ICharacter {
   charType: characterType;
   relationships: IRelationship[] | null;
   nationality: string;
+  starringIn: IStarringIn[];
 }
 
 export class Character implements ICharacter {
@@ -48,6 +50,7 @@ export class Character implements ICharacter {
   charType: characterType;
   relationships: IRelationship[] | null;
   nationality: string;
+  starringIn: IStarringIn[];
 
   constructor(initialValues: ICharacter) {
     Object.assign(this, initialValues);

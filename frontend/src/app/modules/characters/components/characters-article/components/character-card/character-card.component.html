@@ -3,12 +3,10 @@
 <section class="characters-card" *ngIf="character && !loading">
   <div class="card">
     <mat-card class="example-card" [ngStyle]="{'background': bgColor1}">
-      <span class="card__type" [ngStyle]="{'background': bgColor2}">
-        <ng-container [ngSwitch]="character?.charType">
-          <span *ngSwitchCase="'MAIN'">{{'enum.charType.MAIN' | translate}}</span>
-          <span *ngSwitchCase="'SIDE'">{{'enum.charType.SIDE' | translate}}</span>
-          <span *ngSwitchCase="'BACKGROUND'">{{'enum.charType.BACKGROUND' | translate}}</span>
-        </ng-container>
+      <span class="card__type" [ngStyle]="{'background': bgColor2}" [ngSwitch]="character?.charType">
+        <span *ngSwitchCase="'MAIN'">{{'enum.charType.MAIN' | translate}}</span>
+        <span *ngSwitchCase="'SIDE'">{{'enum.charType.SIDE' | translate}}</span>
+        <span *ngSwitchCase="'BACKGROUND'">{{'enum.charType.BACKGROUND' | translate}}</span>
       </span>
       <mat-card-header>
         <span class="card__name" [ngStyle]="{'background': bgColor2}">
@@ -251,6 +249,64 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       </table>
 
+    </div>
+
+    <div class="starring">
+      <mat-divider></mat-divider>
+      <h2 class="story__title" [ngStyle]="{'color': themeColor1}">
+        <!-- {{ 'CHARACTER_CARD.FAMILY_RELATIONS' | translate }} -->
+        Obecność w częściach
+      </h2>
+      <div class="starring__content">
+        <mat-card class="legend">
+          <mat-card-header>
+            <mat-card-title>LEGENDA</mat-card-title>
+          </mat-card-header>
+          <div class="legend__item legend-item">
+            <span class="legend-item__symbol legend-item__symbol--main">MAIN</span>
+            <span class="legend-item__desc">Występował jako postać główna</span>
+          </div>
+          <div class="legend__item legend-item">
+            <span class="legend-item__symbol  legend-item__symbol--side">SIDE</span>
+            <span class="legend-item__desc">Występował jako postać poboczna</span>
+          </div>
+          <div class="legend__item legend-item">
+            <span class="legend-item__symbol  legend-item__symbol--bg">BG</span>
+            <span class="legend-item__desc">Występował jako postać tła</span>
+          </div>
+          <div class="legend__item legend-item">
+            <span class="legend-item__symbol legend-item__symbol--mtn">MTN</span>
+            <span class="legend-item__desc">Został wspomniany tylko</span>
+          </div>
+          <div class="legend__item legend-item">
+            <span class="legend-item__symbol legend-item__symbol--no">-</span>
+            <span class="legend-item__desc">Nie występował w ogóle</span>
+          </div>
+        </mat-card>
+
+        <mat-card *ngFor="let book of character.starringIn" class="starring-in">
+          <h4 [ngStyle]="{'background-color': book.book.color}" class="starring-in__book-name">{{book.book.name}}</h4>
+          <table>
+            <tr>
+              <th *ngFor="let chapter of book.chapters">{{chapter.chapterNumber + 1}}</th>
+            </tr>
+            <tr>
+              <td *ngFor="let chapter of book.chapters">
+                <ng-container [ngSwitch]="chapter.starringType">
+                  <span *ngSwitchCase="'MAIN'" class="legend-item__symbol legend-item__symbol--main">MAIN</span>
+                  <span *ngSwitchCase="'SIDE'" class="legend-item__symbol legend-item__symbol--side">SIDE</span>
+                  <span *ngSwitchCase="'BACKGROUND'" class="legend-item__symbol legend-item__symbol--bg">BG</span>
+                  <span *ngSwitchCase="'MENTIONED'" class="legend-item__symbol legend-item__symbol--mtn">MTN</span>
+
+                  <span *ngSwitchDefault class="legend-item__symbol legend-item__symbol--no">-</span>
+                </ng-container>
+              </td>
+            </tr>
+
+          </table>
+        </mat-card>
+
+      </div>
     </div>
   </mat-card>
 </section>

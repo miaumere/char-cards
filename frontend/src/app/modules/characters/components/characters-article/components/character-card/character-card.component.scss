@@ -1,3 +1,5 @@
+@import "../../../../../../../global_styles/variables.scss";
+
 .characters-card {
   display: flex;
   position: fixed;
@@ -137,8 +139,6 @@
   &__type {
     border-radius: 3px;
     padding: 0 0.5rem;
-
-    text-transform: lowercase;
   }
 
   &__name {
@@ -264,4 +264,69 @@
 .nationality {
   display: flex;
   align-items: center;
+}
+
+.legend {
+  display: flex;
+  flex-direction: column;
+
+  padding: 0.5rem;
+
+  background: $card-bg;
+}
+
+.starring {
+  &__content {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+}
+.starring-in {
+  margin: 0.5rem;
+  &__book-name {
+    border-radius: 3px;
+    padding: 0.25rem;
+
+    color: black;
+    letter-spacing: 1px;
+    text-align: center;
+  }
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+
+  &__symbol {
+    display: flex;
+    justify-content: center;
+
+    width: 25px;
+
+    border-radius: 3px;
+    padding: 0.2rem;
+
+    &--main {
+      background: rgb(116, 163, 104);
+    }
+    &--side {
+      background: rgb(218, 199, 117);
+    }
+    &--bg {
+      background: rgb(107, 148, 185);
+    }
+    &--mtn {
+      background: rgb(159, 125, 240);
+    }
+    &--no {
+      background: rgb(131, 80, 80);
+    }
+  }
+
+  &__desc {
+    margin: 0 1rem;
+
+    font-size: xx-small;
+  }
 }

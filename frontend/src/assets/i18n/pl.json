@@ -123,7 +123,8 @@
     "PREFERENCES": "Preferencje",
     "NEW_PREFERENCES": "Nowe preferencje",
     "CURRENT_PREFERENCES": "Obecne preferencje",
-    "ADD_PREFERENCE": "Dodaj preferencję"
+    "ADD_PREFERENCE": "Dodaj preferencję",
+    "CHOOSE_DATE": "Data preferencji"
   },
   "EDIT_RELATIONS": {
     "RELATIONS_TITLE": "Dostępne relacje:",
