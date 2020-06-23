@@ -19,6 +19,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { CurrentPreferencesComponent } from './components/characters-article/components/character-card/current-preferences-chart/current-preferences-chart.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { MatButtonModule } from '@angular/material/button';
     CharactersListComponent,
     CharacterCardComponent,
     FilenameModifierPipe,
-    ProgressBarDirective
+    ProgressBarDirective,
+    CurrentPreferencesComponent
   ],
   imports: [
     CommonModule,

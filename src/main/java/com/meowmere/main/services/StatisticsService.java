@@ -160,6 +160,7 @@ public class StatisticsService {
                 if(relChar != null) {
                     PreferenceDTO preferenceDTO = new PreferenceDTO();
                     preferenceDTO.setRange(preference.getRange());
+                    preferenceDTO.setRelCharId(relChar.getExternalId());
                     preferenceDTO.setRelCharName(relChar.getCharName());
                     preferenceDTO.setRelCharSurname(relChar.getCharSurname());
                     ImageDTO imageDTO = new ImageDTO();
