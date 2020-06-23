@@ -1,3 +1,5 @@
+import { CharacterPreferences } from './../../../../models/character-preferences.model';
+import { StatisticsService } from 'src/app/core/service/statistics.service';
 import { CountriesService } from 'src/app/core/service/countries.service';
 import { Component, OnInit, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { BaseComponent } from 'src/app/core/base.component';
@@ -34,8 +36,11 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
 
   flagURL = '';
 
+  preferences: CharacterPreferences[] | null = null;
+
   constructor(
     private _charactersService: CharactersService,
+    private _statisticsService: StatisticsService,
     private _route: ActivatedRoute,
     private _countriesService: CountriesService
   ) {
@@ -54,7 +59,6 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
   getCharacterById() {
     this.character = null;
 
-    // FIXME Sub
     if (this.routeId !== null) {
       this._charactersService.getCharacterById(this.routeId)
         .pipe(
@@ -62,7 +66,6 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
             this.loading = false;
           })
         ).subscribe(character => {
-          console.log("występuje w: ", character.starringIn)
           this.character = new Character(character);
           this.getNationalityForCharacter();
           const measurementsInstance = new Measurements(character.measurements);
@@ -100,6 +103,12 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
             ).lighten(35);
           }
         });
+
+      this._statisticsService.getPreferencesForCharacter(this.routeId)
+        .subscribe(preferences => {
+          console.log(preferences)
+          this.preferences = preferences;
+        })
     }
   }
 

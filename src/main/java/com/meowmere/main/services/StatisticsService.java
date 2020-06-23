@@ -1,13 +1,20 @@
 package com.meowmere.main.services;
 
+import com.meowmere.main.dto.character.image.ImageDTO;
+import com.meowmere.main.dto.character.preference.PreferenceDTO;
 import com.meowmere.main.dto.statistics.GenderStatisticDTO;
 import com.meowmere.main.dto.statistics.NationalitiesStatisticsDTO;
 import com.meowmere.main.dto.statistics.StatisticsDTO;
 import com.meowmere.main.dto.statistics.TypeStatisticsDTO;
 import com.meowmere.main.dto.statistics.age.AgeDTO;
+import com.meowmere.main.entities.characters.Character;
+import com.meowmere.main.entities.characters.Image;
+import com.meowmere.main.entities.characters.Preference;
 import com.meowmere.main.enums.CharType;
 import com.meowmere.main.enums.Gender;
 import com.meowmere.main.repositories.character.CharacterRepository;
+import com.meowmere.main.repositories.character.ImageRepository;
+import com.meowmere.main.repositories.character.PreferenceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +27,10 @@ import java.util.*;
 public class StatisticsService {
     @Autowired
     CharacterRepository characterRepository;
+    @Autowired
+    PreferenceRepository preferenceRepository;
+    @Autowired
+    ImageRepository imageRepository;
 
     public ResponseEntity getStatistics() {
         StatisticsDTO statisticsDTO = new StatisticsDTO();
@@ -138,5 +149,32 @@ public class StatisticsService {
         statisticsDTO.setAgeStatistics(ageDTOS);
 
         return new ResponseEntity(statisticsDTO, HttpStatus.OK);
+    }
+
+    public ResponseEntity getPreferencesForCharacter(Long charId) {
+        ArrayList<Preference> preferences = preferenceRepository.getPreferencesForCharacter(charId);
+        ArrayList<PreferenceDTO> preferenceDTOS = new ArrayList<>();
+        if(preferences != null && preferences.size() > 0) {
+            for (Preference preference : preferences) {
+                Character relChar = characterRepository.getOne(preference.getPreferedCharacter().getExternalId());
+                if(relChar != null) {
+                    PreferenceDTO preferenceDTO = new PreferenceDTO();
+                    preferenceDTO.setRange(preference.getRange());
+                    preferenceDTO.setRelCharName(relChar.getCharName());
+                    preferenceDTO.setRelCharSurname(relChar.getCharSurname());
+                    ImageDTO imageDTO = new ImageDTO();
+                    Image profilePic = imageRepository.getProfilePicForCharacter(relChar.getExternalId());
+                    if(profilePic != null) {
+                        imageDTO.setExtension(profilePic.getExtension());
+                        imageDTO.setImage(profilePic.getImage());
+                    }
+                    preferenceDTO.setRelCharAvatar(imageDTO);
+                    preferenceDTOS.add(preferenceDTO);
+                }
+
+            }
+        }
+
+        return new ResponseEntity(preferenceDTOS, HttpStatus.OK);
     }
 }

@@ -9,7 +9,8 @@
     "SAVE_CHANGES": "Zatwierdź zmiany",
     "DELETE": "Usuń",
     "SEND": "Wyślij",
-    "CHOOSE_CHAR": "Wybierz postać"
+    "CHOOSE_CHAR": "Wybierz postać",
+    "LEGEND_KEY": "Legenda"
   },
   "NAVBAR": {
     "CHARACTERS": "Postacie",
@@ -44,7 +45,13 @@
     "TEEN": "Nastolatek",
     "ADULT": "Dorosły",
     "NO_PHOTOS": "Brak zdjęć",
-    "NO_STORY": "Brak znanej historii."
+    "NO_STORY": "Brak znanej historii.",
+    "APPEARANCE": "Obecność w częściach",
+    "STARRED_AS_MAIN": "Występował jako postać główna",
+    "STARRED_AS_SIDE": "Występował jako postać poboczna",
+    "STARRED_AS_BG": "Występował epizodycznie",
+    "STARRED_AS_MTN": "Został wspomniany",
+    "NO_STARRED": "Nie występował ani nie został wspomniany"
   },
   "CHARS_PANEL": {
     "NEW_CHAR": "Dodaj nową postać",

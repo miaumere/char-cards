@@ -9,7 +9,8 @@
     "SAVE_CHANGES": "Save changes",
     "DELETE": "Delete",
     "SEND": "Send",
-    "CHOOSE_CHAR": "Choose character"
+    "CHOOSE_CHAR": "Choose character",
+    "LEGEND_KEY": "Key"
   },
   "NAVBAR": {
     "CHARACTERS": "Characters",
@@ -44,7 +45,13 @@
     "TEEN": "Teenager",
     "ADULT": "Adult",
     "NO_PHOTOS": "No photos available",
-    "NO_STORY": "No story available"
+    "NO_STORY": "No story available",
+    "APPEARANCE": "Appearance in chapters",
+    "STARRED_AS_MAIN": "Starred as main character",
+    "STARRED_AS_SIDE": "Starred as side character",
+    "STARRED_AS_BG": "Background appearance",
+    "STARRED_AS_MTN": "No appearance, but a mention by name or title",
+    "NO_STARRED": "No appearance and no mention"
   },
   "CHARS_PANEL": {
     "NEW_CHAR": "Add new character",

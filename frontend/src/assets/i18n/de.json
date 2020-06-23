@@ -9,7 +9,8 @@
     "SAVE_CHANGES": "Änderungen speichern",
     "DELETE": "Löschen",
     "SEND": "Speichern",
-    "CHOOSE_CHAR": "Figuren wählen"
+    "CHOOSE_CHAR": "Figuren wählen",
+    "LEGEND_KEY": "Legende"
   },
   "NAVBAR": {
     "CHARACTERS": "Figuren",
@@ -44,7 +45,13 @@
     "TEEN": "Jugendlicher",
     "ADULT": "Erwachsener",
     "NO_PHOTOS": "Die Fotos ist nicht erhältlich.",
-    "NO_STORY": "Die Geschichte ist nicht erhältlich."
+    "NO_STORY": "Die Geschichte ist nicht erhältlich.",
+    "APPEARANCE": "Aussehen",
+    "STARRED_AS_MAIN": "Hauptgrundaussehen",
+    "STARRED_AS_SIDE": "Nebengrundaussehen",
+    "STARRED_AS_BG": "Hintergrundaussehen",
+    "STARRED_AS_MTN": "Nur erwähnt",
+    "NO_STARRED": "Kein Auftritt und keine Erwähnung"
   },
   "CHARS_PANEL": {
     "NEW_CHAR": "Neue Figure hinzufügen",
