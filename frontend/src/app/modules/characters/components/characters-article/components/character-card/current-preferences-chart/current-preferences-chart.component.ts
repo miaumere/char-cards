@@ -1,21 +1,81 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import * as d3 from 'd3';
+import * as _ from 'lodash';
 import { BaseComponent } from 'src/app/core/base.component';
 import { CharacterPreferences } from 'src/app/modules/characters/models/character-preferences.model';
+
+
+interface IPreferenceTypes {
+  preferenceType: string;
+  color: string;
+  preferenceMin: number;
+  preferenceMax: number;
+}
 
 @Component({
   selector: 'app-current-preferences-chart',
   templateUrl: './current-preferences-chart.component.html',
   styleUrls: ['./current-preferences-chart.component.scss']
 })
+
+
 export class CurrentPreferencesComponent extends BaseComponent implements OnInit {
   @ViewChild('preferencesChart')
   private chartContainer: ElementRef;
 
-  svgViewport;
-
   @Input() preferences: CharacterPreferences[];
+
+
+
+
+
+
+  readonly preferenceTypes: IPreferenceTypes[] = [
+    {
+      preferenceType: 'love',
+      color: '#C9A6A6',
+      preferenceMin: 90,
+      preferenceMax: 100
+    },
+    {
+      preferenceType: 'admiration',
+      color: '#C7B7AB',
+      preferenceMin: 75,
+      preferenceMax: 90
+    },
+    {
+      preferenceType: 'sympathy',
+      color: '#BFC9AA',
+      preferenceMin: 60,
+      preferenceMax: 75
+    },
+    {
+      preferenceType: 'neutral',
+      color: '#C4C4C4',
+      preferenceMin: 45,
+      preferenceMax: 60
+    },
+    {
+      preferenceType: 'conflict',
+      color: '#B3C2CD',
+      preferenceMin: 30,
+      preferenceMax: 45
+    },
+    {
+      preferenceType: 'enemy',
+      color: '#CBA6B8',
+      preferenceMin: 15,
+      preferenceMax: 30
+    },
+    {
+      preferenceType: 'hatred',
+      color: '#8B8B8B',
+      preferenceMin: 0,
+      preferenceMax: 15
+    }
+  ];
+
   constructor(
     private _translate: TranslateService
   ) { super(); }
@@ -35,43 +95,66 @@ export class CurrentPreferencesComponent extends BaseComponent implements OnInit
     const margin = { top: 30, right: 40, bottom: 50, left: 60 };
     const height = svgHeight - margin.top - margin.bottom;
     const width = svgWidth - margin.left - margin.right;
+
     let circles;
+    let rects;
+    let transform;
 
     const xAxisScale = d3.scaleLinear()
       .domain([0, 100])
       .range([0, width]);
 
+
+    const lazyZoom = _.debounce((event) => {
+      const new_xScale = event.transform.rescaleX(xAxisScale);
+      const transform: d3.ZoomTransform = event.transform;
+      const transformString = `translate(${transform.x},0) scale(${transform.k},1)`;
+
+      gX.transition()
+        .duration(50)
+        .call(xAxis.scale(new_xScale));
+
+      circles?.attr('cx', (d) => new_xScale(d.range));
+      rects?.attr('transform', transformString);
+      d3.selectAll('line')
+        .style('stroke', 'black');
+
+      d3.selectAll('text')
+        .style('fill', 'black');
+
+    }, 10);
+
     const svgViewport = d3.select(element)
       .append('svg')
       .attr('width', svgWidth)
       .attr('height', svgHeight)
-      .style('background', 'rgba(245, 245, 245, 0.3)')
-      .call(d3.zoom().on('zoom', () => {
-        console.log('zium');
-
-        const new_xScale = d3.event.transform.rescaleX(xAxisScale);
-
-
-        gX.transition()
-          .duration(50)
-          .call(xAxis.scale(new_xScale));
-
-
-        if (circles) {
-          circles.attr('cx', (d) => { return new_xScale(d.range); });
-        }
-
-
-      }));
-
-
+      .call(
+        d3.zoom()
+          .scaleExtent([1, 4])
+          .translateExtent([[0 - (width * 0.2), 0], [width * 1.2, height]])
+          .on('zoom', () => {
+            lazyZoom(d3.event);
+          })
+      );
     // Inner Drawing Space
     const innerSpace = svgViewport.append('g')
       .attr('class', 'inner_space')
       .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
+    const defs = svgViewport.append('defs');
+
+    const shadowFilter = defs
+      .append('filter')
+      .attr('id', 'shadow');
+
+    shadowFilter
+      .append('svg:feDropShadow')
+      .attr('dx', '0.2')
+      .attr('dy', '0')
+      .attr('stdDeviation', '1.7');
+
+
     for (const pref of this.preferences) {
-      const defs = svgViewport.append('defs');
       defs
         .append('pattern')
         .attr('id', 'image_' + pref.relCharId)
@@ -87,9 +170,21 @@ export class CurrentPreferencesComponent extends BaseComponent implements OnInit
         .attr('width', '1')
         .attr('preserveAspectRatio', 'xMidYMid slice')
         .attr('xlink:href', `data:image/${pref.relCharAvatar?.extension};base64,${pref.relCharAvatar?.image}`);
-
-
     }
+
+
+    rects = innerSpace.append('g')
+      .attr('id', 'rects')
+      .selectAll('rect')
+      .data(this.preferenceTypes)
+      .enter()
+      .append('rect')
+      .attr('width', (d) => (xAxisScale(d.preferenceMax - d.preferenceMin)))
+      .attr('height', '50')
+      .attr('y', '-40')
+      .attr('x', (d) => xAxisScale(d.preferenceMin))
+      .attr('style', 'filter: url(#shadow)')
+      .attr('fill', (d) => d.color);
 
     circles = innerSpace.append('g')
       .attr('id', 'circles')
@@ -97,16 +192,11 @@ export class CurrentPreferencesComponent extends BaseComponent implements OnInit
       .data(this.preferences)
       .enter()
       .append('circle')
-      .attr('r', 19)
-      .attr('fill', (d) => { console.log(d); return 'red' })
-      .attr('cy', '0')
-      .attr('cx', (d) => { return xAxisScale(d.range); })
+      .attr('r', 18)
+      .attr('cy', '-10')
+      .attr('cx', (d) => xAxisScale(d.range))
       .attr('stroke', 'black')
-      .attr('fill', (d) => {
-        return `url(#image_${d.relCharId})`
-      })
-    // .attr('fill', 'url(#image_' + pref.relCharId + ')');
-    // .style('fill', 'red');
+      .attr('fill', (d) => `url(#image_${d.relCharId})`);
 
 
 
@@ -116,38 +206,14 @@ export class CurrentPreferencesComponent extends BaseComponent implements OnInit
       .attr('transform', 'translate(0,' + height + ')')
       .call(xAxis);
 
+    d3.selectAll('line')
+      .style('stroke', 'black');
 
+    d3.selectAll('path')
+      .style('stroke', 'black');
 
-
-
-    // Draw Axis
-    // const gY = innerSpace.append('g')
-    //   .attr('class', 'axis axis--y')
-    //   .call(yAxis);
-
-    // append zoom area
-    // const view = innerSpace.append('rect')
-    //   .attr('class', 'zoom')
-    //   .attr('width', width)
-    //   .attr('height', height)
-    //   .attr('fill', 'transparent')
-    //   .call(zoom);
-
-
-    // for (const pref of this.preferences) {
-
-    //   const newCircle = innerSpace.append('circle')
-    //     .attr('cx', xAxisScale(pref.range))
-    //     .attr('class', 'circle')
-    //     .attr('r', 20)
-    //     .attr('stroke', 'black')
-    //     .attr('fill', 'url(#image_' + pref.relCharId + ')');
-
-    //   circles.push(newCircle);
-
-
-    // }
-
+    d3.selectAll('text')
+      .style('fill', 'black');
 
   }
 

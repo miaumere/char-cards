@@ -22,19 +22,19 @@ export class CharacterPreferencesComponent extends BaseComponent implements OnIn
     {
       preferenceType: 'love',
       preferenceName: this._translate.instant('PREFERENCES.LOVE'),
-      preferenceMin: 91,
+      preferenceMin: 90,
       preferenceMax: 100
     },
     {
       preferenceType: 'admiration',
       preferenceName: this._translate.instant('PREFERENCES.ADMIRATION'),
-      preferenceMin: 76,
+      preferenceMin: 75,
       preferenceMax: 90
     },
     {
       preferenceType: 'sympathy',
       preferenceName: this._translate.instant('PREFERENCES.SYMPATHY'),
-      preferenceMin: 61,
+      preferenceMin: 60,
       preferenceMax: 75
     },
     {
@@ -53,13 +53,13 @@ export class CharacterPreferencesComponent extends BaseComponent implements OnIn
       preferenceType: 'enemy',
       preferenceName: this._translate.instant('PREFERENCES.ENEMY'),
       preferenceMin: 15,
-      preferenceMax: 29
+      preferenceMax: 30
     },
     {
       preferenceType: 'hatred',
       preferenceName: this._translate.instant('PREFERENCES.HATRED'),
       preferenceMin: 0,
-      preferenceMax: 14
+      preferenceMax: 15
     }
   ];
 
