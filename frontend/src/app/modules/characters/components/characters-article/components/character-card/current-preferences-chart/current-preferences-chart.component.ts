@@ -27,8 +27,7 @@ export class CurrentPreferencesComponent extends BaseComponent implements OnInit
   @Input() preferences: CharacterPreferences[];
 
 
-
-
+  isLinearChartVisible: boolean = false;
 
 
   readonly preferenceTypes: IPreferenceTypes[] = [
@@ -186,17 +185,25 @@ export class CurrentPreferencesComponent extends BaseComponent implements OnInit
       .attr('style', 'filter: url(#shadow)')
       .attr('fill', (d) => d.color);
 
-    circles = innerSpace.append('g')
+    const circlesGroup = innerSpace.append('g')
       .attr('id', 'circles')
       .selectAll('circle')
       .data(this.preferences)
       .enter()
+
+    // circlesGroup
+
+
+    circles = circlesGroup
       .append('circle')
       .attr('r', 18)
       .attr('cy', '-10')
       .attr('cx', (d) => xAxisScale(d.range))
       .attr('stroke', 'black')
-      .attr('fill', (d) => `url(#image_${d.relCharId})`);
+      .attr('fill', (d) => `url(#image_${d.relCharId})`)
+      .on("click", (d) => {
+        this.isLinearChartVisible = true;
+      })
 
 
 
