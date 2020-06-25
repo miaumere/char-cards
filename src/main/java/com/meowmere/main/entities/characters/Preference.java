@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Entity
-@Table(uniqueConstraints = {@UniqueConstraint(columnNames ={"character_id","prefered_character_id"})})
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames ={"character_id","prefered_character_id", "date_of_origin"})})
 public class Preference {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)

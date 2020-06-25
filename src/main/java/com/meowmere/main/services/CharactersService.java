@@ -9,6 +9,8 @@ import com.meowmere.main.dto.character.colors.CharacterColorDTO;
 import com.meowmere.main.dto.character.image.ImageDTO;
 import com.meowmere.main.dto.character.image.ProfilePicForMainDTO;
 import com.meowmere.main.dto.character.measurements.CharacterMeasurementsDTO;
+import com.meowmere.main.dto.character.preference.AllPreferencesDTO;
+import com.meowmere.main.dto.character.preference.HistoricPreferenceDTO;
 import com.meowmere.main.dto.character.quote.CharacterQuoteDTO;
 import com.meowmere.main.dto.character.quote.QuoteForListDTO;
 import com.meowmere.main.dto.character.relationship.RelatedCharacterDTO;
@@ -245,6 +247,40 @@ public class CharactersService {
             dtoList.add(dto);
         }
         return new ResponseEntity(dtoList, HttpStatus.OK);
+    }
+
+//    public ResponseEntity getAllPreferencesForCharacter(Long charId) {
+//
+//        return new ResponseEntity(HttpStatus.OK);
+//    }
+
+    public ResponseEntity getHistoricalPreferencesForCharacter(Long charId, Long relatedCharId) {
+        Character character = characterRepository.getOne(relatedCharId);
+            AllPreferencesDTO dto = new AllPreferencesDTO();
+            dto.setRelCharacterId(relatedCharId);
+        if(character != null) {
+            dto.setRelCharacterName(character.getCharName());
+            dto.setRelCharacterSurname(character.getCharSurname());
+
+            ArrayList<HistoricPreferenceDTO> historicPreferenceDTOS = new ArrayList<>();
+            ArrayList<Preference> preferences = preferenceRepository.getHistoricalPreferences(charId, relatedCharId);
+            if(preferences != null && preferences.size() > 0) {
+                for (Preference preference:preferences) {
+                    HistoricPreferenceDTO historicPreferenceDTO = new HistoricPreferenceDTO();
+                    if(preference.getDateOfOrigin() != null) {
+                        historicPreferenceDTO.setDateOfOrigin(preference.getDateOfOrigin().toString());
+                    }
+                    historicPreferenceDTO.setRange(preference.getRange());
+
+                    historicPreferenceDTOS.add(historicPreferenceDTO);
+                }
+            }
+            dto.setPreferences(historicPreferenceDTOS);
+        }
+
+
+
+        return new ResponseEntity(dto, HttpStatus.OK);
     }
 
     public ResponseEntity changeStatusForCharacter(ChangeCharacterStateRequest character) {

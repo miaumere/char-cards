@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core'; import { BehaviorSubject, Observable, of } from 'rxjs'; import { CharacterItem, ICharacterItem } from 'src/app/modules/characters/models/character-item.model'; import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http'; import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router'; import { map, tap } from 'rxjs/operators'; import { ICharacterForListItem } from 'src/app/modules/characters/models/character-for-list-item.model'; import { Character, ICharacter } from 'src/app/modules/characters/models/character.model'; import { IRelationshipsForCharacter, RelationshipsForCharacter } from 'src/app/modules/admin-panel/models/relationships/relationships-for-char.model'; import { IQuote } from 'src/app/modules/characters/models/quote.model'; import { IEditCharacter, EditCharacter } from 'src/app/modules/admin-panel/models/edit-character.model'; import { IStory, Story } from 'src/app/modules/admin-panel/models/character-story/story.model'; import { CharacterForChange } from 'src/app/modules/admin-panel/models/character-for-change.model'; import { EditQuote } from 'src/app/modules/admin-panel/models/quotes/edit-quote.model'; import { EditImageName } from 'src/app/modules/admin-panel/models/images/edit-image-name.model'; import { EditRelationship } from 'src/app/modules/admin-panel/models/relationships/edit-relationship.model'; import { EditStory } from 'src/app/modules/admin-panel/models/character-story/story-to-edit.model'; import { NewStory } from 'src/app/modules/admin-panel/models/character-story/new-story.model'; import { CreateCharacter } from 'src/app/modules/admin-panel/models/create-character.model'; import { IRelationRequest } from 'src/app/modules/admin-panel/models/relationships/relation-request.model'; import { NewQuote } from 'src/app/modules/admin-panel/models/quotes/new-quote.model';
 import { IEditPreference } from 'src/app/modules/admin-panel/models/preferences/edit-preferences.model';
+import { IAllPreferences, AllPreferences } from 'src/app/modules/characters/models/all-preferences.model';
 
 
 @Injectable({
@@ -15,6 +16,7 @@ export class CharactersService {
   private readonly _getQuotesURL = `${this.charControllerURL}/get-quotes`;
   private readonly _getRelationshipsForCharURL = `${this.charControllerURL}/get-relationships`;
   private readonly _getStoriesForCharURL = `${this.charControllerURL}/get-stories-for-character`;
+  private readonly getHistoricalPreferencesForCharacterURL = `${this.charControllerURL}/get-characters-historical-preferences`;
 
   private readonly _patchChangeStateURL = `${this.charControllerURL}/change-state`;
   private readonly _patchQuoteURL = `${this.charControllerURL}/edit-quote`;
@@ -114,6 +116,20 @@ export class CharactersService {
         })
       );
 
+  }
+
+  getCharactersHistoricalPreferences(charId: number, relatedCharId: number) {
+    const params = new HttpParams()
+      .set('charId', '' + charId)
+      .set('relatedCharId', '' + relatedCharId);
+
+    return this.http.get<IAllPreferences>(this.getHistoricalPreferencesForCharacterURL, { params })
+      .pipe(
+        map(response => {
+          const mappedResponse = new AllPreferences(response);
+          return mappedResponse;
+        })
+      );
   }
 
   patchCharacterState(requestBody: CharacterForChange) {

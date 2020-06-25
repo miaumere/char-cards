@@ -15,13 +15,17 @@ import com.meowmere.main.enums.Gender;
 import com.meowmere.main.repositories.character.CharacterRepository;
 import com.meowmere.main.repositories.character.ImageRepository;
 import com.meowmere.main.repositories.character.PreferenceRepository;
+import com.meowmere.main.utils.UtilsShared;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class StatisticsService {
@@ -152,10 +156,33 @@ public class StatisticsService {
     }
 
     public ResponseEntity getPreferencesForCharacter(Long charId) {
-        ArrayList<Preference> preferences = preferenceRepository.getPreferencesForCharacter(charId);
+        List<Preference> preferences = preferenceRepository.getPreferencesForCharacter(charId);
+        List<Preference> result = new ArrayList<>();
+
+        HashMap<Long, List<Preference>> preferenceMap = new HashMap<>();
+        for (Preference preference : preferences){
+            Long uniqueKey = preference.getPreferedCharacter().getExternalId();
+
+            List<Preference> preferenceList = preferenceMap.get(uniqueKey);
+            if(preferenceList == null ) {
+                preferenceList = new ArrayList<>();
+            }
+            preferenceList.add(preference);
+            preferenceMap.put(uniqueKey, preferenceList);
+        }
+
+
+        for(Map.Entry<Long, List<Preference>> entry : preferenceMap.entrySet()) {
+            List<Preference> preferenceList = entry.getValue();
+            Preference foundPref = preferenceList.get(0);
+
+            result.add(foundPref);
+        }
+
+
         ArrayList<PreferenceDTO> preferenceDTOS = new ArrayList<>();
-        if(preferences != null && preferences.size() > 0) {
-            for (Preference preference : preferences) {
+        if(result != null && result.size() > 0) {
+            for (Preference preference : result) {
                 Character relChar = characterRepository.getOne(preference.getPreferedCharacter().getExternalId());
                 if(relChar != null) {
                     PreferenceDTO preferenceDTO = new PreferenceDTO();

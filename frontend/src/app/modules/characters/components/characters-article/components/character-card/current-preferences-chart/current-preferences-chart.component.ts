@@ -29,6 +29,8 @@ export class CurrentPreferencesComponent extends BaseComponent implements OnInit
 
   isLinearChartVisible: boolean = false;
 
+  chosenCharId?: number;
+
 
   readonly preferenceTypes: IPreferenceTypes[] = [
     {
@@ -203,9 +205,8 @@ export class CurrentPreferencesComponent extends BaseComponent implements OnInit
       .attr('fill', (d) => `url(#image_${d.relCharId})`)
       .on("click", (d) => {
         this.isLinearChartVisible = true;
+        this.chosenCharId = d.relCharId;
       })
-
-
 
     // create axis objects
     const xAxis = d3.axisBottom(xAxisScale);

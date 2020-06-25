@@ -58,6 +58,16 @@ public class CharacterController {
         return this.charactersService.getStoriesForCharacter(id);
     }
 
+//    @GetMapping("/get-preferences-for-character")
+//    public ResponseEntity getPreferencesForCharacter(@RequestParam Long id) {
+//        return this.charactersService.getPreferencesForCharacter(id);
+//    }
+
+    @GetMapping("/get-characters-historical-preferences")
+    public  ResponseEntity getCharactersHistoricalPreferences(@RequestParam Long charId, @RequestParam Long relatedCharId){
+        return this.charactersService.getHistoricalPreferencesForCharacter(charId, relatedCharId);
+    }
+
     @PostMapping("/new-character")
     public ResponseEntity createCharacter(@RequestBody CreateCharacterRequest request) {
         return charactersService.createCharacter(request);

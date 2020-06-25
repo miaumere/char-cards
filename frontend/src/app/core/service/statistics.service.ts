@@ -1,8 +1,10 @@
+import { AllPreferences } from './../../modules/characters/models/all-preferences.model';
 import { IStatistics } from './../../modules/statistics/models/statistics.model';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { ICharacterPreferences, CharacterPreferences } from 'src/app/modules/characters/models/character-preferences.model';
 import { map } from 'rxjs/operators';
+import { IAllPreferences } from 'src/app/modules/characters/models/all-preferences.model';
 
 @Injectable({
   providedIn: 'root'
@@ -30,7 +32,8 @@ export class StatisticsService {
           return mappedResponse;
         })
       );
-
   }
+
+
 
 }
