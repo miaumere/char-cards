@@ -106,7 +106,6 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
 
       this._statisticsService.getPreferencesForCharacter(this.routeId)
         .subscribe(preferences => {
-          console.log(preferences)
           this.preferences = preferences;
         })
     }

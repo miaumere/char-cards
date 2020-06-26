@@ -62,10 +62,7 @@ export class HistoricalPreferencesComponent extends BaseComponent implements OnI
       this.getHistoricalPreferences();
     }
     this.chartContainer?.nativeElement.childNodes[0].remove();
-
   }
-
-
 
   getHistoricalPreferences() {
     this.subscriptions$.add(
@@ -73,7 +70,7 @@ export class HistoricalPreferencesComponent extends BaseComponent implements OnI
         .getCharactersHistoricalPreferences(this.charId, this.relatedCharId)
         .subscribe(historicalPreferences => {
           this.historicalPreferences = historicalPreferences;
-          console.log(this.historicalPreferences.preferences)
+          console.log("preferencje: ", this.historicalPreferences.preferences);
           this.createChart();
         })
     );
@@ -88,7 +85,9 @@ export class HistoricalPreferencesComponent extends BaseComponent implements OnI
     const height = svgHeight - margin.top - margin.bottom;
     const width = svgWidth - margin.left - margin.right;
 
-    let xAxisScale = d3.scaleLinear()
+
+    const xAxisScale = d3.scaleTime()
+      .rangeRound([0, width])
       .domain([0, this.historicalPreferences.preferences.length - 1])
       .range([0, width]);
 
@@ -96,13 +95,9 @@ export class HistoricalPreferencesComponent extends BaseComponent implements OnI
       .domain([0, 100])
       .range([height, 0]);
 
-    let line = d3.line()
+    const line = d3.line()
       .x((d, i) => xAxisScale(i))
-      .y((d: any) => yAxisScale(d.y))
-
-    const dataset = d3.range(this.historicalPreferences.preferences.length).map((d) => { return { 'y': 30 }; });
-
-    // const dataset = this.historicalPreferences.preferences.map((d) => { return { 'y': d.range }; });
+      .y((d: any) => yAxisScale(d.y));
 
     const svg = d3.select(element).append('svg')
       .attr('width', width)
@@ -110,17 +105,13 @@ export class HistoricalPreferencesComponent extends BaseComponent implements OnI
       .append('g')
       .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
-
-    console.log(this.preferenceTypes)
     svg.append('g')
       .attr('id', 'rects')
       .selectAll('rect')
       .data(this.preferenceTypes)
       .enter()
       .append('rect')
-      // .attr('transform', 'translate(0, -' + margin.bottom + ')')
-      // .attr('height', (d) => (yAxisScale(d.preferenceMax - d.preferenceMin)))
-      .attr('height', (d) => { return (d.preferenceMax - d.preferenceMin) + 4 })
+      .attr('height', (d) => (d.preferenceMax - d.preferenceMin) + 3)
       .attr('width', width)
       .attr('y', (d) => yAxisScale(d.preferenceMax))
       .attr('x', '0')
@@ -128,7 +119,16 @@ export class HistoricalPreferencesComponent extends BaseComponent implements OnI
 
     svg.append('g')
       .attr('transform', 'translate(0,' + height + ')')
-      .call(d3.axisBottom(xAxisScale));
+      .call(
+        d3.axisBottom(xAxisScale)
+          .tickFormat(d3.timeFormat('%d.%m.%Y'))
+          .tickValues(
+            this.historicalPreferences
+              .preferences
+              .map(d => d.dateOfOrigin ? new Date(d.dateOfOrigin) : new Date(Date.now())
+              ))
+      );
+
 
     svg.append('g')
       .call(
@@ -136,12 +136,8 @@ export class HistoricalPreferencesComponent extends BaseComponent implements OnI
           .tickValues([0, 25, 50, 75, 100])
       );
 
-
-
-    console.log("dataset", dataset)
-
     svg.append('path')
-      .datum(dataset)
+      .datum(this.historicalPreferences.preferences.map((d) => ({ y: d.range })))
       .attr('class', 'line')
       .attr('fill', 'none')
       .attr('stroke', '#9B75B9')
@@ -149,14 +145,14 @@ export class HistoricalPreferencesComponent extends BaseComponent implements OnI
       .attr('d', line as any);
 
     svg.selectAll('.dot')
-      .data(dataset)
+      .data(this.historicalPreferences.preferences)
       .enter().append('circle')
       .attr('r', 3)
       .attr('fill', 'white')
       .attr('stroke', '#9B75B9')
       .attr('stroke-width', '2')
-      .attr('cx', function (d, i) { return xAxisScale(i); })
-      .attr('cy', function (d) { return yAxisScale(d.y); });
+      .attr('cx', (d, i) => xAxisScale(i))
+      .attr('cy', (d) => yAxisScale(d.range));
 
 
     d3.selectAll('line')

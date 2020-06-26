@@ -15,7 +15,7 @@ public interface PreferenceRepository  extends JpaRepository<Preference, Long> {
 
     @Query("SELECT p FROM Preference p WHERE p.character.externalId = :charId " +
             "and p.preferedCharacter.externalId = :preferedCharacter " +
-            "order by p.dateOfOrigin desc")
+            "order by p.dateOfOrigin asc")
     ArrayList<Preference> getHistoricalPreferences(@Param("charId") Long charId, @Param("preferedCharacter") Long preferedCharacter);
 
 }
