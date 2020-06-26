@@ -206,7 +206,14 @@
     "NEUTRAL": "Neutralność",
     "CONFLICT": "Konflikt",
     "ENEMY": "Wrogość",
-    "HATRED": "Nienawiść"
+    "HATRED": "Nienawiść",
+    "LOVE_DEF": "Silna więź, jaka łączy ludzi sobie bliskich.",
+    "ADMIRATION_DEF": "Przejaw podziwu i uwielbienia dla kogoś lub czegoś",
+    "SYMPATHY_DEF": "Życzliwy lub przyjazny stosunek do kogoś",
+    "NEUTRAL_DEF": "Brak emocji ani szczególnej relacji między dwoma osobami. ",
+    "CONFLICT_DEF": "Nieprzyjazny stosunek do kogoś. ",
+    "ENEMY_DEF": "Awersja, niechęć do danej osoby.",
+    "HATRED_DEF": "Silna niechęć, awersja, wrogość do danej osoby."
   },
   "TOASTR_MESSAGE": {
     "ERROR": "Wystąpił błąd.",

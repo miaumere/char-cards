@@ -73,12 +73,20 @@ export class HistoricalPreferencesComponent extends BaseComponent implements OnI
           this.historicalPreferences = historicalPreferences;
           // console.log('preferences', historicalPreferences);
 
+
+
           if (historicalPreferences.preferences.length === 1) {
             const pref: IHistoricalPreference = {
               range: historicalPreferences.preferences[0].range,
               dateOfOrigin: new Date(0).toString()
             }
+
+
             historicalPreferences.preferences.push(pref)
+            const tmp = historicalPreferences.preferences[0];
+            historicalPreferences.preferences[0] = historicalPreferences.preferences[1]
+            historicalPreferences.preferences[1] = tmp;
+            console.log(historicalPreferences.preferences)
           }
           this.createChart();
         })

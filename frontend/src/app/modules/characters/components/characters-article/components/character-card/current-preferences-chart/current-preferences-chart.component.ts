@@ -1,17 +1,12 @@
+import { preferenceTypes } from './../preference-types';
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import * as d3 from 'd3';
 import * as _ from 'lodash';
 import { BaseComponent } from 'src/app/core/base.component';
 import { CharacterPreferences } from 'src/app/modules/characters/models/character-preferences.model';
+import { IPreferenceTypes } from 'src/app/modules/characters/models/preference-type.model';
 
-
-interface IPreferenceTypes {
-  preferenceType: string;
-  color: string;
-  preferenceMin: number;
-  preferenceMax: number;
-}
 
 @Component({
   selector: 'app-current-preferences-chart',
@@ -25,57 +20,12 @@ export class CurrentPreferencesComponent extends BaseComponent implements OnInit
   private chartContainer: ElementRef;
 
   @Input() preferences: CharacterPreferences[];
-
+  preferenceTypes: IPreferenceTypes[] = preferenceTypes;
 
   isLinearChartVisible: boolean = false;
 
   chosenCharId?: number;
 
-
-  readonly preferenceTypes: IPreferenceTypes[] = [
-    {
-      preferenceType: 'love',
-      color: '#C9A6A6',
-      preferenceMin: 90,
-      preferenceMax: 100
-    },
-    {
-      preferenceType: 'admiration',
-      color: '#C7B7AB',
-      preferenceMin: 75,
-      preferenceMax: 90
-    },
-    {
-      preferenceType: 'sympathy',
-      color: '#BFC9AA',
-      preferenceMin: 60,
-      preferenceMax: 75
-    },
-    {
-      preferenceType: 'neutral',
-      color: '#C4C4C4',
-      preferenceMin: 45,
-      preferenceMax: 60
-    },
-    {
-      preferenceType: 'conflict',
-      color: '#B3C2CD',
-      preferenceMin: 30,
-      preferenceMax: 45
-    },
-    {
-      preferenceType: 'enemy',
-      color: '#CBA6B8',
-      preferenceMin: 15,
-      preferenceMax: 30
-    },
-    {
-      preferenceType: 'hatred',
-      color: '#8B8B8B',
-      preferenceMin: 0,
-      preferenceMax: 15
-    }
-  ];
 
   constructor(
     private _translate: TranslateService

@@ -203,10 +203,17 @@
     "LOVE": "Liebe",
     "ADMIRATION": "Bewunderung",
     "SYMPATHY": "Neigung",
-    "NEUTRAL": "Neutralität",
     "CONFLICT": "Konflikt",
     "ENEMY": "Feindschaft",
-    "HATRED": "Hass"
+    "HATRED": "Hass",
+    "NEUTRAL": "Gleichgültigkeit",
+    "LOVE_DEF": "Liebe ist eine Bezeichnung für stärkste Zuneigung und Wertschätzung.",
+    "ADMIRATION_DEF": "Empfindung für jemanden/etwas, der/das als außergewöhnlich angesehen wird und besondere Anerkennung verdient",
+    "SYMPATHY_DEF": "Unter Interesse versteht man die kognitive Anteilnahme respektive die Aufmerksamkeit, die eine Person an einer Sache oder einer anderen Person nimmt. Je größer diese Anteilnahme ist, desto stärker ist das Interesse der Person für diese Sache.",
+    "NEUTRAL_DEF": "Gleichgültigkeit bezeichnet einen Wesenszug des Menschen, welcher Gegebenheiten und Ereignisse hinnimmt, ohne diese zu werten, sich dafür zu interessieren, sich ein moralisches Urteil darüber zu bilden oder handelnd aktiv zu werden, um diese zu ändern.",
+    "CONFLICT_DEF": "Verachtung ist eine starke Geringschätzung, basierend auf der bewussten oder unbewussten Überzeugung des Unwertes der von ihr betroffenen Personen (auch Personengruppen) oder Institutionen.",
+    "ENEMY_DEF": "Der Begriff Feindschaft bezeichnet eine soziale Beziehung zwischen zwei oder mehr Individuen oder Gruppen, die durch die Existenz von Feindbildern gekennzeichnet ist. Die Feindschaft kann aufgrund einer Konkurrenzsituation, einer asymmetrischen Beziehung oder einer mit negativen Emotionen behafteten Beziehungsgeschichte entstehen.",
+    "HATRED_DEF": "Hass ist ein intensives Gefühl der Abneigung und Feindseligkeit. Hass wird als Gegenpol zur Liebe betrachtet."
   },
   "TOASTR_MESSAGE": {
     "ERROR": "Ein Fehler ist aufgetreten.",

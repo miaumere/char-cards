@@ -203,10 +203,17 @@
     "LOVE": "Love",
     "ADMIRATION": "Admiration",
     "SYMPATHY": "Sympathy",
-    "NEUTRAL": "Neutral",
+    "NEUTRAL": "Indifference",
     "CONFLICT": "Conflict",
-    "ENEMY": "Enemy",
-    "HATRED": "Hatred"
+    "ENEMY": "Enmity",
+    "HATRED": "Hatred",
+    "LOVE_DEF": "Love encompasses a range of strong and positive emotional and mental states, from the most sublime virtue or good habit, the deepest interpersonal affection and to the simplest pleasure.",
+    "ADMIRATION_DEF": "Admiration is a social emotion felt by observing people of competence, talent, or skill exceeding standards. Admiration facilitates social learning in groups. Admiration motivates self-improvement through learning from role-models.",
+    "SYMPATHY_DEF": "Sympathy is a feeling of care and concern for someone, often someone close, accompanied by a wish to see him better off or happier. Compared to pity, sympathy implies a greater sense of shared similarities together with a more profound personal engagement.",
+    "NEUTRAL_DEF": "Indifference is a lack of feeling, emotion, interest, or concern about something.",
+    "CONFLICT_DEF": "A conflict is a clash of interest. The basis of conflict may vary but it is always a part of society. Basis of conflict may be personal, racial, class, caste, political and international.",
+    "ENEMY_DEF": "Enmity is a feeling of hatred towards someone that lasts for a long time.",
+    "HATRED_DEF": "Hatred is a feeling. It can cause an angry, or resentful emotional response, which can be used against certain people, or ideas. Hatred is often associated with feelings of anger, disgust and a disposition towards the source of hostility."
   },
   "TOASTR_MESSAGE": {
     "ERROR": "An error has occured.",

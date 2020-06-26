@@ -1,14 +1,16 @@
+import { preferenceTypes } from './preference-types';
 import { CharacterPreferences } from './../../../../models/character-preferences.model';
 import { StatisticsService } from 'src/app/core/service/statistics.service';
 import { CountriesService } from 'src/app/core/service/countries.service';
-import { Component, OnInit, Output, EventEmitter, OnDestroy } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { BaseComponent } from 'src/app/core/base.component';
-import { Character, ICharacter } from 'src/app/modules/characters/models/character.model';
+import { Character } from 'src/app/modules/characters/models/character.model';
 import { CharactersService } from 'src/app/core/service/characters.service';
 import { ActivatedRoute } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import * as tinycolor from 'tinycolor2';
 import { Measurements, IMeasurements } from 'src/app/modules/characters/models/measurements.model';
+import { IPreferenceTypes } from 'src/app/modules/characters/models/preference-type.model';
 
 
 @Component({
@@ -21,12 +23,17 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
 
   measurementsData: any[] = [];
 
+  isPrefLegendVisible = false;
+
+  preferenceTypes: IPreferenceTypes[] = preferenceTypes;
+
 
   @Output() bgColorFromChild = new EventEmitter<string>();
 
   routeId: number | null = null;
   character: Character | null = null;
   currentImageIndex = 0;
+
 
   loading = true;
 
