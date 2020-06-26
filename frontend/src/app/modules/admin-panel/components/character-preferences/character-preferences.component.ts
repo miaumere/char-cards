@@ -40,7 +40,7 @@ export class CharacterPreferencesComponent extends BaseComponent implements OnIn
     {
       preferenceType: 'neutral',
       preferenceName: this._translate.instant('PREFERENCES.NEUTRAL'),
-      preferenceMin: 46,
+      preferenceMin: 45,
       preferenceMax: 60
     },
     {

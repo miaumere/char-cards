@@ -99,7 +99,6 @@ export class CurrentPreferencesComponent extends BaseComponent implements OnInit
 
     let circles;
     let rects;
-    let transform;
 
     const xAxisScale = d3.scaleLinear()
       .domain([0, 100])
