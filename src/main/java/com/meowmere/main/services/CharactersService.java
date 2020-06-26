@@ -249,10 +249,13 @@ public class CharactersService {
         return new ResponseEntity(dtoList, HttpStatus.OK);
     }
 
-//    public ResponseEntity getAllPreferencesForCharacter(Long charId) {
-//
-//        return new ResponseEntity(HttpStatus.OK);
-//    }
+    public ResponseEntity getAllPreferencesForCharacter(Long charId) {
+        List<Preference> preferences = preferenceRepository.getPreferencesForCharacter(charId);
+
+
+
+        return new ResponseEntity(HttpStatus.OK);
+    }
 
     public ResponseEntity getHistoricalPreferencesForCharacter(Long charId, Long relatedCharId) {
         Character character = characterRepository.getOne(relatedCharId);

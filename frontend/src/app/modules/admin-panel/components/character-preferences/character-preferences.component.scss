@@ -47,6 +47,12 @@
 
     margin-top: 1rem;
 
+    &--date {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
     &--range {
     }
   }

@@ -32,14 +32,19 @@
           </mat-autocomplete>
         </mat-form-field>
 
-        <mat-form-field class="preferences-form__field">
-          <!-- <mat-label>{{'EDIT_PREFERENCES.CHOOSE_DATE' | translate}}</mat-label> -->
-          {{date ? (date | date:'yyyy / MMMM') : ('EDIT_PREFERENCES.CHOOSE_DATE' | translate)}}
-          <input matInput [matDatepicker]="dp" formControlName="date" style="display: none;">
-          <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
-          <mat-datepicker #dp startView="multi-year" (monthSelected)="chosenMonthHandler($event, dp)">
-          </mat-datepicker>
-        </mat-form-field>
+
+        <div class="preferences-form__field preferences-form__field--date">
+          <mat-form-field>
+            {{date ? (date | date:'yyyy / MMMM') : ('EDIT_PREFERENCES.CHOOSE_DATE' | translate)}}
+
+            <input matInput [matDatepicker]="dp" formControlName="date" style="display: none;">
+            <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+            <mat-datepicker #dp startView="multi-year" (monthSelected)="chosenMonthHandler($event, dp)">
+            </mat-datepicker>
+          </mat-form-field>
+          <mat-slide-toggle [checked]="this.preferencesForm.get('date')?.value === null"
+            (change)="this.preferencesForm.get('date')?.setValue(null)">NULL</mat-slide-toggle>
+        </div>
 
         <button mat-raised-button color="accent" class="preferences__button"
           [disabled]="!chosenType || preferencesForm.invalid" (click)="addPreference()">

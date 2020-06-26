@@ -5,6 +5,7 @@ import { BaseComponent } from 'src/app/core/base.component';
 import { CharactersService } from 'src/app/core/service/characters.service';
 import { IAllPreferences } from 'src/app/modules/characters/models/all-preferences.model';
 import * as d3 from 'd3';
+import { IHistoricalPreference } from 'src/app/modules/characters/models/historical-preference.model';
 
 
 interface IPreferenceTypes {
@@ -70,7 +71,7 @@ export class HistoricalPreferencesComponent extends BaseComponent implements OnI
         .getCharactersHistoricalPreferences(this.charId, this.relatedCharId)
         .subscribe(historicalPreferences => {
           this.historicalPreferences = historicalPreferences;
-          console.log("preferencje: ", this.historicalPreferences.preferences);
+          console.log("preferences", historicalPreferences)
           this.createChart();
         })
     );
@@ -87,17 +88,19 @@ export class HistoricalPreferencesComponent extends BaseComponent implements OnI
 
 
     const xAxisScale = d3.scaleTime()
-      .rangeRound([0, width])
-      .domain([0, this.historicalPreferences.preferences.length - 1])
-      .range([0, width]);
+      // .domain(this.historicalPreferences.preferences.map(d => {
+      //   return d.dateOfOrigin ? new Date(d.dateOfOrigin) : new Date();
+      // }))
+      .domain([new Date(this.historicalPreferences.preferences[0].dateOfOrigin), new Date()])
+      .range([0, width - margin.left]);
 
     const yAxisScale = d3.scaleLinear()
       .domain([0, 100])
       .range([height, 0]);
 
-    const line = d3.line()
-      .x((d, i) => xAxisScale(i))
-      .y((d: any) => yAxisScale(d.y));
+    const valueline: any = d3.line()
+      .x((d: any) => xAxisScale(d.dateOfOrigin ? new Date(d.dateOfOrigin) : new Date(Date.now())))
+      .y((d: any, i) => yAxisScale(d.range))
 
     const svg = d3.select(element).append('svg')
       .attr('width', width)
@@ -118,7 +121,10 @@ export class HistoricalPreferencesComponent extends BaseComponent implements OnI
       .attr('fill', (d) => d.color);
 
     svg.append('g')
-      .attr('transform', 'translate(0,' + height + ')')
+      .attr('transform', `translate(${0}, ${height})`)
+
+
+
       .call(
         d3.axisBottom(xAxisScale)
           .tickFormat(d3.timeFormat('%d.%m.%Y'))
@@ -137,12 +143,12 @@ export class HistoricalPreferencesComponent extends BaseComponent implements OnI
       );
 
     svg.append('path')
-      .datum(this.historicalPreferences.preferences.map((d) => ({ y: d.range })))
+      .data([this.historicalPreferences.preferences])
       .attr('class', 'line')
       .attr('fill', 'none')
       .attr('stroke', '#9B75B9')
       .attr('stroke-width', 2)
-      .attr('d', line as any);
+      .attr('d', valueline);
 
     svg.selectAll('.dot')
       .data(this.historicalPreferences.preferences)
@@ -151,7 +157,7 @@ export class HistoricalPreferencesComponent extends BaseComponent implements OnI
       .attr('fill', 'white')
       .attr('stroke', '#9B75B9')
       .attr('stroke-width', '2')
-      .attr('cx', (d, i) => xAxisScale(i))
+      .attr('cx', (d) => xAxisScale(d.dateOfOrigin ? new Date(d.dateOfOrigin) : new Date(Date.now())))
       .attr('cy', (d) => yAxisScale(d.range));
 
 

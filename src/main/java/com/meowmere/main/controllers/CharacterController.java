@@ -58,10 +58,10 @@ public class CharacterController {
         return this.charactersService.getStoriesForCharacter(id);
     }
 
-//    @GetMapping("/get-preferences-for-character")
-//    public ResponseEntity getPreferencesForCharacter(@RequestParam Long id) {
-//        return this.charactersService.getPreferencesForCharacter(id);
-//    }
+    @GetMapping("/get-all-preferences-for-character")
+    public ResponseEntity getPreferencesForCharacter(@RequestParam Long id) {
+        return this.charactersService.getAllPreferencesForCharacter(id);
+    }
 
     @GetMapping("/get-characters-historical-preferences")
     public  ResponseEntity getCharactersHistoricalPreferences(@RequestParam Long charId, @RequestParam Long relatedCharId){
