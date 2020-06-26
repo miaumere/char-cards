@@ -1,3 +1,4 @@
+import { IHistoricalPreference } from './../../../../../models/historical-preference.model';
 import { Component, ElementRef, Input, OnChanges, OnInit, SimpleChange, SimpleChanges, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -5,8 +6,7 @@ import { BaseComponent } from 'src/app/core/base.component';
 import { CharactersService } from 'src/app/core/service/characters.service';
 import { IAllPreferences } from 'src/app/modules/characters/models/all-preferences.model';
 import * as d3 from 'd3';
-import { IHistoricalPreference } from 'src/app/modules/characters/models/historical-preference.model';
-
+import * as moment from 'moment';
 
 interface IPreferenceTypes {
   preferenceType: string;
@@ -71,7 +71,15 @@ export class HistoricalPreferencesComponent extends BaseComponent implements OnI
         .getCharactersHistoricalPreferences(this.charId, this.relatedCharId)
         .subscribe(historicalPreferences => {
           this.historicalPreferences = historicalPreferences;
-          console.log("preferences", historicalPreferences)
+          // console.log('preferences', historicalPreferences);
+
+          if (historicalPreferences.preferences.length === 1) {
+            const pref: IHistoricalPreference = {
+              range: historicalPreferences.preferences[0].range,
+              dateOfOrigin: new Date(0).toString()
+            }
+            historicalPreferences.preferences.push(pref)
+          }
           this.createChart();
         })
     );
@@ -88,11 +96,13 @@ export class HistoricalPreferencesComponent extends BaseComponent implements OnI
 
 
     const xAxisScale = d3.scaleTime()
-      // .domain(this.historicalPreferences.preferences.map(d => {
-      //   return d.dateOfOrigin ? new Date(d.dateOfOrigin) : new Date();
-      // }))
-      .domain([new Date(this.historicalPreferences.preferences[0].dateOfOrigin), new Date()])
-      .range([0, width - margin.left]);
+      .domain([
+        new Date(this.historicalPreferences.preferences[0].dateOfOrigin),
+        this.historicalPreferences.preferences[this.historicalPreferences.preferences.length - 1].dateOfOrigin ?
+          new Date(this.historicalPreferences.preferences[this.historicalPreferences.preferences.length - 1].dateOfOrigin)
+          : new Date()
+      ])
+      .range([0, width - margin.left - 20]);
 
     const yAxisScale = d3.scaleLinear()
       .domain([0, 100])
@@ -100,7 +110,7 @@ export class HistoricalPreferencesComponent extends BaseComponent implements OnI
 
     const valueline: any = d3.line()
       .x((d: any) => xAxisScale(d.dateOfOrigin ? new Date(d.dateOfOrigin) : new Date(Date.now())))
-      .y((d: any, i) => yAxisScale(d.range))
+      .y((d: any, i) => yAxisScale(d.range));
 
     const svg = d3.select(element).append('svg')
       .attr('width', width)
@@ -120,19 +130,29 @@ export class HistoricalPreferencesComponent extends BaseComponent implements OnI
       .attr('x', '0')
       .attr('fill', (d) => d.color);
 
+
+
     svg.append('g')
       .attr('transform', `translate(${0}, ${height})`)
-
-
-
       .call(
         d3.axisBottom(xAxisScale)
           .tickFormat(d3.timeFormat('%d.%m.%Y'))
+          .tickFormat(d => {
+            const typedD = d as Date;
+            if (moment(new Date(typedD)).format('MM.YYYY') === moment(new Date()).format('MM.YYYY')) {
+              return this._translate.instant('SHARED.NOW');
+            } else if ((moment(new Date(typedD)).format('MM.YYYY')) === '01.1970') {
+              return '?';
+            } else {
+              return moment(new Date(typedD)).format('MM.YYYY');
+            }
+          })
           .tickValues(
             this.historicalPreferences
               .preferences
-              .map(d => d.dateOfOrigin ? new Date(d.dateOfOrigin) : new Date(Date.now())
+              .map(d => d.dateOfOrigin ? new Date(d.dateOfOrigin) : new Date()
               ))
+
       );
 
 
@@ -157,7 +177,7 @@ export class HistoricalPreferencesComponent extends BaseComponent implements OnI
       .attr('fill', 'white')
       .attr('stroke', '#9B75B9')
       .attr('stroke-width', '2')
-      .attr('cx', (d) => xAxisScale(d.dateOfOrigin ? new Date(d.dateOfOrigin) : new Date(Date.now())))
+      .attr('cx', (d) => xAxisScale(d.dateOfOrigin ? new Date(d.dateOfOrigin) : new Date()))
       .attr('cy', (d) => yAxisScale(d.range));
 
 

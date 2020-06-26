@@ -10,7 +10,8 @@
     "DELETE": "Delete",
     "SEND": "Send",
     "CHOOSE_CHAR": "Choose character",
-    "LEGEND_KEY": "Key"
+    "LEGEND_KEY": "Key",
+    "NOW": "Now"
   },
   "NAVBAR": {
     "CHARACTERS": "Characters",

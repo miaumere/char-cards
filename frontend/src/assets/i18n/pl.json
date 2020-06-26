@@ -10,7 +10,8 @@
     "DELETE": "Usuń",
     "SEND": "Wyślij",
     "CHOOSE_CHAR": "Wybierz postać",
-    "LEGEND_KEY": "Legenda"
+    "LEGEND_KEY": "Legenda",
+    "NOW": "Obecnie"
   },
   "NAVBAR": {
     "CHARACTERS": "Postacie",

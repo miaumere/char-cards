@@ -10,7 +10,8 @@
     "DELETE": "Löschen",
     "SEND": "Speichern",
     "CHOOSE_CHAR": "Figuren wählen",
-    "LEGEND_KEY": "Legende"
+    "LEGEND_KEY": "Legende",
+    "NOW": "Jetzt"
   },
   "NAVBAR": {
     "CHARACTERS": "Figuren",
