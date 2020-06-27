@@ -67,14 +67,8 @@ export class NavbarComponent extends BaseComponent implements OnInit {
   }
 
   saveLang(lang) {
-    console.log("current language: ", this.translate.currentLang)
-    console.log("lang from button: ", lang)
-
     localStorage.setItem('language', lang);
     this.translate.use(lang)
-    console.log("current language after change: ", this.translate.currentLang)
-
-
   }
 
 }

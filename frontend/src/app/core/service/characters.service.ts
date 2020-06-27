@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core'; import { BehaviorSubject, Observable, of } from 'rxjs'; import { CharacterItem, ICharacterItem } from 'src/app/modules/characters/models/character-item.model'; import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http'; import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router'; import { map, tap } from 'rxjs/operators'; import { ICharacterForListItem } from 'src/app/modules/characters/models/character-for-list-item.model'; import { Character, ICharacter } from 'src/app/modules/characters/models/character.model'; import { IRelationshipsForCharacter, RelationshipsForCharacter } from 'src/app/modules/admin-panel/models/relationships/relationships-for-char.model'; import { IQuote } from 'src/app/modules/characters/models/quote.model'; import { IEditCharacter, EditCharacter } from 'src/app/modules/admin-panel/models/edit-character.model'; import { IStory, Story } from 'src/app/modules/admin-panel/models/character-story/story.model'; import { CharacterForChange } from 'src/app/modules/admin-panel/models/character-for-change.model'; import { EditQuote } from 'src/app/modules/admin-panel/models/quotes/edit-quote.model'; import { EditImageName } from 'src/app/modules/admin-panel/models/images/edit-image-name.model'; import { EditRelationship } from 'src/app/modules/admin-panel/models/relationships/edit-relationship.model'; import { EditStory } from 'src/app/modules/admin-panel/models/character-story/story-to-edit.model'; import { NewStory } from 'src/app/modules/admin-panel/models/character-story/new-story.model'; import { CreateCharacter } from 'src/app/modules/admin-panel/models/create-character.model'; import { IRelationRequest } from 'src/app/modules/admin-panel/models/relationships/relation-request.model'; import { NewQuote } from 'src/app/modules/admin-panel/models/quotes/new-quote.model';
+import { LoaderService } from './loader.service';
+import { Injectable } from '@angular/core'; import { BehaviorSubject, Observable, of } from 'rxjs'; import { CharacterItem, ICharacterItem } from 'src/app/modules/characters/models/character-item.model'; import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http'; import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router'; import { map, tap, finalize } from 'rxjs/operators'; import { ICharacterForListItem } from 'src/app/modules/characters/models/character-for-list-item.model'; import { Character, ICharacter } from 'src/app/modules/characters/models/character.model'; import { IRelationshipsForCharacter, RelationshipsForCharacter } from 'src/app/modules/admin-panel/models/relationships/relationships-for-char.model'; import { IQuote } from 'src/app/modules/characters/models/quote.model'; import { IEditCharacter, EditCharacter } from 'src/app/modules/admin-panel/models/edit-character.model'; import { IStory, Story } from 'src/app/modules/admin-panel/models/character-story/story.model'; import { CharacterForChange } from 'src/app/modules/admin-panel/models/character-for-change.model'; import { EditQuote } from 'src/app/modules/admin-panel/models/quotes/edit-quote.model'; import { EditImageName } from 'src/app/modules/admin-panel/models/images/edit-image-name.model'; import { EditRelationship } from 'src/app/modules/admin-panel/models/relationships/edit-relationship.model'; import { EditStory } from 'src/app/modules/admin-panel/models/character-story/story-to-edit.model'; import { NewStory } from 'src/app/modules/admin-panel/models/character-story/new-story.model'; import { CreateCharacter } from 'src/app/modules/admin-panel/models/create-character.model'; import { IRelationRequest } from 'src/app/modules/admin-panel/models/relationships/relation-request.model'; import { NewQuote } from 'src/app/modules/admin-panel/models/quotes/new-quote.model';
 import { IEditPreference } from 'src/app/modules/admin-panel/models/preferences/edit-preferences.model';
 import { IAllPreferences, AllPreferences } from 'src/app/modules/characters/models/all-preferences.model';
 
@@ -42,14 +43,7 @@ export class CharactersService {
   private readonly _deletePreferenceURL = `${this.charControllerURL}/delete-preference`;
 
 
-  public charList$ = new BehaviorSubject<CharacterItem[] | null>(null);
-
   constructor(private http: HttpClient) {
-    this.getCharacters().subscribe();
-  }
-
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any {
-    return of(this.charList$);
   }
 
   // only characters which aren't archived:
@@ -58,18 +52,31 @@ export class CharactersService {
       .pipe(
         map(response => {
           const mappedResponse = response.map(r => new CharacterItem(r));
-          this.charList$.next(mappedResponse);
           return mappedResponse;
         })
       );
   }
+
+
+  getAllPreferencesForChar(charId: number) {
+
+    const params = new HttpParams()
+      .set('id', '' + charId);
+    return this.http.get<IAllPreferences[]>(this._getAllPreferencesForCharURL, { params })
+      .pipe(
+        map(response => {
+          const mappedResponse = response.map(r => new AllPreferences(r));
+          return mappedResponse;
+        })
+      );
+  }
+
 
   // archived and non-archived characters:
   getAllCharacters() {
     return this.http.get<ICharacterForListItem[]>(this._getAllCharactersURL).pipe(
       map(response => {
         const mappedResponse = response.map(r => new CharacterItem(r));
-        this.charList$.next(mappedResponse);
         return mappedResponse;
       })
     );
@@ -129,18 +136,6 @@ export class CharactersService {
       .pipe(
         map(response => {
           const mappedResponse = new AllPreferences(response);
-          return mappedResponse;
-        })
-      );
-  }
-
-  getAllPreferencesForChar(charId: number) {
-    const params = new HttpParams()
-      .set('id', '' + charId);
-    return this.http.get<IAllPreferences[]>(this._getAllPreferencesForCharURL, { params })
-      .pipe(
-        map(response => {
-          const mappedResponse = response.map(r => new AllPreferences(r));
           return mappedResponse;
         })
       );

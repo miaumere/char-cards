@@ -39,7 +39,7 @@ export class CharacterRelationsComponent extends BaseComponent implements OnInit
     }, 0);
   }
 
-  loading = true;
+
 
   changeType: string | null;
 
@@ -143,16 +143,12 @@ export class CharacterRelationsComponent extends BaseComponent implements OnInit
   }
 
   getCharactersList() {
-    this.loading = true;
+
 
     this.subscriptions$.add(
       this._characterService
         .getCharacters()
-        .pipe(
-          finalize(() => {
-            this.loading = false;
-          })
-        )
+
         .subscribe(charList => {
           this.charList = charList;
 
@@ -184,7 +180,7 @@ export class CharacterRelationsComponent extends BaseComponent implements OnInit
   }
 
   createNewRelation() {
-    this.loading = true;
+
 
     const firstChar = this.charList.find(c => c.fullName === this.relationForm.get('firstChar')?.value);
     const secondChar = this.charList.find(c => c.fullName === this.relationForm.get('secondChar')?.value);
@@ -211,7 +207,7 @@ export class CharacterRelationsComponent extends BaseComponent implements OnInit
         request
       ).pipe(
         finalize(() => {
-          this.loading = false;
+
         })
       ).subscribe(_ => {
         this._toastrService.success(this._translate.instant('TOASTR_MESSAGE.SAVE_SUCCESS'));
@@ -225,16 +221,12 @@ export class CharacterRelationsComponent extends BaseComponent implements OnInit
 
 
   getRelationshipsForCharacter() {
-    this.loading = true;
+
 
     this.subscriptions$.add(
       this._characterService
         .getRelationshipsForCharacter(this.charId)
-        .pipe(
-          finalize(() => {
-            this.loading = false;
-          })
-        )
+
         .subscribe(relations => {
           this.relationshipsList = relations;
         })
@@ -242,7 +234,7 @@ export class CharacterRelationsComponent extends BaseComponent implements OnInit
   }
 
   editRelation(relatedCharacterId: number, targetValue: number) {
-    this.loading = true;
+
 
     const objToSend = new EditRelationship();
     objToSend.characterId = this.charId;
@@ -279,11 +271,7 @@ export class CharacterRelationsComponent extends BaseComponent implements OnInit
     this.subscriptions$.add(
       this._characterService
         .patchRelationship(objToSend)
-        .pipe(
-          finalize(() => {
-            this.loading = false;
-          })
-        )
+
         .subscribe(_ => {
           this._toastrService.success(this._translate.instant('TOASTR_MESSAGE.SAVE_SUCCESS'));
           this.getRelationshipsForCharacter();
@@ -295,15 +283,11 @@ export class CharacterRelationsComponent extends BaseComponent implements OnInit
 
   deleteRelation(relatedCharacterId: number) {
     console.log(relatedCharacterId);
-    this.loading = true;
+
     this.subscriptions$.add(
       this._characterService
         .deleteRelationship(this.charId, relatedCharacterId)
-        .pipe(
-          finalize(() => {
-            this.loading = false;
-          })
-        ).subscribe(_ => {
+        .subscribe(_ => {
           this._toastrService.success(this._translate.instant('TOASTR_MESSAGE.SAVE_SUCCESS'));
           this.getRelationshipsForCharacter();
         }, err => {

@@ -17,7 +17,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 })
 
 export class CharacterImagesComponent extends BaseComponent implements OnInit {
-  loading = true;
+
 
   charId: number;
 
@@ -61,11 +61,7 @@ export class CharacterImagesComponent extends BaseComponent implements OnInit {
     this.subscriptions$.add(
       this._characterService
         .getCharacters()
-        .pipe(
-          finalize(() => {
-            this.loading = false;
-          })
-        ).subscribe(characters => {
+        .subscribe(characters => {
           const foundCharacter = characters.find(x => x.id === this.charId);
           if (foundCharacter?.profilePic) {
 
@@ -78,11 +74,7 @@ export class CharacterImagesComponent extends BaseComponent implements OnInit {
     this.subscriptions$.add(
       this._characterService
         .getCharacterById(this.charId)
-        .pipe(
-          finalize(() => {
-            this.loading = false;
-          })
-        ).subscribe(character => {
+        .subscribe(character => {
           this.imagesListForMain = character.imagesList;
         }
         )
@@ -95,16 +87,12 @@ export class CharacterImagesComponent extends BaseComponent implements OnInit {
   }
 
   deleteCharacterImage(imageId: number) {
-    this.loading = true;
+
 
     this.subscriptions$.add(
       this._characterService
         .deleteImage(imageId)
-        .pipe(
-          finalize(() => {
-            this.loading = false;
-          })
-        ).subscribe(_ => {
+        .subscribe(_ => {
           this._toastrService.success(this._translate.instant('TOASTR_MESSAGE.SAVE_SUCCESS'));
           this.getCharacterImages();
         }, err => {
@@ -143,7 +131,7 @@ export class CharacterImagesComponent extends BaseComponent implements OnInit {
 
 
   setNewImages() {
-    this.loading = true;
+
 
     const formData = new FormData();
 
@@ -159,11 +147,7 @@ export class CharacterImagesComponent extends BaseComponent implements OnInit {
     this.subscriptions$.add(
       this._characterService
         .postEditImages(formData, this.charId)
-        .pipe(
-          finalize(() => {
-            this.loading = false;
-          })
-        )
+
         .subscribe(_ => {
           this._toastrService.success(this._translate.instant('TOASTR_MESSAGE.SAVE_SUCCESS'));
           this.getCharacterImages();
@@ -194,7 +178,7 @@ export class CharacterImagesComponent extends BaseComponent implements OnInit {
             .patchImageName(objToSend)
             .pipe(
               finalize(() => {
-                this.loading = false;
+
               })
             ).subscribe(_ => {
               this._toastrService.success(this._translate.instant('TOASTR_MESSAGE.SAVE_SUCCESS'));

@@ -21,7 +21,7 @@ export class AdminPanelForCharactersComponent extends BaseComponent implements O
     char: new FormControl(''),
   });
 
-  loading = true;
+
   constructor(
     private _charactersService: CharactersService,
     private _toastrService: ToastrService,
@@ -35,15 +35,11 @@ export class AdminPanelForCharactersComponent extends BaseComponent implements O
   }
 
   getAllCharacters() {
-    this.loading = true;
+
     this.subscriptions$.add(
       this._charactersService
         .getAllCharacters()
-        .pipe(
-          finalize(() => {
-            this.loading = false;
-          })
-        )
+
         .subscribe(
           charList => {
             const archivedCharacters = charList.filter(x => x.archived);

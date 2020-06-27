@@ -162,7 +162,7 @@ export class CharacterModifyComponent extends BaseComponent implements OnInit {
   images: FileList | null = null;
 
 
-  loading = true;
+
   type: 'new' | 'edit';
 
   charId: number;
@@ -229,11 +229,7 @@ export class CharacterModifyComponent extends BaseComponent implements OnInit {
 
       this._charactersService
         .getCharacterDetails(this.charId)
-        .pipe(
-          finalize(() => {
-            this.loading = false;
-          })
-        ).subscribe(charDetails => {
+        .subscribe(charDetails => {
           this.measurements = charDetails.measurements;
 
           this.birthdayDate = charDetails.birthday;
@@ -380,7 +376,7 @@ export class CharacterModifyComponent extends BaseComponent implements OnInit {
             .putCharacterDetails(character, this.isDead)
             .pipe(
               finalize(() => {
-                this.loading = false;
+
               })
             )
             .subscribe(_ => {

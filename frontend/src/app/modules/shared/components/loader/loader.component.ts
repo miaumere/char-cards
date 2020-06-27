@@ -3,21 +3,18 @@ import { animations } from 'src/app/animations';
 
 
 @Component({
-	selector: 'app-loader',
-	templateUrl: './loader.component.html',
-	styleUrls: ['./loader.component.scss'],
-	animations: [animations.loading]
+  selector: 'app-loader',
+  templateUrl: './loader.component.html',
+  styleUrls: ['./loader.component.scss'],
+  animations: [animations.loading]
 })
 export class LoaderComponent implements OnInit {
+  @Input() visible = false;
+  @Input() fullScreen = false;
 
-  /* PRZYKŁAD UŻYCIA:
-  <app-loader [visible]="!loading"></app-loader>
-  */
+  constructor() { }
 
-	@Input() visible = false;
-	constructor() { }
-
-	ngOnInit() {
-	}
+  ngOnInit() {
+  }
 
 }

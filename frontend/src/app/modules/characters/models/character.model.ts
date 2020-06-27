@@ -24,7 +24,7 @@ export interface ICharacter {
   imagesList: IImageForMain[];
   temperament: ITemperament;
   measurements: IMeasurements;
-  quotes: IQuote;
+  quote: IQuote;
   charType: characterType;
   relationships: IRelationship[] | null;
   nationality: string;
@@ -46,7 +46,7 @@ export class Character implements ICharacter {
   imagesList: IImageForMain[];
   temperament: ITemperament;
   measurements: Measurements;
-  quotes: IQuote;
+  quote: IQuote;
   charType: characterType;
   relationships: IRelationship[] | null;
   nationality: string;

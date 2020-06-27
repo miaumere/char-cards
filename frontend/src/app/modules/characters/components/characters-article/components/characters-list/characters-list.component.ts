@@ -17,7 +17,7 @@ export class CharactersListComponent extends BaseComponent implements OnInit {
   charList: CharacterItem[];
   filteredChars: CharacterItem[] = [];
 
-  loading = true;
+
 
   searchForm = new FormGroup({
     char: new FormControl(''),
@@ -32,12 +32,8 @@ export class CharactersListComponent extends BaseComponent implements OnInit {
   ngOnInit() {
     this.subscriptions$.add(
       this._charactersService
-        .charList$
-        .pipe(
-          finalize(() => {
-            this.loading = false;
-          })
-        )
+        .getCharacters()
+
         .subscribe(charList => {
 
           let charactersList: CharacterItem[] = [];
@@ -63,7 +59,7 @@ export class CharactersListComponent extends BaseComponent implements OnInit {
           this.filteredChars = charactersList;
 
 
-          this.loading = false;
+
         })
     );
   }

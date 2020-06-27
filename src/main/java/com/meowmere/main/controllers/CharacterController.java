@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import javax.servlet.http.HttpServletResponse;
 import java.text.ParseException;
 import java.util.ArrayList;
 
@@ -29,7 +30,9 @@ public class CharacterController {
     CharactersService charactersService;
 
     @GetMapping("/get-characters")
-    public ResponseEntity getCharactersList(){ return charactersService.getNonArchivedCharacters(); }
+    public ResponseEntity getCharactersList(HttpServletResponse response) throws InterruptedException {
+        return charactersService.getNonArchivedCharacters();
+    }
 
     @GetMapping("/get-all-characters")
     public ResponseEntity getEveryCharacter() { return charactersService.getEveryCharacter();}
@@ -60,7 +63,7 @@ public class CharacterController {
     }
 
     @GetMapping("/get-all-preferences-for-character")
-    public ResponseEntity getPreferencesForCharacter(@RequestParam Long id) {
+    public ResponseEntity getPreferencesForCharacter(@RequestParam Long id) throws InterruptedException {
         return this.charactersService.getAllPreferencesForCharacter(id);
     }
 

@@ -1,6 +1,4 @@
-<app-loader [visible]="!character && loading"></app-loader>
-
-<section class="characters-card" *ngIf="character && !loading">
+<section class="characters-card" *ngIf="character">
   <div class="card">
     <mat-card class="example-card" [ngStyle]="{'background': bgColor1}">
       <span class="card__type" [ngStyle]="{'background': bgColor2}" [ngSwitch]="character?.charType">

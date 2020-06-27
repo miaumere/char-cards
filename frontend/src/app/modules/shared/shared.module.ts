@@ -7,6 +7,7 @@ import { SanitizerPipe } from './pipes/sanitizer.pipe';
 import { EnumValPipe } from './pipes/enum-values.pipe';
 import { BookIconComponent } from './components/book-icon/book-icon.component';
 import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 const sharedDeclarations = [
   IconComponent,
@@ -23,7 +24,8 @@ const sharedDeclarations = [
   ],
   imports: [
     CommonModule,
-    MatIconModule
+    MatIconModule,
+    MatProgressSpinnerModule
   ],
   exports: [
     ...sharedDeclarations

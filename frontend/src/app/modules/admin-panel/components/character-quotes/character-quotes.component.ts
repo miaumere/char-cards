@@ -20,7 +20,7 @@ import { IQuote } from 'src/app/modules/characters/models/quote.model';
 
 export class CharacterQuotesComponent extends BaseComponent implements OnInit {
 
-  loading = true;
+
   quotes: IQuote[] | null = null;
 
 
@@ -49,7 +49,7 @@ export class CharacterQuotesComponent extends BaseComponent implements OnInit {
 
 
   createNewQuote() {
-    this.loading = true;
+
     const formValues: { [key: string]: string } = this.newQuoteForm.value;
     const objToSend = new NewQuote();
     objToSend.characterId = this.charId;
@@ -62,11 +62,7 @@ export class CharacterQuotesComponent extends BaseComponent implements OnInit {
 
       this._characterService
         .postNewQuote(objToSend)
-        .pipe(
-          finalize(() => {
-            this.loading = false;
-          })
-        ).subscribe(_ => {
+        .subscribe(_ => {
           this._toastrService.success(this._translate.instant('TOASTR_MESSAGE.SAVE_SUCCESS'));
           this.getQuotes();
           this.newQuoteForm.reset();
@@ -77,16 +73,12 @@ export class CharacterQuotesComponent extends BaseComponent implements OnInit {
   }
 
   getQuotes() {
-    this.loading = true;
+
 
     this.subscriptions$.add(
       this._characterService
         .getQuotesForCharacter(this.charId)
-        .pipe(
-          finalize(() => {
-            this.loading = false;
-          })
-        ).subscribe(quotes => {
+        .subscribe(quotes => {
           this.quotes = quotes;
         })
     );
@@ -94,12 +86,12 @@ export class CharacterQuotesComponent extends BaseComponent implements OnInit {
   }
 
   deleteQuote(quoteId: number) {
-    this.loading = true;
+
     this._characterService.
       deleteQuote(quoteId)
       .pipe(
         finalize(() => {
-          this.loading = false;
+
         })
       ).subscribe(_ => {
         this._toastrService.success(this._translate.instant('TOASTR_MESSAGE.SAVE_SUCCESS'));
@@ -127,13 +119,13 @@ export class CharacterQuotesComponent extends BaseComponent implements OnInit {
         objToSend.quote = quoteElement.textContent;
         objToSend.context = contextEl.textContent;
 
-        this.loading = true;
+
         this.subscriptions$.add(
           this._characterService
             .patchQuote(objToSend)
             .pipe(
               finalize(() => {
-                this.loading = false;
+
               })
             ).subscribe(
               _ => {

@@ -1,10 +1,11 @@
+import { CoreInterceptorService } from './core/interceptors/core-interceptor.service';
 import { EditStoryPanelModule } from './modules/edit-story-panel/edit-story-panel.module';
 import { CoreModule } from './core/core.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { HashLocationStrategy, LocationStrategy, CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -79,6 +80,11 @@ export function initApp(translate: TranslateService) {
   ],
   providers: [
     HttpClientModule,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: CoreInterceptorService,
+      multi: true
+    },
     {
       provide: LocationStrategy,
       useClass: HashLocationStrategy

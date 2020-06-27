@@ -1,5 +1,3 @@
-<div class="loader" *ngIf="visible" [@loading]>
-  <div class="lds-heart">
-    <div></div>
-  </div>
+<div class="loader" *ngIf="visible" [@loading] [ngClass]="{'loader--fullscreen': fullScreen}">
+  <mat-spinner color="accent"></mat-spinner>
 </div>

@@ -35,7 +35,7 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
   currentImageIndex = 0;
 
 
-  loading = true;
+
 
   themeColor1 = '';
   bgColor1 = '';
@@ -68,11 +68,7 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
 
     if (this.routeId !== null) {
       this._charactersService.getCharacterById(this.routeId)
-        .pipe(
-          finalize(() => {
-            this.loading = false;
-          })
-        ).subscribe(character => {
+        .subscribe(character => {
           this.character = new Character(character);
           this.getNationalityForCharacter();
           const measurementsInstance = new Measurements(character.measurements);

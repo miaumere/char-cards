@@ -9,9 +9,6 @@ const routes: Routes = [
   {
     path: '',
     component: CharactersIndexComponent,
-    resolve: {
-      charList: CharactersService
-    },
     children: [
       {
         path: '',
