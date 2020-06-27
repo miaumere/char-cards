@@ -200,7 +200,8 @@
     "AGE_CHART_TITLE": "Characters age",
     "AGE": "Age",
     "CHARS_NUM": "Characters",
-    "AGE_UNKNOWN": "Age unknown"
+    "AGE_UNKNOWN": "Age unknown",
+    "NO_STATISTICS": "No statistics"
   },
   "PREFERENCES": {
     "LOVE": "Love",

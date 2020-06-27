@@ -200,7 +200,8 @@
     "AGE_CHART_TITLE": "Alter der Figuren",
     "AGE": "Alter",
     "CHARS_NUM": "Figuren",
-    "AGE_UNKNOWN": "Alter unbekann"
+    "AGE_UNKNOWN": "Alter unbekann",
+    "NO_STATISTICS": "Keinen statistiken"
   },
   "PREFERENCES": {
     "LOVE": "Liebe",

@@ -1,7 +1,14 @@
-<article *ngIf="statistics">
+<article *ngIf="statistics && statistics.genderStatistics
+  && !!statistics.genderStatistics.femaleNumber
+  && !!statistics.genderStatistics.maleNumber
+  && statistics.nationalitiesStatistics
+  && statistics.nationalitiesStatistics.length > 0
+  else
+  noStatistics">
   <div class="statistics-container">
 
-    <div>
+    <div
+      *ngIf="statistics.genderStatistics && !!statistics.genderStatistics.femaleNumber && !!statistics.genderStatistics.maleNumber">
       <div class="gender-chart-container">
         <mat-card class="gender-chart-card">
           <mat-card-header>
@@ -11,7 +18,7 @@
         </mat-card>
       </div>
 
-      <div class="types-chart-container">
+      <div class="types-chart-container" *ngIf="statistics.typeStatistics">
         <mat-card class="nationalities-chart-card">
           <mat-card-header>
             <mat-card-title>{{ 'STATISTICS.CHARS_TYPE_CHART_TITLE' | translate }}</mat-card-title>
@@ -22,7 +29,8 @@
     </div>
 
 
-    <div class="nationalities-chart-container">
+    <div class="nationalities-chart-container"
+      *ngIf="statistics.nationalitiesStatistics && statistics.nationalitiesStatistics.length > 0">
       <mat-card class="nationalities-chart-card">
         <mat-card-header>
           <mat-card-title>{{ 'STATISTICS.NATIONALITY_CHART_TITLE' | translate }}</mat-card-title>
@@ -32,7 +40,7 @@
       </mat-card>
     </div>
 
-    <div class="age-chart-container">
+    <div class="age-chart-container" *ngIf="statistics.ageStatistics">
       <mat-card class="age-chart-card">
         <mat-card-header>
           <mat-card-title>{{ 'STATISTICS.AGE_CHART_TITLE' | translate }}</mat-card-title>
@@ -44,3 +52,8 @@
   </div>
 
 </article>
+<ng-template #noStatistics>
+  <div class="no-statistics">
+    {{ 'STATISTICS.NO_STATISTICS' | translate }}.
+  </div>
+</ng-template>

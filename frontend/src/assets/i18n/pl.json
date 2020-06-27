@@ -200,7 +200,8 @@
     "AGE_CHART_TITLE": "Wiek postaci",
     "AGE": "Wiek",
     "CHARS_NUM": "Ilość <br /> postaci",
-    "AGE_UNKNOWN": "Nieznany"
+    "AGE_UNKNOWN": "Nieznany",
+    "NO_STATISTICS": "Brak statystyk"
   },
   "PREFERENCES": {
     "LOVE": "Miłość",
