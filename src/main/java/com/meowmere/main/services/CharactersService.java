@@ -770,6 +770,17 @@ public class CharactersService {
         Character character = characterRepository.getOne(preferenceRequest.getCharacterId());
         Character preferedCharacter = characterRepository.getOne(preferenceRequest.getPreferedCharacterId());
 
+        if(preferenceRequest.getDate() == null) {
+            Preference currentPref = preferenceRepository
+                    .getCurrentPreferenceForCharacters(preferenceRequest.getCharacterId(), preferenceRequest.getPreferedCharacterId());
+
+            if(currentPref != null) {
+                return new ResponseEntity(HttpStatus.BAD_REQUEST);
+            }
+        }
+        if(character == preferedCharacter){
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
         if(character == null || preferedCharacter == null) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }

@@ -73,7 +73,8 @@
             </mat-form-field>
             <mat-form-field>
               {{ 'EDIT_PREFERENCES.PREFERENCE_DATE' | translate}}
-              <input matInput type="text" disabled [value]="historicalPref.dateOfOrigin">
+              <input matInput type="text" disabled
+                [value]="historicalPref.dateOfOrigin ? (historicalPref.dateOfOrigin| date:'yyyy / MMMM') : ('SHARED.NOW' | translate) ">
             </mat-form-field>
           </div>
 

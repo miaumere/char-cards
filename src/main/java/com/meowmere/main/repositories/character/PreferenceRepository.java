@@ -39,4 +39,9 @@ public interface PreferenceRepository  extends JpaRepository<Preference, Long> {
             @Param("charId") Long charId,
             @Param("relatedCharId") Long relatedCharId
     );
+
+    @Query("SELECT p from Preference p where p.character.externalId = :charId " +
+            "and p.preferedCharacter.externalId = :relatedCharId and p.dateOfOrigin is null")
+    Preference getCurrentPreferenceForCharacters(@Param("charId") Long charId,
+                                      @Param("relatedCharId") Long relatedCharId);
 }
