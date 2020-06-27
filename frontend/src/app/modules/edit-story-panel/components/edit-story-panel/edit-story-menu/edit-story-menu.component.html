@@ -1,4 +1,4 @@
-<article *ngIf="books?.length > 0" class="books">
+<article class="books">
   <div class="new-book-form-container">
     <form class="new-book-form" [formGroup]="form">
       <mat-form-field>
@@ -46,7 +46,7 @@
       </div>
     </div>
   </div>
-  <div cdkDropList class="boundary books-container" (cdkDropListDropped)="drop($event)">
+  <div cdkDropList class="boundary books-container" (cdkDropListDropped)="drop($event)" *ngIf="books?.length > 0">
     <div *ngFor="let book of books; index as i" cdkDrag cdkDragBoundary=".boundary">
       <mat-card class="book-card">
         <mat-card-header>
