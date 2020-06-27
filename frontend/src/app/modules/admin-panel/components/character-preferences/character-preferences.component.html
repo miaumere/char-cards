@@ -55,7 +55,34 @@
       </form>
     </mat-tab>
     <mat-tab [label]="'EDIT_PREFERENCES.CURRENT_PREFERENCES' | translate">
+      <div *ngIf="preferences.length > 0">
+        <mat-expansion-panel hideToggle *ngFor="let pref of preferences">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              {{pref.relCharacterName}} {{pref.relCharacterSurname}}
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <div *ngFor="let historicalPref of pref.preferences" class="historical-preferences">
+            <button mat-mini-fab color="warn"
+              (click)="deletePreference(pref.relCharacterId, historicalPref.dateOfOrigin)">
+              <mat-icon>delete</mat-icon>
+            </button>
+            <mat-form-field>
+              {{ 'EDIT_PREFERENCES.PREFERENCE_RANGE' | translate}}
+              <input matInput type="number" disabled [value]="historicalPref.range">
+            </mat-form-field>
+            <mat-form-field>
+              {{ 'EDIT_PREFERENCES.PREFERENCE_DATE' | translate}}
+              <input matInput type="text" disabled [value]="historicalPref.dateOfOrigin">
+            </mat-form-field>
+          </div>
 
+        </mat-expansion-panel>
+
+      </div>
+      <div *ngIf="preferences.length === 0">
+        {{ 'EDIT_PREFERENCES.NO_PREFERENCES' | translate}}
+      </div>
     </mat-tab>
 
   </mat-tab-group>

@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 @Repository
 public interface PreferenceRepository  extends JpaRepository<Preference, Long> {
@@ -18,4 +19,24 @@ public interface PreferenceRepository  extends JpaRepository<Preference, Long> {
             "order by p.dateOfOrigin asc")
     ArrayList<Preference> getHistoricalPreferences(@Param("charId") Long charId, @Param("preferedCharacter") Long preferedCharacter);
 
+
+    @Query("SELECT DISTINCT p.preferedCharacter.externalId from Preference p where p.character.externalId = :charId")
+    ArrayList<Long> getRelatedCharsIds(@Param("charId") Long charId);
+
+    @Query("SELECT p from Preference p where p.character.externalId = :charId " +
+            "and p.preferedCharacter.externalId = :relatedCharId " +
+            "and p.dateOfOrigin = :dateOfPreference")
+    Preference getPreferenceByCharIdRelatedCharIdDate(
+            @Param("charId") Long charId,
+            @Param("relatedCharId") Long relatedCharId,
+            @Param("dateOfPreference") Date dateOfPreference
+    );
+
+    @Query("SELECT p from Preference p where p.character.externalId = :charId " +
+            "and p.preferedCharacter.externalId = :relatedCharId " +
+            "and p.dateOfOrigin is null")
+    Preference getCurrentPrefByCharIdRelatedCharId(
+            @Param("charId") Long charId,
+            @Param("relatedCharId") Long relatedCharId
+    );
 }

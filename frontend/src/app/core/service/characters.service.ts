@@ -16,7 +16,8 @@ export class CharactersService {
   private readonly _getQuotesURL = `${this.charControllerURL}/get-quotes`;
   private readonly _getRelationshipsForCharURL = `${this.charControllerURL}/get-relationships`;
   private readonly _getStoriesForCharURL = `${this.charControllerURL}/get-stories-for-character`;
-  private readonly getHistoricalPreferencesForCharacterURL = `${this.charControllerURL}/get-characters-historical-preferences`;
+  private readonly _getHistoricalPreferencesForCharacterURL = `${this.charControllerURL}/get-characters-historical-preferences`;
+  private readonly _getAllPreferencesForCharURL = `${this.charControllerURL}/get-all-preferences-for-character`;
 
   private readonly _patchChangeStateURL = `${this.charControllerURL}/change-state`;
   private readonly _patchQuoteURL = `${this.charControllerURL}/edit-quote`;
@@ -38,6 +39,7 @@ export class CharactersService {
   private readonly _deleteImageURL = `${this.charControllerURL}/delete-image`;
   private readonly _deleteRelationshipURL = `${this.charControllerURL}/delete-relationship`;
   private readonly _deleteStoryURL = `${this.charControllerURL}/delete-story`;
+  private readonly _deletePreferenceURL = `${this.charControllerURL}/delete-preference`;
 
 
   public charList$ = new BehaviorSubject<CharacterItem[] | null>(null);
@@ -123,10 +125,22 @@ export class CharactersService {
       .set('charId', '' + charId)
       .set('relatedCharId', '' + relatedCharId);
 
-    return this.http.get<IAllPreferences>(this.getHistoricalPreferencesForCharacterURL, { params })
+    return this.http.get<IAllPreferences>(this._getHistoricalPreferencesForCharacterURL, { params })
       .pipe(
         map(response => {
           const mappedResponse = new AllPreferences(response);
+          return mappedResponse;
+        })
+      );
+  }
+
+  getAllPreferencesForChar(charId: number) {
+    const params = new HttpParams()
+      .set('id', '' + charId);
+    return this.http.get<IAllPreferences[]>(this._getAllPreferencesForCharURL, { params })
+      .pipe(
+        map(response => {
+          const mappedResponse = response.map(r => new AllPreferences(r));
           return mappedResponse;
         })
       );
@@ -218,6 +232,15 @@ export class CharactersService {
   deleteStory(storyId: number) {
     const params = new HttpParams().set('id', '' + storyId);
     return this.http.delete<void>(this._deleteStoryURL, { params });
+  }
+
+  deletePreference(charId: number, relatedCharId: number, dateOfPreference: string) {
+    const params = new HttpParams()
+      .set('charId', '' + charId)
+      .set('relatedCharId', '' + relatedCharId)
+      .set('dateOfPreference', '' + dateOfPreference);
+
+    return this.http.delete<void>(this._deletePreferenceURL, { params });
   }
 
   // custom methods:

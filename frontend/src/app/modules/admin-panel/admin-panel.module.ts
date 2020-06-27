@@ -29,6 +29,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatCardModule } from '@angular/material/card';
 import { CountriesService } from 'src/app/core/service/countries.service';
 import { CharacterPreferencesComponent } from './components/character-preferences/character-preferences.component';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,7 @@ import { CharacterPreferencesComponent } from './components/character-preference
     CharacterQuotesComponent,
     CharacterImagesComponent,
     CharacterRelationsComponent,
-    CharacterPreferencesComponent
+    CharacterPreferencesComponent,
   ],
   imports: [
     CommonModule,
@@ -67,6 +68,7 @@ import { CharacterPreferencesComponent } from './components/character-preference
     MatIconModule,
     MatTabsModule,
     MatSidenavModule,
+    MatExpansionModule,
     TranslateModule
   ],
   providers: [

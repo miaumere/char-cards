@@ -1,3 +1,4 @@
+import { AllPreferences } from './../../../characters/models/all-preferences.model';
 import { IEditPreference } from './../../models/preferences/edit-preferences.model';
 import { TranslateService } from '@ngx-translate/core';
 import { FormGroup, FormControl } from '@angular/forms';
@@ -65,6 +66,7 @@ export class CharacterPreferencesComponent extends BaseComponent implements OnIn
 
   chosenType?: string;
 
+  preferences: AllPreferences[] = [];
 
   charId: number;
 
@@ -97,6 +99,7 @@ export class CharacterPreferencesComponent extends BaseComponent implements OnIn
       });
 
     this.getCharactersList();
+    this.getAllPreferences();
   }
   private _filterCharacters(value: string) {
     const filterValue = value.toLowerCase();
@@ -163,4 +166,26 @@ export class CharacterPreferencesComponent extends BaseComponent implements OnIn
     );
   }
 
+  getAllPreferences() {
+    this.subscriptions$.add(
+      this._charactersService
+        .getAllPreferencesForChar(this.charId)
+        .subscribe(preferences => {
+          this.preferences = preferences;
+        })
+    )
+  }
+
+  deletePreference(relatedcharId: number, date: string) {
+    this.subscriptions$.add(
+      this._charactersService
+        .deletePreference(this.charId, relatedcharId, date)
+        .subscribe(_ => {
+          this._toastrService.success(this._translate.instant('TOASTR_MESSAGE.SAVE_SUCCESS'));
+          this.getAllPreferences();
+        }, err => {
+          this._toastrService.error(this._translate.instant('TOASTR_MESSAGE.ERROR'));
+        })
+    )
+  }
 }

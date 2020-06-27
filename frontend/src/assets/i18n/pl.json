@@ -133,7 +133,10 @@
     "NEW_PREFERENCES": "Nowe preferencje",
     "CURRENT_PREFERENCES": "Obecne preferencje",
     "ADD_PREFERENCE": "Dodaj preferencję",
-    "CHOOSE_DATE": "Data preferencji"
+    "CHOOSE_DATE": "Data preferencji",
+    "NO_PREFERENCES": "Brak preferencji dla postaci.",
+    "PREFERENCE_DATE": "Data preferencji",
+    "PREFERENCE_RANGE": "Wartość preferencji"
   },
   "EDIT_RELATIONS": {
     "RELATIONS_TITLE": "Dostępne relacje:",

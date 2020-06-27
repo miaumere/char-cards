@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 
 
@@ -149,4 +150,8 @@ public class CharacterController {
     @DeleteMapping("/delete-story")
     public ResponseEntity deleteStory(@RequestParam Long id) { return charactersService.deleteStory(id);}
 
+    @DeleteMapping("/delete-preference")
+    public ResponseEntity deletePreference(@RequestParam Long charId, @RequestParam Long relatedCharId, @RequestParam String dateOfPreference) {
+        return charactersService.deletePreference(charId, relatedCharId, dateOfPreference);
+    }
 }

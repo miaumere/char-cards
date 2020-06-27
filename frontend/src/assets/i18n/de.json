@@ -133,7 +133,10 @@
     "NEW_PREFERENCES": "Neue Vorlieben",
     "CURRENT_PREFERENCES": "Aktuelle Vorlieben",
     "ADD_PREFERENCE": "Vorlieben hinzufügen",
-    "CHOOSE_DATE": "Datum auswählen"
+    "CHOOSE_DATE": "Datum auswählen",
+    "NO_PREFERENCES": "Keine Vorlieben für diesen Figure.",
+    "PREFERENCE_DATE": "Vorliebendatum",
+    "PREFERENCE_RANGE": "Vorliebenwert"
   },
   "EDIT_RELATIONS": {
     "RELATIONS_TITLE": "Verfügbar Beziehungen:",

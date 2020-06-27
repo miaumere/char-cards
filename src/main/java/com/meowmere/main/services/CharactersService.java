@@ -53,10 +53,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -250,11 +254,36 @@ public class CharactersService {
     }
 
     public ResponseEntity getAllPreferencesForCharacter(Long charId) {
-        List<Preference> preferences = preferenceRepository.getPreferencesForCharacter(charId);
+        ArrayList<AllPreferencesDTO> dtos = new ArrayList<>();
+        List<Long> relatedCharIds = preferenceRepository.getRelatedCharsIds(charId);
+        if(relatedCharIds != null && relatedCharIds.size() > 0){
+            for (Long id : relatedCharIds) {
+                Character character = characterRepository.getOne(id);
 
+                List<Preference> historicalPreferences = preferenceRepository
+                        .getHistoricalPreferences(charId, id);
+                        AllPreferencesDTO dto = new AllPreferencesDTO();
+                ArrayList<HistoricPreferenceDTO> historicPreferenceDTOS = new ArrayList<>();
+                dto.setRelCharacterId(character.getExternalId());
+                dto.setRelCharacterSurname(character.getCharSurname());
+                dto.setRelCharacterName(character.getCharName());
+                if(historicalPreferences != null && historicalPreferences.size() > 0) {
+                    for (Preference pref: historicalPreferences) {
+                        HistoricPreferenceDTO historicPreferenceDTO = new HistoricPreferenceDTO();
+                        if(pref.getDateOfOrigin() != null) {
+                            historicPreferenceDTO.setDateOfOrigin(pref.getDateOfOrigin().toString());
+                        }
+                        historicPreferenceDTO.setRange(pref.getRange());
+                        historicPreferenceDTOS.add(historicPreferenceDTO);
+                    }
+                }
+                dto.setPreferences(historicPreferenceDTOS);
+                dtos.add(dto);
+            }
 
+        }
 
-        return new ResponseEntity(HttpStatus.OK);
+        return new ResponseEntity(dtos, HttpStatus.OK);
     }
 
     public ResponseEntity getHistoricalPreferencesForCharacter(Long charId, Long relatedCharId) {
@@ -752,5 +781,24 @@ public class CharactersService {
         preferenceRepository.saveAndFlush(preference);
 
         return new ResponseEntity(HttpStatus.CREATED);
+    }
+
+    public ResponseEntity deletePreference(Long charId, Long relatedCharId, String dateOfPreference)  {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+        Date date = new Date(sdf.parse(dateOfPreference).getTime());
+        Preference preference = preferenceRepository.getPreferenceByCharIdRelatedCharIdDate(charId, relatedCharId, date);
+        if(preference != null) {
+            preferenceRepository.delete(preference);
+        }
+
+        } catch(ParseException e) {
+            Preference preference = preferenceRepository.getCurrentPrefByCharIdRelatedCharId(charId, relatedCharId);
+            if(preference != null) {
+                preferenceRepository.delete(preference);
+            }
+        }
+
+        return new ResponseEntity(HttpStatus.OK);
     }
 }
