@@ -69,7 +69,7 @@
   </mat-menu>
   <li class="navbar__item--lang">
     <ng-container *ngFor="let lang of supportedLanguages">
-      <button (click)="translate.use(lang.language); saveLang()">
+      <button (click)="saveLang(lang.language)">
         <div [style.background]="'url('+ lang.flag + ')' " class="lang-icon"
           [ngClass]="{'lang-icon--active': lang.language === translate.currentLang}">
         </div>
