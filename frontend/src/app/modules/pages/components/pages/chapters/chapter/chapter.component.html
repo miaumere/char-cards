@@ -1,20 +1,31 @@
 <div class="chapter" [ngStyle]="{'background': bgColor}">
-  <ng-container *ngIf="pagesNumber?.length > 0">
-    <button mat-mini-fab (click)="setImage(currentImageIndex-1)" [disabled]="currentImageIndex === 0"
-      [ngStyle]="{'background': bookColor}">
-      <mat-icon>keyboard_arrow_left</mat-icon>
-    </button>
-    <div *ngFor="let pageId of pagesNumber; index as i;" class="image-container">
-      <img src="{{pageURL}}/{{chapterId}}/{{i}}" class="image image--inactive" [ngClass]="{
-      'image--active': i === currentImageIndex
-    }" />
+  <div *ngIf="pagesNumber?.length > 0" class="chapter__container">
+    <div class="page">
+      <button mat-mini-fab (click)="setImage(currentImageIndex-1)" [disabled]="currentImageIndex === 0"
+        [ngStyle]="{'background': bookColor}">
+        <mat-icon>keyboard_arrow_left</mat-icon>
+      </button>
+      <div *ngFor="let pageId of pagesNumber; index as i;" class="image-container">
+        <img src="{{pageURL}}/{{chapterId}}/{{i}}" class="image image--inactive" [ngClass]="{
+          'image--active': i === currentImageIndex
+        }" />
+      </div>
+      <button mat-mini-fab (click)="setImage(currentImageIndex+1)"
+        [disabled]="currentImageIndex === pagesNumber?.length - 1" [ngStyle]="{'background': bookColor}">
+        <mat-icon>keyboard_arrow_right</mat-icon>
+      </button>
     </div>
-    <button mat-mini-fab (click)="setImage(currentImageIndex+1)"
-      [disabled]="currentImageIndex === pagesNumber?.length - 1" [ngStyle]="{'background': bookColor}">
-      <mat-icon>keyboard_arrow_right</mat-icon>
 
-    </button>
-  </ng-container>
+    <div class="buttons-container">
+      <button mat-mini-fab *ngFor="let pageId of pagesNumber; index as i;" [ngStyle]="{'background': bookColor}"
+        class="change-page-button" (click)="setImage(i)" [disabled]="currentImageIndex === i">
+        {{i+1}}
+      </button>
+    </div>
+
+  </div>
+
+
   <div *ngIf="pagesNumber?.length === 0">
     {{ 'CHAPTERS.NO_PAGES_MSG' | translate }}
   </div>

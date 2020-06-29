@@ -32,6 +32,7 @@ export class ChapterComponent extends BaseComponent implements OnInit {
   ngOnInit() {
     this._activatedRoute?.parent?.queryParams
       .subscribe(queryParam => {
+        this.currentImageIndex = 0;
         this.chapterId = +queryParam.chapterId;
         this.bookId = +queryParam.id;
         this.bookColor = queryParam.color;
