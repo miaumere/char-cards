@@ -1,5 +1,5 @@
 import { BehaviorSubject } from 'rxjs';
-import { Injectable } from '@angular/core';
+import { Injectable, ChangeDetectorRef } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
@@ -11,11 +11,11 @@ export class LoaderService {
 
 
   get isLoaderVisible() {
-    return this._isLoaderVisible
+    return this._isLoaderVisible;
   }
 
   show() {
-    this._isLoaderVisible.next(true)
+    this._isLoaderVisible.next(true);
     this._loadersTable.push(1);
   }
 
@@ -23,11 +23,12 @@ export class LoaderService {
     this._loadersTable.pop();
 
     if (this._loadersTable.length === 0) {
-      this._isLoaderVisible.next(false)
+      this._isLoaderVisible.next(false);
     }
   }
 
-  constructor() { }
+  constructor() {
+  }
 
 
 }
