@@ -21,6 +21,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { CurrentPreferencesComponent } from './components/characters-article/components/character-card/current-preferences-chart/current-preferences-chart.component';
 import { HistoricalPreferencesComponent } from './components/characters-article/components/character-card/historical-preferences-chart/historical-preferences-chart.component';
+import { FamilyTreeComponent } from './components/characters-article/components/character-card/family-tree/family-tree.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { HistoricalPreferencesComponent } from './components/characters-article/
     FilenameModifierPipe,
     ProgressBarDirective,
     CurrentPreferencesComponent,
-    HistoricalPreferencesComponent
+    HistoricalPreferencesComponent,
+    FamilyTreeComponent
   ],
   imports: [
     CommonModule,

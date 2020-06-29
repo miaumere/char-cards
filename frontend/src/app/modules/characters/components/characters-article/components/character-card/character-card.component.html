@@ -247,30 +247,14 @@
       </app-current-preferences-chart>
     </div>
 
-    <div *ngIf="character.relationships && character.relationships.length > 0">
+    <div>
       <mat-divider></mat-divider>
 
       <h2 class="story__title" [ngStyle]="{'color': themeColor1}">
         {{ 'CHARACTER_CARD.FAMILY_RELATIONS' | translate }}
       </h2>
-      <ul class="relationships">
-        <ng-container *ngFor="let relationship of character.relationships">
-          <li class="relationship" [routerLink]="['../', relationship.relatedCharacter.id]"
-            [title]="relationship.relatedCharacter.charName + ' ' + relationship.relatedCharacter.charSurname">
-            <div class="relation-profile-pic">
-              <img class="relation-profile-pic__image"
-                [src]="'data:image/' + relationship.relatedCharacter?.profilePic?.extension + ';base64, ' + relationship.relatedCharacter?.profilePic?.image | sanitizer">
-            </div>
-            <span>{{relationship.relatedCharacter.charName}}
-              {{relationship.relatedCharacter.charSurname}}</span>
-            <span [ngStyle]="{'color': themeColor1}">
-              {{relationship.relationName}}
-            </span>
-          </li>
-        </ng-container>
 
-      </ul>
-
+      <app-family-tree></app-family-tree>
     </div>
 
     <div *ngIf="character.measurements?.hasAnyValues">
