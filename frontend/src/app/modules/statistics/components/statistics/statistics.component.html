@@ -1,6 +1,6 @@
 <article *ngIf="statistics && statistics.genderStatistics
-  && !!statistics.genderStatistics.femaleNumber
-  && !!statistics.genderStatistics.maleNumber
+  && (!!statistics.genderStatistics.femaleNumber
+  || !!statistics.genderStatistics.maleNumber)
   && statistics.nationalitiesStatistics
   && statistics.nationalitiesStatistics.length > 0
   else
@@ -8,7 +8,7 @@
   <div class="statistics-container">
 
     <div
-      *ngIf="statistics.genderStatistics && !!statistics.genderStatistics.femaleNumber && !!statistics.genderStatistics.maleNumber">
+      *ngIf="statistics.genderStatistics && (!!statistics.genderStatistics.femaleNumber || !!statistics.genderStatistics.maleNumber)">
       <div class="gender-chart-container">
         <mat-card class="gender-chart-card">
           <mat-card-header>

@@ -32,7 +32,9 @@ export class GenderChartComponent extends BaseComponent implements OnInit {
       .attr('height', element.offsetHeight)
       .attr('stroke', 'white')
 
-    const data = [this.genderStatistics.femaleNumber, this.genderStatistics.maleNumber];
+    const data: number[] = [];
+    if (this.genderStatistics.femaleNumber) { data.push(this.genderStatistics.femaleNumber) }
+    if (this.genderStatistics.maleNumber) { data.push(this.genderStatistics.maleNumber) }
 
     const width: number = +svg.attr('width');
     const height: number = +svg.attr('height');
@@ -87,6 +89,11 @@ export class GenderChartComponent extends BaseComponent implements OnInit {
     group
       .append('path')
       .attr('fill', (d, i) => {
+
+        if (!this.genderStatistics.femaleNumber) {
+          return `url(#gender-gradient1)`
+        }
+
         return `url(#gender-gradient${i})`
       })
       .transition()

@@ -34,11 +34,18 @@ export class TypeChartComponent extends BaseComponent implements OnInit {
       .attr('height', element.offsetHeight)
       .attr('stroke', 'white');
 
-    const data = [
-      this.typeStatistics.mainCharactersNum,
-      this.typeStatistics.sideCharactersNum,
-      this.typeStatistics.bgCharactersNum
-    ];
+    const data: number[] = [];
+
+    if (this.typeStatistics.mainCharactersNum) {
+      data.push(this.typeStatistics.mainCharactersNum)
+    }
+    if (this.typeStatistics.sideCharactersNum) {
+      data.push(this.typeStatistics.sideCharactersNum)
+    }
+    if (this.typeStatistics.bgCharactersNum) {
+      data.push(this.typeStatistics.bgCharactersNum)
+    }
+
 
     const keys = [
       this._translate.instant('STATISTICS.MAIN'),
@@ -111,6 +118,13 @@ export class TypeChartComponent extends BaseComponent implements OnInit {
     group
       .append('path')
       .attr('fill', (d, i) => {
+        if (!this.typeStatistics.mainCharactersNum && this.typeStatistics.sideCharactersNum) {
+          return `url(#type-gradient${i + 1})`;
+        }
+        if (!this.typeStatistics.mainCharactersNum && !this.typeStatistics.sideCharactersNum) {
+          return `url(#type-gradient2)`;
+        }
+
         return `url(#type-gradient${i})`;
       })
       .transition()
