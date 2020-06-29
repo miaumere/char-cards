@@ -47,9 +47,9 @@
       </a>
     </ng-container>
 
-    <ng-container *ngIf="filteredChars.length === 0">
+    <span *ngIf="filteredChars.length === 0" class="characters--empty">
       {{'CHARS_PANEL.NO_CHARACTERS' | translate}}
-    </ng-container>
+    </span>
   </div>
 
 

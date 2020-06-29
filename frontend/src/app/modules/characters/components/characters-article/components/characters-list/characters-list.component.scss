@@ -102,4 +102,8 @@ $gradient2: #435548;
   width: 100%;
 
   overflow-y: scroll;
+
+  &--empty {
+    font-size: initial;
+  }
 }
