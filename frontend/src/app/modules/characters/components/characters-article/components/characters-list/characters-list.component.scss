@@ -95,8 +95,10 @@ $gradient2: #435548;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+  justify-content: center;
 
   height: calc(100vh - #{$navbar-height + $search-bar-height});
+
   width: 100%;
 
   overflow-y: scroll;

@@ -1,4 +1,4 @@
-<article class="char-menu" *ngIf="charList && charList.length > 0">
+<article class="char-menu" *ngIf="charList && !!charList">
   <form [formGroup]="searchForm" class="search-form">
     <span class="search-form__form-field">
       <mat-icon>search</mat-icon>
