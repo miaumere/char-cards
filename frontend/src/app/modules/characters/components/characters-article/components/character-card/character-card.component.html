@@ -356,20 +356,20 @@
 
         <mat-card *ngFor="let book of character.starringIn" class="starring-in">
           <h4 [ngStyle]="{'background-color': book.book.color}" class="starring-in__book-name">{{book.book.name}}</h4>
-          <table>
+          <table class="chapters-table">
             <tr>
               <th *ngFor="let chapter of book.chapters">{{chapter.chapterNumber + 1}}</th>
             </tr>
             <tr>
-              <td *ngFor="let chapter of book.chapters">
-                <ng-container [ngSwitch]="chapter.starringType">
+              <td *ngFor="let chapter of book.chapters" class="chapters-table__cell">
+                <span [ngSwitch]="chapter.starringType" class="starring-type">
                   <span *ngSwitchCase="'MAIN'" class="legend-item__symbol legend-item__symbol--main">MAIN</span>
                   <span *ngSwitchCase="'SIDE'" class="legend-item__symbol legend-item__symbol--side">SIDE</span>
                   <span *ngSwitchCase="'BACKGROUND'" class="legend-item__symbol legend-item__symbol--bg">BG</span>
                   <span *ngSwitchCase="'MENTIONED'" class="legend-item__symbol legend-item__symbol--mtn">MTN</span>
 
                   <span *ngSwitchDefault class="legend-item__symbol legend-item__symbol--no">-</span>
-                </ng-container>
+                </span>
               </td>
             </tr>
 
