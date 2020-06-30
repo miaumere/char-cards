@@ -19,33 +19,83 @@ export class FamilyTreeComponent extends BaseComponent implements OnInit {
   @ViewChild('familyTree')
   private chartContainer: ElementRef;
 
-  private treeData: any = {
+  data = {
+    id: 1,
     name: 'Micet Maske',
-    children:
-      [
-        {
-          name: 'Valentin Maske',
-          children:
-            [
-              { name: 'Theodor Maske' },
-              { name: 'Angela Maske' },
-
+    birthday: '10-10-1995',
+    siblings: [
+      {
+        id: 2,
+        name: 'Albin Maske',
+        birthday: '10-10-1991'
+      },
+      {
+        id: 3,
+        name: 'Gunter Maske',
+        birthday: '10-10-1991'
+      }
+    ],
+    parents: [
+      {
+        id: 4,
+        name: 'Lotta Maske',
+        birthday: '10-10-1999',
+        parents: [
+          {
+            id: 6,
+            name: 'Wolfgang Kohler',
+            birthday: '10-10-1999'
+          },
+          {
+            id: 7,
+            name: 'Adelheid Kohler',
+            birthday: '10-10-1999'
+          },
+        ]
+      },
+      {
+        id: 5,
+        name: 'Valentin Maske',
+        birthday: '10-10-1999',
+        parents: [
+          {
+            id: 6,
+            name: 'Angela Maske',
+            birthday: '10-10-1999'
+          },
+          {
+            id: 7,
+            name: 'Theodor Maske',
+            birthday: '10-10-1999',
+            parents: [
+              {
+                id: 8,
+                name: 'Hans jakiś',
+                birthday: '10-10-1999'
+              },
+              {
+                id: 8,
+                name: 'żona hansa',
+                birthday: '10-10-1999'
+              }
             ]
-        },
-
-        {
-          name: 'Lotta Maske',
-          children:
-            [
-              { name: 'Adelheid Kohler' },
-              { name: 'Wolfgang Kohler' },
-            ]
-        },
-
-      ]
+          },
+        ]
+      }
+    ],
+    marriedTo: null
   };
 
+  element;
+  svgWidth;
+  svgHeight = 400;
 
+  margin = { top: 30, right: 40, bottom: 50, left: 60 };
+  height;
+  width;
+
+  rectWidth = 50;
+  rectHeight = 50;
   constructor(
     private _translate: TranslateService,
     private _activatedRoute: ActivatedRoute
@@ -56,109 +106,127 @@ export class FamilyTreeComponent extends BaseComponent implements OnInit {
   ngOnInit() {
     setTimeout(() => {
       this.chartContainer = this.chartContainer;
+
+      this.element = this.chartContainer.nativeElement;
+      this.svgWidth = this.chartContainer.nativeElement.offsetWidth;
+      this.svgHeight = 400;
+
+      this.height = this.svgHeight - this.margin.top - this.margin.bottom;
+      this.width = this.svgWidth - this.margin.left - this.margin.right;
+
       this.createChart();
     }, 0);
 
   }
 
 
+
+
   createChart() {
-    const svgWidth = this.chartContainer.nativeElement.offsetWidth;
-    const height = 600;
-    const treeWidth: number = svgWidth - 50;
-    const treeHeight: number = height - 50;
+
+
+    const svg = d3.select(this.element)
+      .append('svg')
+      .attr('width', this.svgWidth)
+      .attr('height', this.height);
+
+
+
+    const charG = svg.append('g')
+      .attr('transform', `translate(${(this.width / 2) + 25}, ${this.height - 50})`)
+
+    charG.append('rect')
+      .attr('x', 0)
+      .attr('y', 0)
+      .attr('width', this.rectWidth)
+      .attr('height', this.rectHeight)
+      .attr('fill', 'red')
+
+    charG.append('text')
+      .datum(this.data)
+      .attr('x', 0)
+      .attr('y', this.rectHeight)
+      .text(d => d.name);
+
+
+    this.generateParents(svg, this.data, 0, false)
+    this.generateParents(svg, this.data.parents[1], 2, true)
+    this.generateParents(svg, this.data.parents[0], 2, false)
+    console.log(this.data.parents[1].parents[1].parents)
+    this.generateParents(svg, this.data.parents[1].parents[1], 3, true)
+
+
   }
 
-
-  // createChart() {
-  //   const svgWidth = this.chartContainer.nativeElement.offsetWidth;
-  //   const height = 600;
-  //   const treeWidth: number = svgWidth - 50;
-  //   const treeHeight: number = height - 50;
-
-  //   const treeMain = tree()
-  //     .size([svgWidth, treeWidth - 300])
-  //     .separation(function (a, b) {
-  //       return (a.parent === b.parent) ? 1 : 2;
-  //     });
+  generateParents(svg, data: any, depth: number, left?: boolean) {
 
 
-  //   const hierarchyData = hierarchy(this.treeData).sum(function (d) {
-  //     return d.value;
-  //   });
+    if (depth === 0) {
+      const parentsG = svg.append('g')
+        .attr('transform',
+          `translate(${(this.width / 2) + 25}, ${this.height - 100})`
+        )
+      const singleParent1G = parentsG.append('g')
+      singleParent1G.append('rect')
+        .attr('x', `-${this.rectWidth * 2}`)
+        .attr('y', 0)
+        .attr('width', this.rectWidth)
+        .attr('height', this.rectHeight)
+        .attr('fill', 'green')
 
-  //   // This is written to let the data be displayed horizontally x, y interchange
-  //   const renderLink: Link<any, DefaultLinkObject, [number, number]> = linkVertical().y(function (d: any) {
-  //     return d.y;
-  //   }).x(function (d: any) {
-  //     return d.x;
-  //   });
+      singleParent1G.append('text')
+        .datum(data.parents[0])
+        .attr('x', `-${this.rectWidth * 2}`)
+        .attr('y', this.rectHeight)
+        .text(d => d.name);
 
-  //   const lineMain = line();
-  //   const element = this.chartContainer?.nativeElement;
+      const singleParent2G = parentsG.append('g')
+      singleParent2G.append('rect')
+        .attr('x', this.rectWidth * 2)
+        .attr('y', 0)
+        .attr('width', this.rectWidth)
+        .attr('height', this.rectHeight)
+        .attr('fill', 'green')
 
-  //   // Create svg
-  //   const svg = select(element)
-  //     .append('svg')
-  //     .attr('width', treeWidth)
-  //     .attr('height', treeHeight)
-  //     .append('g')
-  //   // .attr('transform', 'translate(30, 0)');
+      singleParent2G.append('text')
+        .datum(data.parents[1])
+        .attr('x', this.rectWidth * 2)
+        .attr('y', this.rectHeight)
+        .text(d => d.name);
+    } else {
+      const parentsG = svg.append('g')
+        .attr('transform',
+          `translate(${(this.width / 2 - (5 * depth))}, ${this.height - ((this.rectHeight * 2) * depth)})`
+        )
+      const singleParent1G = parentsG.append('g')
+      singleParent1G.append('rect')
+        .attr('x', left ? this.rectWidth * depth : 0)
+        .attr('y', 0)
+        .attr('width', this.rectWidth)
+        .attr('height', this.rectHeight)
+        .attr('fill', 'green')
 
-  //   const g = svg.append('g').attr('transform', 'translate(0, 40)');
-
-
-  //   treeMain(hierarchyData);
-  //   const nodes = hierarchyData.descendants();
-  //   const links = hierarchyData.links();
-
-
-  //   // draw a line
-  //   g.selectAll('.link')
-  //     .data(links)
-  //     .enter()
-  //     .append('path')
-  //     .attr('class', 'link')
-  //     .attr('fill', 'none') // This is the default fill color
-  //     .attr('stroke', '#000') // give a frame fill color of your own
-  //     .attr('d', function (d: any) {
-  //       return renderLink(d);
-  //     });
-
-  //   // draw the node
-  //   g.selectAll('.node')
-  //     .data(nodes)
-  //     .enter()
-  //     .append('g')
-  //     .attr('class', 'node')
-  //     .attr('transform', function (d: any) { // This is written to let the data be displayed horizontally
-  //       return `translate(${d.x}, ${d.y})`;
-  //     });
-
-  //   g.selectAll('.node').append("text")
-  //     .attr("y", function (d: any) {
-  //       return d.children || d._children ? -18 : 18;
-  //     })
-  //     .attr("dy", ".35em")
-  //     .attr("text-anchor", "middle")
-  //     .text(function (d: any) { return d.data.name; })
-  //     .style("fill-opacity", 1);
+      singleParent1G.append('text')
+        .datum(data.parents[0])
+        .attr('x', left ? this.rectWidth * depth : 0)
+        .attr('y', this.rectHeight)
+        .text(d => d.name);
 
 
-  //   // g.selectAll('.node')
-  //   //   .append('text')
-  //   //   .attr('dx', 3)
-  //   //   .attr('y', function (d: any) {
-  //   //     return d.children ? -8 : 8;
-  //   //   })
-  //   //   .attr('text-anchor', function (d: any) {
-  //   //     return d.children ? 'end' : 'start';
-  //   //   })
-  //   //   .text(function (d: any) {
-  //   //     return d.data.name;
-  //   //   })
-  //   //   .style('font-size', '18px');
+      const singleParent2G = parentsG.append('g')
+      singleParent2G.append('rect')
+        .attr('x', left ? (left ? this.rectWidth * depth : 0) + this.rectWidth * depth : (left ? this.rectWidth * depth : 0) - this.rectWidth * depth)
+        .attr('y', 0)
+        .attr('width', this.rectWidth)
+        .attr('height', this.rectHeight)
+        .attr('fill', 'green')
 
-  // }
+      singleParent2G.append('text')
+        .datum(data.parents[1])
+        .attr('x', left ? (left ? this.rectWidth * depth : 0) + this.rectWidth * depth : (left ? this.rectWidth * depth : 0) - this.rectWidth * depth)
+        .attr('y', this.rectHeight)
+        .text(d => d.name);
+    }
+  }
 
 }
