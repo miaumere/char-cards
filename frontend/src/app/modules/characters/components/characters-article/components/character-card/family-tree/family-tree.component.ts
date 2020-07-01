@@ -1,12 +1,9 @@
-import { IHistoricalPreference } from './../../../../../models/historical-preference.model';
-import { Component, ElementRef, Input, OnChanges, OnInit, SimpleChange, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { BaseComponent } from 'src/app/core/base.component';
 
 import * as d3 from 'd3';
-import * as moment from 'moment';
-import { tree, hierarchy, Link, DefaultLinkObject, linkHorizontal, line, select, linkVertical } from 'd3';
 
 
 
@@ -32,6 +29,21 @@ export class FamilyTreeComponent extends BaseComponent implements OnInit {
       {
         id: 3,
         name: 'Gunter Maske',
+        birthday: '10-10-1991'
+      },
+      {
+        id: 123,
+        name: 'Maximilian Maske',
+        birthday: '10-10-1991'
+      },
+      {
+        id: 124,
+        name: 'Aloysius Maske',
+        birthday: '10-10-1991'
+      },
+      {
+        id: 125,
+        name: 'Hans Maske',
         birthday: '10-10-1991'
       }
     ],
@@ -66,19 +78,7 @@ export class FamilyTreeComponent extends BaseComponent implements OnInit {
           {
             id: 7,
             name: 'Theodor Maske',
-            birthday: '10-10-1999',
-            parents: [
-              {
-                id: 8,
-                name: 'Hans jakiś',
-                birthday: '10-10-1999'
-              },
-              {
-                id: 8,
-                name: 'żona hansa',
-                birthday: '10-10-1999'
-              }
-            ]
+            birthday: '10-10-1999'
           },
         ]
       }
@@ -133,7 +133,9 @@ export class FamilyTreeComponent extends BaseComponent implements OnInit {
 
 
     const charG = svg.append('g')
-      .attr('transform', `translate(${(this.width / 2) + 25}, ${this.height - 50})`)
+      // .attr('transform', `translate(${(this.width / 2) + 25}, ${this.height - 50})`)
+      .attr('transform', `translate(${(this.width / 2) + 25}, ${this.height - (this.rectHeight * 3)})`)
+
 
     charG.append('rect')
       .attr('x', 0)
@@ -152,23 +154,25 @@ export class FamilyTreeComponent extends BaseComponent implements OnInit {
     this.generateParents(svg, this.data, 0, false)
     this.generateParents(svg, this.data.parents[1], 2, true)
     this.generateParents(svg, this.data.parents[0], 2, false)
-    console.log(this.data.parents[1].parents[1].parents)
-    this.generateParents(svg, this.data.parents[1].parents[1], 3, true)
 
+
+    if (!!this.data.siblings) {
+      for (let i = 0; i < this.data.siblings.length; i++) {
+        this.generateSiblings(svg, this.data.siblings[i], i)
+      }
+    }
 
   }
 
   generateParents(svg, data: any, depth: number, left?: boolean) {
-
-
     if (depth === 0) {
       const parentsG = svg.append('g')
         .attr('transform',
-          `translate(${(this.width / 2) + 25}, ${this.height - 100})`
+          `translate(${(this.width / 2) + 25}, ${this.height - (this.rectHeight * 4.5)})`
         )
       const singleParent1G = parentsG.append('g')
-      singleParent1G.append('rect')
-        .attr('x', `-${this.rectWidth * 2}`)
+      const rect1 = singleParent1G.append('rect')
+        .attr('x', `-${this.rectWidth}`)
         .attr('y', 0)
         .attr('width', this.rectWidth)
         .attr('height', this.rectHeight)
@@ -176,13 +180,13 @@ export class FamilyTreeComponent extends BaseComponent implements OnInit {
 
       singleParent1G.append('text')
         .datum(data.parents[0])
-        .attr('x', `-${this.rectWidth * 2}`)
+        .attr('x', `-${this.rectWidth}`)
         .attr('y', this.rectHeight)
         .text(d => d.name);
 
       const singleParent2G = parentsG.append('g')
-      singleParent2G.append('rect')
-        .attr('x', this.rectWidth * 2)
+      const rect2 = singleParent2G.append('rect')
+        .attr('x', this.rectWidth)
         .attr('y', 0)
         .attr('width', this.rectWidth)
         .attr('height', this.rectHeight)
@@ -190,13 +194,25 @@ export class FamilyTreeComponent extends BaseComponent implements OnInit {
 
       singleParent2G.append('text')
         .datum(data.parents[1])
-        .attr('x', this.rectWidth * 2)
+        .attr('x', this.rectWidth)
         .attr('y', this.rectHeight)
         .text(d => d.name);
+
+
+      parentsG
+        .append('line')
+        .attr('x1', this.rectWidth)
+        .attr('y1', this.rectWidth / 2)
+        .attr('x2', 0)
+        .attr('y2', this.rectWidth / 2)
+        .attr('stroke-width', '2')
+
+
+
     } else {
       const parentsG = svg.append('g')
         .attr('transform',
-          `translate(${(this.width / 2 - (5 * depth))}, ${this.height - ((this.rectHeight * 2) * depth)})`
+          `translate(${(this.width / 2 - (5 * depth))}, ${this.height - ((this.rectHeight * 3) * depth)})`
         )
       const singleParent1G = parentsG.append('g')
       singleParent1G.append('rect')
@@ -215,7 +231,9 @@ export class FamilyTreeComponent extends BaseComponent implements OnInit {
 
       const singleParent2G = parentsG.append('g')
       singleParent2G.append('rect')
-        .attr('x', left ? (left ? this.rectWidth * depth : 0) + this.rectWidth * depth : (left ? this.rectWidth * depth : 0) - this.rectWidth * depth)
+        .attr('x', left ?
+          (left ? this.rectWidth * depth : 0) + this.rectWidth * depth
+          : (left ? this.rectWidth * depth : 0) - this.rectWidth * depth)
         .attr('y', 0)
         .attr('width', this.rectWidth)
         .attr('height', this.rectHeight)
@@ -223,10 +241,49 @@ export class FamilyTreeComponent extends BaseComponent implements OnInit {
 
       singleParent2G.append('text')
         .datum(data.parents[1])
-        .attr('x', left ? (left ? this.rectWidth * depth : 0) + this.rectWidth * depth : (left ? this.rectWidth * depth : 0) - this.rectWidth * depth)
+        .attr('x', left ?
+          (left ? this.rectWidth * depth : 0) + this.rectWidth * depth
+          : (left ? this.rectWidth * depth : 0) - this.rectWidth * depth)
         .attr('y', this.rectHeight)
         .text(d => d.name);
+
+
+      console.log(parentsG.node())
+      // parentsG
+      //   .append('line')
+      //   .attr('x1', this.width / 2 - (5 * depth))
+      //   .attr('y1', (this.width / 2 - (5 * depth)) / 2)
+      //   .attr('x2', 0)
+      //   .attr('y2', (this.width / 2 - (5 * depth)) / 2)
+      //   .attr('stroke-width', '2')
+
+
     }
   }
 
+  generateSiblings(svg, data: any, order: number) {
+    const parentsG = svg.append('g')
+      // (left ? this.rectWidth * depth : 0) + this.rectWidth * depth
+      .attr('transform',
+        order % 2 !== 0 ? `translate(${(this.width / 2) + (this.rectWidth * (2 + order))}, ${this.height - (this.rectHeight * 3)})`
+          : `translate(${(this.width / 2) - (order * this.rectWidth)}, ${this.height - (this.rectHeight * 3)})`)
+
+    const singleParent1G = parentsG.append('g')
+    const rect1 = singleParent1G.append('rect')
+      .attr('x', `-${this.rectWidth}`)
+      .attr('y', 0)
+      .attr('width', this.rectWidth)
+      .attr('height', this.rectHeight)
+      .attr('fill', 'blue')
+
+    singleParent1G.append('text')
+      .attr('x', `-${this.rectWidth}`)
+      .attr('y', this.rectHeight)
+      .text(data.name);
+
+  }
+
+  generateChildren() {
+
+  }
 }
