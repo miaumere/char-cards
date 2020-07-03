@@ -71,12 +71,12 @@ export class FamilyTreeComponent extends BaseComponent implements OnInit {
             birthday: '10-10-1991'
           },
           {
-            id: 222,
+            id: 224,
             name: 'Hanne Kohler',
             birthday: '10-10-1991'
           },
           {
-            id: 222,
+            id: 226,
             name: 'Vincent Maske',
             birthday: '10-10-1991'
           },
@@ -100,17 +100,17 @@ export class FamilyTreeComponent extends BaseComponent implements OnInit {
         ],
         siblings: [
           {
-            id: 222,
+            id: 227,
             name: 'Vincent Maske',
             birthday: '10-10-1991'
           },
           {
-            id: 222,
+            id: 22632,
             name: 'Vincent Maske',
             birthday: '10-10-1991'
           },
           {
-            id: 222,
+            id: 22245,
             name: 'Vincent Maske',
             birthday: '10-10-1991'
           },
@@ -183,6 +183,7 @@ export class FamilyTreeComponent extends BaseComponent implements OnInit {
       .attr('height', this.height)
       .style('background', 'white');
 
+    //#region
     const maleBgGroup = svg.append('g');
     maleBgGroup.append('rect')
       .attr('x', 0)
@@ -198,18 +199,12 @@ export class FamilyTreeComponent extends BaseComponent implements OnInit {
       .attr('width', this.svgWidth / 2)
       .attr('height', this.height - (this.rectHeight * 2) + 20)
       .attr('fill', 'rgba(182, 76, 158, 0.2)');
-
-
+    //#endregion
     const charG = svg.append('g')
       .attr('transform', `translate(${(this.width / 2) + 25}, ${this.height - (this.rectHeight * 3)})`);
 
+    this.createCircleWithImage(charG, this.data, (this.rectWidth / 2));
 
-    charG.append('rect')
-      .attr('x', 0)
-      .attr('y', 0)
-      .attr('width', this.rectWidth)
-      .attr('height', this.rectHeight)
-      .attr('fill', 'red');
 
     charG.append('text')
       .datum(this.data)
@@ -218,11 +213,11 @@ export class FamilyTreeComponent extends BaseComponent implements OnInit {
       .text(d => d.name);
 
 
-    this.generateParents(svg, this.data, 0, false);
+    this.generateParents(svg, this.data, false, false);
 
     if (!!this.data.parents) {
       for (let i = 0; i < this.data.parents.length; i++) {
-        this.generateParents(svg, this.data.parents[i], 2, i % 2 === 1);
+        this.generateParents(svg, this.data.parents[i], true, i % 2 === 1);
       }
     }
 
@@ -237,40 +232,25 @@ export class FamilyTreeComponent extends BaseComponent implements OnInit {
     if (!!this.data.children) {
       this.generateChildren(svg, this.data.children);
     }
-
-    // if (!!this.data.children) {
-    //   for (let i = 0; i < this.data.children.length; i++) {
-
-    //     this.generateChildren(svg, this.data.children[i], i)
-    //   }
-    // }
-
   }
 
-  generateParents(svg, data: any, depth: number, left?: boolean) {
-    if (depth === 0) {
+  generateParents(svg, data: any, areGrandparents: boolean, left?: boolean) {
+    if (!areGrandparents) {
       const parentsG = svg.append('g')
         .attr('transform',
           `translate(${(this.width / 2) + 25}, ${this.height - (this.rectHeight * 4.5)})`
         );
 
-      // parentsG.append('rect')
-      //   .attr('x', `-${this.rectWidth}`)
-      //   .attr('width', this.rectWidth * 3)
-      //   .attr('y', (this.rectHeight / 2))
-      //   .attr('height', (this.rectHeight / 2))
-      //   .attr('fill', 'none')
-      //   .attr('stroke-dasharray', '100 1000')
-      //   .attr('stroke', 'red')
-
       if (!!data.parents[0]) {
         const singleParent1G = parentsG.append('g');
-        singleParent1G.append('rect')
-          .attr('x', `-${this.rectWidth}`)
-          .attr('y', 0)
-          .attr('width', this.rectWidth)
-          .attr('height', this.rectHeight)
-          .attr('fill', 'green');
+        // singleParent1G.append('rect')
+        //   .attr('x', `-${this.rectWidth}`)
+        //   .attr('y', 0)
+        //   .attr('width', this.rectWidth)
+        //   .attr('height', this.rectHeight)
+        //   .attr('fill', 'green');
+
+        this.createCircleWithImage(singleParent1G, data.parents[0]);
 
         singleParent1G.append('text')
           .datum(data.parents[0])
@@ -285,13 +265,15 @@ export class FamilyTreeComponent extends BaseComponent implements OnInit {
 
       if (!!data.parents[1]) {
         const singleParent2G = parentsG.append('g');
-        singleParent2G.append('rect')
-          .attr('x', this.rectWidth)
-          .attr('y', 0)
-          .attr('width', this.rectWidth)
-          .attr('height', this.rectHeight)
-          .attr('fill', 'green');
 
+        // singleParent2G.append('rect')
+        //   .attr('x', this.rectWidth)
+        //   .attr('y', 0)
+        //   .attr('width', this.rectWidth)
+        //   .attr('height', this.rectHeight)
+        //   .attr('fill', 'green');
+
+        this.createCircleWithImage(singleParent2G, data.parents[1], this.rectWidth + 25)
 
         singleParent2G.append('text')
           .datum(data.parents[1])
@@ -307,55 +289,41 @@ export class FamilyTreeComponent extends BaseComponent implements OnInit {
     } else {
       const parentsG = svg.append('g')
         .attr('transform',
-          `translate(${(this.width / 2 - (5 * depth))}, ${this.height - ((this.rectHeight * 3) * depth)})`
+          `translate(${(this.width / 2 - (5 * 2))}, ${this.height - ((this.rectHeight * 3) * 2)})`
         );
 
-      // parentsG.append('rect')
-      //   .attr('x', `${left ? ((this.rectWidth * depth) * -1) : this.rectWidth * 3}`)
-      //   .attr('width', this.rectWidth)
-      //   .attr('y', (this.rectHeight / 2))
-      //   .attr('height', (this.rectHeight / 2))
-      //   .attr('fill', 'none')
-      //   .attr('stroke-dasharray', '50 1000')
-      //   .attr('stroke', 'red')
+      if (!!data.parents[0]) {
+        const singleParent1G = parentsG.append('g');
 
-      //#region
-      const singleParent1G = parentsG.append('g');
-      singleParent1G.append('rect')
-        .attr('x', left ? this.rectWidth * 2 : 0)
-        .attr('y', 0)
-        .attr('width', this.rectWidth)
-        .attr('height', this.rectHeight)
-        .attr('fill', 'green');
+        left ?
+          this.createCircleWithImage(singleParent1G, data.parents[0], this.rectWidth * 2 + 25)
+          :
+          this.createCircleWithImage(singleParent1G, data.parents[0], 25)
 
-      singleParent1G.append('text')
-        .datum(data.parents[0])
-        .attr('x', left ? (this.rectWidth * 2 - this.nameMargin) : 0 - this.nameMargin)
-        .attr('y', this.rectHeight)
-        .text(d => d.name);
+        singleParent1G.append('text')
+          .datum(data.parents[0])
+          .attr('x', left ? (this.rectWidth * 2 - this.nameMargin) : 0 - this.nameMargin)
+          .attr('y', this.rectHeight)
+          .text(d => d.name);
+      }
+      if (!!data.parents[1]) {
+        const singleParent2G = parentsG.append('g');
 
-      //#endregion
+        left ?
+          this.createCircleWithImage(singleParent2G, data.parents[1], ((left ? this.rectWidth * 2 : 0) + this.rectWidth * 2) + 25)
+          :
+          this.createCircleWithImage(singleParent2G, data.parents[1], ((left ? this.rectWidth * 2 : 0) - this.rectWidth * 2) + 25);
 
-      //#region
-      const singleParent2G = parentsG.append('g');
-      singleParent2G.append('rect')
-        .attr('x', left ?
-          (left ? this.rectWidth * 2 : 0) + this.rectWidth * 2
-          : (left ? this.rectWidth * 2 : 0) - this.rectWidth * 2)
-        .attr('y', 0)
-        .attr('width', this.rectWidth)
-        .attr('height', this.rectHeight)
-        .attr('fill', 'green');
+        singleParent2G.append('text')
+          .datum(data.parents[1])
+          .attr('x', left ?
+            ((left ? this.rectWidth * 2 : 0) + this.rectWidth * 2) - this.nameMargin
+            : ((left ? this.rectWidth * 2 : 0) - this.rectWidth * 2) - this.nameMargin)
+          .attr('y', this.rectHeight)
+          .text(d => d.name);
+      }
 
-      singleParent2G.append('text')
-        .datum(data.parents[1])
-        .attr('x', left ?
-          ((left ? this.rectWidth * 2 : 0) + this.rectWidth * 2) - this.nameMargin
-          : ((left ? this.rectWidth * 2 : 0) - this.rectWidth * 2) - this.nameMargin)
-        .attr('y', this.rectHeight)
-        .text(d => d.name);
 
-      //#endregion
     }
   }
 
@@ -370,12 +338,7 @@ export class FamilyTreeComponent extends BaseComponent implements OnInit {
           : `translate(${(this.width / 2) - (order * this.rectWidth)}, ${this.height - (this.rectHeight * 3)})`);
 
     const siblingGroup = siblingG.append('g');
-    const rect1 = siblingGroup.append('rect')
-      .attr('x', `-${this.rectWidth}`)
-      .attr('y', 0)
-      .attr('width', this.rectWidth)
-      .attr('height', this.rectHeight)
-      .attr('fill', 'blue');
+    this.createCircleWithImage(siblingGroup, data)
 
     siblingGroup.append('text')
       .attr('x', `-${this.rectWidth + this.nameMargin}`)
@@ -392,12 +355,8 @@ export class FamilyTreeComponent extends BaseComponent implements OnInit {
             : `translate(${(this.width / 2) - (i * this.rectWidth) + 50}, ${this.height - (this.rectHeight + 10)})`);
 
       const childGroup = childrenG.append('g');
-      childGroup.append('rect')
-        .attr('x', `-${this.rectWidth}`)
-        .attr('y', 0)
-        .attr('width', this.rectWidth)
-        .attr('height', this.rectHeight)
-        .attr('fill', 'cyan');
+
+      this.createCircleWithImage(childGroup, data[i])
 
       childGroup.append('text')
         .attr('x', `-${this.rectWidth + this.nameMargin}`)
@@ -416,12 +375,9 @@ export class FamilyTreeComponent extends BaseComponent implements OnInit {
       );
 
     const partnerGroup = partnerG.append('g');
-    const rect1 = partnerGroup.append('rect')
-      .attr('x', `-${this.rectWidth}`)
-      .attr('y', 0)
-      .attr('width', this.rectWidth)
-      .attr('height', this.rectHeight)
-      .attr('fill', 'pink');
+
+    this.createCircleWithImage(partnerGroup, data);
+    this.createPaths(svg, this.data.id, data.id)
 
     partnerGroup.append('text')
       .attr('x', `-${this.rectWidth + this.nameMargin}`)
@@ -430,27 +386,58 @@ export class FamilyTreeComponent extends BaseComponent implements OnInit {
   }
 
   generateParentSiblings(svg, data: any, left: boolean) {
-    const parentsG = svg.append('g')
+    const siblingsG = svg.append('g')
       .attr('transform',
         `translate(${(this.width / 2) + 85}, ${this.height - (this.rectHeight * 4.5)})`
       );
 
     for (let i = 0; i < data.length; i++) {
-      const singleParent1G = parentsG.append('g');
+      const siblingG = siblingsG.append('g');
 
-      singleParent1G.append('rect')
-        .attr('x', left ? -(100 * (i + 2)) : (85 * (i + 1)))
-        .attr('y', 0)
-        .attr('width', this.rectWidth)
-        .attr('height', this.rectHeight)
-        .attr('fill', 'aquamarine');
+      left ?
+        this.createCircleWithImage(siblingG, data[i], -(100 * (i + 2)) + 25)
+        :
+        this.createCircleWithImage(siblingG, data[i], (85 * (i + 1)) + 25)
 
-      singleParent1G.append('text')
+
+
+      siblingG.append('text')
         .datum(data[i])
         .attr('x', (left ? -(105 * (i + 2)) + this.nameMargin : (85 * (i + 1)) - this.nameMargin))
         .attr('y', this.rectHeight)
         .text(d => d.name);
     }
+
+
+  }
+
+  createCircleWithImage(group, character, customCx?: number) {
+    group.append('circle')
+      .attr('id', 'char' + character.id)
+      .attr('cx', customCx ? customCx : `-${this.rectWidth / 2}`)
+      .attr('r', 20)
+      .attr('cy', 10)
+      .attr('width', this.rectWidth)
+      .attr('height', this.rectHeight)
+      .attr('fill', 'cyan')
+      .attr('stroke', 'black')
+  }
+
+  createPaths(svg, firstCharId: number, secondCharId: number) {
+    const firstCharCircle = d3.select('#char' + firstCharId).node() as any;
+    const secondCharCircle = d3.select('#char' + secondCharId).node() as any;
+
+    svg.append('rect')
+      .attr('fill', 'red')
+      .attr('width', 100)
+      .attr('height', 50)
+      .attr('y', 10)
+      .attr('x', 10)
+    console.log("firstCharCircle B Box: ", firstCharCircle.getBBox())
+    console.log("secondCharCircle B Box: ", secondCharCircle.getBBox())
+
+    // console.log("secondCharCircle: ", secondCharCircle.getBoundingClientRect())
+
 
 
   }
