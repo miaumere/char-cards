@@ -150,6 +150,7 @@ export class FamilyTreeComponent extends BaseComponent implements OnInit {
   width;
 
   nameMargin = 5;
+  nameMarginBottom = 10;
 
   rectWidth = 50;
   rectHeight = 50;
@@ -209,8 +210,15 @@ export class FamilyTreeComponent extends BaseComponent implements OnInit {
     charG.append('text')
       .datum(this.data)
       .attr('x', -this.nameMargin)
-      .attr('y', this.rectHeight)
+      .attr('y', this.rectHeight - this.nameMarginBottom)
       .text(d => d.name);
+
+    charG.append('text')
+      .datum(this.data)
+      .attr('class', 'birthday')
+      .attr('x', -this.nameMargin)
+      .attr('y', this.rectHeight)
+      .text(d => d.birthday);
 
 
     this.generateParents(svg, this.data, false, false);
@@ -232,6 +240,13 @@ export class FamilyTreeComponent extends BaseComponent implements OnInit {
     if (!!this.data.children) {
       this.generateChildren(svg, this.data.children);
     }
+
+    const birthdays = d3.selectAll('.birthday')
+      .style('font-size', 'xx-small')
+      .style('opacity', '0.5')
+
+
+    console.log("birthdays: ", birthdays)
   }
 
   generateParents(svg, data: any, areGrandparents: boolean, left?: boolean) {
@@ -241,22 +256,39 @@ export class FamilyTreeComponent extends BaseComponent implements OnInit {
           `translate(${(this.width / 2) + 25}, ${this.height - (this.rectHeight * 4.5)})`
         );
 
+      if (!!data.parents[0] && !!data.parents[1]) {
+        parentsG.append('rect')
+          .attr('x', 0)
+          .attr('y', 0)
+          .attr('width', this.rectWidth)
+          .attr('height', 20)
+          .attr('fill', 'whitesmoke');
+
+        parentsG.append('text')
+          .attr('x', 0)
+          .attr('y', 15)
+          .text('12.12.2010')
+          .style('font-size', 'xx-small')
+
+
+      }
+
       if (!!data.parents[0]) {
         const singleParent1G = parentsG.append('g');
-        // singleParent1G.append('rect')
-        //   .attr('x', `-${this.rectWidth}`)
-        //   .attr('y', 0)
-        //   .attr('width', this.rectWidth)
-        //   .attr('height', this.rectHeight)
-        //   .attr('fill', 'green');
-
         this.createCircleWithImage(singleParent1G, data.parents[0]);
 
         singleParent1G.append('text')
           .datum(data.parents[0])
           .attr('x', `-${this.rectWidth + this.nameMargin}`)
-          .attr('y', this.rectHeight)
+          .attr('y', this.rectHeight - this.nameMarginBottom)
           .text(d => d.name);
+
+        singleParent1G.append('text')
+          .datum(data)
+          .attr('class', 'birthday')
+          .attr('x', `-${this.rectWidth + this.nameMargin}`)
+          .attr('y', this.rectHeight)
+          .text(d => d.birthday);
 
         if (!!data && !!data.parents[0].siblings) {
           this.generateParentSiblings(svg, data.parents[0].siblings, true);
@@ -266,20 +298,20 @@ export class FamilyTreeComponent extends BaseComponent implements OnInit {
       if (!!data.parents[1]) {
         const singleParent2G = parentsG.append('g');
 
-        // singleParent2G.append('rect')
-        //   .attr('x', this.rectWidth)
-        //   .attr('y', 0)
-        //   .attr('width', this.rectWidth)
-        //   .attr('height', this.rectHeight)
-        //   .attr('fill', 'green');
-
         this.createCircleWithImage(singleParent2G, data.parents[1], this.rectWidth + 25)
 
         singleParent2G.append('text')
           .datum(data.parents[1])
           .attr('x', this.rectWidth - this.nameMargin)
-          .attr('y', this.rectHeight)
+          .attr('y', this.rectHeight - this.nameMarginBottom)
           .text(d => d.name);
+
+        singleParent2G.append('text')
+          .datum(data)
+          .attr('class', 'birthday')
+          .attr('x', this.rectWidth + this.nameMargin)
+          .attr('y', this.rectHeight)
+          .text(d => d.birthday);
 
         if (!!data && !!data.parents[1].siblings) {
           this.generateParentSiblings(svg, data.parents[1].siblings, false);
@@ -303,8 +335,15 @@ export class FamilyTreeComponent extends BaseComponent implements OnInit {
         singleParent1G.append('text')
           .datum(data.parents[0])
           .attr('x', left ? (this.rectWidth * 2 - this.nameMargin) : 0 - this.nameMargin)
-          .attr('y', this.rectHeight)
+          .attr('y', this.rectHeight - this.nameMarginBottom)
           .text(d => d.name);
+
+        singleParent1G.append('text')
+          .datum(data.parents[0])
+          .attr('class', 'birthday')
+          .attr('x', left ? (this.rectWidth * 2 - this.nameMargin) : 0 - this.nameMargin)
+          .attr('y', this.rectHeight)
+          .text(d => d.birthday);
       }
       if (!!data.parents[1]) {
         const singleParent2G = parentsG.append('g');
@@ -319,8 +358,17 @@ export class FamilyTreeComponent extends BaseComponent implements OnInit {
           .attr('x', left ?
             ((left ? this.rectWidth * 2 : 0) + this.rectWidth * 2) - this.nameMargin
             : ((left ? this.rectWidth * 2 : 0) - this.rectWidth * 2) - this.nameMargin)
-          .attr('y', this.rectHeight)
+          .attr('y', this.rectHeight - this.nameMarginBottom)
           .text(d => d.name);
+
+        singleParent2G.append('text')
+          .datum(data.parents[1])
+          .attr('class', 'birthday')
+          .attr('x', left ?
+            ((left ? this.rectWidth * 2 : 0) + this.rectWidth * 2) - this.nameMargin
+            : ((left ? this.rectWidth * 2 : 0) - this.rectWidth * 2) - this.nameMargin).attr('y', this.rectHeight)
+          .attr('y', this.rectHeight)
+          .text(d => d.birthday);
       }
 
 
@@ -342,9 +390,15 @@ export class FamilyTreeComponent extends BaseComponent implements OnInit {
 
     siblingGroup.append('text')
       .attr('x', `-${this.rectWidth + this.nameMargin}`)
-      .attr('y', this.rectHeight)
+      .attr('y', this.rectHeight - this.nameMarginBottom)
       .text(data.name);
 
+    siblingGroup.append('text')
+      .datum(data)
+      .attr('class', 'birthday')
+      .attr('x', `-${this.rectWidth + this.nameMargin}`)
+      .attr('y', this.rectHeight)
+      .text(d => d.birthday);
   }
 
   generateChildren(svg, data: any) {
@@ -360,8 +414,15 @@ export class FamilyTreeComponent extends BaseComponent implements OnInit {
 
       childGroup.append('text')
         .attr('x', `-${this.rectWidth + this.nameMargin}`)
-        .attr('y', this.rectHeight)
+        .attr('y', this.rectHeight - this.nameMarginBottom)
         .text(data[i].name);
+
+      childGroup.append('text')
+        .datum(data[i])
+        .attr('class', 'birthday')
+        .attr('x', `-${this.rectWidth + this.nameMargin}`)
+        .attr('y', this.rectHeight)
+        .text(d => d.birthday);
     }
 
 
@@ -381,8 +442,15 @@ export class FamilyTreeComponent extends BaseComponent implements OnInit {
 
     partnerGroup.append('text')
       .attr('x', `-${this.rectWidth + this.nameMargin}`)
-      .attr('y', this.rectHeight)
+      .attr('y', this.rectHeight - this.nameMarginBottom)
       .text(data.name);
+
+    partnerGroup.append('text')
+      .datum(data)
+      .attr('class', 'birthday')
+      .attr('x', `-${this.rectWidth + this.nameMargin}`)
+      .attr('y', this.rectHeight)
+      .text(d => d.birthday);
   }
 
   generateParentSiblings(svg, data: any, left: boolean) {
@@ -404,8 +472,15 @@ export class FamilyTreeComponent extends BaseComponent implements OnInit {
       siblingG.append('text')
         .datum(data[i])
         .attr('x', (left ? -(105 * (i + 2)) + this.nameMargin : (85 * (i + 1)) - this.nameMargin))
-        .attr('y', this.rectHeight)
+        .attr('y', this.rectHeight - this.nameMarginBottom)
         .text(d => d.name);
+
+      siblingG.append('text')
+        .datum(data[i])
+        .attr('class', 'birthday')
+        .attr('x', (left ? -(105 * (i + 2)) + this.nameMargin : (85 * (i + 1)) - this.nameMargin))
+        .attr('y', this.rectHeight)
+        .text(d => d.birthday);
     }
 
 
