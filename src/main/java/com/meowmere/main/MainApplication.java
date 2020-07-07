@@ -18,8 +18,7 @@ import java.util.stream.Stream;
 public class MainApplication extends SpringBootServletInitializer {
 
 	public static void main(String[] args){
-	String logsPath = UtilsShared.GetMainDir();
-		System.setProperty("app.home", logsPath);
+		System.setProperty("app.home", UtilsShared.GetMainDir());
 
 		SpringApplication.run(MainApplication.class, args);
 	}
