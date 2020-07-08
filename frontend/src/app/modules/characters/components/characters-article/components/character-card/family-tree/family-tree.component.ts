@@ -261,16 +261,17 @@ export class FamilyTreeComponent extends BaseComponent implements OnInit {
           .attr('x', 0)
           .attr('y', 0)
           .attr('width', this.rectWidth)
-          .attr('height', 20)
+          .attr('height', 15)
+          .attr('rx', 5)
+          .attr('ry', 5)
+          .attr('style', 'filter: url(#shadow)')
           .attr('fill', 'whitesmoke');
 
         parentsG.append('text')
           .attr('x', 0)
-          .attr('y', 15)
+          .attr('y', 11)
           .text('12.12.2010')
           .style('font-size', 'xx-small')
-
-
       }
 
       if (!!data.parents[0]) {
@@ -326,49 +327,110 @@ export class FamilyTreeComponent extends BaseComponent implements OnInit {
 
       if (!!data.parents[0]) {
         const singleParent1G = parentsG.append('g');
-
-        left ?
+        if (left) {
           this.createCircleWithImage(singleParent1G, data.parents[0], this.rectWidth * 2 + 25)
-          :
+
+          singleParent1G.append('text')
+            .datum(data.parents[0])
+            .attr('x', this.rectWidth * 2 - this.nameMargin)
+            .attr('y', this.rectHeight - this.nameMarginBottom)
+            .text(d => d.name);
+
+          singleParent1G.append('text')
+            .datum(data.parents[0])
+            .attr('class', 'birthday')
+            .attr('x', this.rectWidth * 2 - this.nameMargin)
+            .attr('y', this.rectHeight)
+            .text(d => d.birthday);
+
+          if (!!data.parents[0] && !!data.parents[1]) {
+            parentsG.append('rect')
+              .attr('x', this.rectWidth * 3)
+              .attr('y', 0)
+              .attr('width', this.rectWidth)
+              .attr('height', 15)
+              .attr('rx', 5)
+              .attr('ry', 5)
+              .attr('style', 'filter: url(#shadow)')
+              .attr('fill', 'whitesmoke');
+            parentsG.append('text')
+              .attr('x', this.rectWidth * 3)
+              .attr('y', 11)
+              .text('12.12.2010')
+              .style('font-size', 'xx-small')
+          }
+        } else {
           this.createCircleWithImage(singleParent1G, data.parents[0], 25)
 
-        singleParent1G.append('text')
-          .datum(data.parents[0])
-          .attr('x', left ? (this.rectWidth * 2 - this.nameMargin) : 0 - this.nameMargin)
-          .attr('y', this.rectHeight - this.nameMarginBottom)
-          .text(d => d.name);
+          singleParent1G.append('text')
+            .datum(data.parents[0])
+            .attr('x', 0 - this.nameMargin)
+            .attr('y', this.rectHeight - this.nameMarginBottom)
+            .text(d => d.name);
 
-        singleParent1G.append('text')
-          .datum(data.parents[0])
-          .attr('class', 'birthday')
-          .attr('x', left ? (this.rectWidth * 2 - this.nameMargin) : 0 - this.nameMargin)
-          .attr('y', this.rectHeight)
-          .text(d => d.birthday);
+          singleParent1G.append('text')
+            .datum(data.parents[0])
+            .attr('class', 'birthday')
+            .attr('x', 0 - this.nameMargin)
+            .attr('y', this.rectHeight)
+            .text(d => d.birthday);
+
+          if (!!data.parents[0] && !!data.parents[1]) {
+            parentsG.append('rect')
+              .attr('x', -this.rectWidth)
+              .attr('y', 0)
+              .attr('width', this.rectWidth)
+              .attr('height', 15)
+              .attr('rx', 5)
+              .attr('ry', 5)
+              .attr('style', 'filter: url(#shadow)')
+              .attr('fill', 'whitesmoke');
+            parentsG.append('text')
+              .attr('x', -this.rectWidth)
+              .attr('y', 11)
+              .text('12.12.2010')
+              .style('font-size', 'xx-small')
+          }
+        }
       }
       if (!!data.parents[1]) {
         const singleParent2G = parentsG.append('g');
 
-        left ?
-          this.createCircleWithImage(singleParent2G, data.parents[1], ((left ? this.rectWidth * 2 : 0) + this.rectWidth * 2) + 25)
-          :
-          this.createCircleWithImage(singleParent2G, data.parents[1], ((left ? this.rectWidth * 2 : 0) - this.rectWidth * 2) + 25);
+        if (left) {
+          this.createCircleWithImage(singleParent2G, data.parents[1], (this.rectWidth * 4) + 25)
 
-        singleParent2G.append('text')
-          .datum(data.parents[1])
-          .attr('x', left ?
-            ((left ? this.rectWidth * 2 : 0) + this.rectWidth * 2) - this.nameMargin
-            : ((left ? this.rectWidth * 2 : 0) - this.rectWidth * 2) - this.nameMargin)
-          .attr('y', this.rectHeight - this.nameMarginBottom)
-          .text(d => d.name);
+          singleParent2G.append('text')
+            .datum(data.parents[1])
+            .attr('x', (this.rectWidth * 4) - this.nameMargin)
+            .attr('y', this.rectHeight - this.nameMarginBottom)
+            .text(d => d.name);
 
-        singleParent2G.append('text')
-          .datum(data.parents[1])
-          .attr('class', 'birthday')
-          .attr('x', left ?
-            ((left ? this.rectWidth * 2 : 0) + this.rectWidth * 2) - this.nameMargin
-            : ((left ? this.rectWidth * 2 : 0) - this.rectWidth * 2) - this.nameMargin).attr('y', this.rectHeight)
-          .attr('y', this.rectHeight)
-          .text(d => d.birthday);
+          singleParent2G.append('text')
+            .datum(data.parents[1])
+            .attr('class', 'birthday')
+            .attr('x', (this.rectWidth * 4) - this.nameMargin)
+            .attr('y', this.rectHeight)
+            .text(d => d.birthday);
+
+        } else {
+          this.createCircleWithImage(singleParent2G, data.parents[1], (-this.rectWidth * 2) + 25);
+
+          singleParent2G.append('text')
+            .datum(data.parents[1])
+            .attr('x', - this.rectWidth * 2 - this.nameMargin)
+            .attr('y', this.rectHeight - this.nameMarginBottom)
+            .text(d => d.name);
+
+          singleParent2G.append('text')
+            .datum(data.parents[1])
+            .attr('class', 'birthday')
+            .attr('x', - this.rectWidth * 2 - this.nameMargin)
+            .attr('y', this.rectHeight)
+            .text(d => d.birthday);
+        }
+
+
+
       }
 
 
@@ -432,7 +494,7 @@ export class FamilyTreeComponent extends BaseComponent implements OnInit {
   generatePartner(svg, data: any) {
     const partnerG = svg.append('g')
       .attr('transform',
-        `translate(${(this.width / 2) + (3 * this.rectWidth) + 15}, ${this.height - (this.rectHeight * 3)})`
+        `translate(${(this.width / 2) + (3 * this.rectWidth) + 25}, ${this.height - (this.rectHeight * 3)})`
       );
 
     const partnerGroup = partnerG.append('g');
@@ -451,6 +513,21 @@ export class FamilyTreeComponent extends BaseComponent implements OnInit {
       .attr('x', `-${this.rectWidth + this.nameMargin}`)
       .attr('y', this.rectHeight)
       .text(d => d.birthday);
+
+    partnerGroup.append('rect')
+      .attr('x', -100)
+      .attr('y', 0)
+      .attr('width', this.rectWidth)
+      .attr('height', 15)
+      .attr('rx', 5)
+      .attr('ry', 5)
+      .attr('style', 'filter: url(#shadow)')
+      .attr('fill', 'whitesmoke');
+    partnerGroup.append('text')
+      .attr('x', -100)
+      .attr('y', 11)
+      .text('12.12.2020')
+      .style('font-size', 'xx-small')
   }
 
   generateParentSiblings(svg, data: any, left: boolean) {
@@ -502,14 +579,14 @@ export class FamilyTreeComponent extends BaseComponent implements OnInit {
     const firstCharCircle = d3.select('#char' + firstCharId).node() as any;
     const secondCharCircle = d3.select('#char' + secondCharId).node() as any;
 
-    svg.append('rect')
-      .attr('fill', 'red')
-      .attr('width', 100)
-      .attr('height', 50)
-      .attr('y', 10)
-      .attr('x', 10)
-    console.log("firstCharCircle B Box: ", firstCharCircle.getBBox())
-    console.log("secondCharCircle B Box: ", secondCharCircle.getBBox())
+    // svg.append('rect')
+    //   .attr('fill', 'red')
+    //   .attr('width', 100)
+    //   .attr('height', 50)
+    //   .attr('y', 10)
+    //   .attr('x', 10)
+    // console.log("firstCharCircle B Box: ", firstCharCircle.getBBox())
+    // console.log("secondCharCircle B Box: ", secondCharCircle.getBBox())
 
     // console.log("secondCharCircle: ", secondCharCircle.getBoundingClientRect())
 
