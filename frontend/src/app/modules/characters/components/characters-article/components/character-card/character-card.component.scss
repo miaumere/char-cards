@@ -311,9 +311,7 @@
 
 .types-legend {
   position: absolute;
-  top: 0;
 
-  margin-top: 1rem;
   margin-left: 1rem;
 
   z-index: 100;
@@ -321,7 +319,6 @@
 
 .types-legend-item {
   display: flex;
-  justify-content: space-between;
   align-items: center;
 
   padding: 0.2rem;
