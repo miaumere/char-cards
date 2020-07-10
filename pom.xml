@@ -9,8 +9,8 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.meowmere</groupId>
-	<artifactId>main</artifactId>
-	<version>1.1.0</version>
+	<artifactId>alea</artifactId>
+	<version>2.1.0</version>
 	<name>main</name>
 	<description>Alea iacta est - project </description>
 	<packaging>jar</packaging>
