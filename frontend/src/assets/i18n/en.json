@@ -112,7 +112,8 @@
     "CURRENT_IMAGES": "Current images",
     "CURRENT_PROFILE_PIC": "Current profile pic",
     "EDIT_NAME": "Edit image name",
-    "PROFILE_PIC_CHOSEN": "Chosen 1 file"
+    "PROFILE_PIC_CHOSEN": "Chosen 1 file",
+    "NO_IMAGES": "No images found."
   },
   "EDIT_STORIES": {
     "TITLE": "Story title",

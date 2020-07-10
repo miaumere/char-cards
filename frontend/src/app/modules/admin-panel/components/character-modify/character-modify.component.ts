@@ -380,7 +380,7 @@ export class CharacterModifyComponent extends BaseComponent implements OnInit {
               })
             )
             .subscribe(_ => {
-              this._toastrService.success(this._translate.instant('TOASTR_MESSAGE.SAVE_SUCESS'));
+              this._toastrService.success(this._translate.instant('TOASTR_MESSAGE.SAVE_SUCCESS'));
               this.getCharacterDetails();
             },
               err => {

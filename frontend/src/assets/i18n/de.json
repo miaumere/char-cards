@@ -112,7 +112,8 @@
     "CURRENT_IMAGES": "Aktuelle Bilder",
     "CURRENT_PROFILE_PIC": "Aktuelles Profilbild",
     "EDIT_NAME": "Bildname bearbeiten",
-    "PROFILE_PIC_CHOSEN": "1 Datei gewählt"
+    "PROFILE_PIC_CHOSEN": "1 Datei gewählt",
+    "NO_IMAGES": "Keine Bilder gefunden."
   },
   "EDIT_STORIES": {
     "TITLE": "Geschichtetitel",
