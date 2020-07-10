@@ -599,6 +599,11 @@ public class CharactersService {
     public ResponseEntity createRelationship(RelationRequest request) {
         Character characterOne = characterRepository.getOne(request.getCharId());
         Character characterTwo = characterRepository.getOne(request.getRelCharId());
+
+        if(characterOne == characterTwo) {
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+
         if (characterOne == null || characterTwo == null) {
             return new ResponseEntity("Co najmniej jedna z podanych postaci nie istnieje.", HttpStatus.BAD_REQUEST);
         }
