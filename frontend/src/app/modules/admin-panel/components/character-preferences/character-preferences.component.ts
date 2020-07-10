@@ -138,8 +138,9 @@ export class CharacterPreferencesComponent extends BaseComponent implements OnIn
         .postEditPreferences(objToSend)
         .subscribe(_ => {
           this._toastrService.success(this._translate.instant('TOASTR_MESSAGE.SAVE_SUCCESS'));
-
           this.preferencesForm.reset();
+          this.getAllPreferences();
+
         },
           err => {
             this._toastrService.error(this._translate.instant('TOASTR_MESSAGE.ERROR'))
