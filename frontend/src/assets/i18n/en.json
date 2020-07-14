@@ -239,6 +239,11 @@
       "MAIN": "Main character",
       "SIDE": "Side character",
       "BACKGROUND": "Background character"
+    },
+    "relationshipType": {
+      "PARENT": "Parent",
+      "CHILD": "Child",
+      "MARRIAGE": "Marriage"
     }
   }
 }

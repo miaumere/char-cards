@@ -239,6 +239,11 @@
       "MAIN": "Postać główna",
       "SIDE": "Postać poboczna",
       "BACKGROUND": "Postać epizodyczna"
+    },
+    "relationshipType": {
+      "PARENT": "Rodzic",
+      "CHILD": "Dziecko",
+      "MARRIAGE": "Małżeństwo"
     }
   }
 }

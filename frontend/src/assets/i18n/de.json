@@ -239,6 +239,11 @@
       "MAIN": "Hauptfiguren",
       "SIDE": "Nebenfiguren",
       "BACKGROUND": "Hintergrundfiguren"
+    },
+    "relationshipType": {
+      "PARENT": "Elternteil",
+      "CHILD": "Kind",
+      "MARRIAGE": "Heirat"
     }
   }
 }

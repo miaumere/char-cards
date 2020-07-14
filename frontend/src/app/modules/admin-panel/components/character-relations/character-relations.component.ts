@@ -126,25 +126,24 @@ export class CharacterRelationsComponent extends BaseComponent implements OnInit
   }
 
   changeRelationType() {
+
     const value = this.relationForm.get('reverseRelation')?.value;
     switch (value) {
       case RelationshipType.PARENT:
-        this.relationForm.get('relation')?.setValue(RelationshipType[1]);
+        this.relationForm.get('relation')?.setValue(this._translate.instant('enum.relationshipType.' + RelationshipType[1]));
         break;
 
       case RelationshipType.CHILD:
-        this.relationForm.get('relation')?.setValue(RelationshipType[0]);
+        this.relationForm.get('relation')?.setValue(this._translate.instant('enum.relationshipType.' + RelationshipType[0]));
         break;
 
-      case RelationshipType.PARENT:
-        this.relationForm.get('relation')?.setValue(RelationshipType[2]);
+      case RelationshipType.MARRIAGE:
+        this.relationForm.get('relation')?.setValue(this._translate.instant('enum.relationshipType.' + RelationshipType[2]));
         break;
     }
   }
 
   getCharactersList() {
-
-
     this.subscriptions$.add(
       this._characterService
         .getCharacters()
@@ -169,23 +168,22 @@ export class CharacterRelationsComponent extends BaseComponent implements OnInit
     );
   }
 
-
-  closeAllSelects() {
-    if (!!this.characterListOne) {
-      this.characterListOne.style.display = 'none';
-    }
-    if (!!this.characterListTwo) {
-      this.characterListTwo.style.display = 'none';
-    }
-  }
-
   createNewRelation() {
-
-
     const firstChar = this.charList.find(c => c.fullName === this.relationForm.get('firstChar')?.value);
     const secondChar = this.charList.find(c => c.fullName === this.relationForm.get('secondChar')?.value);
     const relation = this.relationForm.get('relation')?.value;
     const reverseRelation = this.relationForm.get('reverseRelation')?.value;
+
+    let relationType;
+    for (const key in RelationshipType) {
+      if (RelationshipType.hasOwnProperty(key)) {
+        const element = RelationshipType[key];
+        if (relation === this._translate.instant('enum.relationshipType.' + element)) {
+          relationType = element;
+          break;
+        }
+      }
+    }
 
     if (!firstChar || !secondChar) {
       this._toastrService.error(this._translate.instant('TOASTR_MESSAGE.NO_CHARACTER'));
@@ -198,17 +196,13 @@ export class CharacterRelationsComponent extends BaseComponent implements OnInit
     const request: IRelationRequest = {
       charId: firstChar.id,
       relCharId: secondChar.id,
-      relation: RelationshipType[relation],
+      relation: relationType,
       reverseRelation: RelationshipType[reverseRelation]
     };
 
     this.subscriptions$.add(
       this._characterService.postNewRelationship(
         request
-      ).pipe(
-        finalize(() => {
-
-        })
       ).subscribe(_ => {
         this._toastrService.success(this._translate.instant('TOASTR_MESSAGE.SAVE_SUCCESS'));
         this.relationForm.reset();
@@ -216,17 +210,13 @@ export class CharacterRelationsComponent extends BaseComponent implements OnInit
         this._toastrService.error(this._translate.instant('TOASTR_MESSAGE.ERROR'));
       })
     );
-    console.warn(request);
   }
 
 
   getRelationshipsForCharacter() {
-
-
     this.subscriptions$.add(
       this._characterService
         .getRelationshipsForCharacter(this.charId)
-
         .subscribe(relations => {
           this.relationshipsList = relations;
         })
@@ -234,44 +224,31 @@ export class CharacterRelationsComponent extends BaseComponent implements OnInit
   }
 
   editRelation(relatedCharacterId: number, targetValue: number) {
-
-
     const objToSend = new EditRelationship();
     objToSend.characterId = this.charId;
     objToSend.relatedCharacterId = relatedCharacterId;
 
-    objToSend.relationType = RelationshipType[targetValue]
+    objToSend.relationType = RelationshipType[targetValue];
 
-    console.log(RelationshipType[targetValue])
     switch (RelationshipType[targetValue]) {
       case RelationshipType[0]:
-        objToSend.reversedRelationType = RelationshipType[1]
+        objToSend.reversedRelationType = RelationshipType[1];
         break;
 
       case RelationshipType[1]:
-        objToSend.reversedRelationType = RelationshipType[0]
+        objToSend.reversedRelationType = RelationshipType[0];
         break;
 
       case RelationshipType[2]:
-        objToSend.reversedRelationType = RelationshipType[2]
+
+        console.log('RelationshipType[targetValue]: ', RelationshipType[targetValue]);
+        objToSend.reversedRelationType = RelationshipType[2];
         break;
     }
-
-
-    // if (isReverse) {
-    //   objToSend.reversedRelationType = RelationshipType[targetValue];
-    //   objToSend.relationType = null;
-
-    // } else {
-    //   objToSend.relationType = RelationshipType[targetValue];
-    //   objToSend.reversedRelationType = null;
-
-    // }
 
     this.subscriptions$.add(
       this._characterService
         .patchRelationship(objToSend)
-
         .subscribe(_ => {
           this._toastrService.success(this._translate.instant('TOASTR_MESSAGE.SAVE_SUCCESS'));
           this.getRelationshipsForCharacter();
@@ -282,8 +259,6 @@ export class CharacterRelationsComponent extends BaseComponent implements OnInit
   }
 
   deleteRelation(relatedCharacterId: number) {
-    console.log(relatedCharacterId);
-
     this.subscriptions$.add(
       this._characterService
         .deleteRelationship(this.charId, relatedCharacterId)
