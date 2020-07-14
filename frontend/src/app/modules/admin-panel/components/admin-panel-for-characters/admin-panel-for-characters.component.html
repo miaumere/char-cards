@@ -46,7 +46,7 @@
           <div class="char-info">
             <div class="char-info__profile-pic" *ngIf="character.profilePic">
               <img
-                [src]="'data:image/'+  profilePicForSide?.extension + ';base64, ' + character.profilePic.image | sanitizer"
+                [src]="'data:image/'+  character.profilePic?.extension + ';base64, ' + character.profilePic.image | sanitizer"
                 class="profile-pic">
             </div>
             <div class="profile-pic" *ngIf="!character.profilePic">

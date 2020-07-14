@@ -1,6 +1,17 @@
 <figure #preferencesChart>
 </figure>
 
-<app-historical-preferences-chart [preferenceTypes]="preferenceTypes" [relatedCharId]="chosenCharId"
-  *ngIf="isLinearChartVisible">
-</app-historical-preferences-chart>
+<ng-container *ngIf="isLinearChartVisible">
+  <div class="chosen-char">
+    <div class="char-info__profile-pic" *ngIf="chosenChar.relCharAvatar">
+      <img
+        [src]="'data:image/'+  chosenChar.relCharAvatar?.extension + ';base64, ' + chosenChar.relCharAvatar.image | sanitizer"
+        class="profile-pic">
+    </div>
+    <span>{{chosenChar.fullName}} - {{ 'PREFERENCES.HISTORICAL_PREFERENCES' | translate}}</span>
+  </div>
+
+  <app-historical-preferences-chart [preferenceTypes]="preferenceTypes" [relatedCharId]="chosenCharId">
+  </app-historical-preferences-chart>
+
+</ng-container>

@@ -1,3 +1,4 @@
+import { ICharacterItem } from './../../../../../models/character-item.model';
 import { preferenceTypes } from './../preference-types';
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
@@ -22,9 +23,10 @@ export class CurrentPreferencesComponent extends BaseComponent implements OnInit
   @Input() preferences: CharacterPreferences[];
   preferenceTypes: IPreferenceTypes[] = preferenceTypes;
 
-  isLinearChartVisible: boolean = false;
+  isLinearChartVisible = false;
 
   chosenCharId?: number;
+  chosenChar: CharacterPreferences;
 
 
   constructor(
@@ -140,7 +142,7 @@ export class CurrentPreferencesComponent extends BaseComponent implements OnInit
       .attr('id', 'circles')
       .selectAll('circle')
       .data(this.preferences)
-      .enter()
+      .enter();
 
     // circlesGroup
 
@@ -152,10 +154,11 @@ export class CurrentPreferencesComponent extends BaseComponent implements OnInit
       .attr('cx', (d) => xAxisScale(d.range))
       .attr('stroke', 'black')
       .attr('fill', (d) => `url(#image_${d.relCharId})`)
-      .on("click", (d) => {
+      .on('click', (d) => {
         this.isLinearChartVisible = true;
         this.chosenCharId = d.relCharId;
-      })
+        this.chosenChar = d;
+      });
 
     // create axis objects
     const xAxis = d3.axisBottom(xAxisScale);
