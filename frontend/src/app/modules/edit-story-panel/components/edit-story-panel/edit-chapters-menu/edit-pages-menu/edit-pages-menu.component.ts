@@ -23,7 +23,7 @@ import { IEditStarringCharacter } from 'src/app/modules/edit-story-panel/models/
   styleUrls: ['./edit-pages-menu.component.scss']
 })
 export class EditPagesMenuComponent extends BaseComponent implements OnInit {
-  private readonly pageURL = '/api/stories/get-images';
+  readonly pageURL = '/api/stories/get-images';
   readonly StarringType = StarringType;
 
 

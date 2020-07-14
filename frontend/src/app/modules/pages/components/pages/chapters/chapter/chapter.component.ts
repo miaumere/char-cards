@@ -12,7 +12,7 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./chapter.component.scss']
 })
 export class ChapterComponent extends BaseComponent implements OnInit {
-  private readonly pageURL = '/api/stories/get-images';
+  readonly pageURL = '/api/stories/get-images';
   pagesNumber: number[];
   bookColor: string;
   bgColor: string;

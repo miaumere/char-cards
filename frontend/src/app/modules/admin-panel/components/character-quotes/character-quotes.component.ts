@@ -47,6 +47,10 @@ export class CharacterQuotesComponent extends BaseComponent implements OnInit {
 
   }
 
+  insertDeleteInfo() {
+    this._toastrService.warning(this._translate.instant('TOASTR_MESSAGE.DELETE_INFO'));
+  }
+
 
   createNewQuote() {
 

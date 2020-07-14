@@ -34,7 +34,7 @@
     <button mat-button [matMenuTriggerFor]="menu">
       <mat-icon svgIcon="user"></mat-icon>
       <span *ngIf="(_authService.loggedUser$ | async)">
-        {{((_authService.loggedUser$ | async).username)}}
+        {{((_authService.loggedUser$ | async)?.username)}}
       </span>
       <span *ngIf="!(_authService.loggedUser$ | async)">
         {{ 'NAVBAR.NO_USER' | translate }}
@@ -44,12 +44,12 @@
   <mat-menu #menu="matMenu">
 
     <a [routerLink]="['/admin-panel']">
-      <button mat-menu-item *ngIf="(_authService.loggedUser$ | async) && (_authService.loggedUser$ | async).username">
+      <button mat-menu-item *ngIf="(_authService.loggedUser$ | async) && (_authService.loggedUser$ | async)?.username">
         {{ 'NAVBAR.ADMIN_CHARACTERS' | translate }}
       </button>
     </a>
     <a [routerLink]="['/edit-story-panel']">
-      <button mat-menu-item *ngIf="(_authService.loggedUser$ | async) && (_authService.loggedUser$ | async).username">
+      <button mat-menu-item *ngIf="(_authService.loggedUser$ | async) && (_authService.loggedUser$ | async)?.username">
         {{ 'NAVBAR.ADMIN_CHAPTERS' | translate }}
       </button>
     </a>
@@ -60,7 +60,7 @@
       </button>
     </a>
     <button mat-menu-item (click)="logout()"
-      *ngIf="(_authService.loggedUser$ | async) && (_authService.loggedUser$ | async).username">
+      *ngIf="(_authService.loggedUser$ | async) && (_authService.loggedUser$ | async)?.username">
       <mat-icon>exit_to_app</mat-icon>
       {{ 'NAVBAR.LOGOUT' | translate }}
     </button>

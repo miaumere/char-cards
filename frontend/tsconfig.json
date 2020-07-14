@@ -1,7 +1,10 @@
 {
   "compileOnSave": false,
   "angularCompilerOptions": {
-    "disableTypeScriptVersionCheck": true
+    "disableTypeScriptVersionCheck": true,
+    "fullTemplateTypeCheck": true,
+    "strictInjectionParameters": true,
+    "enableIvy": false
   },
   "compilerOptions": {
     "baseUrl": "./",
