@@ -137,7 +137,8 @@
     "CHOOSE_DATE": "Choose date",
     "NO_PREFERENCES": "No preferences for this character.",
     "PREFERENCE_DATE": "Preference date",
-    "PREFERENCE_RANGE": "Preference range"
+    "PREFERENCE_RANGE": "Preference range",
+    "NOW": "Now"
   },
   "EDIT_RELATIONS": {
     "RELATIONS_TITLE": "Available relations:",

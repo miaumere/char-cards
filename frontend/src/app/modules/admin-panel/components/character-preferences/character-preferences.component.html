@@ -43,7 +43,9 @@
             </mat-datepicker>
           </mat-form-field>
           <mat-slide-toggle [checked]="this.preferencesForm.get('date')?.value === null"
-            (change)="this.preferencesForm.get('date')?.setValue(null)">NULL</mat-slide-toggle>
+            (change)="this.preferencesForm.get('date')?.setValue(null)">
+            {{ 'EDIT_PREFERENCES.NOW' | translate}}
+          </mat-slide-toggle>
         </div>
 
         <button mat-raised-button color="accent" class="preferences__button"

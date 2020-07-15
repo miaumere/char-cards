@@ -137,7 +137,8 @@
     "CHOOSE_DATE": "Data preferencji",
     "NO_PREFERENCES": "Brak preferencji dla postaci.",
     "PREFERENCE_DATE": "Data preferencji",
-    "PREFERENCE_RANGE": "Wartość preferencji"
+    "PREFERENCE_RANGE": "Wartość preferencji",
+    "NOW": "Obecnie"
   },
   "EDIT_RELATIONS": {
     "RELATIONS_TITLE": "Dostępne relacje:",
