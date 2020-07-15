@@ -147,7 +147,8 @@ export class HistoricalPreferencesComponent extends BaseComponent implements OnI
           .tickFormat(d3.timeFormat('%d.%m.%Y'))
           .tickFormat(d => {
             const typedD = d as Date;
-            if (moment(new Date(typedD)).format('MM.YYYY') === moment(new Date()).format('MM.YYYY')) {
+            console.log(typedD, new Date(typedD))
+            if (moment(new Date(typedD)).format('DD.MM.YYYY') === moment(new Date()).format('DD.MM.YYYY')) {
               return this._translate.instant('SHARED.NOW');
             } else if ((moment(new Date(typedD)).format('MM.YYYY')) === '01.1970') {
               return '?';
