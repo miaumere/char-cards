@@ -6,6 +6,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.PropertySources;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 import java.util.*;
@@ -14,7 +15,9 @@ import java.util.stream.Stream;
 
 @SpringBootApplication
 @EnableScheduling
-@PropertySource("file:${app.home}/application.properties")
+@PropertySources({
+@PropertySource(value = "file:${app.home}/application.properties",ignoreResourceNotFound = true)
+})
 public class MainApplication extends SpringBootServletInitializer {
 
 	public static void main(String[] args){
