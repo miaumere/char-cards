@@ -67,8 +67,12 @@ export class CharactersListComponent extends BaseComponent implements OnInit {
   searchCharacter() {
     let finalFilteredChars: CharacterItem[] = [];
     const inputValue: string = '' + this.searchForm.get('char')?.value.toLowerCase();
+    const regex = new RegExp(inputValue, 'gi');
 
-    const filteredChars = this.charList.filter(c => `${c.charName} ${c.charSurname}`.toLowerCase().indexOf(inputValue) === 0);
+    const filteredChars = this.charList.filter(c => {
+      return c.fullName.match(regex)
+    })
+
     const mainChars = filteredChars.filter(c => c.characterType === CharType[0]);
     const sideChars = filteredChars.filter(c => c.characterType === CharType[1]);
     const bgChars = filteredChars.filter(c => c.characterType === CharType[2]);
@@ -83,14 +87,6 @@ export class CharactersListComponent extends BaseComponent implements OnInit {
     if (this.isBackground && !!bgChars) {
       finalFilteredChars = finalFilteredChars.concat(bgChars);
     }
-
-
-    console.log("main", mainChars)
-    console.log("side", sideChars)
-
-
-    console.log("filteredChars", finalFilteredChars)
-
     this.filteredChars = finalFilteredChars;
   }
 }

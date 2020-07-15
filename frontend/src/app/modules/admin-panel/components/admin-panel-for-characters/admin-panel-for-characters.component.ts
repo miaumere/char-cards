@@ -71,8 +71,11 @@ export class AdminPanelForCharactersComponent extends BaseComponent implements O
 
   searchCharacter() {
     const inputValue: string = '' + this.searchForm.get('char')?.value.toLowerCase();
+    const regex = new RegExp(inputValue, 'gi');
 
-    const filteredChars = this.charList.filter(c => `${c.charName} ${c.charSurname}`.toLowerCase().indexOf(inputValue) === 0);
+    const filteredChars = this.charList.filter(c => {
+      return c.fullName.match(regex)
+    })
     this.filteredChars = filteredChars;
   }
 }
