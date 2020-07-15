@@ -34,7 +34,7 @@
 
 
         <div class="preferences-form__field preferences-form__field--date">
-          <mat-form-field>
+          <mat-form-field (click)="dp.open()">
             {{date ? (date | date:'yyyy / MMMM') : ('EDIT_PREFERENCES.CHOOSE_DATE' | translate)}}
 
             <input matInput [matDatepicker]="dp" formControlName="date" style="display: none;">
