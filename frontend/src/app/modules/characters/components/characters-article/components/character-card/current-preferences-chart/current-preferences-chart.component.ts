@@ -4,6 +4,7 @@ import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import * as d3 from 'd3';
 import * as _ from 'lodash';
+import * as tinycolor from 'tinycolor2';
 import { BaseComponent } from 'src/app/core/base.component';
 import { CharacterPreferences } from 'src/app/modules/characters/models/character-preferences.model';
 import { IPreferenceTypes } from 'src/app/modules/characters/models/preference-type.model';
@@ -23,6 +24,8 @@ export class CurrentPreferencesComponent extends BaseComponent implements OnInit
   @Input() preferences: CharacterPreferences[];
   preferenceTypes: IPreferenceTypes[] = preferenceTypes;
 
+  @Input() color: string | null;
+
   isLinearChartVisible = false;
 
   chosenCharId?: number;
@@ -41,6 +44,7 @@ export class CurrentPreferencesComponent extends BaseComponent implements OnInit
 
   }
 
+
   createChart() {
     const element = this.chartContainer.nativeElement;
     const svgWidth = this.chartContainer.nativeElement.offsetWidth;
@@ -51,6 +55,12 @@ export class CurrentPreferencesComponent extends BaseComponent implements OnInit
 
     let circles;
     let rects;
+
+    let lineColor = 'black';
+
+    if (!!this.color && tinycolor(this.color).isDark) {
+      lineColor = 'white';
+    }
 
     const xAxisScale = d3.scaleLinear()
       .domain([0, 100])
@@ -68,18 +78,24 @@ export class CurrentPreferencesComponent extends BaseComponent implements OnInit
 
       circles?.attr('cx', (d) => new_xScale(d.range));
       rects?.attr('transform', transformString);
+
+
+      // color
       d3.selectAll('line')
-        .style('stroke', 'black');
+        .style('stroke', lineColor);
 
       d3.selectAll('text')
-        .style('fill', 'black');
+        .style('fill', lineColor);
 
     }, 10);
 
     const svgViewport = d3.select(element)
       .append('svg')
       .attr('width', svgWidth)
-      .attr('height', svgHeight)
+      .attr('height', svgHeight).on('mousewheel', () => {
+        d3.event.sourceEvent.preventDefault();
+
+      })
       .call(
         d3.zoom()
           .scaleExtent([1, 4])
@@ -87,6 +103,7 @@ export class CurrentPreferencesComponent extends BaseComponent implements OnInit
           .on('zoom', () => {
             lazyZoom(d3.event);
           })
+
       );
     // Inner Drawing Space
     const innerSpace = svgViewport.append('g')
@@ -167,14 +184,16 @@ export class CurrentPreferencesComponent extends BaseComponent implements OnInit
       .call(xAxis);
 
     d3.selectAll('line')
-      .style('stroke', 'black');
+      .style('stroke', lineColor);
 
     d3.selectAll('path')
-      .style('stroke', 'black');
+      .style('stroke', lineColor);
 
     d3.selectAll('text')
-      .style('fill', 'black');
+      .style('fill', lineColor);
 
   }
+
+
 
 }

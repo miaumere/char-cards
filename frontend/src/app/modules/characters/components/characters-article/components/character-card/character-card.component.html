@@ -1,6 +1,6 @@
 <section class="characters-card" *ngIf="character">
   <div class="card">
-    <mat-card class="example-card" [ngStyle]="{'background': bgColor1}">
+    <mat-card [ngStyle]="{'background': bgColor1}">
       <span class="card__type" [ngStyle]="{'background': bgColor2}" [ngSwitch]="character?.charType">
         <span *ngSwitchCase="'MAIN'">{{'enum.charType.MAIN' | translate}}</span>
         <span *ngSwitchCase="'SIDE'">{{'enum.charType.SIDE' | translate}}</span>
@@ -243,7 +243,7 @@
         </div>
       </mat-card>
 
-      <app-current-preferences-chart [preferences]="preferences">
+      <app-current-preferences-chart [preferences]="preferences" [color]="bgColor1">
       </app-current-preferences-chart>
     </div>
 
@@ -278,7 +278,7 @@
       <h2 class="story__title" [ngStyle]="{'color': themeColor1}">
         {{ 'CHARACTER_CARD.WEIGHT_HEIGHT_TABLE' | translate }}
       </h2>
-      <table mat-table [dataSource]="measurementsData" style="width: 100%">
+      <table mat-table [dataSource]="measurementsData" class="weight-height-table">
         <ng-container matColumnDef="baby">
           <th mat-header-cell *matHeaderCellDef
             [style.display]="character.measurements.hasBabyValues ? 'table-cell' : 'none'"
