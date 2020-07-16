@@ -151,7 +151,8 @@
     "ADD_RELATIONS": "Add relation"
   },
   "BOOKS_LIST": {
-    "BOOKS_LIST_TITLE": "Choose a book"
+    "BOOKS_LIST_TITLE": "Choose a book",
+    "NO_BOOKS": "No books."
   },
   "CHAPTERS": {
     "TABLE_OF_CONTESTS": "Table of contents",

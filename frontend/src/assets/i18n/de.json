@@ -151,7 +151,8 @@
     "ADD_RELATIONS": "Neue Beziehung"
   },
   "BOOKS_LIST": {
-    "BOOKS_LIST_TITLE": "Wähle ein Buch"
+    "BOOKS_LIST_TITLE": "Wähle ein Buch",
+    "NO_BOOKS": "Keine Bücher."
   },
   "CHAPTERS": {
     "TABLE_OF_CONTESTS": "Inhaltsverzeichnis",

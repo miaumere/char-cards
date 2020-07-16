@@ -1,4 +1,4 @@
-<div *ngIf="books.length > 0" class="book-list">
+<div *ngIf="!!books.length" class="book-list">
   <h2 class="book-list__title">{{ 'BOOKS_LIST.BOOKS_LIST_TITLE' | translate }}
   </h2>
   <div class="book-list-container">
@@ -20,4 +20,7 @@
     </mat-card>
   </div>
 
+</div>
+<div *ngIf="!books.length" class="book-list">
+  {{ 'BOOKS_LIST.NO_BOOKS' | translate }}
 </div>

@@ -151,7 +151,8 @@
     "ADD_RELATIONS": "Dodaj relację"
   },
   "BOOKS_LIST": {
-    "BOOKS_LIST_TITLE": "Wybierz szkicownik"
+    "BOOKS_LIST_TITLE": "Wybierz szkicownik",
+    "NO_BOOKS": "Brak szkicowników."
   },
   "CHAPTERS": {
     "TABLE_OF_CONTESTS": "Spis treści",
