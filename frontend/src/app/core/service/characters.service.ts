@@ -229,11 +229,9 @@ export class CharactersService {
     return this.http.delete<void>(this._deleteStoryURL, { params });
   }
 
-  deletePreference(charId: number, relatedCharId: number, dateOfPreference: string) {
+  deletePreference(id: number) {
     const params = new HttpParams()
-      .set('charId', '' + charId)
-      .set('relatedCharId', '' + relatedCharId)
-      .set('dateOfPreference', '' + dateOfPreference);
+      .set('id', '' + id)
 
     return this.http.delete<void>(this._deletePreferenceURL, { params });
   }

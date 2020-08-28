@@ -1,8 +1,17 @@
 package com.meowmere.main.dto.character.preference;
 
 public class HistoricPreferenceDTO {
+    private Long id;
     private String dateOfOrigin;
     private Integer range;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getDateOfOrigin() {
         return dateOfOrigin;

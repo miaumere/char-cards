@@ -65,8 +65,7 @@
             </mat-panel-title>
           </mat-expansion-panel-header>
           <div *ngFor="let historicalPref of pref.preferences" class="historical-preferences">
-            <button mat-mini-fab color="warn"
-              (click)="deletePreference(pref.relCharacterId, historicalPref.dateOfOrigin)">
+            <button mat-mini-fab color="warn" (click)="deletePreference(historicalPref.id)">
               <mat-icon>delete</mat-icon>
             </button>
             <mat-form-field>

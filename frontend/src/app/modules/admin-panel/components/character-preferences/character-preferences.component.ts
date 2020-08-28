@@ -177,10 +177,11 @@ export class CharacterPreferencesComponent extends BaseComponent implements OnIn
     )
   }
 
-  deletePreference(relatedcharId: number, date: string) {
+  deletePreference(id: number) {
+
     this.subscriptions$.add(
       this._charactersService
-        .deletePreference(this.charId, relatedcharId, date)
+        .deletePreference(id)
         .subscribe(_ => {
           this._toastrService.success(this._translate.instant('TOASTR_MESSAGE.SAVE_SUCCESS'));
           this.getAllPreferences();

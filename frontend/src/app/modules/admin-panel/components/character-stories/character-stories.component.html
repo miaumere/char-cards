@@ -30,17 +30,17 @@
         <div class="boundary__placeholder" *cdkDragPlaceholder></div>
 
         <div class="buttons-box">
-          <button mat-mini-fab color="warn" (click)="insertDeleteInfo()" (dblclick)="deleteStory(story.id)">
+          <button mat-mini-fab color="warn" (click)="insertDeleteInfo()" (dblclick)="deleteStory(stories[i].id)">
             <mat-icon>delete</mat-icon>
           </button>
 
-          <button mat-mini-fab (click)="openEditModal(story.title, story.story, story.id)">
+          <button mat-mini-fab (click)="openEditModal(stories[i].title, stories[i].story, stories[i].id)">
             <mat-icon>edit</mat-icon>
           </button>
         </div>
         <div class="story-box">
-          <span class="story-box__title" #title>{{story.title}}</span>
-          <span class="story-box__desc" #story>{{story.story}}</span>
+          <span class="story-box__title" #title>{{stories[i].title}}</span>
+          <span class="story-box__desc" #story>{{stories[i].story}}</span>
         </div>
       </div>
     </div>

@@ -74,6 +74,9 @@ import { MatExpansionModule } from '@angular/material/expansion';
   providers: [
     CharactersService,
     CountriesService
+  ],
+  entryComponents: [
+    EditCharacterStoryComponent
   ]
 })
 export class AdminPanelModule { }

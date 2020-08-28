@@ -273,6 +273,7 @@ public class CharactersService {
                         if(pref.getDateOfOrigin() != null) {
                             historicPreferenceDTO.setDateOfOrigin(pref.getDateOfOrigin().toString());
                         }
+                        historicPreferenceDTO.setId(pref.getId());
                         historicPreferenceDTO.setRange(pref.getRange());
                         historicPreferenceDTOS.add(historicPreferenceDTO);
                     }
@@ -799,20 +800,10 @@ public class CharactersService {
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
-    public ResponseEntity deletePreference(Long charId, Long relatedCharId, String dateOfPreference)  {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        try {
-        Date date = new Date(sdf.parse(dateOfPreference).getTime());
-        Preference preference = preferenceRepository.getPreferenceByCharIdRelatedCharIdDate(charId, relatedCharId, date);
+    public ResponseEntity deletePreference(Long id)  {
+        Preference preference = preferenceRepository.getOne(id);
         if(preference != null) {
             preferenceRepository.delete(preference);
-        }
-
-        } catch(ParseException e) {
-            Preference preference = preferenceRepository.getCurrentPrefByCharIdRelatedCharId(charId, relatedCharId);
-            if(preference != null) {
-                preferenceRepository.delete(preference);
-            }
         }
 
         return new ResponseEntity(HttpStatus.OK);
