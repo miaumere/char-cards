@@ -8,28 +8,20 @@ import { EnumValPipe } from './pipes/enum-values.pipe';
 import { BookIconComponent } from './components/book-icon/book-icon.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { GenderIconColorPipe } from './pipes/gender-icon-color';
+
+const pipes = [NulledPipe, SanitizerPipe, EnumValPipe, GenderIconColorPipe];
 
 const sharedDeclarations = [
-  IconComponent,
-  BookIconComponent,
-  LoaderComponent,
-  NulledPipe,
-  SanitizerPipe,
-  EnumValPipe
-]
+    IconComponent,
+    BookIconComponent,
+    LoaderComponent,
+    ...pipes,
+];
 
 @NgModule({
-  declarations: [
-    ...sharedDeclarations
-  ],
-  imports: [
-    CommonModule,
-    MatIconModule,
-    MatProgressSpinnerModule
-  ],
-  exports: [
-    ...sharedDeclarations
-  ]
+    declarations: [...sharedDeclarations],
+    imports: [CommonModule, MatIconModule, MatProgressSpinnerModule],
+    exports: [...sharedDeclarations],
 })
-export class SharedModule { }
-
+export class SharedModule {}

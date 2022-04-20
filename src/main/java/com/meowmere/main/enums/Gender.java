@@ -2,5 +2,7 @@ package com.meowmere.main.enums;
 
 public enum Gender {
     MALE,
-    FEMALE
+    FEMALE,
+    NONBINARY,
+    UNKNOWNGENDER
 }

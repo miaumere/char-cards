@@ -1,5 +1,5 @@
 export interface IHistoricalPreference {
-  id: number;
-  dateOfOrigin: string;
-  range: number;
+    id?: number;
+    dateOfOrigin: string;
+    range: number;
 }
