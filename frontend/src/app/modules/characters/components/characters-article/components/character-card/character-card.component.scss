@@ -1,399 +1,408 @@
-@import "../../../../../../../global_styles/variables.scss";
+@import '../../../../../../../global_styles/variables.scss';
 
 .characters-card {
-  display: flex;
-  position: fixed;
+    display: flex;
+    position: fixed;
 }
 
 .info {
-  font-size: 0.7rem;
-  background: #1d1d1d;
-  &__desc {
-    margin: 0.5rem 0 0.3rem 0.3rem;
+    font-size: 0.7rem;
+    background: #1d1d1d;
+    &__desc {
+        margin: 0.5rem 0 0.3rem 0.3rem;
 
-    font-weight: bold;
-    font-size: smaller;
-    text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.4);
-  }
-
-  &__data {
-    margin-left: 0.5rem;
-
-    &--death {
-      color: rgb(124, 52, 52);
+        font-weight: bold;
+        font-size: smaller;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.4);
     }
-  }
+
+    &__data {
+        margin-left: 0.5rem;
+
+        &--death {
+            color: rgb(124, 52, 52);
+        }
+    }
 }
 
 .color {
-  padding-top: 0.5rem;
+    padding-top: 0.5rem;
 
-  &__container {
-    display: flex;
+    &__container {
+        display: flex;
 
-    padding: 0 0.5rem;
-  }
-
-  &__item {
-    width: 5rem;
-
-    background: grey;
-    border-radius: 3px;
-
-    margin: 8px;
-
-    &--eye {
-      width: 100%;
+        padding: 0 0.5rem;
     }
-  }
 
-  &__icon {
-    transform: scale(0.7);
-  }
+    &__item {
+        width: 5rem;
+
+        background: grey;
+        border-radius: 3px;
+
+        margin: 8px;
+
+        &--eye {
+            width: 100%;
+        }
+    }
+
+    &__icon {
+        transform: scale(0.7);
+    }
 }
 
 .temperament {
-  padding-top: 0.5rem;
+    padding-top: 0.5rem;
 
-  &__container {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-  }
+    &__container {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+    }
 }
 
 .information {
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
 
-  min-width: 50vw;
-  height: 85vh;
+    min-width: 50vw;
+    height: 85vh;
 
-  padding: 1rem;
-  margin-top: 1rem;
+    padding: 1rem;
+    margin-top: 1rem;
 
-  font-size: 0.7rem;
+    font-size: 0.7rem;
 
-  background: #0000007a;
+    background: #0000007a;
 
-  overflow-y: scroll;
-
-  &__story {
-    margin: auto !important;
-  }
+    overflow-y: scroll;
 }
 
 .story {
-  margin: 2rem 0;
-  word-break: break-word;
-  line-height: 1.5;
-  margin: auto;
-
-  &__title {
-    font-weight: bold;
-    font-size: 0.9rem;
-    color: lightslategray;
-  }
-
-  &__story-block {
-    max-width: 700px;
+    margin: 2rem 0;
     word-break: break-word;
-    white-space: pre-line;
+    line-height: 1.5;
+    margin: auto;
 
-    margin-bottom: 1rem;
-  }
+    &__title {
+        font-weight: bold;
+        font-size: 0.9rem;
+        color: lightslategray;
+    }
+
+    &__story-block {
+        max-width: 700px;
+        word-break: break-word;
+        white-space: pre-line;
+
+        margin-bottom: 1rem;
+    }
 }
 
 .quote {
-  max-width: 600px;
+    max-width: 600px;
 
-  margin: auto;
-  border-radius: 3px;
-  padding: 1rem;
+    margin: auto;
+    border-radius: 3px;
+    padding: 1rem;
 
-  background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.5);
 
-  &__blockquote {
-    line-height: 1.5;
-    font-size: 0.6rem;
-  }
+    &__blockquote {
+        line-height: 1.5;
+        font-size: 0.6rem;
+    }
 }
 
 .measurements {
-  margin-top: auto;
+    margin-top: auto;
 
-  &-table-cell {
-    text-align: center;
-  }
+    &-table-cell {
+        text-align: center;
+    }
 }
 
 .card {
-  width: 220px;
-  height: fit-content;
+    width: 220px;
+    height: fit-content;
 
-  text-align: center;
-
-  margin: 1rem;
-
-  &__type {
-    border-radius: 3px;
-    padding: 0 0.5rem;
-  }
-
-  &__name {
-    display: flex;
-    align-items: center;
-
-    margin-top: 0.5rem;
-
-    padding: 1px 0.5rem;
-    margin-bottom: 0.5rem;
-    border-radius: 3px;
-
-    font-size: 1rem;
-    font-weight: bold;
     text-align: center;
-  }
-  &__info {
-    display: flex;
-    flex-direction: column;
 
-    text-align: left;
+    margin: 1rem;
 
-    padding: 0.1rem;
-  }
-
-  &__profile-pic {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-
-    &--empty {
-      color: grey;
+    &__type {
+        border-radius: 3px;
+        padding: 0 0.5rem;
     }
-  }
+
+    &__name {
+        display: flex;
+        align-items: center;
+
+        margin-top: 0.5rem;
+
+        padding: 1px 0.5rem;
+        margin-bottom: 0.5rem;
+        border-radius: 3px;
+
+        font-size: 1rem;
+        font-weight: bold;
+        text-align: center;
+    }
+    &__info {
+        display: flex;
+        flex-direction: column;
+
+        text-align: left;
+
+        padding: 0.1rem;
+    }
+
+    &__profile-pic {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+
+        &--empty {
+            color: grey;
+        }
+    }
 }
 
 .name {
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
 
-  &--pseudonim {
-    font-size: 0.8rem;
-  }
+    &--pseudonim {
+        font-size: 0.8rem;
+    }
 }
 
 .profile-pic {
-  display: flex;
-  align-items: center;
+    display: flex;
+    align-items: center;
 
-  max-width: 300px;
+    max-width: 300px;
 
-  &__image {
-    width: 200px;
-    height: 250px;
-    object-fit: scale-down;
+    &__image {
+        width: 200px;
+        height: 250px;
+        object-fit: scale-down;
 
-    background-position: 50% 50%;
-    background-repeat: no-repeat;
-    background-size: cover;
+        background-position: 50% 50%;
+        background-repeat: no-repeat;
+        background-size: cover;
 
-    &--inactive {
-      display: none;
+        &--inactive {
+            display: none;
+        }
+
+        &--active {
+            display: block;
+        }
     }
 
-    &--active {
-      display: block;
+    &__button {
+        padding: 0.3rem;
+        margin: 0.3rem;
+        border-radius: 3px;
+
+        font-size: 0.6rem;
+
+        background: rgb(48, 48, 48);
     }
-  }
-
-  &__button {
-    padding: 0.3rem;
-    margin: 0.3rem;
-    border-radius: 3px;
-
-    font-size: 0.6rem;
-
-    background: rgb(48, 48, 48);
-  }
 }
 
 .relationships {
-  display: flex;
-  flex-wrap: wrap;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 .relation-profile-pic {
-  &__image {
-    margin: 1rem;
-    height: 5rem;
-    width: 5rem;
+    &__image {
+        margin: 1rem;
+        height: 5rem;
+        width: 5rem;
 
-    border-radius: 50%;
-    filter: grayscale(100);
-  }
+        border-radius: 50%;
+    }
 }
 .relationship {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  align-items: center;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
 
-  border-radius: 3px;
+    border-radius: 3px;
 
-  transition: 0.2s;
+    transition: 0.2s;
 
-  cursor: pointer;
+    cursor: pointer;
 
-  &:hover {
-    background: rgba(255, 255, 255, 0.2);
-  }
+    &:hover {
+        background: rgba(255, 255, 255, 0.2);
+    }
 }
 
 .flag {
-  max-width: 20px;
-  max-height: 20px;
+    max-width: 20px;
+    max-height: 20px;
 
-  margin-left: 1rem;
+    margin-left: 1rem;
 
-  border: 1px solid white;
-  border-radius: 3px;
+    border: 1px solid white;
+    border-radius: 3px;
 }
 
 .nationality {
-  display: flex;
-  align-items: center;
+    display: flex;
+    align-items: center;
 }
 
 .legend {
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
 
-  padding: 0.5rem;
+    padding: 0.5rem;
 
-  background: $card-bg;
+    background: $card-bg;
 }
 
 .starring {
-  &__content {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-  }
+    &__content {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+    }
 }
 .starring-in {
-  margin: 0.5rem;
-  background: $card-bg;
+    margin: 0.5rem;
+    background: $card-bg;
 
-  &__book-name {
-    border-radius: 3px;
-    padding: 0.25rem;
+    &__book-name {
+        border-radius: 3px;
+        padding: 0.25rem;
 
-    color: black;
-    letter-spacing: 1px;
-    text-align: center;
-  }
+        color: black;
+        letter-spacing: 1px;
+        text-align: center;
+    }
 }
 
 .info-icon {
-  cursor: help;
+    cursor: help;
 
-  border-radius: 50%;
+    border-radius: 50%;
 
-  font-size: initial;
-  background: white;
-  color: #3b73af;
-  border-radius: 50%;
-  height: 1rem;
-  width: 1rem;
+    font-size: initial;
+    background: white;
+    color: #3b73af;
+    border-radius: 50%;
+    height: 1rem;
+    width: 1rem;
 }
 
 .types-legend {
-  position: absolute;
+    position: absolute;
 
-  margin-left: 1rem;
+    margin-left: 1rem;
 
-  z-index: 100;
+    z-index: 100;
 }
 
 .types-legend-item {
-  display: flex;
-  align-items: center;
+    display: flex;
+    align-items: center;
 
-  padding: 0.2rem;
-  border-bottom: 1px solid #ffffff5c;
-
-  &__value {
     padding: 0.2rem;
-    font-size: 0.5rem;
-  }
+    border-bottom: 1px solid #ffffff5c;
 
-  &__name {
-    padding: 0.2rem;
-    border-radius: 3px;
+    &__value {
+        padding: 0.2rem;
+        font-size: 0.5rem;
+    }
 
-    font-weight: bold;
-    color: black;
-  }
+    &__name {
+        padding: 0.2rem;
+        border-radius: 3px;
 
-  &__desc {
-    font-size: xx-small;
+        font-weight: bold;
+        color: black;
+    }
 
-    max-width: 12.5rem;
-    word-break: break-word;
-    white-space: pre-line;
-    margin-left: 1rem;
-  }
+    &__desc {
+        font-size: xx-small;
+
+        max-width: 12.5rem;
+        word-break: break-word;
+        white-space: pre-line;
+        margin-left: 1rem;
+    }
 }
 
 .legend-item {
-  display: flex;
-  align-items: center;
+    display: flex;
+    align-items: center;
 
-  &__desc {
-    margin-left: 1rem;
-  }
-  &__symbol {
-    width: 2rem;
+    &__desc {
+        margin-left: 1rem;
+    }
+    &__symbol {
+        width: 2rem;
 
-    padding: 0.2rem;
-    border-radius: 3px;
+        padding: 0.2rem;
+        border-radius: 3px;
 
-    text-align: center;
-    color: black;
+        text-align: center;
+        color: black;
 
-    &--main {
-      background-image: linear-gradient(120deg, #a6c0fe 0%, #f68084 100%);
+        &--main {
+            background-image: linear-gradient(120deg, #a6c0fe 0%, #f68084 100%);
+        }
+        &--side {
+            background-image: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
+        }
+        &--bg {
+            background-image: linear-gradient(
+                to right,
+                #ffecd2 0%,
+                #fcb69f 100%
+            );
+        }
+        &--mtn {
+            background-image: linear-gradient(120deg, #e0c3fc 0%, #8ec5fc 100%);
+        }
+        &--no {
+            background-image: linear-gradient(
+                to right,
+                #f78ca0 0%,
+                #f9748f 19%,
+                #fd868c 60%,
+                #fe9a8b 100%
+            );
+        }
     }
-    &--side {
-      background-image: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
-    }
-    &--bg {
-      background-image: linear-gradient(to right, #ffecd2 0%, #fcb69f 100%);
-    }
-    &--mtn {
-      background-image: linear-gradient(120deg, #e0c3fc 0%, #8ec5fc 100%);
-    }
-    &--no {
-      background-image: linear-gradient(to right, #f78ca0 0%, #f9748f 19%, #fd868c 60%, #fe9a8b 100%);
-    }
-  }
 }
 
 .chapters-table {
-  &__cell {
-    width: 5rem;
-    text-align: center;
-  }
+    &__cell {
+        width: 5rem;
+        text-align: center;
+    }
 }
 .starring-type {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .weight-height-table {
-  width: 100%;
-  background: rgba(0, 0, 0, 0.2);
+    width: 100%;
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.no-story-container {
+    margin: 1rem;
 }

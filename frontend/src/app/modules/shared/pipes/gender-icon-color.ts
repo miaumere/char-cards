@@ -5,11 +5,11 @@ import { Gender, GenderString } from '../../admin-panel/enums/gender.enum';
     name: 'genderIconColor',
 })
 export class GenderIconColorPipe implements PipeTransform {
-    transform(value: GenderString | Gender): string | void {
+    transform(value: GenderString | Gender): string | undefined {
         switch (value) {
             case 'FEMALE':
             case Gender.FEMALE:
-                return '#fff';
+                return '#FFC0CB';
 
             case 'MALE':
             case Gender.MALE:
@@ -17,9 +17,7 @@ export class GenderIconColorPipe implements PipeTransform {
 
             case 'UNKNOWNGENDER':
             case Gender.UNKNOWNGENDER:
-                break;
-            default:
-                break;
+                return '#fff';
         }
     }
 }

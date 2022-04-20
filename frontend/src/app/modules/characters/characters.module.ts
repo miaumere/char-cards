@@ -21,35 +21,37 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { CurrentPreferencesComponent } from './components/characters-article/components/character-card/current-preferences-chart/current-preferences-chart.component';
 import { HistoricalPreferencesComponent } from './components/characters-article/components/character-card/historical-preferences-chart/historical-preferences-chart.component';
+import { CharFamilyTreeComponent } from './components/characters-article/components/character-card/subcomponents/char-family-tree/char-family-tree.component';
 
 @NgModule({
-  declarations: [
-    CharactersComponent,
-    CharactersMenuComponent,
-    CharactersIndexComponent,
-    CharactersListComponent,
-    CharacterCardComponent,
-    FilenameModifierPipe,
-    ProgressBarDirective,
-    CurrentPreferencesComponent,
-    HistoricalPreferencesComponent
-  ],
-  imports: [
-    CommonModule,
-    CharactersRoutingModule,
-    FormsModule,
-    ReactiveFormsModule,
-    SharedModule,
-    MatTableModule,
-    MatRippleModule,
-    MatCardModule,
-    MatDividerModule,
-    TranslateModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatIconModule,
-    MatButtonModule
-  ],
-  providers: []
+    declarations: [
+        CharactersComponent,
+        CharactersMenuComponent,
+        CharactersIndexComponent,
+        CharactersListComponent,
+        CharacterCardComponent,
+        FilenameModifierPipe,
+        ProgressBarDirective,
+        CurrentPreferencesComponent,
+        HistoricalPreferencesComponent,
+        CharFamilyTreeComponent,
+    ],
+    imports: [
+        CommonModule,
+        CharactersRoutingModule,
+        FormsModule,
+        ReactiveFormsModule,
+        SharedModule,
+        MatTableModule,
+        MatRippleModule,
+        MatCardModule,
+        MatDividerModule,
+        TranslateModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatIconModule,
+        MatButtonModule,
+    ],
+    providers: [],
 })
-export class CharactersModule { }
+export class CharactersModule {}

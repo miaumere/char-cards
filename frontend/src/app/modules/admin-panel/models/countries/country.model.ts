@@ -1,16 +1,21 @@
-
 export interface ICountry {
-  flag: string;
-  name: string;
-  alpha2Code: string;
+    flags: {
+        svg: string;
+        png: string;
+    };
+    name: { common: string };
+    cca2: string;
 }
 
 export class Country implements ICountry {
-  flag: string;
-  name: string;
-  alpha2Code: string;
+    flags: {
+        svg: string;
+        png: string;
+    };
+    name: { common: string };
+    cca2: string;
 
-  constructor(initialValues: ICountry) {
-    Object.assign(this, initialValues);
-  }
+    constructor(initialValues: ICountry) {
+        Object.assign(this, initialValues);
+    }
 }

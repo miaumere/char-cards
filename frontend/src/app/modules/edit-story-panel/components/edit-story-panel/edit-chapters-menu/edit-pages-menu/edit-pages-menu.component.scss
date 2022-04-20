@@ -1,111 +1,110 @@
 .edit-pages {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
 }
 
 .page-card {
-  width: fit-content;
+    width: fit-content;
 
-  margin: 1rem;
+    margin: 1rem;
 
-  cursor: all-scroll;
+    cursor: all-scroll;
 }
 
 .image {
-  object-fit: scale-down;
+    object-fit: scale-down;
 
-  background-position: 50% 50%;
-  background-repeat: no-repeat;
-  background-size: cover;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    background-size: cover;
 
-  width: 200px;
+    width: 200px;
 }
 
 .new-pages {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 
 .boundary {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 
-  margin-top: 1rem;
+    margin-top: 1rem;
 }
 
 .edit-existing-characters {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
 
-  font-size: initial;
+    font-size: initial;
 
-  &__form-field {
-    width: 15rem;
-  }
+    &__form-field {
+        width: 15rem;
+    }
 }
 
 .option {
-  display: flex;
-  align-items: center;
-  &__image {
-    height: 1.75rem;
-    width: 1.75rem;
+    display: flex;
+    align-items: center;
+    &__image {
+        height: 1.75rem;
+        width: 1.75rem;
 
-    border-radius: 50%;
-    filter: grayscale(100);
-  }
+        border-radius: 50%;
+    }
 }
 
 .header-image {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
 }
 
 .starring-char-card {
-  background: #00000078;
+    background: #00000078;
 
-  margin: 1rem;
+    margin: 1rem;
 }
 
 .starring-characters-form {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-
-  &__radio-group {
     display: flex;
+    justify-content: center;
+    align-items: center;
     flex-direction: column;
 
-    margin-top: 1rem;
-  }
+    &__radio-group {
+        display: flex;
+        flex-direction: column;
+
+        margin-top: 1rem;
+    }
 }
 
 .radio-group {
-  &__item {
-    margin: 0.5rem 0;
-  }
+    &__item {
+        margin: 0.5rem 0;
+    }
 }
 
 .starring-characters {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
-  margin-top: 5rem;
-
-  &__container {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
     justify-content: center;
-  }
+    align-items: center;
+
+    margin-top: 5rem;
+
+    &__container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
 }

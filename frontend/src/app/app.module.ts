@@ -6,15 +6,26 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
+import {
+    HttpClientModule,
+    HttpClient,
+    HTTP_INTERCEPTORS,
+} from '@angular/common/http';
 import { RouterModule } from '@angular/router';
-import { HashLocationStrategy, LocationStrategy, CommonModule } from '@angular/common';
+import {
+    HashLocationStrategy,
+    LocationStrategy,
+    CommonModule,
+} from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatMenuModule } from '@angular/material/menu';
-import { TranslateModule, TranslateLoader, TranslateService } from '@ngx-translate/core';
-
+import {
+    TranslateModule,
+    TranslateLoader,
+    TranslateService,
+} from '@ngx-translate/core';
 
 import { AppComponent } from './app.component';
 
@@ -27,79 +38,73 @@ import { NavbarComponent } from './core/components/navbar/navbar.component';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 export function HttpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http);
+    return new TranslateHttpLoader(http);
 }
 
 export function initApp(translate: TranslateService) {
-  return () => {
-    return new Promise((resolve) => {
-      const chosenLanguage = localStorage.getItem('language')
+    return () => {
+        return new Promise((resolve) => {
+            const chosenLanguage = localStorage.getItem('language');
 
-      if (chosenLanguage) {
-        translate.use(chosenLanguage);
-      } else {
-        translate.use('en');
-      }
-      console.log("chosen language", chosenLanguage)
-      resolve();
-    });
-  };
-
+            if (chosenLanguage) {
+                translate.use(chosenLanguage);
+            } else {
+                translate.use('en');
+            }
+            resolve();
+        });
+    };
 }
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
-  imports: [
-    CommonModule,
-    BrowserModule,
-    BrowserAnimationsModule,
-    ReactiveFormsModule,
-    AppRoutingModule,
-    ToastrModule.forRoot({
-      preventDuplicates: true
-    }),
-    HttpClientModule,
-    MainModule,
-    PagesModule,
-    CharactersModule,
-    EditStoryPanelModule,
-    LoginModule,
-    SharedModule,
-    MatMenuModule,
-    CoreModule,
-    RouterModule,
-    MatSliderModule,
-    TranslateModule.forRoot({
-      defaultLanguage: 'en',
-      loader: {
-        provide: TranslateLoader,
-        useFactory: HttpLoaderFactory,
-        deps: [HttpClient]
-      }
-    })
-  ],
-  providers: [
-    HttpClientModule,
-    AdminPermissionsGuard,
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: CoreInterceptorService,
-      multi: true
-    },
-    {
-      provide: LocationStrategy,
-      useClass: HashLocationStrategy
-    },
-    {
-      provide: APP_INITIALIZER,
-      useFactory: initApp,
-      multi: true,
-      deps: [TranslateService]
-    }
-  ],
-  bootstrap: [AppComponent]
+    declarations: [AppComponent],
+    imports: [
+        CommonModule,
+        BrowserModule,
+        BrowserAnimationsModule,
+        ReactiveFormsModule,
+        AppRoutingModule,
+        ToastrModule.forRoot({
+            preventDuplicates: true,
+        }),
+        HttpClientModule,
+        MainModule,
+        PagesModule,
+        CharactersModule,
+        EditStoryPanelModule,
+        LoginModule,
+        SharedModule,
+        MatMenuModule,
+        CoreModule,
+        RouterModule,
+        MatSliderModule,
+        TranslateModule.forRoot({
+            defaultLanguage: 'en',
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpClient],
+            },
+        }),
+    ],
+    providers: [
+        HttpClientModule,
+        AdminPermissionsGuard,
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: CoreInterceptorService,
+            multi: true,
+        },
+        {
+            provide: LocationStrategy,
+            useClass: HashLocationStrategy,
+        },
+        {
+            provide: APP_INITIALIZER,
+            useFactory: initApp,
+            multi: true,
+            deps: [TranslateService],
+        },
+    ],
+    bootstrap: [AppComponent],
 })
-export class AppModule {
-
-}
+export class AppModule {}

@@ -1,23 +1,21 @@
 @mixin font-regular {
-  font-family: "Courier New", Courier, monospace;
+    font-family: 'Courier New', Courier, monospace;
 }
 
 @mixin font-special {
-  font-family: "Halimun";
+    font-family: 'Halimun';
 }
 
 @mixin profile-pic {
-  height: 100px;
-  width: 100px;
+    height: 100px;
+    width: 100px;
 
-  border-radius: 50%;
-  border: 2px solid black;
+    border-radius: 50%;
+    border: 2px solid black;
 
-  background: darkslategrey;
+    background: darkslategrey;
 
-  filter: grayscale(100);
-
-  transition: 0.2s;
+    transition: 0.2s;
 }
 
 $navbar-height: 3rem;
@@ -28,5 +26,5 @@ $accent: #69f0ae;
 $primary: #9c27b0;
 
 $z-index: (
-  navbar: 1000,
+    navbar: 1000,
 );

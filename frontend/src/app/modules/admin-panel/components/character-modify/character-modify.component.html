@@ -32,9 +32,7 @@
                     >
                         <span class="gender-icon">
                             <app-icon
-                                [color]="
-                                    gen.value === 'MALE' ? '#89cff0' : '#FFC0CB'
-                                "
+                                [color]="gen.value | genderIconColor"
                                 [icon]="gen.value | lowercase"
                                 [size]="'1.2'"
                             >
@@ -120,10 +118,10 @@
                 <mat-select formControlName="nationality">
                     <mat-option
                         *ngFor="let country of countries"
-                        [value]="country.alpha2Code"
+                        [value]="country.cca2"
                     >
-                        <img [src]="country.flag" class="flag" />
-                        {{ country.name }}
+                        <img [src]="country.flags?.svg" class="flag" />
+                        {{ country.name.common }}
                     </mat-option>
                 </mat-select>
             </mat-form-field>
@@ -303,9 +301,7 @@
                 </mat-form-field>
                 <mat-form-field>
                     <mat-label
-                        >{{
-                            'CHARACTER_MODIFY.HEIGHT_CHILD' | translate
-                        }}
+                        >{{ 'CHARACTER_MODIFY.HEIGHT_CHILD' | translate }}
                         (4-11):
                     </mat-label>
                     <input
@@ -318,9 +314,7 @@
                 </mat-form-field>
                 <mat-form-field>
                     <mat-label
-                        >{{
-                            'CHARACTER_MODIFY.HEIGHT_TEEN' | translate
-                        }}
+                        >{{ 'CHARACTER_MODIFY.HEIGHT_TEEN' | translate }}
                         (12-19):
                     </mat-label>
                     <input
@@ -333,9 +327,7 @@
                 </mat-form-field>
                 <mat-form-field>
                     <mat-label
-                        >{{
-                            'CHARACTER_MODIFY.HEIGHT_ADULT' | translate
-                        }}
+                        >{{ 'CHARACTER_MODIFY.HEIGHT_ADULT' | translate }}
                         (20+):
                     </mat-label>
                     <input
@@ -366,9 +358,7 @@
                 </mat-form-field>
                 <mat-form-field>
                     <mat-label
-                        >{{
-                            'CHARACTER_MODIFY.WEIGHT_CHILD' | translate
-                        }}
+                        >{{ 'CHARACTER_MODIFY.WEIGHT_CHILD' | translate }}
                         (4-11):
                     </mat-label>
                     <input
@@ -381,9 +371,7 @@
                 </mat-form-field>
                 <mat-form-field>
                     <mat-label
-                        >{{
-                            'CHARACTER_MODIFY.WEIGHT_TEEN' | translate
-                        }}
+                        >{{ 'CHARACTER_MODIFY.WEIGHT_TEEN' | translate }}
                         (12-19):
                     </mat-label>
                     <input
@@ -396,9 +384,7 @@
                 </mat-form-field>
                 <mat-form-field>
                     <mat-label
-                        >{{
-                            'CHARACTER_MODIFY.WEIGHT_ADULT' | translate
-                        }}
+                        >{{ 'CHARACTER_MODIFY.WEIGHT_ADULT' | translate }}
                         (20+):
                     </mat-label>
                     <input
