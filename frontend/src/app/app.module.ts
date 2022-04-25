@@ -43,7 +43,7 @@ export function HttpLoaderFactory(http: HttpClient) {
 
 export function initApp(translate: TranslateService) {
     return () => {
-        return new Promise((resolve) => {
+        return new Promise<void>((resolve) => {
             const chosenLanguage = localStorage.getItem('language');
 
             if (chosenLanguage) {
