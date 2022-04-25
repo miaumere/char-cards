@@ -35,51 +35,48 @@ import { CharacterPreferencesComponent } from './components/character-preference
 import { MatExpansionModule } from '@angular/material/expansion';
 
 @NgModule({
-  declarations: [
-    AdminPanelComponent,
-    CharacterModifyComponent,
-    AdminPanelForCharactersComponent,
-    CharacterStoriesComponent,
-    EditCharacterStoryComponent,
-    CharacterQuotesComponent,
-    CharacterImagesComponent,
-    CharacterRelationsComponent,
-    CharacterPreferencesComponent,
-  ],
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    SharedModule,
-    AdminPanelRoutingModule,
-    DragDropModule,
-    MatButtonModule,
-    MatInputModule,
-    MatDialogModule,
-    MatTooltipModule,
-    MatStepperModule,
-    MatRadioModule,
-    MatSelectModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatCheckboxModule,
-    MatSlideToggleModule,
-    MatSliderModule,
-    MatTooltipModule,
-    MatAutocompleteModule,
-    MatCardModule,
-    MatIconModule,
-    MatTabsModule,
-    MatSidenavModule,
-    MatExpansionModule,
-    TranslateModule
-  ],
-  providers: [
-    CharactersService,
-    CountriesService
-  ],
-  entryComponents: [
-    EditCharacterStoryComponent
-  ]
+    declarations: [
+        AdminPanelComponent,
+        CharacterModifyComponent,
+        AdminPanelForCharactersComponent,
+        CharacterStoriesComponent,
+        EditCharacterStoryComponent,
+        CharacterQuotesComponent,
+        CharacterImagesComponent,
+        CharacterRelationsComponent,
+        CharacterPreferencesComponent,
+    ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        SharedModule,
+        AdminPanelRoutingModule,
+        DragDropModule,
+        MatButtonModule,
+        MatInputModule,
+        MatDialogModule,
+        MatTooltipModule,
+        MatStepperModule,
+        MatRadioModule,
+        MatSelectModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        MatCheckboxModule,
+        MatSlideToggleModule,
+        MatSliderModule,
+        MatTooltipModule,
+        MatAutocompleteModule,
+        MatCardModule,
+        MatIconModule,
+        MatTabsModule,
+        MatSidenavModule,
+        MatExpansionModule,
+        TranslateModule
+    ],
+    providers: [
+        CharactersService,
+        CountriesService
+    ]
 })
 export class AdminPanelModule { }
