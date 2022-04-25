@@ -1,0 +1,97 @@
+<table mat-table [dataSource]="measurementsData" class="weight-height-table">
+    <ng-container matColumnDef="baby">
+        <th
+            mat-header-cell
+            *matHeaderCellDef
+            [style.display]="
+                measurements!.hasBabyValues ? 'table-cell' : 'none'
+            "
+            class="measurements-table-cell"
+        >
+            {{ 'CHARACTER_CARD.BABY' | translate }}
+            (0-3)
+        </th>
+        <td
+            mat-cell
+            *matCellDef="let element"
+            class="measurements-table-cell"
+            [style.display]="
+                measurements!.hasBabyValues ? 'table-cell' : 'none'
+            "
+        >
+            {{ element[0] | nulled }}
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="child">
+        <th
+            mat-header-cell
+            *matHeaderCellDef
+            class="measurements-table-cell"
+            [style.display]="
+                measurements!.hasChildValues ? 'table-cell' : 'none'
+            "
+        >
+            {{ 'CHARACTER_CARD.CHILD' | translate }}
+            (4-11)
+        </th>
+        <td
+            mat-cell
+            *matCellDef="let element"
+            class="measurements-table-cell"
+            [style.display]="
+                measurements!.hasChildValues ? 'table-cell' : 'none'
+            "
+        >
+            {{ element[1] | nulled }}
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="teen">
+        <th
+            mat-header-cell
+            *matHeaderCellDef
+            class="measurements-table-cell"
+            [style.display]="
+                measurements!.hasTeenValues ? 'table-cell' : 'none'
+            "
+        >
+            {{ 'CHARACTER_CARD.TEEN' | translate }}
+            (12-19)
+        </th>
+        <td
+            mat-cell
+            *matCellDef="let element"
+            class="measurements-table-cell"
+            [style.display]="
+                measurements!.hasTeenValues ? 'table-cell' : 'none'
+            "
+        >
+            {{ element[2] | nulled }}
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="adult">
+        <th
+            mat-header-cell
+            *matHeaderCellDef
+            class="measurements-table-cell"
+            [style.display]="
+                measurements!.hasAdultValues ? 'table-cell' : 'none'
+            "
+        >
+            {{ 'CHARACTER_CARD.ADULT' | translate }}
+            (20+)
+        </th>
+        <td
+            mat-cell
+            *matCellDef="let element"
+            class="measurements-table-cell"
+            [style.display]="
+                measurements!.hasAdultValues ? 'table-cell' : 'none'
+            "
+        >
+            {{ element[3] | nulled }}
+        </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+</table>

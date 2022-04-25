@@ -1,0 +1,35 @@
+.information {
+    display: flex;
+    flex-direction: column;
+
+    min-width: 50vw;
+    height: 85vh;
+
+    padding: 1rem;
+    margin-top: 1rem;
+
+    font-size: 0.7rem;
+
+    background: #0000007a;
+
+    overflow-y: scroll;
+
+    &__segment {
+        margin-top: 1rem;
+    }
+}
+
+.quote {
+    max-width: 600px;
+
+    margin: auto;
+    border-radius: 3px;
+    padding: 1rem;
+
+    background: rgba(0, 0, 0, 0.5);
+
+    &__blockquote {
+        line-height: 1.5;
+        font-size: 0.6rem;
+    }
+}

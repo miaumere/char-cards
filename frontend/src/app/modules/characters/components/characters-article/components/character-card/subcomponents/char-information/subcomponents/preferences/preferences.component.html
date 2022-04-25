@@ -1,0 +1,127 @@
+<mat-icon
+    class="info-icon"
+    (mouseenter)="isPrefLegendVisible = true"
+    (mouseleave)="isPrefLegendVisible = false"
+>
+    info</mat-icon
+>
+<mat-card class="types-legend" *ngIf="isPrefLegendVisible">
+    <mat-card-header>
+        <mat-card-title>{{ 'SHARED.LEGEND_KEY' | translate }}</mat-card-title>
+    </mat-card-header>
+    <div
+        *ngFor="let preference of preferenceTypes"
+        class="types-legend__item types-legend-item"
+    >
+        <ng-container [ngSwitch]="preference.preferenceType">
+            <ng-container *ngSwitchCase="'hatred'">
+                <span
+                    class="types-legend-item__name"
+                    [ngStyle]="{ background: preference.color }"
+                    >{{ 'PREFERENCES.HATRED' | translate }}
+                    <span class="types-legend-item__value"
+                        >{{ preference.preferenceMin }}-{{
+                            preference.preferenceMax
+                        }}</span
+                    >
+                </span>
+                <div class="types-legend-item__desc">
+                    {{ 'PREFERENCES.HATRED_DEF' | translate }}
+                </div>
+            </ng-container>
+            <ng-container *ngSwitchCase="'enemy'">
+                <span
+                    class="types-legend-item__name"
+                    [ngStyle]="{ background: preference.color }"
+                    >{{ 'PREFERENCES.ENEMY' | translate }}
+                    <span class="types-legend-item__value"
+                        >{{ preference.preferenceMin }}-{{
+                            preference.preferenceMax
+                        }}</span
+                    >
+                </span>
+                <div class="types-legend-item__desc">
+                    {{ 'PREFERENCES.ENEMY_DEF' | translate }}
+                </div>
+            </ng-container>
+            <ng-container *ngSwitchCase="'conflict'">
+                <span
+                    class="types-legend-item__name"
+                    [ngStyle]="{ background: preference.color }"
+                    >{{ 'PREFERENCES.CONFLICT' | translate }}
+                    <span class="types-legend-item__value"
+                        >{{ preference.preferenceMin }}-{{
+                            preference.preferenceMax
+                        }}</span
+                    >
+                </span>
+                <div class="types-legend-item__desc">
+                    {{ 'PREFERENCES.CONFLICT_DEF' | translate }}
+                </div>
+            </ng-container>
+            <ng-container *ngSwitchCase="'neutral'">
+                <span
+                    class="types-legend-item__name"
+                    [ngStyle]="{ background: preference.color }"
+                    >{{ 'PREFERENCES.NEUTRAL' | translate }}
+                    <span class="types-legend-item__value"
+                        >{{ preference.preferenceMin }}-{{
+                            preference.preferenceMax
+                        }}</span
+                    >
+                </span>
+                <div class="types-legend-item__desc">
+                    {{ 'PREFERENCES.NEUTRAL_DEF' | translate }}
+                </div>
+            </ng-container>
+            <ng-container *ngSwitchCase="'sympathy'">
+                <span
+                    class="types-legend-item__name"
+                    [ngStyle]="{ background: preference.color }"
+                    >{{ 'PREFERENCES.SYMPATHY' | translate }}
+                    <span class="types-legend-item__value"
+                        >{{ preference.preferenceMin }}-{{
+                            preference.preferenceMax
+                        }}</span
+                    >
+                </span>
+                <div class="types-legend-item__desc">
+                    {{ 'PREFERENCES.SYMPATHY_DEF' | translate }}
+                </div>
+            </ng-container>
+            <ng-container *ngSwitchCase="'admiration'">
+                <span
+                    class="types-legend-item__name"
+                    [ngStyle]="{ background: preference.color }"
+                    >{{ 'PREFERENCES.ADMIRATION' | translate }}
+                    <span class="types-legend-item__value"
+                        >{{ preference.preferenceMin }}-{{
+                            preference.preferenceMax
+                        }}</span
+                    >
+                </span>
+                <div class="types-legend-item__desc">
+                    {{ 'PREFERENCES.ADMIRATION_DEF' | translate }}
+                </div>
+            </ng-container>
+            <ng-container *ngSwitchCase="'love'">
+                <span
+                    class="types-legend-item__name"
+                    [ngStyle]="{ background: preference.color }"
+                    >{{ 'PREFERENCES.LOVE' | translate }}
+                    <span class="types-legend-item__value"
+                        >{{ preference.preferenceMin }}-{{
+                            preference.preferenceMax
+                        }}</span
+                    >
+                </span>
+                <div class="types-legend-item__desc">
+                    {{ 'PREFERENCES.LOVE_DEF' | translate }}
+                </div>
+            </ng-container>
+        </ng-container>
+    </div>
+</mat-card>
+
+<app-current-preferences-chart [preferences]="preferences" [color]="bgColor">
+</app-current-preferences-chart>

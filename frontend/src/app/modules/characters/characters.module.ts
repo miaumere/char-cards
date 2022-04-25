@@ -19,12 +19,15 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { CharFamilyTreeComponent } from './components/characters-article/components/character-card/subcomponents/char-family-tree/char-family-tree.component';
-import { StarringInInfoComponent } from './components/characters-article/components/character-card/subcomponents/starring-in-info/starring-in-info.component';
-import { MeasurementsComponent } from './components/characters-article/components/character-card/subcomponents/measurements/measurements.component';
-import { PreferencesComponent } from './components/characters-article/components/character-card/subcomponents/preferences/preferences.component';
-import { CurrentPreferencesComponent } from './components/characters-article/components/character-card/subcomponents/preferences/chart-components/current-preferences-chart/current-preferences-chart.component';
-import { HistoricalPreferencesComponent } from './components/characters-article/components/character-card/subcomponents/preferences/chart-components/historical-preferences-chart/historical-preferences-chart.component';
+
+import { StoryComponent } from './components/characters-article/components/character-card/subcomponents/char-information/subcomponents/story/story.component';
+import { CharInformationComponent } from './components/characters-article/components/character-card/subcomponents/char-information/char-information.component';
+import { CharFamilyTreeComponent } from './components/characters-article/components/character-card/subcomponents/char-information/subcomponents/char-family-tree/char-family-tree.component';
+import { MeasurementsComponent } from './components/characters-article/components/character-card/subcomponents/char-information/subcomponents/measurements/measurements.component';
+import { CurrentPreferencesComponent } from './components/characters-article/components/character-card/subcomponents/char-information/subcomponents/preferences/chart-components/current-preferences-chart/current-preferences-chart.component';
+import { HistoricalPreferencesComponent } from './components/characters-article/components/character-card/subcomponents/char-information/subcomponents/preferences/chart-components/historical-preferences-chart/historical-preferences-chart.component';
+import { PreferencesComponent } from './components/characters-article/components/character-card/subcomponents/char-information/subcomponents/preferences/preferences.component';
+import { StarringInInfoComponent } from './components/characters-article/components/character-card/subcomponents/char-information/subcomponents/starring-in-info/starring-in-info.component';
 
 @NgModule({
     declarations: [
@@ -41,6 +44,8 @@ import { HistoricalPreferencesComponent } from './components/characters-article/
         StarringInInfoComponent,
         MeasurementsComponent,
         PreferencesComponent,
+        StoryComponent,
+        CharInformationComponent,
     ],
     imports: [
         CommonModule,

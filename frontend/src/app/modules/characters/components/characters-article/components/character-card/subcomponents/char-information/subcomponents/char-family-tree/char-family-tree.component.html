@@ -1,0 +1,73 @@
+<ul class="relationships">
+    <ng-container *ngFor="let relationship of charRelationships">
+        <li
+            class="relationship"
+            [routerLink]="['../', relationship.relatedCharacter.id]"
+            [title]="
+                relationship.relatedCharacter.charName +
+                ' ' +
+                relationship.relatedCharacter.charSurname
+            "
+        >
+            <div class="relation-profile-pic">
+                <img
+                    class="relation-profile-pic__image"
+                    [src]="
+                        'data:image/' +
+                            relationship.relatedCharacter?.profilePic
+                                ?.extension +
+                            ';base64, ' +
+                            relationship.relatedCharacter?.profilePic?.image
+                            | sanitizer
+                    "
+                />
+            </div>
+            <span
+                >{{ relationship.relatedCharacter.charName }}
+                {{ relationship.relatedCharacter.charSurname }}</span
+            >
+            <span>
+                {{ relationship.relationName }}
+            </span>
+        </li>
+    </ng-container>
+</ul>
+
+<mat-divider></mat-divider>
+
+<div class="crushes">
+    <ng-container *ngFor="let relationship of crushes">
+        <li
+            class="crush"
+            [routerLink]="['../', relationship.relatedCharacter.id]"
+            [title]="
+                relationship.relatedCharacter.charName +
+                ' ' +
+                relationship.relatedCharacter.charSurname
+            "
+        >
+            <img
+                class="crush__image"
+                [src]="
+                    'data:image/' +
+                        relationship.relatedCharacter?.profilePic?.extension +
+                        ';base64, ' +
+                        relationship.relatedCharacter?.profilePic?.image
+                        | sanitizer
+                "
+            />
+            <div class="heart heart--top">💕</div>
+
+            <div class="heart heart--bottom">💕</div>
+
+            <span
+                >{{ relationship.relatedCharacter.charName }}
+                {{ relationship.relatedCharacter.charSurname }}</span
+            >
+        </li>
+    </ng-container>
+</div>
+
+<p>char-family-tree works!</p>
+
+<div class="char"></div>

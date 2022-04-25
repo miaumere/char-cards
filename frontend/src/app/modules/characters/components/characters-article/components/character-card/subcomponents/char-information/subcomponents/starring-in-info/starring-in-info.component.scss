@@ -1,0 +1,90 @@
+@import 'variables';
+
+.legend-item {
+    display: flex;
+    align-items: center;
+
+    margin-bottom: 3px;
+
+    &__desc {
+        margin-left: 1rem;
+        font-size: xx-small;
+    }
+    &__symbol {
+        width: 2rem;
+
+        padding: 0.2rem;
+        border-radius: 3px;
+
+        text-align: center;
+        font-size: xx-small;
+        color: black;
+
+        &--main {
+            background-image: linear-gradient(120deg, #a6c0fe 0%, #f68084 100%);
+        }
+        &--side {
+            background-image: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
+        }
+        &--bg {
+            background-image: linear-gradient(
+                to right,
+                #ffecd2 0%,
+                #fcb69f 100%
+            );
+        }
+        &--mtn {
+            background-image: linear-gradient(120deg, #e0c3fc 0%, #8ec5fc 100%);
+        }
+        &--no {
+            background-image: linear-gradient(
+                to right,
+                #f78ca0 0%,
+                #f9748f 19%,
+                #fd868c 60%,
+                #fe9a8b 100%
+            );
+        }
+    }
+}
+
+.chapters-table {
+    &__cell {
+        width: 5rem;
+        text-align: center;
+    }
+}
+.starring-type {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.starring {
+    &__content {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+
+        margin-top: 1rem;
+    }
+}
+.starring-in {
+    margin: 0.5rem;
+    background: $dark-bg-component-color;
+
+    &__book-name {
+        border-radius: 3px;
+        padding: 0.25rem;
+
+        color: black;
+        letter-spacing: 1px;
+        text-align: center;
+    }
+}
+.legend {
+    font-size: initial;
+    background: $dark-bg-component-color;
+
+    @include font-regular;
+}

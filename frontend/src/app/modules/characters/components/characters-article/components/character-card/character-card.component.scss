@@ -69,66 +69,11 @@
     padding-top: 0.5rem;
 
     &__container {
+        margin-top: 0.4rem;
+
         display: flex;
         justify-content: space-between;
         align-items: baseline;
-    }
-}
-
-.information {
-    display: flex;
-    flex-direction: column;
-
-    min-width: 50vw;
-    height: 85vh;
-
-    padding: 1rem;
-    margin-top: 1rem;
-
-    font-size: 0.7rem;
-
-    background: #0000007a;
-
-    overflow-y: scroll;
-
-    &__segment {
-        margin-top: 1rem;
-    }
-}
-
-.story {
-    margin: 2rem 0;
-    word-break: break-word;
-    line-height: 1.5;
-    margin: auto;
-
-    &__title {
-        font-weight: bold;
-        font-size: 0.9rem;
-        color: lightslategray;
-    }
-
-    &__story-block {
-        max-width: 700px;
-        word-break: break-word;
-        white-space: pre-line;
-
-        margin-bottom: 1rem;
-    }
-}
-
-.quote {
-    max-width: 600px;
-
-    margin: auto;
-    border-radius: 3px;
-    padding: 1rem;
-
-    background: rgba(0, 0, 0, 0.5);
-
-    &__blockquote {
-        line-height: 1.5;
-        font-size: 0.6rem;
     }
 }
 
@@ -233,6 +178,7 @@
 .nationality {
     display: flex;
     align-items: center;
+    padding-top: 0.5rem;
 }
 
 .legend {
@@ -242,10 +188,6 @@
     padding: 0.5rem;
 
     background: $card-bg;
-}
-
-.no-story-container {
-    margin: 1rem;
 }
 
 .card-info {

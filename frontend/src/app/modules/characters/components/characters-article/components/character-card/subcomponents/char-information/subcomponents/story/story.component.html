@@ -1,0 +1,15 @@
+<div class="information__story">
+    <ng-container *ngIf="story">
+        <div class="story" *ngFor="let story of story">
+            <h2 class="story__title" [ngStyle]="{ color }">
+                {{ story.title }}
+            </h2>
+            <div class="story__story-block">
+                {{ story.story }}
+            </div>
+        </div>
+    </ng-container>
+    <div *ngIf="story.length === 0" class="no-story-container">
+        {{ 'CHARACTER_CARD.NO_STORY' | translate }}.
+    </div>
+</div>

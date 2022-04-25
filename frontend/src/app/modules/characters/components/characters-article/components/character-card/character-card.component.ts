@@ -36,6 +36,15 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
 
     preferences: CharacterPreferences[] = [];
 
+    get hasTemperamentInfo(): boolean {
+        return !!(
+            this.character?.temperament?.melancholic ||
+            this.character?.temperament?.sanguine ||
+            this.character?.temperament?.flegmatic ||
+            this.character?.temperament?.choleric
+        );
+    }
+
     constructor(
         private _charactersService: CharactersService,
         private _statisticsService: StatisticsService,

@@ -1,0 +1,68 @@
+<mat-card class="information" *ngIf="character">
+    <div *ngIf="character.quote" class="information__quote quote">
+        <blockquote class="quote__blockquote">
+            {{ character.quote.quote }}
+        </blockquote>
+        <cite
+            *ngIf="character.quote.context"
+            class="quote__cite"
+            [ngStyle]="{ color: themeColor1 }"
+            >~ {{ character.quote.context }}</cite
+        >
+    </div>
+
+    <app-story [story]="character.story" [color]="themeColor1"> </app-story>
+
+    <div
+        class="information__segment"
+        *ngIf="preferences && !!preferences.length"
+    >
+        <mat-divider></mat-divider>
+        <h2 class="story__title" [ngStyle]="{ color: themeColor1 }">
+            🤗 {{ 'CHARACTER_CARD.PREFERENCES' | translate }}
+        </h2>
+        <app-preferences [preferences]="preferences" [bgColor]="bgColor1">
+        </app-preferences>
+    </div>
+
+    <div
+        class="information__segment"
+        *ngIf="character.relationships && character.relationships.length > 0"
+    >
+        <mat-divider></mat-divider>
+
+        <h2 class="story__title" [ngStyle]="{ color: themeColor1 }">
+            {{ 'CHARACTER_CARD.FAMILY_RELATIONS' | translate }}
+        </h2>
+
+        <app-char-family-tree
+            [charRelationships]="character.relationships"
+        ></app-char-family-tree>
+    </div>
+
+    <div
+        class="information__segment"
+        *ngIf="character.measurements?.hasAnyValues"
+    >
+        <mat-divider></mat-divider>
+        <h2 class="story__title" [ngStyle]="{ color: themeColor1 }">
+            📏 {{ 'CHARACTER_CARD.WEIGHT_HEIGHT_TABLE' | translate }}
+        </h2>
+
+        <app-measurements
+            [measurements]="character.measurements"
+        ></app-measurements>
+    </div>
+
+    <div
+        class="information__segment"
+        *ngIf="character.starringIn && !!character.starringIn.length"
+    >
+        <mat-divider></mat-divider>
+        <h2 class="story__title" [ngStyle]="{ color: themeColor1 }">
+            📚 {{ 'CHARACTER_CARD.APPEARANCE' | translate }}
+        </h2>
+        <app-starring-in-info [starringIn]="character.starringIn">
+        </app-starring-in-info>
+    </div>
+</mat-card>
