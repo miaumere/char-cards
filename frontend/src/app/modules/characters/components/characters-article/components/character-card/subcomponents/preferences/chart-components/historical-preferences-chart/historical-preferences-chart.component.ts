@@ -229,9 +229,9 @@ export class HistoricalPreferencesComponent
             )
             .attr('cy', (d: any) => yAxisScale(d.range));
 
-        svg.selectAll('line').style('stroke', 'black');
+        svg.selectAll('line').style('stroke', 'white');
 
-        svg.selectAll('text').style('fill', 'black');
+        svg.selectAll('text').style('fill', 'white');
 
         svg.selectAll('.domain').style('stroke', 'none');
     }

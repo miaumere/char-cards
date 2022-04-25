@@ -1,3 +1,12 @@
+@import '~@angular/material/theming';
+@include mat-core();
+
+$my-app-primary: mat-palette($mat-blue-grey);
+$my-app-accent: mat-palette($mat-blue-grey, A200, A100, A400);
+$my-app-theme: mat-dark-theme($my-app-primary, $my-app-accent);
+
+@include angular-material-theme($my-app-theme);
+
 @import './global_styles/reset.scss';
 @import './global_styles/variables.scss';
 @import './global_styles/scrollbar.scss';
@@ -9,7 +18,7 @@
 
 body {
     font-size: 62.5%;
-    background: #3c3e3f;
+    background: $chars-list-bg;
 
     color: whitesmoke;
 }

@@ -8,13 +8,15 @@
 .info {
     font-size: 0.7rem;
     background: #1d1d1d;
+    padding-top: 0.5rem;
+
     &__desc {
         margin: 0.5rem 0 0.3rem 0.3rem;
 
         font-weight: bold;
         font-size: smaller;
         text-transform: uppercase;
-        color: rgba(255, 255, 255, 0.4);
+        color: $accent;
     }
 
     &__data {
@@ -138,7 +140,6 @@
         align-items: center;
 
         margin-top: 0.5rem;
-
         padding: 1px 0.5rem;
         margin-bottom: 0.5rem;
         border-radius: 3px;
@@ -153,7 +154,7 @@
 
         text-align: left;
 
-        padding: 0.1rem;
+        padding-top: 0.5rem;
     }
 
     &__profile-pic {
@@ -170,6 +171,7 @@
 .name {
     display: flex;
     flex-direction: column;
+    margin-left: 1rem;
 
     &--pseudonim {
         font-size: 0.8rem;
@@ -212,10 +214,8 @@
 }
 
 .flag {
-    max-width: 20px;
-    max-height: 20px;
-
-    margin-left: 1rem;
+    max-width: 1.2rem;
+    max-height: 1.2rem;
 
     border: 1px solid white;
     border-radius: 3px;
@@ -237,4 +237,10 @@
 
 .no-story-container {
     margin: 1rem;
+}
+
+.card-info {
+    align-items: center;
+
+    margin-top: 0.2rem;
 }

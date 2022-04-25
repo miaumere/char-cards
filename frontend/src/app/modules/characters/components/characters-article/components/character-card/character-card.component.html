@@ -17,7 +17,7 @@
                 }}</span>
             </span>
             <mat-card-header>
-                <span class="card__name" [ngStyle]="{ background: bgColor2 }">
+                <span class="card__name">
                     <app-icon
                         *ngIf="character.gender"
                         [icon]="character.gender | lowercase"
@@ -72,28 +72,26 @@
                 class="card__info info"
                 [ngStyle]="{ background: bgColor2 }"
             >
-                <div class="nationality" *ngIf="flagURL">
+                <div class="card-info nationality" *ngIf="flagURL">
                     <span class="info__desc">
-                        {{ 'CHARACTER_CARD.NATIONALITY' | translate }}
+                        🏁 {{ 'CHARACTER_CARD.NATIONALITY' | translate }}
                     </span>
                     <img class="info__data flag" [src]="flagURL" />
                 </div>
 
-                <ng-container *ngIf="character.birthday">
-                    <div>
-                        <span class="info__desc">
-                            {{ 'CHARACTER_CARD.BIRTHDAY' | translate }}
-                        </span>
-                        <span class="info__data"
-                            >{{ character.birthday | date: 'dd/MM/yyyy' }}
-                        </span>
-                    </div>
-                </ng-container>
+                <div class="card-info" *ngIf="character.birthday">
+                    <span class="info__desc">
+                        🎂 {{ 'CHARACTER_CARD.BIRTHDAY' | translate }}
+                    </span>
+                    <span class="info__data"
+                        >{{ character.birthday | date: 'dd/MM/yyyy' }}
+                    </span>
+                </div>
 
                 <ng-container *ngIf="character.death">
                     <div>
                         <span class="info__desc">
-                            {{ 'CHARACTER_CARD.DEATH' | translate }}
+                            💀 {{ 'CHARACTER_CARD.DEATH' | translate }}
                         </span>
                         <span class="info__data info__data--death">
                             {{ character.death | date: 'dd/MM/yyyy' }}
@@ -103,12 +101,13 @@
                         </span>
                     </div>
                 </ng-container>
-                <ng-container *ngIf="character.occupation">
+
+                <div class="card-info" *ngIf="character.occupation">
                     <span class="info__desc">
-                        {{ 'CHARACTER_CARD.PROFESSION' | translate }}
+                        💼 {{ 'CHARACTER_CARD.PROFESSION' | translate }}
                     </span>
                     <span class="info__data">{{ character.occupation }}</span>
-                </ng-container>
+                </div>
 
                 <ng-container *ngIf="character.colors">
                     <div class="info__color color">
