@@ -133,16 +133,18 @@ export class HistoricalPreferencesComponent
 
         const yAxisScale = d3.scaleLinear().domain([0, 100]).range([height, 0]);
 
-        const valueline: any = (d3 as any)
+        const valueline = d3
             .line()
-            .x((d: any) => {
-                xAxisScale(
-                    d.dateOfOrigin
+            .x((d: any): any => {
+                return xAxisScale(
+                    !!d.dateOfOrigin
                         ? new Date(d.dateOfOrigin)
                         : new Date(Date.now())
                 );
             })
-            .y((d: any) => yAxisScale(d.range));
+            .y((d: any): any => {
+                return yAxisScale(d.range);
+            });
 
         const svg = d3
             .select(element)
@@ -204,12 +206,12 @@ export class HistoricalPreferencesComponent
         );
 
         svg.append('path')
-            .data([this.historicalPreferences!.preferences])
+            .data([this.historicalPreferences?.preferences])
             .attr('class', 'line')
             .attr('fill', 'none')
             .attr('stroke', '#9B75B9')
             .attr('stroke-width', 2)
-            .attr('d', valueline);
+            .attr('d', valueline as any);
 
         (svg as any)
             .selectAll('.dot')
@@ -227,9 +229,9 @@ export class HistoricalPreferencesComponent
             )
             .attr('cy', (d: any) => yAxisScale(d.range));
 
-        d3.selectAll('line').style('stroke', 'black');
+        svg.selectAll('line').style('stroke', 'black');
 
-        d3.selectAll('text').style('fill', 'black');
+        svg.selectAll('text').style('fill', 'black');
 
         svg.selectAll('.domain').style('stroke', 'none');
     }

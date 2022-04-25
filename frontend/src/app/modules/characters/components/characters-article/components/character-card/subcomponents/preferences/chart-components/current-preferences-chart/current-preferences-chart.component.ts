@@ -71,9 +71,9 @@ export class CurrentPreferencesComponent
             rects?.attr('transform', transformString);
 
             // color
-            d3.selectAll('line').style('stroke', lineColor);
+            svgViewport.selectAll('line').style('stroke', lineColor);
 
-            d3.selectAll('text').style('fill', lineColor);
+            svgViewport.selectAll('text').style('fill', lineColor);
         }, 10);
 
         const svgViewport = d3
@@ -116,9 +116,8 @@ export class CurrentPreferencesComponent
             .attr('stdDeviation', '1.7');
 
         for (const pref of this.preferences) {
-            const typedPref = pref as CharacterPreferences;
             defs.append('pattern')
-                .attr('id', 'image_' + typedPref.relcharId)
+                .attr('id', 'image_' + (pref as any).relCharId)
                 .attr('x', '0')
                 .attr('y', '0')
                 .attr('height', '1')
@@ -181,10 +180,10 @@ export class CurrentPreferencesComponent
             .attr('transform', 'translate(0,' + height + ')')
             .call(xAxis);
 
-        d3.selectAll('line').style('stroke', lineColor);
+        svgViewport.selectAll('line').style('stroke', lineColor);
 
-        d3.selectAll('path').style('stroke', lineColor);
+        svgViewport.selectAll('path').style('stroke', lineColor);
 
-        d3.selectAll('text').style('fill', lineColor);
+        svgViewport.selectAll('text').style('fill', lineColor);
     }
 }
