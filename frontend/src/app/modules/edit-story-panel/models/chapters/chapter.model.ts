@@ -1,17 +1,17 @@
 export interface IChapter {
-  id: number | null;
-  name: string;
-  chapterDesc: string;
-  pagesIds: number[];
+    id: number | null;
+    name: string;
+    chapterDesc: string;
+    pagesIds: number[];
 }
 
 export class Chapter implements IChapter {
-  id: number | null;
-  name: string;
-  chapterDesc: string;
-  pagesIds: number[];
+    id: number | null = null;
+    name: string = '';
+    chapterDesc: string = '';
+    pagesIds: number[] = [];
 
-  constructor(initialValues: IChapter) {
-    Object.assign(this, initialValues);
-  }
+    constructor(initialValues: IChapter) {
+        Object.assign(this, initialValues);
+    }
 }

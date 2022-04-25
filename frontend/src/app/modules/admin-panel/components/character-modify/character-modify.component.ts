@@ -177,19 +177,19 @@ export class CharacterModifyComponent extends BaseComponent implements OnInit {
     flegmaticValue = 0;
     cholericValue = 0;
 
-    measurements: IMeasurements;
+    measurements: IMeasurements | null = null;
 
-    birthdayDate;
-    deathDate;
+    birthdayDate: string | null = '';
+    deathDate: string | null = '';
 
     profilePic: File | null = null;
     images: FileList | null = null;
 
-    type: 'new' | 'edit';
+    type: 'new' | 'edit' = 'new';
 
-    charId: number;
+    charId: number = 0;
 
-    countries: Country[];
+    countries: Country[] = [];
 
     constructor(
         private _toastrService: ToastrService,
@@ -255,8 +255,8 @@ export class CharacterModifyComponent extends BaseComponent implements OnInit {
                 .subscribe((charDetails) => {
                     this.measurements = charDetails.measurements;
 
-                    this.birthdayDate = charDetails.birthday;
-                    this.deathDate = charDetails.death;
+                    this.birthdayDate = '' + charDetails.birthday;
+                    this.deathDate = '' + charDetails.death;
 
                     this.personalInfoForm
                         .get('name')
@@ -283,63 +283,63 @@ export class CharacterModifyComponent extends BaseComponent implements OnInit {
 
                     this.colorForm
                         .get('themeColor1')
-                        ?.setValue(charDetails.colors.themeColor1);
+                        ?.setValue(charDetails.colors?.themeColor1);
                     this.colorForm
                         .get('themeColor2')
-                        ?.setValue(charDetails.colors.themeColor2);
+                        ?.setValue(charDetails.colors?.themeColor2);
                     this.colorForm
                         .get('themeColor3')
-                        ?.setValue(charDetails.colors.themeColor3);
+                        ?.setValue(charDetails.colors?.themeColor3);
                     this.colorForm
                         .get('eyeColor1')
-                        ?.setValue(charDetails.colors.eyeColor1);
+                        ?.setValue(charDetails.colors?.eyeColor1);
                     this.colorForm
                         .get('eyeColor2')
-                        ?.setValue(charDetails.colors.eyeColor2);
+                        ?.setValue(charDetails.colors?.eyeColor2);
                     this.colorForm
                         .get('hairColor')
-                        ?.setValue(charDetails.colors.hairColor);
+                        ?.setValue(charDetails.colors?.hairColor);
                     this.colorForm
                         .get('skinColor')
-                        ?.setValue(charDetails.colors.skinColor);
+                        ?.setValue(charDetails.colors?.skinColor);
 
                     this.temperamentForm
                         .get('melancholic')
-                        ?.setValue(charDetails.temperament.melancholic);
+                        ?.setValue(charDetails.temperament?.melancholic);
                     this.temperamentForm
                         .get('flegmatic')
-                        ?.setValue(charDetails.temperament.flegmatic);
+                        ?.setValue(charDetails.temperament?.flegmatic);
                     this.temperamentForm
                         .get('sanguine')
-                        ?.setValue(charDetails.temperament.sanguine);
+                        ?.setValue(charDetails.temperament?.sanguine);
                     this.temperamentForm
                         .get('choleric')
-                        ?.setValue(charDetails.temperament.choleric);
+                        ?.setValue(charDetails.temperament?.choleric);
 
                     this.measurementsForm
                         .get('babyHeight')
-                        ?.setValue(charDetails.measurements.babyHeight);
+                        ?.setValue(charDetails.measurements?.babyHeight);
                     this.measurementsForm
                         .get('babyWeight')
-                        ?.setValue(charDetails.measurements.babyWeight);
+                        ?.setValue(charDetails.measurements?.babyWeight);
                     this.measurementsForm
                         .get('childHeight')
-                        ?.setValue(charDetails.measurements.childHeight);
+                        ?.setValue(charDetails.measurements?.childHeight);
                     this.measurementsForm
                         .get('childWeight')
-                        ?.setValue(charDetails.measurements.childWeight);
+                        ?.setValue(charDetails.measurements?.childWeight);
                     this.measurementsForm
                         .get('teenHeight')
-                        ?.setValue(charDetails.measurements.teenHeight);
+                        ?.setValue(charDetails.measurements?.teenHeight);
                     this.measurementsForm
                         .get('teenWeight')
-                        ?.setValue(charDetails.measurements.teenWeight);
+                        ?.setValue(charDetails.measurements?.teenWeight);
                     this.measurementsForm
                         .get('adultHeight')
-                        ?.setValue(charDetails.measurements.adultHeight);
+                        ?.setValue(charDetails.measurements?.adultHeight);
                     this.measurementsForm
                         .get('adultWeight')
-                        ?.setValue(charDetails.measurements.adultWeight);
+                        ?.setValue(charDetails.measurements?.adultWeight);
                 })
         );
     }
@@ -382,7 +382,7 @@ export class CharacterModifyComponent extends BaseComponent implements OnInit {
             this.addidionalPersonalInfoForm.controls['birthday']?.value;
         const birthdayDate = new Date(birthday).getTime();
         isNaN(birthdayDate)
-            ? (character.birthday = null)
+            ? (character.birthday = 0)
             : (character.birthday = birthdayDate);
 
         if (this.isDead) {
@@ -424,24 +424,28 @@ export class CharacterModifyComponent extends BaseComponent implements OnInit {
         );
 
         character.temperament = temperament;
-        const measurements = new Measurements(this.measurements);
+        const measurements = this.measurements
+            ? new Measurements(this.measurements)
+            : null;
 
-        measurements.babyHeight =
-            this.measurementsForm.controls['babyHeight']?.value;
-        measurements.babyWeight =
-            this.measurementsForm.controls['babyWeight']?.value;
-        measurements.childHeight =
-            this.measurementsForm.controls['childHeight']?.value;
-        measurements.childWeight =
-            this.measurementsForm.controls['childWeight']?.value;
-        measurements.teenHeight =
-            this.measurementsForm.controls['teenHeight']?.value;
-        measurements.teenWeight =
-            this.measurementsForm.controls['teenWeight']?.value;
-        measurements.adultHeight =
-            this.measurementsForm.controls['adultHeight']?.value;
-        measurements.adultWeight =
-            this.measurementsForm.controls['adultWeight']?.value;
+        if (measurements) {
+            measurements.babyHeight =
+                this.measurementsForm.controls['babyHeight']?.value;
+            measurements.babyWeight =
+                this.measurementsForm.controls['babyWeight']?.value;
+            measurements.childHeight =
+                this.measurementsForm.controls['childHeight']?.value;
+            measurements.childWeight =
+                this.measurementsForm.controls['childWeight']?.value;
+            measurements.teenHeight =
+                this.measurementsForm.controls['teenHeight']?.value;
+            measurements.teenWeight =
+                this.measurementsForm.controls['teenWeight']?.value;
+            measurements.adultHeight =
+                this.measurementsForm.controls['adultHeight']?.value;
+            measurements.adultWeight =
+                this.measurementsForm.controls['adultWeight']?.value;
+        }
 
         character.measurements = measurements;
 

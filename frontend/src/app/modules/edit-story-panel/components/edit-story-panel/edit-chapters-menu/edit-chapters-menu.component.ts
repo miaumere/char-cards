@@ -13,73 +13,62 @@ import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import * as tinycolor from 'tinycolor2';
 
 @Component({
-  selector: 'app-edit-chapters-menu',
-  templateUrl: './edit-chapters-menu.component.html',
-  styleUrls: ['./edit-chapters-menu.component.scss']
-
+    selector: 'app-edit-chapters-menu',
+    templateUrl: './edit-chapters-menu.component.html',
+    styleUrls: ['./edit-chapters-menu.component.scss'],
 })
 export class EditChaptersMenuComponent extends BaseComponent implements OnInit {
-  bookId: number;
-  book: Book;
-  chapters: Chapter[] = [];
-  fontColor = 'white';
-  bgColor: string;
+    bookId: number = 0;
+    book: Book | null = null;
+    chapters: Chapter[] = [];
+    fontColor = 'white';
+    bgColor: string = '';
 
-  constructor(
-    private _activatedRoute: ActivatedRoute,
-    private _storyService: StoryService
-  ) { super(); }
+    constructor(
+        private _activatedRoute: ActivatedRoute,
+        private _storyService: StoryService
+    ) {
+        super();
+    }
 
-  ngOnInit() {
-    this._activatedRoute?.parent?.queryParams
-      .subscribe(queryParam => {
-        this.bookId = +queryParam.id;
-        if (queryParam.chapterId) {
-          this.getChapters();
-        }
-
-
-      });
-
-    this.getBook();
-
-  }
-
-  getBook() {
-    this.subscriptions$.add(
-      this._storyService
-        .getAllBooks()
-        .pipe(
-          map(arr => arr.find(x => x.id === this.bookId)
-          )
-        )
-        .subscribe(book => {
-          if (book) {
-
-            this.book = book;
-
-            const bookColor = tinycolor(book?.color);
-
-            if (bookColor.isLight()) {
-              this.fontColor = 'black';
+    ngOnInit() {
+        this._activatedRoute?.parent?.queryParams.subscribe((queryParam) => {
+            this.bookId = +queryParam.id;
+            if (queryParam.chapterId) {
+                this.getChapters();
             }
-            this.bgColor = bookColor.darken(35).desaturate(30);
-          }
-        })
+        });
 
-    )
-  }
+        this.getBook();
+    }
 
-  getChapters() {
-    this.subscriptions$.add(
-      this._storyService
-        .getChaptersForBook(this.bookId)
-        .subscribe(chapters => {
-          this.chapters = chapters;
-        })
-    );
-  }
+    getBook() {
+        this.subscriptions$.add(
+            this._storyService
+                .getAllBooks()
+                .pipe(map((arr) => arr.find((x) => x.id === this.bookId)))
+                .subscribe((book) => {
+                    if (book) {
+                        this.book = book;
 
+                        const bookColor = tinycolor(book?.color);
 
+                        if (bookColor.isLight()) {
+                            this.fontColor = 'black';
+                        }
+                        this.bgColor = '' + bookColor.darken(35).desaturate(30);
+                    }
+                })
+        );
+    }
 
+    getChapters() {
+        this.subscriptions$.add(
+            this._storyService
+                .getChaptersForBook(this.bookId)
+                .subscribe((chapters) => {
+                    this.chapters = chapters;
+                })
+        );
+    }
 }

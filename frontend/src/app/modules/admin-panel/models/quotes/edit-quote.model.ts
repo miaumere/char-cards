@@ -1,5 +1,5 @@
 export class EditQuote {
-  quoteId: number;
-  quote: string;
-  context: string;
+    quoteId: number = 0;
+    quote: string = '';
+    context: string = '';
 }

@@ -58,6 +58,8 @@ import { HistoricalPreferencesComponent } from './components/characters-article/
         MatIconModule,
         MatButtonModule,
     ],
+    exports: [HistoricalPreferencesComponent],
+
     providers: [],
 })
 export class CharactersModule {}

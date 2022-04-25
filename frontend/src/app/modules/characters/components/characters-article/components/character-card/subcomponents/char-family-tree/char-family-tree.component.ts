@@ -8,7 +8,7 @@ import { IRelationship } from 'src/app/modules/characters/models/relationship.mo
     styleUrls: ['./char-family-tree.component.scss'],
 })
 export class CharFamilyTreeComponent implements OnInit {
-    @Input() charRelationships: IRelationship[] | null;
+    @Input() charRelationships: IRelationship[] | null = null;
 
     crushes: IRelationship[] | null = [];
     constructor() {}

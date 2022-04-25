@@ -13,7 +13,7 @@ import { CharType } from 'src/app/modules/admin-panel/enums/character-type.enum'
     styleUrls: ['./characters-list.component.scss'],
 })
 export class CharactersListComponent extends BaseComponent implements OnInit {
-    charList: CharacterItem[];
+    charList: CharacterItem[] = [];
     filteredChars: CharacterItem[] = [];
 
     searchForm = new FormGroup({

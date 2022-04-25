@@ -62,12 +62,12 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
                 .subscribe((character) => {
                     this.character = new Character(character);
                     this.getNationalityForCharacter();
-                    const measurementsInstance = new Measurements(
-                        character.measurements
-                    );
-                    this.character.measurements = measurementsInstance;
 
-                    this.bgColorFromChild.emit(character.colors.themeColor1);
+                    this.character.measurements = character.measurements
+                        ? new Measurements(character.measurements)
+                        : null;
+
+                    this.bgColorFromChild.emit(character.colors!.themeColor1);
                     const themeColorForChar = tinycolor(
                         character?.colors?.themeColor1
                     );
@@ -78,19 +78,21 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
                         character?.colors?.themeColor2
                     );
 
-                    this.bgColor1 = tinycolor(bgColorForChar)
-                        .darken(15)
-                        .desaturate(10);
-                    this.bgColor2 = tinycolor(darkerBgColorForChar)
-                        .darken(25)
-                        .desaturate(30);
+                    this.bgColor1 =
+                        '' +
+                        tinycolor(bgColorForChar).darken(15).desaturate(10);
+                    this.bgColor2 =
+                        '' +
+                        tinycolor(darkerBgColorForChar)
+                            .darken(25)
+                            .desaturate(30);
 
                     if (themeColorForChar.isLight()) {
                         this.themeColor1 =
-                            tinycolor(themeColorForChar).darken(15);
+                            '' + tinycolor(themeColorForChar).darken(15);
                     } else {
                         this.themeColor1 =
-                            tinycolor(themeColorForChar).lighten(35);
+                            '' + tinycolor(themeColorForChar).lighten(35);
                     }
                 });
 

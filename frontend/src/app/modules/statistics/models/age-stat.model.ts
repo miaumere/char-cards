@@ -1,5 +1,5 @@
 export interface IAgeStat {
-  label: string;
-  count: number;
-  details: Map<number, number>
+    label: string;
+    count: number;
+    details: Map<number, number>;
 }

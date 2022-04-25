@@ -1,13 +1,3 @@
-@use '@angular/material' as mat;
-
-$my-custom-level: mat.define-typography-level(
-    $font-family: Roboto,
-    $font-weight: 400,
-    $font-size: 1rem,
-    $line-height: 1,
-    $letter-spacing: normal,
-);
-
 @import './global_styles/reset.scss';
 @import './global_styles/variables.scss';
 @import './global_styles/scrollbar.scss';
@@ -44,5 +34,8 @@ body {
 
 body {
     margin: 0;
+}
+
+* {
     font-family: 'Courier New', Courier, monospace;
 }

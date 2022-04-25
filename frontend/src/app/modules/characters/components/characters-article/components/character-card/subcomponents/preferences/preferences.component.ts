@@ -9,8 +9,8 @@ import { preferenceTypes } from '../../preference-types';
     styleUrls: ['./preferences.component.scss'],
 })
 export class PreferencesComponent implements OnInit {
-    @Input() readonly preferences: CharacterPreferences[];
-    @Input() readonly bgColor: string;
+    @Input() readonly preferences: CharacterPreferences[] = [];
+    @Input() readonly bgColor: string = '';
 
     readonly preferenceTypes: IPreferenceTypes[] = preferenceTypes;
 

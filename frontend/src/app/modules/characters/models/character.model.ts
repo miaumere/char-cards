@@ -20,37 +20,37 @@ export interface ICharacter {
     deathReason: string;
     occupation: string;
     story: Story[];
-    colors: IColors;
+    colors: IColors | null;
     imagesList: IImageForMain[];
-    temperament: ITemperament;
-    measurements: IMeasurements;
-    quote: IQuote;
+    temperament: ITemperament | null;
+    measurements: IMeasurements | null;
+    quote: IQuote | null;
     charType: characterType;
-    relationships: IRelationship[] | null;
+    relationships: IRelationship[];
     nationality: string;
     starringIn: IStarringIn[];
 }
 
 export class Character implements ICharacter {
-    externalId: number;
-    charName: string;
-    charSurname: string;
-    pseudonim: string;
-    birthday: number;
+    externalId: number = 0;
+    charName: string = '';
+    charSurname: string = '';
+    pseudonim: string = '';
+    birthday: number = 0;
     gender: GenderString = Gender[Gender.UNKNOWNGENDER] as GenderString;
-    death: number;
-    deathReason: string;
-    occupation: string;
-    story: Story[];
-    colors: IColors;
-    imagesList: IImageForMain[];
-    temperament: ITemperament;
-    measurements: Measurements;
-    quote: IQuote;
-    charType: characterType;
-    relationships: IRelationship[] | null;
-    nationality: string;
-    starringIn: IStarringIn[];
+    death: number = 0;
+    deathReason: string = '';
+    occupation: string = '';
+    story: Story[] = [];
+    colors: IColors | null = null;
+    imagesList: IImageForMain[] = [];
+    temperament: ITemperament | null = null;
+    measurements: Measurements | null = null;
+    quote: IQuote | null = null;
+    charType: characterType = 'BACKGROUND';
+    relationships: IRelationship[] = [];
+    nationality: string = '';
+    starringIn: IStarringIn[] = [];
 
     constructor(initialValues: ICharacter) {
         Object.assign(this, initialValues);

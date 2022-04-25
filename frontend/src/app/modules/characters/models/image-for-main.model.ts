@@ -1,7 +1,6 @@
-
 export interface IImageForMain {
-  id: number;
-  extension: string;
-  name: string;
-  image: string;
+    id: number;
+    extension: string;
+    name: string;
+    image: string;
 }

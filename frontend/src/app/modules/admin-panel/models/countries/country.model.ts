@@ -8,12 +8,12 @@ export interface ICountry {
 }
 
 export class Country implements ICountry {
-    flags: {
-        svg: string;
-        png: string;
+    flags = {
+        svg: '',
+        png: '',
     };
-    name: { common: string };
-    cca2: string;
+    name = { common: '' };
+    cca2: string = '';
 
     constructor(initialValues: ICountry) {
         Object.assign(this, initialValues);

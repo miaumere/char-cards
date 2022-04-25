@@ -1,7 +1,7 @@
 import { IImageForMain } from './image-for-main.model';
 export interface IRelatedCharacter {
-  id: number;
-  charName: string;
-  charSurname: string;
-  profilePic: IImageForMain;
+    id: number;
+    charName: string;
+    charSurname: string;
+    profilePic: IImageForMain;
 }

@@ -75,7 +75,7 @@ export class NavbarComponent extends BaseComponent implements OnInit {
         );
     }
 
-    saveLang(lang) {
+    saveLang(lang: any) {
         localStorage.setItem('language', lang);
         this.translate.use(lang);
     }

@@ -1,5 +1,5 @@
 export class NewQuote {
-  characterId: number;
-  quote: string;
-  context: string;
+    characterId: number = 0;
+    quote: string = '';
+    context: string = '';
 }

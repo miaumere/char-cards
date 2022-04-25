@@ -1,5 +1,5 @@
 export class NewStory {
-  characterId: number;
-  title: number;
-  desc: string;
+    characterId: number = 0;
+    title: number = 0;
+    desc: string = '';
 }

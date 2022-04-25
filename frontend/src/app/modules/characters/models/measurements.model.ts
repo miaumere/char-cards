@@ -1,60 +1,64 @@
 export interface IMeasurements {
-  babyHeight: number | null;
-  babyWeight: number | null;
-  childHeight: number | null;
-  childWeight: number | null;
-  teenHeight: number | null;
-  teenWeight: number | null;
-  adultHeight: number | null;
-  adultWeight: number | null;
+    babyHeight: number | null;
+    babyWeight: number | null;
+    childHeight: number | null;
+    childWeight: number | null;
+    teenHeight: number | null;
+    teenWeight: number | null;
+    adultHeight: number | null;
+    adultWeight: number | null;
 }
 
 export class Measurements implements IMeasurements {
-  babyHeight: number | null;
-  babyWeight: number | null;
-  childHeight: number | null;
-  childWeight: number | null;
-  teenHeight: number | null;
-  teenWeight: number | null;
-  adultHeight: number | null;
-  adultWeight: number | null;
+    babyHeight: number | null = null;
+    babyWeight: number | null = null;
+    childHeight: number | null = null;
+    childWeight: number | null = null;
+    teenHeight: number | null = null;
+    teenWeight: number | null = null;
+    adultHeight: number | null = null;
+    adultWeight: number | null = null;
 
-  constructor(initialValues: IMeasurements) {
-    Object.assign(this, initialValues);
-  }
-
-  getValueWithUnit(value: number | null, type: 'height' | 'weight') {
-    if (!!value) {
-      switch (type) {
-        case 'height':
-          return value + ' cm';
-
-        case 'weight':
-          return value + ' kg';
-      }
-
-    } else {
-      return null;
+    constructor(initialValues: IMeasurements) {
+        Object.assign(this, initialValues);
     }
-  }
 
-  get hasBabyValues() {
-    return !!(this.babyHeight && this.babyWeight);
-  }
+    getValueWithUnit(value: number | null, type: 'height' | 'weight') {
+        if (!!value) {
+            switch (type) {
+                case 'height':
+                    return value + ' cm';
 
-  get hasChildValues() {
-    return !!(this.childHeight && this.childWeight);
-  }
+                case 'weight':
+                    return value + ' kg';
+            }
+        } else {
+            return null;
+        }
+    }
 
-  get hasTeenValues() {
-    return !!(this.teenHeight || this.teenWeight);
-  }
+    get hasBabyValues() {
+        return !!(this.babyHeight && this.babyWeight);
+    }
 
-  get hasAdultValues() {
-    return !!(this.adultHeight && this.adultWeight);
-  }
+    get hasChildValues() {
+        return !!(this.childHeight && this.childWeight);
+    }
 
-  get hasAnyValues() {
-    return !!(this.hasBabyValues || this.hasChildValues || this.hasTeenValues || this.hasAdultValues);
-  }
+    get hasTeenValues() {
+        return !!(this.teenHeight || this.teenWeight);
+    }
+
+    get hasAdultValues() {
+        return !!(this.adultHeight && this.adultWeight);
+    }
+
+    get hasAnyValues() {
+        return !!(
+            this.hasBabyValues ||
+            this.hasChildValues ||
+            this.hasTeenValues ||
+            this.hasAdultValues
+        );
+    }
 }

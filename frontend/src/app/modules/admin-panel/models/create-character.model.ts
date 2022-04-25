@@ -3,16 +3,17 @@ import { ITemperament } from '../../characters/models/temperament.model';
 import { IMeasurements } from '../../characters/models/measurements.model';
 
 export class CreateCharacter {
-  charName: string;
-  charSurname: string;
-  gender: string;
-  birthday: number;
-  death: number | null;
-  deathReason: string | null;
-  occupation: string;
-  colors: IColors;
-  temperament: ITemperament;
-  measurements: IMeasurements;
-  nationality: string;
-
+    externalId: number = 0;
+    charName: string = '';
+    charSurname: string = '';
+    pseudonim: string = '';
+    gender: string = '';
+    birthday: number = 0;
+    death: number | null = null;
+    deathReason: string | null = null;
+    occupation: string = '';
+    colors: IColors | null = null;
+    temperament: ITemperament | null = null;
+    measurements: IMeasurements | null = null;
+    nationality: string = '';
 }

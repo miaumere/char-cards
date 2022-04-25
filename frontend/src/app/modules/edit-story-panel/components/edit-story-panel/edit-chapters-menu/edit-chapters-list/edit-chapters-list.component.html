@@ -1,71 +1,121 @@
-<div class="edit-chapters-list" [ngStyle]="{'color': fontColor}">
-  <div *ngIf="book">
-    <form [formGroup]="chapterForm" *ngIf="isNewChapterFormVisible" class="edit-chapters-form">
-      <mat-form-field>
-        <mat-label>{{ 'CHAPTERS_PANEL.CHAPTER_TITLE' | translate }}</mat-label>
-        <input matInput formControlName="name" required>
-      </mat-form-field>
-      <mat-form-field class="edit-chapters-form__textarea">
-        <mat-label>{{ 'CHAPTERS_PANEL.CHAPTER_DESC' | translate }}</mat-label>
-        <textarea matInput maxlength="255" style="width: 15rem;" formControlName="chapterDesc" required
-          class="edit-chapters-form__textarea"></textarea>
-      </mat-form-field>
+<div class="edit-chapters-list" [ngStyle]="{ color: fontColor }">
+    <div *ngIf="book">
+        <form
+            [formGroup]="chapterForm"
+            *ngIf="isNewChapterFormVisible"
+            class="edit-chapters-form"
+        >
+            <mat-form-field>
+                <mat-label>{{
+                    'CHAPTERS_PANEL.CHAPTER_TITLE' | translate
+                }}</mat-label>
+                <input matInput formControlName="name" required />
+            </mat-form-field>
+            <mat-form-field class="edit-chapters-form__textarea">
+                <mat-label>{{
+                    'CHAPTERS_PANEL.CHAPTER_DESC' | translate
+                }}</mat-label>
+                <textarea
+                    matInput
+                    maxlength="255"
+                    style="width: 15rem"
+                    formControlName="chapterDesc"
+                    required
+                    class="edit-chapters-form__textarea"
+                ></textarea>
+            </mat-form-field>
+        </form>
+        <div class="edit-chapters-buttons">
+            <button
+                mat-raised-button
+                [ngStyle]="{ background: book.color, color: fontColor }"
+                [disabled]="chapterForm.invalid"
+                (click)="createNewChapter()"
+                style="margin-right: 1rem"
+            >
+                <mat-icon>library_add</mat-icon>
+                {{ 'CHAPTERS_PANEL.NEW_CHAPTER' | translate }}
+            </button>
 
-    </form>
-    <div class="edit-chapters-buttons">
-      <button mat-raised-button [ngStyle]="{'background': book.color, 'color': fontColor}"
-        [disabled]="chapterForm.invalid" (click)="createNewChapter()" style="margin-right: 1rem">
-        <mat-icon>library_add</mat-icon>
-        {{ 'CHAPTERS_PANEL.NEW_CHAPTER' | translate }}
-      </button>
-
-      <button mat-raised-button [ngStyle]="{'background': book.color, 'color': fontColor}"
-        [disabled]="chapterForm.invalid || !editedChapter" (click)="editChapter()">
-        <mat-icon>library_add</mat-icon>
-        {{ 'SHARED.EDIT' | translate }}
-      </button>
-
+            <button
+                mat-raised-button
+                [ngStyle]="{ background: book.color, color: fontColor }"
+                [disabled]="chapterForm.invalid || !editedChapter"
+                (click)="editChapter()"
+            >
+                <mat-icon>library_add</mat-icon>
+                {{ 'SHARED.EDIT' | translate }}
+            </button>
+        </div>
     </div>
 
-
-  </div>
-
-  <div *ngIf="chapters.length > 0" cdkDropList (cdkDropListDropped)="drop($event)" class="boundary">
-    <div *ngFor="let chapter of chapters" cdkDragBoundary=".boundary" cdkDrag style="margin: 1rem;">
-      <mat-card class="chapter-card">
-        <mat-card-header>
-          <div mat-card-avatar>
-            <mat-icon mat-list-icon>bookmark</mat-icon>
-          </div>
-          <mat-card-title>{{chapter.name}}</mat-card-title>
-          <mat-card-subtitle>{{chapter.chapterDesc}}</mat-card-subtitle>
-        </mat-card-header>
-        <p>
-          {{ 'CHAPTERS.PAGES_COUNT' | translate }} {{chapter.pagesIds?.length}}
-        </p>
-        <mat-card-actions class="chapter-buttons-container">
-          <button mat-mini-fab [ngStyle]="{'background': book.color, 'color': fontColor}"
-            (click)="insertEditInfoToForm(chapter)">
-            <mat-icon>edit</mat-icon>
-          </button>
-          <button mat-mini-fab color="primary" [routerLink]="['./edit-pages']"
-            [ngStyle]="{'background': book.color, 'color': fontColor}" [queryParams]="{
-          id: bookId,
-        chapterId: chapter.id,
-        color: book.color,
-        fontColor: fontColor
-      }">
-            <mat-icon>library_books</mat-icon>
-          </button>
-          <button mat-mini-fab color="warn" (click)="insertDeleteInfo()" (dblclick)="deleteChapter(chapter.id)">
-            <mat-icon>delete</mat-icon>
-          </button>
-        </mat-card-actions>
-
-      </mat-card>
+    <div
+        *ngIf="chapters.length > 0"
+        cdkDropList
+        (cdkDropListDropped)="drop($event)"
+        class="boundary"
+    >
+        <div
+            *ngFor="let chapter of chapters"
+            cdkDragBoundary=".boundary"
+            cdkDrag
+            style="margin: 1rem"
+        >
+            <mat-card class="chapter-card">
+                <mat-card-header>
+                    <div mat-card-avatar>
+                        <mat-icon mat-list-icon>bookmark</mat-icon>
+                    </div>
+                    <mat-card-title>{{ chapter.name }}</mat-card-title>
+                    <mat-card-subtitle>{{
+                        chapter.chapterDesc
+                    }}</mat-card-subtitle>
+                </mat-card-header>
+                <p>
+                    {{ 'CHAPTERS.PAGES_COUNT' | translate }}
+                    {{ chapter.pagesIds?.length }}
+                </p>
+                <mat-card-actions class="chapter-buttons-container">
+                    <button
+                        mat-mini-fab
+                        [ngStyle]="{
+                            background: book!.color,
+                            color: fontColor
+                        }"
+                        (click)="insertEditInfoToForm(chapter)"
+                    >
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                    <button
+                        mat-mini-fab
+                        color="primary"
+                        [routerLink]="['./edit-pages']"
+                        [ngStyle]="{
+                            background: book!.color,
+                            color: fontColor
+                        }"
+                        [queryParams]="{
+                            id: bookId,
+                            chapterId: chapter.id,
+                            color: book!.color,
+                            fontColor: fontColor
+                        }"
+                    >
+                        <mat-icon>library_books</mat-icon>
+                    </button>
+                    <button
+                        mat-mini-fab
+                        color="warn"
+                        (click)="insertDeleteInfo()"
+                        (dblclick)="deleteChapter(chapter.id)"
+                    >
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </mat-card-actions>
+            </mat-card>
+        </div>
     </div>
-  </div>
-  <span *ngIf="chapters.length === 0">
-    {{ 'CHAPTERS.NO_CHAPTERS_MSG' | translate }}
-  </span>
+    <span *ngIf="chapters.length === 0">
+        {{ 'CHAPTERS.NO_CHAPTERS_MSG' | translate }}
+    </span>
 </div>

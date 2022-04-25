@@ -10,65 +10,58 @@ import { ActivatedRouteSnapshot, Router, CanActivate } from '@angular/router';
 import { tap } from 'rxjs/operators';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root',
 })
 export class AuthService {
+    private loginURL = '/login';
+    private logoutURL = '/logout';
+    private reloginURL = '/relogin';
 
-  private loginURL = '/login';
-  private logoutURL = '/logout';
-  private reloginURL = '/relogin';
+    _loggedUser: LoggedUser | null = null;
+    loggedUser$ = new BehaviorSubject<LoggedUser | null>(null);
 
-  _loggedUser: LoggedUser | null;
-  loggedUser$ = new BehaviorSubject<LoggedUser | null>(null);
+    constructor(private http: HttpClient) {
+        this.relogin();
+    }
 
-  constructor(
-    private http: HttpClient
-  ) {
-    this.relogin();
-  }
+    login(requestData: UserCredentials) {
+        return this.http.post<LoggedUser>(this.loginURL, requestData).pipe(
+            tap((auth) => {
+                this._loggedUser = new LoggedUser();
+                this._loggedUser.username = auth.username;
+                this._loggedUser.password = auth.password;
+                // console.log("Tu nastepuje tap dla zalogowanego", this)
 
+                this.emitLoggedUser();
+            })
+        );
+    }
 
-  login(requestData: UserCredentials) {
-    return this.http.post<LoggedUser>(this.loginURL, requestData)
-      .pipe(
-        tap(auth => {
-          this._loggedUser = new LoggedUser();
-          this._loggedUser.username = auth.username;
-          this._loggedUser.password = auth.password;
-          // console.log("Tu nastepuje tap dla zalogowanego", this)
+    relogin() {
+        return this.http
+            .get<LoggedUser>(this.reloginURL)
+            .subscribe((loggedUser) => {
+                this._loggedUser = loggedUser;
+                this.emitLoggedUser();
+            });
+    }
 
-          this.emitLoggedUser();
-        })
-      )
-  }
+    private emitLoggedUser() {
+        // console.log("Logged user:", this._loggedUser);
+        this.loggedUser$.next(this._loggedUser);
+    }
 
-  relogin() {
-    return this.http.get<LoggedUser>(this.reloginURL)
-      .subscribe(loggedUser => {
-        this._loggedUser = loggedUser;
-        this.emitLoggedUser();
-      });
-  }
+    logout() {
+        this._loggedUser = null;
+        return this.http.get<void>(this.logoutURL).pipe(
+            tap(() => {
+                this._loggedUser = null;
+                this.emitLoggedUser();
+            })
+        );
+    }
 
-  private emitLoggedUser() {
-    // console.log("Logged user:", this._loggedUser);
-    this.loggedUser$.next(this._loggedUser);
-  }
-
-  logout() {
-    this._loggedUser = null;
-    return this.http.get<void>(this.logoutURL).pipe(tap(() => {
-      this._loggedUser = null;
-      this.emitLoggedUser();
-    }));
-  }
-
-  getLoggedUser(): LoggedUser | null {
-    return this._loggedUser;
-  }
-
-
-
-
-
+    getLoggedUser(): LoggedUser | null {
+        return this._loggedUser;
+    }
 }

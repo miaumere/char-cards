@@ -1,4 +1,4 @@
 export interface IChapterWithStarringType {
-  chapterNumber: number;
-  starringType: string;
+    chapterNumber: number;
+    starringType: string;
 }

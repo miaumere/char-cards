@@ -5,36 +5,35 @@ import { ActivatedRoute } from '@angular/router';
 import { CharacterItem } from 'src/app/modules/characters/models/character-item.model';
 
 @Component({
-  selector: 'app-admin-panel',
-  templateUrl: './admin-panel.component.html',
-  styleUrls: ['./admin-panel.component.scss']
+    selector: 'app-admin-panel',
+    templateUrl: './admin-panel.component.html',
+    styleUrls: ['./admin-panel.component.scss'],
 })
 export class AdminPanelComponent extends BaseComponent implements OnInit {
-  charId: number;
-  selectedCharacter?: CharacterItem;
+    charId: number = 0;
+    selectedCharacter?: CharacterItem;
 
-  constructor(
-    private _activatedRoute: ActivatedRoute,
-    private _characterService: CharactersService
-  ) { super(); }
+    constructor(
+        private _activatedRoute: ActivatedRoute,
+        private _characterService: CharactersService
+    ) {
+        super();
+    }
 
-  ngOnInit() {
+    ngOnInit() {
+        this._activatedRoute?.parent?.queryParams.subscribe((queryParam) => {
+            this.charId = +queryParam.id;
+        });
+        this.getCharacter();
+    }
 
-    this._activatedRoute?.parent?.queryParams
-      .subscribe(queryParam => {
-        this.charId = +queryParam.id;
-      });
-    this.getCharacter();
-  }
-
-  getCharacter() {
-    this.subscriptions$.add(
-      this._characterService
-        .getCharacters()
-        .subscribe(charList => {
-          this.selectedCharacter = charList.find(x => x.id === this.charId);
-        })
-    )
-  }
-
+    getCharacter() {
+        this.subscriptions$.add(
+            this._characterService.getCharacters().subscribe((charList) => {
+                this.selectedCharacter = charList.find(
+                    (x) => x.id === this.charId
+                );
+            })
+        );
+    }
 }

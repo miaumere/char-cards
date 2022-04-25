@@ -1,26 +1,25 @@
 import { IProfilePic } from '../../admin-panel/models/images/profile-pic.model';
 
 export interface ICharacterPreferences {
-  relCharId: number;
-  relCharName: string;
-  relCharSurname: string;
-  relCharAvatar: IProfilePic | null;
-  range: number;
+    relcharId: number;
+    relCharName: string;
+    relCharSurname: string;
+    relCharAvatar: IProfilePic | null;
+    range: number;
 }
 
 export class CharacterPreferences implements ICharacterPreferences {
-  relCharId: number;
-  relCharName: string;
-  relCharSurname: string;
-  relCharAvatar: IProfilePic | null;
-  range: number;
+    relcharId: number = 0;
+    relCharName: string = '';
+    relCharSurname: string = '';
+    relCharAvatar: IProfilePic | null = null;
+    range: number = 0;
 
+    get fullName() {
+        return `${this.relCharName} ${this.relCharSurname}`;
+    }
 
-  get fullName() {
-    return `${this.relCharName} ${this.relCharSurname}`;
-  }
-
-  constructor(initialValues: ICharacterPreferences) {
-    Object.assign(this, initialValues);
-  }
+    constructor(initialValues: ICharacterPreferences) {
+        Object.assign(this, initialValues);
+    }
 }

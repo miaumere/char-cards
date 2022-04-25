@@ -13,180 +13,189 @@ import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import * as tinycolor from 'tinycolor2';
 
 @Component({
-  selector: 'app-edit-chapters-list',
-  templateUrl: './edit-chapters-list.component.html',
-  styleUrls: ['./edit-chapters-list.component.scss']
-
+    selector: 'app-edit-chapters-list',
+    templateUrl: './edit-chapters-list.component.html',
+    styleUrls: ['./edit-chapters-list.component.scss'],
 })
-export class EditChaptersListMenuComponent extends BaseComponent implements OnInit {
+export class EditChaptersListMenuComponent
+    extends BaseComponent
+    implements OnInit
+{
+    isNewChapterFormVisible = true;
 
-  isNewChapterFormVisible = true;
+    chapterForm = new FormGroup({
+        name: new FormControl('', Validators.required),
+        chapterDesc: new FormControl('', Validators.required),
+    });
 
-  chapterForm = new FormGroup({
-    name: new FormControl('', Validators.required),
-    chapterDesc: new FormControl('', Validators.required),
-  });
+    bookId: number = 0;
+    book: Book | null = null;
+    fontColor: string = '';
 
+    chapters: Chapter[] = [];
 
-  bookId: number;
-  book: Book;
-  fontColor: string;
+    editedChapter: Chapter | null = null;
 
-  chapters: Chapter[] = [];
+    constructor(
+        private _activatedRoute: ActivatedRoute,
+        private _storyService: StoryService,
+        private _toastrService: ToastrService,
+        private _translate: TranslateService
+    ) {
+        super();
+    }
 
-  editedChapter: Chapter | null = null;
+    ngOnInit() {
+        this._activatedRoute?.parent?.queryParams.subscribe((queryParam) => {
+            this.bookId = +queryParam.id;
+        });
 
-  constructor(
-    private _activatedRoute: ActivatedRoute,
-    private _storyService: StoryService,
-    private _toastrService: ToastrService,
-    private _translate: TranslateService
-  ) { super(); }
+        this.getBook();
+        this.getChapters();
+    }
 
-  ngOnInit() {
-    this._activatedRoute?.parent?.queryParams
-      .subscribe(queryParam => {
-        this.bookId = +queryParam.id;
-      });
+    getBook() {
+        this.subscriptions$.add(
+            this._storyService
+                .getAllBooks()
+                .pipe(map((arr) => arr.find((x) => x.id === this.bookId)))
+                .subscribe((book) => {
+                    if (book) {
+                        this.book = book;
+                        const bookColor = tinycolor(book?.color);
+                        console.log(this.bookId);
+                        if (bookColor.isLight()) {
+                            this.fontColor = 'black';
+                        }
+                    }
+                })
+        );
+    }
 
-    this.getBook();
-    this.getChapters();
+    getChapters() {
+        this.subscriptions$.add(
+            this._storyService
+                .getChaptersForBook(this.bookId)
+                .subscribe((chapters) => {
+                    this.chapters = chapters;
+                })
+        );
+    }
 
-  }
+    insertNewChapterForm() {
+        this.isNewChapterFormVisible = true;
+    }
 
-  getBook() {
-    this.subscriptions$.add(
-      this._storyService
-        .getAllBooks()
-        .pipe(
-          map(arr => arr.find(x => x.id === this.bookId)
-          )
-        )
-        .subscribe(book => {
-          if (book) {
-            this.book = book;
-            const bookColor = tinycolor(book?.color);
-            console.log(this.bookId)
-            if (bookColor.isLight()) {
-              this.fontColor = 'black';
+    createNewChapter() {
+        this.editedChapter = null;
+        const objToSend: EditChapter = {
+            id: null,
+            chapterDesc: this.chapterForm.get('chapterDesc')?.value,
+            name: this.chapterForm.get('name')?.value,
+            bookId: this.bookId,
+        };
+
+        this.subscriptions$.add(
+            this._storyService.editChapter(objToSend).subscribe(
+                (_) => {
+                    this._toastrService.success(
+                        this._translate.instant('TOASTR_MESSAGE.SAVE_SUCCESS')
+                    );
+                    this.chapterForm.reset();
+                    this.getChapters();
+                },
+                (err) => {
+                    this._toastrService.error(
+                        this._translate.instant('TOASTR_MESSAGE.ERROR')
+                    );
+                }
+            )
+        );
+    }
+
+    editChapter() {
+        if (this.editedChapter) {
+            const objToSend: EditChapter = {
+                id: this.editedChapter.id,
+                chapterDesc: this.chapterForm.get('chapterDesc')?.value,
+                name: this.chapterForm.get('name')?.value,
+                bookId: this.bookId,
+            };
+
+            this.subscriptions$.add(
+                this._storyService.editChapter(objToSend).subscribe(
+                    (_) => {
+                        this._toastrService.success(
+                            this._translate.instant(
+                                'TOASTR_MESSAGE.SAVE_SUCCESS'
+                            )
+                        );
+                        this.getChapters();
+                    },
+                    (err) => {
+                        this._toastrService.error(
+                            this._translate.instant('TOASTR_MESSAGE.ERROR')
+                        );
+                    }
+                )
+            );
+        }
+    }
+
+    insertEditInfoToForm(chapter: Chapter) {
+        this.chapterForm.get('chapterDesc')?.setValue(chapter.chapterDesc);
+        this.chapterForm.get('name')?.setValue(chapter.name);
+
+        this.editedChapter = chapter;
+    }
+
+    insertDeleteInfo() {
+        this._toastrService.warning(
+            this._translate.instant('TOASTR_MESSAGE.DELETE_INFO')
+        );
+    }
+
+    deleteChapter(id: number) {
+        this.subscriptions$.add(
+            this._storyService.deleteChapter(id).subscribe(
+                (_) => {
+                    this._toastrService.success(
+                        this._translate.instant('TOASTR_MESSAGE.SAVE_SUCCESS')
+                    );
+                    this.getChapters();
+                },
+                (err) => {
+                    this._toastrService.error(
+                        this._translate.instant('TOASTR_MESSAGE.ERROR')
+                    );
+                }
+            )
+        );
+    }
+
+    drop(e: CdkDragDrop<string[]>) {
+        const chapter = this.chapters[e.previousIndex];
+        this.chapters.splice(e.previousIndex, 1);
+        this.chapters.splice(e.currentIndex, 0, chapter);
+
+        const ids: any[] = [];
+        for (const key in this.chapters) {
+            if (this.chapters.hasOwnProperty(key)) {
+                const element = this.chapters[key];
+                ids.push(element.id);
             }
-          }
-        })
-
-    );
-  }
-
-  getChapters() {
-    this.subscriptions$.add(
-      this._storyService
-        .getChaptersForBook(this.bookId)
-        .subscribe(chapters => {
-          this.chapters = chapters;
-        })
-    );
-
-  }
-
-  insertNewChapterForm() {
-    this.isNewChapterFormVisible = true;
-  }
-
-  createNewChapter() {
-    this.editedChapter = null;
-    const objToSend: EditChapter = {
-      id: null,
-      chapterDesc: this.chapterForm.get('chapterDesc')?.value,
-      name: this.chapterForm.get('name')?.value,
-      bookId: this.bookId
-    };
-
-    this.subscriptions$.add(
-      this._storyService
-        .editChapter(objToSend)
-        .subscribe(_ => {
-          this._toastrService.success(this._translate.instant('TOASTR_MESSAGE.SAVE_SUCCESS'));
-          this.chapterForm.reset();
-          this.getChapters();
-        }, err => {
-          this._toastrService.error(this._translate.instant('TOASTR_MESSAGE.ERROR'));
-        })
-
-    );
-
-
-
-  }
-
-  editChapter() {
-    if (this.editedChapter) {
-      const objToSend: EditChapter = {
-        id: this.editedChapter.id,
-        chapterDesc: this.chapterForm.get('chapterDesc')?.value,
-        name: this.chapterForm.get('name')?.value,
-        bookId: this.bookId
-      };
-
-      this.subscriptions$.add(
-        this._storyService
-          .editChapter(objToSend)
-          .subscribe(_ => {
-            this._toastrService.success(this._translate.instant('TOASTR_MESSAGE.SAVE_SUCCESS'));
-            this.getChapters();
-          }, err => {
-            this._toastrService.error(this._translate.instant('TOASTR_MESSAGE.ERROR'));
-          })
-
-      );
+        }
+        this.subscriptions$.add(
+            this._storyService.patchChapterSequence(ids, this.bookId).subscribe(
+                (_) => {
+                    this.getChapters();
+                },
+                (err) => {
+                    this._toastrService.error(
+                        this._translate.instant('TOASTR_MESSAGE.ERROR')
+                    );
+                }
+            )
+        );
     }
-  }
-
-  insertEditInfoToForm(chapter: Chapter) {
-    this.chapterForm.get('chapterDesc')?.setValue(chapter.chapterDesc);
-    this.chapterForm.get('name')?.setValue(chapter.name);
-
-    this.editedChapter = chapter;
-  }
-
-  insertDeleteInfo() {
-    this._toastrService.warning(this._translate.instant('TOASTR_MESSAGE.DELETE_INFO'));
-  }
-
-  deleteChapter(id: number) {
-    this.subscriptions$.add(
-      this._storyService
-        .deleteChapter(id)
-        .subscribe(_ => {
-          this._toastrService.success(this._translate.instant('TOASTR_MESSAGE.SAVE_SUCCESS'));
-          this.getChapters();
-        }, err => {
-          this._toastrService.error(this._translate.instant('TOASTR_MESSAGE.ERROR'));
-        })
-
-    );
-
-  }
-
-  drop(e: CdkDragDrop<string[]>) {
-    const chapter = this.chapters[e.previousIndex];
-    this.chapters.splice(e.previousIndex, 1);
-    this.chapters.splice(e.currentIndex, 0, chapter);
-
-    const ids: any[] = [];
-    for (const key in this.chapters) {
-      if (this.chapters.hasOwnProperty(key)) {
-        const element = this.chapters[key];
-        ids.push(element.id);
-      }
-    }
-    this.subscriptions$.add(
-      this._storyService
-        .patchChapterSequence(ids, this.bookId)
-        .subscribe(_ => {
-          this.getChapters();
-        }, err => {
-          this._toastrService.error(this._translate.instant('TOASTR_MESSAGE.ERROR'));
-        })
-    );
-
-  }
 }

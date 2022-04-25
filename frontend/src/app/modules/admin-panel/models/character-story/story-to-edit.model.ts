@@ -1,5 +1,5 @@
 export class EditStory {
-  storyId: number;
-  title: string;
-  desc: string;
+    storyId: number = 0;
+    title: string = '';
+    desc: string = '';
 }

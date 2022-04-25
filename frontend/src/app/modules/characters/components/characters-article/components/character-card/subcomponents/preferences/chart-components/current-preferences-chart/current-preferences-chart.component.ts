@@ -18,17 +18,17 @@ export class CurrentPreferencesComponent
     implements OnInit
 {
     @ViewChild('preferencesChart')
-    private chartContainer: ElementRef;
+    private chartContainer: ElementRef | null = null;
 
-    @Input() preferences: CharacterPreferences[];
+    @Input() preferences: CharacterPreferences[] = [];
     preferenceTypes: IPreferenceTypes[] = preferenceTypes;
 
-    @Input() color: string | null;
+    @Input() color: string | null = null;
 
     isLinearChartVisible = false;
 
     chosenCharId?: number;
-    chosenChar: CharacterPreferences;
+    chosenChar: CharacterPreferences | null = null;
 
     constructor(private _translate: TranslateService) {
         super();
@@ -42,15 +42,15 @@ export class CurrentPreferencesComponent
     }
 
     createChart() {
-        const element = this.chartContainer.nativeElement;
-        const svgWidth = this.chartContainer.nativeElement.offsetWidth;
+        const element = (this.chartContainer as any).nativeElement;
+        const svgWidth = (this.chartContainer as any).nativeElement.offsetWidth;
         const svgHeight = 100;
         const margin = { top: 30, right: 40, bottom: 50, left: 60 };
         const height = svgHeight - margin.top - margin.bottom;
         const width = svgWidth - margin.left - margin.right;
 
-        let circles;
-        let rects;
+        let circles: any;
+        let rects: any;
 
         let lineColor = 'black';
 
@@ -67,7 +67,7 @@ export class CurrentPreferencesComponent
 
             gX.transition().duration(50).call(xAxis.scale(new_xScale));
 
-            circles?.attr('cx', (d) => new_xScale(d.range));
+            circles?.attr('cx', (d: any) => new_xScale(d.range));
             rects?.attr('transform', transformString);
 
             // color
@@ -85,7 +85,7 @@ export class CurrentPreferencesComponent
                 d3.event.sourceEvent.preventDefault();
             })
             .call(
-                d3
+                (d3 as any)
                     .zoom()
                     .scaleExtent([1, 4])
                     .translateExtent([
@@ -116,8 +116,9 @@ export class CurrentPreferencesComponent
             .attr('stdDeviation', '1.7');
 
         for (const pref of this.preferences) {
+            const typedPref = pref as CharacterPreferences;
             defs.append('pattern')
-                .attr('id', 'image_' + pref.relCharId)
+                .attr('id', 'image_' + typedPref.relcharId)
                 .attr('x', '0')
                 .attr('y', '0')
                 .attr('height', '1')
@@ -135,19 +136,21 @@ export class CurrentPreferencesComponent
                 );
         }
 
-        rects = innerSpace
+        rects = (innerSpace as any)
             .append('g')
             .attr('id', 'rects')
             .selectAll('rect')
             .data(this.preferenceTypes)
             .enter()
             .append('rect')
-            .attr('width', (d) => xAxisScale(d.preferenceMax - d.preferenceMin))
+            .attr('width', (d: any) =>
+                xAxisScale(d.preferenceMax - d.preferenceMin)
+            )
             .attr('height', '50')
             .attr('y', '-40')
-            .attr('x', (d) => xAxisScale(d.preferenceMin))
+            .attr('x', (d: any) => xAxisScale(d.preferenceMin))
             .attr('style', 'filter: url(#shadow)')
-            .attr('fill', (d) => d.color);
+            .attr('fill', (d: any) => d.color);
 
         const circlesGroup = innerSpace
             .append('g')
@@ -158,14 +161,14 @@ export class CurrentPreferencesComponent
 
         // circlesGroup
 
-        circles = circlesGroup
+        circles = (circlesGroup as any)
             .append('circle')
             .attr('r', 18)
             .attr('cy', '-10')
-            .attr('cx', (d) => xAxisScale(d.range))
+            .attr('cx', (d: any) => xAxisScale(d.range))
             .attr('stroke', 'black')
-            .attr('fill', (d) => `url(#image_${d.relCharId})`)
-            .on('click', (d) => {
+            .attr('fill', (d: any) => `url(#image_${d.relCharId})`)
+            .on('click', (d: any) => {
                 this.isLinearChartVisible = true;
                 this.chosenCharId = d.relCharId;
                 this.chosenChar = d;

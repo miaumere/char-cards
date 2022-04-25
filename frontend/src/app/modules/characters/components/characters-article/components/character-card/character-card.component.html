@@ -28,7 +28,7 @@
                     <span class="name">
                         {{ character.charName }} {{ character.charSurname }}
                         <span
-                            [ngStyle]="{ color: character.colors.themeColor1 }"
+                            [ngStyle]="{ color: character.colors?.themeColor1 }"
                             class="name--pseudonim"
                         >
                             {{ character.pseudonim }}</span
@@ -197,7 +197,7 @@
                         <mat-divider></mat-divider>
                         <div
                             class="temperament__container"
-                            *ngIf="character.temperament.melancholic"
+                            *ngIf="character.temperament?.melancholic"
                         >
                             <span class="info__desc">
                                 {{ 'CHARACTER_CARD.MELANCHOLIC' | translate }}
@@ -205,47 +205,49 @@
                             <div
                                 appProgressBar
                                 [percentValue]="
-                                    character.temperament.melancholic
+                                    character.temperament?.melancholic
                                 "
                                 temperamentType="melancholic"
                             ></div>
                         </div>
                         <div
                             class="temperament__container"
-                            *ngIf="character.temperament.sanguine"
+                            *ngIf="character.temperament?.sanguine"
                         >
                             <span class="info__desc">
                                 {{ 'CHARACTER_CARD.SANGUINE' | translate }}
                             </span>
                             <div
                                 appProgressBar
-                                [percentValue]="character.temperament.sanguine"
+                                [percentValue]="character.temperament?.sanguine"
                                 temperamentType="sanguine"
                             ></div>
                         </div>
                         <div
                             class="temperament__container"
-                            *ngIf="character.temperament.flegmatic"
+                            *ngIf="character.temperament?.flegmatic"
                         >
                             <span class="info__desc">
                                 {{ 'CHARACTER_CARD.FLEGMATIC' | translate }}
                             </span>
                             <div
                                 appProgressBar
-                                [percentValue]="character.temperament.flegmatic"
+                                [percentValue]="
+                                    character.temperament?.flegmatic
+                                "
                                 temperamentType="flegmatic"
                             ></div>
                         </div>
                         <div
                             class="temperament__container"
-                            *ngIf="character.temperament.choleric"
+                            *ngIf="character.temperament?.choleric"
                         >
                             <span class="info__desc">
                                 {{ 'CHARACTER_CARD.CHOLERIC' | translate }}
                             </span>
                             <div
                                 appProgressBar
-                                [percentValue]="character.temperament.choleric"
+                                [percentValue]="character.temperament?.choleric"
                                 temperamentType="choleric"
                             ></div>
                         </div>

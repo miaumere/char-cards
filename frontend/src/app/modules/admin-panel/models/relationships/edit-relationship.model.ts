@@ -1,6 +1,6 @@
 export class EditRelationship {
-  characterId: number;
-  relatedCharacterId: number;
-  relationType: string | null;
-  reversedRelationType: string | null;
+    characterId: number = 0;
+    relatedCharacterId: number = 0;
+    relationType: string | null = null;
+    reversedRelationType: string | null = null;
 }
