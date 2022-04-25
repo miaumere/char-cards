@@ -1,5 +1,3 @@
-import { ICharacterItem } from './../../../../../models/character-item.model';
-import { preferenceTypes } from './../preference-types';
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import * as d3 from 'd3';
@@ -8,6 +6,7 @@ import * as tinycolor from 'tinycolor2';
 import { BaseComponent } from 'src/app/core/base.component';
 import { CharacterPreferences } from 'src/app/modules/characters/models/character-preferences.model';
 import { IPreferenceTypes } from 'src/app/modules/characters/models/preference-type.model';
+import { preferenceTypes } from '../../../../preference-types';
 
 @Component({
     selector: 'app-current-preferences-chart',

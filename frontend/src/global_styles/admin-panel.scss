@@ -1,16 +1,16 @@
-@import "../global_styles/variables.scss";
+@import 'variables';
 
-$image-url: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAHCAYAAADEUlfTAAAAHElEQVQYV2P8//+/FAMOwAiSZGRkfIZNftBJAgCjnxsfZU2cTgAAAABJRU5ErkJggg==";
+$image-url: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAHCAYAAADEUlfTAAAAHElEQVQYV2P8//+/FAMOwAiSZGRkfIZNftBJAgCjnxsfZU2cTgAAAABJRU5ErkJggg==';
 
 $gradient1: #4db5c552;
 $gradient2: #0b1725;
 
 .admin-panel {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  overflow-x: scroll;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow-x: scroll;
 
-  height: calc(100vh - #{$navbar-height});
+    height: calc(100vh - #{$navbar-height});
 }

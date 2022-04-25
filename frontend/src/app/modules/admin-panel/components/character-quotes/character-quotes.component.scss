@@ -1,109 +1,109 @@
-@import "../../../../../global_styles/variables.scss";
+@import 'variables';
 
 .quotes {
-  height: calc(100vh - #{$navbar-height});
-  overflow-x: scroll;
+    height: calc(100vh - #{$navbar-height});
+    overflow-x: scroll;
 
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  &__new-quote-form {
     display: flex;
     flex-direction: column;
-  }
+    align-items: center;
 
-  &__new-quote-form {
-    width: 21.875rem;
-
-    font-size: initial;
-  }
-
-  &__label {
-    display: flex;
-    flex-direction: column;
-  }
-
-  &__container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-
-    &--form {
-      display: flex;
-      justify-content: center;
+    &__new-quote-form {
+        display: flex;
+        flex-direction: column;
     }
-  }
+
+    &__new-quote-form {
+        width: 21.875rem;
+
+        font-size: initial;
+    }
+
+    &__label {
+        display: flex;
+        flex-direction: column;
+    }
+
+    &__container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+
+        &--form {
+            display: flex;
+            justify-content: center;
+        }
+    }
 }
 
 .quote {
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
 
-  width: 15.625rem;
+    width: 15.625rem;
 
-  transition: 0.2s;
+    transition: 0.2s;
 
-  &--editable {
-    border: 1px white dashed;
-    padding: 1rem;
+    &--editable {
+        border: 1px white dashed;
+        padding: 1rem;
 
-    background: #ffffff59;
+        background: #ffffff59;
 
-    color: black;
-  }
-  &__quote {
-    padding: 1rem;
-
-    font-size: 0.9rem;
-
-    &[contenteditable] {
-      outline: none;
+        color: black;
     }
-  }
-  &__context {
-    margin-left: auto;
-    margin-right: 1rem;
+    &__quote {
+        padding: 1rem;
 
-    color: $primary;
+        font-size: 0.9rem;
 
-    &[contenteditable] {
-      outline: none;
-      color: $accent;
-      font-weight: bold;
+        &[contenteditable] {
+            outline: none;
+        }
     }
+    &__context {
+        margin-left: auto;
+        margin-right: 1rem;
 
-    &::before {
-      content: "~ ";
+        color: $primary;
+
+        &[contenteditable] {
+            outline: none;
+            color: $accent;
+            font-weight: bold;
+        }
+
+        &::before {
+            content: '~ ';
+        }
     }
-  }
 }
 
 // new
 
 .quotes-list {
-  display: flex;
-  flex-wrap: wrap;
+    display: flex;
+    flex-wrap: wrap;
 
-  align-items: flex-end;
+    align-items: flex-end;
 }
 
 .quote-card {
-  margin: 0.5rem;
-  background: $card-bg;
+    margin: 0.5rem;
+    background: $card-bg;
 }
 
 .buttons-box {
-  display: flex;
-  justify-content: space-evenly;
-  width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
 }
 
 .new-quote-form {
-  &__textarea {
-    resize: vertical;
+    &__textarea {
+        resize: vertical;
 
-    min-height: 3rem;
-    max-height: 10rem;
-  }
+        min-height: 3rem;
+        max-height: 10rem;
+    }
 }

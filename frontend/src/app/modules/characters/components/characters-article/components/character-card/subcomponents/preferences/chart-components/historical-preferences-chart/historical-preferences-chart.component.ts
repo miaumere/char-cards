@@ -1,4 +1,4 @@
-import { IHistoricalPreference } from './../../../../../models/historical-preference.model';
+import { IHistoricalPreference } from '../../../../../../../../models/historical-preference.model';
 import {
     Component,
     ElementRef,
@@ -30,8 +30,8 @@ interface IHistoricalPreferencesComponentRouteParams {
 
 @Component({
     selector: 'app-historical-preferences-chart',
-    templateUrl: './historical-preferences-chart.component.html',
     styleUrls: ['./historical-preferences-chart.component.scss'],
+    template: ` <figure #historicalPreferencesChart></figure>`,
 })
 export class HistoricalPreferencesComponent
     extends BaseComponent

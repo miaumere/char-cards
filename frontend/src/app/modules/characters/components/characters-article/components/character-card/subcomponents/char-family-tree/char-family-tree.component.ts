@@ -1,3 +1,4 @@
+import { RelationshipType } from './../../../../../../../admin-panel/enums/relationship-type.enum';
 import { Component, Input, OnInit } from '@angular/core';
 import { IRelationship } from 'src/app/modules/characters/models/relationship.model';
 
@@ -9,9 +10,23 @@ import { IRelationship } from 'src/app/modules/characters/models/relationship.mo
 export class CharFamilyTreeComponent implements OnInit {
     @Input() charRelationships: IRelationship[] | null;
 
+    crushes: IRelationship[] | null = [];
     constructor() {}
 
     ngOnInit() {
         console.log('charRelationships: ', this.charRelationships);
+
+        // FIXME: dodać typ relacji CRUSH
+        if (
+            this.charRelationships &&
+            Array.isArray(this.charRelationships) &&
+            this.charRelationships.length > 0
+        ) {
+            this.crushes = this.charRelationships.filter(
+                (relation) =>
+                    relation.relationName ===
+                    RelationshipType[RelationshipType.MARRIAGE]
+            );
+        }
     }
 }

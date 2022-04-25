@@ -1,76 +1,77 @@
-@import "../../../../../../global_styles/variables.scss";
+@import 'variables';
+
 $book-card-width: 192px;
 
 .books {
-  display: flex;
-  flex-wrap: wrap;
+    display: flex;
+    flex-wrap: wrap;
 
-  justify-content: space-evenly;
-  height: calc(100vh - 3rem);
-  width: 100%;
-  position: fixed;
-  overflow-y: scroll;
+    justify-content: space-evenly;
+    height: calc(100vh - 3rem);
+    width: 100%;
+    position: fixed;
+    overflow-y: scroll;
 }
 
 .books-container {
-  display: flex;
-  flex-wrap: wrap;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 .book-card {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
-  width: 8rem;
-  height: 9.375rem;
-
-  margin: 1rem;
-
-  background: $card-bg;
-
-  cursor: all-scroll;
-
-  &__header {
-    font-size: 0.8rem;
-    margin-bottom: 2rem !important;
-  }
-
-  &__buttons-container {
     display: flex;
-    justify-content: space-between;
-    width: 100%;
-  }
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    width: 8rem;
+    height: 9.375rem;
+
+    margin: 1rem;
+
+    background: $card-bg;
+
+    cursor: all-scroll;
+
+    &__header {
+        font-size: 0.8rem;
+        margin-bottom: 2rem !important;
+    }
+
+    &__buttons-container {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
 }
 
 .boundary {
-  border: 1px dotted white;
-  width: $book-card-width;
+    border: 1px dotted white;
+    width: $book-card-width;
 }
 
 .new-book-form-container {
-  font-size: initial;
-  width: 50%;
-  height: fit-content;
+    font-size: initial;
+    width: 50%;
+    height: fit-content;
 
-  display: flex;
-  flex-direction: column-reverse;
-  justify-content: center;
-  align-items: center;
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: center;
+    align-items: center;
 }
 
 .new-book-form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .preview {
-  height: 10rem;
-  width: 10rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 1px dotted white;
+    height: 10rem;
+    width: 10rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px dotted white;
 }

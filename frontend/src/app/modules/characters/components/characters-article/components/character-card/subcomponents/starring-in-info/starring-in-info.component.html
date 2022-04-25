@@ -1,0 +1,99 @@
+<div class="starring__content">
+    <mat-card class="legend">
+        <mat-card-header>
+            <mat-card-title class="legend">{{
+                'SHARED.LEGEND_KEY' | translate
+            }}</mat-card-title>
+        </mat-card-header>
+        <div class="legend__item legend-item">
+            <span class="legend-item__symbol legend-item__symbol--main"
+                >MAIN</span
+            >
+            <span class="legend-item__desc">{{
+                'CHARACTER_CARD.STARRED_AS_MAIN' | translate
+            }}</span>
+        </div>
+        <div class="legend__item legend-item">
+            <span class="legend-item__symbol legend-item__symbol--side"
+                >SIDE</span
+            >
+            <span class="legend-item__desc">{{
+                'CHARACTER_CARD.STARRED_AS_SIDE' | translate
+            }}</span>
+        </div>
+        <div class="legend__item legend-item">
+            <span class="legend-item__symbol legend-item__symbol--bg">BG</span>
+            <span class="legend-item__desc">{{
+                'CHARACTER_CARD.STARRED_AS_BG' | translate
+            }}</span>
+        </div>
+        <div class="legend__item legend-item">
+            <span class="legend-item__symbol legend-item__symbol--mtn"
+                >MTN</span
+            >
+            <span class="legend-item__desc">{{
+                'CHARACTER_CARD.STARRED_AS_MTN' | translate
+            }}</span>
+        </div>
+        <div class="legend__item legend-item">
+            <span class="legend-item__symbol legend-item__symbol--no">-</span>
+            <span class="legend-item__desc">{{
+                'CHARACTER_CARD.NO_STARRED' | translate
+            }}</span>
+        </div>
+    </mat-card>
+
+    <mat-card *ngFor="let book of starringIn" class="starring-in">
+        <h4
+            [ngStyle]="{ 'background-color': book.book.color }"
+            class="starring-in__book-name"
+        >
+            {{ book.book.name }}
+        </h4>
+        <table class="chapters-table">
+            <tr>
+                <th *ngFor="let chapter of book.chapters">
+                    {{ chapter.chapterNumber + 1 }}
+                </th>
+            </tr>
+            <tr>
+                <td
+                    *ngFor="let chapter of book.chapters"
+                    class="chapters-table__cell"
+                >
+                    <span
+                        [ngSwitch]="chapter.starringType"
+                        class="starring-type"
+                    >
+                        <span
+                            *ngSwitchCase="'MAIN'"
+                            class="legend-item__symbol legend-item__symbol--main"
+                            >MAIN</span
+                        >
+                        <span
+                            *ngSwitchCase="'SIDE'"
+                            class="legend-item__symbol legend-item__symbol--side"
+                            >SIDE</span
+                        >
+                        <span
+                            *ngSwitchCase="'BACKGROUND'"
+                            class="legend-item__symbol legend-item__symbol--bg"
+                            >BG</span
+                        >
+                        <span
+                            *ngSwitchCase="'MENTIONED'"
+                            class="legend-item__symbol legend-item__symbol--mtn"
+                            >MTN</span
+                        >
+
+                        <span
+                            *ngSwitchDefault
+                            class="legend-item__symbol legend-item__symbol--no"
+                            >-</span
+                        >
+                    </span>
+                </td>
+            </tr>
+        </table>
+    </mat-card>
+</div>

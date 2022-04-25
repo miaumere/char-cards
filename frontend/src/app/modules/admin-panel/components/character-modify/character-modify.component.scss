@@ -1,32 +1,32 @@
-@import "../../../../../global_styles/variables.scss";
+@import 'variables';
 
 .character-modify-form {
-  display: flex;
-  justify-content: space-around;
-  flex-direction: column;
-  align-items: baseline;
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+    align-items: baseline;
 
-  font-size: initial;
+    font-size: initial;
 }
 
 .gender-icon {
-  margin-right: 2rem;
+    margin-right: 2rem;
 }
 
 .temperament-range {
-  width: 200px;
+    width: 200px;
 }
 
 .stepper {
-  height: calc(100vh - #{$navbar-height});
+    height: calc(100vh - #{$navbar-height});
 }
 
 .flag {
-  max-width: 20px;
-  max-height: 20px;
+    max-width: 20px;
+    max-height: 20px;
 
-  margin-left: 1rem;
+    margin-left: 1rem;
 
-  border: 1px solid white;
-  border-radius: 3px;
+    border: 1px solid white;
+    border-radius: 3px;
 }

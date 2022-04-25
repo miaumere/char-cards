@@ -14,6 +14,7 @@ import {
     IMeasurements,
 } from 'src/app/modules/characters/models/measurements.model';
 import { IPreferenceTypes } from 'src/app/modules/characters/models/preference-type.model';
+import { IColors } from 'src/app/modules/characters/models/colors.model';
 
 @Component({
     selector: 'app-character-card',
@@ -21,14 +22,6 @@ import { IPreferenceTypes } from 'src/app/modules/characters/models/preference-t
     styleUrls: ['./character-card.component.scss'],
 })
 export class CharacterCardComponent extends BaseComponent implements OnInit {
-    displayedColumns: string[] = ['baby', 'child', 'teen', 'adult'];
-
-    measurementsData: any[] = [];
-
-    isPrefLegendVisible = false;
-
-    preferenceTypes: IPreferenceTypes[] = preferenceTypes;
-
     @Output() bgColorFromChild = new EventEmitter<string>();
 
     routeId: number | null = null;
@@ -41,7 +34,7 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
 
     flagURL = '';
 
-    preferences: CharacterPreferences[] | null = null;
+    preferences: CharacterPreferences[] = [];
 
     constructor(
         private _charactersService: CharactersService,
@@ -73,44 +66,6 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
                         character.measurements
                     );
                     this.character.measurements = measurementsInstance;
-
-                    const characterHeight = [
-                        measurementsInstance.getValueWithUnit(
-                            measurementsInstance.babyHeight,
-                            'height'
-                        ),
-                        measurementsInstance.getValueWithUnit(
-                            measurementsInstance.childHeight,
-                            'height'
-                        ),
-                        measurementsInstance.getValueWithUnit(
-                            measurementsInstance.teenHeight,
-                            'height'
-                        ),
-                        measurementsInstance.getValueWithUnit(
-                            measurementsInstance.adultHeight,
-                            'height'
-                        ),
-                    ];
-                    const charachterWeight = [
-                        measurementsInstance.getValueWithUnit(
-                            measurementsInstance.babyWeight,
-                            'weight'
-                        ),
-                        measurementsInstance.getValueWithUnit(
-                            measurementsInstance.childWeight,
-                            'weight'
-                        ),
-                        measurementsInstance.getValueWithUnit(
-                            measurementsInstance.teenWeight,
-                            'weight'
-                        ),
-                        measurementsInstance.getValueWithUnit(
-                            measurementsInstance.adultWeight,
-                            'weight'
-                        ),
-                    ];
-                    this.measurementsData = [characterHeight, charachterWeight];
 
                     this.bgColorFromChild.emit(character.colors.themeColor1);
                     const themeColorForChar = tinycolor(
@@ -158,12 +113,16 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
                         }
                     })
             );
-        } else {
-            this.flagURL = '';
         }
     }
 
     setImage(imageIndex: number) {
         this.currentImageIndex = imageIndex;
+    }
+
+    getLinearGradientForEyeColor(colors: IColors) {
+        return {
+            'background-image': `linear-gradient(to right, ${colors.eyeColor1} 75%,  ${colors.eyeColor2} 75%,  ${colors.eyeColor2})`,
+        };
     }
 }

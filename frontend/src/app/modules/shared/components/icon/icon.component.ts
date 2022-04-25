@@ -23,7 +23,8 @@ type iconType =
     | 'male'
     | 'female'
     | 'unknowngender'
-    | 'nonbinary';
+    | 'nonbinary'
+    | 'heart';
 
 @Component({
     selector: 'app-icon',

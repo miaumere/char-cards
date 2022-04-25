@@ -19,9 +19,12 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { CurrentPreferencesComponent } from './components/characters-article/components/character-card/current-preferences-chart/current-preferences-chart.component';
-import { HistoricalPreferencesComponent } from './components/characters-article/components/character-card/historical-preferences-chart/historical-preferences-chart.component';
 import { CharFamilyTreeComponent } from './components/characters-article/components/character-card/subcomponents/char-family-tree/char-family-tree.component';
+import { StarringInInfoComponent } from './components/characters-article/components/character-card/subcomponents/starring-in-info/starring-in-info.component';
+import { MeasurementsComponent } from './components/characters-article/components/character-card/subcomponents/measurements/measurements.component';
+import { PreferencesComponent } from './components/characters-article/components/character-card/subcomponents/preferences/preferences.component';
+import { CurrentPreferencesComponent } from './components/characters-article/components/character-card/subcomponents/preferences/chart-components/current-preferences-chart/current-preferences-chart.component';
+import { HistoricalPreferencesComponent } from './components/characters-article/components/character-card/subcomponents/preferences/chart-components/historical-preferences-chart/historical-preferences-chart.component';
 
 @NgModule({
     declarations: [
@@ -35,6 +38,9 @@ import { CharFamilyTreeComponent } from './components/characters-article/compone
         CurrentPreferencesComponent,
         HistoricalPreferencesComponent,
         CharFamilyTreeComponent,
+        StarringInInfoComponent,
+        MeasurementsComponent,
+        PreferencesComponent,
     ],
     imports: [
         CommonModule,

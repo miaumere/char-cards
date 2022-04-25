@@ -1,0 +1,80 @@
+.relationships {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.relation-profile-pic {
+    &__image {
+        margin: 1rem;
+        height: 5rem;
+        width: 5rem;
+
+        border-radius: 50%;
+    }
+}
+.relationship {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+
+    border-radius: 3px;
+
+    transition: 0.2s;
+
+    cursor: pointer;
+
+    &:hover {
+        background: rgba(255, 255, 255, 0.2);
+    }
+}
+
+.crushes {
+    display: flex;
+}
+
+.crush {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+
+    border-radius: 3px;
+
+    transition: 0.2s;
+
+    cursor: pointer;
+
+    $crush-border-color: #de798b;
+
+    &__image {
+        margin: 1rem;
+        margin-bottom: 3px;
+
+        height: 4rem;
+        width: 4rem;
+
+        border-radius: 50%;
+        border: 2px solid $crush-border-color;
+
+        box-shadow: inset 0 0 1em gold, 0 0 1em $crush-border-color;
+    }
+}
+
+.heart {
+    position: absolute;
+
+    font-size: x-large;
+
+    &--top {
+        margin-left: 50px;
+        margin-top: 12px;
+    }
+
+    &--bottom {
+        left: 0;
+
+        margin-left: 22px;
+        margin-top: 55px;
+    }
+}

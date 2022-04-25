@@ -1,25 +1,25 @@
-@import "../../../../../global_styles/variables.scss";
+@import 'variables';
 
 .svg {
-  fill: initial;
+    fill: initial;
 
-  &__path {
-    &--biohazard {
-      transform: scale(1.5) translate(-10px, 1px);
+    &__path {
+        &--biohazard {
+            transform: scale(1.5) translate(-10px, 1px);
+        }
     }
-  }
 }
 
 .text {
-  font-weight: bolder;
-  font-size: 0.6rem;
+    font-weight: bolder;
+    font-size: 0.6rem;
 }
 
 .panther {
-  position: absolute;
+    position: absolute;
 
-  height: 50px;
-  width: 50px;
+    height: 50px;
+    width: 50px;
 
-  margin-left: -2rem;
+    margin-left: -2rem;
 }

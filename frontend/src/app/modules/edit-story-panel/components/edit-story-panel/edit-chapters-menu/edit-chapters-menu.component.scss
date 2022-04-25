@@ -1,35 +1,35 @@
-@import "../../../../../../global_styles/variables.scss";
+@import 'variables';
 
 .edit-chapters-menu {
-  display: flex;
-  height: calc(100vh - #{$navbar-height});
-
-  &__aside {
     display: flex;
-    flex-direction: column;
+    height: calc(100vh - #{$navbar-height});
 
-    align-items: center;
-    justify-content: center;
-  }
+    &__aside {
+        display: flex;
+        flex-direction: column;
+
+        align-items: center;
+        justify-content: center;
+    }
 }
 
 .book-name {
-  font-size: xx-large;
+    font-size: xx-large;
 }
 .edit-chapters-sidenav {
-  height: calc(100vh - #{$navbar-height});
-  width: 15rem;
+    height: calc(100vh - #{$navbar-height});
+    width: 15rem;
 }
 .chapter-list {
-  &__item {
-    white-space: nowrap !important;
-    width: 200px !important;
-    overflow: hidden !important;
-    text-overflow: ellipsis !important;
+    &__item {
+        white-space: nowrap !important;
+        width: 200px !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
 
-    &--active {
-      background: rgba(255, 255, 255, 0.4);
-      border-radius: 0.188rem;
+        &--active {
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 0.188rem;
+        }
     }
-  }
 }

@@ -1,3 +1,13 @@
+@use '@angular/material' as mat;
+
+$my-custom-level: mat.define-typography-level(
+    $font-family: Roboto,
+    $font-weight: 400,
+    $font-size: 1rem,
+    $line-height: 1,
+    $letter-spacing: normal,
+);
+
 @import './global_styles/reset.scss';
 @import './global_styles/variables.scss';
 @import './global_styles/scrollbar.scss';
@@ -10,8 +20,6 @@
 body {
     font-size: 62.5%;
     background: #3c3e3f;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande',
-        'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 
     color: whitesmoke;
 }
@@ -33,16 +41,8 @@ html,
 body {
     height: 100%;
 }
-body {
-    margin: 0;
-    font-family: Roboto, 'Helvetica Neue', sans-serif;
-}
 
-html,
-body {
-    height: 100%;
-}
 body {
     margin: 0;
-    font-family: Roboto, 'Helvetica Neue', sans-serif;
+    font-family: 'Courier New', Courier, monospace;
 }
