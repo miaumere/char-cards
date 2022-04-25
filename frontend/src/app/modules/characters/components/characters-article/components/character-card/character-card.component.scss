@@ -11,8 +11,6 @@
     padding-top: 0.5rem;
 
     &__desc {
-        margin: 0.5rem 0 0.3rem 0.3rem;
-
         font-weight: bold;
         font-size: smaller;
         text-transform: uppercase;
@@ -29,16 +27,19 @@
 }
 
 .color {
+    display: flex;
+    flex-direction: column;
+
     padding-top: 0.5rem;
 
     &__container {
         display: flex;
 
-        padding: 0 0.5rem;
+        margin-top: -0.5rem;
     }
 
     &__item {
-        width: 5rem;
+        width: 3rem;
 
         background: grey;
         border-radius: 3px;
@@ -51,10 +52,19 @@
     }
 
     &__icon {
-        transform: scale(0.7);
+        transform: scale(0.5);
     }
 }
 
+.colors {
+    display: flex;
+
+    flex-direction: column;
+    width: 175px;
+
+    margin-top: 0.5rem;
+    margin-left: -0.5rem;
+}
 .temperament {
     padding-top: 0.5rem;
 
@@ -151,10 +161,9 @@
     &__info {
         display: flex;
         flex-direction: column;
+        align-items: baseline;
 
         text-align: left;
-
-        padding-top: 0.5rem;
     }
 
     &__profile-pic {
@@ -214,8 +223,8 @@
 }
 
 .flag {
-    max-width: 1.2rem;
-    max-height: 1.2rem;
+    max-width: 1rem;
+    max-height: 1rem;
 
     border: 1px solid white;
     border-radius: 3px;
@@ -240,7 +249,7 @@
 }
 
 .card-info {
-    align-items: center;
+    align-items: baseline;
 
     margin-top: 0.2rem;
 }
