@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import * as tinycolor from 'tinycolor2';
-import { MatIconRegistry } from '@angular/material';
+import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import { TAvailableIcons } from 'src/app/modules/edit-story-panel/enums/availableIcons.enum';
 

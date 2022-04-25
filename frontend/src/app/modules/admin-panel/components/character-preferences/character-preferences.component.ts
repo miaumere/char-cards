@@ -10,7 +10,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { CharacterItem } from 'src/app/modules/characters/models/character-item.model';
 import { startWith, map } from 'rxjs/operators';
-import { MatDatepicker } from '@angular/material';
+import { MatDatepicker } from '@angular/material/datepicker';
 
 @Component({
     selector: 'app-character-preferences',
