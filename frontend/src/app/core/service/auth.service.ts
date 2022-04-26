@@ -47,7 +47,6 @@ export class AuthService {
     }
 
     private emitLoggedUser() {
-        // console.log("Logged user:", this._loggedUser);
         this.loggedUser$.next(this._loggedUser);
     }
 

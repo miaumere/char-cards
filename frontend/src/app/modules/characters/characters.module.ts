@@ -28,6 +28,7 @@ import { CurrentPreferencesComponent } from './components/characters-article/com
 import { HistoricalPreferencesComponent } from './components/characters-article/components/character-card/subcomponents/char-information/subcomponents/preferences/chart-components/historical-preferences-chart/historical-preferences-chart.component';
 import { PreferencesComponent } from './components/characters-article/components/character-card/subcomponents/char-information/subcomponents/preferences/preferences.component';
 import { StarringInInfoComponent } from './components/characters-article/components/character-card/subcomponents/char-information/subcomponents/starring-in-info/starring-in-info.component';
+import { CharacterMainInfoComponent } from './components/characters-article/components/character-card/subcomponents/character-main-info/character-main-info.component';
 
 @NgModule({
     declarations: [
@@ -46,6 +47,7 @@ import { StarringInInfoComponent } from './components/characters-article/compone
         PreferencesComponent,
         StoryComponent,
         CharInformationComponent,
+        CharacterMainInfoComponent,
     ],
     imports: [
         CommonModule,

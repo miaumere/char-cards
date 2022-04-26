@@ -26,30 +26,17 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
 
     routeId: number | null = null;
     character: Character | null = null;
-    currentImageIndex = 0;
 
     themeColor1 = '';
     bgColor1 = '';
     bgColor2 = '';
 
-    flagURL = '';
-
     preferences: CharacterPreferences[] = [];
-
-    get hasTemperamentInfo(): boolean {
-        return !!(
-            this.character?.temperament?.melancholic ||
-            this.character?.temperament?.sanguine ||
-            this.character?.temperament?.flegmatic ||
-            this.character?.temperament?.choleric
-        );
-    }
 
     constructor(
         private _charactersService: CharactersService,
         private _statisticsService: StatisticsService,
-        private _route: ActivatedRoute,
-        private _countriesService: CountriesService
+        private _route: ActivatedRoute
     ) {
         super();
     }
@@ -57,7 +44,6 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
     ngOnInit() {
         this._route.params.subscribe((route) => {
             this.routeId = route.id;
-            this.currentImageIndex = 0;
             this.getCharacterById();
         });
     }
@@ -70,7 +56,6 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
                 .getCharacterById(this.routeId)
                 .subscribe((character) => {
                     this.character = new Character(character);
-                    this.getNationalityForCharacter();
 
                     this.character.measurements = character.measurements
                         ? new Measurements(character.measurements)
@@ -111,29 +96,5 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
                     this.preferences = preferences;
                 });
         }
-    }
-
-    getNationalityForCharacter() {
-        if (this.character?.nationality) {
-            this.subscriptions$.add(
-                this._countriesService
-                    .getFlagByCode(this.character.nationality)
-                    .subscribe((flag) => {
-                        if (flag) {
-                            this.flagURL = flag;
-                        }
-                    })
-            );
-        }
-    }
-
-    setImage(imageIndex: number) {
-        this.currentImageIndex = imageIndex;
-    }
-
-    getLinearGradientForEyeColor(colors: IColors) {
-        return {
-            'background-image': `linear-gradient(to right, ${colors.eyeColor1} 75%,  ${colors.eyeColor2} 75%,  ${colors.eyeColor2})`,
-        };
     }
 }
