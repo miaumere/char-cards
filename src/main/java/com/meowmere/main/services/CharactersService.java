@@ -95,19 +95,18 @@ public class CharactersService {
 
     public ResponseEntity getNonArchivedCharacters() {
         List<Character> allCharactersFromDb = characterRepository.getNonArchivedCharacters();
-        ModelMapper modelMapper = new ModelMapper();
         ArrayList<CharactersMenuDTO> dtoList = new ArrayList<>();
 
         for(Character characterFromDb : allCharactersFromDb) {
-            CharactersMenuDTO dto = modelMapper.map(characterFromDb, CharactersMenuDTO.class);
             ProfilePicForMainDTO profilePic = new ProfilePicForMainDTO();
             Image image = imageRepository.getProfilePicForCharacter(characterFromDb.getExternalId());
             if(image != null){
                 profilePic.setExtension(image.getExtension());
                 profilePic.setImage(image.getImage());
-                dto.setProfilePic(profilePic);
             }
-            dto.setCharacterType(characterFromDb.getCharType().name());
+
+            CharactersMenuDTO dto = new CharactersMenuDTO(characterFromDb, profilePic);
+
             dtoList.add(dto);
         }
         return new ResponseEntity(dtoList, HttpStatus.OK);

@@ -1,51 +1,36 @@
 package com.meowmere.main.dto.character.character;
 
 import com.meowmere.main.dto.character.image.ProfilePicForMainDTO;
+import com.meowmere.main.entities.characters.Character;
 
 public class CharactersMenuDTO {
-    public Long id;
-    public String charName;
-    public String charSurname;
-    public String characterType;
-    public ProfilePicForMainDTO profilePic;
+    private Long id;
+    private String fullName;
 
-    public ProfilePicForMainDTO getProfilePic() {
-        return profilePic;
+    private String characterType;
+    private ProfilePicForMainDTO profilePic;
+
+    public CharactersMenuDTO() {
+    }
+    public CharactersMenuDTO(Character character, ProfilePicForMainDTO profilePic) {
+        this.id = character.externalId;
+        this.fullName = character.getCharName() + " " + character.getCharSurname();
+        this.profilePic = profilePic;
+        this.characterType = character.getCharType().name();
     }
 
-    public void setProfilePic(ProfilePicForMainDTO profilePic) {
-        this.profilePic = profilePic;
+    public String getFullName() {
+        return fullName;
+    }
+    public ProfilePicForMainDTO getProfilePic() {
+        return profilePic;
     }
 
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getCharName() {
-        return charName;
-    }
-
-    public void setCharName(String charName) {
-        this.charName = charName;
-    }
-
-    public String getCharSurname() {
-        return charSurname;
-    }
-
-    public void setCharSurname(String charSurname) {
-        this.charSurname = charSurname;
-    }
-
     public String getCharacterType() {
         return characterType;
-    }
-
-    public void setCharacterType(String characterType) {
-        this.characterType = characterType;
     }
 }

@@ -128,13 +128,7 @@ public class StoryService {
                     for (StarringCharacters starringCharacter : starringCharacters) {
                         StarringCharacterDTO dto = new StarringCharacterDTO();
 
-                        CharactersMenuDTO charactersMenuDTO = new CharactersMenuDTO();
                         Character character = starringCharacter.getCharacter();
-
-                        charactersMenuDTO.setId(character.getExternalId());
-                        charactersMenuDTO.setCharacterType(character.getCharType().name());
-                        charactersMenuDTO.setCharName(character.getCharName());
-                        charactersMenuDTO.setCharSurname(character.getCharSurname());
 
                         ProfilePicForMainDTO profilePicForMainDTO = new ProfilePicForMainDTO();
 
@@ -142,8 +136,9 @@ public class StoryService {
                         if(image != null) {
                             profilePicForMainDTO.setImage(image.getImage());
                             profilePicForMainDTO.setExtension(image.getExtension());
-                            charactersMenuDTO.setProfilePic(profilePicForMainDTO);
                         }
+
+                        CharactersMenuDTO charactersMenuDTO = new CharactersMenuDTO(character, profilePicForMainDTO);
 
                         dto.setCharacter(charactersMenuDTO);
                         dto.setStarringType(starringCharacter.getStarringType().name());
@@ -206,13 +201,7 @@ public class StoryService {
             for (StarringCharacters starringCharacter : starringCharacters) {
                 StarringCharacterDTO dto = new StarringCharacterDTO();
 
-                CharactersMenuDTO charactersMenuDTO = new CharactersMenuDTO();
                 Character character = starringCharacter.getCharacter();
-
-                charactersMenuDTO.setId(character.getExternalId());
-                charactersMenuDTO.setCharacterType(character.getCharType().name());
-                charactersMenuDTO.setCharName(character.getCharName());
-                charactersMenuDTO.setCharSurname(character.getCharSurname());
 
                 ProfilePicForMainDTO profilePicForMainDTO = new ProfilePicForMainDTO();
 
@@ -220,8 +209,10 @@ public class StoryService {
                 if(image != null) {
                     profilePicForMainDTO.setImage(image.getImage());
                     profilePicForMainDTO.setExtension(image.getExtension());
-                    charactersMenuDTO.setProfilePic(profilePicForMainDTO);
                 }
+
+                CharactersMenuDTO charactersMenuDTO = new CharactersMenuDTO(character, profilePicForMainDTO);
+
 
                 dto.setCharacter(charactersMenuDTO);
                 dto.setStarringType(starringCharacter.getStarringType().name());

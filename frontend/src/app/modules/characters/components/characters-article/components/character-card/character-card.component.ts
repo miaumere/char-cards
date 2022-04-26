@@ -7,14 +7,8 @@ import { BaseComponent } from 'src/app/core/base.component';
 import { Character } from 'src/app/modules/characters/models/character.model';
 import { CharactersService } from 'src/app/core/service/characters.service';
 import { ActivatedRoute } from '@angular/router';
-import { finalize } from 'rxjs/operators';
 import * as tinycolor from 'tinycolor2';
-import {
-    Measurements,
-    IMeasurements,
-} from 'src/app/modules/characters/models/measurements.model';
-import { IPreferenceTypes } from 'src/app/modules/characters/models/preference-type.model';
-import { IColors } from 'src/app/modules/characters/models/colors.model';
+import { Measurements } from 'src/app/modules/characters/models/measurements.model';
 
 @Component({
     selector: 'app-character-card',
