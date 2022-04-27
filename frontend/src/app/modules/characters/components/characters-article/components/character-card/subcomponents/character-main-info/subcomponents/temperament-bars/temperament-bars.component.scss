@@ -1,0 +1,17 @@
+.temperaments {
+    width: 90%;
+
+    margin-top: 1rem;
+}
+
+.temperament {
+    padding-top: 0.5rem;
+
+    &__container {
+        margin-top: 0.4rem;
+
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+    }
+}

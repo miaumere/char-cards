@@ -26,12 +26,6 @@
                 </app-icon>
                 <span class="name">
                     {{ character.charName }} {{ character.charSurname }}
-                    <span
-                        [ngStyle]="{ color: character.colors?.themeColor1 }"
-                        class="name--pseudonim"
-                    >
-                        {{ character.pseudonim }}</span
-                    >
                 </span>
             </span>
         </mat-card-header>
@@ -66,6 +60,15 @@
             {{ 'CHARACTER_CARD.NO_PHOTOS' | translate }}.
         </div>
         <mat-card class="card__info info" [ngStyle]="{ background: bgColor2 }">
+            <span
+                [ngStyle]="{ color: character.colors?.themeColor1 }"
+                class="name--pseudonim"
+            >
+                {{ character.pseudonim }}
+            </span>
+
+            <app-divider></app-divider>
+
             <div class="card-info nationality" *ngIf="flagURL">
                 <span class="info__desc">
                     🏁 {{ 'CHARACTER_CARD.NATIONALITY' | translate }}
@@ -105,7 +108,7 @@
 
             <ng-container *ngIf="character.colors">
                 <div class="info__color color">
-                    <mat-divider></mat-divider>
+                    <app-divider></app-divider>
                     <div class="colors">
                         <div class="color__container">
                             <span class="color__icon">
@@ -180,65 +183,15 @@
                     </div>
                 </div>
             </ng-container>
-            <mat-divider *ngIf="hasTemperamentInfo"></mat-divider>
 
-            <ng-container *ngIf="hasTemperamentInfo">
-                <div class="info__temperament temperament">
-                    <mat-divider></mat-divider>
-                    <div
-                        class="temperament__container"
-                        *ngIf="character.temperament?.melancholic"
-                    >
-                        <span class="info__desc">
-                            {{ 'CHARACTER_CARD.MELANCHOLIC' | translate }}
-                        </span>
-                        <div
-                            appProgressBar
-                            [percentValue]="character.temperament?.melancholic"
-                            temperamentType="melancholic"
-                        ></div>
-                    </div>
-                    <div
-                        class="temperament__container"
-                        *ngIf="character.temperament?.sanguine"
-                    >
-                        <span class="info__desc">
-                            {{ 'CHARACTER_CARD.SANGUINE' | translate }}
-                        </span>
-                        <div
-                            appProgressBar
-                            [percentValue]="character.temperament?.sanguine"
-                            temperamentType="sanguine"
-                        ></div>
-                    </div>
-                    <div
-                        class="temperament__container"
-                        *ngIf="character.temperament?.flegmatic"
-                    >
-                        <span class="info__desc">
-                            {{ 'CHARACTER_CARD.FLEGMATIC' | translate }}
-                        </span>
-                        <div
-                            appProgressBar
-                            [percentValue]="character.temperament?.flegmatic"
-                            temperamentType="flegmatic"
-                        ></div>
-                    </div>
-                    <div
-                        class="temperament__container"
-                        *ngIf="character.temperament?.choleric"
-                    >
-                        <span class="info__desc">
-                            {{ 'CHARACTER_CARD.CHOLERIC' | translate }}
-                        </span>
-                        <div
-                            appProgressBar
-                            [percentValue]="character.temperament?.choleric"
-                            temperamentType="choleric"
-                        ></div>
-                    </div>
-                </div>
-            </ng-container>
+            <app-temperament-bars
+                *ngIf="hasTemperamentInfo"
+                [temperaments]="character.temperament"
+            >
+            </app-temperament-bars>
+
+            <app-divider></app-divider>
+            <app-tags></app-tags>
         </mat-card>
     </mat-card>
 </div>

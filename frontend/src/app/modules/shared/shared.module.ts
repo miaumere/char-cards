@@ -9,6 +9,8 @@ import { BookIconComponent } from './components/book-icon/book-icon.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { GenderIconColorPipe } from './pipes/gender-icon-color';
+import { DividerComponent } from './components/divider/divider.component';
+import { MatDividerModule } from '@angular/material/divider';
 
 const pipes = [NulledPipe, SanitizerPipe, EnumValPipe, GenderIconColorPipe];
 
@@ -16,12 +18,18 @@ const sharedDeclarations = [
     IconComponent,
     BookIconComponent,
     LoaderComponent,
+    DividerComponent,
     ...pipes,
 ];
 
 @NgModule({
     declarations: [...sharedDeclarations],
-    imports: [CommonModule, MatIconModule, MatProgressSpinnerModule],
+    imports: [
+        CommonModule,
+        MatIconModule,
+        MatProgressSpinnerModule,
+        MatDividerModule,
+    ],
     exports: [...sharedDeclarations],
 })
 export class SharedModule {}

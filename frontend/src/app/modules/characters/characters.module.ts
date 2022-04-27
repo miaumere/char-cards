@@ -29,6 +29,9 @@ import { HistoricalPreferencesComponent } from './components/characters-article/
 import { PreferencesComponent } from './components/characters-article/components/character-card/subcomponents/char-information/subcomponents/preferences/preferences.component';
 import { StarringInInfoComponent } from './components/characters-article/components/character-card/subcomponents/char-information/subcomponents/starring-in-info/starring-in-info.component';
 import { CharacterMainInfoComponent } from './components/characters-article/components/character-card/subcomponents/character-main-info/character-main-info.component';
+import { TagsComponent } from './components/tags/tags/tags.component';
+import { MatChipsModule } from '@angular/material/chips';
+import { TemperamentBarsComponent } from './components/characters-article/components/character-card/subcomponents/character-main-info/subcomponents/temperament-bars/temperament-bars.component';
 
 @NgModule({
     declarations: [
@@ -48,6 +51,8 @@ import { CharacterMainInfoComponent } from './components/characters-article/comp
         StoryComponent,
         CharInformationComponent,
         CharacterMainInfoComponent,
+        TagsComponent,
+        TemperamentBarsComponent,
     ],
     imports: [
         CommonModule,
@@ -64,6 +69,7 @@ import { CharacterMainInfoComponent } from './components/characters-article/comp
         MatInputModule,
         MatIconModule,
         MatButtonModule,
+        MatChipsModule,
     ],
     exports: [HistoricalPreferencesComponent],
 

@@ -1,0 +1,45 @@
+<div class="info__temperament temperament">
+    <app-divider></app-divider>
+    <div class="temperaments">
+        <div class="temperament__container" *ngIf="temperaments?.melancholic">
+            <span class="info__desc">
+                {{ 'CHARACTER_CARD.MELANCHOLIC' | translate }}
+            </span>
+            <div
+                appProgressBar
+                [percentValue]="temperaments?.melancholic"
+                temperamentType="melancholic"
+            ></div>
+        </div>
+        <div class="temperament__container" *ngIf="temperaments?.sanguine">
+            <span class="info__desc">
+                {{ 'CHARACTER_CARD.SANGUINE' | translate }}
+            </span>
+            <div
+                appProgressBar
+                [percentValue]="temperaments?.sanguine"
+                temperamentType="sanguine"
+            ></div>
+        </div>
+        <div class="temperament__container" *ngIf="temperaments?.flegmatic">
+            <span class="info__desc">
+                {{ 'CHARACTER_CARD.FLEGMATIC' | translate }}
+            </span>
+            <div
+                appProgressBar
+                [percentValue]="temperaments?.flegmatic"
+                temperamentType="flegmatic"
+            ></div>
+        </div>
+        <div class="temperament__container" *ngIf="temperaments?.choleric">
+            <span class="info__desc">
+                {{ 'CHARACTER_CARD.CHOLERIC' | translate }}
+            </span>
+            <div
+                appProgressBar
+                [percentValue]="temperaments?.choleric"
+                temperamentType="choleric"
+            ></div>
+        </div>
+    </div>
+</div>
