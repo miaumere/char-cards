@@ -1,0 +1,1 @@
+alter table public.images add image_order int4;

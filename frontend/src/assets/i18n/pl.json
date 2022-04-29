@@ -54,7 +54,8 @@
         "STARRED_AS_SIDE": "Występował jako postać poboczna",
         "STARRED_AS_BG": "Występował epizodycznie",
         "STARRED_AS_MTN": "Został wspomniany",
-        "NO_STARRED": "Nie występował ani nie został wspomniany"
+        "NO_STARRED": "Nie występował ani nie został wspomniany",
+        "TAGS": "Tagi"
     },
     "CHARS_PANEL": {
         "NEW_CHAR": "Dodaj nową postać",

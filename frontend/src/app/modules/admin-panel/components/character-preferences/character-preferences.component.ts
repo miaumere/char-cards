@@ -142,8 +142,6 @@ export class CharacterPreferencesComponent
                 date: this.preferencesForm.get('date')?.value,
             };
 
-            console.log(objToSend);
-
             this._charactersService.postEditPreferences(objToSend).subscribe(
                 (_) => {
                     this._toastrService.success(

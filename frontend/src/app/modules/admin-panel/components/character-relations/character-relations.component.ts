@@ -287,10 +287,6 @@ export class CharacterRelationsComponent
                 break;
 
             case RelationshipType[2]:
-                console.log(
-                    'RelationshipType[targetValue]: ',
-                    RelationshipType[targetValue]
-                );
                 objToSend.reversedRelationType = RelationshipType[2];
                 break;
         }

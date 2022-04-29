@@ -14,6 +14,7 @@ export class CharInformationComponent implements OnInit {
     @Input('bgColor') bgColor1: string = '';
 
     @Input() preferences: CharacterPreferences[] = [];
+    @Input() isUserLogged: boolean = false;
 
     constructor() {}
 

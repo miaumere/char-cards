@@ -1,0 +1,122 @@
+<ng-container *ngIf="character">
+    <ng-container>
+        <ng-container *ngIf="character.imagesList.length > 0">
+            <figure
+                *ngFor="let image of character.imagesList; index as i"
+                class="figure"
+            >
+                <img
+                    [src]="
+                        'data:image/' +
+                            image?.extension +
+                            ';base64, ' +
+                            image.image | sanitizer
+                    "
+                    class="profile-pic__image profile-pic__image--inactive"
+                    [ngClass]="{
+                        'profile-pic__image--active': i === currentImageIndex
+                    }"
+                />
+            </figure>
+        </ng-container>
+
+        <div
+            class="buttons-container"
+            cdkDropList
+            [cdkDropListData]="character.imagesList"
+            (cdkDropListDropped)="drop($event)"
+            [cdkDropListDisabled]="!isUserLogged"
+        >
+            <div
+                cdkDrag
+                class="profile-pic__button"
+                [ngStyle]="{ background: bgColor2 }"
+                *ngFor="let image of character.imagesList; index as i"
+            >
+                <mat-icon *ngIf="isUserLogged" class="drag-icon" cdkDragHandle
+                    >drag_indicator</mat-icon
+                >
+
+                <mat-icon
+                    class="drag-icon"
+                    (click)="setChangeImageMode(image)"
+                    *ngIf="image.id !== imageIdToChange"
+                    >edit</mat-icon
+                >
+
+                <mat-icon
+                    class="drag-icon"
+                    *ngIf="image.id === imageIdToChange"
+                    (click)="cancelEditMode()"
+                    >cancel</mat-icon
+                >
+
+                <mat-icon
+                    class="drag-icon"
+                    *ngIf="image.id === imageIdToChange"
+                    (click)="changeImageName()"
+                    >save</mat-icon
+                >
+                <div
+                    class="image-name"
+                    (click)="setImage(i)"
+                    *ngIf="image.id !== imageIdToChange"
+                >
+                    {{ image.name | filenameModifier }}
+                </div>
+
+                <form
+                    [formGroup]="changeImageNameForm"
+                    *ngIf="image.id === imageIdToChange"
+                >
+                    <mat-form-field class="image-input">
+                        <input matInput formControlName="name" />
+                    </mat-form-field>
+                </form>
+
+                <mat-icon
+                    *ngIf="isUserLogged"
+                    class="close-icon"
+                    (click)="insertDeleteInfo()"
+                    (dblclick)="deleteCharacterImage(image.id)"
+                    >close</mat-icon
+                >
+            </div>
+        </div>
+
+        <div *ngIf="isUserLogged" class="file-options">
+            <div class="upload-file">
+                <mat-icon (click)="fileInput.click()" class="file-icon">
+                    attach_file</mat-icon
+                >
+
+                <span
+                    *ngIf="isUserLogged"
+                    [translate]="'SHARED.FILE_INPUT'"
+                    [translateParams]="{ num: filesListNumber }"
+                >
+                </span>
+            </div>
+            <input
+                #fileInput
+                type="file"
+                (change)="
+                    handleFileInput($event.target.files, true);
+                    preview($event.target.files)
+                "
+                multiple
+                style="display: none"
+            />
+
+            <mat-icon (click)="setNewImages()" class="file-icon"
+                >save_alt</mat-icon
+            >
+        </div>
+    </ng-container>
+    <div
+        class="card__profile-pic--empty"
+        *ngIf="character.imagesList.length === 0"
+    >
+        {{ 'CHARACTER_CARD.NO_PHOTOS' | translate }}.
+    </div>
+</ng-container>

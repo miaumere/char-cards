@@ -138,6 +138,11 @@ public class CharacterController {
         return charactersService.changeImageName(request);
     }
 
+    @PatchMapping("/change-images-order")
+    public ResponseEntity changeImagesOrder(@RequestBody Long[] ids) {
+        return charactersService.changeImagesOrder(ids);
+    }
+
     @DeleteMapping("/delete-quote")
     public ResponseEntity deleteQuote(@RequestParam Long id) {
         return charactersService.deleteQuote(id);

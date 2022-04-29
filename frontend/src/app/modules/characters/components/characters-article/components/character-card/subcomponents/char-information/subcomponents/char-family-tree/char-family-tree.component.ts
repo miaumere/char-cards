@@ -14,9 +14,8 @@ export class CharFamilyTreeComponent implements OnInit {
     constructor() {}
 
     ngOnInit() {
-        console.log('charRelationships: ', this.charRelationships);
-
         // FIXME: dodać typ relacji CRUSH
+
         if (
             this.charRelationships &&
             Array.isArray(this.charRelationships) &&

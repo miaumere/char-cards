@@ -32,6 +32,8 @@ import { CharacterMainInfoComponent } from './components/characters-article/comp
 import { TagsComponent } from './components/tags/tags/tags.component';
 import { MatChipsModule } from '@angular/material/chips';
 import { TemperamentBarsComponent } from './components/characters-article/components/character-card/subcomponents/character-main-info/subcomponents/temperament-bars/temperament-bars.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { ImagesComponent } from './components/characters-article/components/character-card/subcomponents/character-main-info/subcomponents/images/images.component';
 
 @NgModule({
     declarations: [
@@ -53,6 +55,7 @@ import { TemperamentBarsComponent } from './components/characters-article/compon
         CharacterMainInfoComponent,
         TagsComponent,
         TemperamentBarsComponent,
+        ImagesComponent,
     ],
     imports: [
         CommonModule,
@@ -70,6 +73,7 @@ import { TemperamentBarsComponent } from './components/characters-article/compon
         MatIconModule,
         MatButtonModule,
         MatChipsModule,
+        DragDropModule,
     ],
     exports: [HistoricalPreferencesComponent],
 

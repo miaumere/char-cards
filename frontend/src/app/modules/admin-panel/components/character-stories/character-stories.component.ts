@@ -112,7 +112,6 @@ export class CharacterStoriesComponent extends BaseComponent implements OnInit {
                 .getStoriesForCharacter(this.charId)
                 .subscribe((stories) => {
                     this.stories = stories;
-                    console.log(stories);
                 })
         );
     }
@@ -143,8 +142,6 @@ export class CharacterStoriesComponent extends BaseComponent implements OnInit {
 
     openEditModal(title: string, desc: string, storyId: number) {
         const data: IDialogData = { title, desc };
-
-        console.log('data: ', data);
 
         const dialogRef = this.dialog.open(EditCharacterStoryComponent, {
             width: '500px',

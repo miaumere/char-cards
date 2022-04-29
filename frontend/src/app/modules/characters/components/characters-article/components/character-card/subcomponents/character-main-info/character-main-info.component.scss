@@ -10,41 +10,6 @@
     }
 }
 
-.profile-pic {
-    display: flex;
-    align-items: center;
-
-    max-width: 300px;
-
-    &__image {
-        width: 190px;
-        height: 250px;
-        object-fit: scale-down;
-
-        background-position: 50% 50%;
-        background-repeat: no-repeat;
-        background-size: cover;
-
-        &--inactive {
-            display: none;
-        }
-
-        &--active {
-            display: block;
-        }
-    }
-
-    &__button {
-        padding: 0.3rem;
-        margin: 0.3rem;
-        border-radius: 3px;
-
-        font-size: 0.6rem;
-
-        background: rgb(48, 48, 48);
-    }
-}
-
 .flag {
     max-width: 1rem;
     max-height: 1rem;
@@ -76,9 +41,12 @@
     &__type {
         border-radius: 3px;
         padding: 0 0.5rem;
+        margin-right: 3rem;
     }
 
     &__name {
+        height: 1rem;
+
         display: flex;
         align-items: center;
 

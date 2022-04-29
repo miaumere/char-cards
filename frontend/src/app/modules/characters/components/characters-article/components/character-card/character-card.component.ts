@@ -9,6 +9,7 @@ import { CharactersService } from 'src/app/core/service/characters.service';
 import { ActivatedRoute } from '@angular/router';
 import * as tinycolor from 'tinycolor2';
 import { Measurements } from 'src/app/modules/characters/models/measurements.model';
+import { AuthService } from 'src/app/core/service/auth.service';
 
 @Component({
     selector: 'app-character-card',
@@ -27,10 +28,13 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
 
     preferences: CharacterPreferences[] = [];
 
+    isUserLogged = false;
+
     constructor(
         private _charactersService: CharactersService,
         private _statisticsService: StatisticsService,
-        private _route: ActivatedRoute
+        private _route: ActivatedRoute,
+        private _authService: AuthService
     ) {
         super();
     }
@@ -40,6 +44,12 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
             this.routeId = route.id;
             this.getCharacterById();
         });
+
+        this.subscriptions$.add(
+            this._authService.isUserLogged$.subscribe((isUserLogged) => {
+                this.isUserLogged = isUserLogged;
+            })
+        );
     }
 
     getCharacterById() {

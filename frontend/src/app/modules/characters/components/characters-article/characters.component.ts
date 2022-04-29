@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { BaseComponent } from 'src/app/core/base.component';
+import { AuthService } from 'src/app/core/service/auth.service';
 import * as tinycolor from 'tinycolor2';
 
 @Component({
@@ -9,6 +10,10 @@ import * as tinycolor from 'tinycolor2';
 })
 export class CharactersComponent extends BaseComponent implements OnInit {
     childBackground = '';
+
+    constructor() {
+        super();
+    }
     ngOnInit() {}
 
     bgColorFromChild(bgColor: string) {

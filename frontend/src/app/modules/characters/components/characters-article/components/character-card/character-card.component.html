@@ -4,6 +4,8 @@
         [color]="themeColor1"
         [bgColor]="bgColor1"
         [bgColorSecond]="bgColor2"
+        [isUserLogged]="isUserLogged"
+        (infoHasChangedEvent)="getCharacterById()"
     >
     </app-character-main-info>
 
@@ -12,6 +14,7 @@
         [color]="themeColor1"
         [preferences]="preferences"
         [bgColor]="bgColor1"
+        [isUserLogged]="isUserLogged"
     >
     </app-char-information>
 </section>

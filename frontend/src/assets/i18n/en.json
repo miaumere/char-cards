@@ -54,7 +54,8 @@
         "STARRED_AS_SIDE": "Starred as side character",
         "STARRED_AS_BG": "Background appearance",
         "STARRED_AS_MTN": "No appearance, but a mention by name or title",
-        "NO_STARRED": "No appearance and no mention"
+        "NO_STARRED": "No appearance and no mention",
+        "TAGS": "Tags"
     },
     "CHARS_PANEL": {
         "NEW_CHAR": "Add new character",

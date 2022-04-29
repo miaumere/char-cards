@@ -11,6 +11,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { GenderIconColorPipe } from './pipes/gender-icon-color';
 import { DividerComponent } from './components/divider/divider.component';
 import { MatDividerModule } from '@angular/material/divider';
+import { EditIconComponent } from './components/edit-icon/edit-icon.component';
 
 const pipes = [NulledPipe, SanitizerPipe, EnumValPipe, GenderIconColorPipe];
 
@@ -19,6 +20,7 @@ const sharedDeclarations = [
     BookIconComponent,
     LoaderComponent,
     DividerComponent,
+    EditIconComponent,
     ...pipes,
 ];
 

@@ -385,6 +385,21 @@ public class CharactersService {
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
+    public ResponseEntity changeImagesOrder(Long[] ids) {
+        for (int i = 0; i < ids.length; i++) {
+           Long currentId = ids[i];
+           Image image = imageRepository.getOne(currentId);
+            if(image == null) {
+                continue;
+            }
+
+            image.setImageOrder(i);
+            imageRepository.saveAndFlush(image);
+        }
+
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
+    }
+
     public ResponseEntity createCharacter(CreateCharacterRequest request) {
         Character character = new Character();
         if(request.getBirthday() != null) {

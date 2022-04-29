@@ -55,7 +55,6 @@ export class EditStoryMenuComponent extends BaseComponent implements OnInit {
         objToSend.color = this.form.controls['bookColor'].value;
         objToSend.icon = this.form.controls['icon'].value;
 
-        console.log(objToSend);
         this._storyService.createBook(objToSend).subscribe(
             (_) => {
                 this._toastrService.success(

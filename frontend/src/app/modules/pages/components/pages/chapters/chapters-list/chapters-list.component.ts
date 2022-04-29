@@ -28,7 +28,6 @@ export class ChaptersListComponent extends BaseComponent implements OnInit {
 
     ngOnInit() {
         this._activatedRoute?.parent?.queryParams.subscribe((queryParam) => {
-            console.log(queryParam);
             this.bookId = +queryParam.id;
             this.bookColor = queryParam.color;
             const bookColor = tinycolor(queryParam.color);

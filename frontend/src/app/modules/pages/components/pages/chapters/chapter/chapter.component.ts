@@ -51,7 +51,6 @@ export class ChapterComponent extends BaseComponent implements OnInit {
                 .subscribe((chapter) => {
                     if (chapter?.pagesIds) {
                         this.pagesNumber = chapter.pagesIds;
-                        console.log(this.pagesNumber);
                     }
                 })
         );

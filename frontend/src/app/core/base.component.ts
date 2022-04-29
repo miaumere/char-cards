@@ -1,33 +1,20 @@
-
 import { Subscription } from 'rxjs';
 import { OnDestroy, Directive } from '@angular/core';
 
 @Directive()
 export abstract class BaseComponent implements OnDestroy {
+    protected subscriptions$ = new Subscription();
 
-  protected subscriptions$ = new Subscription();
-  // protected authService: AuthService;
+    constructor() {
+        const onDestroyF = this.ngOnDestroy;
 
-  constructor() {
-    // this.authService = ServiceLocator.injector.get(AuthService);
+        this.ngOnDestroy = () => {
+            this.subscriptions$.unsubscribe();
+            onDestroyF.bind(this)();
+        };
+    }
 
-
-
-    const onDestroyF = this.ngOnDestroy;
-
-    this.ngOnDestroy = () => {
-      this.subscriptions$.unsubscribe();
-      onDestroyF.bind(this)();
-    };
-
-
-
-  }
-
-
-
-  ngOnDestroy() {
-    // WARNING - Do not use ngOnDestroy logic here! Instead add to lambda func in constructor
-  }
-
+    ngOnDestroy() {
+        // WARNING - Do not use ngOnDestroy logic here! Instead add to lambda func in constructor
+    }
 }

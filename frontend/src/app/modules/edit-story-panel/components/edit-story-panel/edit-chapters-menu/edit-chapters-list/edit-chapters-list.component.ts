@@ -63,7 +63,6 @@ export class EditChaptersListMenuComponent
                     if (book) {
                         this.book = book;
                         const bookColor = tinycolor(book?.color);
-                        console.log(this.bookId);
                         if (bookColor.isLight()) {
                             this.fontColor = 'black';
                         }

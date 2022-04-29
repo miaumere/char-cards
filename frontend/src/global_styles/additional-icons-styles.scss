@@ -1,0 +1,25 @@
+.tag-icon {
+    margin-bottom: -0.5rem;
+}
+.edit-icon {
+    cursor: pointer;
+
+    display: block;
+
+    height: 1rem;
+    margin-top: -1rem;
+}
+
+.drag-icon,
+.close-icon {
+    cursor: pointer;
+
+    font-size: 0.6rem;
+    height: 0.6rem !important;
+
+    color: grey;
+}
+
+.close-icon {
+    color: tomato;
+}

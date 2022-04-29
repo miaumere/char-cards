@@ -13,6 +13,6 @@ public interface ImageRepository  extends JpaRepository<Image, Long> {
     @Query("SELECT i FROM Image i WHERE i.character.externalId = :externalId AND i.isProfilePic = true")
     Image getProfilePicForCharacter(@Param("externalId") Long externalId);
 
-    @Query("SELECT i FROM Image i WHERE i.character.externalId = :externalId AND i.isProfilePic = false ORDER BY i.name asc")
+    @Query("SELECT i FROM Image i WHERE i.character.externalId = :externalId AND i.isProfilePic = false ORDER BY i.imageOrder asc")
     List<Image> getImagesForCharacter(@Param("externalId") Long externalId);
 }

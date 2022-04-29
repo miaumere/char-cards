@@ -1,3 +1,10 @@
+<button
+    (click)="isUserLogged = !isUserLogged"
+    style="margin-top: 1rem; background: red"
+>
+    {{ isUserLogged }}
+</button>
+
 <div class="card" *ngIf="character">
     <mat-card [ngStyle]="{ background: bgColor1 }">
         <span
@@ -15,50 +22,40 @@
                 'enum.charType.BACKGROUND' | translate
             }}</span>
         </span>
-        <mat-card-header>
-            <span class="card__name">
-                <app-icon
-                    *ngIf="character.gender"
-                    [icon]="character.gender | lowercase"
-                    [color]="character.gender | genderIconColor"
-                    [size]="'0.7'"
-                >
-                </app-icon>
-                <span class="name">
-                    {{ character.charName }} {{ character.charSurname }}
-                </span>
+        <span class="card__name">
+            <app-edit-icon
+                (clickedEvent)="clicked()"
+                [isUserLogged]="isUserLogged"
+            ></app-edit-icon>
+
+            <app-icon
+                *ngIf="character.gender"
+                [icon]="character.gender | lowercase"
+                [color]="character.gender | genderIconColor"
+                [size]="'0.7'"
+            >
+            </app-icon>
+            <app-edit-icon
+                (clickedEvent)="clicked()"
+                [isUserLogged]="isUserLogged"
+            ></app-edit-icon>
+            <span
+                class="name"
+                [ngStyle]="{ 'margin-left': isUserLogged ? '0' : '1rem' }"
+            >
+                {{ character.charName }}
+                {{ character.charSurname }}
             </span>
-        </mat-card-header>
-        <ng-container *ngIf="character.imagesList.length > 0">
-            <img
-                *ngFor="let image of character.imagesList; index as i"
-                [src]="
-                    'data:image/' + image?.extension + ';base64, ' + image.image
-                        | sanitizer
-                "
-                class="profile-pic__image profile-pic__image--inactive"
-                [ngClass]="{
-                    'profile-pic__image--active': i === currentImageIndex
-                }"
-            />
-            <div>
-                <button
-                    class="profile-pic__button"
-                    [ngStyle]="{ background: bgColor2 }"
-                    matRipple
-                    *ngFor="let image of character.imagesList; index as i"
-                    (click)="setImage(i)"
-                >
-                    {{ image.name | filenameModifier }}
-                </button>
-            </div>
-        </ng-container>
-        <div
-            class="card__profile-pic--empty"
-            *ngIf="character.imagesList.length === 0"
+        </span>
+
+        <app-images
+            [character]="character"
+            [isUserLogged]="isUserLogged"
+            [bgColor]="bgColor2"
+            (imagesHaveChangedEvent)="emitInfoHasChangedEvent()"
         >
-            {{ 'CHARACTER_CARD.NO_PHOTOS' | translate }}.
-        </div>
+        </app-images>
+
         <mat-card class="card__info info" [ngStyle]="{ background: bgColor2 }">
             <span
                 [ngStyle]="{ color: character.colors?.themeColor1 }"
@@ -191,6 +188,16 @@
             </app-temperament-bars>
 
             <app-divider></app-divider>
+            <span class="info__desc">
+                <app-icon
+                    [icon]="'list'"
+                    [color]="'#90a4ae'"
+                    [size]="'0.4'"
+                    [additionalClasses]="'tag-icon'"
+                ></app-icon>
+                {{ 'CHARACTER_CARD.TAGS' | translate }}</span
+            >
+            <div class="tags-container"></div>
             <app-tags></app-tags>
         </mat-card>
     </mat-card>

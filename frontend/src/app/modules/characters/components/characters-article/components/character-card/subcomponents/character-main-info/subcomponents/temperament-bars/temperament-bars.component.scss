@@ -1,3 +1,5 @@
+@import 'variables';
+
 .temperaments {
     width: 90%;
 
@@ -13,5 +15,26 @@
         display: flex;
         justify-content: space-between;
         align-items: baseline;
+    }
+}
+
+.info {
+    font-size: 0.7rem;
+    background: #1d1d1d;
+    padding-top: 0.5rem;
+
+    &__desc {
+        font-weight: bold;
+        font-size: smaller;
+        text-transform: uppercase;
+        color: $accent;
+    }
+
+    &__data {
+        margin-left: 0.5rem;
+
+        &--death {
+            color: rgb(124, 52, 52);
+        }
     }
 }

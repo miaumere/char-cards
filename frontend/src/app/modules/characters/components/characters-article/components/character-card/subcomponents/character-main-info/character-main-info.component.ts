@@ -1,8 +1,27 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+    CdkDragDrop,
+    moveItemInArray,
+    transferArrayItem,
+} from '@angular/cdk/drag-drop';
+import {
+    Component,
+    EventEmitter,
+    Input,
+    OnInit,
+    Output,
+    ViewChild,
+} from '@angular/core';
+import { FormGroup, FormControl } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
 import { BaseComponent } from 'src/app/core/base.component';
+import { CharactersService } from 'src/app/core/service/characters.service';
 import { CountriesService } from 'src/app/core/service/countries.service';
+import { IProfilePic } from 'src/app/modules/admin-panel/models/images/profile-pic.model';
 import { Character } from 'src/app/modules/characters/models/character.model';
 import { IColors } from 'src/app/modules/characters/models/colors.model';
+import { IImageForMain } from 'src/app/modules/characters/models/image-for-main.model';
 
 @Component({
     selector:
@@ -18,8 +37,10 @@ export class CharacterMainInfoComponent
     @Input('color') themeColor1: string = '';
     @Input('bgColor') bgColor1: string = '';
     @Input('bgColorSecond') bgColor2: string = '';
+    @Input() isUserLogged: boolean = false;
 
-    currentImageIndex = 0;
+    @Output() infoHasChangedEvent = new EventEmitter<true>();
+
     flagURL = '';
 
     get hasTemperamentInfo(): boolean {
@@ -39,6 +60,10 @@ export class CharacterMainInfoComponent
         this.getNationalityForCharacter();
     }
 
+    emitInfoHasChangedEvent() {
+        this.infoHasChangedEvent.emit(true);
+    }
+
     getNationalityForCharacter() {
         if (this.character?.nationality) {
             this.subscriptions$.add(
@@ -53,13 +78,15 @@ export class CharacterMainInfoComponent
         }
     }
 
-    setImage(imageIndex: number) {
-        this.currentImageIndex = imageIndex;
-    }
-
     getLinearGradientForEyeColor(colors: IColors) {
         return {
             'background-image': `linear-gradient(to right, ${colors.eyeColor1} 75%,  ${colors.eyeColor2} 75%,  ${colors.eyeColor2})`,
         };
+    }
+
+    clicked() {
+        if (this.character) {
+            Object.keys(this.character);
+        }
     }
 }

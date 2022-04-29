@@ -54,7 +54,8 @@
         "STARRED_AS_SIDE": "Nebengrundaussehen",
         "STARRED_AS_BG": "Hintergrundaussehen",
         "STARRED_AS_MTN": "Nur erwähnt",
-        "NO_STARRED": "Kein Auftritt und keine Erwähnung"
+        "NO_STARRED": "Kein Auftritt und keine Erwähnung",
+        "TAGS": "Stchiworte"
     },
     "CHARS_PANEL": {
         "NEW_CHAR": "Neue Figure hinzufügen",

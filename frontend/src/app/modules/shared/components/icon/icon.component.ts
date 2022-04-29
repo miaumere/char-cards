@@ -24,7 +24,8 @@ type iconType =
     | 'female'
     | 'unknowngender'
     | 'nonbinary'
-    | 'heart';
+    | 'heart'
+    | 'list';
 
 @Component({
     selector: 'app-icon',
@@ -35,6 +36,8 @@ export class IconComponent implements OnInit {
     @Input() icon: iconType = '';
     @Input() color = '';
     @Input() size = '';
+
+    @Input() additionalClasses = '';
 
     constructor() {}
     // Przykładowe zastosowanie komponentu z ikonką:
