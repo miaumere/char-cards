@@ -32,12 +32,7 @@ export class ProfilePicComponent extends BaseComponent implements OnInit {
     isProfilePicChosen = false;
     profilePic: File | undefined;
 
-    constructor(
-        private _toastrService: ToastrService,
-        private _characterService: CharactersService,
-        private _translate: TranslateService,
-        public dialog: MatDialog
-    ) {
+    constructor(public dialog: MatDialog) {
         super();
     }
 
@@ -49,51 +44,23 @@ export class ProfilePicComponent extends BaseComponent implements OnInit {
         this.openCropImageDialog(event);
     }
 
-    setNewImages() {
-        const formData = new FormData();
-
-        if (this.profilePic) {
-            formData.append('profilePic', this.profilePic);
-        }
-        if (this.images) {
-            for (let i = 0; i < this.images.length; i++) {
-                formData.append('image' + i, this.images[i]);
-            }
-        }
-
-        this.subscriptions$.add(
-            this._characterService
-                .postEditImages(formData, this.charId)
-
-                .subscribe(
-                    (_) => {
-                        this._toastrService.success(
-                            this._translate.instant(
-                                'TOASTR_MESSAGE.SAVE_SUCCESS'
-                            )
-                        );
-                        this.imgURLList = [];
-                        this.filesListNumber = 0;
-                        this.isProfilePicChosen = false;
-                        this.profilePicChangedEvent.emit();
-                    },
-                    (err) => {
-                        this._toastrService.error(
-                            this._translate.instant('TOASTR_MESSAGE.ERROR')
-                        );
-                    }
-                )
-        );
-    }
-
     openCropImageDialog(event: any) {
         const data: CropProfilePicDialogData = {
             profilePicChangeEvent: event,
             currentProfilePic: this.profilePicFromCharacter,
             charId: this.charId,
         };
-        this.dialog.open(CropProfilePicComponent, {
-            data,
-        });
+        this.dialog
+            .open(CropProfilePicComponent, {
+                data,
+            })
+            .afterClosed()
+            .subscribe((shouldReloadProfilePic: boolean) => {
+                if (!!shouldReloadProfilePic) {
+                    this.profilePicChangedEvent.emit();
+                }
+                this.isProfilePicChosen = false;
+                this.imgURLList = [];
+            });
     }
 }

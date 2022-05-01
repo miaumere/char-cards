@@ -55,7 +55,9 @@
         "STARRED_AS_BG": "Hintergrundaussehen",
         "STARRED_AS_MTN": "Nur erwähnt",
         "NO_STARRED": "Kein Auftritt und keine Erwähnung",
-        "TAGS": "Stchiworte"
+        "TAGS": "Stchiworte",
+        "CURRENT_PROFILE_PIC": "Aktuelles Profilbild",
+        "FUTURE_PROFILE_PIC": "Neues Profilbild"
     },
     "CHARS_PANEL": {
         "NEW_CHAR": "Neue Figure hinzufügen",

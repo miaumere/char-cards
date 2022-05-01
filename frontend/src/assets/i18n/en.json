@@ -55,7 +55,9 @@
         "STARRED_AS_BG": "Background appearance",
         "STARRED_AS_MTN": "No appearance, but a mention by name or title",
         "NO_STARRED": "No appearance and no mention",
-        "TAGS": "Tags"
+        "TAGS": "Tags",
+        "CURRENT_PROFILE_PIC": "Current profile pic",
+        "FUTURE_PROFILE_PIC": "New profile pic"
     },
     "CHARS_PANEL": {
         "NEW_CHAR": "Add new character",

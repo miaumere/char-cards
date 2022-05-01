@@ -55,7 +55,9 @@
         "STARRED_AS_BG": "Występował epizodycznie",
         "STARRED_AS_MTN": "Został wspomniany",
         "NO_STARRED": "Nie występował ani nie został wspomniany",
-        "TAGS": "Tagi"
+        "TAGS": "Tagi",
+        "CURRENT_PROFILE_PIC": "Obecne profilowe",
+        "FUTURE_PROFILE_PIC": "Nowe profilowe"
     },
     "CHARS_PANEL": {
         "NEW_CHAR": "Dodaj nową postać",

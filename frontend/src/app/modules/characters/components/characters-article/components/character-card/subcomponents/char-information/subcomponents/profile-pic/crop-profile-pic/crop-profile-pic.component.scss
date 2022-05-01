@@ -17,7 +17,7 @@
 .pic-container {
     display: flex;
     flex-direction: column;
-    margin: 0 0.5rem;
+    margin: 0.5rem 0;
 
     &__title {
         margin-bottom: -0.5rem;
@@ -26,8 +26,25 @@
 
 .pics-comparison {
     display: flex;
+    flex-direction: column;
+
+    margin-right: 1rem;
 }
 
 .image-cropper-container {
-    background: #5e5e5e;
+    background: #a5a5a5;
+}
+
+.options-container {
+    display: flex;
+}
+.option-buttons {
+    display: flex;
+    flex-direction: column;
+
+    margin-left: 1.25rem;
+}
+
+.crop-profile-pic {
+    display: flex;
 }

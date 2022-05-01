@@ -1,30 +1,53 @@
-<div class="pics-comparison">
-    <div class="pic-container">
-        <span class="pic-container__title"> current: </span>
-        <app-profile-pic
-            [charId]="data.charId"
-            [profilePic]="data.currentProfilePic"
-        ></app-profile-pic>
+<div class="crop-profile-pic">
+    <div class="options-container">
+        <div class="pics-comparison">
+            <div class="pic-container">
+                <span class="pic-container__title">
+                    🚞 {{ 'CHARACTER_CARD.CURRENT_PROFILE_PIC' | translate }}
+                </span>
+                <app-profile-pic
+                    [charId]="data.charId"
+                    [profilePic]="data.currentProfilePic"
+                ></app-profile-pic>
+            </div>
+            <div class="pic-container">
+                <span class="pic-container__title">
+                    ⛺ {{ 'CHARACTER_CARD.FUTURE_PROFILE_PIC' | translate }}
+                </span>
+                <img [src]="croppedImage" class="profile-pic-preview" />
+            </div>
+        </div>
     </div>
-    <div class="pic-container">
-        <span class="pic-container__title"> future: </span>
-        <img [src]="croppedImage" class="profile-pic-preview" />
-    </div>
-</div>
 
-<div class="image-cropper-container">
-    <app-image-cropper
-        [imageChangedEvent]="imageChangedEvent"
-        [aspectRatio]="4 / 4"
-        [resizeToWidth]="100"
-        [cropperMinWidth]="50"
-        [onlyScaleDown]="true"
-        [alignImage]="'left'"
-        [style.display]="showCropper ? null : 'none'"
-        format="png"
-        (imageCropped)="imageCropped($event)"
-        (imageLoaded)="imageLoaded()"
-        (cropperReady)="cropperReady($event)"
-        (loadImageFailed)="loadImageFailed()"
-    ></app-image-cropper>
+    <div class="image-cropper-container">
+        <app-image-cropper
+            [imageChangedEvent]="imageChangedEvent"
+            [aspectRatio]="4 / 4"
+            [resizeToWidth]="100"
+            [cropperMinWidth]="50"
+            [onlyScaleDown]="true"
+            [alignImage]="'left'"
+            [style.display]="showCropper ? null : 'none'"
+            format="png"
+            (imageCropped)="imageCropped($event)"
+            (imageLoaded)="imageLoaded()"
+            (cropperReady)="cropperReady($event)"
+            (loadImageFailed)="loadImageFailed()"
+        ></app-image-cropper>
+    </div>
+
+    <div class="option-buttons">
+        <mat-icon
+            class="option-icon option-icon--cancel"
+            style="font-size: 1rem"
+            (click)="closeDialog()"
+            >cancel</mat-icon
+        >
+        <mat-icon
+            class="option-icon file-icon--save"
+            style="margin-top: 1rem; font-size: 1rem"
+            (click)="saveProfilePic()"
+            >save_alt</mat-icon
+        >
+    </div>
 </div>

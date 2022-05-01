@@ -35,7 +35,7 @@ $image-cropper-width: 50vw;
         color: #53535c;
         background: transparent;
         outline: rgba(255, 255, 255, 0.3) solid 50vw;
-        outline: var(--cropper-outline-color, rgba(0, 0, 0, 0.3)) solid 50vw;
+        outline: var(--cropper-outline-color, rgba(0, 0, 0, 0.6)) solid 50vw;
         touch-action: none;
 
         &:after {
