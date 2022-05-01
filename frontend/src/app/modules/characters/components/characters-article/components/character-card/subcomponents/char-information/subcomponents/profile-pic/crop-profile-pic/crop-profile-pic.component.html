@@ -1,1 +1,30 @@
-<p>crop-profile-pic works!</p>
+<div class="pics-comparison">
+    <div class="pic-container">
+        <span class="pic-container__title"> current: </span>
+        <app-profile-pic
+            [charId]="data.charId"
+            [profilePic]="data.currentProfilePic"
+        ></app-profile-pic>
+    </div>
+    <div class="pic-container">
+        <span class="pic-container__title"> future: </span>
+        <img [src]="croppedImage" class="profile-pic-preview" />
+    </div>
+</div>
+
+<div class="image-cropper-container">
+    <app-image-cropper
+        [imageChangedEvent]="imageChangedEvent"
+        [aspectRatio]="4 / 4"
+        [resizeToWidth]="100"
+        [cropperMinWidth]="50"
+        [onlyScaleDown]="true"
+        [alignImage]="'left'"
+        [style.display]="showCropper ? null : 'none'"
+        format="png"
+        (imageCropped)="imageCropped($event)"
+        (imageLoaded)="imageLoaded()"
+        (cropperReady)="cropperReady($event)"
+        (loadImageFailed)="loadImageFailed()"
+    ></app-image-cropper>
+</div>

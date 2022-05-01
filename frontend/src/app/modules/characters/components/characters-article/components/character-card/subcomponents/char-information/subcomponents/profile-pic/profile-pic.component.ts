@@ -7,7 +7,10 @@ import { BaseComponent } from 'src/app/core/base.component';
 import { CharactersService } from 'src/app/core/service/characters.service';
 import { IProfilePic } from 'src/app/modules/admin-panel/models/images/profile-pic.model';
 import { Character } from 'src/app/modules/characters/models/character.model';
-import { CropProfilePicComponent } from './crop-profile-pic/crop-profile-pic.component';
+import {
+    CropProfilePicComponent,
+    CropProfilePicDialogData,
+} from './crop-profile-pic/crop-profile-pic.component';
 
 @Component({
     selector: 'app-profile-pic [profilePic] [charId]',
@@ -27,7 +30,7 @@ export class ProfilePicComponent extends BaseComponent implements OnInit {
     filesListNumber = 0;
 
     isProfilePicChosen = false;
-    profilePic: File | null = null;
+    profilePic: File | undefined;
 
     constructor(
         private _toastrService: ToastrService,
@@ -40,24 +43,10 @@ export class ProfilePicComponent extends BaseComponent implements OnInit {
 
     ngOnInit(): void {}
 
-    handleFileInput(files: FileList) {
-        this.profilePic = files.item(0);
+    handleFileInput(event: any) {
+        this.profilePic = event.target.files.item(0) as File;
         this.isProfilePicChosen = true;
-    }
-
-    preview(files: FileList) {
-        this.imgURLList = [];
-        if (files.length === 0) {
-            return;
-        }
-
-        for (let i = 0; i < files.length; i++) {
-            const reader = new FileReader();
-            reader.readAsDataURL(files[i]);
-            reader.onload = (e) => {
-                this.imgURLList.push(reader.result);
-            };
-        }
+        this.openCropImageDialog(event);
     }
 
     setNewImages() {
@@ -97,11 +86,14 @@ export class ProfilePicComponent extends BaseComponent implements OnInit {
         );
     }
 
-    openCropImageDialog() {
+    openCropImageDialog(event: any) {
+        const data: CropProfilePicDialogData = {
+            profilePicChangeEvent: event,
+            currentProfilePic: this.profilePicFromCharacter,
+            charId: this.charId,
+        };
         this.dialog.open(CropProfilePicComponent, {
-            data: {
-                animal: 'panda',
-            },
+            data,
         });
     }
 }

@@ -1,0 +1,33 @@
+.profile-pic-preview {
+    height: 100px;
+    width: 100px;
+
+    box-sizing: border-box;
+
+    border-radius: 3px;
+    border: 1px solid black;
+    margin-top: 1rem;
+    transition: 0.3s;
+
+    &:hover {
+        border-color: white;
+    }
+}
+
+.pic-container {
+    display: flex;
+    flex-direction: column;
+    margin: 0 0.5rem;
+
+    &__title {
+        margin-bottom: -0.5rem;
+    }
+}
+
+.pics-comparison {
+    display: flex;
+}
+
+.image-cropper-container {
+    background: #5e5e5e;
+}

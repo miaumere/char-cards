@@ -37,6 +37,7 @@ import { ImagesComponent } from './components/characters-article/components/char
 import { ProfilePicComponent } from './components/characters-article/components/character-card/subcomponents/char-information/subcomponents/profile-pic/profile-pic.component';
 import { QuotesComponent } from './components/characters-article/components/character-card/subcomponents/char-information/subcomponents/quotes/quotes.component';
 import { CropProfilePicComponent } from './components/characters-article/components/character-card/subcomponents/char-information/subcomponents/profile-pic/crop-profile-pic/crop-profile-pic.component';
+import { ImageCropperComponent } from './components/characters-article/components/character-card/subcomponents/char-information/subcomponents/profile-pic/crop-profile-pic/image-cropper/image-cropper.component';
 
 @NgModule({
     declarations: [
@@ -62,6 +63,7 @@ import { CropProfilePicComponent } from './components/characters-article/compone
         ProfilePicComponent,
         QuotesComponent,
         CropProfilePicComponent,
+        ImageCropperComponent,
     ],
     imports: [
         CommonModule,
