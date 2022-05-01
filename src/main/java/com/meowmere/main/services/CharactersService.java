@@ -196,6 +196,14 @@ public class CharactersService {
         }
         dto.setImagesList(imagesList);
 
+        ProfilePicForMainDTO profilePic = new ProfilePicForMainDTO();
+        Image image = imageRepository.getProfilePicForCharacter(oneCharacter.getExternalId());
+        if(image != null){
+            profilePic.setExtension(image.getExtension());
+            profilePic.setImage(image.getImage());
+        }
+        dto.setProfilePic(profilePic);
+
         ArrayList<BookWithStarringCharsDTO> bookWithStarringCharsDTOS = new ArrayList<>();
         List<Book> books = bookRepository.findAll();
         if(books != null) {

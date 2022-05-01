@@ -1,0 +1,12 @@
+<img
+    class="character__profile-pic"
+    *ngIf="profilePic"
+    [src]="
+        'data:image/' + profilePic?.extension + ';base64, ' + profilePic.image
+            | sanitizer
+    "
+/>
+<div
+    *ngIf="!profilePic"
+    class="character__profile-pic character__profile-pic--empty"
+></div>

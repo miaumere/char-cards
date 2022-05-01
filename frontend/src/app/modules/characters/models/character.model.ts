@@ -7,6 +7,7 @@ import { IQuote } from './quote.model';
 import { IRelationship } from './relationship.model';
 import { IStarringIn } from './starring-in.model';
 import { Gender, GenderString } from '../../admin-panel/enums/gender.enum';
+import { IProfilePic } from '../../admin-panel/models/images/profile-pic.model';
 
 type characterType = 'MAIN' | 'SIDE' | 'BACKGROUND' | null;
 export interface ICharacter {
@@ -29,6 +30,7 @@ export interface ICharacter {
     relationships: IRelationship[];
     nationality: string;
     starringIn: IStarringIn[];
+    profilePic: IProfilePic | null;
 }
 
 export class Character implements ICharacter {
@@ -36,6 +38,10 @@ export class Character implements ICharacter {
     charName: string = '';
     charSurname: string = '';
     pseudonim: string = '';
+
+    profilePic: IProfilePic | null = null;
+    imagesList: IImageForMain[] = [];
+
     birthday: number = 0;
     gender: GenderString = Gender[Gender.UNKNOWNGENDER] as GenderString;
     death: number = 0;
@@ -43,7 +49,6 @@ export class Character implements ICharacter {
     occupation: string = '';
     story: Story[] = [];
     colors: IColors | null = null;
-    imagesList: IImageForMain[] = [];
     temperament: ITemperament | null = null;
     measurements: Measurements | null = null;
     quote: IQuote | null = null;

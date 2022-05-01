@@ -2,6 +2,7 @@ package com.meowmere.main.dto.character.character;
 
 import com.meowmere.main.dto.character.colors.CharacterColorDTO;
 import com.meowmere.main.dto.character.image.ImageDTO;
+import com.meowmere.main.dto.character.image.ProfilePicForMainDTO;
 import com.meowmere.main.dto.character.measurements.CharacterMeasurementsDTO;
 import com.meowmere.main.dto.character.quote.CharacterQuoteDTO;
 import com.meowmere.main.dto.character.relationship.RelationshipDTO;
@@ -31,6 +32,8 @@ public class CharacterDTO {
     public List<ImageDTO> imagesList;
     public List<RelationshipDTO> relationships;
     public List<BookWithStarringCharsDTO> starringIn;
+    private ProfilePicForMainDTO profilePic;
+
 
     public String getCharType() {
         return charType;
@@ -182,5 +185,13 @@ public class CharacterDTO {
 
     public void setStarringIn(List<BookWithStarringCharsDTO> starringIn) {
         this.starringIn = starringIn;
+    }
+
+    public ProfilePicForMainDTO getProfilePic() {
+        return profilePic;
+    }
+
+    public void setProfilePic(ProfilePicForMainDTO profilePic) {
+        this.profilePic = profilePic;
     }
 }

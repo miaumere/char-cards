@@ -34,6 +34,8 @@ import { MatChipsModule } from '@angular/material/chips';
 import { TemperamentBarsComponent } from './components/characters-article/components/character-card/subcomponents/character-main-info/subcomponents/temperament-bars/temperament-bars.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ImagesComponent } from './components/characters-article/components/character-card/subcomponents/character-main-info/subcomponents/images/images.component';
+import { ProfilePicComponent } from './components/characters-article/components/character-card/subcomponents/char-information/subcomponents/profile-pic/profile-pic.component';
+import { QuotesComponent } from './components/characters-article/components/character-card/subcomponents/char-information/subcomponents/quotes/quotes.component';
 
 @NgModule({
     declarations: [
@@ -56,6 +58,8 @@ import { ImagesComponent } from './components/characters-article/components/char
         TagsComponent,
         TemperamentBarsComponent,
         ImagesComponent,
+        ProfilePicComponent,
+        QuotesComponent,
     ],
     imports: [
         CommonModule,
