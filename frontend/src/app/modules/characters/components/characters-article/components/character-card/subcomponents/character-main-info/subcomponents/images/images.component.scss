@@ -6,33 +6,6 @@
     cursor: pointer;
 }
 
-.file-options {
-    display: flex;
-    justify-content: space-around;
-}
-
-.upload-file {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    height: 1rem;
-
-    padding: 0.2rem;
-    border-radius: 3px;
-    padding-right: 0.5rem;
-    margin-top: 0.3rem;
-
-    color: $accent;
-}
-
-.file-icon {
-    font-size: initial;
-    margin-top: 0.5rem;
-
-    cursor: pointer;
-}
-
 .profile-pic {
     display: flex;
     align-items: center;

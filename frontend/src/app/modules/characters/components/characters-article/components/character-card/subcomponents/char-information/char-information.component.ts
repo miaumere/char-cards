@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CharacterPreferences } from 'src/app/modules/characters/models/character-preferences.model';
 import { Character } from 'src/app/modules/characters/models/character.model';
 
@@ -16,7 +16,13 @@ export class CharInformationComponent implements OnInit {
     @Input() preferences: CharacterPreferences[] = [];
     @Input() isUserLogged: boolean = false;
 
+    @Output() infoHasChangedEvent = new EventEmitter();
+
     constructor() {}
 
     ngOnInit(): void {}
+
+    emitInfoHasChangedEvent() {
+        this.infoHasChangedEvent.emit();
+    }
 }

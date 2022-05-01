@@ -7,7 +7,12 @@
     </div>
 
     <div class="profile-pic-quotes-container">
-        <app-profile-pic [profilePic]="character.profilePic"></app-profile-pic>
+        <app-profile-pic
+            [profilePic]="character.profilePic"
+            [charId]="character.externalId"
+            [isUserLogged]="isUserLogged"
+            (profilePicChangedEvent)="emitInfoHasChangedEvent()"
+        ></app-profile-pic>
         <app-divider [vertical]="true"></app-divider>
 
         <app-quotes

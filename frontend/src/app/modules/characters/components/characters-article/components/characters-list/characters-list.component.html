@@ -59,6 +59,7 @@
                 routerLinkActive="router-link-active"
             >
                 <app-profile-pic
+                    [charId]="character.externalId"
                     [profilePic]="character.profilePic"
                 ></app-profile-pic>
                 <span class="character__name">

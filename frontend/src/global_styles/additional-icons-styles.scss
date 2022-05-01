@@ -53,3 +53,44 @@
         color: white;
     }
 }
+
+.file-icon {
+    font-size: initial;
+    margin-top: 0.5rem;
+
+    transition: 0.3s;
+
+    cursor: pointer;
+
+    &:hover {
+        color: white;
+    }
+    &--save {
+        &:hover {
+            color: rgb(197, 250, 179);
+        }
+    }
+}
+
+.upload-file {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    height: 1rem;
+
+    padding: 0.2rem;
+    border-radius: 3px;
+    padding-right: 0.5rem;
+    margin-top: 0.3rem;
+
+    color: $accent;
+}
+
+.file-options {
+    display: flex;
+    justify-content: space-around;
+    font-size: x-small;
+
+    margin-left: -0.5rem;
+}

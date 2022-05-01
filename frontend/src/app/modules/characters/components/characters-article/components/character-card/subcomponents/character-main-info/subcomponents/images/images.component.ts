@@ -30,23 +30,14 @@ export class ImagesComponent extends BaseComponent implements OnInit {
 
     @Output() imagesHaveChangedEvent = new EventEmitter<true>();
 
-    @ViewChild('newProfilePic') newProfilePic = null;
-
-    profilePic: File | null = null;
     images: FileList | null = null;
 
     isFileModeAddToggled = false;
-    isProfilePicChosen = false;
 
-    profilePicForMain: IProfilePic | null = null;
     imagesListForMain: IImageForMain[] | null = null;
 
     filesListNumber = 0;
     param = { num: 0 };
-
-    newProfilePicForm = new FormGroup({
-        profilePic: new FormControl(),
-    });
 
     imgURLList: any[] = [];
 
@@ -84,16 +75,11 @@ export class ImagesComponent extends BaseComponent implements OnInit {
         this.imagesHaveChangedEvent.emit(true);
     }
 
-    handleFileInput(files: FileList, multiple: boolean) {
-        multiple ? (this.images = files) : (this.profilePic = files.item(0));
+    handleFileInput(files: FileList) {
+        this.images = files;
 
-        !multiple && files[0]
-            ? (this.isProfilePicChosen = true)
-            : (this.isProfilePicChosen = false);
-        if (multiple) {
-            this.filesListNumber = files.length;
-            this.param.num = files.length;
-        }
+        this.filesListNumber = files.length;
+        this.param.num = files.length;
     }
 
     insertDeleteInfo() {
@@ -105,9 +91,6 @@ export class ImagesComponent extends BaseComponent implements OnInit {
     setNewImages() {
         const formData = new FormData();
 
-        if (this.profilePic) {
-            formData.append('profilePic', this.profilePic);
-        }
         if (this.images) {
             for (let i = 0; i < this.images.length; i++) {
                 formData.append('image' + i, this.images[i]);
@@ -128,7 +111,6 @@ export class ImagesComponent extends BaseComponent implements OnInit {
 
                         this.imgURLList = [];
                         this.filesListNumber = 0;
-                        this.isProfilePicChosen = false;
                     },
                     (err) => {
                         this._toastrService.error(

@@ -96,7 +96,6 @@
                 >
 
                 <span
-                    *ngIf="isUserLogged"
                     [translate]="'SHARED.FILE_INPUT'"
                     [translateParams]="{ num: filesListNumber }"
                 >
@@ -106,14 +105,14 @@
                 #fileInput
                 type="file"
                 (change)="
-                    handleFileInput($event.target.files, true);
+                    handleFileInput($event.target.files);
                     preview($event.target.files)
                 "
                 multiple
                 style="display: none"
             />
 
-            <mat-icon (click)="setNewImages()" class="file-icon"
+            <mat-icon (click)="setNewImages()" class="file-icon file-icon--save"
                 >save_alt</mat-icon
             >
         </div>
