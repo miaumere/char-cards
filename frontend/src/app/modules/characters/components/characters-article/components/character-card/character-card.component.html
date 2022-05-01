@@ -8,7 +8,12 @@
         (infoHasChangedEvent)="getCharacterById()"
     >
     </app-character-main-info>
-
+    <button
+        (click)="isUserLogged = !isUserLogged"
+        style="margin-top: 1rem; background: red"
+    >
+        {{ isUserLogged }}
+    </button>
     <app-char-information
         [character]="character"
         [color]="themeColor1"

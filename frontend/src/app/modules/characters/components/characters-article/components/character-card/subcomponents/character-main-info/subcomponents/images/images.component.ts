@@ -80,8 +80,6 @@ export class ImagesComponent extends BaseComponent implements OnInit {
         const ids = event.container.data.map(
             (x) => (x as unknown as IImageForMain).id
         );
-        console.log('ids: ', ids);
-
         this.changeImagesOrder(ids);
         this.imagesHaveChangedEvent.emit(true);
     }

@@ -33,30 +33,33 @@
                 [ngStyle]="{ background: bgColor2 }"
                 *ngFor="let image of character.imagesList; index as i"
             >
-                <mat-icon *ngIf="isUserLogged" class="drag-icon" cdkDragHandle
-                    >drag_indicator</mat-icon
-                >
+                <ng-container *ngIf="isUserLogged">
+                    <mat-icon class="drag-icon" cdkDragHandle
+                        >drag_indicator</mat-icon
+                    >
 
-                <mat-icon
-                    class="drag-icon"
-                    (click)="setChangeImageMode(image)"
-                    *ngIf="image.id !== imageIdToChange"
-                    >edit</mat-icon
-                >
+                    <mat-icon
+                        class="drag-icon"
+                        (click)="setChangeImageMode(image)"
+                        *ngIf="image.id !== imageIdToChange"
+                        >edit</mat-icon
+                    >
 
-                <mat-icon
-                    class="drag-icon"
-                    *ngIf="image.id === imageIdToChange"
-                    (click)="cancelEditMode()"
-                    >cancel</mat-icon
-                >
+                    <mat-icon
+                        class="drag-icon"
+                        *ngIf="image.id === imageIdToChange"
+                        (click)="cancelEditMode()"
+                        >cancel</mat-icon
+                    >
 
-                <mat-icon
-                    class="drag-icon"
-                    *ngIf="image.id === imageIdToChange"
-                    (click)="changeImageName()"
-                    >save</mat-icon
-                >
+                    <mat-icon
+                        class="drag-icon"
+                        *ngIf="image.id === imageIdToChange"
+                        (click)="changeImageName()"
+                        >save</mat-icon
+                    >
+                </ng-container>
+
                 <div
                     class="image-name"
                     (click)="setImage(i)"

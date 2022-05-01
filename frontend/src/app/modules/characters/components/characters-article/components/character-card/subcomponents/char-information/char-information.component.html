@@ -1,4 +1,22 @@
 <mat-card class="information" *ngIf="character">
+    <!-- tutaj powinien być if  -->
+    <div>
+        <span class="info__desc">
+            <app-icon
+                [icon]="'list'"
+                [color]="'#90a4ae'"
+                [size]="'0.4'"
+                [additionalClasses]="'tag-icon'"
+            ></app-icon>
+            {{ 'CHARACTER_CARD.TAGS' | translate }}</span
+        >
+        <div class="tags-container"></div>
+
+        <app-tags></app-tags>
+    </div>
+
+    <app-divider></app-divider>
+
     <div *ngIf="character.quote" class="information__quote quote">
         <blockquote class="quote__blockquote">
             {{ character.quote.quote }}

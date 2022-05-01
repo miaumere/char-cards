@@ -1,10 +1,3 @@
-<button
-    (click)="isUserLogged = !isUserLogged"
-    style="margin-top: 1rem; background: red"
->
-    {{ isUserLogged }}
-</button>
-
 <div class="card" *ngIf="character">
     <mat-card [ngStyle]="{ background: bgColor1 }">
         <span
@@ -186,19 +179,6 @@
                 [temperaments]="character.temperament"
             >
             </app-temperament-bars>
-
-            <app-divider></app-divider>
-            <span class="info__desc">
-                <app-icon
-                    [icon]="'list'"
-                    [color]="'#90a4ae'"
-                    [size]="'0.4'"
-                    [additionalClasses]="'tag-icon'"
-                ></app-icon>
-                {{ 'CHARACTER_CARD.TAGS' | translate }}</span
-            >
-            <div class="tags-container"></div>
-            <app-tags></app-tags>
         </mat-card>
     </mat-card>
 </div>
