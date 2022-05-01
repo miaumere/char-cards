@@ -1,0 +1,14 @@
+.quote {
+    max-width: 600px;
+
+    border-radius: 3px;
+    padding: 1rem;
+    margin-left: 1rem;
+
+    background: rgba(0, 0, 0, 0.5);
+
+    &__blockquote {
+        line-height: 1.5;
+        font-size: 0.6rem;
+    }
+}

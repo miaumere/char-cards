@@ -3,23 +3,53 @@
 }
 .edit-icon {
     cursor: pointer;
+    transition: 0.3s;
 
     display: block;
 
-    height: 1rem;
+    font-size: small;
     margin-top: -1rem;
+
+    color: #90a4ae;
+
+    &:hover {
+        color: white;
+    }
 }
 
-.drag-icon,
+.option-icon,
 .close-icon {
     cursor: pointer;
+    width: 1rem !important;
+    height: 0.6rem !important;
 
     font-size: 0.6rem;
-    height: 0.6rem !important;
 
     color: grey;
 }
 
+.option-icon {
+    transition: 0.3s;
+    &:hover {
+        color: white;
+    }
+    &--cancel {
+        color: rgb(253, 174, 160);
+    }
+
+    &--save {
+        margin-top: 3px;
+
+        color: rgb(172, 205, 234);
+    }
+}
+
 .close-icon {
     color: tomato;
+
+    transition: 0.3s;
+
+    &:hover {
+        color: white;
+    }
 }

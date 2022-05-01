@@ -1,19 +1,29 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { BaseComponent } from 'src/app/core/base.component';
+import { AuthService } from 'src/app/core/service/auth.service';
 
 @Component({
-    selector: 'app-edit-icon [isUserLogged]',
+    selector: 'app-edit-icon ',
     templateUrl: './edit-icon.component.html',
     styleUrls: ['./edit-icon.component.scss'],
 })
-export class EditIconComponent implements OnInit {
+export class EditIconComponent extends BaseComponent implements OnInit {
     @Output() clickedEvent = new EventEmitter<true>();
-    @Input() isUserLogged: boolean = false;
+    isUserLogged = false;
 
     clicked() {
         this.clickedEvent.emit(true);
     }
 
-    constructor() {}
+    constructor(private _authService: AuthService) {
+        super();
+    }
 
-    ngOnInit(): void {}
+    ngOnInit(): void {
+        this.subscriptions$.add(
+            this._authService.isUserLogged$.subscribe((isUserLogged) => {
+                this.isUserLogged = isUserLogged;
+            })
+        );
+    }
 }

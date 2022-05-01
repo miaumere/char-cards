@@ -1,1 +1,11 @@
-<p>quotes works!</p>
+<div *ngIf="quote" class="information__quote quote">
+    <blockquote class="quote__blockquote">
+        {{ quote.quote }}
+    </blockquote>
+    <cite
+        *ngIf="quote.context"
+        class="quote__cite"
+        [ngStyle]="{ color: themeColor1 }"
+        >~ {{ quote.context }}</cite
+    >
+</div>

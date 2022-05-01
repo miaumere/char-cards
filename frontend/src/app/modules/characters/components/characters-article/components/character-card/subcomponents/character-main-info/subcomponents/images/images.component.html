@@ -34,30 +34,32 @@
                 *ngFor="let image of character.imagesList; index as i"
             >
                 <ng-container *ngIf="isUserLogged">
-                    <mat-icon class="drag-icon" cdkDragHandle
+                    <mat-icon class="option-icon" cdkDragHandle
                         >drag_indicator</mat-icon
                     >
 
                     <mat-icon
-                        class="drag-icon"
+                        class="option-icon"
                         (click)="setChangeImageMode(image)"
                         *ngIf="image.id !== imageIdToChange"
                         >edit</mat-icon
                     >
 
-                    <mat-icon
-                        class="drag-icon"
-                        *ngIf="image.id === imageIdToChange"
-                        (click)="cancelEditMode()"
-                        >cancel</mat-icon
-                    >
+                    <div style="display: flex; flex-direction: column">
+                        <mat-icon
+                            class="option-icon option-icon--cancel"
+                            *ngIf="image.id === imageIdToChange"
+                            (click)="cancelEditMode()"
+                            >cancel</mat-icon
+                        >
 
-                    <mat-icon
-                        class="drag-icon"
-                        *ngIf="image.id === imageIdToChange"
-                        (click)="changeImageName()"
-                        >save</mat-icon
-                    >
+                        <mat-icon
+                            class="option-icon option-icon--save"
+                            *ngIf="image.id === imageIdToChange"
+                            (click)="changeImageName()"
+                            >save</mat-icon
+                        >
+                    </div>
                 </ng-container>
 
                 <div

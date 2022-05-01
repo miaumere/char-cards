@@ -6,20 +6,16 @@
         <app-divider></app-divider>
     </div>
 
-    <div>
+    <div class="profile-pic-quotes-container">
         <app-profile-pic [profilePic]="character.profilePic"></app-profile-pic>
+        <app-divider [vertical]="true"></app-divider>
 
-        <div *ngIf="character.quote" class="information__quote quote">
-            <blockquote class="quote__blockquote">
-                {{ character.quote.quote }}
-            </blockquote>
-            <cite
-                *ngIf="character.quote.context"
-                class="quote__cite"
-                [ngStyle]="{ color: themeColor1 }"
-                >~ {{ character.quote.context }}</cite
-            >
-        </div>
+        <app-quotes
+            [isUserLogged]="isUserLogged"
+            [quote]="character.quote"
+            [color]="themeColor1"
+        >
+        </app-quotes>
     </div>
 
     <div class="information__segment">

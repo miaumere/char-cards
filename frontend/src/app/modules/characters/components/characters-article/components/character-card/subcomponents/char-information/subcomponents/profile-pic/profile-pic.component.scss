@@ -6,7 +6,7 @@
         box-sizing: border-box;
 
         border-radius: 3px;
-        border: 2px solid black;
+        border: 1px solid black;
         margin-top: 1rem;
 
         transition: 0.3s;
@@ -21,7 +21,7 @@
         }
 
         &:hover {
-            border: 2px solid white;
+            border-color: white;
         }
     }
 }

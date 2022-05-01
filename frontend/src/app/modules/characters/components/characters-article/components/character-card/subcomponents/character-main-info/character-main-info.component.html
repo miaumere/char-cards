@@ -16,10 +16,7 @@
             }}</span>
         </span>
         <span class="card__name">
-            <app-edit-icon
-                (clickedEvent)="clicked()"
-                [isUserLogged]="isUserLogged"
-            ></app-edit-icon>
+            <app-edit-icon (clickedEvent)="clicked()"></app-edit-icon>
 
             <app-icon
                 *ngIf="character.gender"
@@ -28,10 +25,7 @@
                 [size]="'0.7'"
             >
             </app-icon>
-            <app-edit-icon
-                (clickedEvent)="clicked()"
-                [isUserLogged]="isUserLogged"
-            ></app-edit-icon>
+            <app-edit-icon (clickedEvent)="clicked()"></app-edit-icon>
             <span
                 class="name"
                 [ngStyle]="{ 'margin-left': isUserLogged ? '0' : '1rem' }"

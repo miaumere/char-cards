@@ -1,15 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-divider',
-  templateUrl: './divider.component.html',
-  styleUrls: ['./divider.component.scss']
+    selector: 'app-divider',
+    templateUrl: './divider.component.html',
+    styleUrls: ['./divider.component.scss'],
 })
 export class DividerComponent implements OnInit {
+    @Input() vertical = false;
+    constructor() {}
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+    ngOnInit(): void {}
 }
