@@ -26,10 +26,7 @@
             >
             </app-icon>
             <app-edit-icon (clickedEvent)="clicked()"></app-edit-icon>
-            <span
-                class="name"
-                [ngStyle]="{ 'margin-left': isUserLogged ? '0' : '1rem' }"
-            >
+            <span class="name">
                 {{ character.charName }}
                 {{ character.charSurname }}
             </span>
