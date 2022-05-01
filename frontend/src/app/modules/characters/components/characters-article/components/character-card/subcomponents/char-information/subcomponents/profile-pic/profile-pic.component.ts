@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
@@ -6,6 +7,7 @@ import { BaseComponent } from 'src/app/core/base.component';
 import { CharactersService } from 'src/app/core/service/characters.service';
 import { IProfilePic } from 'src/app/modules/admin-panel/models/images/profile-pic.model';
 import { Character } from 'src/app/modules/characters/models/character.model';
+import { CropProfilePicComponent } from './crop-profile-pic/crop-profile-pic.component';
 
 @Component({
     selector: 'app-profile-pic [profilePic] [charId]',
@@ -30,7 +32,8 @@ export class ProfilePicComponent extends BaseComponent implements OnInit {
     constructor(
         private _toastrService: ToastrService,
         private _characterService: CharactersService,
-        private _translate: TranslateService
+        private _translate: TranslateService,
+        public dialog: MatDialog
     ) {
         super();
     }
@@ -92,5 +95,13 @@ export class ProfilePicComponent extends BaseComponent implements OnInit {
                     }
                 )
         );
+    }
+
+    openCropImageDialog() {
+        this.dialog.open(CropProfilePicComponent, {
+            data: {
+                animal: 'panda',
+            },
+        });
     }
 }

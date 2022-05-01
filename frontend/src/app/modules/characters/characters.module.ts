@@ -36,6 +36,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ImagesComponent } from './components/characters-article/components/character-card/subcomponents/character-main-info/subcomponents/images/images.component';
 import { ProfilePicComponent } from './components/characters-article/components/character-card/subcomponents/char-information/subcomponents/profile-pic/profile-pic.component';
 import { QuotesComponent } from './components/characters-article/components/character-card/subcomponents/char-information/subcomponents/quotes/quotes.component';
+import { CropProfilePicComponent } from './components/characters-article/components/character-card/subcomponents/char-information/subcomponents/profile-pic/crop-profile-pic/crop-profile-pic.component';
 
 @NgModule({
     declarations: [
@@ -60,6 +61,7 @@ import { QuotesComponent } from './components/characters-article/components/char
         ImagesComponent,
         ProfilePicComponent,
         QuotesComponent,
+        CropProfilePicComponent,
     ],
     imports: [
         CommonModule,
