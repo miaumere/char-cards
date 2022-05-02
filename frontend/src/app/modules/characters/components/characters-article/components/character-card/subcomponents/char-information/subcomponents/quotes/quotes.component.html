@@ -1,4 +1,7 @@
-<div *ngIf="quote" class="information__quote quote">
+<div
+    *ngIf="quote"
+    class="quote-block-container quote-block-container--main-quote"
+>
     <blockquote class="quote__blockquote">
         {{ quote.quote }}
     </blockquote>
@@ -9,3 +12,43 @@
         >~ {{ quote.context }}</cite
     >
 </div>
+
+<mat-expansion-panel
+    (opened)="expandQuotes = true"
+    (closed)="expandQuotes = false"
+    class="quotes"
+    [togglePosition]="'before'"
+>
+    <mat-expansion-panel-header style="height: 1rem">
+    </mat-expansion-panel-header>
+    <div *ngFor="let quotation of moreQuotes" class="quote-block-container">
+        <div class="options">
+            <app-edit-icon
+                *ngIf="isUserLogged"
+                (clicked)="toggleEditMode()"
+            ></app-edit-icon>
+
+            <mat-icon class="file-icon">delete</mat-icon>
+        </div>
+
+        <div class="information__quote quote">
+            <blockquote class="quote__blockquote">
+                {{ quotation.quote }}
+            </blockquote>
+            <cite
+                *ngIf="quotation.context"
+                class="quote__cite"
+                [ngStyle]="{ color: themeColor1 }"
+                >~ {{ quotation.context }}</cite
+            >
+        </div>
+    </div>
+    <div class="new-quote-add">
+        <mat-icon
+            *ngIf="isUserLogged"
+            (click)="createNewQuote()"
+            class="basic-icon basic-icon--expand add-icon"
+            >add</mat-icon
+        >
+    </div>
+</mat-expansion-panel>

@@ -60,6 +60,8 @@
 
     transition: 0.3s;
 
+    color: $accent;
+
     cursor: pointer;
 
     &:hover {
@@ -77,7 +79,7 @@
     justify-content: center;
     align-items: center;
 
-    height: 1rem;
+    height: 0.5rem;
 
     padding: 0.2rem;
     border-radius: 3px;
@@ -85,6 +87,28 @@
     margin-top: 0.3rem;
 
     color: $accent;
+
+    transition: 0.3s;
+
+    cursor: pointer;
+}
+
+.basic-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    height: 1rem !important;
+
+    font-size: 1rem;
+    color: $accent;
+
+    transition: 0.3s;
+    cursor: pointer;
+
+    &:hover {
+        color: white;
+    }
 }
 
 .file-options {
@@ -92,5 +116,5 @@
     justify-content: space-around;
     font-size: x-small;
 
-    margin-left: -0.5rem;
+    margin-left: -1rem;
 }

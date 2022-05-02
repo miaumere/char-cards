@@ -114,3 +114,17 @@ figcaption {
 .test {
     background: red;
 }
+
+.mat-expansion-panel-body {
+    padding: 0 !important;
+}
+
+.mat-expansion-panel-header {
+    padding: 0 !important;
+    padding-left: 0.75rem !important;
+    display: block;
+
+    &:hover {
+        background: transparent !important;
+    }
+}

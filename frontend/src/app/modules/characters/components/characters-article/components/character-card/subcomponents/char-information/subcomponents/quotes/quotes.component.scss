@@ -1,14 +1,53 @@
 .quote {
-    max-width: 600px;
-
-    border-radius: 3px;
-    padding: 1rem;
-    margin-left: 1rem;
-
-    background: rgba(0, 0, 0, 0.5);
-
     &__blockquote {
         line-height: 1.5;
         font-size: 0.6rem;
+    }
+}
+
+.expanded {
+    transform: rotate(-180deg);
+}
+
+.quotes {
+    background: transparent;
+    box-shadow: none;
+}
+
+.quotes {
+    & .mat-expansion-panel-body {
+        padding: 0;
+    }
+    background: transparent;
+    box-shadow: none;
+}
+
+.add-icon {
+    margin-right: 0.5rem;
+}
+
+.new-quote-add {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+}
+
+.options {
+    display: flex;
+    flex-direction: column;
+}
+
+.quote-block-container {
+    display: flex;
+    border-radius: 3px;
+    padding: 1rem;
+    margin: 0.5rem;
+
+    width: 250px;
+
+    background: rgba(0, 0, 0, 0.5);
+
+    &--main-quote {
+        flex-direction: column;
     }
 }

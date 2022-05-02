@@ -19,6 +19,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 import { StoryComponent } from './components/characters-article/components/character-card/subcomponents/char-information/subcomponents/story/story.component';
 import { CharInformationComponent } from './components/characters-article/components/character-card/subcomponents/char-information/char-information.component';
@@ -82,6 +83,7 @@ import { ImageCropperComponent } from './components/characters-article/component
         MatButtonModule,
         MatChipsModule,
         DragDropModule,
+        MatExpansionModule,
     ],
     exports: [HistoricalPreferencesComponent],
 

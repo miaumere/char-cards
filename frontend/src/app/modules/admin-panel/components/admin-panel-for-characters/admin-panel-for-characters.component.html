@@ -1,108 +1,168 @@
 <div class="admin-panel">
+    <div class="options-bar">
+        <div class="buttons-container">
+            <button
+                class="button-option"
+                mat-fab
+                [matTooltip]="'CHARS_PANEL.NEW_CHAR' | translate"
+                [routerLink]="['./character-modify/new']"
+            >
+                <mat-icon>person_add</mat-icon>
+            </button>
 
-  <div class="options-bar">
-    <div class="buttons-container">
-      <button class="button-option" mat-fab [matTooltip]="'CHARS_PANEL.NEW_CHAR' | translate"
-        [routerLink]="['./character-modify/new']">
-        <mat-icon>person_add</mat-icon>
-      </button>
-
-      <button class="button-option" mat-fab [matTooltip]="'CHARS_PANEL.NEW_RELATIONSHIP' | translate"
-        [routerLink]="['./character-relations/new']">
-        <mat-icon>people</mat-icon>
-      </button>
+            <button
+                class="button-option"
+                mat-fab
+                [matTooltip]="'CHARS_PANEL.NEW_RELATIONSHIP' | translate"
+                [routerLink]="['./character-relations/new']"
+            >
+                <mat-icon>people</mat-icon>
+            </button>
+        </div>
+        <form [formGroup]="searchForm" class="search-form">
+            <mat-icon>search</mat-icon>
+            <mat-form-field>
+                <mat-label>{{
+                    'CHARS_PANEL.SEARCH_CHAR' | translate
+                }}</mat-label>
+                <input
+                    matInput
+                    formControlName="char"
+                    (input)="searchCharacter()"
+                />
+            </mat-form-field>
+        </form>
     </div>
-    <form [formGroup]="searchForm" class="search-form">
-      <mat-icon>search</mat-icon>
-      <mat-form-field>
-        <mat-label>{{'CHARS_PANEL.SEARCH_CHAR' | translate}}</mat-label>
-        <input matInput formControlName="char" (input)="searchCharacter()">
-      </mat-form-field>
-    </form>
-  </div>
 
-  <article class="admin-panel" *ngIf="filteredChars.length > 0">
-    <div class="admin-panel-main__menu menu">
-      <mat-card class="menu__item item character-card" *ngFor="let character of filteredChars">
-        <mat-card-header>
-          <mat-card-title class="character-card__title">
-            <div (click)="changeStateOfChar(character.id)">
-              <ng-container [ngSwitch]="character.archived">
-                <button *ngSwitchCase="true" mat-mini-fab color="accent"
-                  [matTooltip]="'CHARS_PANEL.UNARCHIVE' | translate">
-                  <mat-icon>done</mat-icon>
-                </button>
+    <article class="admin-panel" *ngIf="filteredChars.length > 0">
+        <div class="admin-panel-main__menu menu">
+            <mat-card
+                class="menu__item item character-card"
+                *ngFor="let character of filteredChars"
+            >
+                <mat-card-header>
+                    <mat-card-title class="character-card__title">
+                        <div (click)="changeStateOfChar(character.id)">
+                            <ng-container [ngSwitch]="character.archived">
+                                <button
+                                    *ngSwitchCase="true"
+                                    mat-mini-fab
+                                    color="accent"
+                                    [matTooltip]="
+                                        'CHARS_PANEL.UNARCHIVE' | translate
+                                    "
+                                >
+                                    <mat-icon>done</mat-icon>
+                                </button>
 
-                <button *ngSwitchCase="false" mat-mini-fab color="warn"
-                  [matTooltip]="'CHARS_PANEL.ARCHIVE' | translate">
-                  <mat-icon>delete</mat-icon>
-                </button>
-              </ng-container>
-            </div>
-            <span class="character-card__name">{{character.charName}} {{character.charSurname}}</span>
-          </mat-card-title>
-        </mat-card-header>
-        <mat-card-content class="character-card__content">
-          <div class="char-info">
-            <div class="char-info__profile-pic" *ngIf="character.profilePic">
-              <img
-                [src]="'data:image/'+  character.profilePic?.extension + ';base64, ' + character.profilePic.image | sanitizer"
-                class="profile-pic">
-            </div>
-            <div class="profile-pic" *ngIf="!character.profilePic">
-              <div style="background:red;"></div>
-            </div>
-          </div>
-          <mat-card-actions class="sidebar">
-            <button mat-icon-button class="sidebar__option" [matTooltip]="'CHARS_PANEL.EDIT_CHAR' | translate"
-              [routerLink]="['./panel/character-modify/edit']" [queryParams]="{
-          id: character.id
-        }">
-              <mat-icon>edit</mat-icon>
-            </button>
-            <button mat-icon-button class="sidebar__option" [matTooltip]="'CHARS_PANEL.EDIT_IMAGES' | translate"
-              [routerLink]="['./panel/character-images']" [queryParams]="{
-          id: character.id
-        }">
-              <mat-icon>image</mat-icon>
-            </button>
-            <button mat-icon-button class="sidebar__option" [matTooltip]="'CHARS_PANEL.EDIT_STORY' | translate"
-              [routerLink]="['./panel/character-stories']" [queryParams]="{
-        id: character.id
-      }">
-              <mat-icon> format_align_left</mat-icon>
-            </button>
-            <button mat-icon-button class="sidebar__option" class="sidebar__option"
-              [matTooltip]="'CHARS_PANEL.EDIT_QUOTES' | translate" [routerLink]="['./panel/character-quotes']"
-              [queryParams]="{
-      id: character.id
-    }">
-              <mat-icon> format_quote</mat-icon>
-            </button>
-            <button mat-icon-button class="sidebar__option" [matTooltip]="'CHARS_PANEL.EDIT_RELATIONSHIPS' | translate"
-              [routerLink]="['./panel/character-relations/edit']" [queryParams]="{
-          id: character.id
-        }">
-              <mat-icon>people</mat-icon>
-            </button>
+                                <button
+                                    *ngSwitchCase="false"
+                                    mat-mini-fab
+                                    color="warn"
+                                    [matTooltip]="
+                                        'CHARS_PANEL.ARCHIVE' | translate
+                                    "
+                                >
+                                    <mat-icon>delete</mat-icon>
+                                </button>
+                            </ng-container>
+                        </div>
+                        <span class="character-card__name"
+                            >{{ character.charName }}
+                            {{ character.charSurname }}</span
+                        >
+                    </mat-card-title>
+                </mat-card-header>
+                <mat-card-content class="character-card__content">
+                    <div class="char-info">
+                        <div
+                            class="char-info__profile-pic"
+                            *ngIf="character.profilePic"
+                        >
+                            <img
+                                [src]="
+                                    'data:image/' +
+                                        character.profilePic?.extension +
+                                        ';base64, ' +
+                                        character.profilePic.image | sanitizer
+                                "
+                                class="profile-pic"
+                            />
+                        </div>
+                        <div class="profile-pic" *ngIf="!character.profilePic">
+                            <div style="background: red"></div>
+                        </div>
+                    </div>
+                    <mat-card-actions class="sidebar">
+                        <button
+                            mat-icon-button
+                            class="sidebar__option"
+                            [matTooltip]="'CHARS_PANEL.EDIT_CHAR' | translate"
+                            [routerLink]="['./panel/character-modify/edit']"
+                            [queryParams]="{
+                                id: character.id
+                            }"
+                        >
+                            <mat-icon>edit</mat-icon>
+                        </button>
 
-            <button mat-icon-button class="sidebar__option" [matTooltip]="'CHARS_PANEL.EDIT_PREFERENCES' | translate"
-              [routerLink]="['./panel/character-preferences']" [queryParams]="{
-        id: character.id
-      }">
-              <mat-icon>favorite</mat-icon>
-            </button>
+                        <button
+                            mat-icon-button
+                            class="sidebar__option"
+                            [matTooltip]="'CHARS_PANEL.EDIT_STORY' | translate"
+                            [routerLink]="['./panel/character-stories']"
+                            [queryParams]="{
+                                id: character.id
+                            }"
+                        >
+                            <mat-icon> format_align_left</mat-icon>
+                        </button>
+                        <button
+                            mat-icon-button
+                            class="sidebar__option"
+                            class="sidebar__option"
+                            [matTooltip]="'CHARS_PANEL.EDIT_QUOTES' | translate"
+                            [routerLink]="['./panel/character-quotes']"
+                            [queryParams]="{
+                                id: character.id
+                            }"
+                        >
+                            <mat-icon> format_quote</mat-icon>
+                        </button>
+                        <button
+                            mat-icon-button
+                            class="sidebar__option"
+                            [matTooltip]="
+                                'CHARS_PANEL.EDIT_RELATIONSHIPS' | translate
+                            "
+                            [routerLink]="['./panel/character-relations/edit']"
+                            [queryParams]="{
+                                id: character.id
+                            }"
+                        >
+                            <mat-icon>people</mat-icon>
+                        </button>
 
-          </mat-card-actions>
-        </mat-card-content>
+                        <button
+                            mat-icon-button
+                            class="sidebar__option"
+                            [matTooltip]="
+                                'CHARS_PANEL.EDIT_PREFERENCES' | translate
+                            "
+                            [routerLink]="['./panel/character-preferences']"
+                            [queryParams]="{
+                                id: character.id
+                            }"
+                        >
+                            <mat-icon>favorite</mat-icon>
+                        </button>
+                    </mat-card-actions>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </article>
 
-
-      </mat-card>
-
-    </div>
-  </article>
-
-  <article class="admin-panel" *ngIf="filteredChars.length === 0">
-    {{'CHARS_PANEL.NO_CHARACTERS' | translate}}
-  </article>
+    <article class="admin-panel" *ngIf="filteredChars.length === 0">
+        {{ 'CHARS_PANEL.NO_CHARACTERS' | translate }}
+    </article>
 </div>
