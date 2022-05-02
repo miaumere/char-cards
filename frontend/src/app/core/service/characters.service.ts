@@ -27,19 +27,18 @@ import {
     Story,
 } from 'src/app/modules/admin-panel/models/character-story/story.model';
 import { CharacterForChange } from 'src/app/modules/admin-panel/models/character-for-change.model';
-import { EditQuote } from 'src/app/modules/admin-panel/models/quotes/edit-quote.model';
 import { EditImageName } from 'src/app/modules/admin-panel/models/images/edit-image-name.model';
 import { EditRelationship } from 'src/app/modules/admin-panel/models/relationships/edit-relationship.model';
 import { EditStory } from 'src/app/modules/admin-panel/models/character-story/story-to-edit.model';
 import { NewStory } from 'src/app/modules/admin-panel/models/character-story/new-story.model';
 import { CreateCharacter } from 'src/app/modules/admin-panel/models/create-character.model';
 import { IRelationRequest } from 'src/app/modules/admin-panel/models/relationships/relation-request.model';
-import { NewQuote } from 'src/app/modules/admin-panel/models/quotes/new-quote.model';
 import { IEditPreference } from 'src/app/modules/admin-panel/models/preferences/edit-preferences.model';
 import {
     IAllPreferences,
     AllPreferences,
 } from 'src/app/modules/characters/models/all-preferences.model';
+import { UpsertQuote } from 'src/app/modules/admin-panel/models/quotes/upsert-quote.model';
 
 @Injectable({
     providedIn: 'root',
@@ -58,15 +57,14 @@ export class CharactersService {
     private readonly _getAllPreferencesForCharURL = `${this.charControllerURL}/get-all-preferences-for-character`;
 
     private readonly _patchChangeStateURL = `${this.charControllerURL}/change-state`;
-    private readonly _patchQuoteURL = `${this.charControllerURL}/edit-quote`;
     private readonly _patchImageNameURL = `${this.charControllerURL}/change-image-name`;
     private readonly _patchImagesOrderURL = `${this.charControllerURL}/change-images-order`;
     private readonly _patchRelationshipURL = `${this.charControllerURL}/edit-relationship`;
     private readonly _patchStoryURL = `${this.charControllerURL}/edit-story`;
 
+    private readonly _postQuoteURL = `${this.charControllerURL}/upsert-quote`;
     private readonly _postStoryForCharacterURL = `${this.charControllerURL}/new-story`;
     private readonly _postNewCharacterURL = `${this.charControllerURL}/new-character`;
-    private readonly _postNewQuoteURL = `${this.charControllerURL}/new-quote`;
     private readonly _postEditImagesURL = `${this.charControllerURL}/new-images`;
     private readonly _postNewRelationshipURL = `${this.charControllerURL}/new-relationship`;
     private readonly _postEditPreferenceURL = `${this.charControllerURL}/edit-preferences`;
@@ -206,8 +204,8 @@ export class CharactersService {
         );
     }
 
-    patchQuote(requestBody: EditQuote) {
-        return this.http.patch<EditQuote>(this._patchQuoteURL, requestBody);
+    patchQuote(requestBody: UpsertQuote) {
+        return this.http.patch<UpsertQuote>(this._postQuoteURL, requestBody);
     }
 
     patchImageName(requestBody: EditImageName) {
@@ -277,8 +275,8 @@ export class CharactersService {
         );
     }
 
-    postNewQuote(requestBody: NewQuote) {
-        return this.http.post<NewQuote>(this._postNewQuoteURL, requestBody);
+    upsertNewQuote(requestBody: UpsertQuote) {
+        return this.http.post<UpsertQuote>(this._postQuoteURL, requestBody);
     }
 
     putCharacterDetails(requestBody: EditCharacter, idDead: boolean) {

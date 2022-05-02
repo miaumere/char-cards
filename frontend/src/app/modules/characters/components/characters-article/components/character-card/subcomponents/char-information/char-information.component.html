@@ -23,6 +23,7 @@
             [quote]="character.quote"
             [color]="themeColor1"
             [charId]="character.externalId"
+            (quotesChangedEvent)="emitInfoHasChangedEvent()"
         >
         </app-quotes>
     </div>

@@ -2,6 +2,8 @@
     &__blockquote {
         line-height: 1.5;
         font-size: 0.6rem;
+
+        margin: 0;
     }
 }
 
@@ -39,6 +41,8 @@
 
 .quote-block-container {
     display: flex;
+    justify-content: space-between;
+
     border-radius: 3px;
     padding: 1rem;
     margin: 0.5rem;

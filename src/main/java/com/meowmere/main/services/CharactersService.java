@@ -39,8 +39,7 @@ import com.meowmere.main.requests.characters.character.CreateCharacterRequest;
 import com.meowmere.main.requests.characters.character.EditCharacterRequest;
 import com.meowmere.main.requests.characters.image.ImageRenameRequest;
 import com.meowmere.main.requests.characters.preference.PreferenceRequest;
-import com.meowmere.main.requests.characters.quotes.EditQuoteRequest;
-import com.meowmere.main.requests.characters.quotes.NewQuoteForCharacterRequest;
+import com.meowmere.main.requests.characters.quotes.UpsertQuoteRequest;
 import com.meowmere.main.requests.characters.relationship.EditRelationshipRequest;
 import com.meowmere.main.requests.characters.relationship.RelationRequest;
 import com.meowmere.main.requests.characters.stories.CreateStoryForCharRequest;
@@ -53,14 +52,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -260,69 +255,6 @@ public class CharactersService {
         return new ResponseEntity(dtoList, HttpStatus.OK);
     }
 
-    public ResponseEntity getAllPreferencesForCharacter(Long charId) {
-        ArrayList<AllPreferencesDTO> dtos = new ArrayList<>();
-        List<Long> relatedCharIds = preferenceRepository.getRelatedCharsIds(charId);
-        if(relatedCharIds != null && relatedCharIds.size() > 0){
-            for (Long id : relatedCharIds) {
-                Character character = characterRepository.getOne(id);
-
-                List<Preference> historicalPreferences = preferenceRepository
-                        .getHistoricalPreferences(charId, id);
-                        AllPreferencesDTO dto = new AllPreferencesDTO();
-                ArrayList<HistoricPreferenceDTO> historicPreferenceDTOS = new ArrayList<>();
-                dto.setRelCharacterId(character.getExternalId());
-                dto.setRelCharacterSurname(character.getCharSurname());
-                dto.setRelCharacterName(character.getCharName());
-                if(historicalPreferences != null && historicalPreferences.size() > 0) {
-                    for (Preference pref: historicalPreferences) {
-                        HistoricPreferenceDTO historicPreferenceDTO = new HistoricPreferenceDTO();
-                        if(pref.getDateOfOrigin() != null) {
-                            historicPreferenceDTO.setDateOfOrigin(pref.getDateOfOrigin().toString());
-                        }
-                        historicPreferenceDTO.setId(pref.getId());
-                        historicPreferenceDTO.setRange(pref.getRange());
-                        historicPreferenceDTOS.add(historicPreferenceDTO);
-                    }
-                }
-                dto.setPreferences(historicPreferenceDTOS);
-                dtos.add(dto);
-            }
-
-        }
-
-        return new ResponseEntity(dtos, HttpStatus.OK);
-    }
-
-    public ResponseEntity getHistoricalPreferencesForCharacter(Long charId, Long relatedCharId) {
-        Character character = characterRepository.getOne(relatedCharId);
-            AllPreferencesDTO dto = new AllPreferencesDTO();
-            dto.setRelCharacterId(relatedCharId);
-        if(character != null) {
-            dto.setRelCharacterName(character.getCharName());
-            dto.setRelCharacterSurname(character.getCharSurname());
-
-            ArrayList<HistoricPreferenceDTO> historicPreferenceDTOS = new ArrayList<>();
-            ArrayList<Preference> preferences = preferenceRepository.getHistoricalPreferences(charId, relatedCharId);
-            if(preferences != null && preferences.size() > 0) {
-                for (Preference preference:preferences) {
-                    HistoricPreferenceDTO historicPreferenceDTO = new HistoricPreferenceDTO();
-                    if(preference.getDateOfOrigin() != null) {
-                        historicPreferenceDTO.setDateOfOrigin(preference.getDateOfOrigin().toString());
-                    }
-                    historicPreferenceDTO.setRange(preference.getRange());
-
-                    historicPreferenceDTOS.add(historicPreferenceDTO);
-                }
-            }
-            dto.setPreferences(historicPreferenceDTOS);
-        }
-
-
-
-        return new ResponseEntity(dto, HttpStatus.OK);
-    }
-
     public ResponseEntity changeStatusForCharacter(ChangeCharacterStateRequest character) {
             Character charToChange = characterRepository.getOne(character.getId());
             if(charToChange == null) {
@@ -333,79 +265,6 @@ public class CharactersService {
             characterRepository.save(charToChange);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
-
-    public ResponseEntity newImages(MultipartHttpServletRequest multipartHttpServletRequest, Long id) {
-        Map<String, MultipartFile> allFiles = multipartHttpServletRequest.getFileMap();
-        Character character = characterRepository.getOne(id);
-        if(character == null) {
-            String msg = "Nie znaleziono postaci o podanym id.";
-            return new ResponseEntity(msg, HttpStatus.NOT_FOUND);
-        }
-        Iterator it = allFiles.entrySet().iterator();
-        while (it.hasNext()) {
-            Image imageToSave = new Image();
-            Map.Entry pair = (Map.Entry)it.next();
-            String key = String.valueOf(pair.getKey());
-            imageToSave.setIsProfilePic(!!key.equals("profilePic"));
-            MultipartFile file = (MultipartFile) pair.getValue();
-
-            if(file != null) {
-                String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-                String extension = FilenameUtils.getExtension(fileName);
-
-                if (!Stream.of(AvailableExtensions.values()).anyMatch(v -> v.name().toLowerCase().equals(extension.toLowerCase()))) {
-                    return new ResponseEntity(HttpStatus.UNSUPPORTED_MEDIA_TYPE);
-                }
-                try {
-                    if(imageToSave.getIsProfilePic()) {
-                        Image oldProfilePic = imageRepository.getProfilePicForCharacter(character.getExternalId());
-                        if(oldProfilePic != null) {
-                        imageRepository.delete(oldProfilePic);
-                        }
-                    }
-
-
-                    byte [] byteArr = file.getBytes();
-                    imageToSave.setImage(byteArr);
-                    imageToSave.setName(FilenameUtils.removeExtension(file.getOriginalFilename()));
-                    imageToSave.setExtension(extension);
-                    imageToSave.setCharacter(character);
-
-                    imageRepository.saveAndFlush(imageToSave);
-
-                } catch (IOException e) {}
-
-                it.remove();
-            }}
-        return new ResponseEntity(HttpStatus.CREATED);
-    }
-
-    public ResponseEntity changeImageName(ImageRenameRequest request) {
-        Image image = imageRepository.getOne(request.getId());
-        if(image == null) {
-            String msg = "Brak obrazka o podanym id.";
-            return new ResponseEntity(msg, HttpStatus.NOT_FOUND);
-        }
-        image.setName(request.getName());
-        imageRepository.saveAndFlush(image);
-
-        return new ResponseEntity(HttpStatus.NO_CONTENT);
-    }
-
-    public ResponseEntity changeImagesOrder(Long[] ids) {
-        for (int i = 0; i < ids.length; i++) {
-           Long currentId = ids[i];
-           Image image = imageRepository.getOne(currentId);
-            if(image == null) {
-                continue;
-            }
-
-            image.setImageOrder(i);
-            imageRepository.saveAndFlush(image);
-        }
-
-        return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
     public ResponseEntity createCharacter(CreateCharacterRequest request) {
@@ -553,6 +412,123 @@ public class CharactersService {
         return new ResponseEntity(dto, HttpStatus.OK);
     }
 
+
+    //#region Images
+    public ResponseEntity newImages(MultipartHttpServletRequest multipartHttpServletRequest, Long id) {
+        Map<String, MultipartFile> allFiles = multipartHttpServletRequest.getFileMap();
+        Character character = characterRepository.getOne(id);
+        if(character == null) {
+            String msg = "Nie znaleziono postaci o podanym id.";
+            return new ResponseEntity(msg, HttpStatus.NOT_FOUND);
+        }
+        Iterator it = allFiles.entrySet().iterator();
+        while (it.hasNext()) {
+            Image imageToSave = new Image();
+            Map.Entry pair = (Map.Entry)it.next();
+            String key = String.valueOf(pair.getKey());
+            imageToSave.setIsProfilePic(!!key.equals("profilePic"));
+            MultipartFile file = (MultipartFile) pair.getValue();
+
+            if(file != null) {
+                String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+                String extension = FilenameUtils.getExtension(fileName);
+
+                if (!Stream.of(AvailableExtensions.values()).anyMatch(v -> v.name().toLowerCase().equals(extension.toLowerCase()))) {
+                    return new ResponseEntity(HttpStatus.UNSUPPORTED_MEDIA_TYPE);
+                }
+                try {
+                    if(imageToSave.getIsProfilePic()) {
+                        Image oldProfilePic = imageRepository.getProfilePicForCharacter(character.getExternalId());
+                        if(oldProfilePic != null) {
+                            imageRepository.delete(oldProfilePic);
+                        }
+                    }
+
+
+                    byte [] byteArr = file.getBytes();
+                    imageToSave.setImage(byteArr);
+                    imageToSave.setName(FilenameUtils.removeExtension(file.getOriginalFilename()));
+                    imageToSave.setExtension(extension);
+                    imageToSave.setCharacter(character);
+
+                    imageRepository.saveAndFlush(imageToSave);
+
+                } catch (IOException e) {}
+
+                it.remove();
+            }}
+        return new ResponseEntity(HttpStatus.CREATED);
+    }
+
+    public ResponseEntity changeImageName(ImageRenameRequest request) {
+        Image image = imageRepository.getOne(request.getId());
+        if(image == null) {
+            String msg = "Brak obrazka o podanym id.";
+            return new ResponseEntity(msg, HttpStatus.NOT_FOUND);
+        }
+        image.setName(request.getName());
+        imageRepository.saveAndFlush(image);
+
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
+    }
+
+    public ResponseEntity changeImagesOrder(Long[] ids) {
+        for (int i = 0; i < ids.length; i++) {
+            Long currentId = ids[i];
+            Image image = imageRepository.getOne(currentId);
+            if(image == null) {
+                continue;
+            }
+
+            image.setImageOrder(i);
+            imageRepository.saveAndFlush(image);
+        }
+
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
+    }
+
+    public ResponseEntity deleteImage(Long id) {
+        Image imageToDelete = imageRepository.getOne(id);
+        if (imageToDelete == null) {
+            String msg = "Nie znaleziono obrazka.";
+            return new ResponseEntity(msg, HttpStatus.NOT_FOUND);
+        }
+        imageRepository.delete(imageToDelete);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    //#endregion
+
+    //#region Quotes
+    public ResponseEntity upsertQuote(UpsertQuoteRequest request) {
+        if(request.getQuoteId() == 0) {
+            Quote quote = new Quote();
+            quote.setQuote(request.getQuote());
+            quote.setContext(request.getContext());
+            Character character = characterRepository.getOne(request.getCharacterId());
+            if(character == null) {
+                String msg = "Nie znaleziono postaci o podanym id.";
+                return new ResponseEntity(msg, HttpStatus.NOT_FOUND);
+            }
+            ArrayList<Quote> quotesForChar = new ArrayList<>();
+            quotesForChar.add(quote);
+            character.setQuotes(quotesForChar);
+            quote.setCharacter(character);
+            quoteRepository.saveAndFlush(quote);
+            return new ResponseEntity(HttpStatus.CREATED);
+        } else {
+            Quote quote = quoteRepository.getOne(request.getQuoteId());
+            if(quote == null) {
+                String msg = "Nie znaleziono cytatu.";
+                return new ResponseEntity(msg, HttpStatus.NOT_FOUND);
+            }
+            quote.setQuote(request.getQuote());
+            quote.setContext(request.getContext());
+            quoteRepository.saveAndFlush(quote);
+        }
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
+    }
+
     public ResponseEntity getAllQuotesForCharacter(Long id) {
         ModelMapper modelMapper = new ModelMapper();
         ArrayList<QuoteForListDTO> result = new ArrayList<>();
@@ -567,25 +543,6 @@ public class CharactersService {
         return new ResponseEntity(result, HttpStatus.OK);
     }
 
-    public ResponseEntity createQuoteForCharacter(NewQuoteForCharacterRequest request){
-        Quote quote = new Quote();
-        quote.setQuote(request.getQuote());
-        quote.setContext(request.getContext());
-
-        Character character = characterRepository.getOne(request.getCharacterId());
-        if(character == null) {
-            String msg = "Nie znaleziono postaci o podanym id.";
-            return new ResponseEntity(msg, HttpStatus.NOT_FOUND);
-        }
-
-        ArrayList<Quote> quotesForChar = new ArrayList<>();
-        quotesForChar.add(quote);
-        character.setQuotes(quotesForChar);
-        quote.setCharacter(character);
-        quoteRepository.saveAndFlush(quote);
-        return new ResponseEntity(HttpStatus.CREATED);
-    }
-
     public ResponseEntity deleteQuote(Long id) {
         Quote quoteToDelete = quoteRepository.getOne(id);
         if(quoteToDelete == null) {
@@ -596,29 +553,9 @@ public class CharactersService {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    public ResponseEntity deleteImage(Long id) {
-        Image imageToDelete = imageRepository.getOne(id);
-        if (imageToDelete == null) {
-            String msg = "Nie znaleziono obrazka.";
-            return new ResponseEntity(msg, HttpStatus.NOT_FOUND);
-        }
-        imageRepository.delete(imageToDelete);
-        return new ResponseEntity(HttpStatus.OK);
-    }
+    //#endregion
 
-    public ResponseEntity editQuote(EditQuoteRequest request) {
-        Quote quote = quoteRepository.getOne(request.getQuoteId());
-        if(quote == null) {
-            String msg = "Nie znaleziono cytatu.";
-            return new ResponseEntity(msg, HttpStatus.NOT_FOUND);
-        }
-        quote.setQuote(request.getQuote());
-        quote.setContext(request.getContext());
-        quoteRepository.saveAndFlush(quote);
-
-        return new ResponseEntity(HttpStatus.NO_CONTENT);
-    }
-
+    //#region Relationships
     public ResponseEntity createRelationship(RelationRequest request) {
         Character characterOne = characterRepository.getOne(request.getCharId());
         Character characterTwo = characterRepository.getOne(request.getRelCharId());
@@ -702,7 +639,7 @@ public class CharactersService {
         if (request.getRelationType() != null){
 
             reverseRelationship.setRelationName(RelationshipType.valueOf(request.getRelationType()));
-                relationshipRepository.saveAndFlush(reverseRelationship);
+            relationshipRepository.saveAndFlush(reverseRelationship);
 
         }
         if(request.getReversedRelationType() != null) {
@@ -714,6 +651,9 @@ public class CharactersService {
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
+    //#endregion
+
+    //#region Stories
     public ResponseEntity getStoriesForCharacter(Long id) {
         ModelMapper modelMapper = new ModelMapper();
         List<CharacterStory> storiesForCharacter = characterStoryRepository.getStoriesForCharacter(id);
@@ -746,10 +686,10 @@ public class CharactersService {
         }
 
         storyFromDatabase.forEach((key, value) -> {
-            CharacterStory characterStory = characterStoryRepository.getOne(key);
-                characterStory.setIndexOnList(99999 + value);
-                characterStoryRepository.saveAndFlush(characterStory);
-            }
+                    CharacterStory characterStory = characterStoryRepository.getOne(key);
+                    characterStory.setIndexOnList(99999 + value);
+                    characterStoryRepository.saveAndFlush(characterStory);
+                }
         );
 
         for (int i = 0; i < storyIds.size(); i++) {
@@ -792,7 +732,9 @@ public class CharactersService {
 
         return new ResponseEntity(HttpStatus.OK);
     }
+    //#endregion
 
+    //#region Preferences
     public ResponseEntity editPreferences(PreferenceRequest preferenceRequest) {
         Preference preference = new Preference();
         Character character = characterRepository.getOne(preferenceRequest.getCharacterId());
@@ -822,6 +764,69 @@ public class CharactersService {
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
+    public ResponseEntity getAllPreferencesForCharacter(Long charId) {
+        ArrayList<AllPreferencesDTO> dtos = new ArrayList<>();
+        List<Long> relatedCharIds = preferenceRepository.getRelatedCharsIds(charId);
+        if(relatedCharIds != null && relatedCharIds.size() > 0){
+            for (Long id : relatedCharIds) {
+                Character character = characterRepository.getOne(id);
+
+                List<Preference> historicalPreferences = preferenceRepository
+                        .getHistoricalPreferences(charId, id);
+                AllPreferencesDTO dto = new AllPreferencesDTO();
+                ArrayList<HistoricPreferenceDTO> historicPreferenceDTOS = new ArrayList<>();
+                dto.setRelCharacterId(character.getExternalId());
+                dto.setRelCharacterSurname(character.getCharSurname());
+                dto.setRelCharacterName(character.getCharName());
+                if(historicalPreferences != null && historicalPreferences.size() > 0) {
+                    for (Preference pref: historicalPreferences) {
+                        HistoricPreferenceDTO historicPreferenceDTO = new HistoricPreferenceDTO();
+                        if(pref.getDateOfOrigin() != null) {
+                            historicPreferenceDTO.setDateOfOrigin(pref.getDateOfOrigin().toString());
+                        }
+                        historicPreferenceDTO.setId(pref.getId());
+                        historicPreferenceDTO.setRange(pref.getRange());
+                        historicPreferenceDTOS.add(historicPreferenceDTO);
+                    }
+                }
+                dto.setPreferences(historicPreferenceDTOS);
+                dtos.add(dto);
+            }
+
+        }
+
+        return new ResponseEntity(dtos, HttpStatus.OK);
+    }
+
+    public ResponseEntity getHistoricalPreferencesForCharacter(Long charId, Long relatedCharId) {
+        Character character = characterRepository.getOne(relatedCharId);
+        AllPreferencesDTO dto = new AllPreferencesDTO();
+        dto.setRelCharacterId(relatedCharId);
+        if(character != null) {
+            dto.setRelCharacterName(character.getCharName());
+            dto.setRelCharacterSurname(character.getCharSurname());
+
+            ArrayList<HistoricPreferenceDTO> historicPreferenceDTOS = new ArrayList<>();
+            ArrayList<Preference> preferences = preferenceRepository.getHistoricalPreferences(charId, relatedCharId);
+            if(preferences != null && preferences.size() > 0) {
+                for (Preference preference:preferences) {
+                    HistoricPreferenceDTO historicPreferenceDTO = new HistoricPreferenceDTO();
+                    if(preference.getDateOfOrigin() != null) {
+                        historicPreferenceDTO.setDateOfOrigin(preference.getDateOfOrigin().toString());
+                    }
+                    historicPreferenceDTO.setRange(preference.getRange());
+
+                    historicPreferenceDTOS.add(historicPreferenceDTO);
+                }
+            }
+            dto.setPreferences(historicPreferenceDTOS);
+        }
+
+
+
+        return new ResponseEntity(dto, HttpStatus.OK);
+    }
+
     public ResponseEntity deletePreference(Long id)  {
         Preference preference = preferenceRepository.getOne(id);
         if(preference != null) {
@@ -830,4 +835,11 @@ public class CharactersService {
 
         return new ResponseEntity(HttpStatus.OK);
     }
+    //#endregion
+
+
+
+
+
+
 }

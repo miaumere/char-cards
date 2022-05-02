@@ -1,9 +1,10 @@
 package com.meowmere.main.requests.characters.quotes;
 
-public class EditQuoteRequest {
+public class UpsertQuoteRequest {
     public Long quoteId;
-    public String quote;
-    public String context;
+    private String quote;
+    private String context;
+    private Long characterId;
 
     public Long getQuoteId() {
         return quoteId;
@@ -27,5 +28,13 @@ public class EditQuoteRequest {
 
     public void setContext(String context) {
         this.context = context;
+    }
+
+    public Long getCharacterId() {
+        return characterId;
+    }
+
+    public void setCharacterId(Long characterId) {
+        this.characterId = characterId;
     }
 }

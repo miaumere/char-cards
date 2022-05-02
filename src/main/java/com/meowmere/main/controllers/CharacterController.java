@@ -5,8 +5,7 @@ import com.meowmere.main.requests.characters.character.CreateCharacterRequest;
 import com.meowmere.main.requests.characters.character.EditCharacterRequest;
 import com.meowmere.main.requests.characters.image.ImageRenameRequest;
 import com.meowmere.main.requests.characters.preference.PreferenceRequest;
-import com.meowmere.main.requests.characters.quotes.EditQuoteRequest;
-import com.meowmere.main.requests.characters.quotes.NewQuoteForCharacterRequest;
+import com.meowmere.main.requests.characters.quotes.UpsertQuoteRequest;
 import com.meowmere.main.requests.characters.relationship.EditRelationshipRequest;
 import com.meowmere.main.requests.characters.relationship.RelationRequest;
 import com.meowmere.main.requests.characters.stories.CreateStoryForCharRequest;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletResponse;
-import java.text.ParseException;
 import java.util.ArrayList;
 
 
@@ -77,9 +75,9 @@ public class CharacterController {
         return charactersService.createCharacter(request);
     }
 
-    @PostMapping("/new-quote")
-    public ResponseEntity createQuoteForCharacter(@RequestBody NewQuoteForCharacterRequest newQuoteForCharacterRequest) {
-        return charactersService.createQuoteForCharacter(newQuoteForCharacterRequest);
+    @PostMapping("/upsert-quote")
+    public ResponseEntity upsertQuoteForCharacter(@RequestBody UpsertQuoteRequest request) {
+        return charactersService.upsertQuote(request);
     }
 
     @PostMapping("/new-relationship")
@@ -126,11 +124,6 @@ public class CharacterController {
     @PostMapping("/new-images")
     public ResponseEntity newImages(MultipartHttpServletRequest multipartHttpServletRequest, @RequestParam Long id) {
         return charactersService.newImages(multipartHttpServletRequest, id);
-    }
-
-    @PatchMapping("/edit-quote")
-    public ResponseEntity editQuote(@RequestBody EditQuoteRequest editQuoteRequest) {
-        return charactersService.editQuote(editQuoteRequest);
     }
 
     @PatchMapping("/change-image-name")
