@@ -33,7 +33,14 @@
         <h2 class="story__title" [ngStyle]="{ color: themeColor1 }">
             📖 {{ 'CHARACTER_CARD.STORY' | translate }}
         </h2>
-        <app-story [story]="character.story" [color]="themeColor1"> </app-story>
+        <app-story
+            [story]="character.story"
+            [color]="themeColor1"
+            [isUserLogged]="isUserLogged"
+            (storyChangedEvent)="emitInfoHasChangedEvent()"
+            [charId]="character.externalId"
+        >
+        </app-story>
     </div>
 
     <div

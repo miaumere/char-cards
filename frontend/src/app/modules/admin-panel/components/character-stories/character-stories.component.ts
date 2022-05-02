@@ -123,6 +123,11 @@ export class CharacterStoriesComponent extends BaseComponent implements OnInit {
     }
 
     deleteStory(storyId: number) {
+        if (storyId === 0) {
+            this.stories = this.stories.filter((x) => x.id !== 0);
+            return;
+        }
+
         this.subscriptions$.add(
             this._charactersService.deleteStory(storyId).subscribe(
                 (_) => {
@@ -168,55 +173,53 @@ export class CharacterStoriesComponent extends BaseComponent implements OnInit {
                         return;
                     }
 
-                    this.subscriptions$.add(
-                        this._charactersService.patchStory(objToSend).subscribe(
-                            (_) => {
-                                this._toastrService.success(
-                                    this._translate.instant(
-                                        'TOASTR_MESSAGE.SAVE_SUCCESS'
-                                    )
-                                );
-                                this.getStories();
-                            },
-                            (err) => {
-                                this._toastrService.error(
-                                    this._translate.instant(
-                                        'TOASTR_MESSAGE.ERROR'
-                                    )
-                                );
-                            }
-                        )
-                    );
+                    // this.subscriptions$.add(
+                    //     this._charactersService.up(objToSend).subscribe(
+                    //         (_) => {
+                    //             this._toastrService.success(
+                    //                 this._translate.instant(
+                    //                     'TOASTR_MESSAGE.SAVE_SUCCESS'
+                    //                 )
+                    //             );
+                    //             this.getStories();
+                    //         },
+                    //         (err) => {
+                    //             this._toastrService.error(
+                    //                 this._translate.instant(
+                    //                     'TOASTR_MESSAGE.ERROR'
+                    //                 )
+                    //             );
+                    //         }
+                    //     )
+                    // );
                 }
             })
         );
     }
 
     createNewStory() {
-        const formValues: { [key: string]: string } = this.newStoryForm.value;
-        const objToSend: NewStory = new NewStory();
-        objToSend.characterId = this.charId;
-
-        for (const [key, value] of Object.entries(formValues)) {
-            // FIXME
-            // objToSend[key] = value;
-        }
-
-        this.subscriptions$.add(
-            this._charactersService.postStoryForCharacter(objToSend).subscribe(
-                (_) => {
-                    this._toastrService.success(
-                        this._translate.instant('TOASTR_MESSAGE.SAVE_SUCCESS')
-                    );
-                    this.getStories();
-                    this.newStoryForm.reset();
-                },
-                (err) => {
-                    this._toastrService.error(
-                        this._translate.instant('TOASTR_MESSAGE.ERROR')
-                    );
-                }
-            )
-        );
+        // const formValues: { [key: string]: string } = this.newStoryForm.value;
+        // const objToSend: NewStory = new NewStory();
+        // objToSend.characterId = this.charId;
+        // for (const [key, value] of Object.entries(formValues)) {
+        //     // FIXME
+        //     // objToSend[key] = value;
+        // }
+        // this.subscriptions$.add(
+        //     this._charactersService.postStoryForCharacter(objToSend).subscribe(
+        //         (_) => {
+        //             this._toastrService.success(
+        //                 this._translate.instant('TOASTR_MESSAGE.SAVE_SUCCESS')
+        //             );
+        //             this.getStories();
+        //             this.newStoryForm.reset();
+        //         },
+        //         (err) => {
+        //             this._toastrService.error(
+        //                 this._translate.instant('TOASTR_MESSAGE.ERROR')
+        //             );
+        //         }
+        //     )
+        // );
     }
 }

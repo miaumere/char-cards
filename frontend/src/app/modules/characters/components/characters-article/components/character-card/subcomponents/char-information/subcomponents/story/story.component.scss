@@ -1,3 +1,5 @@
+@import 'variables';
+
 .story {
     margin: 2rem 0;
     word-break: break-word;
@@ -8,6 +10,9 @@
         font-weight: bold;
         font-size: 0.9rem;
         color: lightslategray;
+
+        display: flex;
+        justify-content: space-between;
     }
 
     &__story-block {
@@ -21,4 +26,27 @@
 
 .no-story-container {
     margin: 1rem;
+}
+
+.story-container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.story-textarea {
+    border: 1px solid white;
+    border-radius: 3px;
+    padding: 0.5rem;
+    margin-top: -1.25rem;
+
+    background: $dark-bg-component-color;
+    &--invalid {
+        border-color: #f44336;
+    }
+}
+
+.title-input {
+    background: $dark-bg-component-color;
+    margin-top: -1.5rem;
 }

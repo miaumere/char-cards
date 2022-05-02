@@ -1,3 +1,5 @@
+@import 'variables';
+
 .quote {
     &__blockquote {
         line-height: 1.5;
@@ -49,7 +51,7 @@
 
     width: 250px;
 
-    background: rgba(0, 0, 0, 0.5);
+    background: $dark-bg-component-color;
 
     &--main-quote {
         flex-direction: column;

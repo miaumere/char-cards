@@ -1,3 +1,4 @@
+import { StoryRequest } from './../../modules/admin-panel/models/character-story/story-request.model';
 import { LoaderService } from './loader.service';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
@@ -60,10 +61,9 @@ export class CharactersService {
     private readonly _patchImageNameURL = `${this.charControllerURL}/change-image-name`;
     private readonly _patchImagesOrderURL = `${this.charControllerURL}/change-images-order`;
     private readonly _patchRelationshipURL = `${this.charControllerURL}/edit-relationship`;
-    private readonly _patchStoryURL = `${this.charControllerURL}/edit-story`;
 
     private readonly _postQuoteURL = `${this.charControllerURL}/upsert-quote`;
-    private readonly _postStoryForCharacterURL = `${this.charControllerURL}/new-story`;
+    private readonly _postUpsertStoryForCharacterURL = `${this.charControllerURL}/upsert-story`;
     private readonly _postNewCharacterURL = `${this.charControllerURL}/new-character`;
     private readonly _postEditImagesURL = `${this.charControllerURL}/new-images`;
     private readonly _postNewRelationshipURL = `${this.charControllerURL}/new-relationship`;
@@ -229,13 +229,9 @@ export class CharactersService {
         );
     }
 
-    patchStory(requestBody: EditStory) {
-        return this.http.patch<EditStory>(this._patchStoryURL, requestBody);
-    }
-
-    postStoryForCharacter(requestBody: NewStory) {
-        return this.http.post<NewStory>(
-            this._postStoryForCharacterURL,
+    upsertStoryForCharacter(requestBody: StoryRequest) {
+        return this.http.post<StoryRequest>(
+            this._postUpsertStoryForCharacterURL,
             requestBody
         );
     }

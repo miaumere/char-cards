@@ -8,8 +8,7 @@ import com.meowmere.main.requests.characters.preference.PreferenceRequest;
 import com.meowmere.main.requests.characters.quotes.UpsertQuoteRequest;
 import com.meowmere.main.requests.characters.relationship.EditRelationshipRequest;
 import com.meowmere.main.requests.characters.relationship.RelationRequest;
-import com.meowmere.main.requests.characters.stories.CreateStoryForCharRequest;
-import com.meowmere.main.requests.characters.stories.EditStoryRequest;
+import com.meowmere.main.requests.characters.stories.StoryRequest;
 import com.meowmere.main.services.CharactersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -85,9 +84,9 @@ public class CharacterController {
         return charactersService.createRelationship(relationRequest);
     }
 
-    @PostMapping("/new-story")
-    public ResponseEntity createStoryForCharacter(@RequestBody CreateStoryForCharRequest request) {
-        return charactersService.createStoryForCharacter(request);
+    @PostMapping("/upsert-story")
+    public ResponseEntity createStoryForCharacter(@RequestBody StoryRequest request) {
+        return charactersService.upsertStoryForCharacter(request);
     }
 
     @PostMapping("/edit-preferences")
@@ -114,11 +113,6 @@ public class CharacterController {
     @PatchMapping("/edit-relationship")
     public ResponseEntity editRelationships(@RequestBody EditRelationshipRequest editRelationshipRequest){
         return charactersService.editRelationships(editRelationshipRequest);
-    }
-
-    @PatchMapping("/edit-story")
-    public ResponseEntity editStory(@RequestBody EditStoryRequest request) {
-        return charactersService.editStory(request);
     }
 
     @PostMapping("/new-images")

@@ -42,8 +42,7 @@ import com.meowmere.main.requests.characters.preference.PreferenceRequest;
 import com.meowmere.main.requests.characters.quotes.UpsertQuoteRequest;
 import com.meowmere.main.requests.characters.relationship.EditRelationshipRequest;
 import com.meowmere.main.requests.characters.relationship.RelationRequest;
-import com.meowmere.main.requests.characters.stories.CreateStoryForCharRequest;
-import com.meowmere.main.requests.characters.stories.EditStoryRequest;
+import com.meowmere.main.requests.characters.stories.StoryRequest;
 import org.apache.commons.io.FilenameUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -703,35 +702,38 @@ public class CharactersService {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    public ResponseEntity createStoryForCharacter(CreateStoryForCharRequest request) {
+    public ResponseEntity upsertStoryForCharacter(StoryRequest request) {
         Character character = characterRepository.getOne(request.getCharacterId());
         if(character == null) {
             return new ResponseEntity("Nie można utworzyć historii dla nieistniejącej postaci.", HttpStatus.NOT_FOUND);
         }
-        CharacterStory characterStory = new CharacterStory();
-        characterStory.setCharacter(character);
-        characterStory.setStoryDesc(request.getDesc());
-        characterStory.setTitle(request.getTitle());
 
-        List<CharacterStory> characterStories = characterStoryRepository.getStoriesForCharacter(character.getExternalId());
-        characterStory.setIndexOnList(characterStories.size()+1);
+        if(request.storyId == 0) {
+            CharacterStory characterStory = new CharacterStory();
+            characterStory.setCharacter(character);
+            characterStory.setStoryDesc(request.getStory());
+            characterStory.setTitle(request.getTitle());
 
-        characterStoryRepository.saveAndFlush(characterStory);
+            List<CharacterStory> characterStories = characterStoryRepository.getStoriesForCharacter(character.getExternalId());
+            characterStory.setIndexOnList(characterStories.size()+1);
+
+            characterStoryRepository.saveAndFlush(characterStory);
+        } else {
+            CharacterStory characterStory = characterStoryRepository.getOne(request.getStoryId());
+            if(characterStory == null) {
+                return new ResponseEntity("Nie można edytować historii, która nie istnieje.", HttpStatus.NOT_FOUND);
+            }
+            characterStory.setTitle(request.getTitle());
+            characterStory.setStoryDesc(request.getStory());
+            characterStoryRepository.saveAndFlush(characterStory);
+
+            return new ResponseEntity(HttpStatus.OK);
+        }
+
 
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
-    public ResponseEntity editStory(EditStoryRequest request){
-        CharacterStory characterStory = characterStoryRepository.getOne(request.getStoryId());
-        if(characterStory == null) {
-            return new ResponseEntity("Nie można edytować historii, która nie istnieje.", HttpStatus.NOT_FOUND);
-        }
-        characterStory.setTitle(request.getTitle());
-        characterStory.setStoryDesc(request.getDesc());
-        characterStoryRepository.saveAndFlush(characterStory);
-
-        return new ResponseEntity(HttpStatus.OK);
-    }
     //#endregion
 
     //#region Preferences

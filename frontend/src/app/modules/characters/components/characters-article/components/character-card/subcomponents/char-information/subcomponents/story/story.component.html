@@ -1,15 +1,105 @@
 <div class="information__story">
     <ng-container *ngIf="story">
-        <div class="story" *ngFor="let story of story">
+        <form class="story" *ngFor="let story of story" [formGroup]="form">
             <h2 class="story__title" [ngStyle]="{ color }">
-                {{ story.title }}
+                <div>
+                    <mat-icon
+                        class="option-icon"
+                        cdkDragHandle
+                        *ngIf="isUserLogged"
+                        >drag_indicator</mat-icon
+                    >
+
+                    <mat-icon
+                        class="option-icon"
+                        (click)="setStoryToEdit(story)"
+                        *ngIf="editedStoryId !== story.id && isUserLogged"
+                        >edit</mat-icon
+                    >
+
+                    <span class="title" *ngIf="editedStoryId !== story.id">
+                        {{ story.title }}
+                    </span>
+
+                    <mat-form-field
+                        *ngIf="story.id === editedStoryId"
+                        style="margin-top: -1rem"
+                    >
+                        <input
+                            matInput
+                            formControlName="title"
+                            [spellcheck]="false"
+                        />
+                    </mat-form-field>
+                </div>
+
+                <div
+                    class="options"
+                    *ngIf="isUserLogged"
+                    (click)="insertDeleteInfo()"
+                    (dblclick)="deleteStory(story.id)"
+                >
+                    <mat-icon class="close-icon">close</mat-icon>
+                </div>
             </h2>
-            <div class="story__story-block">
-                {{ story.story }}
+
+            <div class="story-container">
+                <div
+                    style="display: flex; flex-direction: column"
+                    *ngIf="isUserLogged && editedStoryId === story.id"
+                >
+                    <mat-icon
+                        class="option-icon option-icon--cancel"
+                        *ngIf="isUserLogged && story.id !== 0"
+                        (click)="cancelEditMode()"
+                        >cancel</mat-icon
+                    >
+
+                    <mat-icon
+                        class="option-icon option-icon--save"
+                        (click)="upsertStory()"
+                        >save</mat-icon
+                    >
+                </div>
+                <div
+                    class="story__story-block"
+                    *ngIf="story.id !== editedStoryId"
+                >
+                    {{ story.story }}
+                </div>
+
+                <textarea
+                    matInput
+                    cdkTextareaAutosize
+                    #autosize="cdkTextareaAutosize"
+                    cdkAutosizeMinRows="3"
+                    [spellcheck]="false"
+                    cdkAutosizeMaxRows="20"
+                    *ngIf="story.id === editedStoryId"
+                    formControlName="story"
+                    class="story-textarea"
+                    [ngClass]="{
+                        'story-textarea--invalid': !form.get('story')?.valid
+                    }"
+                >
+                </textarea>
             </div>
-        </div>
+        </form>
     </ng-container>
     <div *ngIf="story.length === 0" class="no-story-container">
         {{ 'CHARACTER_CARD.NO_STORY' | translate }}.
     </div>
+</div>
+
+<div
+    class="new-quote-add"
+    *ngIf="isUserLogged && canAddMoreStories"
+    style="width: 2.5rem"
+>
+    <mat-icon
+        *ngIf="isUserLogged"
+        class="basic-icon basic-icon--expand add-icon"
+        (click)="addNewQuote()"
+        >add</mat-icon
+    >
 </div>

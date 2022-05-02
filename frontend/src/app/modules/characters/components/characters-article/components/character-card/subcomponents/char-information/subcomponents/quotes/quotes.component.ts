@@ -14,7 +14,7 @@ import { IQuote } from 'src/app/modules/characters/models/quote.model';
     styleUrls: ['./quotes.component.scss'],
 })
 export class QuotesComponent extends BaseComponent implements OnInit {
-    @Input() isUserLogged: IQuote | null = null;
+    @Input() isUserLogged: boolean = false;
     @Input() quote: IQuote | null = null;
     @Input() charId: number = 0;
     @Input('color') themeColor1: string = '';
