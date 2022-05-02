@@ -16,7 +16,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatDialogModule } from '@angular/material/dialog';
 import { AdminPanelForCharactersComponent } from './components/admin-panel-for-characters/admin-panel-for-characters.component';
-import { CharacterQuotesComponent } from './components/character-quotes/character-quotes.component';
 import { CharacterRelationsComponent } from './components/character-relations/character-relations.component';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatRadioModule } from '@angular/material/radio';
@@ -43,7 +42,6 @@ import { MatExpansionModule } from '@angular/material/expansion';
         AdminPanelForCharactersComponent,
         CharacterStoriesComponent,
         EditCharacterStoryComponent,
-        CharacterQuotesComponent,
         CharacterRelationsComponent,
         CharacterPreferencesComponent,
     ],

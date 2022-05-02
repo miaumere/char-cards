@@ -49,21 +49,6 @@
                     <button
                         mat-stroked-button
                         class="sidebar__option"
-                        class="sidebar__option"
-                        [routerLink]="['./character-quotes']"
-                        [queryParams]="{
-                            id: charId
-                        }"
-                    >
-                        <mat-icon> format_quote</mat-icon>
-                        {{ 'CHARS_PANEL.EDIT_QUOTES' | translate }}
-                    </button>
-                </li>
-
-                <li class="option">
-                    <button
-                        mat-stroked-button
-                        class="sidebar__option"
                         [routerLink]="['./character-relations/edit']"
                         [queryParams]="{
                             id: charId
