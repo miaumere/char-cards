@@ -1,3 +1,4 @@
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
@@ -9,6 +10,7 @@ import {
     IStory,
     Story,
 } from 'src/app/modules/admin-panel/models/character-story/story.model';
+import { IImageForMain } from 'src/app/modules/characters/models/image-for-main.model';
 
 @Component({
     selector: 'app-story [story] [color] [charId] [isUserLogged]',
@@ -79,6 +81,31 @@ export class StoryComponent extends BaseComponent implements OnInit {
                     );
                 }
             )
+        );
+    }
+
+    drop(event: CdkDragDrop<string[]>) {
+        moveItemInArray(
+            event.container.data,
+            event.previousIndex,
+            event.currentIndex
+        );
+
+        const ids = this.story.map((x) => x.id);
+
+        this.subscriptions$.add(
+            this._charactersService
+                .putStoriesIndexes(ids, this.charId)
+                .subscribe(
+                    (_) => {
+                        this.storyChangedEvent.emit(true);
+                    },
+                    (err) => {
+                        this._toastrService.error(
+                            this._translate.instant('TOASTR_MESSAGE.ERROR')
+                        );
+                    }
+                )
         );
     }
 

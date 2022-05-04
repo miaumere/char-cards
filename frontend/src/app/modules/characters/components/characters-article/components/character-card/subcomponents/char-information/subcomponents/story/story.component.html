@@ -1,12 +1,24 @@
 <div class="information__story">
-    <ng-container *ngIf="story">
-        <form class="story" *ngFor="let story of story" [formGroup]="form">
+    <div
+        *ngIf="story"
+        cdkDropList
+        [cdkDropListData]="story"
+        (cdkDropListDropped)="drop($event)"
+        [cdkDropListDisabled]="!isUserLogged"
+    >
+        <form
+            class="story"
+            *ngFor="let story of story"
+            [formGroup]="form"
+            cdkDrag
+        >
             <h2 class="story__title" [ngStyle]="{ color }">
                 <div>
                     <mat-icon
                         class="option-icon"
-                        cdkDragHandle
                         *ngIf="isUserLogged"
+                        [ngStyle]="{ opacity: story.id === 0 ? 0 : 1 }"
+                        cdkDragHandle
                         >drag_indicator</mat-icon
                     >
 
@@ -85,7 +97,7 @@
                 </textarea>
             </div>
         </form>
-    </ng-container>
+    </div>
     <div *ngIf="story.length === 0" class="no-story-container">
         {{ 'CHARACTER_CARD.NO_STORY' | translate }}.
     </div>

@@ -1,5 +1,4 @@
 import { CharacterRelationsComponent } from './components/character-relations/character-relations.component';
-import { CharacterStoriesComponent } from './components/character-stories/character-stories.component';
 import { CharacterModifyComponent } from './components/character-modify/character-modify.component';
 
 import { NgModule } from '@angular/core';
@@ -31,10 +30,7 @@ const routes: Routes = [
                 path: 'character-modify/:type',
                 component: CharacterModifyComponent,
             },
-            {
-                path: 'character-stories',
-                component: CharacterStoriesComponent,
-            },
+
             {
                 path: 'character-relations/:type',
                 component: CharacterRelationsComponent,

@@ -7,10 +7,7 @@ import { AdminPanelRoutingModule } from './admin-panel-routing.module';
 import { AdminPanelComponent } from './components/admin-panel/admin-panel.component';
 import { CharacterModifyComponent } from './components/character-modify/character-modify.component';
 import { SharedModule } from '../shared/shared.module';
-import {
-    CharacterStoriesComponent,
-    EditCharacterStoryComponent,
-} from './components/character-stories/character-stories.component';
+
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
@@ -40,8 +37,6 @@ import { MatExpansionModule } from '@angular/material/expansion';
         AdminPanelComponent,
         CharacterModifyComponent,
         AdminPanelForCharactersComponent,
-        CharacterStoriesComponent,
-        EditCharacterStoryComponent,
         CharacterRelationsComponent,
         CharacterPreferencesComponent,
     ],

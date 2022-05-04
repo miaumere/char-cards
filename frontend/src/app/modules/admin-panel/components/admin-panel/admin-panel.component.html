@@ -35,20 +35,6 @@
                     <button
                         mat-stroked-button
                         class="sidebar__option"
-                        [routerLink]="['./character-stories']"
-                        [queryParams]="{
-                            id: charId
-                        }"
-                    >
-                        <mat-icon> format_align_left</mat-icon>
-                        {{ 'CHARS_PANEL.EDIT_STORY' | translate }}
-                    </button>
-                </li>
-
-                <li class="option">
-                    <button
-                        mat-stroked-button
-                        class="sidebar__option"
                         [routerLink]="['./character-relations/edit']"
                         [queryParams]="{
                             id: charId
