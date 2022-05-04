@@ -10,22 +10,7 @@ import { IRelationship } from 'src/app/modules/characters/models/relationship.mo
 export class CharRelationsComponent implements OnInit {
     @Input() charRelationships: IRelationship[] | null = null;
 
-    crushes: IRelationship[] | null = [];
     constructor() {}
 
-    ngOnInit() {
-        // FIXME: dodać typ relacji CRUSH
-
-        if (
-            this.charRelationships &&
-            Array.isArray(this.charRelationships) &&
-            this.charRelationships.length > 0
-        ) {
-            this.crushes = this.charRelationships.filter(
-                (relation) =>
-                    relation.relationName ===
-                    RelationshipType[RelationshipType.MARRIAGE]
-            );
-        }
-    }
+    ngOnInit() {}
 }
