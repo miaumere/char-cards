@@ -172,8 +172,6 @@ export class CurrentPreferencesComponent
                 this.isLinearChartVisible = true;
                 this.chosenCharId = data.relCharId;
                 this.chosenChar = data;
-
-                console.log('chosenChar: ', this.chosenChar);
             });
 
         // create axis objects

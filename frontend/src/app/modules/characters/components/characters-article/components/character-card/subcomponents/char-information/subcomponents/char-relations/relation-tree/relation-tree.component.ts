@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Router, RouterStateSnapshot } from '@angular/router';
 import * as d3 from 'd3';
 import { Subject } from 'rxjs';
 import { throttleTime } from 'rxjs/operators';
@@ -75,7 +76,7 @@ export class RelationTreeComponent implements OnInit {
 
     @ViewChild('chart')
     private chartContainer: ElementRef | null = null;
-    constructor() {
+    constructor(private router: Router) {
         setTimeout(() => {
             this.data = mockData;
 
@@ -87,21 +88,6 @@ export class RelationTreeComponent implements OnInit {
     circleRadius = 35;
 
     ngOnInit() {}
-
-    devAngleGen() {
-        // const angles = [0];
-        // for (let i = 0; i < 360; ) {
-        //   angles.push(i);
-        //   i += 24;
-        // }
-        // const distanceBetweenPins = 250;
-        // for (const angle of angles) {
-        //   const x = sourceX + Math.sin(degToRad(angle)) * distanceBetweenPins;
-        //   const y = sourcey + Math.cos(degToRad(angle)) * distanceBetweenPins;
-        //   generateCircle(x, y, 'url(#img1)', 'xxx' + angle, circleRadius);
-        //   relationLine({ x: source.x, y: source.y }, { x: x, y: y }, 'white');
-        // }
-    }
 
     private _generateCircle(
         svgViewport: any,
@@ -121,14 +107,11 @@ export class RelationTreeComponent implements OnInit {
             .attr('stroke', strokeColor)
             .attr('fill', fill);
 
+        const cleanUrl = [...this.router.url].filter((x) => isNaN(+x)).join('');
+
         const text = svgViewport
             .append('a')
-            .attr(
-                'xlink:href',
-                personId
-                    ? `http://localhost:4201/#/char-cards/${personId}`
-                    : null
-            )
+            .attr('xlink:href', personId ? `./#/${cleanUrl}${personId}` : null)
             .append('text')
             .attr('x', offsetX)
             .attr('y', offsetY + radius + 15)
@@ -145,7 +128,7 @@ export class RelationTreeComponent implements OnInit {
         const element = (this.chartContainer as any).nativeElement;
 
         const svgWidth = (this.chartContainer as any).nativeElement.offsetWidth;
-        const svgHeight = 1000;
+        const svgHeight = 600;
 
         const moveMouseEvent = new Subject<MouseEvent>();
 
@@ -179,8 +162,8 @@ export class RelationTreeComponent implements OnInit {
             .attr('preserveAspectRatio', 'xMidYMid slice');
 
         // #endregion
-        // #region generate marker
 
+        // #region generate markers
         for (const relationType of this.relationTypes) {
             const typedRelationType = relationType as RelationTypeString;
             defs.append('marker')
