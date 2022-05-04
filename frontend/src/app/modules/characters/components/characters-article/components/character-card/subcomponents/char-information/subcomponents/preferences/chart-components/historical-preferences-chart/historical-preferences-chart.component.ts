@@ -69,10 +69,11 @@ export class HistoricalPreferencesComponent
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        const relatedCharChanges: SimpleChange | undefined =
-            changes.relatedCharId;
-        if (relatedCharChanges?.firstChange === false) {
+        const relatedcharChanges: SimpleChange | undefined =
+            changes.relatedcharId;
+        if (relatedcharChanges?.firstChange === false) {
             this.getHistoricalPreferences();
+            this.chartContainer?.nativeElement.childNodes[0].remove();
         }
         this.chartContainer?.nativeElement.childNodes[0].remove();
     }

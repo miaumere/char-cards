@@ -168,9 +168,12 @@ export class CurrentPreferencesComponent
             .attr('stroke', 'black')
             .attr('fill', (d: any) => `url(#image_${d.relCharId})`)
             .on('click', (d: any) => {
+                const data = d.target.__data__;
                 this.isLinearChartVisible = true;
-                this.chosenCharId = d.relCharId;
-                this.chosenChar = d;
+                this.chosenCharId = data.relCharId;
+                this.chosenChar = data;
+
+                console.log('chosenChar: ', this.chosenChar);
             });
 
         // create axis objects

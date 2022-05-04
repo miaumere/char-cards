@@ -79,8 +79,6 @@ export class RelationTreeComponent implements OnInit {
         setTimeout(() => {
             this.data = mockData;
 
-            console.log('data: ', mockData);
-
             this.chartContainer = this.chartContainer;
             this.createChart();
         }, 0);
@@ -115,9 +113,6 @@ export class RelationTreeComponent implements OnInit {
         strokeColor: string,
         personId?: number
     ): IGeneratedCircleElement {
-        console.log('offsetX: ', offsetX);
-        console.log('name: ', name);
-
         const circle = svgViewport
             .append('circle')
             .attr('cx', offsetX)
@@ -154,15 +149,12 @@ export class RelationTreeComponent implements OnInit {
 
         const moveMouseEvent = new Subject<MouseEvent>();
 
-        // console.log('element: ', element);
-
         const svgViewport = typedD3
             .select(element)
             .append('svg')
             .attr('width', svgWidth)
             .attr('height', svgHeight)
             .on('mousemove', (e: any) => {
-                console.log('e: ', e);
                 moveMouseEvent.next(e);
             });
 
@@ -248,8 +240,6 @@ export class RelationTreeComponent implements OnInit {
         }
 
         moveMouseEvent.pipe(throttleTime(10)).subscribe((x: any) => {
-            console.log('x: ', x);
-
             if (clickedCircle) {
                 const mouseCordX = x.offsetX;
                 const mouseCordY = x.offsetY;
