@@ -3,12 +3,13 @@ import { RelationshipType } from 'src/app/modules/admin-panel/enums/relationship
 import { IRelationship } from 'src/app/modules/characters/models/relationship.model';
 
 @Component({
-    selector: 'app-char-relations [charRelationships]',
+    selector: 'app-char-relations [charRelationships] [color]',
     templateUrl: './char-relations.component.html',
     styleUrls: ['./char-relations.component.scss'],
 })
 export class CharRelationsComponent implements OnInit {
     @Input() charRelationships: IRelationship[] | null = null;
+    @Input('color') themeColor1: string = '';
 
     constructor() {}
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Input } from '@angular/core';
 import { Router, RouterStateSnapshot } from '@angular/router';
 import * as d3 from 'd3';
 import { Subject } from 'rxjs';
@@ -13,6 +13,7 @@ import {
     RelationType,
     RelationTypeString,
 } from 'src/app/modules/characters/models/relations/relation-type.enum';
+import * as tinycolor from 'tinycolor2';
 
 function degToRad(deg: number) {
     return (deg * Math.PI) / 180;
@@ -29,6 +30,8 @@ interface IGeneratedCircleElement {
     styleUrls: ['./relation-tree.component.scss'],
 })
 export class RelationTreeComponent implements OnInit {
+    @Input('color') themeColor1: string = '';
+
     relations: IRelationTreeDto | undefined;
     svg: SVGElement | undefined;
 
@@ -117,7 +120,10 @@ export class RelationTreeComponent implements OnInit {
             .attr('y', offsetY + radius + 15)
             .style('font-size', 'small')
             .attr('text-anchor', 'middle')
-            .attr('fill', 'white')
+            .attr(
+                'fill',
+                tinycolor(this.themeColor1).isLight() ? 'black' : 'white'
+            )
             .text(name);
 
         return { circle, text };
@@ -135,6 +141,7 @@ export class RelationTreeComponent implements OnInit {
         const svgViewport = typedD3
             .select(element)
             .append('svg')
+            .attr('style', 'background-color: ' + this.themeColor1)
             .attr('width', svgWidth)
             .attr('height', svgHeight)
             .on('mousemove', (e: any) => {
@@ -431,7 +438,8 @@ export class RelationTreeComponent implements OnInit {
                         .append('rect')
                         .attr('x', rectX)
                         .attr('y', rectY)
-                        .attr('fill', '#262626')
+                        .attr('fill', this.themeColor1)
+
                         .attr('stroke-width', '1')
                         .attr(
                             'transform',
@@ -466,7 +474,12 @@ export class RelationTreeComponent implements OnInit {
                         )
                         .attr('text-anchor', 'middle')
                         .attr('font-size', '10px')
-                        .attr('fill', 'white')
+                        .attr(
+                            'fill',
+                            tinycolor(this.themeColor1).isLight()
+                                ? 'black'
+                                : 'white'
+                        )
                         .text(RelationType[relation.type]);
 
                     if (
@@ -505,7 +518,12 @@ export class RelationTreeComponent implements OnInit {
                             });
 
                         moveMouseEvent.pipe(throttleTime(10)).subscribe(() => {
-                            tooltip.attr('fill', 'white');
+                            tooltip.attr(
+                                'fill',
+                                tinycolor(this.themeColor1).isLight()
+                                    ? 'black'
+                                    : 'white'
+                            );
                         });
                     }
 
