@@ -2,10 +2,10 @@ import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import * as d3 from 'd3';
 import * as _ from 'lodash';
-import * as tinycolor from 'tinycolor2';
 import { BaseComponent } from 'src/app/core/base.component';
 import { CharacterPreferences } from 'src/app/modules/characters/models/character-preferences.model';
 import { IPreferenceTypes } from 'src/app/modules/characters/models/preference-type.model';
+import * as tinycolor from 'tinycolor2';
 import { preferenceTypes } from '../../../../../../preference-types';
 
 @Component({
@@ -60,7 +60,7 @@ export class CurrentPreferencesComponent
 
         const xAxisScale = d3.scaleLinear().domain([0, 100]).range([0, width]);
 
-        const lazyZoom = _.debounce((event) => {
+        const lazyZoom = _.debounce((event: any) => {
             const new_xScale = event.transform.rescaleX(xAxisScale);
             const transform: d3.ZoomTransform = event.transform;
             const transformString = `translate(${transform.x},0) scale(${transform.k},1)`;
@@ -81,8 +81,8 @@ export class CurrentPreferencesComponent
             .append('svg')
             .attr('width', svgWidth)
             .attr('height', svgHeight)
-            .on('mousewheel', () => {
-                d3.event.sourceEvent.preventDefault();
+            .on('mousewheel', (e: any) => {
+                e.preventDefault();
             })
             .call(
                 (d3 as any)
@@ -92,8 +92,8 @@ export class CurrentPreferencesComponent
                         [0 - width * 0.2, 0],
                         [width * 1.2, height],
                     ])
-                    .on('zoom', () => {
-                        lazyZoom(d3.event);
+                    .on('zoom', (event: any) => {
+                        lazyZoom(event);
                     })
             );
         // Inner Drawing Space

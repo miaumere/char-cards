@@ -247,7 +247,7 @@ export class RelationTreeComponent implements OnInit {
                 });
         }
 
-        moveMouseEvent.pipe(throttleTime(10)).subscribe((x) => {
+        moveMouseEvent.pipe(throttleTime(10)).subscribe((x: any) => {
             console.log('x: ', x);
 
             if (clickedCircle) {
@@ -531,7 +531,7 @@ export class RelationTreeComponent implements OnInit {
                                 tooltip.attr('fill', 'transparent');
                             });
 
-                        moveMouseEvent.pipe(throttleTime(10)).subscribe((x) => {
+                        moveMouseEvent.pipe(throttleTime(10)).subscribe(() => {
                             tooltip.attr('fill', 'white');
                         });
                     }
