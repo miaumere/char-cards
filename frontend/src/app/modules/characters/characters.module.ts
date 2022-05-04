@@ -23,7 +23,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 
 import { StoryComponent } from './components/characters-article/components/character-card/subcomponents/char-information/subcomponents/story/story.component';
 import { CharInformationComponent } from './components/characters-article/components/character-card/subcomponents/char-information/char-information.component';
-import { CharFamilyTreeComponent } from './components/characters-article/components/character-card/subcomponents/char-information/subcomponents/char-family-tree/char-family-tree.component';
+import { CharRelationsComponent } from './components/characters-article/components/character-card/subcomponents/char-information/subcomponents/char-relations/char-relations.component';
 import { MeasurementsComponent } from './components/characters-article/components/character-card/subcomponents/char-information/subcomponents/measurements/measurements.component';
 import { CurrentPreferencesComponent } from './components/characters-article/components/character-card/subcomponents/char-information/subcomponents/preferences/chart-components/current-preferences-chart/current-preferences-chart.component';
 import { HistoricalPreferencesComponent } from './components/characters-article/components/character-card/subcomponents/char-information/subcomponents/preferences/chart-components/historical-preferences-chart/historical-preferences-chart.component';
@@ -51,7 +51,7 @@ import { ImageCropperComponent } from './components/characters-article/component
         ProgressBarDirective,
         CurrentPreferencesComponent,
         HistoricalPreferencesComponent,
-        CharFamilyTreeComponent,
+        CharRelationsComponent,
         StarringInInfoComponent,
         MeasurementsComponent,
         PreferencesComponent,

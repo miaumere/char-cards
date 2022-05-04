@@ -3,11 +3,11 @@ import { RelationshipType } from 'src/app/modules/admin-panel/enums/relationship
 import { IRelationship } from 'src/app/modules/characters/models/relationship.model';
 
 @Component({
-    selector: 'app-char-family-tree [charRelationships]',
-    templateUrl: './char-family-tree.component.html',
-    styleUrls: ['./char-family-tree.component.scss'],
+    selector: 'app-char-relations [charRelationships]',
+    templateUrl: './char-relations.component.html',
+    styleUrls: ['./char-relations.component.scss'],
 })
-export class CharFamilyTreeComponent implements OnInit {
+export class CharRelationsComponent implements OnInit {
     @Input() charRelationships: IRelationship[] | null = null;
 
     crushes: IRelationship[] | null = [];
