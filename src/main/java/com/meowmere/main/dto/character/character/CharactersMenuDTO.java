@@ -8,11 +8,11 @@ public class CharactersMenuDTO {
     private String fullName;
 
     private String characterType;
-    private ProfilePicForMainDTO profilePic;
+    private String profilePic;
 
     public CharactersMenuDTO() {
     }
-    public CharactersMenuDTO(Character character, ProfilePicForMainDTO profilePic) {
+    public CharactersMenuDTO(Character character, String profilePic) {
         this.id = character.externalId;
         this.fullName = character.getCharName() + " " + character.getCharSurname();
         this.profilePic = profilePic;
@@ -22,7 +22,7 @@ public class CharactersMenuDTO {
     public String getFullName() {
         return fullName;
     }
-    public ProfilePicForMainDTO getProfilePic() {
+    public String getProfilePic() {
         return profilePic;
     }
 

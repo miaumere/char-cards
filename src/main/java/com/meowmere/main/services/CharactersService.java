@@ -43,6 +43,7 @@ import com.meowmere.main.requests.characters.quotes.UpsertQuoteRequest;
 import com.meowmere.main.requests.characters.relationship.EditRelationshipRequest;
 import com.meowmere.main.requests.characters.relationship.RelationRequest;
 import com.meowmere.main.requests.characters.stories.StoryRequest;
+import com.meowmere.main.utils.UtilsShared;
 import org.apache.commons.io.FilenameUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -92,13 +93,11 @@ public class CharactersService {
         ArrayList<CharactersMenuDTO> dtoList = new ArrayList<>();
 
         for(Character characterFromDb : allCharactersFromDb) {
-            ProfilePicForMainDTO profilePic = new ProfilePicForMainDTO();
             Image image = imageRepository.getProfilePicForCharacter(characterFromDb.getExternalId());
+            String profilePic = null;
             if(image != null){
-                profilePic.setExtension(image.getExtension());
-                profilePic.setImage(image.getImage());
+                profilePic = UtilsShared.GetProfilePicBase64Code(image.getExtension(), image.getImage());
             }
-
             CharactersMenuDTO dto = new CharactersMenuDTO(characterFromDb, profilePic);
 
             dtoList.add(dto);
@@ -190,11 +189,10 @@ public class CharactersService {
         }
         dto.setImagesList(imagesList);
 
-        ProfilePicForMainDTO profilePic = new ProfilePicForMainDTO();
         Image image = imageRepository.getProfilePicForCharacter(oneCharacter.getExternalId());
+        String profilePic = null;
         if(image != null){
-            profilePic.setExtension(image.getExtension());
-            profilePic.setImage(image.getImage());
+            profilePic = UtilsShared.GetProfilePicBase64Code(image.getExtension(), image.getImage());
         }
         dto.setProfilePic(profilePic);
 
@@ -242,13 +240,14 @@ public class CharactersService {
         for (Character character : charactersFromDb) {
             EveryCharacterMenuDTO dto = modelMapper.map(character, EveryCharacterMenuDTO.class);
 
-            ProfilePicForMainDTO profilePic = new ProfilePicForMainDTO();
+            String profilePic = null;
+
             Image image = imageRepository.getProfilePicForCharacter(character.getExternalId());
             if(image != null){
-                profilePic.setExtension(image.getExtension());
-                profilePic.setImage(image.getImage());
-                dto.setProfilePic(profilePic);
+                profilePic = UtilsShared.GetProfilePicBase64Code(image.getExtension(), image.getImage());
             }
+            dto.setProfilePic(profilePic);
+
             dtoList.add(dto);
         }
         return new ResponseEntity(dtoList, HttpStatus.OK);

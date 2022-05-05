@@ -1,4 +1,3 @@
-import { IProfilePic } from './../../../../../../../../../../admin-panel/models/images/profile-pic.model';
 import { Component, Input, OnInit } from '@angular/core';
 import { IRelationTreeDto } from 'src/app/modules/characters/models/relations/relation-tree-dto.model';
 import { RelationType } from 'src/app/modules/characters/models/relations/relation-type.enum';
@@ -15,7 +14,7 @@ export class EditRelationsComponent implements OnInit {
     @Input('color') themeColor1: string = '';
     @Input() relations: IRelationTreeDto | null = null;
     @Input() charRelationships: IRelationship[] | null = null;
-    @Input() profilePic: IProfilePic | null = null;
+    @Input() profilePic: string | null = null;
 
     expandRelations = false;
     constructor() {}

@@ -1,5 +1,3 @@
-import { IProfilePic } from '../../admin-panel/models/images/profile-pic.model';
-
 import { ICharacterItem } from './character-item.model';
 
 export interface ICharacterForListItem {
@@ -9,7 +7,7 @@ export interface ICharacterForListItem {
 
     charSurname: string;
     characterType: string;
-    profilePic: IProfilePic | null;
+    profilePic: string | null;
     archived: boolean;
 }
 
@@ -19,7 +17,7 @@ export class CharacterForListItem implements ICharacterForListItem {
     fullName: string = '';
 
     charSurname: string = '';
-    profilePic: IProfilePic | null = null;
+    profilePic: string | null = null;
     characterType: string = '';
     archived: boolean = false;
 

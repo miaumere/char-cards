@@ -32,7 +32,7 @@ public class CharacterDTO {
     public List<ImageDTO> imagesList;
     public List<RelationshipDTO> relationships;
     public List<BookWithStarringCharsDTO> starringIn;
-    private ProfilePicForMainDTO profilePic;
+    private String profilePic;
 
 
     public String getCharType() {
@@ -187,11 +187,11 @@ public class CharacterDTO {
         this.starringIn = starringIn;
     }
 
-    public ProfilePicForMainDTO getProfilePic() {
+    public String getProfilePic() {
         return profilePic;
     }
 
-    public void setProfilePic(ProfilePicForMainDTO profilePic) {
+    public void setProfilePic(String profilePic) {
         this.profilePic = profilePic;
     }
 }

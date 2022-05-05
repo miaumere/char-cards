@@ -14,7 +14,6 @@ import { finalize } from 'rxjs/operators';
 import { BaseComponent } from 'src/app/core/base.component';
 import { CharactersService } from 'src/app/core/service/characters.service';
 import { EditImageName } from 'src/app/modules/admin-panel/models/images/edit-image-name.model';
-import { IProfilePic } from 'src/app/modules/admin-panel/models/images/profile-pic.model';
 import { Character } from 'src/app/modules/characters/models/character.model';
 import { IImageForMain } from 'src/app/modules/characters/models/image-for-main.model';
 

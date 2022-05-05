@@ -1,12 +1,7 @@
 <img
     class="character__profile-pic"
     *ngIf="profilePicFromCharacter"
-    [src]="
-        'data:image/' +
-            profilePicFromCharacter?.extension +
-            ';base64, ' +
-            profilePicFromCharacter.image | sanitizer
-    "
+    [src]="profilePicFromCharacter | sanitizer"
 />
 <div
     *ngIf="!profilePicFromCharacter"

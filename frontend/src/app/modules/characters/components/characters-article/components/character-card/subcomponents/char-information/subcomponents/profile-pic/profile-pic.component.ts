@@ -5,7 +5,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { BaseComponent } from 'src/app/core/base.component';
 import { CharactersService } from 'src/app/core/service/characters.service';
-import { IProfilePic } from 'src/app/modules/admin-panel/models/images/profile-pic.model';
 import { Character } from 'src/app/modules/characters/models/character.model';
 import {
     CropProfilePicComponent,
@@ -18,7 +17,7 @@ import {
     styleUrls: ['./profile-pic.component.scss'],
 })
 export class ProfilePicComponent extends BaseComponent implements OnInit {
-    @Input('profilePic') profilePicFromCharacter: IProfilePic | null = null;
+    @Input('profilePic') profilePicFromCharacter: string | null = null;
     @Input() isUserLogged: boolean = false;
     @Input() charId: number = 0;
 

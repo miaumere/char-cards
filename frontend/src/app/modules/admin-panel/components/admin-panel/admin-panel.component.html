@@ -5,12 +5,7 @@
 
             <div *ngIf="selectedCharacter.profilePic">
                 <img
-                    [src]="
-                        'data:image/' +
-                            selectedCharacter.profilePic?.extension +
-                            ';base64, ' +
-                            selectedCharacter.profilePic.image | sanitizer
-                    "
+                    [src]="selectedCharacter.profilePic | sanitizer"
                     class="profile-pic"
                 />
             </div>

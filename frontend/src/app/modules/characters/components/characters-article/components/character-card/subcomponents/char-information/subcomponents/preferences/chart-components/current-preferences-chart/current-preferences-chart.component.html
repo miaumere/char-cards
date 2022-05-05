@@ -6,12 +6,7 @@
     <div class="chosen-char">
         <div class="char-info__profile-pic" *ngIf="chosenChar!.relCharAvatar">
             <img
-                [src]="
-                    'data:image/' +
-                        chosenChar!.relCharAvatar!.extension +
-                        ';base64, ' +
-                        chosenChar!.relCharAvatar.image | sanitizer
-                "
+                [src]="chosenChar!.relCharAvatar | sanitizer"
                 class="profile-pic"
             />
         </div>

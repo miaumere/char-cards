@@ -130,15 +130,14 @@ public class StoryService {
 
                         Character character = starringCharacter.getCharacter();
 
-                        ProfilePicForMainDTO profilePicForMainDTO = new ProfilePicForMainDTO();
-
+                        String profilePic = null;
                         Image image = imageRepository.getProfilePicForCharacter(character.getExternalId());
                         if(image != null) {
-                            profilePicForMainDTO.setImage(image.getImage());
-                            profilePicForMainDTO.setExtension(image.getExtension());
+                            profilePic = UtilsShared.GetProfilePicBase64Code(image.getExtension(), image.getImage());
+
                         }
 
-                        CharactersMenuDTO charactersMenuDTO = new CharactersMenuDTO(character, profilePicForMainDTO);
+                        CharactersMenuDTO charactersMenuDTO = new CharactersMenuDTO(character, profilePic);
 
                         dto.setCharacter(charactersMenuDTO);
                         dto.setStarringType(starringCharacter.getStarringType().name());
@@ -203,15 +202,14 @@ public class StoryService {
 
                 Character character = starringCharacter.getCharacter();
 
-                ProfilePicForMainDTO profilePicForMainDTO = new ProfilePicForMainDTO();
+                String profilePic = null;
 
                 Image image = imageRepository.getProfilePicForCharacter(character.getExternalId());
                 if(image != null) {
-                    profilePicForMainDTO.setImage(image.getImage());
-                    profilePicForMainDTO.setExtension(image.getExtension());
+                    profilePic = UtilsShared.GetProfilePicBase64Code(image.getExtension(), image.getImage());
                 }
 
-                CharactersMenuDTO charactersMenuDTO = new CharactersMenuDTO(character, profilePicForMainDTO);
+                CharactersMenuDTO charactersMenuDTO = new CharactersMenuDTO(character, profilePic);
 
 
                 dto.setCharacter(charactersMenuDTO);

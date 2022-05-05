@@ -1,4 +1,3 @@
-import { IProfilePic } from './../../../../../../../../../../admin-panel/models/images/profile-pic.model';
 import { Component, Inject, OnInit } from '@angular/core';
 import {
     MatDialog,
@@ -18,7 +17,7 @@ import { CharactersService } from 'src/app/core/service/characters.service';
 
 export interface CropProfilePicDialogData {
     profilePicChangeEvent: File;
-    currentProfilePic: IProfilePic | null;
+    currentProfilePic: string | null;
     charId: number;
 }
 
