@@ -1,5 +1,6 @@
-<!-- <pre>
-  {{ charRelationships | json }}
-</pre> -->
 <app-relation-tree [color]="themeColor1"></app-relation-tree>
-<app-edit-relations></app-edit-relations>
+<app-edit-relations
+    [isUserLogged]="isUserLogged"
+    [charRelationships]="charRelationships"
+    [color]="themeColor1"
+></app-edit-relations>

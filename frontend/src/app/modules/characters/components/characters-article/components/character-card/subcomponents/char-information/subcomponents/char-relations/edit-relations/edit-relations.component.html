@@ -1,1 +1,66 @@
-<p>edit-relations works!</p>
+<mat-expansion-panel
+    (opened)="expandRelations = true"
+    (closed)="expandRelations = false"
+    class="relations"
+    [expanded]="expandRelations"
+    [togglePosition]="'before'"
+    *ngIf="isUserLogged"
+>
+    <mat-expansion-panel-header style="height: 1rem">
+    </mat-expansion-panel-header>
+
+    <div
+        class="relations"
+        *ngIf="
+            isUserLogged && charRelationships && charRelationships.length > 0
+        "
+    >
+        <form
+            *ngFor="let rel of charRelationships; index as i"
+            class="relation"
+            [ngStyle]="{ background: themeColor1 }"
+        >
+            <div class="relationship-form__box form-box">
+                <span class="form-box__title">
+                    {{ 'EDIT_RELATIONS.CHARACTER1' | translate }}
+                </span>
+                <div class="character-name character-name--one">erde</div>
+
+                <div class="character-name character-name--two"></div>
+            </div>
+            <div class="relationship-form__box form-box">
+                <span class="form-box__title">
+                    {{ 'EDIT_RELATIONS.RELATION_TYPE_TITLE' | translate }}
+                </span>
+            </div>
+            <div class="relationship-form__box form-box">
+                <span class="form-box__title">
+                    {{ 'EDIT_RELATIONS.CHARACTER2_TITLE' | translate }}
+                </span>
+                <div class="character-name character-name--two"></div>
+                <div class="character-name character-name--one">erde</div>
+            </div>
+        </form>
+        <span *ngIf="charRelationships.length === 0">
+            {{ 'EDIT_RELATIONS.NO_RELATIONS_MSG' | translate }}
+        </span>
+    </div>
+    <mat-icon
+        *ngIf="isUserLogged"
+        class="basic-icon basic-icon--expand add-icon"
+        >add</mat-icon
+    >
+</mat-expansion-panel>
+
+<!-- <div
+    class="new-relation-add"
+    *ngIf="isUserLogged && moreQuotes && moreQuotes.length === 0"
+    style="width: 2.5rem"
+>
+    <mat-icon
+        *ngIf="isUserLogged"
+        class="basic-icon basic-icon--expand add-icon"
+        (click)="addNewQuote(); expandRelations = true"
+        >add</mat-icon
+    >
+</div> -->

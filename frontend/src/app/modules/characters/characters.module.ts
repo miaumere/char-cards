@@ -41,6 +41,7 @@ import { CropProfilePicComponent } from './components/characters-article/compone
 import { ImageCropperComponent } from './components/characters-article/components/character-card/subcomponents/char-information/subcomponents/profile-pic/crop-profile-pic/image-cropper/image-cropper.component';
 import { RelationTreeComponent } from './components/characters-article/components/character-card/subcomponents/char-information/subcomponents/char-relations/relation-tree/relation-tree.component';
 import { EditRelationsComponent } from './components/characters-article/components/character-card/subcomponents/char-information/subcomponents/char-relations/edit-relations/edit-relations.component';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
     declarations: [
@@ -88,6 +89,7 @@ import { EditRelationsComponent } from './components/characters-article/componen
         MatChipsModule,
         DragDropModule,
         MatExpansionModule,
+        MatSelectModule,
     ],
     exports: [HistoricalPreferencesComponent],
 

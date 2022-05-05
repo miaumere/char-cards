@@ -1,133 +1,275 @@
-<!-- <div [ngSwitch]="type">
-  <div *ngSwitchCase="'new'">
-    <form [formGroup]="relationForm" class="relationship">
-      <div class="relationship-form__container">
-
-        <div class="relationship-form__box">
-          <span>
-            {{ 'EDIT_RELATIONS.CHARACTER1' | translate }}
-          </span>
-          <mat-form-field>
-            <input matInput formControlName="firstChar" spellcheck="false" [matAutocomplete]="auto"
-              [placeholder]="'EDIT_RELATIONS.CHARACTER1' | translate" class="relationship-box__input" />
-            <mat-autocomplete #auto="matAutocomplete">
-              <mat-option *ngFor="let char of filteredCharacters | async" [value]="char.fullName" class="option">
-                <img *ngIf="char.profilePic"
-                  [src]="'data:image/' + char.profilePic?.extension + ';base64, ' + char.profilePic?.image | sanitizer"
-                  class="option__image">
-                <span>{{char.fullName}}</span>
-              </mat-option>
-            </mat-autocomplete>
-          </mat-form-field>
-          <mat-form-field>
-            <input matInput formControlName="secondChar" [placeholder]="'EDIT_RELATIONS.CHARACTER2' | translate"
-              class="relationship-box__input" />
-          </mat-form-field>
-        </div>
-        <div class="relationship-form__box">
-          <span>
-            {{ 'EDIT_RELATIONS.RELATION_TYPE_TITLE' | translate }}
-
-          </span>
-
-          <mat-form-field>
-            <mat-select formControlName="reverseRelation" class="relationship-box__input">
-              <mat-option *ngFor="let type of RelationshipType | enumVal" [value]="type.key">
-                {{'enum.relationshipType.' + type.value | translate}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-
-          <span> {{ 'EDIT_RELATIONS.REVERSED_RELATION_TYPE_TITLE' | translate }}
-          </span>
-          <mat-form-field>
-            <input matInput formControlName="relation" class="relationship-box__input" />
-          </mat-form-field>
-        </div>
-        <div class="relationship-form__box">
-          <span> {{ 'EDIT_RELATIONS.CHARACTER2_TITLE' | translate }}
-          </span>
-          <mat-form-field>
-            <input matInput formControlName="secondCharReversed" [matAutocomplete]="auto2"
-              [placeholder]="'EDIT_RELATIONS.CHARACTER2' | translate" class="relationship-box__input"
-              spellcheck="false" />
-            <mat-autocomplete #auto2="matAutocomplete">
-              <mat-option *ngFor="let char of filteredCharacters2 | async" [value]="char.fullName" class="option">
-                <img *ngIf="char.profilePic"
-                  [src]="'data:image/' + char.profilePic?.extension + ';base64, ' + char.profilePic?.image | sanitizer"
-                  class="option__image">
-                <span>{{char.fullName}}</span>
-              </mat-option>
-            </mat-autocomplete>
-          </mat-form-field>
-          <mat-form-field>
-            <input matInput formControlName="firstCharReversed" [placeholder]="'EDIT_RELATIONS.CHARACTER1' | translate"
-              class="relationship-box__input" />
-          </mat-form-field>
-        </div>
-      </div>
-
-      <button mat-raised-button color="accent" [disabled]="relationForm.invalid" (click)="createNewRelation()">
-        <mat-icon>library_add</mat-icon>
-        {{ 'EDIT_RELATIONS.ADD_RELATIONS' | translate }}
-      </button>
-
-    </form>
-  </div>
-
-  <div *ngSwitchCase="'edit'" class="relationships">
-    <ng-container *ngIf="selectedCharacter">
-
-      <ul *ngIf="relationshipsList.length > 0">
-        <form #relationshipsEditForm="ngForm" class="edit-relationships-form">
-          <h2> {{ 'EDIT_RELATIONS.RELATIONS_TITLE' | translate }}
-          </h2>
-          <div *ngFor="let rel of relationshipsList; index as i">
-            <mat-card class="relationship-form__container relationship-form__container--edit">
-              <button mat-mini-fab color="warn" (click)="deleteRelation(rel.relationship.relatedCharacter.id)">
-                <mat-icon>delete</mat-icon>
-              </button>
-              <div class="relationship-form__box">
-                <span> {{ 'EDIT_RELATIONS.CHARACTER1' | translate }}
-                </span>
-                <div class="character-name character-name--one">{{selectedCharacter.fullName}}</div>
-
-                <div class="character-name character-name--two">
-                  {{rel.relationship.relatedCharacter.charName + ' ' + rel.relationship.relatedCharacter.charSurname}}
+<div [ngSwitch]="type">
+    <div *ngSwitchCase="'new'">
+        <form [formGroup]="relationForm" class="relationship">
+            <div class="relationship-form__container">
+                <div class="relationship-form__box">
+                    <span>
+                        {{ 'EDIT_RELATIONS.CHARACTER1' | translate }}
+                    </span>
+                    <mat-form-field>
+                        <input
+                            matInput
+                            formControlName="firstChar"
+                            spellcheck="false"
+                            [matAutocomplete]="auto"
+                            [placeholder]="
+                                'EDIT_RELATIONS.CHARACTER1' | translate
+                            "
+                            class="relationship-box__input"
+                        />
+                        <mat-autocomplete #auto="matAutocomplete">
+                            <mat-option
+                                *ngFor="let char of filteredCharacters | async"
+                                [value]="char.fullName"
+                                class="option"
+                            >
+                                <img
+                                    *ngIf="char.profilePic"
+                                    [src]="
+                                        'data:image/' +
+                                            char.profilePic?.extension +
+                                            ';base64, ' +
+                                            char.profilePic?.image | sanitizer
+                                    "
+                                    class="option__image"
+                                />
+                                <span>{{ char.fullName }}</span>
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                    <mat-form-field>
+                        <input
+                            matInput
+                            formControlName="secondChar"
+                            [placeholder]="
+                                'EDIT_RELATIONS.CHARACTER2' | translate
+                            "
+                            class="relationship-box__input"
+                        />
+                    </mat-form-field>
                 </div>
-              </div>
-              <div class="relationship-form__box">
-                <span> {{ 'EDIT_RELATIONS.RELATION_TYPE_TITLE' | translate }}
-                </span>
-                <mat-select [ngModel]="RelationshipType[rel.relationship.relationName]" class="select"
-                  [name]="'relationType__' + rel.relationship.relatedCharacter.id"
-                  (selectionChange)="editRelation(rel.relationship.relatedCharacter.id, $event.value)">
-                  <mat-option *ngFor="let type of RelationshipType | enumVal" [value]="type.key">
-                    {{'enum.relationshipType.' + type.value | translate}}
-                  </mat-option>
-                </mat-select>
+                <div class="relationship-form__box">
+                    <span>
+                        {{ 'EDIT_RELATIONS.RELATION_TYPE_TITLE' | translate }}
+                    </span>
 
-                <mat-form-field>
-                  <input matInput [ngModel]="'enum.relationshipType.' + rel.reverseRelationshipType | translate"
-                    disabled [name]="'reverseRelationType__' + rel.relationship.relatedCharacter.id" />
-                </mat-form-field>
-              </div>
-              <div class="relationship-form__box">
-                <span> {{ 'EDIT_RELATIONS.CHARACTER2_TITLE' | translate }}
-                </span>
-                <div class="character-name character-name--two">
-                  {{rel.relationship.relatedCharacter.charName + ' ' + rel.relationship.relatedCharacter.charSurname}}
+                    <mat-form-field>
+                        <mat-select
+                            formControlName="reverseRelation"
+                            class="relationship-box__input"
+                        >
+                            <mat-option
+                                *ngFor="let type of RelationshipType | enumVal"
+                                [value]="type.key"
+                            >
+                                {{
+                                    'enum.relationshipType.' + type.value
+                                        | translate
+                                }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <span>
+                        {{
+                            'EDIT_RELATIONS.REVERSED_RELATION_TYPE_TITLE'
+                                | translate
+                        }}
+                    </span>
+                    <mat-form-field>
+                        <input
+                            matInput
+                            formControlName="relation"
+                            class="relationship-box__input"
+                        />
+                    </mat-form-field>
                 </div>
-                <div class="character-name character-name--one">{{selectedCharacter.fullName}}</div>
-              </div>
-            </mat-card>
-          </div>
+                <div class="relationship-form__box">
+                    <span>
+                        {{ 'EDIT_RELATIONS.CHARACTER2_TITLE' | translate }}
+                    </span>
+                    <mat-form-field>
+                        <input
+                            matInput
+                            formControlName="secondCharReversed"
+                            [matAutocomplete]="auto2"
+                            [placeholder]="
+                                'EDIT_RELATIONS.CHARACTER2' | translate
+                            "
+                            class="relationship-box__input"
+                            spellcheck="false"
+                        />
+                        <mat-autocomplete #auto2="matAutocomplete">
+                            <mat-option
+                                *ngFor="let char of filteredCharacters2 | async"
+                                [value]="char.fullName"
+                                class="option"
+                            >
+                                <img
+                                    *ngIf="char.profilePic"
+                                    [src]="
+                                        'data:image/' +
+                                            char.profilePic?.extension +
+                                            ';base64, ' +
+                                            char.profilePic?.image | sanitizer
+                                    "
+                                    class="option__image"
+                                />
+                                <span>{{ char.fullName }}</span>
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                    <mat-form-field>
+                        <input
+                            matInput
+                            formControlName="firstCharReversed"
+                            [placeholder]="
+                                'EDIT_RELATIONS.CHARACTER1' | translate
+                            "
+                            class="relationship-box__input"
+                        />
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <button
+                mat-raised-button
+                color="accent"
+                [disabled]="relationForm.invalid"
+                (click)="createNewRelation()"
+            >
+                <mat-icon>library_add</mat-icon>
+                {{ 'EDIT_RELATIONS.ADD_RELATIONS' | translate }}
+            </button>
         </form>
+    </div>
 
-      </ul>
-      <span *ngIf="relationshipsList.length === 0"> {{ 'EDIT_RELATIONS.NO_RELATIONS_MSG' | translate }}
-      </span>
-    </ng-container>
+    <div *ngSwitchCase="'edit'" class="relationships">
+        <ng-container *ngIf="selectedCharacter">
+            <ul *ngIf="relationshipsList.length > 0">
+                <form
+                    #relationshipsEditForm="ngForm"
+                    class="edit-relationships-form"
+                >
+                    <h2>{{ 'EDIT_RELATIONS.RELATIONS_TITLE' | translate }}</h2>
+                    <div *ngFor="let rel of relationshipsList; index as i">
+                        <mat-card
+                            class="relationship-form__container relationship-form__container--edit"
+                        >
+                            <button
+                                mat-mini-fab
+                                color="warn"
+                                (click)="
+                                    deleteRelation(
+                                        rel.relationship.relatedCharacter.id
+                                    )
+                                "
+                            >
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                            <div class="relationship-form__box">
+                                <span>
+                                    {{
+                                        'EDIT_RELATIONS.CHARACTER1' | translate
+                                    }}
+                                </span>
+                                <div class="character-name character-name--one">
+                                    {{ selectedCharacter.fullName }}
+                                </div>
 
-  </div>
-</div> -->
+                                <div class="character-name character-name--two">
+                                    {{
+                                        rel.relationship.relatedCharacter
+                                            .charName +
+                                            ' ' +
+                                            rel.relationship.relatedCharacter
+                                                .charSurname
+                                    }}
+                                </div>
+                            </div>
+                            <div class="relationship-form__box">
+                                <span>
+                                    {{
+                                        'EDIT_RELATIONS.RELATION_TYPE_TITLE'
+                                            | translate
+                                    }}
+                                </span>
+                                <mat-select
+                                    [ngModel]="
+                                        RelationshipType[
+                                            rel.relationship.relationName
+                                        ]
+                                    "
+                                    class="select"
+                                    [name]="
+                                        'relationType__' +
+                                        rel.relationship.relatedCharacter.id
+                                    "
+                                    (selectionChange)="
+                                        editRelation(
+                                            rel.relationship.relatedCharacter
+                                                .id,
+                                            $event.value
+                                        )
+                                    "
+                                >
+                                    <mat-option
+                                        *ngFor="
+                                            let type of RelationshipType
+                                                | enumVal
+                                        "
+                                        [value]="type.key"
+                                    >
+                                        {{
+                                            'enum.relationshipType.' +
+                                                type.value | translate
+                                        }}
+                                    </mat-option>
+                                </mat-select>
+
+                                <mat-form-field>
+                                    <input
+                                        matInput
+                                        [ngModel]="
+                                            'enum.relationshipType.' +
+                                                rel.reverseRelationshipType
+                                                | translate
+                                        "
+                                        disabled
+                                        [name]="
+                                            'reverseRelationType__' +
+                                            rel.relationship.relatedCharacter.id
+                                        "
+                                    />
+                                </mat-form-field>
+                            </div>
+                            <div class="relationship-form__box">
+                                <span>
+                                    {{
+                                        'EDIT_RELATIONS.CHARACTER2_TITLE'
+                                            | translate
+                                    }}
+                                </span>
+                                <div class="character-name character-name--two">
+                                    {{
+                                        rel.relationship.relatedCharacter
+                                            .charName +
+                                            ' ' +
+                                            rel.relationship.relatedCharacter
+                                                .charSurname
+                                    }}
+                                </div>
+                                <div class="character-name character-name--one">
+                                    {{ selectedCharacter.fullName }}
+                                </div>
+                            </div>
+                        </mat-card>
+                    </div>
+                </form>
+            </ul>
+            <span *ngIf="relationshipsList.length === 0">
+                {{ 'EDIT_RELATIONS.NO_RELATIONS_MSG' | translate }}
+            </span>
+        </ng-container>
+    </div>
+</div>

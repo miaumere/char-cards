@@ -50,12 +50,14 @@
         <mat-divider></mat-divider>
 
         <h2 class="story__title" [ngStyle]="{ color: themeColor1 }">
-            {{ 'CHARACTER_CARD.FAMILY_RELATIONS' | translate }}
+            👨‍👨‍👦‍👦 {{ 'CHARACTER_CARD.FAMILY_RELATIONS' | translate }}
         </h2>
 
         <app-char-relations
             [charRelationships]="character.relationships"
             [color]="bgColor1"
+            [isUserLogged]="isUserLogged"
+            [profilePic]="character.profilePic"
         ></app-char-relations>
     </div>
 
@@ -65,7 +67,7 @@
     >
         <mat-divider></mat-divider>
         <h2 class="story__title" [ngStyle]="{ color: themeColor1 }">
-            🤗 {{ 'CHARACTER_CARD.PREFERENCES' | translate }}
+            💘 {{ 'CHARACTER_CARD.PREFERENCES' | translate }}
         </h2>
         <app-preferences [preferences]="preferences" [bgColor]="bgColor1">
         </app-preferences>

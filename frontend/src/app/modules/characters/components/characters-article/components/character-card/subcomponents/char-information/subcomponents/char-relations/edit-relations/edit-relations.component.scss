@@ -1,0 +1,42 @@
+@import 'variables';
+.relations {
+    display: flex;
+    flex-wrap: wrap;
+
+    background: transparent;
+    box-shadow: none;
+
+    margin-top: 1rem;
+    & .mat-expansion-panel-body {
+        padding: 0;
+    }
+}
+
+.add-icon {
+    margin-right: 0.5rem;
+}
+
+.new-relation-add {
+    display: flex;
+}
+
+.relation {
+    display: flex;
+
+    width: 250px;
+
+    margin: 0.5rem;
+    padding: 0.5rem;
+    border-radius: 3px;
+}
+
+.form-box {
+    margin: 0.25rem;
+    &__title {
+        display: block;
+
+        font-size: smaller;
+        color: $accent;
+        line-height: normal;
+    }
+}
