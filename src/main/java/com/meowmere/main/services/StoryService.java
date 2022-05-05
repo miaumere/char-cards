@@ -1,7 +1,6 @@
 package com.meowmere.main.services;
 
 import com.meowmere.main.dto.character.character.CharactersMenuDTO;
-import com.meowmere.main.dto.character.image.ProfilePicForMainDTO;
 import com.meowmere.main.dto.story.books.BookDTO;
 import com.meowmere.main.dto.story.chapters.ChapterDTO;
 import com.meowmere.main.dto.story.chapters.ChapterWithCharsDTO;

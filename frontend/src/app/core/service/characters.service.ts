@@ -50,7 +50,6 @@ export class CharactersService {
     private readonly _getAllCharactersURL = `${this.charControllerURL}/get-all-characters`;
     private readonly _getCharacterDetailsURL = `${this.charControllerURL}/get-details`;
     private readonly _getQuotesURL = `${this.charControllerURL}/get-quotes`;
-    private readonly _getRelationshipsForCharURL = `${this.charControllerURL}/get-relationships`;
     private readonly _getStoriesForCharURL = `${this.charControllerURL}/get-stories-for-character`;
     private readonly _getHistoricalPreferencesForCharacterURL = `${this.charControllerURL}/get-characters-historical-preferences`;
     private readonly _getAllPreferencesForCharURL = `${this.charControllerURL}/get-all-preferences-for-character`;
@@ -58,13 +57,11 @@ export class CharactersService {
     private readonly _patchChangeStateURL = `${this.charControllerURL}/change-state`;
     private readonly _patchImageNameURL = `${this.charControllerURL}/change-image-name`;
     private readonly _patchImagesOrderURL = `${this.charControllerURL}/change-images-order`;
-    private readonly _patchRelationshipURL = `${this.charControllerURL}/edit-relationship`;
 
     private readonly _postQuoteURL = `${this.charControllerURL}/upsert-quote`;
     private readonly _postUpsertStoryForCharacterURL = `${this.charControllerURL}/upsert-story`;
     private readonly _postNewCharacterURL = `${this.charControllerURL}/new-character`;
     private readonly _postEditImagesURL = `${this.charControllerURL}/new-images`;
-    private readonly _postNewRelationshipURL = `${this.charControllerURL}/new-relationship`;
     private readonly _postEditPreferenceURL = `${this.charControllerURL}/edit-preferences`;
 
     private readonly _putEditCharacterURL = `${this.charControllerURL}/edit-character`;
@@ -72,7 +69,6 @@ export class CharactersService {
 
     private readonly _deleteQuoteURL = `${this.charControllerURL}/delete-quote`;
     private readonly _deleteImageURL = `${this.charControllerURL}/delete-image`;
-    private readonly _deleteRelationshipURL = `${this.charControllerURL}/delete-relationship`;
     private readonly _deleteStoryURL = `${this.charControllerURL}/delete-story`;
     private readonly _deletePreferenceURL = `${this.charControllerURL}/delete-preference`;
 
@@ -129,24 +125,6 @@ export class CharactersService {
                 map((response) => {
                     response = new Character(response);
                     return response;
-                })
-            );
-    }
-
-    getRelationshipsForCharacter(id: number) {
-        const params = new HttpParams().set('id', '' + id);
-
-        return this.http
-            .get<IRelationshipsForCharacter[]>(
-                this._getRelationshipsForCharURL,
-                { params }
-            )
-            .pipe(
-                map((response) => {
-                    const mappedResponse = response.map(
-                        (r) => new RelationshipsForCharacter(r)
-                    );
-                    return mappedResponse;
                 })
             );
     }
@@ -220,13 +198,6 @@ export class CharactersService {
         );
     }
 
-    patchRelationship(requestBody: EditRelationship) {
-        return this.http.patch<EditRelationship>(
-            this._patchRelationshipURL,
-            requestBody
-        );
-    }
-
     upsertStoryForCharacter(requestBody: StoryRequest) {
         return this.http.post<StoryRequest>(
             this._postUpsertStoryForCharacterURL,
@@ -262,13 +233,6 @@ export class CharactersService {
         );
     }
 
-    postNewRelationship(requestBody: IRelationRequest) {
-        return this.http.post<IRelationRequest>(
-            this._postNewRelationshipURL,
-            requestBody
-        );
-    }
-
     upsertNewQuote(requestBody: UpsertQuote) {
         return this.http.post<UpsertQuote>(this._postQuoteURL, requestBody);
     }
@@ -299,14 +263,6 @@ export class CharactersService {
     deleteImage(imageId: number) {
         const params = new HttpParams().set('id', '' + imageId);
         return this.http.delete<void>(this._deleteImageURL, { params });
-    }
-
-    deleteRelationship(characterId: number, relatedCharacterId: number) {
-        const params = new HttpParams()
-            .set('characterId', '' + characterId)
-            .set('relatedCharacterId', '' + relatedCharacterId);
-
-        return this.http.delete<void>(this._deleteRelationshipURL, { params });
     }
 
     deleteStory(storyId: number) {

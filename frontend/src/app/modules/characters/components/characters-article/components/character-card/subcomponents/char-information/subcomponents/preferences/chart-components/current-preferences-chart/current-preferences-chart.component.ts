@@ -129,7 +129,12 @@ export class CurrentPreferencesComponent
                 .attr('height', '1')
                 .attr('width', '1')
                 .attr('preserveAspectRatio', 'xMidYMid slice')
-                .attr('xlink:href', `${pref.relCharAvatar}`);
+                .attr(
+                    'xlink:href',
+                    `data:image/${
+                        (pref.relCharAvatar as any).extension
+                    };base64,${(pref.relCharAvatar as any)?.image}`
+                );
         }
 
         rects = (innerSpace as any)

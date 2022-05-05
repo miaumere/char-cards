@@ -2,7 +2,6 @@ package com.meowmere.main.dto.character.character;
 
 import com.meowmere.main.dto.character.colors.CharacterColorDTO;
 import com.meowmere.main.dto.character.image.ImageDTO;
-import com.meowmere.main.dto.character.image.ProfilePicForMainDTO;
 import com.meowmere.main.dto.character.measurements.CharacterMeasurementsDTO;
 import com.meowmere.main.dto.character.quote.CharacterQuoteDTO;
 import com.meowmere.main.dto.character.relationship.RelationshipDTO;

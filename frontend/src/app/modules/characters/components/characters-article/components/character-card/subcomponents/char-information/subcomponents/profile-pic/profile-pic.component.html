@@ -2,6 +2,11 @@
     class="character__profile-pic"
     *ngIf="profilePicFromCharacter"
     [src]="profilePicFromCharacter | sanitizer"
+    [ngStyle]="{
+        width: height,
+        height: height,
+        borderRadius: isCircle ? '50px' : '3px'
+    }"
 />
 <div
     *ngIf="!profilePicFromCharacter"

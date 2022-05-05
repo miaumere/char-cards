@@ -1,6 +1,6 @@
 <app-relation-tree [color]="themeColor1"></app-relation-tree>
 <app-edit-relations
-    [isUserLogged]="isUserLogged"
-    [charRelationships]="charRelationships"
+    *ngIf="isUserLogged"
     [color]="themeColor1"
+    [charId]="charId"
 ></app-edit-relations>

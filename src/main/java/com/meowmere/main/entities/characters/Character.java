@@ -73,6 +73,9 @@ public class Character {
     @OneToMany(mappedBy = "preferedCharacter", cascade = CascadeType.ALL)
     private List<Preference> preferedBy;
 
+    @OneToMany(mappedBy = "relatedCharacter", cascade = CascadeType.ALL)
+    private List<Relation> relatedCharacter;
+
     public Character() {};
 
     public CharType getCharType() {
@@ -257,5 +260,13 @@ public class Character {
 
     public void setPreferedBy(List<Preference> preferedBy) {
         this.preferedBy = preferedBy;
+    }
+
+    public List<Relation> getRelatedCharacter() {
+        return relatedCharacter;
+    }
+
+    public void setRelatedCharacter(List<Relation> relatedCharacter) {
+        this.relatedCharacter = relatedCharacter;
     }
 };

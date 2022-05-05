@@ -20,6 +20,8 @@ export class ProfilePicComponent extends BaseComponent implements OnInit {
     @Input('profilePic') profilePicFromCharacter: string | null = null;
     @Input() isUserLogged: boolean = false;
     @Input() charId: number = 0;
+    @Input() height: string = '100px';
+    @Input() isCircle = false;
 
     @Output() profilePicChangedEvent = new EventEmitter<true>();
 

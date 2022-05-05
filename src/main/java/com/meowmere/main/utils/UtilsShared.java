@@ -1,7 +1,5 @@
 package com.meowmere.main.utils;
 
-import com.meowmere.main.dto.character.image.ProfilePicForMainDTO;
-
 import java.io.File;
 import java.util.Base64;
 

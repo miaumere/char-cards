@@ -24,6 +24,24 @@ export interface IRelationTreeDto {
     relations: IRelationTreeRelation[];
 }
 
+export interface IRelationForCharacter {
+    person: IRelatedPersonData;
+
+    relations: IRelation[];
+}
+
+export interface IRelation {
+    type: RelationType;
+    arrowFromSource: boolean | null;
+    relationDateStart: string | null;
+    relationDateEnd: string | null;
+}
+export interface IRelatedPersonData {
+    id: 1;
+    fullName: 'Saturn';
+    imageMimeData: 'GreenYellow';
+}
+
 // MOCK
 export const mockData: IRelationTreeDto = {
     persons: [

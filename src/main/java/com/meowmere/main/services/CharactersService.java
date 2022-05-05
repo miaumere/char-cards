@@ -7,7 +7,6 @@ import com.meowmere.main.dto.character.character.CharactersMenuDTO;
 import com.meowmere.main.dto.character.character.EveryCharacterMenuDTO;
 import com.meowmere.main.dto.character.colors.CharacterColorDTO;
 import com.meowmere.main.dto.character.image.ImageDTO;
-import com.meowmere.main.dto.character.image.ProfilePicForMainDTO;
 import com.meowmere.main.dto.character.measurements.CharacterMeasurementsDTO;
 import com.meowmere.main.dto.character.preference.AllPreferencesDTO;
 import com.meowmere.main.dto.character.preference.HistoricPreferenceDTO;
@@ -157,12 +156,13 @@ public class CharactersService {
                 relatedCharacterDTO.setCharName(character.getCharName());
                 relatedCharacterDTO.setCharSurname(character.getCharSurname());
 
-                Image profilePicForCharacter = imageRepository.getProfilePicForCharacter(character.getExternalId());
-                ProfilePicForMainDTO profilePicForMainDTO = new ProfilePicForMainDTO();
-                profilePicForMainDTO.setExtension(profilePicForCharacter.getExtension());
-                profilePicForMainDTO.setImage(profilePicForCharacter.getImage());
+                Image image = imageRepository.getProfilePicForCharacter(character.getExternalId());
+                String profilePic = null;
+                if(image != null){
+                    profilePic = UtilsShared.GetProfilePicBase64Code(image.getExtension(), image.getImage());
+                }
 
-                relatedCharacterDTO.setProfilePic(profilePicForMainDTO);
+                relatedCharacterDTO.setProfilePic(profilePic);
                 relationshipDTO.setRelatedCharacter(relatedCharacterDTO);
                 relationshipDTO.setRelationName(relationship.getRelationName().name());
                 relationshipDTOS.add(relationshipDTO);

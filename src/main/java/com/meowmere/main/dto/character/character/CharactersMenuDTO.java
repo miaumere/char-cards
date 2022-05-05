@@ -1,6 +1,5 @@
 package com.meowmere.main.dto.character.character;
 
-import com.meowmere.main.dto.character.image.ProfilePicForMainDTO;
 import com.meowmere.main.entities.characters.Character;
 
 public class CharactersMenuDTO {

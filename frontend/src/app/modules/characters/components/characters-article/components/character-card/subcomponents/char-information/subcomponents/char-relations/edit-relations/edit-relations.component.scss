@@ -40,3 +40,13 @@
         line-height: normal;
     }
 }
+
+.character-in-relation {
+    &__name {
+        display: flex;
+        justify-content: center;
+
+        font-size: x-small;
+        color: $accent;
+    }
+}
