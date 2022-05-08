@@ -171,10 +171,19 @@ export class EditRelationsComponent extends BaseComponent implements OnInit {
         for (const relationForCharacter of this.relationsForCharacter) {
             const personId = relationForCharacter.person.id;
             const relations: IRelation[] = [];
+
             for (const relation of this.relationsFormGroup.getRawValue()[
                 personId
             ][0].relations) {
-                const relationToAdd = relation;
+                const relationToAdd: IRelation = relation;
+                relationToAdd.relationDateEnd = relationToAdd.relationDateEnd
+                    ? new Date(relationToAdd.relationDateEnd).getTime()
+                    : null;
+                relationToAdd.relationDateStart =
+                    relationToAdd.relationDateStart
+                        ? new Date(relationToAdd.relationDateStart).getTime()
+                        : null;
+
                 relations.push(relationToAdd);
             }
             const requestToAdd: IRelationRequest = {

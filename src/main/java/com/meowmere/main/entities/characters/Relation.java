@@ -41,6 +41,19 @@ public class Relation {
     @Column
     private Long relationDateEnd;
 
+    public Relation(){}
+
+    public Relation(Character character, Character relatedCharacter, RelationType type, Integer x, Integer y, Long relationDateStart, Long relationDateEnd) {
+        this.character = character;
+        this.relatedCharacter = relatedCharacter;
+        this.type = type;
+        this.x = x;
+        this.y = y;
+        this.relationDateStart = relationDateStart;
+        this.relationDateEnd = relationDateEnd;
+    }
+
+
     public int getId() {
         return id;
     }
@@ -104,5 +117,6 @@ public class Relation {
     public void setRelationDateEnd(Long relationDateEnd) {
         this.relationDateEnd = relationDateEnd;
     }
+
 
 }

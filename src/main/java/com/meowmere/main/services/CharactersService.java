@@ -658,24 +658,10 @@ public class CharactersService {
             List<RelationDTO> relationDTOS = new ArrayList<>();
 
             for (Relation relation : relations) {
-               Long relationStartDateFromDb =  relation.getRelationDateStart();
-               String relationStartDate = null;
-               if(relationStartDateFromDb != null) {
-                   Date date = new Date(relationStartDateFromDb);
-                   relationStartDate = "" + date.getTime() / 1000;
-               }
 
-                Long relationEndDateFromDb = relation.getRelationDateEnd();
-                String relationEndDate = null;
-                if(relationEndDateFromDb != null) {
-                    Date date = new Date(relationEndDateFromDb);
-                    relationEndDate = "" + date.getTime() / 1000;
-                }
-
-
-           RelationDTO relationDTO = new RelationDTO(relation.getId(),relation.getType(), true, relationStartDate, relationEndDate);
+           RelationDTO relationDTO = new RelationDTO(relation.getId(),relation.getType(), true, relation.getRelationDateStart(), relation.getRelationDateEnd());
             relationDTOS.add(relationDTO);
-            
+
             }
             RelationForCharacter relationForCharacter = new RelationForCharacter(person, relationDTOS);
             result.add(relationForCharacter);
@@ -685,35 +671,68 @@ public class CharactersService {
     }
 
     public ResponseEntity upsertRelations( List<RelationRequest> request, Long charId) {
+        Character characterToRelateTo = characterRepository.getOne(charId);
+        if(characterToRelateTo == null){
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
 
-      //  List<com.meowmere.main.entities.characters.Relation> currentRelations = relationsRepository.getRelationsForCharacter(charId);
-
-        List<Long> currentRelationsIds = relationsRepository.getRelatedPeopleIdsForCharacter(charId);
+        LinkedHashSet<Long> relatedPeopleIdsForCharacter = relationsRepository.getRelatedPeopleIdsForCharacter(charId);
         List<Long> relationIdsFromRequest = request.stream().map(RelationRequest::getPersonId).collect(Collectors.toList());
 
+        if(relatedPeopleIdsForCharacter != null) {
+            for (Long relatedPeopleIdForCharacter: relatedPeopleIdsForCharacter) {
+                if(!relationIdsFromRequest.contains(relatedPeopleIdForCharacter)){
+              //      List<Relation> relationListToDelete = relationsRepository.getRelationsForCharacter(charId);
 
 
+                  List<Relation> relationListToDelete = relationsRepository.getRelationsForBoth(charId, relatedPeopleIdForCharacter);
 
 
-        for (Long currentRelationsId: currentRelationsIds) {
-            if(!relationIdsFromRequest.contains(currentRelationsId)){
-
-
+//                    // Delete character with current relations
+                    if(relationListToDelete != null) {
+                        for (Relation relationToDelete : relationListToDelete) {
+                            relationsRepository.delete(relationToDelete);
+                        }
+                    }
+                }
             }
 
         }
 
+        for (Long relationIdFromRequest : relationIdsFromRequest) {
+            if(!relatedPeopleIdsForCharacter.contains(relationIdFromRequest)){
+                // Add new character with relations
+                for (RelationRequest relationRequest : request) {
+                    if (relationRequest.getPersonId().equals(relationIdFromRequest)) {
+                        if(relationRequest != null) {
+                            relationRequest.getPersonId();
+                            Character characterToAdd = characterRepository.getOne(relationRequest.getPersonId());
+                            if(characterToAdd == null) continue;
 
+                            for (RelationDTO relationDTO: relationRequest.getRelations()) {
+                                Relation relation = new Relation(characterToRelateTo,
+                                        characterToAdd,
+                                        relationDTO.getType(),
+                                        0,
+                                        0,
+                                        relationDTO.getRelationDateStart(),
+                                        relationDTO.getRelationDateEnd());
 
+                                relationsRepository.saveAndFlush(relation);
 
+                            }
 
+                        };
 
-
-
+                    }
+                }
+            }
+        }
 
         return new ResponseEntity(HttpStatus.OK);
 
     }
+
 
 //    public ResponseEntity deleteRelationshipsForCharacters(Long characterId, Long relatedCharacterId) {
 //        Relationship relationship = relationshipRepository.getRelationshipsWhereCharIsRelatedTo(characterId, relatedCharacterId);

@@ -62,7 +62,8 @@
                                     class="form-item"
                                     *ngFor="
                                         let relationFG of relationFormGroup
-                                            .controls['relations'].controls
+                                            .controls['relations'].controls;
+                                        index as i
                                     "
                                 >
                                     <div class="type-select-container">
@@ -89,6 +90,7 @@
                                                 >{{ type.value }}</mat-option
                                             >
                                         </mat-select>
+
                                         <div class="icons-container">
                                             <mat-icon
                                                 class="close-icon"
@@ -98,6 +100,11 @@
                                                         relationFG,
                                                         relation.person.id
                                                     )
+                                                "
+                                                *ngIf="
+                                                    relationFormGroup.controls[
+                                                        'relations'
+                                                    ].controls.length !== 1
                                                 "
                                                 >close</mat-icon
                                             >

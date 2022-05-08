@@ -6,10 +6,10 @@ public class RelationDTO {
     private Integer id;
     private RelationType Type;
     private Boolean arrowFromSource;
-    private String relationDateStart;
-    private String relationDateEnd;
+    private Long relationDateStart;
+    private Long relationDateEnd;
 
-    public RelationDTO(Integer id, RelationType type, Boolean arrowFromSource, String relationDateStart, String relationDateEnd) {
+    public RelationDTO(Integer id, RelationType type, Boolean arrowFromSource, Long relationDateStart, Long relationDateEnd) {
         Type = type;
         this.arrowFromSource = arrowFromSource;
         this.relationDateStart = relationDateStart;
@@ -33,19 +33,19 @@ public class RelationDTO {
         this.arrowFromSource = arrowFromSource;
     }
 
-    public String getRelationDateStart() {
+    public Long getRelationDateStart() {
         return relationDateStart;
     }
 
-    public void setRelationDateStart(String relationDateStart) {
+    public void setRelationDateStart(Long relationDateStart) {
         this.relationDateStart = relationDateStart;
     }
 
-    public String getRelationDateEnd() {
+    public Long getRelationDateEnd() {
         return relationDateEnd;
     }
 
-    public void setRelationDateEnd(String relationDateEnd) {
+    public void setRelationDateEnd(Long relationDateEnd) {
         this.relationDateEnd = relationDateEnd;
     }
 

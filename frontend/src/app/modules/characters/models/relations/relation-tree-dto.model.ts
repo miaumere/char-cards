@@ -33,8 +33,8 @@ export interface IRelationForCharacter {
 export interface IRelation {
     id: number | null;
     type: RelationType;
-    relationDateStart: string | null;
-    relationDateEnd: string | null;
+    relationDateStart: number | null;
+    relationDateEnd: number | null;
 }
 export interface IRelatedPersonData {
     id: number;

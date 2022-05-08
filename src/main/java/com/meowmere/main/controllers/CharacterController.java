@@ -56,8 +56,8 @@ public class CharacterController {
     }
 
     @PostMapping("/relations")
-    public ResponseEntity upsertRelations(@RequestParam Long charId, @RequestBody List<RelationRequest> request) {
-        return this.charactersService.upsertRelations(request, charId);
+    public ResponseEntity upsertRelations(@RequestParam Long id, @RequestBody List<RelationRequest> request) {
+        return this.charactersService.upsertRelations(request, id);
     }
 
     // #endregion
