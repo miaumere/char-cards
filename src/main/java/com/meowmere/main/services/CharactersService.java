@@ -616,14 +616,38 @@ public class CharactersService {
 
         List<Relation> relationsFromDb = relationsRepository.getRelationsForCharacter(id);
 
-        List<RelationForCharacter> result = new ArrayList<RelationForCharacter>();
+        List<RelationForCharacter> result = new ArrayList<>();
+        Map<Long, List<Relation>> relationsMap = new HashMap<>();
 
         for (Relation relationFromDb: relationsFromDb) {
+            Long relatedCharExternalId = relationFromDb.getRelatedCharacter().getExternalId();
+            Boolean containsId = relationsMap.containsKey(relatedCharExternalId);
+
+            List<Relation> relationList = new ArrayList<>();
+
+            if(containsId) {
+                relationList = relationsMap.get(relatedCharExternalId);
+            }
+            relationList.add(relationFromDb);
+            if(containsId) {
+                relationsMap.replace(relatedCharExternalId, relationsMap.get(relatedCharExternalId), relationList);
+            } else {
+                relationsMap.put(relatedCharExternalId, relationList);
+            }
+        }
+
+        for (Map.Entry<Long, List<Relation>> entry : relationsMap.entrySet()) {
+            Long characterId = entry.getKey();
+            List<Relation> relations = entry.getValue();
+
             RelatedPersonData person = new RelatedPersonData();
-            Character relatedChar = relationFromDb.relatedCharacter;
+            Character relatedChar = characterRepository.getOne(characterId);
+            if(relatedChar == null) {
+                continue;
+            }
+
             person.setId(relatedChar.getExternalId());
             person.setFullName(relatedChar.getCharName() + " " + relatedChar.getCharSurname());
-
             Image image = imageRepository.getProfilePicForCharacter(relatedChar.getExternalId());
             String profilePic = null;
             if(image != null){
@@ -631,16 +655,31 @@ public class CharactersService {
             }
             person.setImageMimeData(profilePic);
 
+            List<RelationDTO> relationDTOS = new ArrayList<>();
 
-            RelationDTO relationDTO = new RelationDTO(1,RelationType.Crush, true, "", "");
-            List<RelationDTO> relationDTOS = new ArrayList<RelationDTO>();
+            for (Relation relation : relations) {
+               Long relationStartDateFromDb =  relation.getRelationDateStart();
+               String relationStartDate = null;
+               if(relationStartDateFromDb != null) {
+                   Date date = new Date(relationStartDateFromDb);
+                   relationStartDate = "" + date.getTime() / 1000;
+               }
+
+                Long relationEndDateFromDb = relation.getRelationDateEnd();
+                String relationEndDate = null;
+                if(relationEndDateFromDb != null) {
+                    Date date = new Date(relationEndDateFromDb);
+                    relationEndDate = "" + date.getTime() / 1000;
+                }
+
+
+           RelationDTO relationDTO = new RelationDTO(relation.getId(),relation.getType(), true, relationStartDate, relationEndDate);
             relationDTOS.add(relationDTO);
-
-            RelationForCharacter relation = new RelationForCharacter(person, relationDTOS);
-            result.add(relation);
+            
+            }
+            RelationForCharacter relationForCharacter = new RelationForCharacter(person, relationDTOS);
+            result.add(relationForCharacter);
         }
-
-
 
         return new ResponseEntity(result, HttpStatus.OK);
     }
