@@ -1,13 +1,12 @@
 package com.meowmere.main.controllers;
 
+import com.meowmere.main.dto.character.relation.RelationRequest;
 import com.meowmere.main.requests.characters.character.ChangeCharacterStateRequest;
 import com.meowmere.main.requests.characters.character.CreateCharacterRequest;
 import com.meowmere.main.requests.characters.character.EditCharacterRequest;
 import com.meowmere.main.requests.characters.image.ImageRenameRequest;
 import com.meowmere.main.requests.characters.preference.PreferenceRequest;
 import com.meowmere.main.requests.characters.quotes.UpsertQuoteRequest;
-import com.meowmere.main.requests.characters.relationship.EditRelationshipRequest;
-import com.meowmere.main.requests.characters.relationship.RelationRequest;
 import com.meowmere.main.requests.characters.stories.StoryRequest;
 import com.meowmere.main.services.CharactersService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +16,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.List;
 
 
 @RestController
@@ -49,10 +49,20 @@ public class CharacterController {
         return charactersService.getCharacterDetails(id);
     }
 
-    @GetMapping("/get-relationships")
-    public ResponseEntity getRelationshipsForCharacter(@RequestParam Long id) {
-        return this.charactersService.getRelationships(id);
+    // #region
+    @GetMapping("/relations")
+    public ResponseEntity getRelationsCharacter(@RequestParam Long id) {
+        return this.charactersService.getRelations(id);
     }
+
+    @PostMapping("/relations")
+    public ResponseEntity upsertRelations(@RequestParam Long charId, @RequestBody List<RelationRequest> request) {
+        return this.charactersService.upsertRelations(request, charId);
+    }
+
+    // #endregion
+
+
 
     @GetMapping("/get-stories-for-character")
     public ResponseEntity getStoriesForCharacter(@RequestParam Long id) {
@@ -79,10 +89,6 @@ public class CharacterController {
         return charactersService.upsertQuote(request);
     }
 
-    @PostMapping("/new-relationship")
-    public ResponseEntity createRelationship(@RequestBody RelationRequest relationRequest) {
-        return charactersService.createRelationship(relationRequest);
-    }
 
     @PostMapping("/upsert-story")
     public ResponseEntity createStoryForCharacter(@RequestBody StoryRequest request) {
@@ -110,10 +116,6 @@ public class CharacterController {
         return charactersService.changeStatusForCharacter(request);
     }
 
-    @PatchMapping("/edit-relationship")
-    public ResponseEntity editRelationships(@RequestBody EditRelationshipRequest editRelationshipRequest){
-        return charactersService.editRelationships(editRelationshipRequest);
-    }
 
     @PostMapping("/new-images")
     public ResponseEntity newImages(MultipartHttpServletRequest multipartHttpServletRequest, @RequestParam Long id) {
@@ -137,10 +139,6 @@ public class CharacterController {
 
     @DeleteMapping("/delete-image")
     public ResponseEntity deleteImage(@RequestParam Long id) { return charactersService.deleteImage(id);}
-
-    @DeleteMapping("/delete-relationship")
-    public ResponseEntity deleteRelationship(@RequestParam Long characterId, @RequestParam Long relatedCharacterId)
-    {return charactersService.deleteRelationshipsForCharacters(characterId, relatedCharacterId);}
 
     @DeleteMapping("/delete-story")
     public ResponseEntity deleteStory(@RequestParam Long id) { return charactersService.deleteStory(id);}

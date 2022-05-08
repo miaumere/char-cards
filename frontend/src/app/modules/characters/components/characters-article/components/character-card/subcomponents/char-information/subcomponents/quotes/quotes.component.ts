@@ -37,8 +37,8 @@ export class QuotesComponent extends BaseComponent implements OnInit {
 
     constructor(
         private _toastrService: ToastrService,
-        private _characterService: CharactersService,
-        private _translate: TranslateService
+        private _translate: TranslateService,
+        private _characterService: CharactersService
     ) {
         super();
     }

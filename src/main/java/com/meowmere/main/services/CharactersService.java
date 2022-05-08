@@ -12,9 +12,12 @@ import com.meowmere.main.dto.character.preference.AllPreferencesDTO;
 import com.meowmere.main.dto.character.preference.HistoricPreferenceDTO;
 import com.meowmere.main.dto.character.quote.CharacterQuoteDTO;
 import com.meowmere.main.dto.character.quote.QuoteForListDTO;
+import com.meowmere.main.dto.character.relation.RelatedPersonData;
+import com.meowmere.main.dto.character.relation.RelationDTO;
+import com.meowmere.main.dto.character.relation.RelationForCharacter;
+import com.meowmere.main.dto.character.relation.RelationRequest;
 import com.meowmere.main.dto.character.relationship.RelatedCharacterDTO;
 import com.meowmere.main.dto.character.relationship.RelationshipDTO;
-import com.meowmere.main.dto.character.relationship.RelationshipsForCharacterDTO;
 import com.meowmere.main.dto.character.story.CharacterStoryDTO;
 import com.meowmere.main.dto.character.temperament.CharacterTemperamentDTO;
 import com.meowmere.main.dto.story.books.BookDTO;
@@ -25,10 +28,7 @@ import com.meowmere.main.entities.characters.*;
 import com.meowmere.main.entities.story.Book;
 import com.meowmere.main.entities.story.Chapter;
 import com.meowmere.main.entities.story.StarringCharacters;
-import com.meowmere.main.enums.AvailableExtensions;
-import com.meowmere.main.enums.CharType;
-import com.meowmere.main.enums.Gender;
-import com.meowmere.main.enums.RelationshipType;
+import com.meowmere.main.enums.*;
 import com.meowmere.main.repositories.character.*;
 import com.meowmere.main.repositories.story.BookRepository;
 import com.meowmere.main.repositories.story.ChapterRepository;
@@ -39,8 +39,6 @@ import com.meowmere.main.requests.characters.character.EditCharacterRequest;
 import com.meowmere.main.requests.characters.image.ImageRenameRequest;
 import com.meowmere.main.requests.characters.preference.PreferenceRequest;
 import com.meowmere.main.requests.characters.quotes.UpsertQuoteRequest;
-import com.meowmere.main.requests.characters.relationship.EditRelationshipRequest;
-import com.meowmere.main.requests.characters.relationship.RelationRequest;
 import com.meowmere.main.requests.characters.stories.StoryRequest;
 import com.meowmere.main.utils.UtilsShared;
 import org.apache.commons.io.FilenameUtils;
@@ -75,7 +73,7 @@ public class CharactersService {
     @Autowired
     public ImageRepository imageRepository;
     @Autowired
-    public RelationshipRepository relationshipRepository;
+    public RelationRepository relationsRepository;
     @Autowired
     public CharacterStoryRepository characterStoryRepository;
     @Autowired
@@ -143,32 +141,32 @@ public class CharactersService {
             dto.setMeasurements(modelMapper.map(measurementsForCharacter, CharacterMeasurementsDTO.class));
         }
 
-        List<Relationship> relationshipsForCharacter = relationshipRepository.getRelationshipsForCharacter(externalId);
-        List<RelationshipDTO> relationshipDTOS =  new ArrayList<>();
-
-        if (relationshipsForCharacter != null) {
-            for (Relationship relationship : relationshipsForCharacter) {
-                RelationshipDTO relationshipDTO = new RelationshipDTO();
-                RelatedCharacterDTO relatedCharacterDTO = new RelatedCharacterDTO();
-                Character character = relationship.getRelatedCharacter();
-
-                relatedCharacterDTO.setId(character.getExternalId());
-                relatedCharacterDTO.setCharName(character.getCharName());
-                relatedCharacterDTO.setCharSurname(character.getCharSurname());
-
-                Image image = imageRepository.getProfilePicForCharacter(character.getExternalId());
-                String profilePic = null;
-                if(image != null){
-                    profilePic = UtilsShared.GetProfilePicBase64Code(image.getExtension(), image.getImage());
-                }
-
-                relatedCharacterDTO.setProfilePic(profilePic);
-                relationshipDTO.setRelatedCharacter(relatedCharacterDTO);
-                relationshipDTO.setRelationName(relationship.getRelationName().name());
-                relationshipDTOS.add(relationshipDTO);
-            }
-        }
-        dto.setRelationships(relationshipDTOS);
+//        List<Relationship> relationshipsForCharacter = relationshipRepository.getRelationshipsForCharacter(externalId);
+//        List<RelationshipDTO> relationshipDTOS =  new ArrayList<>();
+//
+//        if (relationshipsForCharacter != null) {
+//            for (Relationship relationship : relationshipsForCharacter) {
+//                RelationshipDTO relationshipDTO = new RelationshipDTO();
+//                RelatedCharacterDTO relatedCharacterDTO = new RelatedCharacterDTO();
+//                Character character = relationship.getRelatedCharacter();
+//
+//                relatedCharacterDTO.setId(character.getExternalId());
+//                relatedCharacterDTO.setCharName(character.getCharName());
+//                relatedCharacterDTO.setCharSurname(character.getCharSurname());
+//
+//                Image image = imageRepository.getProfilePicForCharacter(character.getExternalId());
+//                String profilePic = null;
+//                if(image != null){
+//                    profilePic = UtilsShared.GetProfilePicBase64Code(image.getExtension(), image.getImage());
+//                }
+//
+//                relatedCharacterDTO.setProfilePic(profilePic);
+//                relationshipDTO.setRelatedCharacter(relatedCharacterDTO);
+//                relationshipDTO.setRelationName(relationship.getRelationName().name());
+//                relationshipDTOS.add(relationshipDTO);
+//            }
+//        }
+//        dto.setRelationships(relationshipDTOS);
 
         List<Quote> quotes = quoteRepository.getAllQuotesByCharacterId(externalId);
         Random random = new Random();
@@ -554,100 +552,164 @@ public class CharactersService {
     //#endregion
 
     //#region Relationships
-    public ResponseEntity createRelationship(RelationRequest request) {
-        Character characterOne = characterRepository.getOne(request.getCharId());
-        Character characterTwo = characterRepository.getOne(request.getRelCharId());
+//    public ResponseEntity createRelationship(RelationRequest request) {
+//        Character characterOne = characterRepository.getOne(request.getCharId());
+//        Character characterTwo = characterRepository.getOne(request.getRelCharId());
+//
+//        if(characterOne == characterTwo) {
+//            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+//        }
+//
+//        if (characterOne == null || characterTwo == null) {
+//            return new ResponseEntity("Co najmniej jedna z podanych postaci nie istnieje.", HttpStatus.BAD_REQUEST);
+//        }
+//        Relationship firstRelationship = new Relationship();
+//        firstRelationship.setCharacter(characterOne);
+//        firstRelationship.setRelatedCharacter(characterTwo);
+//        firstRelationship.setRelationName(request.getRelation());
+//
+//
+//        Relationship secondRelationship = new Relationship();
+//        secondRelationship.setCharacter(characterTwo);
+//        secondRelationship.setRelatedCharacter(characterOne);
+//        secondRelationship.setRelationName(request.getReverseRelation());
+//
+//        relationshipRepository.save(firstRelationship);
+//        relationshipRepository.save(secondRelationship);
+//
+//        return new ResponseEntity(HttpStatus.CREATED);
+//    }
 
-        if(characterOne == characterTwo) {
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+//    public ResponseEntity getRelationships(Long id) {
+//        List<Relationship> relationships = relationshipRepository.getRelationshipsForCharacter(id);
+//
+//        List<RelationshipsForCharacterDTO> relationshipsForCharacterDTOList = new ArrayList<>();
+//        if(relationships != null) {
+//            relationships.forEach(relationship -> {
+//                RelationshipsForCharacterDTO relationshipsForCharacterDTO = new RelationshipsForCharacterDTO();
+//                RelationshipDTO relationshipDTO = new RelationshipDTO();
+//                relationshipDTO.setRelationName(relationship.getRelationName().name());
+//                Character character = relationship.getRelatedCharacter();
+//
+//                RelatedCharacterDTO relatedCharacterDTO = new RelatedCharacterDTO();
+//                relatedCharacterDTO.setId(character.getExternalId());
+//                relatedCharacterDTO.setCharName(character.getCharName());
+//                relatedCharacterDTO.setCharSurname(character.getCharSurname());
+//
+//                relationshipDTO.setRelatedCharacter(relatedCharacterDTO);
+//
+//                Relationship reversedRelationship = relationshipRepository
+//                        .getRelationshipsWhereCharIsRelatedTo(id, relationship.getRelatedCharacter().getExternalId());
+//
+//                if(reversedRelationship != null) {
+//                    relationshipsForCharacterDTO.setReverseRelationshipType(reversedRelationship.getRelationName().name());
+//                }
+//
+//                relationshipsForCharacterDTO.setRelationship(relationshipDTO);
+//                relationshipsForCharacterDTOList.add(relationshipsForCharacterDTO);
+//            });
+//        }
+//        return new ResponseEntity(relationshipsForCharacterDTOList, HttpStatus.OK);
+//    }
+
+    public ResponseEntity getRelations(Long id) {
+
+        List<Relation> relationsFromDb = relationsRepository.getRelationsForCharacter(id);
+
+        List<RelationForCharacter> result = new ArrayList<RelationForCharacter>();
+
+        for (Relation relationFromDb: relationsFromDb) {
+            RelatedPersonData person = new RelatedPersonData();
+            Character relatedChar = relationFromDb.relatedCharacter;
+            person.setId(relatedChar.getExternalId());
+            person.setFullName(relatedChar.getCharName() + " " + relatedChar.getCharSurname());
+
+            Image image = imageRepository.getProfilePicForCharacter(relatedChar.getExternalId());
+            String profilePic = null;
+            if(image != null){
+                profilePic = UtilsShared.GetProfilePicBase64Code(image.getExtension(), image.getImage());
+            }
+            person.setImageMimeData(profilePic);
+
+
+            RelationDTO relationDTO = new RelationDTO(1,RelationType.Crush, true, "", "");
+            List<RelationDTO> relationDTOS = new ArrayList<RelationDTO>();
+            relationDTOS.add(relationDTO);
+
+            RelationForCharacter relation = new RelationForCharacter(person, relationDTOS);
+            result.add(relation);
         }
 
-        if (characterOne == null || characterTwo == null) {
-            return new ResponseEntity("Co najmniej jedna z podanych postaci nie istnieje.", HttpStatus.BAD_REQUEST);
-        }
-        Relationship firstRelationship = new Relationship();
-        firstRelationship.setCharacter(characterOne);
-        firstRelationship.setRelatedCharacter(characterTwo);
-        firstRelationship.setRelationName(request.getRelation());
 
 
-        Relationship secondRelationship = new Relationship();
-        secondRelationship.setCharacter(characterTwo);
-        secondRelationship.setRelatedCharacter(characterOne);
-        secondRelationship.setRelationName(request.getReverseRelation());
-
-        relationshipRepository.save(firstRelationship);
-        relationshipRepository.save(secondRelationship);
-
-        return new ResponseEntity(HttpStatus.CREATED);
+        return new ResponseEntity(result, HttpStatus.OK);
     }
 
-    public ResponseEntity getRelationships(Long id) {
-        List<Relationship> relationships = relationshipRepository.getRelationshipsForCharacter(id);
+    public ResponseEntity upsertRelations( List<RelationRequest> request, Long charId) {
 
-        List<RelationshipsForCharacterDTO> relationshipsForCharacterDTOList = new ArrayList<>();
-        if(relationships != null) {
-            relationships.forEach(relationship -> {
-                RelationshipsForCharacterDTO relationshipsForCharacterDTO = new RelationshipsForCharacterDTO();
-                RelationshipDTO relationshipDTO = new RelationshipDTO();
-                relationshipDTO.setRelationName(relationship.getRelationName().name());
-                Character character = relationship.getRelatedCharacter();
+      //  List<com.meowmere.main.entities.characters.Relation> currentRelations = relationsRepository.getRelationsForCharacter(charId);
 
-                RelatedCharacterDTO relatedCharacterDTO = new RelatedCharacterDTO();
-                relatedCharacterDTO.setId(character.getExternalId());
-                relatedCharacterDTO.setCharName(character.getCharName());
-                relatedCharacterDTO.setCharSurname(character.getCharSurname());
+        List<Long> currentRelationsIds = relationsRepository.getRelatedPeopleIdsForCharacter(charId);
+        List<Long> relationIdsFromRequest = request.stream().map(RelationRequest::getPersonId).collect(Collectors.toList());
 
-                relationshipDTO.setRelatedCharacter(relatedCharacterDTO);
 
-                Relationship reversedRelationship = relationshipRepository
-                        .getRelationshipsWhereCharIsRelatedTo(id, relationship.getRelatedCharacter().getExternalId());
 
-                if(reversedRelationship != null) {
-                    relationshipsForCharacterDTO.setReverseRelationshipType(reversedRelationship.getRelationName().name());
-                }
 
-                relationshipsForCharacterDTO.setRelationship(relationshipDTO);
-                relationshipsForCharacterDTOList.add(relationshipsForCharacterDTO);
-            });
+
+        for (Long currentRelationsId: currentRelationsIds) {
+            if(!relationIdsFromRequest.contains(currentRelationsId)){
+
+
+            }
+
         }
-        return new ResponseEntity(relationshipsForCharacterDTOList, HttpStatus.OK);
-    }
 
-    public ResponseEntity deleteRelationshipsForCharacters(Long characterId, Long relatedCharacterId) {
-        Relationship relationship = relationshipRepository.getRelationshipsWhereCharIsRelatedTo(characterId, relatedCharacterId);
-        Relationship reverseRelationship = relationshipRepository.getRelationshipsWhereCharIsRelatedTo(relatedCharacterId, characterId);
-        if(relationship != null) {
-            relationshipRepository.delete(relationship);
-        }
-        if (reverseRelationship != null) {
-            relationshipRepository.delete(reverseRelationship);
-        }
+
+
+
+
+
+
+
 
         return new ResponseEntity(HttpStatus.OK);
+
     }
 
-    public ResponseEntity editRelationships(EditRelationshipRequest request) {
-
-        Relationship relationship = relationshipRepository
-                .getRelationshipsWhereCharIsRelatedTo(request.getCharacterId(), request.getRelatedCharacterId());
-
-        Relationship reverseRelationship = relationshipRepository
-                .getRelationshipsWhereCharIsRelatedTo(request.getRelatedCharacterId(), request.getCharacterId());
-        if (request.getRelationType() != null){
-
-            reverseRelationship.setRelationName(RelationshipType.valueOf(request.getRelationType()));
-            relationshipRepository.saveAndFlush(reverseRelationship);
-
-        }
-        if(request.getReversedRelationType() != null) {
-            if(relationship != null) {
-                relationship.setRelationName(RelationshipType.valueOf(request.getReversedRelationType()));
-                relationshipRepository.saveAndFlush(relationship);
-            }
-        }
-        return new ResponseEntity(HttpStatus.NO_CONTENT);
-    }
+//    public ResponseEntity deleteRelationshipsForCharacters(Long characterId, Long relatedCharacterId) {
+//        Relationship relationship = relationshipRepository.getRelationshipsWhereCharIsRelatedTo(characterId, relatedCharacterId);
+//        Relationship reverseRelationship = relationshipRepository.getRelationshipsWhereCharIsRelatedTo(relatedCharacterId, characterId);
+//        if(relationship != null) {
+//            relationshipRepository.delete(relationship);
+//        }
+//        if (reverseRelationship != null) {
+//            relationshipRepository.delete(reverseRelationship);
+//        }
+//
+//        return new ResponseEntity(HttpStatus.OK);
+//    }
+//
+//    public ResponseEntity editRelationships(EditRelationshipRequest request) {
+//
+//        Relationship relationship = relationshipRepository
+//                .getRelationshipsWhereCharIsRelatedTo(request.getCharacterId(), request.getRelatedCharacterId());
+//
+//        Relationship reverseRelationship = relationshipRepository
+//                .getRelationshipsWhereCharIsRelatedTo(request.getRelatedCharacterId(), request.getCharacterId());
+//        if (request.getRelationType() != null){
+//
+//            reverseRelationship.setRelationName(RelationshipType.valueOf(request.getRelationType()));
+//            relationshipRepository.saveAndFlush(reverseRelationship);
+//
+//        }
+//        if(request.getReversedRelationType() != null) {
+//            if(relationship != null) {
+//                relationship.setRelationName(RelationshipType.valueOf(request.getReversedRelationType()));
+//                relationshipRepository.saveAndFlush(relationship);
+//            }
+//        }
+//        return new ResponseEntity(HttpStatus.NO_CONTENT);
+//    }
 
     //#endregion
 

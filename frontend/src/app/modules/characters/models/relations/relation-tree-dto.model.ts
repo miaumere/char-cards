@@ -24,23 +24,31 @@ export interface IRelationTreeDto {
     relations: IRelationTreeRelation[];
 }
 
+//#region DTOs for logged user
 export interface IRelationForCharacter {
     person: IRelatedPersonData;
-
     relations: IRelation[];
 }
 
 export interface IRelation {
+    id: number | null;
     type: RelationType;
-    arrowFromSource: boolean | null;
     relationDateStart: string | null;
     relationDateEnd: string | null;
 }
 export interface IRelatedPersonData {
-    id: 1;
-    fullName: 'Saturn';
-    imageMimeData: 'GreenYellow';
+    id: number;
+    fullName: string;
+    imageMimeData: string;
 }
+
+// Request
+export interface IRelationRequest {
+    personId: number;
+    relations: IRelation[];
+}
+
+//#endregion
 
 // MOCK
 export const mockData: IRelationTreeDto = {

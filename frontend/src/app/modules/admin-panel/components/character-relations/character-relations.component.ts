@@ -4,17 +4,6 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { ToastrService } from 'ngx-toastr';
 import { BaseComponent } from 'src/app/core/base.component';
-import { CharactersService } from 'src/app/core/service/characters.service';
-import { finalize, startWith, map } from 'rxjs/operators';
-
-import { RelationshipType } from '../../enums/relationship-type.enum';
-import { CharacterItem } from 'src/app/modules/characters/models/character-item.model';
-import { RelationshipsForCharacter } from '../../models/relationships/relationships-for-char.model';
-import { IRelationRequest } from '../../models/relationships/relation-request.model';
-import { EditRelationship } from '../../models/relationships/edit-relationship.model';
-import { Observable, of } from 'rxjs';
-import { FormGroup, FormControl } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
 
 @Component({
     selector: 'app-character-relations',

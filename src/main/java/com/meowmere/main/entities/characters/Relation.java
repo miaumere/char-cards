@@ -104,4 +104,5 @@ public class Relation {
     public void setRelationDateEnd(Long relationDateEnd) {
         this.relationDateEnd = relationDateEnd;
     }
+
 }

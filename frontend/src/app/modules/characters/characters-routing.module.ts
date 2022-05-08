@@ -6,25 +6,25 @@ import { CharactersComponent } from './components/characters-article/characters.
 import { CharactersService } from 'src/app/core/service/characters.service';
 
 const routes: Routes = [
-  {
-    path: '',
-    component: CharactersIndexComponent,
-    children: [
-      {
+    {
         path: '',
-        pathMatch: 'full',
-        component: CharactersListComponent
-      },
-      {
-        path: ':id',
-        component: CharactersComponent
-      },
-    ]
-  },
+        component: CharactersIndexComponent,
+        children: [
+            {
+                path: '',
+                pathMatch: 'full',
+                component: CharactersListComponent,
+            },
+            {
+                path: ':id',
+                component: CharactersComponent,
+            },
+        ],
+    },
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+    imports: [RouterModule.forChild(routes)],
+    exports: [RouterModule],
 })
-export class CharactersRoutingModule { }
+export class CharactersRoutingModule {}

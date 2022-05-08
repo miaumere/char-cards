@@ -2,7 +2,7 @@ export interface ICharacterPreferences {
     relcharId: number;
     relCharName: string;
     relCharSurname: string;
-    relCharAvatar: string | null;
+    relCharAvatar: any | null;
     range: number;
 }
 
@@ -10,7 +10,7 @@ export class CharacterPreferences implements ICharacterPreferences {
     relcharId: number = 0;
     relCharName: string = '';
     relCharSurname: string = '';
-    relCharAvatar: string | null = null;
+    relCharAvatar: any | null = null;
     range: number = 0;
 
     get fullName() {

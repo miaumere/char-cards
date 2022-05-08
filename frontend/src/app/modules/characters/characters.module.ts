@@ -42,6 +42,8 @@ import { ImageCropperComponent } from './components/characters-article/component
 import { RelationTreeComponent } from './components/characters-article/components/character-card/subcomponents/char-information/subcomponents/char-relations/relation-tree/relation-tree.component';
 import { EditRelationsComponent } from './components/characters-article/components/character-card/subcomponents/char-information/subcomponents/char-relations/edit-relations/edit-relations.component';
 import { MatSelectModule } from '@angular/material/select';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 @NgModule({
     declarations: [
@@ -90,6 +92,8 @@ import { MatSelectModule } from '@angular/material/select';
         DragDropModule,
         MatExpansionModule,
         MatSelectModule,
+        MatDatepickerModule,
+        MatAutocompleteModule,
     ],
     exports: [HistoricalPreferencesComponent],
 

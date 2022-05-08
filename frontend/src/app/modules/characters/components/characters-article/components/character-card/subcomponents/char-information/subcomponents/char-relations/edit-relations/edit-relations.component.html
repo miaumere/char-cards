@@ -8,48 +8,205 @@
     <mat-expansion-panel-header style="height: 1rem">
     </mat-expansion-panel-header>
 
-    <div class="relations" *ngIf="relations && relations.length > 0">
-        <form
-            *ngFor="let relation of relations; index as i"
-            class="relation"
-            [ngStyle]="{ background: themeColor1 }"
-        >
-            <div class="relationship-form__box form-box">
-                <div class="character-in-relation">
-                    <app-profile-pic
-                        [charId]="charId"
-                        [height]="'50px'"
-                        [isCircle]="true"
-                        [profilePic]="relation.relatedCharacter.profilePic"
+    <div
+        class="relations"
+        *ngIf="relationsForCharacter && relationsForCharacter.length > 0"
+    >
+        <mat-icon class="save-icon" (click)="saveRelations()">save</mat-icon>
+
+        <div class="relations-container">
+            <form *ngFor="let relation of relationsForCharacter; index as i">
+                <div class="relation" [ngStyle]="{ background: themeColor1 }">
+                    <div
+                        class="relationship-form__box form-box form-box--profile-pic"
                     >
-                    </app-profile-pic>
-                    <div class="character-in-relation__name">
-                        {{ relation.relatedCharacter.charName }}
+                        <div class="character-in-relation">
+                            <div
+                                class="icons-container icons-container--person"
+                            >
+                                <mat-icon
+                                    class="close-icon"
+                                    (click)="insertDeleteInfo()"
+                                    (dblclick)="
+                                        deletePerson(relation.person.id)
+                                    "
+                                    >close</mat-icon
+                                >
+                            </div>
+                            <app-profile-pic
+                                [charId]="charId"
+                                [height]="'50px'"
+                                [isCircle]="true"
+                                [profilePic]="relation.person.imageMimeData"
+                            >
+                            </app-profile-pic>
+
+                            <div class="character-in-relation__name">
+                                {{ relation.person.fullName }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="relationship-form__box form-box">
+                        <ng-container
+                            *ngFor="
+                                let relationFormGroup of getRelationWithPerson(
+                                    relation.person.id
+                                )
+                            "
+                            [formGroup]="relationFormGroup"
+                        >
+                            <ng-container>
+                                <div
+                                    [formGroup]="relationFG"
+                                    class="form-item"
+                                    *ngFor="
+                                        let relationFG of relationFormGroup
+                                            .controls['relations'].controls
+                                    "
+                                >
+                                    <div class="type-select-container">
+                                        <mat-select
+                                            class="type-select"
+                                            [ngStyle]="{
+                                                'border-color': relationFG.get(
+                                                    'type'
+                                                ).invalid
+                                                    ? 'red'
+                                                    : getColorForRelation(
+                                                          relationFG.get('type')
+                                                              ?.value
+                                                      )
+                                            }"
+                                            formControlName="type"
+                                        >
+                                            <mat-option
+                                                [value]="type.value"
+                                                *ngFor="
+                                                    let type of RelationType
+                                                        | enumVal
+                                                "
+                                                >{{ type.value }}</mat-option
+                                            >
+                                        </mat-select>
+                                        <div class="icons-container">
+                                            <mat-icon
+                                                class="close-icon"
+                                                (click)="insertDeleteInfo()"
+                                                (dblclick)="
+                                                    deleteRelation(
+                                                        relationFG,
+                                                        relation.person.id
+                                                    )
+                                                "
+                                                >close</mat-icon
+                                            >
+                                        </div>
+                                    </div>
+                                    <div class="dates-inputs">
+                                        <mat-form-field class="date-input">
+                                            <input
+                                                matInput
+                                                [matDatepicker]="picker1"
+                                                formControlName="relationDateStart"
+                                            />
+                                        </mat-form-field>
+
+                                        <mat-datepicker-toggle
+                                            matSuffix
+                                            [disableRipple]="true"
+                                            [for]="picker1"
+                                            class="picker"
+                                        >
+                                            <mat-icon
+                                                matDatepickerToggleIcon
+                                                class="toggle-icon"
+                                                >calendar_today</mat-icon
+                                            >
+                                        </mat-datepicker-toggle>
+
+                                        <mat-datepicker
+                                            #picker1
+                                        ></mat-datepicker>
+                                        -
+                                        <mat-form-field
+                                            class="date-input date-input--second"
+                                        >
+                                            <input
+                                                matInput
+                                                [matDatepicker]="picker2"
+                                                formControlName="relationDateEnd"
+                                            />
+                                        </mat-form-field>
+
+                                        <mat-datepicker-toggle
+                                            matSuffix
+                                            [disableRipple]="true"
+                                            [for]="picker2"
+                                            class="picker"
+                                        >
+                                            <mat-icon
+                                                matDatepickerToggleIcon
+                                                class="toggle-icon"
+                                                >calendar_today</mat-icon
+                                            >
+                                        </mat-datepicker-toggle>
+
+                                        <mat-datepicker
+                                            #picker2
+                                        ></mat-datepicker>
+                                    </div>
+                                </div>
+                            </ng-container>
+                        </ng-container>
+                        <mat-icon
+                            class="basic-icon basic-icon--expand add-icon add-icon--left"
+                            *ngIf="canCreateNewRelation(relation.person.id)"
+                            (click)="
+                                addNewRelationWithCharacter(relation.person.id)
+                            "
+                            >add</mat-icon
+                        >
                     </div>
                 </div>
-            </div>
-            <div class="relationship-form__box form-box">
-                <span class="form-box__title">
-                    {{ 'EDIT_RELATIONS.RELATION_TYPE_TITLE' | translate }}
+                <span *ngIf="relationsForCharacter.length === 0">
+                    {{ 'EDIT_RELATIONS.NO_RELATIONS_MSG' | translate }}
                 </span>
-            </div>
-        </form>
-        <span *ngIf="relations.length === 0">
-            {{ 'EDIT_RELATIONS.NO_RELATIONS_MSG' | translate }}
-        </span>
+            </form>
+        </div>
     </div>
-    <mat-icon class="basic-icon basic-icon--expand add-icon">add</mat-icon>
-</mat-expansion-panel>
+    <form [formGroup]="newCharacterForm" class="add-new-character">
+        <mat-form-field>
+            <mat-icon class="basic-icon basic-icon--expand add-icon" matSuffix
+                >add</mat-icon
+            >
+            <input
+                matInput
+                formControlName="characterToAdd"
+                [matAutocomplete]="auto"
+                [placeholder]="'EDIT_RELATIONS.CHARACTER2' | translate"
+                class="relationship-box__input"
+            />
+            <mat-autocomplete
+                #auto="matAutocomplete"
+                (optionSelected)="createRelationWithCharacter($event)"
+            >
+                <mat-option
+                    *ngFor="let char of filteredCharacters | async"
+                    [value]="char"
+                    [disabled]="relatedPeopleIds.includes(char.id)"
+                >
+                    <app-profile-pic
+                        [profilePic]="char.profilePic"
+                        [charId]="char.id"
+                        [height]="'35px'"
+                        style="margin-top: 1.3rem"
+                    >
+                    </app-profile-pic>
 
-<!-- <div
-    class="new-relation-add"
-    *ngIf="isUserLogged && moreQuotes && moreQuotes.length === 0"
-    style="width: 2.5rem"
->
-    <mat-icon
-        *ngIf="isUserLogged"
-        class="basic-icon basic-icon--expand add-icon"
-        (click)="addNewQuote(); expandRelations = true"
-        >add</mat-icon
-    >
-</div> -->
+                    <span class="option">{{ char.fullName }}</span>
+                </mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
+    </form>
+</mat-expansion-panel>

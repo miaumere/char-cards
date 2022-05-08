@@ -9,6 +9,11 @@
     }"
 />
 <div
+    [ngStyle]="{
+        width: height,
+        height: height,
+        borderRadius: isCircle ? '50px' : '3px'
+    }"
     *ngIf="!profilePicFromCharacter"
     class="character__profile-pic character__profile-pic--empty"
 ></div>

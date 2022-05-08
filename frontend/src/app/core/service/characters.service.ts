@@ -31,13 +31,16 @@ import { CharacterForChange } from 'src/app/modules/admin-panel/models/character
 import { EditImageName } from 'src/app/modules/admin-panel/models/images/edit-image-name.model';
 import { EditRelationship } from 'src/app/modules/admin-panel/models/relationships/edit-relationship.model';
 import { CreateCharacter } from 'src/app/modules/admin-panel/models/create-character.model';
-import { IRelationRequest } from 'src/app/modules/admin-panel/models/relationships/relation-request.model';
 import { IEditPreference } from 'src/app/modules/admin-panel/models/preferences/edit-preferences.model';
 import {
     IAllPreferences,
     AllPreferences,
 } from 'src/app/modules/characters/models/all-preferences.model';
 import { UpsertQuote } from 'src/app/modules/admin-panel/models/quotes/upsert-quote.model';
+import {
+    IRelationForCharacter,
+    IRelationRequest,
+} from 'src/app/modules/characters/models/relations/relation-tree-dto.model';
 
 @Injectable({
     providedIn: 'root',
@@ -53,6 +56,8 @@ export class CharactersService {
     private readonly _getStoriesForCharURL = `${this.charControllerURL}/get-stories-for-character`;
     private readonly _getHistoricalPreferencesForCharacterURL = `${this.charControllerURL}/get-characters-historical-preferences`;
     private readonly _getAllPreferencesForCharURL = `${this.charControllerURL}/get-all-preferences-for-character`;
+    private readonly _getRelationsURL = `${this.charControllerURL}/relations`;
+    private readonly _getRelationsForTreeURL = `${this.charControllerURL}/get-all-preferences-for-character`;
 
     private readonly _patchChangeStateURL = `${this.charControllerURL}/change-state`;
     private readonly _patchImageNameURL = `${this.charControllerURL}/change-image-name`;
@@ -60,6 +65,8 @@ export class CharactersService {
 
     private readonly _postQuoteURL = `${this.charControllerURL}/upsert-quote`;
     private readonly _postUpsertStoryForCharacterURL = `${this.charControllerURL}/upsert-story`;
+    private readonly _postRelationsURL = `${this.charControllerURL}/relations`;
+
     private readonly _postNewCharacterURL = `${this.charControllerURL}/new-character`;
     private readonly _postEditImagesURL = `${this.charControllerURL}/new-images`;
     private readonly _postEditPreferenceURL = `${this.charControllerURL}/edit-preferences`;
@@ -103,6 +110,24 @@ export class CharactersService {
                 })
             );
     }
+    //#region Relations
+    getRelations(charId: number) {
+        const params = new HttpParams().set('id', '' + charId);
+        return this.http.get<IRelationForCharacter[]>(this._getRelationsURL, {
+            params,
+        });
+    }
+
+    upsertRelations(request: IRelationRequest[], charId: number) {
+        const params = new HttpParams().set('id', '' + charId);
+
+        return this.http.post<IRelationRequest[]>(
+            this._postRelationsURL,
+            request,
+            { params }
+        );
+    }
+    //#endregion
 
     // archived and non-archived characters:
     getAllCharacters() {

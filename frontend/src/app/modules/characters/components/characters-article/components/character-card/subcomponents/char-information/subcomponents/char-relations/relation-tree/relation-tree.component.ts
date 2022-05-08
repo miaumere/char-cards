@@ -14,6 +14,7 @@ import {
     RelationTypeString,
 } from 'src/app/modules/characters/models/relations/relation-type.enum';
 import * as tinycolor from 'tinycolor2';
+import { colorsForRelations } from './colors-for-relations.const';
 
 function degToRad(deg: number) {
     return (deg * Math.PI) / 180;
@@ -41,41 +42,7 @@ export class RelationTreeComponent implements OnInit {
         (key: any) => !isNaN(Number(RelationType[key]))
     );
 
-    readonly colorsForRelations: {
-        relationType: RelationTypeString;
-        fillColor: string;
-    }[] = [
-        {
-            relationType: RelationType[
-                RelationType.Parent
-            ] as RelationTypeString,
-            fillColor: 'Tomato',
-        },
-        {
-            relationType: RelationType[
-                RelationType.Marriage
-            ] as RelationTypeString,
-            fillColor: 'MediumPurple',
-        },
-        {
-            relationType: RelationType[
-                RelationType.Sibling
-            ] as RelationTypeString,
-            fillColor: 'CornflowerBlue',
-        },
-        {
-            relationType: RelationType[
-                RelationType.Crush
-            ] as RelationTypeString,
-            fillColor: 'LightPink',
-        },
-        {
-            relationType: RelationType[
-                RelationType.Relationship
-            ] as RelationTypeString,
-            fillColor: 'green',
-        },
-    ];
+    readonly colorsForRelations = colorsForRelations;
 
     @ViewChild('chart')
     private chartContainer: ElementRef | null = null;

@@ -1,6 +1,7 @@
 @import 'variables';
 .relations {
     display: flex;
+    flex-direction: column;
     flex-wrap: wrap;
 
     background: transparent;
@@ -14,6 +15,10 @@
 
 .add-icon {
     margin-right: 0.5rem;
+
+    &--left {
+        margin-left: 200px;
+    }
 }
 
 .new-relation-add {
@@ -23,11 +28,16 @@
 .relation {
     display: flex;
 
-    width: 250px;
+    width: 350px;
 
     margin: 0.5rem;
     padding: 0.5rem;
     border-radius: 3px;
+}
+
+.relations-container {
+    display: flex;
+    flex-wrap: wrap;
 }
 
 .form-box {
@@ -39,6 +49,12 @@
         color: $accent;
         line-height: normal;
     }
+
+    &--profile-pic {
+        width: 100px;
+        display: flex;
+        align-items: flex-start;
+    }
 }
 
 .character-in-relation {
@@ -49,4 +65,103 @@
         font-size: x-small;
         color: $accent;
     }
+}
+
+.type-select {
+    display: flex;
+    align-items: center;
+
+    width: 6rem;
+    height: 20px;
+
+    padding-left: 6px;
+
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 3px;
+
+    font-size: 10px;
+}
+
+.dates-inputs {
+    display: flex;
+    align-items: center;
+}
+
+.date-input {
+    width: 5rem;
+    font-size: x-small;
+
+    &--second {
+        margin-left: 0.5rem;
+    }
+}
+
+.toggle-icon {
+    font-size: small;
+    cursor: pointer;
+
+    transition: 0.3s;
+
+    &:hover {
+        color: $accent;
+    }
+}
+
+.mat-icon-button {
+    height: 10px;
+}
+
+.picker {
+    transform: scale(0.6);
+    margin-left: -0.5rem;
+}
+
+.form-item {
+    border-bottom: 1px solid #313131;
+    margin-bottom: 0.75rem;
+}
+
+.type-select-container {
+    display: flex;
+    justify-content: space-between;
+    margin-right: 0.7rem;
+}
+
+.icons-container {
+    display: flex;
+    align-items: baseline;
+
+    &--person {
+        z-index: 100;
+        position: absolute;
+        margin-top: 0.5rem;
+    }
+}
+
+.save-icon {
+    transform: scale(1);
+    margin-left: auto;
+    margin-right: 0.5rem;
+
+    transition: 0.3s;
+    cursor: pointer;
+    color: $accent;
+
+    &--save {
+        &:hover {
+            color: rgb(197, 250, 179);
+        }
+    }
+}
+
+.option {
+    margin-left: 1rem;
+
+    font-size: smaller;
+}
+
+.add-new-character {
+    margin-top: 0.5rem;
+    margin-left: 0.7rem;
 }
