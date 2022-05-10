@@ -33,17 +33,24 @@
                                     >close</mat-icon
                                 >
                             </div>
-                            <app-profile-pic
-                                [charId]="charId"
-                                [height]="'50px'"
-                                [isCircle]="true"
-                                [profilePic]="relation.person.imageMimeData"
+                            <a
+                                [routerLink]="[
+                                    '/char-cards',
+                                    relation.person.id
+                                ]"
                             >
-                            </app-profile-pic>
+                                <app-profile-pic
+                                    [charId]="charId"
+                                    [height]="'50px'"
+                                    [isCircle]="true"
+                                    [profilePic]="relation.person.imageMimeData"
+                                >
+                                </app-profile-pic>
 
-                            <div class="character-in-relation__name">
-                                {{ relation.person.fullName }}
-                            </div>
+                                <div class="character-in-relation__name">
+                                    {{ relation.person.fullName }}
+                                </div>
+                            </a>
                         </div>
                     </div>
 
