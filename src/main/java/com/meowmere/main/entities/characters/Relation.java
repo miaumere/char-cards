@@ -9,7 +9,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames ={"character_id","character_related_to_id", "type", "relation_date_start", "relation_date_end"})})
 public class Relation {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
@@ -35,10 +35,10 @@ public class Relation {
     @Column
     private Integer y;
 
-    @Column
+    @Column(name = "relation_date_start")
     private Long relationDateStart;
 
-    @Column
+    @Column(name = "relation_date_end")
     private Long relationDateEnd;
 
     public Relation(){}

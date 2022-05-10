@@ -11,7 +11,7 @@ import { CharacterCardComponent } from './components/characters-article/componen
 import { ProgressBarDirective } from './directives/progress-bar.directive';
 import { SharedModule } from '../shared/shared.module';
 import { MatTableModule } from '@angular/material/table';
-import { MatRippleModule } from '@angular/material/core';
+import { MatRippleModule, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -97,6 +97,6 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     ],
     exports: [HistoricalPreferencesComponent],
 
-    providers: [],
+    providers: [{ provide: MAT_DATE_LOCALE, useValue: 'en-GB' }],
 })
 export class CharactersModule {}

@@ -682,13 +682,8 @@ public class CharactersService {
         if(relatedPeopleIdsForCharacter != null) {
             for (Long relatedPeopleIdForCharacter: relatedPeopleIdsForCharacter) {
                 if(!relationIdsFromRequest.contains(relatedPeopleIdForCharacter)){
-              //      List<Relation> relationListToDelete = relationsRepository.getRelationsForCharacter(charId);
-
-
                   List<Relation> relationListToDelete = relationsRepository.getRelationsForBoth(charId, relatedPeopleIdForCharacter);
-
-
-//                    // Delete character with current relations
+                  // Delete character with current relations
                     if(relationListToDelete != null) {
                         for (Relation relationToDelete : relationListToDelete) {
                             relationsRepository.delete(relationToDelete);
@@ -723,11 +718,66 @@ public class CharactersService {
                             }
 
                         };
+                    }
+                }
+            } else {
+                for (RelationRequest relationRequest: request) {
+                    List<Integer> currentRelations = relationsRepository.getRelationsForBoth(charId, relationRequest.getPersonId()).stream().map(Relation::getId).collect(Collectors.toList());
+                    List<Integer> requestRelationsIds = relationRequest.getRelations().stream().map(RelationDTO::getId).collect(Collectors.toList());
+                    List<Integer> relationsIdsToDelete = currentRelations.stream()
+                            .filter(element -> !requestRelationsIds.contains(element))
+                            .collect(Collectors.toList());
+
+                    for (Integer relationIdToDelete: relationsIdsToDelete) {
+                        Relation relation = relationsRepository.getRelationById(relationIdToDelete);
+                        if(relation != null) {
+                            relationsRepository.delete(relation);
+                        }
+                    }
+
+                    for (RelationDTO relationDTO: relationRequest.getRelations()) {
+                        if(relationDTO.getId() == null) {
+                            Character character = characterRepository.getOne(relationRequest.getPersonId());
+                            if(character == null) continue;
+
+                            Relation relation = new Relation(
+                                    characterToRelateTo,
+                                    character,
+                                    relationDTO.getType(),
+                                    0,
+                                    0,
+                                    relationDTO.getRelationDateStart(),
+                                    relationDTO.getRelationDateEnd());
+
+                            relationsRepository.saveAndFlush(relation);
+                        }
+                    }
+
+                    List<Integer> elementsToEdit = currentRelations.stream().filter(requestRelationsIds::contains).collect(Collectors.toList());
+
+                    for (Integer elementToEdit : elementsToEdit) {
+
+                        RelationDTO relationDTO = relationRequest.getRelations().stream()
+                                .filter(relationDTO1 -> elementToEdit.equals(relationDTO1.getId()))
+                                .findAny()
+                                .orElse(null);
+
+                        if(relationDTO != null) {
+                            Relation relationToEdit = relationsRepository.getRelationById(elementToEdit);
+                            relationToEdit.setType(relationDTO.getType());
+                            relationToEdit.setRelationDateEnd(relationDTO.getRelationDateEnd());
+                            relationToEdit.setRelationDateStart(relationDTO.getRelationDateStart());
+
+                            relationsRepository.saveAndFlush(relationToEdit);
+                        }
+
+
 
                     }
                 }
+
+                }
             }
-        }
 
         return new ResponseEntity(HttpStatus.OK);
 

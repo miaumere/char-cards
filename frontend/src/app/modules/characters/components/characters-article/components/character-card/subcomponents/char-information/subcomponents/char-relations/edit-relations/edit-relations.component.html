@@ -8,13 +8,13 @@
     <mat-expansion-panel-header style="height: 1rem">
     </mat-expansion-panel-header>
 
-    <div
-        class="relations"
-        *ngIf="relationsForCharacter && relationsForCharacter.length > 0"
-    >
+    <div class="relations">
         <mat-icon class="save-icon" (click)="saveRelations()">save</mat-icon>
 
-        <div class="relations-container">
+        <div
+            class="relations-container"
+            *ngIf="relationsForCharacter && relationsForCharacter.length > 0"
+        >
             <form *ngFor="let relation of relationsForCharacter; index as i">
                 <div class="relation" [ngStyle]="{ background: themeColor1 }">
                     <div

@@ -20,6 +20,7 @@ import {
 } from 'src/app/modules/characters/models/relations/relation-type.enum';
 import { IRelationship } from 'src/app/modules/characters/models/relationship.model';
 import { colorsForRelations } from '../relation-tree/colors-for-relations.const';
+import * as moment from 'moment';
 
 @Component({
     selector: 'app-edit-relations [charId]',
@@ -99,7 +100,6 @@ export class EditRelationsComponent extends BaseComponent implements OnInit {
                                 '' + relation.person.id,
                                 new FormArray(relationsArray)
                             );
-
                             for (const rel of relation.relations) {
                                 const newInputGroup = new FormGroup({
                                     id: new FormControl(rel.id),
@@ -109,11 +109,16 @@ export class EditRelationsComponent extends BaseComponent implements OnInit {
                                     ),
                                     relationDateStart: new FormControl(
                                         rel.relationDateStart
+                                            ? new Date(rel.relationDateStart)
+                                            : null
                                     ),
                                     relationDateEnd: new FormControl(
                                         rel.relationDateEnd
+                                            ? new Date(rel.relationDateEnd)
+                                            : null
                                     ),
                                 });
+
                                 typedRelationFormArray.push(newInputGroup);
                             }
                         }
@@ -204,7 +209,9 @@ export class EditRelationsComponent extends BaseComponent implements OnInit {
                             )
                         );
                         // this.quotesChangedEvent.emit();
+
                         this.relationsFormGroup.reset();
+                        this.getCharacterRelations();
                     },
                     (err) => {
                         this._toastrService.error(
