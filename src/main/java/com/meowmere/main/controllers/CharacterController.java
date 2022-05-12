@@ -55,6 +55,11 @@ public class CharacterController {
         return this.charactersService.getRelations(id);
     }
 
+    @GetMapping("/relations")
+    public ResponseEntity getRelationsTreeData(@RequestParam Long id) {
+        return this.charactersService.getRelations(id);
+    }
+
     @PostMapping("/relations")
     public ResponseEntity upsertRelations(@RequestParam Long id, @RequestBody List<RelationRequest> request) {
         return this.charactersService.upsertRelations(request, id);

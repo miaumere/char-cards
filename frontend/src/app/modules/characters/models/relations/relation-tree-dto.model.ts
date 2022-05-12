@@ -35,6 +35,7 @@ export interface IRelation {
     type: RelationType;
     relationDateStart: number | null;
     relationDateEnd: number | null;
+    arrowFromSource: boolean;
 }
 export interface IRelatedPersonData {
     id: number;

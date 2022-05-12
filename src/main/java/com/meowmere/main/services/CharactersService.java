@@ -708,8 +708,6 @@ public class CharactersService {
                                 Relation relation = new Relation(characterToRelateTo,
                                         characterToAdd,
                                         relationDTO.getType(),
-                                        0,
-                                        0,
                                         relationDTO.getRelationDateStart(),
                                         relationDTO.getRelationDateEnd());
 
@@ -744,8 +742,6 @@ public class CharactersService {
                                     characterToRelateTo,
                                     character,
                                     relationDTO.getType(),
-                                    0,
-                                    0,
                                     relationDTO.getRelationDateStart(),
                                     relationDTO.getRelationDateEnd());
 
@@ -783,42 +779,7 @@ public class CharactersService {
 
     }
 
-
-//    public ResponseEntity deleteRelationshipsForCharacters(Long characterId, Long relatedCharacterId) {
-//        Relationship relationship = relationshipRepository.getRelationshipsWhereCharIsRelatedTo(characterId, relatedCharacterId);
-//        Relationship reverseRelationship = relationshipRepository.getRelationshipsWhereCharIsRelatedTo(relatedCharacterId, characterId);
-//        if(relationship != null) {
-//            relationshipRepository.delete(relationship);
-//        }
-//        if (reverseRelationship != null) {
-//            relationshipRepository.delete(reverseRelationship);
-//        }
-//
-//        return new ResponseEntity(HttpStatus.OK);
-//    }
-//
-//    public ResponseEntity editRelationships(EditRelationshipRequest request) {
-//
-//        Relationship relationship = relationshipRepository
-//                .getRelationshipsWhereCharIsRelatedTo(request.getCharacterId(), request.getRelatedCharacterId());
-//
-//        Relationship reverseRelationship = relationshipRepository
-//                .getRelationshipsWhereCharIsRelatedTo(request.getRelatedCharacterId(), request.getCharacterId());
-//        if (request.getRelationType() != null){
-//
-//            reverseRelationship.setRelationName(RelationshipType.valueOf(request.getRelationType()));
-//            relationshipRepository.saveAndFlush(reverseRelationship);
-//
-//        }
-//        if(request.getReversedRelationType() != null) {
-//            if(relationship != null) {
-//                relationship.setRelationName(RelationshipType.valueOf(request.getReversedRelationType()));
-//                relationshipRepository.saveAndFlush(relationship);
-//            }
-//        }
-//        return new ResponseEntity(HttpStatus.NO_CONTENT);
-//    }
-
+    
     //#endregion
 
     //#region Stories

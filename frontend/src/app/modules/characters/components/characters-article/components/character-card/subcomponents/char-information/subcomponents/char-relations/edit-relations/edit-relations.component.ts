@@ -117,6 +117,9 @@ export class EditRelationsComponent extends BaseComponent implements OnInit {
                                             ? new Date(rel.relationDateEnd)
                                             : null
                                     ),
+                                    arrowFromSource: new FormControl(
+                                        !!rel.arrowFromSource
+                                    ),
                                 });
 
                                 typedRelationFormArray.push(newInputGroup);
@@ -142,6 +145,7 @@ export class EditRelationsComponent extends BaseComponent implements OnInit {
             type: new FormControl(null, Validators.required),
             relationDateStart: new FormControl(null),
             relationDateEnd: new FormControl(null),
+            arrowFromSource: new FormControl(true),
         });
 
         controls?.push(newRelation);
@@ -208,8 +212,6 @@ export class EditRelationsComponent extends BaseComponent implements OnInit {
                                 'TOASTR_MESSAGE.SAVE_SUCCESS'
                             )
                         );
-                        // this.quotesChangedEvent.emit();
-
                         this.relationsFormGroup.reset();
                         this.getCharacterRelations();
                     },
@@ -278,6 +280,7 @@ export class EditRelationsComponent extends BaseComponent implements OnInit {
                     type: RelationType.Crush,
                     relationDateStart: null,
                     relationDateEnd: null,
+                    arrowFromSource: false,
                 },
             ],
         };
@@ -307,6 +310,7 @@ export class EditRelationsComponent extends BaseComponent implements OnInit {
             ),
             relationDateStart: new FormControl(null),
             relationDateEnd: new FormControl(null),
+            arrowFromSource: new FormControl(true),
         });
 
         typedRelationFormArray.push(newInputGroup);
@@ -322,5 +326,10 @@ export class EditRelationsComponent extends BaseComponent implements OnInit {
                     .toLowerCase()
                     .indexOf(filterValue) === 0
         );
+    }
+
+    isSourceCheckboxVisible(relationFG: FormGroup) {
+        const type = relationFG.get('type')?.value as RelationTypeString;
+        return type === 'Crush' || type === 'Parent';
     }
 }

@@ -44,6 +44,7 @@ import { EditRelationsComponent } from './components/characters-article/componen
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @NgModule({
     declarations: [
@@ -94,6 +95,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
         MatSelectModule,
         MatDatepickerModule,
         MatAutocompleteModule,
+        MatCheckboxModule,
     ],
     exports: [HistoricalPreferencesComponent],
 

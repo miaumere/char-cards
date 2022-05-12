@@ -29,12 +29,6 @@ public class Relation {
     @Enumerated(EnumType.STRING)
     private RelationType type;
 
-    @Column
-    private Integer x;
-
-    @Column
-    private Integer y;
-
     @Column(name = "relation_date_start")
     private Long relationDateStart;
 
@@ -43,12 +37,10 @@ public class Relation {
 
     public Relation(){}
 
-    public Relation(Character character, Character relatedCharacter, RelationType type, Integer x, Integer y, Long relationDateStart, Long relationDateEnd) {
+    public Relation(Character character, Character relatedCharacter, RelationType type, Long relationDateStart, Long relationDateEnd) {
         this.character = character;
         this.relatedCharacter = relatedCharacter;
         this.type = type;
-        this.x = x;
-        this.y = y;
         this.relationDateStart = relationDateStart;
         this.relationDateEnd = relationDateEnd;
     }
@@ -84,22 +76,6 @@ public class Relation {
 
     public void setType(RelationType type) {
         this.type = type;
-    }
-
-    public Integer getX() {
-        return x;
-    }
-
-    public void setX(Integer x) {
-        this.x = x;
-    }
-
-    public Integer getY() {
-        return y;
-    }
-
-    public void setY(Integer y) {
-        this.y = y;
     }
 
     public Long getRelationDateStart() {

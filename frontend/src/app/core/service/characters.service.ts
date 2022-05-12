@@ -40,6 +40,7 @@ import { UpsertQuote } from 'src/app/modules/admin-panel/models/quotes/upsert-qu
 import {
     IRelationForCharacter,
     IRelationRequest,
+    IRelationTreeDto,
 } from 'src/app/modules/characters/models/relations/relation-tree-dto.model';
 
 @Injectable({
@@ -57,7 +58,7 @@ export class CharactersService {
     private readonly _getHistoricalPreferencesForCharacterURL = `${this.charControllerURL}/get-characters-historical-preferences`;
     private readonly _getAllPreferencesForCharURL = `${this.charControllerURL}/get-all-preferences-for-character`;
     private readonly _getRelationsURL = `${this.charControllerURL}/relations`;
-    private readonly _getRelationsForTreeURL = `${this.charControllerURL}/get-all-preferences-for-character`;
+    private readonly _getRelationsTreeDataURL = `${this.charControllerURL}/relations-tree-data`;
 
     private readonly _patchChangeStateURL = `${this.charControllerURL}/change-state`;
     private readonly _patchImageNameURL = `${this.charControllerURL}/change-image-name`;
@@ -118,6 +119,17 @@ export class CharactersService {
         });
     }
 
+    getRelationsTreeDataURL(charId: number) {
+        const params = new HttpParams().set('id', '' + charId);
+
+        return this.http.get<IRelationTreeDto[]>(
+            this._getRelationsTreeDataURL,
+            {
+                params,
+            }
+        );
+    }
+
     upsertRelations(request: IRelationRequest[], charId: number) {
         const params = new HttpParams().set('id', '' + charId);
 
@@ -127,6 +139,7 @@ export class CharactersService {
             { params }
         );
     }
+
     //#endregion
 
     // archived and non-archived characters:

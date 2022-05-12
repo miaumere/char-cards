@@ -97,6 +97,19 @@
                                                 >{{ type.value }}</mat-option
                                             >
                                         </mat-select>
+                                        <div
+                                            *ngIf="
+                                                isSourceCheckboxVisible(
+                                                    relationFG
+                                                )
+                                            "
+                                        >
+                                            <mat-checkbox
+                                                class="example-margin"
+                                                formControlName="arrowFromSource"
+                                                >Source -></mat-checkbox
+                                            >
+                                        </div>
 
                                         <div class="icons-container">
                                             <mat-icon

@@ -1,5 +1,6 @@
 package com.meowmere.main.entities.characters;
 
+import com.meowmere.main.dto.character.relation.Coordinates;
 import com.meowmere.main.entities.story.StarringCharacters;
 import com.meowmere.main.enums.CharType;
 import com.meowmere.main.enums.Gender;
@@ -75,6 +76,7 @@ public class Character {
 
     @OneToMany(mappedBy = "relatedCharacter", cascade = CascadeType.ALL)
     private List<Relation> relatedCharacter;
+
 
     public Character() {};
 
@@ -269,4 +271,5 @@ public class Character {
     public void setRelatedCharacter(List<Relation> relatedCharacter) {
         this.relatedCharacter = relatedCharacter;
     }
+
 };

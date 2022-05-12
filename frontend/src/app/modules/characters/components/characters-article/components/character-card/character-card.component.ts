@@ -78,7 +78,14 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
 
                     this.bgColor1 =
                         '' +
-                        tinycolor(bgColorForChar).darken(15).desaturate(10);
+                        (tinycolor(bgColorForChar).isDark()
+                            ? tinycolor(bgColorForChar)
+                                  .darken(15)
+                                  .desaturate(10)
+                            : tinycolor(bgColorForChar)
+                                  .darken(35)
+                                  .desaturate(50));
+
                     this.bgColor2 =
                         '' +
                         tinycolor(darkerBgColorForChar)
