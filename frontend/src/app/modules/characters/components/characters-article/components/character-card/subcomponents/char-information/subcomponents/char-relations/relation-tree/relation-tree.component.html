@@ -1,1 +1,5 @@
 <figure #chart class="chart"></figure>
+
+<div *ngIf="isDataEmpty" class="no-data-info">
+    {{ 'EDIT_RELATIONS.NO_RELATIONS_MSG' | translate }}
+</div>

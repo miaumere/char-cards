@@ -55,9 +55,9 @@ public class CharacterController {
         return this.charactersService.getRelations(id);
     }
 
-    @GetMapping("/relations")
+    @GetMapping("/relations-tree-data")
     public ResponseEntity getRelationsTreeData(@RequestParam Long id) {
-        return this.charactersService.getRelations(id);
+        return this.charactersService.getRelationsTreeData(id);
     }
 
     @PostMapping("/relations")

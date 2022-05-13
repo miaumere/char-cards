@@ -7,7 +7,25 @@ export interface IRelationTreePersonDto {
     coordinates: {
         x: number;
         y: number;
-    };
+    } | null;
+}
+
+export class RelationTreePersonDto implements IRelationTreePersonDto {
+    id: number = 0;
+    fullName: string = '';
+    imageMimeData: string = '';
+    coordinates: {
+        x: number;
+        y: number;
+    } = { x: 50, y: 50 };
+
+    constructor(initData: IRelationTreePersonDto) {
+        Object.assign(this, initData);
+
+        if (initData.coordinates === null) {
+            this.coordinates = { x: 50, y: 50 };
+        }
+    }
 }
 
 export interface IRelationTreeRelation {
@@ -18,10 +36,36 @@ export interface IRelationTreeRelation {
     relationDateStart: string | null;
     relationDateEnd: string | null;
 }
+export class RelationTreeRelation implements IRelationTreeRelation {
+    source: number = 0;
+    target: number = 0;
+    type: RelationType = RelationType.Crush;
+    arrowFromSource: boolean | null = null;
+    relationDateStart: string | null = null;
+    relationDateEnd: string | null = null;
+
+    constructor(initData: IRelationTreeRelation) {
+        Object.assign(this, initData);
+    }
+}
 
 export interface IRelationTreeDto {
     persons: IRelationTreePersonDto[];
     relations: IRelationTreeRelation[];
+}
+
+export class RelationTreeDto implements IRelationTreeDto {
+    persons: RelationTreePersonDto[] = [];
+    relations: RelationTreeRelation[] = [];
+
+    constructor(initData: IRelationTreeDto) {
+        for (const initDataPerson of initData.persons) {
+            this.persons.push(new RelationTreePersonDto(initDataPerson));
+        }
+        for (const initDataRelation of initData.relations) {
+            this.relations.push(new RelationTreeRelation(initDataRelation));
+        }
+    }
 }
 
 //#region DTOs for logged user

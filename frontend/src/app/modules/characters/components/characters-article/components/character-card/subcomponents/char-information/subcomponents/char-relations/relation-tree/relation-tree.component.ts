@@ -1,13 +1,18 @@
+import { BaseComponent } from 'src/app/core/base.component';
+import { CharactersService } from 'src/app/core/service/characters.service';
 import { Component, OnInit, ViewChild, ElementRef, Input } from '@angular/core';
 import { Router, RouterStateSnapshot } from '@angular/router';
 import * as d3 from 'd3';
-import { Subject } from 'rxjs';
-import { throttleTime } from 'rxjs/operators';
+import { BehaviorSubject, Subject } from 'rxjs';
+import { skip, throttleTime } from 'rxjs/operators';
 import {
     IRelationTreeDto,
     IRelationTreePersonDto,
     IRelationTreeRelation,
     mockData,
+    RelationTreeDto,
+    RelationTreePersonDto,
+    RelationTreeRelation,
 } from 'src/app/modules/characters/models/relations/relation-tree-dto.model';
 import {
     RelationType,
@@ -30,34 +35,65 @@ interface IGeneratedCircleElement {
     templateUrl: './relation-tree.component.html',
     styleUrls: ['./relation-tree.component.scss'],
 })
-export class RelationTreeComponent implements OnInit {
+export class RelationTreeComponent extends BaseComponent implements OnInit {
+    readonly colorsForRelations = colorsForRelations;
+
     @Input('color') themeColor1: string = '';
+    @Input() charId: number = 0;
+
+    @Input() reloadChartObservable = new BehaviorSubject(false);
+
+    @ViewChild('chart')
+    private chartContainer: ElementRef | null = null;
 
     relations: IRelationTreeDto | undefined;
     svg: SVGElement | undefined;
 
-    data: IRelationTreeDto | null = null;
+    data: RelationTreeDto | null = null;
 
     relationTypes = Object.keys(RelationType).filter(
         (key: any) => !isNaN(Number(RelationType[key]))
     );
 
-    readonly colorsForRelations = colorsForRelations;
+    public get isDataEmpty(): boolean {
+        return !(this.data?.persons.length || this.data?.relations.length);
+    }
 
-    @ViewChild('chart')
-    private chartContainer: ElementRef | null = null;
-    constructor(private router: Router) {
+    constructor(
+        private router: Router,
+        private _charactersService: CharactersService
+    ) {
+        super();
+
         setTimeout(() => {
-            this.data = mockData;
-
-            this.chartContainer = this.chartContainer;
-            this.createChart();
+            this._getCharacterTreeData();
         }, 0);
     }
 
     circleRadius = 35;
 
-    ngOnInit() {}
+    ngOnInit() {
+        this.reloadChartObservable.pipe(skip(1)).subscribe(() => {
+            this.chartContainer?.nativeElement.childNodes[0].remove();
+
+            this._getCharacterTreeData();
+        });
+    }
+
+    private _getCharacterTreeData() {
+        this.subscriptions$.add(
+            this._charactersService
+                .getRelationsTreeData(this.charId)
+                .subscribe((data) => {
+                    this.data = data;
+
+                    if (data.persons.length > 0 && data.relations.length > 0) {
+                        this.chartContainer = this.chartContainer;
+                        this.createChart();
+                    }
+                })
+        );
+    }
 
     private _generateCircle(
         svgViewport: any,
@@ -75,7 +111,7 @@ export class RelationTreeComponent implements OnInit {
             .attr('cy', offsetY)
             .attr('r', radius)
             .attr('stroke', strokeColor)
-            .attr('fill', fill);
+            .attr('fill', `url(#${personId})`);
 
         const cleanUrl = [...this.router.url].filter((x) => isNaN(+x)).join('');
 
@@ -117,23 +153,24 @@ export class RelationTreeComponent implements OnInit {
 
         // #region generate pattern
         const defs = svgViewport.append('defs');
-        defs.append('pattern')
-            .attr('id', 'img1')
-            .attr('x', '0')
-            .attr('y', '0')
-            .attr('height', '1')
-            .attr('width', '1')
-            .attr('patternContentUnits', 'objectBoundingBox')
-            .append('image')
-            .attr(
-                'href',
-                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_SjKN5DxsjoA7-np-rigXRiYgMS9nM0sAKUiln4VwMQ&s'
-            )
-            .attr('x', 0)
-            .attr('y', 0)
-            .attr('height', '1')
-            .attr('width', '1')
-            .attr('preserveAspectRatio', 'xMidYMid slice');
+        if (this.data?.relations) {
+            for (const person of this.data?.persons) {
+                defs.append('pattern')
+                    .attr('id', person.id)
+                    .attr('x', '0')
+                    .attr('y', '0')
+                    .attr('height', '1')
+                    .attr('width', '1')
+                    .attr('patternContentUnits', 'objectBoundingBox')
+                    .append('image')
+                    .attr('href', person.imageMimeData)
+                    .attr('x', 0)
+                    .attr('y', 0)
+                    .attr('height', '1')
+                    .attr('width', '1')
+                    .attr('preserveAspectRatio', 'xMidYMid slice');
+            }
+        }
 
         // #endregion
 
@@ -141,7 +178,7 @@ export class RelationTreeComponent implements OnInit {
         for (const relationType of this.relationTypes) {
             const typedRelationType = relationType as RelationTypeString;
             defs.append('marker')
-                .attr('id', RelationType[typedRelationType])
+                .attr('id', typedRelationType)
                 .attr('viewBox', [0, 0, 10, 10])
                 .attr('refX', 9)
                 .attr('refY', 6)
@@ -168,7 +205,7 @@ export class RelationTreeComponent implements OnInit {
 
         let clickedCircle: {
             circle: IGeneratedCircleElement;
-            person: IRelationTreePersonDto;
+            person: RelationTreePersonDto;
         } | null = null;
 
         const typedPersons = this.data?.persons as any[];
@@ -258,7 +295,7 @@ export class RelationTreeComponent implements OnInit {
 
             const relationMapValue = relationsMap.get(
                 keyToCheck
-            ) as IRelationTreeRelation[];
+            ) as RelationTreeRelation[];
 
             relationMapValue.push(relation);
         }
@@ -267,7 +304,7 @@ export class RelationTreeComponent implements OnInit {
 
         for (const [, relationsBetweenTwo] of [...relationsMap]) {
             const relationsBetweenTwoTyped =
-                relationsBetweenTwo as IRelationTreeRelation[];
+                relationsBetweenTwo as RelationTreeRelation[];
 
             const relationsCount = relationsBetweenTwo.length;
 
@@ -294,7 +331,7 @@ export class RelationTreeComponent implements OnInit {
                 ] as IRelationTreeRelation;
 
                 const pointGeneration = (
-                    person: IRelationTreePersonDto,
+                    person: RelationTreePersonDto,
                     rotate: boolean
                 ): PointCoords => {
                     const angleRange =
@@ -363,7 +400,7 @@ export class RelationTreeComponent implements OnInit {
                             this.colorsForRelations.find(
                                 (x) =>
                                     x.relationType ===
-                                    RelationType[relationType]
+                                    (relationType as unknown as RelationTypeString)
                             )?.fillColor
                         )
                         .attr('stroke-width', '2px')
@@ -417,7 +454,7 @@ export class RelationTreeComponent implements OnInit {
                             this.colorsForRelations.find(
                                 (x) =>
                                     x.relationType ===
-                                    RelationType[relationType]
+                                    (relationType as unknown as RelationTypeString)
                             )?.fillColor
                         )
                         .attr('width', rectWidth)
@@ -447,7 +484,7 @@ export class RelationTreeComponent implements OnInit {
                                 ? 'black'
                                 : 'white'
                         )
-                        .text(RelationType[relation.type]);
+                        .text(relation.type);
 
                     if (
                         relation.relationDateEnd ||

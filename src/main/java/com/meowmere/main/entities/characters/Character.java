@@ -1,6 +1,5 @@
 package com.meowmere.main.entities.characters;
 
-import com.meowmere.main.dto.character.relation.Coordinates;
 import com.meowmere.main.entities.story.StarringCharacters;
 import com.meowmere.main.enums.CharType;
 import com.meowmere.main.enums.Gender;
@@ -77,6 +76,11 @@ public class Character {
     @OneToMany(mappedBy = "relatedCharacter", cascade = CascadeType.ALL)
     private List<Relation> relatedCharacter;
 
+    @OneToMany(mappedBy = "sourceCharacter", cascade = CascadeType.ALL)
+    private List<RelationCoordinates> coordinatesForSource;
+
+    @OneToMany(mappedBy = "targetCharacter", cascade = CascadeType.ALL)
+    private List<RelationCoordinates> coordinatesForTarget;
 
     public Character() {};
 
@@ -272,4 +276,19 @@ public class Character {
         this.relatedCharacter = relatedCharacter;
     }
 
+    public List<RelationCoordinates> getCoordinatesForSource() {
+        return coordinatesForSource;
+    }
+
+    public void setCoordinatesForSource(List<RelationCoordinates> coordinatesForSource) {
+        this.coordinatesForSource = coordinatesForSource;
+    }
+
+    public List<RelationCoordinates> getCoordinatesForTarget() {
+        return coordinatesForTarget;
+    }
+
+    public void setCoordinatesForTarget(List<RelationCoordinates> coordinatesForTarget) {
+        this.coordinatesForTarget = coordinatesForTarget;
+    }
 };

@@ -52,20 +52,27 @@
 
     &--profile-pic {
         width: 100px;
+
         display: flex;
         align-items: flex-start;
+
+        margin-right: -1rem;
     }
 }
 
 .character-in-relation {
     &__name {
-        display: flex;
-        justify-content: center;
+        display: block;
+        width: 75px;
 
         font-size: x-small;
         color: $accent;
 
         line-height: 90%;
+
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 }
 
@@ -166,4 +173,11 @@
 .add-new-character {
     margin-top: 0.5rem;
     margin-left: 0.7rem;
+}
+
+.source-question {
+    font-size: x-small;
+    line-height: initial;
+
+    width: 80px;
 }

@@ -1,14 +1,14 @@
 package com.meowmere.main.dto.character.relation;
 
-public class Coordinates {
+public class CoordinatesDTO {
     private Integer x;
     private Integer y;
 
-    public Coordinates() {
+    public CoordinatesDTO() {
 
     }
 
-    public Coordinates(Integer x, Integer y) {
+    public CoordinatesDTO(Integer x, Integer y) {
         this.setX(x);
         this.setY(y);
     }

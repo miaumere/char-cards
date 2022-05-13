@@ -12,10 +12,7 @@ import com.meowmere.main.dto.character.preference.AllPreferencesDTO;
 import com.meowmere.main.dto.character.preference.HistoricPreferenceDTO;
 import com.meowmere.main.dto.character.quote.CharacterQuoteDTO;
 import com.meowmere.main.dto.character.quote.QuoteForListDTO;
-import com.meowmere.main.dto.character.relation.RelatedPersonData;
-import com.meowmere.main.dto.character.relation.RelationDTO;
-import com.meowmere.main.dto.character.relation.RelationForCharacter;
-import com.meowmere.main.dto.character.relation.RelationRequest;
+import com.meowmere.main.dto.character.relation.*;
 import com.meowmere.main.dto.character.relationship.RelatedCharacterDTO;
 import com.meowmere.main.dto.character.relationship.RelationshipDTO;
 import com.meowmere.main.dto.character.story.CharacterStoryDTO;
@@ -84,6 +81,8 @@ public class CharactersService {
     public ChapterRepository chapterRepository;
     @Autowired
     public BookRepository bookRepository;
+    @Autowired
+    public RelationCoordinatesRepository relationCoordinatesRepository ;
 
     public ResponseEntity getNonArchivedCharacters() {
         List<Character> allCharactersFromDb = characterRepository.getNonArchivedCharacters();
@@ -302,21 +301,24 @@ public class CharactersService {
                 request.getColors().getSkinColor(),
                 character);
 
-        Measurements measurementsForCharacter = new Measurements(
-                request.getMeasurements().getBabyHeight(),
-                request.getMeasurements().getBabyWeight(),
-                request.getMeasurements().getChildHeight(),
-                request.getMeasurements().getChildWeight(),
-                request.getMeasurements().getTeenHeight(),
-                request.getMeasurements().getTeenWeight(),
-                request.getMeasurements().getAdultHeight(),
-                request.getMeasurements().getAdultWeight(),
-                character);
-
         characterRepository.saveAndFlush(character);
         temperamentRepository.saveAndFlush(temperamentForCharacter);
         colorsRepository.saveAndFlush(colorsForCharacter);
-        measurementsRepository.saveAndFlush(measurementsForCharacter);
+
+        if(request.getMeasurements() != null) {
+            Measurements measurementsForCharacter = new Measurements(
+                    request.getMeasurements().getBabyHeight(),
+                    request.getMeasurements().getBabyWeight(),
+                    request.getMeasurements().getChildHeight(),
+                    request.getMeasurements().getChildWeight(),
+                    request.getMeasurements().getTeenHeight(),
+                    request.getMeasurements().getTeenWeight(),
+                    request.getMeasurements().getAdultHeight(),
+                    request.getMeasurements().getAdultWeight(),
+                    character);
+            measurementsRepository.saveAndFlush(measurementsForCharacter);
+
+        }
 
         return new ResponseEntity(HttpStatus.CREATED);
     }
@@ -407,7 +409,6 @@ public class CharactersService {
         }
         return new ResponseEntity(dto, HttpStatus.OK);
     }
-
 
     //#region Images
     public ResponseEntity newImages(MultipartHttpServletRequest multipartHttpServletRequest, Long id) {
@@ -552,65 +553,6 @@ public class CharactersService {
     //#endregion
 
     //#region Relationships
-//    public ResponseEntity createRelationship(RelationRequest request) {
-//        Character characterOne = characterRepository.getOne(request.getCharId());
-//        Character characterTwo = characterRepository.getOne(request.getRelCharId());
-//
-//        if(characterOne == characterTwo) {
-//            return new ResponseEntity(HttpStatus.BAD_REQUEST);
-//        }
-//
-//        if (characterOne == null || characterTwo == null) {
-//            return new ResponseEntity("Co najmniej jedna z podanych postaci nie istnieje.", HttpStatus.BAD_REQUEST);
-//        }
-//        Relationship firstRelationship = new Relationship();
-//        firstRelationship.setCharacter(characterOne);
-//        firstRelationship.setRelatedCharacter(characterTwo);
-//        firstRelationship.setRelationName(request.getRelation());
-//
-//
-//        Relationship secondRelationship = new Relationship();
-//        secondRelationship.setCharacter(characterTwo);
-//        secondRelationship.setRelatedCharacter(characterOne);
-//        secondRelationship.setRelationName(request.getReverseRelation());
-//
-//        relationshipRepository.save(firstRelationship);
-//        relationshipRepository.save(secondRelationship);
-//
-//        return new ResponseEntity(HttpStatus.CREATED);
-//    }
-
-//    public ResponseEntity getRelationships(Long id) {
-//        List<Relationship> relationships = relationshipRepository.getRelationshipsForCharacter(id);
-//
-//        List<RelationshipsForCharacterDTO> relationshipsForCharacterDTOList = new ArrayList<>();
-//        if(relationships != null) {
-//            relationships.forEach(relationship -> {
-//                RelationshipsForCharacterDTO relationshipsForCharacterDTO = new RelationshipsForCharacterDTO();
-//                RelationshipDTO relationshipDTO = new RelationshipDTO();
-//                relationshipDTO.setRelationName(relationship.getRelationName().name());
-//                Character character = relationship.getRelatedCharacter();
-//
-//                RelatedCharacterDTO relatedCharacterDTO = new RelatedCharacterDTO();
-//                relatedCharacterDTO.setId(character.getExternalId());
-//                relatedCharacterDTO.setCharName(character.getCharName());
-//                relatedCharacterDTO.setCharSurname(character.getCharSurname());
-//
-//                relationshipDTO.setRelatedCharacter(relatedCharacterDTO);
-//
-//                Relationship reversedRelationship = relationshipRepository
-//                        .getRelationshipsWhereCharIsRelatedTo(id, relationship.getRelatedCharacter().getExternalId());
-//
-//                if(reversedRelationship != null) {
-//                    relationshipsForCharacterDTO.setReverseRelationshipType(reversedRelationship.getRelationName().name());
-//                }
-//
-//                relationshipsForCharacterDTO.setRelationship(relationshipDTO);
-//                relationshipsForCharacterDTOList.add(relationshipsForCharacterDTO);
-//            });
-//        }
-//        return new ResponseEntity(relationshipsForCharacterDTOList, HttpStatus.OK);
-//    }
 
     public ResponseEntity getRelations(Long id) {
 
@@ -705,13 +647,17 @@ public class CharactersService {
                             if(characterToAdd == null) continue;
 
                             for (RelationDTO relationDTO: relationRequest.getRelations()) {
-                                Relation relation = new Relation(characterToRelateTo,
-                                        characterToAdd,
-                                        relationDTO.getType(),
-                                        relationDTO.getRelationDateStart(),
-                                        relationDTO.getRelationDateEnd());
 
-                                relationsRepository.saveAndFlush(relation);
+                                Relation sameRelation = relationsRepository.getRelationsByCharactersDateEtc(charId, relationRequest.getPersonId(), relationDTO.getType(), relationDTO.getRelationDateStart(), relationDTO.getRelationDateEnd());
+                               if(sameRelation == null) {
+                                   Relation relation = new Relation(characterToRelateTo,
+                                           characterToAdd,
+                                           relationDTO.getType(),
+                                           relationDTO.getRelationDateStart(),
+                                           relationDTO.getRelationDateEnd());
+
+                                   relationsRepository.saveAndFlush(relation);
+                               }
 
                             }
 
@@ -737,15 +683,18 @@ public class CharactersService {
                         if(relationDTO.getId() == null) {
                             Character character = characterRepository.getOne(relationRequest.getPersonId());
                             if(character == null) continue;
+                            Relation sameRelation = relationsRepository.getRelationsByCharactersDateEtc(charId, relationRequest.getPersonId(), relationDTO.getType(), relationDTO.getRelationDateStart(), relationDTO.getRelationDateEnd());
+                            if(sameRelation == null) {
+                                Relation relation = new Relation(
+                                        characterToRelateTo,
+                                        character,
+                                        relationDTO.getType(),
+                                        relationDTO.getRelationDateStart(),
+                                        relationDTO.getRelationDateEnd());
 
-                            Relation relation = new Relation(
-                                    characterToRelateTo,
-                                    character,
-                                    relationDTO.getType(),
-                                    relationDTO.getRelationDateStart(),
-                                    relationDTO.getRelationDateEnd());
+                                relationsRepository.saveAndFlush(relation);
+                            }
 
-                            relationsRepository.saveAndFlush(relation);
                         }
                     }
 
@@ -779,7 +728,72 @@ public class CharactersService {
 
     }
 
-    
+    public ResponseEntity getRelationsTreeData(Long id) {
+        RelationTreeDto result = new RelationTreeDto();
+        HashSet<RelationTreePersonDto> persons = new HashSet<RelationTreePersonDto>();
+        HashSet<RelationTreeRelationDto> relations = new HashSet<RelationTreeRelationDto>();
+
+        Character character = characterRepository.getOne(id);
+        if(character == null) {
+            return new ResponseEntity(result, HttpStatus.NOT_FOUND);
+        }
+
+        List<Relation> existingRelations = relationsRepository.getRelationsForCharacter(id);
+        HashSet<Character> characters = new HashSet<>();
+
+        for (Relation existingRelation: existingRelations) {
+            characters.add(existingRelation.getCharacter());
+            characters.add(existingRelation.getRelatedCharacter());
+
+            List<RelationCoordinates> coordinatesForCharacter = relationCoordinatesRepository.getCoordinatesForBoth(id, existingRelation.getRelatedCharacter().getExternalId());
+
+            for (RelationCoordinates relationCoordinates :coordinatesForCharacter) {
+
+            }
+            List<RelationCoordinates> coordinatesForRelatedCharacter = relationCoordinatesRepository.getCoordinatesForBoth(existingRelation.getRelatedCharacter().getExternalId(), id);
+
+            //#region RelationTreeRelationDto handle
+            RelationType type = RelationType.valueOf("" + existingRelation.getType());
+
+            RelationTreeRelationDto relationDto = new RelationTreeRelationDto();
+            relationDto.setType(type);
+            relationDto.setRelationDateStart(existingRelation.getRelationDateStart());
+            relationDto.setRelationDateEnd(existingRelation.getRelationDateEnd());
+            relationDto.setArrowFromSource(existingRelation.getCharacter().getExternalId() != id);
+            relationDto.setSource(existingRelation.getCharacter().getExternalId());
+            relationDto.setTarget(existingRelation.getRelatedCharacter().getExternalId());
+
+            if(!relations.contains(relationDto)) {
+                relations.add(relationDto);
+            }
+            //#endregion
+
+        }
+
+        for (Character characterFromDb:characters) {
+            RelationTreePersonDto personDto = new RelationTreePersonDto();
+            personDto.setId(characterFromDb.getExternalId());
+            personDto.setFullName(
+                    characterFromDb.getCharName()
+                            + " "
+                            + characterFromDb.getCharSurname()
+            );
+            Image image = imageRepository.getProfilePicForCharacter(characterFromDb.getExternalId());
+            String profilePic = null;
+            if(image != null){
+                profilePic = UtilsShared.GetProfilePicBase64Code(image.getExtension(), image.getImage());
+            }
+            personDto.setImageMimeData(profilePic);
+            persons.add(personDto);
+        }
+
+        result.setPersons(persons);
+        result.setRelations(relations);
+
+        return new ResponseEntity(result, HttpStatus.OK);
+
+    }
+
     //#endregion
 
     //#region Stories

@@ -1,4 +1,11 @@
-import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import {
+    Component,
+    EventEmitter,
+    Input,
+    OnInit,
+    Output,
+    ViewEncapsulation,
+} from '@angular/core';
 import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { TranslateService } from '@ngx-translate/core';
@@ -23,7 +30,7 @@ import { colorsForRelations } from '../relation-tree/colors-for-relations.const'
 import * as moment from 'moment';
 
 @Component({
-    selector: 'app-edit-relations [charId]',
+    selector: 'app-edit-relations [charId] [charFullName]',
     templateUrl: './edit-relations.component.html',
     styleUrls: ['./edit-relations.component.scss'],
 })
@@ -31,6 +38,9 @@ export class EditRelationsComponent extends BaseComponent implements OnInit {
     readonly RelationType = RelationType;
     @Input('color') themeColor1: string = '';
     @Input() charId: number = 0;
+    @Input() charFullName: string = '';
+
+    @Output() relationsChangedEvent = new EventEmitter<true>();
 
     filteredCharacters = new Observable<CharacterItem[]>();
     charList: CharacterItem[] = [];
@@ -165,6 +175,7 @@ export class EditRelationsComponent extends BaseComponent implements OnInit {
             )?.controls as { relations: FormArray } | undefined
         )?.relations as FormArray;
     }
+
     canCreateNewRelation(personId: number) {
         return this.getFormForPersonId(personId).valid;
     }
@@ -213,6 +224,7 @@ export class EditRelationsComponent extends BaseComponent implements OnInit {
                             )
                         );
                         this.relationsFormGroup.reset();
+                        this.relationsChangedEvent.emit(true);
                         this.getCharacterRelations();
                     },
                     (err) => {

@@ -43,10 +43,7 @@
         </app-story>
     </div>
 
-    <div
-        class="information__segment"
-        *ngIf="character.relationships && character.relationships.length > 0"
-    >
+    <div class="information__segment">
         <mat-divider></mat-divider>
 
         <h2 class="story__title" [ngStyle]="{ color: themeColor1 }">
@@ -54,11 +51,11 @@
         </h2>
 
         <app-char-relations
-            [charRelationships]="character.relationships"
             [color]="bgColor1"
             [isUserLogged]="isUserLogged"
             [profilePic]="character.profilePic"
             [charId]="character.externalId"
+            [charFullName]="character.charName + ' ' + character.charSurname"
         ></app-char-relations>
     </div>
 

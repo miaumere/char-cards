@@ -3,26 +3,26 @@ package com.meowmere.main.dto.character.relation;
 import com.meowmere.main.enums.RelationType;
 
 public class RelationTreeRelationDto {
-    private Integer source;
-    private Integer target;
+    private Long source;
+    private Long target;
     private RelationType type;
     private Boolean arrowFromSource;
-    private String relationDateStart;
-    private String relationDateEnd;
+    private Long relationDateStart;
+    private Long relationDateEnd;
 
-    public Integer getSource() {
+    public Long getSource() {
         return source;
     }
 
-    public void setSource(Integer source) {
+    public void setSource(Long source) {
         this.source = source;
     }
 
-    public Integer getTarget() {
+    public Long getTarget() {
         return target;
     }
 
-    public void setTarget(Integer target) {
+    public void setTarget(Long target) {
         this.target = target;
     }
 
@@ -42,21 +42,20 @@ public class RelationTreeRelationDto {
         this.arrowFromSource = arrowFromSource;
     }
 
-    public String getRelationDateStart() {
+    public Long getRelationDateStart() {
         return relationDateStart;
     }
 
-    public void setRelationDateStart(String relationDateStart) {
+    public void setRelationDateStart(Long relationDateStart) {
         this.relationDateStart = relationDateStart;
     }
 
-    public String getRelationDateEnd() {
+    public Long getRelationDateEnd() {
         return relationDateEnd;
     }
 
-    public void setRelationDateEnd(String relationDateEnd) {
+    public void setRelationDateEnd(Long relationDateEnd) {
         this.relationDateEnd = relationDateEnd;
     }
-
 
 }

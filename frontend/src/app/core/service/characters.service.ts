@@ -41,6 +41,7 @@ import {
     IRelationForCharacter,
     IRelationRequest,
     IRelationTreeDto,
+    RelationTreeDto,
 } from 'src/app/modules/characters/models/relations/relation-tree-dto.model';
 
 @Injectable({
@@ -119,15 +120,18 @@ export class CharactersService {
         });
     }
 
-    getRelationsTreeDataURL(charId: number) {
+    getRelationsTreeData(charId: number) {
         const params = new HttpParams().set('id', '' + charId);
 
-        return this.http.get<IRelationTreeDto[]>(
-            this._getRelationsTreeDataURL,
-            {
+        return this.http
+            .get<IRelationTreeDto>(this._getRelationsTreeDataURL, {
                 params,
-            }
-        );
+            })
+            .pipe(
+                map((rel) => {
+                    return new RelationTreeDto(rel);
+                })
+            );
     }
 
     upsertRelations(request: IRelationRequest[], charId: number) {
