@@ -6,10 +6,10 @@ import * as d3 from 'd3';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { skip, throttleTime } from 'rxjs/operators';
 import {
+    ICoordinatesRequest,
     IRelationTreeDto,
     IRelationTreePersonDto,
     IRelationTreeRelation,
-    mockData,
     RelationTreeDto,
     RelationTreePersonDto,
     RelationTreeRelation,
@@ -38,7 +38,6 @@ interface IGeneratedCircleElement {
 export class RelationTreeComponent extends BaseComponent implements OnInit {
     readonly colorsForRelations = colorsForRelations;
 
-    @Input('color') themeColor1: string = '';
     @Input() charId: number = 0;
 
     @Input() reloadChartObservable = new BehaviorSubject(false);
@@ -87,10 +86,8 @@ export class RelationTreeComponent extends BaseComponent implements OnInit {
                 .subscribe((data) => {
                     this.data = data;
 
-                    if (data.persons.length > 0 && data.relations.length > 0) {
-                        this.chartContainer = this.chartContainer;
-                        this.createChart();
-                    }
+                    this.chartContainer = this.chartContainer;
+                    this.createChart();
                 })
         );
     }
@@ -123,10 +120,7 @@ export class RelationTreeComponent extends BaseComponent implements OnInit {
             .attr('y', offsetY + radius + 15)
             .style('font-size', 'small')
             .attr('text-anchor', 'middle')
-            .attr(
-                'fill',
-                tinycolor(this.themeColor1).isLight() ? 'black' : 'white'
-            )
+            .attr('fill', 'white')
             .text(name);
 
         return { circle, text };
@@ -137,14 +131,14 @@ export class RelationTreeComponent extends BaseComponent implements OnInit {
         const element = (this.chartContainer as any).nativeElement;
 
         const svgWidth = (this.chartContainer as any).nativeElement.offsetWidth;
-        const svgHeight = 600;
+        const svgHeight = 400;
 
         const moveMouseEvent = new Subject<MouseEvent>();
 
         const svgViewport = typedD3
             .select(element)
             .append('svg')
-            .attr('style', 'background-color: ' + this.themeColor1)
+            .attr('style', 'background-color: ' + '#1b1d1e')
             .attr('width', svgWidth)
             .attr('height', svgHeight)
             .on('mousemove', (e: any) => {
@@ -379,11 +373,16 @@ export class RelationTreeComponent extends BaseComponent implements OnInit {
 
                 const relationType: RelationType = relation.type;
 
-                const isRelationBidirectional =
-                    relationType === RelationType.Marriage ||
-                    relationType === RelationType.Relationship ||
-                    relationType === RelationType.Sibling ||
-                    relationType === RelationType.Parent;
+                const isRelationBidirectional = (relation: RelationType) => {
+                    const relationAsString = '' + relation;
+                    return (
+                        relationAsString ===
+                            RelationType[RelationType.Marriage] ||
+                        relationAsString ===
+                            RelationType[RelationType.Relationship] ||
+                        relationAsString === RelationType[RelationType.Sibling]
+                    );
+                };
 
                 const generateLine = (
                     startPoint: PointCoords,
@@ -411,14 +410,14 @@ export class RelationTreeComponent extends BaseComponent implements OnInit {
                         .attr(
                             'marker-end',
                             relation.source === source!.id ||
-                                isRelationBidirectional
+                                isRelationBidirectional(relation.type)
                                 ? `url(#${relationType})`
                                 : null
                         )
                         .attr(
                             'marker-start',
                             relation.source !== source!.id ||
-                                isRelationBidirectional
+                                isRelationBidirectional(relation.type)
                                 ? `url(#${relationType})`
                                 : null
                         );
@@ -442,7 +441,7 @@ export class RelationTreeComponent extends BaseComponent implements OnInit {
                         .append('rect')
                         .attr('x', rectX)
                         .attr('y', rectY)
-                        .attr('fill', this.themeColor1)
+                        .attr('fill', '#1b1d1e')
 
                         .attr('stroke-width', '1')
                         .attr(
@@ -478,12 +477,7 @@ export class RelationTreeComponent extends BaseComponent implements OnInit {
                         )
                         .attr('text-anchor', 'middle')
                         .attr('font-size', '10px')
-                        .attr(
-                            'fill',
-                            tinycolor(this.themeColor1).isLight()
-                                ? 'black'
-                                : 'white'
-                        )
+                        .attr('fill', 'white')
                         .text(relation.type);
 
                     if (
@@ -522,12 +516,7 @@ export class RelationTreeComponent extends BaseComponent implements OnInit {
                             });
 
                         moveMouseEvent.pipe(throttleTime(10)).subscribe(() => {
-                            tooltip.attr(
-                                'fill',
-                                tinycolor(this.themeColor1).isLight()
-                                    ? 'black'
-                                    : 'white'
-                            );
+                            tooltip.attr('fill', 'white');
                         });
                     }
 
@@ -555,4 +544,29 @@ export class RelationTreeComponent extends BaseComponent implements OnInit {
     }
 
     relationElements: any[] = [];
+
+    upsertCoords() {
+        const request: ICoordinatesRequest[] = [];
+
+        if (this.data) {
+            for (const person of this.data?.persons) {
+                const requestItem: ICoordinatesRequest = {
+                    characterId: person.id,
+                    x: person.coordinates.x,
+                    y: person.coordinates.y,
+                };
+                request.push(requestItem);
+            }
+        }
+
+        console.log('request: ', request);
+
+        this.subscriptions$.add(
+            this._charactersService
+                .upsertCoords(this.charId, request)
+                .subscribe(() => {
+                    this.reloadChartObservable.next(true);
+                })
+        );
+    }
 }

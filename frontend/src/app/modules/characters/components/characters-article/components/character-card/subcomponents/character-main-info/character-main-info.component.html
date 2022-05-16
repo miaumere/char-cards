@@ -1,5 +1,5 @@
 <div class="card" *ngIf="character">
-    <mat-card [ngStyle]="{ background: bgColor1 }">
+    <mat-card class="card__mat-card">
         <span
             class="card__type"
             [ngStyle]="{ background: bgColor2 }"
@@ -40,7 +40,7 @@
         >
         </app-images>
 
-        <mat-card class="card__info info" [ngStyle]="{ background: bgColor2 }">
+        <mat-card class="card__info info">
             <span
                 [ngStyle]="{ color: character.colors?.themeColor1 }"
                 class="name--pseudonim"

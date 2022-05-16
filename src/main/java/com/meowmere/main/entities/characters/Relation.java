@@ -2,6 +2,7 @@ package com.meowmere.main.entities.characters;
 
 import com.meowmere.main.enums.RelationType;
 import com.meowmere.main.enums.RelationshipType;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 
@@ -30,10 +31,12 @@ public class Relation {
     private RelationType type;
 
     @Column(name = "relation_date_start")
-    private Long relationDateStart;
+    @ColumnDefault("0")
+    private Long relationDateStart = new Long(0);
 
     @Column(name = "relation_date_end")
-    private Long relationDateEnd;
+    @ColumnDefault("0")
+    private Long relationDateEnd = new Long(0);
 
     public Relation(){}
 

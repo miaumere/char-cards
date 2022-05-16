@@ -12,14 +12,10 @@ import java.util.List;
 
 @Repository
 public interface RelationCoordinatesRepository extends JpaRepository<RelationCoordinates, Long> {
-    @Query("SELECT r FROM RelationCoordinates r where r.sourceCharacter.externalId = :characterId or r.targetCharacter.externalId = :characterId")
-    List<RelationCoordinates> getCoordinatesForCharacter(@Param("characterId") Long characterId);
+    @Query("SELECT r FROM RelationCoordinates r where r.sourceCharacter.externalId = :characterId and r.targetCharacter.externalId IN (:relatedCharactersList)")
+    List<RelationCoordinates> getCoordinatesInCharacterRelationTree(@Param("characterId") Long characterId, @Param("relatedCharactersList") List<Long> relatedCharactersList);
 
-    @Query("SELECT r FROM RelationCoordinates r where " +
-            "r.sourceCharacter.externalId = :firstCharacterId " +
-            "or r.targetCharacter.externalId = :firstCharacterId " +
-            "and r.sourceCharacter.externalId = :secondCharacterId " +
-            "or r.targetCharacter.externalId = :secondCharacterId"
-    )
-    List<RelationCoordinates> getCoordinatesForBoth(@Param("firstCharacterId") Long firstCharacterId, @Param("secondCharacterId") Long secondCharacterId);
+    @Query("SELECT r FROM RelationCoordinates r where r.sourceCharacter.externalId = :characterId and r.targetCharacter.externalId = :relatedCharacterId")
+    RelationCoordinates getCoordinatesForCharacterAndRelatedCharacter(@Param("characterId") Long characterId, @Param("relatedCharacterId") Long relatedCharacterId);
+
 }

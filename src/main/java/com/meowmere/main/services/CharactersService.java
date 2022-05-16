@@ -13,8 +13,6 @@ import com.meowmere.main.dto.character.preference.HistoricPreferenceDTO;
 import com.meowmere.main.dto.character.quote.CharacterQuoteDTO;
 import com.meowmere.main.dto.character.quote.QuoteForListDTO;
 import com.meowmere.main.dto.character.relation.*;
-import com.meowmere.main.dto.character.relationship.RelatedCharacterDTO;
-import com.meowmere.main.dto.character.relationship.RelationshipDTO;
 import com.meowmere.main.dto.character.story.CharacterStoryDTO;
 import com.meowmere.main.dto.character.temperament.CharacterTemperamentDTO;
 import com.meowmere.main.dto.story.books.BookDTO;
@@ -649,12 +647,18 @@ public class CharactersService {
                             for (RelationDTO relationDTO: relationRequest.getRelations()) {
 
                                 Relation sameRelation = relationsRepository.getRelationsByCharactersDateEtc(charId, relationRequest.getPersonId(), relationDTO.getType(), relationDTO.getRelationDateStart(), relationDTO.getRelationDateEnd());
-                               if(sameRelation == null) {
-                                   Relation relation = new Relation(characterToRelateTo,
-                                           characterToAdd,
-                                           relationDTO.getType(),
-                                           relationDTO.getRelationDateStart(),
-                                           relationDTO.getRelationDateEnd());
+                                if(sameRelation == null) {
+                                    Character character1 = relationDTO.getArrowFromSource() ? characterToRelateTo : characterToAdd;
+                                    Character character2 = relationDTO.getArrowFromSource() ? characterToAdd : characterToRelateTo;
+
+                                    Relation relation = new Relation(
+                                            character1,
+                                            character2,
+                                            relationDTO.getType(),
+                                            relationDTO.getRelationDateStart(),
+                                            relationDTO.getRelationDateEnd());
+
+                                    relationsRepository.saveAndFlush(relation);
 
                                    relationsRepository.saveAndFlush(relation);
                                }
@@ -674,6 +678,7 @@ public class CharactersService {
 
                     for (Integer relationIdToDelete: relationsIdsToDelete) {
                         Relation relation = relationsRepository.getRelationById(relationIdToDelete);
+
                         if(relation != null) {
                             relationsRepository.delete(relation);
                         }
@@ -684,15 +689,20 @@ public class CharactersService {
                             Character character = characterRepository.getOne(relationRequest.getPersonId());
                             if(character == null) continue;
                             Relation sameRelation = relationsRepository.getRelationsByCharactersDateEtc(charId, relationRequest.getPersonId(), relationDTO.getType(), relationDTO.getRelationDateStart(), relationDTO.getRelationDateEnd());
-                            if(sameRelation == null) {
-                                Relation relation = new Relation(
-                                        characterToRelateTo,
-                                        character,
-                                        relationDTO.getType(),
-                                        relationDTO.getRelationDateStart(),
-                                        relationDTO.getRelationDateEnd());
 
-                                relationsRepository.saveAndFlush(relation);
+
+                            if(sameRelation == null) {
+                                Character character1 = relationDTO.getArrowFromSource() ? characterToRelateTo : character;
+                                Character character2 = relationDTO.getArrowFromSource() ? character : characterToRelateTo;
+
+                                Relation relation = new Relation(
+                                            character1,
+                                            character2,
+                                            relationDTO.getType(),
+                                            relationDTO.getRelationDateStart(),
+                                            relationDTO.getRelationDateEnd());
+
+                                    relationsRepository.saveAndFlush(relation);
                             }
 
                         }
@@ -712,6 +722,16 @@ public class CharactersService {
                             relationToEdit.setType(relationDTO.getType());
                             relationToEdit.setRelationDateEnd(relationDTO.getRelationDateEnd());
                             relationToEdit.setRelationDateStart(relationDTO.getRelationDateStart());
+                            Character character1 = relationToEdit.getCharacter();
+                            Character character2 = relationToEdit.getRelatedCharacter();
+
+                            if(relationDTO.getArrowFromSource()) {
+                                relationToEdit.setCharacter(character1);
+                                relationToEdit.setRelatedCharacter(character2);
+                            } else {
+                                relationToEdit.setCharacter(character2);
+                                relationToEdit.setRelatedCharacter(character1);
+                            }
 
                             relationsRepository.saveAndFlush(relationToEdit);
                         }
@@ -730,27 +750,23 @@ public class CharactersService {
 
     public ResponseEntity getRelationsTreeData(Long id) {
         RelationTreeDto result = new RelationTreeDto();
-        HashSet<RelationTreePersonDto> persons = new HashSet<RelationTreePersonDto>();
-        HashSet<RelationTreeRelationDto> relations = new HashSet<RelationTreeRelationDto>();
-
         Character character = characterRepository.getOne(id);
         if(character == null) {
             return new ResponseEntity(result, HttpStatus.NOT_FOUND);
         }
 
-        List<Relation> existingRelations = relationsRepository.getRelationsForCharacter(id);
-        HashSet<Character> characters = new HashSet<>();
 
+        HashSet<RelationTreePersonDto> persons = new HashSet<RelationTreePersonDto>();
+        HashSet<RelationTreeRelationDto> relations = new HashSet<RelationTreeRelationDto>();
+
+        HashSet<Character> characters = new HashSet<>();
+        characters.add(character);
+
+        // Relations
+        List<Relation> existingRelations = relationsRepository.getRelationsForCharacter(id);
         for (Relation existingRelation: existingRelations) {
             characters.add(existingRelation.getCharacter());
             characters.add(existingRelation.getRelatedCharacter());
-
-            List<RelationCoordinates> coordinatesForCharacter = relationCoordinatesRepository.getCoordinatesForBoth(id, existingRelation.getRelatedCharacter().getExternalId());
-
-            for (RelationCoordinates relationCoordinates :coordinatesForCharacter) {
-
-            }
-            List<RelationCoordinates> coordinatesForRelatedCharacter = relationCoordinatesRepository.getCoordinatesForBoth(existingRelation.getRelatedCharacter().getExternalId(), id);
 
             //#region RelationTreeRelationDto handle
             RelationType type = RelationType.valueOf("" + existingRelation.getType());
@@ -759,17 +775,18 @@ public class CharactersService {
             relationDto.setType(type);
             relationDto.setRelationDateStart(existingRelation.getRelationDateStart());
             relationDto.setRelationDateEnd(existingRelation.getRelationDateEnd());
-            relationDto.setArrowFromSource(existingRelation.getCharacter().getExternalId() != id);
             relationDto.setSource(existingRelation.getCharacter().getExternalId());
             relationDto.setTarget(existingRelation.getRelatedCharacter().getExternalId());
 
-            if(!relations.contains(relationDto)) {
-                relations.add(relationDto);
-            }
+            relations.add(relationDto);
             //#endregion
-
         }
 
+        // Coordinates
+        List<Long> characterIds = characters.stream().map(Character::getExternalId).collect(Collectors.toList());
+        List<RelationCoordinates> relationCoordinates = relationCoordinatesRepository.getCoordinatesInCharacterRelationTree(id, characterIds);
+
+        // Persons
         for (Character characterFromDb:characters) {
             RelationTreePersonDto personDto = new RelationTreePersonDto();
             personDto.setId(characterFromDb.getExternalId());
@@ -784,6 +801,14 @@ public class CharactersService {
                 profilePic = UtilsShared.GetProfilePicBase64Code(image.getExtension(), image.getImage());
             }
             personDto.setImageMimeData(profilePic);
+
+            RelationCoordinates personCoordinates = relationCoordinates
+                    .stream().parallel()
+                    .filter(relationCoordinate -> relationCoordinate.targetCharacter.getExternalId() == personDto.getId()).findFirst().orElse(null);
+            if(personCoordinates != null) {
+                personDto.setCoordinates(new CoordinatesDTO(personCoordinates.getXTarget(), personCoordinates.getYTarget()));
+            }
+
             persons.add(personDto);
         }
 
@@ -792,6 +817,37 @@ public class CharactersService {
 
         return new ResponseEntity(result, HttpStatus.OK);
 
+    }
+
+    public ResponseEntity upsertCoords(Long id, List<CoordinatesRequest> request){
+        Character character = characterRepository.getOne(id);
+        if(character == null) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+        List<Long> characterIds = request.stream().map(CoordinatesRequest::getCharacterId).collect(Collectors.toList());
+
+        for (CoordinatesRequest coordinateRequest:request) {
+            RelationCoordinates coordinates = relationCoordinatesRepository.getCoordinatesForCharacterAndRelatedCharacter(id, coordinateRequest.getCharacterId());
+            Character relatedCharacter = characterRepository.getOne(coordinateRequest.getCharacterId());
+
+            if(relatedCharacter == null) {
+                return new ResponseEntity(HttpStatus.NOT_FOUND);
+            }
+
+            if(coordinates == null) {
+                RelationCoordinates relationCoordinates1 = new RelationCoordinates(character, relatedCharacter, coordinateRequest.getX(), coordinateRequest.getY());
+                relationCoordinatesRepository.saveAndFlush(relationCoordinates1);
+            } else {
+                coordinates.setXTarget(coordinateRequest.getX());
+                coordinates.setYTarget(coordinateRequest.getY());
+                relationCoordinatesRepository.saveAndFlush(coordinates);
+
+            }
+
+        }
+
+
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     //#endregion

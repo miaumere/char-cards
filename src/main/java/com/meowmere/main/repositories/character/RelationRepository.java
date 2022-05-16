@@ -14,7 +14,8 @@ import java.util.List;
 
 @Repository
 public interface RelationRepository extends JpaRepository<Relation, Long> {
-    @Query("SELECT r FROM Relation r where r.character.externalId = :characterId order by r.relatedCharacter.charName")
+    @Query("SELECT r FROM Relation r where r.character.externalId = :characterId or r.relatedCharacter.externalId = :characterId " +
+            "order by r.relatedCharacter.charName")
     List<Relation> getRelationsForCharacter(@Param("characterId") Long characterId);
 
     @Query("SELECT r.relatedCharacter.externalId FROM Relation r where r.character.externalId = :characterId order by r.relatedCharacter.charName")
@@ -37,4 +38,6 @@ public interface RelationRepository extends JpaRepository<Relation, Long> {
                                              @Param("type") RelationType type,
                                              @Param("relationDateStart") Long relationDateStart,
                                              @Param("relationDateEnd") Long relationDateEnd);
+
+
 }

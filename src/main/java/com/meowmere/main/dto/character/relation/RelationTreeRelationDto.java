@@ -6,7 +6,6 @@ public class RelationTreeRelationDto {
     private Long source;
     private Long target;
     private RelationType type;
-    private Boolean arrowFromSource;
     private Long relationDateStart;
     private Long relationDateEnd;
 
@@ -32,14 +31,6 @@ public class RelationTreeRelationDto {
 
     public void setType(RelationType type) {
         this.type = type;
-    }
-
-    public Boolean getArrowFromSource() {
-        return arrowFromSource;
-    }
-
-    public void setArrowFromSource(Boolean arrowFromSource) {
-        this.arrowFromSource = arrowFromSource;
     }
 
     public Long getRelationDateStart() {

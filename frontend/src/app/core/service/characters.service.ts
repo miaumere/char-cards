@@ -1,3 +1,4 @@
+import { ICoordinatesRequest } from './../../modules/characters/models/relations/relation-tree-dto.model';
 import { StoryRequest } from './../../modules/admin-panel/models/character-story/story-request.model';
 import { LoaderService } from './loader.service';
 import { Injectable } from '@angular/core';
@@ -68,6 +69,7 @@ export class CharactersService {
     private readonly _postQuoteURL = `${this.charControllerURL}/upsert-quote`;
     private readonly _postUpsertStoryForCharacterURL = `${this.charControllerURL}/upsert-story`;
     private readonly _postRelationsURL = `${this.charControllerURL}/relations`;
+    private readonly _postCoordsURL = `${this.charControllerURL}/coords`;
 
     private readonly _postNewCharacterURL = `${this.charControllerURL}/new-character`;
     private readonly _postEditImagesURL = `${this.charControllerURL}/new-images`;
@@ -144,6 +146,15 @@ export class CharactersService {
         );
     }
 
+    upsertCoords(charId: number, request: ICoordinatesRequest[]) {
+        const params = new HttpParams().set('id', '' + charId);
+
+        return this.http.post<IRelationRequest[]>(
+            this._postCoordsURL,
+            request,
+            { params }
+        );
+    }
     //#endregion
 
     // archived and non-archived characters:

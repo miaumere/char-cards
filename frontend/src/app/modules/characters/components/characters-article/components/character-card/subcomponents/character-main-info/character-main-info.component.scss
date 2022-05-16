@@ -37,6 +37,10 @@
 
     margin: 1rem;
 
+    &__mat-card {
+        background: $chars-list-bg;
+    }
+
     &__type {
         border-radius: 3px;
         padding: 0 0.5rem;

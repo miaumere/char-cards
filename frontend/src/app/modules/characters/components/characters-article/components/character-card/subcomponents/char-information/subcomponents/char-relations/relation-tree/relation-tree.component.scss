@@ -1,3 +1,5 @@
+@import 'variables';
+
 .chart {
     user-select: none;
     -moz-user-select: none;
@@ -6,4 +8,22 @@
 
 .no-data-info {
     margin: 1rem;
+}
+
+.save-icon {
+    transform: scale(1);
+    margin-left: auto;
+    margin-right: 0.5rem;
+
+    transition: 0.3s;
+    cursor: pointer;
+    color: $accent;
+
+    &:hover {
+        color: rgb(197, 250, 179);
+    }
+}
+
+.save-icon-container {
+    display: flex;
 }

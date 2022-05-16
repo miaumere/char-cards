@@ -1,5 +1,6 @@
 package com.meowmere.main.controllers;
 
+import com.meowmere.main.dto.character.relation.CoordinatesRequest;
 import com.meowmere.main.dto.character.relation.RelationRequest;
 import com.meowmere.main.requests.characters.character.ChangeCharacterStateRequest;
 import com.meowmere.main.requests.characters.character.CreateCharacterRequest;
@@ -63,6 +64,11 @@ public class CharacterController {
     @PostMapping("/relations")
     public ResponseEntity upsertRelations(@RequestParam Long id, @RequestBody List<RelationRequest> request) {
         return this.charactersService.upsertRelations(request, id);
+    }
+
+    @PostMapping("/coords")
+    public ResponseEntity upsertCoords(@RequestParam Long id, @RequestBody List<CoordinatesRequest> request) {
+        return this.charactersService.upsertCoords(id, request);
     }
 
     // #endregion

@@ -157,10 +157,8 @@
     cursor: pointer;
     color: $accent;
 
-    &--save {
-        &:hover {
-            color: rgb(197, 250, 179);
-        }
+    &:hover {
+        color: rgb(197, 250, 179);
     }
 }
 
