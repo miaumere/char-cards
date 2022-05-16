@@ -1,22 +1,14 @@
-<div class="card" *ngIf="character">
+<form class="card" *ngIf="character" [formGroup]="form">
     <mat-card class="card__mat-card">
         <span
-            class="card__type"
             [ngStyle]="{ background: bgColor2 }"
             [ngSwitch]="character?.charType"
+            class="card__type"
         >
-            <span *ngSwitchCase="'MAIN'">{{
-                'enum.charType.MAIN' | translate
-            }}</span>
-            <span *ngSwitchCase="'SIDE'">{{
-                'enum.charType.SIDE' | translate
-            }}</span>
-            <span *ngSwitchCase="'BACKGROUND'">{{
-                'enum.charType.BACKGROUND' | translate
-            }}</span>
+            {{ 'enum.charType.' + character?.charType | translate }}
         </span>
         <span class="card__name">
-            <app-edit-icon (clickedEvent)="clicked()"></app-edit-icon>
+            <!-- <app-edit-icon (clickedEvent)="clicked()"></app-edit-icon> -->
 
             <app-icon
                 *ngIf="character.gender"
@@ -25,12 +17,42 @@
                 [size]="'0.7'"
             >
             </app-icon>
-            <app-edit-icon (clickedEvent)="clicked()"></app-edit-icon>
-            <span class="name">
-                {{ character.charName }}
-                {{ character.charSurname }}
-            </span>
+            <div class="name">
+                <div class="name-block">
+                    <div class="icons-options">
+                        <app-edit-icon
+                            *ngIf="editedKey !== 'charName'"
+                            (clickedEvent)="clicked('charName')"
+                        ></app-edit-icon>
+
+                        <ng-container *ngIf="editedKey === 'charName'">
+                            <mat-icon
+                                class="option-icon option-icon--cancel"
+                                (click)="editedKey = null"
+                                >cancel</mat-icon
+                            >
+
+                            <mat-icon
+                                class="option-icon option-icon--save"
+                                (click)="saveCharacter()"
+                                >save</mat-icon
+                            >
+                        </ng-container>
+                    </div>
+
+                    {{ character.charName }}
+                </div>
+
+                <div>
+                    <app-edit-icon
+                        *ngIf="isUserLogged"
+                        (clickedEvent)="clicked('charSurname')"
+                    ></app-edit-icon>
+                    {{ character.charSurname }}
+                </div>
+            </div>
         </span>
+        <app-divider></app-divider>
 
         <app-images
             [character]="character"
@@ -40,6 +62,8 @@
         >
         </app-images>
 
+        <app-divider></app-divider>
+
         <mat-card class="card__info info">
             <span
                 [ngStyle]="{ color: character.colors?.themeColor1 }"
@@ -48,13 +72,67 @@
                 {{ character.pseudonim }}
             </span>
 
-            <app-divider></app-divider>
-
-            <div class="card-info nationality" *ngIf="flagURL">
+            <div class="card-info nationality" *ngIf="flag || isUserLogged">
                 <span class="info__desc">
-                    🏁 {{ 'CHARACTER_CARD.NATIONALITY' | translate }}
+                    🚩 {{ 'CHARACTER_CARD.NATIONALITY' | translate }}
                 </span>
-                <img class="info__data flag" [src]="flagURL" />
+                <div class="edit-country">
+                    <div class="icons-options">
+                        <app-edit-icon
+                            *ngIf="editedKey !== 'nationality'"
+                            (clickedEvent)="clicked('nationality')"
+                        ></app-edit-icon>
+
+                        <ng-container *ngIf="editedKey === 'nationality'">
+                            <mat-icon
+                                class="option-icon option-icon--cancel"
+                                (click)="editedKey = null"
+                                >cancel</mat-icon
+                            >
+
+                            <mat-icon
+                                class="option-icon option-icon--save"
+                                (click)="saveCharacter()"
+                                >save</mat-icon
+                            >
+                        </ng-container>
+                    </div>
+
+                    <ng-container *ngIf="editedKey !== 'nationality'">
+                        <div *ngIf="flag" [title]="flag.name.common">
+                            <img
+                                [src]="flag?.flags.svg | sanitizer"
+                                class="flag"
+                            />
+                        </div>
+                        <div *ngIf="!flag">?</div>
+                    </ng-container>
+
+                    <mat-form-field
+                        *ngIf="editedKey === 'nationality'"
+                        class="edit-nationality"
+                    >
+                        <mat-label>
+                            {{
+                                'CHARACTER_MODIFY.NATIONALITY' | translate
+                            }}</mat-label
+                        >
+
+                        <mat-select formControlName="nationality">
+                            <mat-option [value]="null">---</mat-option>
+                            <mat-option
+                                *ngFor="let country of countries"
+                                [value]="country.cca2"
+                            >
+                                <img
+                                    [src]="country.flags?.svg"
+                                    class="flag flag--in-list"
+                                />
+                                {{ country.name.common }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
             </div>
 
             <div class="card-info" *ngIf="character.birthday">
@@ -172,4 +250,4 @@
             </app-temperament-bars>
         </mat-card>
     </mat-card>
-</div>
+</form>

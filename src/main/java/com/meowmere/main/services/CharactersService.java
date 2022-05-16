@@ -561,10 +561,12 @@ public class CharactersService {
 
         for (Relation relationFromDb: relationsFromDb) {
             Long relatedCharExternalId = relationFromDb.getRelatedCharacter().getExternalId();
+            if(relatedCharExternalId == id) {
+                relatedCharExternalId = relationFromDb.getCharacter().getExternalId();
+            }
             Boolean containsId = relationsMap.containsKey(relatedCharExternalId);
 
             List<Relation> relationList = new ArrayList<>();
-
             if(containsId) {
                 relationList = relationsMap.get(relatedCharExternalId);
             }
@@ -575,6 +577,7 @@ public class CharactersService {
                 relationsMap.put(relatedCharExternalId, relationList);
             }
         }
+
 
         for (Map.Entry<Long, List<Relation>> entry : relationsMap.entrySet()) {
             Long characterId = entry.getKey();
@@ -598,10 +601,14 @@ public class CharactersService {
             List<RelationDTO> relationDTOS = new ArrayList<>();
 
             for (Relation relation : relations) {
-
-           RelationDTO relationDTO = new RelationDTO(relation.getId(),relation.getType(), true, relation.getRelationDateStart(), relation.getRelationDateEnd());
-            relationDTOS.add(relationDTO);
-
+                Boolean isSource = relation.getRelatedCharacter().getExternalId() != id;
+                RelationDTO relationDTO = new RelationDTO(
+                        relation.getId(),
+                        relation.getType(),
+                        isSource,
+                        relation.getRelationDateStart(),
+                        relation.getRelationDateEnd());
+                relationDTOS.add(relationDTO);
             }
             RelationForCharacter relationForCharacter = new RelationForCharacter(person, relationDTOS);
             result.add(relationForCharacter);
@@ -824,8 +831,6 @@ public class CharactersService {
         if(character == null) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
-        List<Long> characterIds = request.stream().map(CoordinatesRequest::getCharacterId).collect(Collectors.toList());
-
         for (CoordinatesRequest coordinateRequest:request) {
             RelationCoordinates coordinates = relationCoordinatesRepository.getCoordinatesForCharacterAndRelatedCharacter(id, coordinateRequest.getCharacterId());
             Character relatedCharacter = characterRepository.getOne(coordinateRequest.getCharacterId());

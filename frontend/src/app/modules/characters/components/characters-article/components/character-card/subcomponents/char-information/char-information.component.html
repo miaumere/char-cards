@@ -29,7 +29,7 @@
     </div>
 
     <div class="information__segment">
-        <mat-divider></mat-divider>
+        <app-divider></app-divider>
         <h2 class="story__title" [ngStyle]="{ color: themeColor1 }">
             📖 {{ 'CHARACTER_CARD.STORY' | translate }}
         </h2>
@@ -44,7 +44,7 @@
     </div>
 
     <div class="information__segment">
-        <mat-divider></mat-divider>
+        <app-divider></app-divider>
 
         <h2 class="story__title" [ngStyle]="{ color: themeColor1 }">
             👨‍👨‍👦‍👦 {{ 'CHARACTER_CARD.FAMILY_RELATIONS' | translate }}
@@ -63,7 +63,7 @@
         class="information__segment"
         *ngIf="preferences && !!preferences.length"
     >
-        <mat-divider></mat-divider>
+        <app-divider></app-divider>
         <h2 class="story__title" [ngStyle]="{ color: themeColor1 }">
             💘 {{ 'CHARACTER_CARD.PREFERENCES' | translate }}
         </h2>
@@ -75,7 +75,7 @@
         class="information__segment"
         *ngIf="character.measurements?.hasAnyValues"
     >
-        <mat-divider></mat-divider>
+        <app-divider></app-divider>
         <h2 class="story__title" [ngStyle]="{ color: themeColor1 }">
             📏 {{ 'CHARACTER_CARD.WEIGHT_HEIGHT_TABLE' | translate }}
         </h2>
@@ -89,7 +89,7 @@
         class="information__segment"
         *ngIf="character.starringIn && !!character.starringIn.length"
     >
-        <mat-divider></mat-divider>
+        <app-divider></app-divider>
         <h2 class="story__title" [ngStyle]="{ color: themeColor1 }">
             📚 {{ 'CHARACTER_CARD.APPEARANCE' | translate }}
         </h2>

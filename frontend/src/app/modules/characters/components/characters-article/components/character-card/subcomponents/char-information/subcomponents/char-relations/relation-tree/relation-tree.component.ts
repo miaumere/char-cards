@@ -559,8 +559,6 @@ export class RelationTreeComponent extends BaseComponent implements OnInit {
             }
         }
 
-        console.log('request: ', request);
-
         this.subscriptions$.add(
             this._charactersService
                 .upsertCoords(this.charId, request)

@@ -1,20 +1,27 @@
 @import 'variables';
 
 .name {
-    display: flex;
-    flex-direction: column;
+    margin-left: 1rem;
 
     &--pseudonim {
         font-size: 0.8rem;
     }
 }
 
-.flag {
-    max-width: 1rem;
-    max-height: 1rem;
+.name-block {
+    display: flex;
+    align-items: center;
+}
 
-    border: 1px solid white;
-    border-radius: 3px;
+.flag {
+    height: 0.9rem;
+    margin-bottom: 5px;
+    pointer-events: none;
+
+    &--in-list {
+        height: 0.6rem;
+        margin: 0;
+    }
 }
 
 .nationality {
@@ -45,15 +52,18 @@
         border-radius: 3px;
         padding: 0 0.5rem;
         margin-right: 3rem;
+        margin-top: -0.5rem !important;
+        margin-bottom: -1rem;
+
+        display: block !important;
     }
 
     &__name {
-        height: 1rem;
-
         display: flex;
         align-items: center;
 
-        margin-top: 0.5rem;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
         padding: 1px 0.5rem;
         margin-bottom: 0.5rem;
         border-radius: 3px;
@@ -116,6 +126,8 @@
     padding-top: 0.5rem;
 
     &__desc {
+        width: 90px;
+
         font-weight: bold;
         font-size: smaller;
         text-transform: uppercase;
@@ -129,4 +141,20 @@
             color: rgb(124, 52, 52);
         }
     }
+}
+
+.edit-country {
+    display: flex;
+}
+
+.edit-nationality {
+    width: 5rem;
+}
+
+.icons-options {
+    display: flex;
+    flex-direction: column;
+
+    height: 1rem;
+    margin-bottom: 0.5rem;
 }

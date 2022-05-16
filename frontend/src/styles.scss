@@ -61,7 +61,7 @@ figcaption {
     border-radius: 3px;
     margin-left: 0.5rem;
 
-    background-color: #1d1d1d;
+    background-color: rgb(78, 78, 78);
 
     &__color {
         height: 10px;
@@ -107,8 +107,8 @@ figcaption {
 }
 
 ::selection {
-    color: white;
-    background: black;
+    background: white;
+    color: black;
 }
 
 .test {
@@ -151,4 +151,8 @@ figcaption {
 
 .mat-card {
     background: $chars-list-bg;
+}
+
+div[role='listbox'] {
+    max-width: 200px;
 }

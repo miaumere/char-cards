@@ -1,22 +1,25 @@
-<aside class="characters-menu global-section">
-  <ng-container *ngIf="charList && charList.length > 0 ">
-    <ng-container *ngFor="let character of charList;">
-      <a [routerLink]="['/char-cards', character.id]">
-        <div matRipple routerLinkActive="router-link-active" class="characters-menu__item">
-          {{character.fullName}}
-          <span *ngIf="character.characterType === 'MAIN'">
-            <img src="../../../../../assets/svg/rdest.svg" style="    height: 15px; margin-left: 3px            ">
-          </span>
-        </div>
-      </a>
+<aside class="characters-menu global-section" style="background: red">
+    <ng-container *ngIf="charList && charList.length > 0">
+        <ng-container *ngFor="let character of charList">
+            <a [routerLink]="['/char-cards', character.id]">
+                <div
+                    matRipple
+                    routerLinkActive="router-link-active"
+                    class="characters-menu__item"
+                >
+                    {{ character.fullName }}
+                    <span *ngIf="character.characterType === 'MAIN'">
+                        <img
+                            src="../../../../../assets/svg/rdest.svg"
+                            style="height: 15px; margin-left: 3px"
+                        />
+                    </span>
+                </div>
+            </a>
+        </ng-container>
     </ng-container>
-
-  </ng-container>
-
-
 </aside>
 
-
 <div *ngIf="charList && charList.length === 0">
-  {{ 'CHARACTER_CARD.NO_CHARS' | translate }}.
+    {{ 'CHARACTER_CARD.NO_CHARS' | translate }}.
 </div>

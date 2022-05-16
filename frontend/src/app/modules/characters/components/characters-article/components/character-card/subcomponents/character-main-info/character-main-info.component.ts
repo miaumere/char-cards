@@ -18,6 +18,7 @@ import { ToastrService } from 'ngx-toastr';
 import { BaseComponent } from 'src/app/core/base.component';
 import { CharactersService } from 'src/app/core/service/characters.service';
 import { CountriesService } from 'src/app/core/service/countries.service';
+import { Country } from 'src/app/modules/admin-panel/models/countries/country.model';
 import { Character } from 'src/app/modules/characters/models/character.model';
 import { IColors } from 'src/app/modules/characters/models/colors.model';
 import { IImageForMain } from 'src/app/modules/characters/models/image-for-main.model';
@@ -40,7 +41,12 @@ export class CharacterMainInfoComponent
 
     @Output() infoHasChangedEvent = new EventEmitter<true>();
 
-    flagURL = '';
+    flag?: Country = undefined;
+    countries: Country[] = [];
+
+    editedKey: string | null = null;
+
+    form = new FormGroup({});
 
     get hasTemperamentInfo(): boolean {
         return !!(
@@ -51,12 +57,40 @@ export class CharacterMainInfoComponent
         );
     }
 
-    constructor(private _countriesService: CountriesService) {
+    constructor(
+        private _countriesService: CountriesService,
+        private _charactersService: CharactersService,
+        private _toastrService: ToastrService,
+        private _translate: TranslateService
+    ) {
         super();
     }
 
     ngOnInit(): void {
         this.getNationalityForCharacter();
+
+        if (this.isUserLogged) {
+            this.getCountriesList();
+
+            if (this.character) {
+                Object.keys(this.character);
+                for (const key in this.character) {
+                    if (
+                        Object.prototype.hasOwnProperty.call(
+                            this.character,
+                            key
+                        )
+                    ) {
+                        const untypedChar = this.character as any;
+                        const element = untypedChar[key];
+
+                        this.form.addControl(key, new FormControl(element));
+
+                        console.log(this.form);
+                    }
+                }
+            }
+        }
     }
 
     emitInfoHasChangedEvent() {
@@ -70,7 +104,7 @@ export class CharacterMainInfoComponent
                     .getFlagByCode(this.character.nationality)
                     .subscribe((flag) => {
                         if (flag) {
-                            this.flagURL = flag;
+                            this.flag = flag;
                         }
                     })
             );
@@ -83,9 +117,46 @@ export class CharacterMainInfoComponent
         };
     }
 
-    clicked() {
+    getCountriesList() {
+        this.subscriptions$.add(
+            this._countriesService.getCountries().subscribe((countries) => {
+                this.countries = countries;
+            })
+        );
+    }
+
+    clicked(key: string) {
+        this.editedKey = null;
         if (this.character) {
-            Object.keys(this.character);
+            const keys = Object.keys(this.character);
+            console.log('keys: ', keys);
+
+            if (keys.includes(key)) {
+                this.editedKey = key;
+            }
         }
+    }
+
+    saveCharacter() {
+        this.subscriptions$.add(
+            this._charactersService
+                .putCharacterDetails(this.form.value, false)
+                .subscribe(
+                    (_) => {
+                        this._toastrService.success(
+                            this._translate.instant(
+                                'TOASTR_MESSAGE.SAVE_SUCCESS'
+                            )
+                        );
+
+                        this.infoHasChangedEvent.emit(true);
+                    },
+                    (err) => {
+                        this._toastrService.error(
+                            this._translate.instant('TOASTR_MESSAGE.ERROR')
+                        );
+                    }
+                )
+        );
     }
 }
