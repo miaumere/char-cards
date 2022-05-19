@@ -45,6 +45,9 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { CharacterAdditionalInfoComponent } from './components/characters-article/components/character-card/subcomponents/character-additional-info/character-additional-info.component';
+import { PreferencesLegendComponent } from './components/characters-article/components/character-card/subcomponents/char-information/subcomponents/preferences/preferences-legend/preferences-legend.component';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatSliderModule } from '@angular/material/slider';
 
 @NgModule({
     declarations: [
@@ -73,6 +76,7 @@ import { CharacterAdditionalInfoComponent } from './components/characters-articl
         RelationTreeComponent,
         EditRelationsComponent,
         CharacterAdditionalInfoComponent,
+        PreferencesLegendComponent,
     ],
     imports: [
         CommonModule,
@@ -96,6 +100,8 @@ import { CharacterAdditionalInfoComponent } from './components/characters-articl
         MatDatepickerModule,
         MatAutocompleteModule,
         MatCheckboxModule,
+        MatSlideToggleModule,
+        MatSliderModule,
     ],
     exports: [HistoricalPreferencesComponent],
 

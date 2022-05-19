@@ -67,7 +67,11 @@
         <h2 class="story__title" [ngStyle]="{ color: themeColor1 }">
             💘 {{ 'CHARACTER_CARD.PREFERENCES' | translate }}
         </h2>
-        <app-preferences [preferences]="preferences" [bgColor]="bgColor1">
+        <app-preferences
+            [preferences]="preferences"
+            [bgColor]="bgColor1"
+            [charId]="character.externalId"
+        >
         </app-preferences>
     </div>
 

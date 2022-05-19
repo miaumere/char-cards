@@ -22,4 +22,8 @@ export class CharacterItem implements ICharacterItem {
     constructor(initialValues: ICharacterItem) {
         Object.assign(this, initialValues);
     }
+
+    toString(): string {
+        return this.fullName;
+    }
 }

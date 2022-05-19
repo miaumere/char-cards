@@ -5,123 +5,141 @@
 >
     info</mat-icon
 >
-<mat-card class="types-legend" *ngIf="isPrefLegendVisible">
-    <mat-card-header>
-        <mat-card-title>{{ 'SHARED.LEGEND_KEY' | translate }}</mat-card-title>
-    </mat-card-header>
-    <div
-        *ngFor="let preference of preferenceTypes"
-        class="types-legend__item types-legend-item"
-    >
-        <ng-container [ngSwitch]="preference.preferenceType">
-            <ng-container *ngSwitchCase="'hatred'">
-                <span
-                    class="types-legend-item__name"
-                    [ngStyle]="{ background: preference.color }"
-                    >{{ 'PREFERENCES.HATRED' | translate }}
-                    <span class="types-legend-item__value"
-                        >{{ preference.preferenceMin }}-{{
-                            preference.preferenceMax
-                        }}</span
-                    >
-                </span>
-                <div class="types-legend-item__desc">
-                    {{ 'PREFERENCES.HATRED_DEF' | translate }}
-                </div>
-            </ng-container>
-            <ng-container *ngSwitchCase="'enemy'">
-                <span
-                    class="types-legend-item__name"
-                    [ngStyle]="{ background: preference.color }"
-                    >{{ 'PREFERENCES.ENEMY' | translate }}
-                    <span class="types-legend-item__value"
-                        >{{ preference.preferenceMin }}-{{
-                            preference.preferenceMax
-                        }}</span
-                    >
-                </span>
-                <div class="types-legend-item__desc">
-                    {{ 'PREFERENCES.ENEMY_DEF' | translate }}
-                </div>
-            </ng-container>
-            <ng-container *ngSwitchCase="'conflict'">
-                <span
-                    class="types-legend-item__name"
-                    [ngStyle]="{ background: preference.color }"
-                    >{{ 'PREFERENCES.CONFLICT' | translate }}
-                    <span class="types-legend-item__value"
-                        >{{ preference.preferenceMin }}-{{
-                            preference.preferenceMax
-                        }}</span
-                    >
-                </span>
-                <div class="types-legend-item__desc">
-                    {{ 'PREFERENCES.CONFLICT_DEF' | translate }}
-                </div>
-            </ng-container>
-            <ng-container *ngSwitchCase="'neutral'">
-                <span
-                    class="types-legend-item__name"
-                    [ngStyle]="{ background: preference.color }"
-                    >{{ 'PREFERENCES.NEUTRAL' | translate }}
-                    <span class="types-legend-item__value"
-                        >{{ preference.preferenceMin }}-{{
-                            preference.preferenceMax
-                        }}</span
-                    >
-                </span>
-                <div class="types-legend-item__desc">
-                    {{ 'PREFERENCES.NEUTRAL_DEF' | translate }}
-                </div>
-            </ng-container>
-            <ng-container *ngSwitchCase="'sympathy'">
-                <span
-                    class="types-legend-item__name"
-                    [ngStyle]="{ background: preference.color }"
-                    >{{ 'PREFERENCES.SYMPATHY' | translate }}
-                    <span class="types-legend-item__value"
-                        >{{ preference.preferenceMin }}-{{
-                            preference.preferenceMax
-                        }}</span
-                    >
-                </span>
-                <div class="types-legend-item__desc">
-                    {{ 'PREFERENCES.SYMPATHY_DEF' | translate }}
-                </div>
-            </ng-container>
-            <ng-container *ngSwitchCase="'admiration'">
-                <span
-                    class="types-legend-item__name"
-                    [ngStyle]="{ background: preference.color }"
-                    >{{ 'PREFERENCES.ADMIRATION' | translate }}
-                    <span class="types-legend-item__value"
-                        >{{ preference.preferenceMin }}-{{
-                            preference.preferenceMax
-                        }}</span
-                    >
-                </span>
-                <div class="types-legend-item__desc">
-                    {{ 'PREFERENCES.ADMIRATION_DEF' | translate }}
-                </div>
-            </ng-container>
-            <ng-container *ngSwitchCase="'love'">
-                <span
-                    class="types-legend-item__name"
-                    [ngStyle]="{ background: preference.color }"
-                    >{{ 'PREFERENCES.LOVE' | translate }}
-                    <span class="types-legend-item__value"
-                        >{{ preference.preferenceMin }}-{{
-                            preference.preferenceMax
-                        }}</span
-                    >
-                </span>
-                <div class="types-legend-item__desc">
-                    {{ 'PREFERENCES.LOVE_DEF' | translate }}
-                </div>
-            </ng-container>
-        </ng-container>
-    </div>
-</mat-card>
+<app-preferences-legend *ngIf="isPrefLegendVisible"> </app-preferences-legend>
 
-<app-current-preferences-chart [preferences]="preferences" [color]="bgColor">
+<app-current-preferences-chart
+    [preferences]="characterCurrentPreferences"
+    [color]="bgColor"
+>
 </app-current-preferences-chart>
+
+<mat-expansion-panel
+    (opened)="expandPreferences = true"
+    (closed)="expandPreferences = false"
+    class="preferences"
+    [expanded]="expandPreferences"
+    *appIfLoggedUser
+    [togglePosition]="'before'"
+>
+    <mat-expansion-panel-header style="height: 1rem">
+    </mat-expansion-panel-header>
+
+    <div class="edit-preferences-container">
+        <mat-card class="new-preferences">
+            <form
+                class="preferences__form preferences-form"
+                [formGroup]="preferencesForm"
+            >
+                <mat-form-field class="preferences-form__field">
+                    <mat-label>{{
+                        'SHARED.CHOOSE_CHAR' | translate
+                    }}</mat-label>
+                    <input
+                        matInput
+                        formControlName="character"
+                        required
+                        [matAutocomplete]="auto"
+                    />
+                    <mat-autocomplete #auto="matAutocomplete">
+                        <mat-option
+                            *ngFor="let char of filteredCharacters | async"
+                            [value]="char"
+                            class="option"
+                        >
+                            <img
+                                *ngIf="char.profilePic"
+                                [src]="
+                                    'data:image/' +
+                                        char.profilePic?.extension +
+                                        ';base64, ' +
+                                        char.profilePic?.image | sanitizer
+                                "
+                                class="option__image"
+                            />
+                            <span>{{ char.fullName }}</span>
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+
+                <div
+                    class="preferences-form__field preferences-form__field--range"
+                >
+                    <div class="legend">
+                        <div
+                            *ngFor="let preference of preferencesTypes"
+                            class="legend__item legend-item legend-item--{{
+                                preference.preferenceType
+                            }}"
+                            [ngClass]="{
+                                'legend-item--chosen':
+                                    chosenType === preference.preferenceType
+                            }"
+                        >
+                            <span class="legend-item__value"
+                                >{{ preference.preferenceMin }}-{{
+                                    preference.preferenceMax
+                                }}</span
+                            >
+                            <span class="legend-item__name">
+                                {{ preference.preferenceName }}</span
+                            >
+                        </div>
+                    </div>
+
+                    <mat-slider
+                        thumbLabel
+                        (input)="setRangeValue($event.value)"
+                        vertical
+                        formControlName="range"
+                    ></mat-slider>
+                </div>
+
+                <div class="date-container">
+                    <mat-form-field class="date-input">
+                        {{ date ? (date | date: 'yyyy / MM') : 'YYYY / MM' }}
+
+                        <input
+                            matInput
+                            [matDatepicker]="dp"
+                            formControlName="date"
+                            style="display: none"
+                        />
+                        <mat-datepicker-toggle
+                            matSuffix
+                            [for]="dp"
+                        ></mat-datepicker-toggle>
+
+                        <mat-datepicker-toggle
+                            matSuffix
+                            (click)="clearStartDate()"
+                        >
+                            <mat-icon matDatepickerToggleIcon>clear</mat-icon>
+                        </mat-datepicker-toggle>
+
+                        <mat-datepicker
+                            #dp
+                            startView="multi-year"
+                            (monthSelected)="chosenMonthHandler($event, dp)"
+                            panelClass="example-month-picker"
+                        >
+                        </mat-datepicker>
+                    </mat-form-field>
+                </div>
+
+                <div class="add-preference">
+                    <mat-icon
+                        class="basic-icon basic-icon--expand add-icon"
+                        [ngClass]="{
+                            'disabled-icon':
+                                !chosenType || preferencesForm.invalid
+                        }"
+                        (click)="addPreference()"
+                        >add</mat-icon
+                    >
+                </div>
+            </form>
+        </mat-card>
+
+        <div class="existing-preferences"></div>
+    </div>
+</mat-expansion-panel>
