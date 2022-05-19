@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { CharactersComponent } from './components/characters-article/characters.component';
 import { CharactersRoutingModule } from './characters-routing.module';
-import { CharactersMenuComponent } from './components/characters-menu/characters-menu.component';
 import { CharactersIndexComponent } from './characters-index.component';
 import { CharactersListComponent } from './components/characters-article/components/characters-list/characters-list.component';
 import { CharacterCardComponent } from './components/characters-article/components/character-card/character-card.component';
@@ -32,7 +31,7 @@ import { StarringInInfoComponent } from './components/characters-article/compone
 import { CharacterMainInfoComponent } from './components/characters-article/components/character-card/subcomponents/character-main-info/character-main-info.component';
 import { TagsComponent } from './components/tags/tags/tags.component';
 import { MatChipsModule } from '@angular/material/chips';
-import { TemperamentBarsComponent } from './components/characters-article/components/character-card/subcomponents/character-main-info/subcomponents/temperament-bars/temperament-bars.component';
+import { TemperamentBarsComponent } from './components/characters-article/components/character-card/subcomponents/character-additional-info/subcomponents/temperament-bars/temperament-bars.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ImagesComponent } from './components/characters-article/components/character-card/subcomponents/character-main-info/subcomponents/images/images.component';
 import { ProfilePicComponent } from './components/characters-article/components/character-card/subcomponents/char-information/subcomponents/profile-pic/profile-pic.component';
@@ -45,11 +44,11 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { CharacterAdditionalInfoComponent } from './components/characters-article/components/character-card/subcomponents/character-additional-info/character-additional-info.component';
 
 @NgModule({
     declarations: [
         CharactersComponent,
-        CharactersMenuComponent,
         CharactersIndexComponent,
         CharactersListComponent,
         CharacterCardComponent,
@@ -73,6 +72,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
         ImageCropperComponent,
         RelationTreeComponent,
         EditRelationsComponent,
+        CharacterAdditionalInfoComponent,
     ],
     imports: [
         CommonModule,

@@ -2,6 +2,7 @@ package com.meowmere.main.dto.character.relation;
 
 import com.meowmere.main.enums.RelationType;
 
+// FIXME: delete?
 public class RelationDTO {
     private Integer id;
     private RelationType Type;

@@ -618,138 +618,76 @@ public class CharactersService {
     }
 
     public ResponseEntity upsertRelations( List<RelationRequest> request, Long charId) {
-        Character characterToRelateTo = characterRepository.getOne(charId);
-        if(characterToRelateTo == null){
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
-        }
+        List<Relation> relationsFromDb = relationsRepository.getRelationsForCharacter(charId);
 
-        LinkedHashSet<Long> relatedPeopleIdsForCharacter = relationsRepository.getRelatedPeopleIdsForCharacter(charId);
-        List<Long> relationIdsFromRequest = request.stream().map(RelationRequest::getPersonId).collect(Collectors.toList());
+        List<Integer> relationsFromDbIds = relationsFromDb.stream().map(Relation::getId).collect(Collectors.toList());
+        List<Integer> relationsFromRequestIds = request.stream().map(RelationRequest::getId).collect(Collectors.toList());
 
-        if(relatedPeopleIdsForCharacter != null) {
-            for (Long relatedPeopleIdForCharacter: relatedPeopleIdsForCharacter) {
-                if(!relationIdsFromRequest.contains(relatedPeopleIdForCharacter)){
-                  List<Relation> relationListToDelete = relationsRepository.getRelationsForBoth(charId, relatedPeopleIdForCharacter);
-                  // Delete character with current relations
-                    if(relationListToDelete != null) {
-                        for (Relation relationToDelete : relationListToDelete) {
-                            relationsRepository.delete(relationToDelete);
-                        }
-                    }
+        List<RelationRequest> relationsToAdd = request.stream()
+                .filter((RelationRequest relationFromRequest) -> {
+            return !relationsFromDbIds.contains(relationFromRequest.getId());
+        }) .collect(Collectors.toList());
+
+        relationsToAdd.forEach(relationRequest -> {
+            Character character1 = characterRepository.getOne(relationRequest.getSourceCharacterId());
+            Character character2 = characterRepository.getOne(relationRequest.getTargetCharacterId());
+
+            Relation relation = new Relation();
+            relation.setCharacter(character1);
+            relation.setRelatedCharacter(character2);
+            relation.setRelationDateEnd(relationRequest.getRelationDateEnd());
+            relation.setRelationDateStart(relationRequest.getRelationDateStart());
+            relation.setType(relationRequest.getType());
+            relationsRepository.saveAndFlush(relation);
+        });
+
+
+        List<RelationRequest> relationsToUpdate = request.stream()
+                .filter((RelationRequest relationFromRequest) -> {
+                    return relationsFromDbIds.contains(relationFromRequest.getId());
+                }) .collect(Collectors.toList());
+
+        relationsToUpdate.forEach(relationRequest -> {
+            Character character1 = characterRepository.getOne(relationRequest.getSourceCharacterId());
+            Character character2 = characterRepository.getOne(relationRequest.getTargetCharacterId());
+
+            Relation relation = relationsRepository.getRelationById(relationRequest.getId());
+
+            relation.setCharacter(character1);
+            relation.setRelatedCharacter(character2);
+            relation.setRelationDateEnd(relationRequest.getRelationDateEnd());
+            relation.setRelationDateStart(relationRequest.getRelationDateStart());
+            relation.setType(relationRequest.getType());
+
+            relationsRepository.saveAndFlush(relation);
+        });
+
+
+        List<Relation> relationsToDelete = relationsFromDb.stream()
+                .filter((Relation relationFromDb) -> {
+                    return !relationsFromRequestIds.contains(relationFromDb.getId());
+                }).collect(Collectors.toList());
+
+        relationsToDelete.forEach(relationToDelete -> {
+            Long characterId = relationToDelete.getCharacter().getExternalId();
+            Long characterRelatedId = relationToDelete.getRelatedCharacter().getExternalId();
+
+
+            Boolean hasAnyRemainingRelations = !relationsRepository.getRelationsForBoth(characterId, characterRelatedId).isEmpty();
+            if(!hasAnyRemainingRelations) {
+                RelationCoordinates relationCoordinates = relationCoordinatesRepository.getCoordinatesForCharacterAndRelatedCharacter(characterId,characterRelatedId);
+                RelationCoordinates relationSwappedCoordinates = relationCoordinatesRepository.getCoordinatesForCharacterAndRelatedCharacter(characterRelatedId, characterId);
+
+                if(relationCoordinates != null) {
+                    relationCoordinatesRepository.delete(relationCoordinates);
+                }
+                if(relationSwappedCoordinates != null){
+                    relationCoordinatesRepository.delete(relationSwappedCoordinates);
                 }
             }
+            relationsRepository.delete(relationToDelete);
 
-        }
-
-        for (Long relationIdFromRequest : relationIdsFromRequest) {
-            if(!relatedPeopleIdsForCharacter.contains(relationIdFromRequest)){
-                // Add new character with relations
-                for (RelationRequest relationRequest : request) {
-                    if (relationRequest.getPersonId().equals(relationIdFromRequest)) {
-                        if(relationRequest != null) {
-                            relationRequest.getPersonId();
-                            Character characterToAdd = characterRepository.getOne(relationRequest.getPersonId());
-                            if(characterToAdd == null) continue;
-
-                            for (RelationDTO relationDTO: relationRequest.getRelations()) {
-
-                                Relation sameRelation = relationsRepository.getRelationsByCharactersDateEtc(charId, relationRequest.getPersonId(), relationDTO.getType(), relationDTO.getRelationDateStart(), relationDTO.getRelationDateEnd());
-                                if(sameRelation == null) {
-                                    Character character1 = relationDTO.getArrowFromSource() ? characterToRelateTo : characterToAdd;
-                                    Character character2 = relationDTO.getArrowFromSource() ? characterToAdd : characterToRelateTo;
-
-                                    Relation relation = new Relation(
-                                            character1,
-                                            character2,
-                                            relationDTO.getType(),
-                                            relationDTO.getRelationDateStart(),
-                                            relationDTO.getRelationDateEnd());
-
-                                    relationsRepository.saveAndFlush(relation);
-
-                                   relationsRepository.saveAndFlush(relation);
-                               }
-
-                            }
-
-                        };
-                    }
-                }
-            } else {
-                for (RelationRequest relationRequest: request) {
-                    List<Integer> currentRelations = relationsRepository.getRelationsForBoth(charId, relationRequest.getPersonId()).stream().map(Relation::getId).collect(Collectors.toList());
-                    List<Integer> requestRelationsIds = relationRequest.getRelations().stream().map(RelationDTO::getId).collect(Collectors.toList());
-                    List<Integer> relationsIdsToDelete = currentRelations.stream()
-                            .filter(element -> !requestRelationsIds.contains(element))
-                            .collect(Collectors.toList());
-
-                    for (Integer relationIdToDelete: relationsIdsToDelete) {
-                        Relation relation = relationsRepository.getRelationById(relationIdToDelete);
-
-                        if(relation != null) {
-                            relationsRepository.delete(relation);
-                        }
-                    }
-
-                    for (RelationDTO relationDTO: relationRequest.getRelations()) {
-                        if(relationDTO.getId() == null) {
-                            Character character = characterRepository.getOne(relationRequest.getPersonId());
-                            if(character == null) continue;
-                            Relation sameRelation = relationsRepository.getRelationsByCharactersDateEtc(charId, relationRequest.getPersonId(), relationDTO.getType(), relationDTO.getRelationDateStart(), relationDTO.getRelationDateEnd());
-
-
-                            if(sameRelation == null) {
-                                Character character1 = relationDTO.getArrowFromSource() ? characterToRelateTo : character;
-                                Character character2 = relationDTO.getArrowFromSource() ? character : characterToRelateTo;
-
-                                Relation relation = new Relation(
-                                            character1,
-                                            character2,
-                                            relationDTO.getType(),
-                                            relationDTO.getRelationDateStart(),
-                                            relationDTO.getRelationDateEnd());
-
-                                    relationsRepository.saveAndFlush(relation);
-                            }
-
-                        }
-                    }
-
-                    List<Integer> elementsToEdit = currentRelations.stream().filter(requestRelationsIds::contains).collect(Collectors.toList());
-
-                    for (Integer elementToEdit : elementsToEdit) {
-
-                        RelationDTO relationDTO = relationRequest.getRelations().stream()
-                                .filter(relationDTO1 -> elementToEdit.equals(relationDTO1.getId()))
-                                .findAny()
-                                .orElse(null);
-
-                        if(relationDTO != null) {
-                            Relation relationToEdit = relationsRepository.getRelationById(elementToEdit);
-                            relationToEdit.setType(relationDTO.getType());
-                            relationToEdit.setRelationDateEnd(relationDTO.getRelationDateEnd());
-                            relationToEdit.setRelationDateStart(relationDTO.getRelationDateStart());
-                            Character character1 = relationToEdit.getCharacter();
-                            Character character2 = relationToEdit.getRelatedCharacter();
-
-                            if(relationDTO.getArrowFromSource()) {
-                                relationToEdit.setCharacter(character1);
-                                relationToEdit.setRelatedCharacter(character2);
-                            } else {
-                                relationToEdit.setCharacter(character2);
-                                relationToEdit.setRelatedCharacter(character1);
-                            }
-
-                            relationsRepository.saveAndFlush(relationToEdit);
-                        }
-
-
-
-                    }
-                }
-
-                }
-            }
+        });
 
         return new ResponseEntity(HttpStatus.OK);
 

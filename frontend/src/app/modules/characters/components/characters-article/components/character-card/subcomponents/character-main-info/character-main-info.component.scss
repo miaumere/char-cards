@@ -1,6 +1,8 @@
 @import 'variables';
 
 .name {
+    display: flex;
+
     margin-left: 1rem;
 
     &--pseudonim {
@@ -13,49 +15,32 @@
     align-items: center;
 }
 
-.flag {
-    height: 0.9rem;
-    margin-bottom: 5px;
-    pointer-events: none;
-
-    &--in-list {
-        height: 0.6rem;
-        margin: 0;
-    }
-}
-
-.nationality {
+.card-type-block {
     display: flex;
+    justify-content: center;
     align-items: center;
-    padding-top: 0.5rem;
-}
-
-.card-info {
-    align-items: center;
-
-    margin-top: 0.2rem;
 }
 
 .card {
+    display: flex;
+    flex-direction: column;
+
     width: 220px;
-    height: fit-content;
+    height: 95vh;
+
+    margin-left: 1rem;
 
     text-align: center;
 
-    margin: 1rem;
-
-    &__mat-card {
-        background: $chars-list-bg;
-    }
+    background: $chars-list-bg;
 
     &__type {
+        margin-top: 1rem;
+        padding: 0.25rem 0.5rem;
         border-radius: 3px;
-        padding: 0 0.5rem;
-        margin-right: 3rem;
-        margin-top: -0.5rem !important;
-        margin-bottom: -1rem;
-
-        display: block !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     &__name {
@@ -72,89 +57,4 @@
         font-weight: bold;
         text-align: center;
     }
-    &__info {
-        display: flex;
-        flex-direction: column;
-        align-items: baseline;
-
-        text-align: left;
-    }
-}
-
-.color {
-    display: flex;
-    flex-direction: column;
-
-    &__container {
-        display: flex;
-
-        margin-top: -0.5rem;
-    }
-
-    &__item {
-        width: 3rem;
-
-        background: grey;
-        border-radius: 3px;
-
-        margin: 8px;
-
-        &--eye {
-            width: 100%;
-        }
-    }
-
-    &__icon {
-        transform: scale(0.5);
-    }
-}
-
-.colors {
-    display: flex;
-
-    flex-direction: column;
-    width: 175px;
-
-    margin-top: 0.5rem;
-    margin-left: -0.5rem;
-    margin-bottom: -1rem;
-}
-
-.info {
-    font-size: 0.7rem;
-    background: #1d1d1d;
-    padding-top: 0.5rem;
-
-    &__desc {
-        width: 90px;
-
-        font-weight: bold;
-        font-size: smaller;
-        text-transform: uppercase;
-        color: $accent;
-    }
-
-    &__data {
-        margin-left: 0.5rem;
-
-        &--death {
-            color: rgb(124, 52, 52);
-        }
-    }
-}
-
-.edit-country {
-    display: flex;
-}
-
-.edit-nationality {
-    width: 5rem;
-}
-
-.icons-options {
-    display: flex;
-    flex-direction: column;
-
-    height: 1rem;
-    margin-bottom: 0.5rem;
 }

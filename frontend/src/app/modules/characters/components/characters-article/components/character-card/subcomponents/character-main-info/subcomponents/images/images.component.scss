@@ -52,10 +52,17 @@
     align-items: center;
     flex-wrap: wrap;
 
-    max-height: 80px;
     overflow-y: auto;
+
+    margin-top: 0.5rem;
+    max-height: 40vh;
 }
 
 .image-input {
     width: 5rem;
+}
+
+.figure {
+    display: flex;
+    justify-content: center;
 }

@@ -20,6 +20,7 @@ import {
 } from 'src/app/modules/characters/models/relations/relation-type.enum';
 import * as tinycolor from 'tinycolor2';
 import { colorsForRelations } from './colors-for-relations.const';
+import * as moment from 'moment';
 
 function degToRad(deg: number) {
     return (deg * Math.PI) / 180;
@@ -130,7 +131,7 @@ export class RelationTreeComponent extends BaseComponent implements OnInit {
         const typedD3 = d3 as any;
         const element = (this.chartContainer as any).nativeElement;
 
-        const svgWidth = (this.chartContainer as any).nativeElement.offsetWidth;
+        const svgWidth = 600;
         const svgHeight = 400;
 
         const moveMouseEvent = new Subject<MouseEvent>();
@@ -476,7 +477,7 @@ export class RelationTreeComponent extends BaseComponent implements OnInit {
                             }, ${rectXAxisPos}, ${rectYAxisPos})`
                         )
                         .attr('text-anchor', 'middle')
-                        .attr('font-size', '10px')
+                        .attr('font-size', '8px')
                         .attr('fill', 'white')
                         .text(relation.type);
 
@@ -484,6 +485,12 @@ export class RelationTreeComponent extends BaseComponent implements OnInit {
                         relation.relationDateEnd ||
                         relation.relationDateStart
                     ) {
+                        const getDateString = (date: number | null): string => {
+                            if (date) {
+                                return moment(date).format('DD/MM/YYYY');
+                            }
+                            return '?';
+                        };
                         const tooltip = labelGroup
                             .append('text')
                             .attr('x', textX)
@@ -500,9 +507,11 @@ export class RelationTreeComponent extends BaseComponent implements OnInit {
                             .attr('text-anchor', 'middle')
                             .attr('font-size', '10px')
                             .text(
-                                `${relation.relationDateStart ?? '?'} -> ${
-                                    relation.relationDateEnd ?? '?'
-                                }`
+                                `${getDateString(
+                                    relation.relationDateStart
+                                )} -> ${getDateString(
+                                    relation.relationDateEnd
+                                )}`
                             );
 
                         const moveMouseEvent = new Subject<MouseEvent>();

@@ -25,18 +25,9 @@
 
     &__desc {
         font-weight: bold;
-        font-size: smaller;
         text-transform: uppercase;
         color: $accent;
 
-        width: 69px;
-    }
-
-    &__data {
-        margin-left: 0.5rem;
-
-        &--death {
-            color: rgb(124, 52, 52);
-        }
+        width: 88px;
     }
 }

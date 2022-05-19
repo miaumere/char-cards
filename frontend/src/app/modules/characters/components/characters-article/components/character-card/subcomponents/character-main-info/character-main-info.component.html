@@ -1,253 +1,70 @@
 <form class="card" *ngIf="character" [formGroup]="form">
-    <mat-card class="card__mat-card">
-        <span
-            [ngStyle]="{ background: bgColor2 }"
-            [ngSwitch]="character?.charType"
-            class="card__type"
-        >
+    <div [ngSwitch]="character?.charType" class="card-type-block">
+        <span class="card__type" [ngStyle]="{ background: bgColor2 }">
             {{ 'enum.charType.' + character?.charType | translate }}
         </span>
-        <span class="card__name">
-            <!-- <app-edit-icon (clickedEvent)="clicked()"></app-edit-icon> -->
+    </div>
 
-            <app-icon
-                *ngIf="character.gender"
-                [icon]="character.gender | lowercase"
-                [color]="character.gender | genderIconColor"
-                [size]="'0.7'"
-            >
-            </app-icon>
-            <div class="name">
-                <div class="name-block">
-                    <div class="icons-options">
-                        <app-edit-icon
-                            *ngIf="editedKey !== 'charName'"
-                            (clickedEvent)="clicked('charName')"
-                        ></app-edit-icon>
+    <span class="card__name">
+        <!-- <app-edit-icon (clickedEvent)="clicked()"></app-edit-icon> -->
 
-                        <ng-container *ngIf="editedKey === 'charName'">
-                            <mat-icon
-                                class="option-icon option-icon--cancel"
-                                (click)="editedKey = null"
-                                >cancel</mat-icon
-                            >
-
-                            <mat-icon
-                                class="option-icon option-icon--save"
-                                (click)="saveCharacter()"
-                                >save</mat-icon
-                            >
-                        </ng-container>
-                    </div>
-
-                    {{ character.charName }}
-                </div>
-
-                <div>
-                    <app-edit-icon
-                        *ngIf="isUserLogged"
-                        (clickedEvent)="clicked('charSurname')"
-                    ></app-edit-icon>
-                    {{ character.charSurname }}
-                </div>
-            </div>
-        </span>
-        <app-divider></app-divider>
-
-        <app-images
-            [character]="character"
-            [isUserLogged]="isUserLogged"
-            [bgColor]="bgColor2"
-            (imagesHaveChangedEvent)="emitInfoHasChangedEvent()"
+        <app-icon
+            *ngIf="character.gender"
+            [icon]="character.gender | lowercase"
+            [color]="character.gender | genderIconColor"
+            [size]="'0.7'"
         >
-        </app-images>
+        </app-icon>
+        <div class="name">
+            <div class="name-block">
+                <div class="icons-options">
+                    <!-- (clickedEvent)="clicked('charName')" -->
 
-        <app-divider></app-divider>
+                    <app-edit-icon
+                        *ngIf="editedKey !== 'charName'"
+                    ></app-edit-icon>
 
-        <mat-card class="card__info info">
-            <span
-                [ngStyle]="{ color: character.colors?.themeColor1 }"
-                class="name--pseudonim"
-            >
-                {{ character.pseudonim }}
-            </span>
-
-            <div class="card-info nationality" *ngIf="flag || isUserLogged">
-                <span class="info__desc">
-                    🚩 {{ 'CHARACTER_CARD.NATIONALITY' | translate }}
-                </span>
-                <div class="edit-country">
-                    <div class="icons-options">
-                        <app-edit-icon
-                            *ngIf="editedKey !== 'nationality'"
-                            (clickedEvent)="clicked('nationality')"
-                        ></app-edit-icon>
-
-                        <ng-container *ngIf="editedKey === 'nationality'">
-                            <mat-icon
-                                class="option-icon option-icon--cancel"
-                                (click)="editedKey = null"
-                                >cancel</mat-icon
-                            >
-
-                            <mat-icon
-                                class="option-icon option-icon--save"
-                                (click)="saveCharacter()"
-                                >save</mat-icon
-                            >
-                        </ng-container>
-                    </div>
-
-                    <ng-container *ngIf="editedKey !== 'nationality'">
-                        <div *ngIf="flag" [title]="flag.name.common">
-                            <img
-                                [src]="flag?.flags.svg | sanitizer"
-                                class="flag"
-                            />
-                        </div>
-                        <div *ngIf="!flag">?</div>
-                    </ng-container>
-
-                    <mat-form-field
-                        *ngIf="editedKey === 'nationality'"
-                        class="edit-nationality"
-                    >
-                        <mat-label>
-                            {{
-                                'CHARACTER_MODIFY.NATIONALITY' | translate
-                            }}</mat-label
+                    <ng-container *ngIf="editedKey === 'charName'">
+                        <mat-icon
+                            class="option-icon option-icon--cancel"
+                            (click)="editedKey = null"
+                            >cancel</mat-icon
                         >
+                        <!-- (click)="saveCharacter()" -->
 
-                        <mat-select formControlName="nationality">
-                            <mat-option [value]="null">---</mat-option>
-                            <mat-option
-                                *ngFor="let country of countries"
-                                [value]="country.cca2"
-                            >
-                                <img
-                                    [src]="country.flags?.svg"
-                                    class="flag flag--in-list"
-                                />
-                                {{ country.name.common }}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
+                        <mat-icon class="option-icon option-icon--save"
+                            >save</mat-icon
+                        >
+                    </ng-container>
                 </div>
+
+                {{ character.charName }}
             </div>
+            <!-- (clickedEvent)="clicked('charSurname')" -->
 
-            <div class="card-info" *ngIf="character.birthday">
-                <span class="info__desc">
-                    🎂 {{ 'CHARACTER_CARD.BIRTHDAY' | translate }}
-                </span>
-                <span class="info__data"
-                    >{{ character.birthday | date: 'dd/MM/yyyy' }}
-                </span>
+            <div class="name-block">
+                <app-edit-icon *ngIf="isUserLogged"></app-edit-icon>
+                {{ character.charSurname }}
             </div>
+        </div>
+    </span>
 
-            <ng-container *ngIf="character.death">
-                <div>
-                    <span class="info__desc">
-                        💀 {{ 'CHARACTER_CARD.DEATH' | translate }}
-                    </span>
-                    <span class="info__data info__data--death">
-                        {{ character.death | date: 'dd/MM/yyyy' }}
-                        <span *ngIf="character.deathReason">
-                            ({{ character.deathReason }})
-                        </span>
-                    </span>
-                </div>
-            </ng-container>
+    <div class="card__info info">
+        <span
+            [ngStyle]="{ color: character.colors?.themeColor1 }"
+            class="name--pseudonim"
+        >
+            {{ character.pseudonim }}
+        </span>
+    </div>
 
-            <div class="card-info" *ngIf="character.occupation">
-                <span class="info__desc">
-                    💼 {{ 'CHARACTER_CARD.PROFESSION' | translate }}
-                </span>
-                <span class="info__data">{{ character.occupation }}</span>
-            </div>
+    <app-divider></app-divider>
 
-            <ng-container *ngIf="character.colors">
-                <div class="info__color color">
-                    <app-divider></app-divider>
-                    <div class="colors">
-                        <div class="color__container">
-                            <span class="color__icon">
-                                <app-icon
-                                    [icon]="'clothing'"
-                                    [color]="'white'"
-                                ></app-icon>
-                            </span>
-                            <div
-                                class="color__item"
-                                [ngStyle]="{
-                                    background: character.colors.themeColor1
-                                }"
-                            ></div>
-                            <div
-                                class="color__item"
-                                [ngStyle]="{
-                                    background: character.colors.themeColor2
-                                }"
-                            ></div>
-                            <div
-                                class="color__item"
-                                [ngStyle]="{
-                                    background: character.colors.themeColor3
-                                }"
-                            ></div>
-                        </div>
-                        <div class="color__container">
-                            <span class="color__icon">
-                                <app-icon
-                                    [icon]="'eye'"
-                                    [color]="'white'"
-                                ></app-icon>
-                            </span>
-
-                            <div
-                                class="color__item color__item--eye"
-                                [ngStyle]="
-                                    getLinearGradientForEyeColor(
-                                        character.colors
-                                    )
-                                "
-                            ></div>
-                        </div>
-                        <div class="color__container">
-                            <span class="color__icon">
-                                <app-icon
-                                    [icon]="'face'"
-                                    [color]="'white'"
-                                ></app-icon>
-                            </span>
-                            <span class="color__icon"> </span>
-                            <div
-                                class="color__item"
-                                [ngStyle]="{
-                                    background: character.colors.skinColor
-                                }"
-                            ></div>
-                            <span class="color__icon">
-                                <app-icon
-                                    [icon]="'hair'"
-                                    [color]="'white'"
-                                ></app-icon>
-                            </span>
-                            <div
-                                class="color__item"
-                                [ngStyle]="{
-                                    background: character.colors.hairColor
-                                }"
-                            ></div>
-                        </div>
-                    </div>
-                </div>
-            </ng-container>
-
-            <app-temperament-bars
-                *ngIf="hasTemperamentInfo"
-                [temperaments]="character.temperament"
-            >
-            </app-temperament-bars>
-        </mat-card>
-    </mat-card>
+    <app-images
+        [character]="character"
+        [isUserLogged]="isUserLogged"
+        [bgColor]="bgColor2"
+        (imagesHaveChangedEvent)="emitInfoHasChangedEvent()"
+    >
+    </app-images>
 </form>

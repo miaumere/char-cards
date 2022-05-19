@@ -38,40 +38,17 @@ export class CharacterMainInfoComponent
     @Input('bgColor') bgColor1: string = '';
     @Input('bgColorSecond') bgColor2: string = '';
     @Input() isUserLogged: boolean = false;
+    @Input() editedKey: string | null = null;
+    @Input() form = new FormGroup({});
 
     @Output() infoHasChangedEvent = new EventEmitter<true>();
 
-    flag?: Country = undefined;
-    countries: Country[] = [];
-
-    editedKey: string | null = null;
-
-    form = new FormGroup({});
-
-    get hasTemperamentInfo(): boolean {
-        return !!(
-            this.character?.temperament?.melancholic ||
-            this.character?.temperament?.sanguine ||
-            this.character?.temperament?.flegmatic ||
-            this.character?.temperament?.choleric
-        );
-    }
-
-    constructor(
-        private _countriesService: CountriesService,
-        private _charactersService: CharactersService,
-        private _toastrService: ToastrService,
-        private _translate: TranslateService
-    ) {
+    constructor() {
         super();
     }
 
     ngOnInit(): void {
-        this.getNationalityForCharacter();
-
         if (this.isUserLogged) {
-            this.getCountriesList();
-
             if (this.character) {
                 Object.keys(this.character);
                 for (const key in this.character) {
@@ -85,8 +62,6 @@ export class CharacterMainInfoComponent
                         const element = untypedChar[key];
 
                         this.form.addControl(key, new FormControl(element));
-
-                        console.log(this.form);
                     }
                 }
             }
@@ -95,68 +70,5 @@ export class CharacterMainInfoComponent
 
     emitInfoHasChangedEvent() {
         this.infoHasChangedEvent.emit(true);
-    }
-
-    getNationalityForCharacter() {
-        if (this.character?.nationality) {
-            this.subscriptions$.add(
-                this._countriesService
-                    .getFlagByCode(this.character.nationality)
-                    .subscribe((flag) => {
-                        if (flag) {
-                            this.flag = flag;
-                        }
-                    })
-            );
-        }
-    }
-
-    getLinearGradientForEyeColor(colors: IColors) {
-        return {
-            'background-image': `linear-gradient(to right, ${colors.eyeColor1} 75%,  ${colors.eyeColor2} 75%,  ${colors.eyeColor2})`,
-        };
-    }
-
-    getCountriesList() {
-        this.subscriptions$.add(
-            this._countriesService.getCountries().subscribe((countries) => {
-                this.countries = countries;
-            })
-        );
-    }
-
-    clicked(key: string) {
-        this.editedKey = null;
-        if (this.character) {
-            const keys = Object.keys(this.character);
-            console.log('keys: ', keys);
-
-            if (keys.includes(key)) {
-                this.editedKey = key;
-            }
-        }
-    }
-
-    saveCharacter() {
-        this.subscriptions$.add(
-            this._charactersService
-                .putCharacterDetails(this.form.value, false)
-                .subscribe(
-                    (_) => {
-                        this._toastrService.success(
-                            this._translate.instant(
-                                'TOASTR_MESSAGE.SAVE_SUCCESS'
-                            )
-                        );
-
-                        this.infoHasChangedEvent.emit(true);
-                    },
-                    (err) => {
-                        this._toastrService.error(
-                            this._translate.instant('TOASTR_MESSAGE.ERROR')
-                        );
-                    }
-                )
-        );
     }
 }

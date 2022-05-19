@@ -1,6 +1,12 @@
-<article class="characters global-section" [ngStyle]="{
-  'background': childBackground}">
-  <app-characters-menu></app-characters-menu>
-  <app-character-card (bgColorFromChild)="bgColorFromChild($event)"></app-character-card>
-
+<article class="characters global-section">
+    <app-character-card
+        [themeColor]="themeColor1"
+        [character]="character"
+        [bgColorFirst]="bgColor1"
+        [bgColorSecond]="bgColor2"
+        [preferences]="preferences"
+        [isUserLogged]="isUserLogged"
+        (characterHadChangedEvent)="getCharacterById()"
+    >
+    </app-character-card>
 </article>

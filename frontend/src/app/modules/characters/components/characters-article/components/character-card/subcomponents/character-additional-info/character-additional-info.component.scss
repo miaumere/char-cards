@@ -1,0 +1,118 @@
+@import 'variables';
+
+.color {
+    display: flex;
+    flex-direction: column;
+
+    &__container {
+        display: flex;
+
+        margin-top: -0.5rem;
+    }
+
+    &__item {
+        width: 3rem;
+
+        background: grey;
+        border-radius: 3px;
+
+        margin: 8px;
+
+        &--eye {
+            width: 100%;
+        }
+    }
+
+    &__icon {
+        transform: scale(0.5);
+    }
+}
+
+.colors {
+    display: flex;
+
+    flex-direction: column;
+    width: 175px;
+
+    margin-top: 0.5rem;
+    margin-left: -0.5rem;
+    margin-bottom: -1rem;
+}
+
+.nationality {
+    display: flex;
+    align-items: center;
+    padding-top: 0.5rem;
+}
+
+.edit-country {
+    display: flex;
+    height: 1rem;
+}
+
+.edit-nationality {
+    width: 5rem;
+}
+
+.flag {
+    height: 0.9rem;
+    margin-bottom: 5px;
+    pointer-events: none;
+
+    &--in-list {
+        height: 0.6rem;
+        margin: 0;
+    }
+}
+
+.info {
+    font-size: 0.7rem;
+    background: #1d1d1d;
+    padding-top: 0.5rem;
+
+    &__desc {
+        width: 90px;
+
+        font-weight: bold;
+        text-transform: uppercase;
+        color: $accent;
+    }
+
+    &__data {
+        margin-left: 0.5rem;
+
+        &--death {
+            color: rgb(124, 52, 52);
+        }
+    }
+}
+
+.icons-options {
+    display: flex;
+    flex-direction: column;
+
+    height: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.card {
+    width: 175px;
+
+    margin-left: 1rem;
+    margin-right: 1rem;
+    margin-top: 5.9rem;
+
+    &__info {
+        display: flex;
+        flex-direction: column;
+        align-items: baseline;
+
+        text-align: left;
+    }
+}
+
+.card-info {
+    align-items: center;
+
+    margin-top: 0.5rem;
+}

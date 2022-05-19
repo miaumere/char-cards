@@ -37,15 +37,15 @@ export interface IRelationTreeRelation {
     source: number;
     target: number;
     type: RelationType;
-    relationDateStart: string | null;
-    relationDateEnd: string | null;
+    relationDateStart: number | null;
+    relationDateEnd: number | null;
 }
 export class RelationTreeRelation implements IRelationTreeRelation {
     source: number = 0;
     target: number = 0;
     type: RelationType = RelationType.Crush;
-    relationDateStart: string | null = null;
-    relationDateEnd: string | null = null;
+    relationDateStart: number | null = null;
+    relationDateEnd: number | null = null;
 
     constructor(initData: IRelationTreeRelation) {
         Object.assign(this, initData);
@@ -92,8 +92,14 @@ export interface IRelatedPersonData {
 
 // Request
 export interface IRelationRequest {
-    personId: number;
-    relations: IRelation[];
+    id: number | null;
+    sourceCharacterId: number;
+    targetCharacterId: number;
+
+    relationDateStart: number | null;
+    relationDateEnd: number | null;
+
+    type: RelationType;
 }
 
 //#endregion

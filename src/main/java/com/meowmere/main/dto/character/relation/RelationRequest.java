@@ -1,24 +1,62 @@
 package com.meowmere.main.dto.character.relation;
-import java.util.List;
+import com.meowmere.main.enums.RelationType;
 
 public class RelationRequest {
-    private Long personId;
-    private List<RelationDTO> relations;
+    private Integer id;
+    private Long sourceCharacterId;
+    private Long targetCharacterId;
 
-    public Long getPersonId() {
-        return personId;
+    private Long relationDateStart;
+    private Long relationDateEnd;
+
+    private RelationType type;
+
+
+    public Integer getId() {
+        return id;
     }
 
-    public void setPersonId(Long personId) {
-        this.personId = personId;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public List<RelationDTO> getRelations() {
-        return relations;
+    public Long getSourceCharacterId() {
+        return sourceCharacterId;
     }
 
-    public void setRelations(List<RelationDTO> relations) {
-        this.relations = relations;
+    public void setSourceCharacterId(Long sourceCharacterId) {
+        this.sourceCharacterId = sourceCharacterId;
     }
 
+    public Long getTargetCharacterId() {
+        return targetCharacterId;
+    }
+
+    public void setTargetCharacterId(Long targetCharacterId) {
+        this.targetCharacterId = targetCharacterId;
+    }
+
+    public Long getRelationDateStart() {
+        return relationDateStart;
+    }
+
+    public void setRelationDateStart(Long relationDateStart) {
+        this.relationDateStart = relationDateStart;
+    }
+
+    public Long getRelationDateEnd() {
+        return relationDateEnd;
+    }
+
+    public void setRelationDateEnd(Long relationDateEnd) {
+        this.relationDateEnd = relationDateEnd;
+    }
+
+    public RelationType getType() {
+        return type;
+    }
+
+    public void setType(RelationType type) {
+        this.type = type;
+    }
 }

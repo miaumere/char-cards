@@ -190,29 +190,34 @@ export class EditRelationsComponent extends BaseComponent implements OnInit {
 
         for (const relationForCharacter of this.relationsForCharacter) {
             const personId = relationForCharacter.person.id;
-            const relations: IRelation[] = [];
 
             for (const relation of this.relationsFormGroup.getRawValue()[
                 personId
             ][0].relations) {
-                const relationToAdd: IRelation = relation;
-                relationToAdd.relationDateEnd = relationToAdd.relationDateEnd
-                    ? new Date(relationToAdd.relationDateEnd).getTime()
-                    : null;
-                relationToAdd.relationDateStart =
-                    relationToAdd.relationDateStart
-                        ? new Date(relationToAdd.relationDateStart).getTime()
-                        : null;
+                const requestToAdd: IRelationRequest = {
+                    id: relation.id,
+                    relationDateStart: (relation.relationDateStart =
+                        relation.relationDateStart
+                            ? new Date(relation.relationDateStart).getTime()
+                            : null),
+                    relationDateEnd: (relation.relationDateEnd =
+                        relation.relationDateEnd
+                            ? new Date(relation.relationDateEnd).getTime()
+                            : null),
+                    sourceCharacterId: relation.arrowFromSource
+                        ? this.charId
+                        : personId,
+                    targetCharacterId: relation.arrowFromSource
+                        ? personId
+                        : this.charId,
+                    type: relation.type,
+                };
 
-                relations.push(relationToAdd);
+                request.push(requestToAdd);
             }
-            const requestToAdd: IRelationRequest = {
-                personId,
-                relations,
-            };
-            request.push(requestToAdd);
         }
 
+        console.log('request: ', request);
         this.subscriptions$.add(
             this._characterService
                 .upsertRelations(request, this.charId)

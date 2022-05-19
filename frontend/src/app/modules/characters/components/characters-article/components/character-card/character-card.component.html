@@ -5,12 +5,22 @@
         [bgColor]="bgColor1"
         [bgColorSecond]="bgColor2"
         [isUserLogged]="isUserLogged"
-        (infoHasChangedEvent)="getCharacterById()"
+        (infoHasChangedEvent)="changed()"
+        [(editedKey)]="editedKey"
     >
     </app-character-main-info>
+
+    {{ editedKey | json }}
+
+    <app-character-additional-info
+        [character]="character"
+        [isUserLogged]="isUserLogged"
+        (infoHasChangedEvent)="changed()"
+    >
+    </app-character-additional-info>
     <button
         (click)="isUserLogged = !isUserLogged"
-        style="margin-top: 1rem; background: red"
+        style="margin-top: 1rem; background: red; position: absolute"
     >
         {{ isUserLogged }}
     </button>
@@ -20,7 +30,7 @@
         [preferences]="preferences"
         [bgColor]="bgColor1"
         [isUserLogged]="isUserLogged"
-        (infoHasChangedEvent)="getCharacterById()"
+        (infoHasChangedEvent)="changed()"
     >
     </app-char-information>
 </section>
