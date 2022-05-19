@@ -1,8 +1,15 @@
 import { CharacterPreferences } from './../../../../models/character-preferences.model';
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import {
+    Component,
+    OnInit,
+    Output,
+    EventEmitter,
+    Input,
+    SimpleChanges,
+} from '@angular/core';
 import { BaseComponent } from 'src/app/core/base.component';
 import { Character } from 'src/app/modules/characters/models/character.model';
-import { FormGroup } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { CharactersService } from 'src/app/core/service/characters.service';
@@ -38,10 +45,29 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
         super();
     }
 
-    ngOnInit() {
-        // this.subscriptions$.add(
-        //   this.editedKey.subscribe().
-        // )
+    ngOnInit() {}
+
+    ngOnChanges(changes: SimpleChanges) {
+        if (
+            changes.hasOwnProperty('isUserLogged') ||
+            changes.hasOwnProperty('character')
+        ) {
+            if (this.isUserLogged && this.character) {
+                for (const key in this.character) {
+                    if (
+                        Object.prototype.hasOwnProperty.call(
+                            this.character,
+                            key
+                        )
+                    ) {
+                        const untypedChar = this.character as any;
+                        const element = untypedChar[key];
+
+                        this.form.addControl(key, new FormControl(element));
+                    }
+                }
+            }
+        }
     }
 
     changed() {
@@ -54,8 +80,6 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
             const keys = Object.keys(this.character);
             if (keys.includes(key)) {
                 this.editedKey = key;
-
-                console.log('key: ', this.editedKey);
             }
         }
     }

@@ -47,26 +47,7 @@ export class CharacterMainInfoComponent
         super();
     }
 
-    ngOnInit(): void {
-        if (this.isUserLogged) {
-            if (this.character) {
-                Object.keys(this.character);
-                for (const key in this.character) {
-                    if (
-                        Object.prototype.hasOwnProperty.call(
-                            this.character,
-                            key
-                        )
-                    ) {
-                        const untypedChar = this.character as any;
-                        const element = untypedChar[key];
-
-                        this.form.addControl(key, new FormControl(element));
-                    }
-                }
-            }
-        }
-    }
+    ngOnInit(): void {}
 
     emitInfoHasChangedEvent() {
         this.infoHasChangedEvent.emit(true);

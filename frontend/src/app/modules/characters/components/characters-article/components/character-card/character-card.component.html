@@ -7,15 +7,16 @@
         [isUserLogged]="isUserLogged"
         (infoHasChangedEvent)="changed()"
         [(editedKey)]="editedKey"
+        [form]="form"
     >
     </app-character-main-info>
-
-    {{ editedKey | json }}
 
     <app-character-additional-info
         [character]="character"
         [isUserLogged]="isUserLogged"
         (infoHasChangedEvent)="changed()"
+        [form]="form"
+        (saveEvent)="saveCharacter()"
     >
     </app-character-additional-info>
     <button

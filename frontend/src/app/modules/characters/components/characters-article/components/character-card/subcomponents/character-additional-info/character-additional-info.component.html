@@ -3,22 +3,23 @@
         <span class="info__desc">
             🚩 {{ 'CHARACTER_CARD.NATIONALITY' | translate }}
         </span>
-        <div class="edit-country">
+        <form class="edit-country" [formGroup]="form">
             <div class="icons-options">
                 <app-edit-icon
-                    (clickedEvent)="editedKeyChange.emit('nationality')"
+                    (clickedEvent)="setEditedKey('nationality')"
                     *ngIf="editedKey !== 'nationality'"
                 ></app-edit-icon>
 
                 <ng-container *ngIf="editedKey === 'nationality'">
                     <mat-icon
                         class="option-icon option-icon--cancel"
-                        (click)="editedKey = null"
+                        (click)="setEditedKey(null)"
                         >cancel</mat-icon
                     >
-                    <!-- (click)="saveCharacter()" -->
 
-                    <mat-icon class="option-icon option-icon--save"
+                    <mat-icon
+                        class="option-icon option-icon--save"
+                        (click)="saveEvent.emit()"
                         >save</mat-icon
                     >
                 </ng-container>
@@ -53,7 +54,7 @@
                     </mat-option>
                 </mat-select>
             </mat-form-field>
-        </div>
+        </form>
     </div>
 
     <div class="card-info" *ngIf="character?.birthday || isUserLogged">

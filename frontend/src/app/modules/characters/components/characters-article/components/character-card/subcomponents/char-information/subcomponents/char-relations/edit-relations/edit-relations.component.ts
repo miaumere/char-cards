@@ -217,7 +217,6 @@ export class EditRelationsComponent extends BaseComponent implements OnInit {
             }
         }
 
-        console.log('request: ', request);
         this.subscriptions$.add(
             this._characterService
                 .upsertRelations(request, this.charId)

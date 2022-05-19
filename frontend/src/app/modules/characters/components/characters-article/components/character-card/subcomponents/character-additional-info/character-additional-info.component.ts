@@ -20,9 +20,10 @@ export class CharacterAdditionalInfoComponent
     @Input() form = new FormGroup({});
 
     @Input() editedKey: string | null = null;
-    @Output() editedKeyChange = new EventEmitter<string>();
+    @Output() editedKeyChange = new EventEmitter<string | null>();
 
     @Output() infoHasChangedEvent = new EventEmitter<true>();
+    @Output() saveEvent = new EventEmitter();
 
     flag?: Country = undefined;
     countries: Country[] = [];
@@ -32,11 +33,14 @@ export class CharacterAdditionalInfoComponent
     }
 
     ngOnInit(): void {
-        this.getNationalityForCharacter();
+        setTimeout(() => {
+            console.log('form: ', this.form);
+            this.getNationalityForCharacter();
 
-        if (this.isUserLogged) {
-            this.getCountriesList();
-        }
+            if (this.isUserLogged) {
+                this.getCountriesList();
+            }
+        }, 0);
     }
 
     getLinearGradientForEyeColor(colors: IColors) {
@@ -78,5 +82,10 @@ export class CharacterAdditionalInfoComponent
 
     emitInfoHasChangedEvent() {
         this.infoHasChangedEvent.emit(true);
+    }
+
+    setEditedKey(value: string | null) {
+        this.editedKey = value;
+        this.editedKeyChange.emit(value);
     }
 }

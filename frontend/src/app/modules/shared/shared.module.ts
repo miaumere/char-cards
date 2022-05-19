@@ -12,6 +12,7 @@ import { GenderIconColorPipe } from './pipes/gender-icon-color';
 import { DividerComponent } from './components/divider/divider.component';
 import { MatDividerModule } from '@angular/material/divider';
 import { EditIconComponent } from './components/edit-icon/edit-icon.component';
+import { IfLoggedUserDirective } from './directives/if-logged-user.directive';
 
 const pipes = [NulledPipe, SanitizerPipe, EnumValPipe, GenderIconColorPipe];
 
@@ -25,7 +26,7 @@ const sharedDeclarations = [
 ];
 
 @NgModule({
-    declarations: [...sharedDeclarations],
+    declarations: [...sharedDeclarations, IfLoggedUserDirective],
     imports: [
         CommonModule,
         MatIconModule,

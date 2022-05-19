@@ -138,32 +138,6 @@ public class CharactersService {
             dto.setMeasurements(modelMapper.map(measurementsForCharacter, CharacterMeasurementsDTO.class));
         }
 
-//        List<Relationship> relationshipsForCharacter = relationshipRepository.getRelationshipsForCharacter(externalId);
-//        List<RelationshipDTO> relationshipDTOS =  new ArrayList<>();
-//
-//        if (relationshipsForCharacter != null) {
-//            for (Relationship relationship : relationshipsForCharacter) {
-//                RelationshipDTO relationshipDTO = new RelationshipDTO();
-//                RelatedCharacterDTO relatedCharacterDTO = new RelatedCharacterDTO();
-//                Character character = relationship.getRelatedCharacter();
-//
-//                relatedCharacterDTO.setId(character.getExternalId());
-//                relatedCharacterDTO.setCharName(character.getCharName());
-//                relatedCharacterDTO.setCharSurname(character.getCharSurname());
-//
-//                Image image = imageRepository.getProfilePicForCharacter(character.getExternalId());
-//                String profilePic = null;
-//                if(image != null){
-//                    profilePic = UtilsShared.GetProfilePicBase64Code(image.getExtension(), image.getImage());
-//                }
-//
-//                relatedCharacterDTO.setProfilePic(profilePic);
-//                relationshipDTO.setRelatedCharacter(relatedCharacterDTO);
-//                relationshipDTO.setRelationName(relationship.getRelationName().name());
-//                relationshipDTOS.add(relationshipDTO);
-//            }
-//        }
-//        dto.setRelationships(relationshipDTOS);
 
         List<Quote> quotes = quoteRepository.getAllQuotesByCharacterId(externalId);
         Random random = new Random();
@@ -370,16 +344,19 @@ public class CharactersService {
         temperamentRepository.saveAndFlush(temperament);
 
         Measurements measurements = measurementsRepository.getMeasurementsById(request.getExternalId());
-        measurements.setBabyHeight(request.getMeasurements().getBabyHeight());
-        measurements.setBabyWeight(request.getMeasurements().getBabyWeight());
-        measurements.setChildHeight(request.getMeasurements().getChildHeight());
-        measurements.setChildWeight(request.getMeasurements().getChildWeight());
-        measurements.setTeenHeight(request.getMeasurements().getTeenHeight());
-        measurements.setTeenWeight(request.getMeasurements().getTeenWeight());
-        measurements.setAdultHeight(request.getMeasurements().getAdultHeight());
-        measurements.setAdultWeight(request.getMeasurements().getAdultWeight());
+        if(request.getMeasurements() != null) {
+            measurements.setBabyHeight(request.getMeasurements().getBabyHeight());
+            measurements.setBabyWeight(request.getMeasurements().getBabyWeight());
+            measurements.setChildHeight(request.getMeasurements().getChildHeight());
+            measurements.setChildWeight(request.getMeasurements().getChildWeight());
+            measurements.setTeenHeight(request.getMeasurements().getTeenHeight());
+            measurements.setTeenWeight(request.getMeasurements().getTeenWeight());
+            measurements.setAdultHeight(request.getMeasurements().getAdultHeight());
+            measurements.setAdultWeight(request.getMeasurements().getAdultWeight());
 
-        measurementsRepository.saveAndFlush(measurements);
+            measurementsRepository.saveAndFlush(measurements);
+        }
+
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 

@@ -43,11 +43,13 @@ export class CharactersComponent extends BaseComponent implements OnInit {
             this.getCharacterById();
         });
 
-        this.subscriptions$.add(
-            this._authService.isUserLogged$.subscribe((isUserLogged) => {
-                this.isUserLogged = isUserLogged;
-            })
-        );
+        if (this.routeId) {
+            this.subscriptions$.add(
+                this._authService.isUserLogged$.subscribe((isUserLogged) => {
+                    this.isUserLogged = isUserLogged;
+                })
+            );
+        }
     }
     bgColorFromChild(bgColor: string) {
         this.background =
