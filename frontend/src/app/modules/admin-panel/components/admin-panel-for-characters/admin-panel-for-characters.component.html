@@ -9,15 +9,6 @@
             >
                 <mat-icon>person_add</mat-icon>
             </button>
-
-            <button
-                class="button-option"
-                mat-fab
-                [matTooltip]="'CHARS_PANEL.NEW_RELATIONSHIP' | translate"
-                [routerLink]="['./character-relations/new']"
-            >
-                <mat-icon>people</mat-icon>
-            </button>
         </div>
         <form [formGroup]="searchForm" class="search-form">
             <mat-icon>search</mat-icon>
@@ -104,20 +95,6 @@
                             }"
                         >
                             <mat-icon>edit</mat-icon>
-                        </button>
-
-                        <button
-                            mat-icon-button
-                            class="sidebar__option"
-                            [matTooltip]="
-                                'CHARS_PANEL.EDIT_RELATIONSHIPS' | translate
-                            "
-                            [routerLink]="['./panel/character-relations/edit']"
-                            [queryParams]="{
-                                id: character.id
-                            }"
-                        >
-                            <mat-icon>people</mat-icon>
                         </button>
 
                         <button

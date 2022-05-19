@@ -1,13 +1,11 @@
 package com.meowmere.main.entities.characters;
 
 import com.meowmere.main.enums.RelationType;
-import com.meowmere.main.enums.RelationshipType;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Entity
 @Table(uniqueConstraints = {@UniqueConstraint(columnNames ={"character_id","character_related_to_id", "type", "relation_date_start", "relation_date_end"})})

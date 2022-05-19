@@ -4,7 +4,6 @@ import { IImageForMain } from './image-for-main.model';
 import { ITemperament } from './temperament.model';
 import { IMeasurements, Measurements } from './measurements.model';
 import { IQuote } from './quote.model';
-import { IRelationship } from './relationship.model';
 import { IStarringIn } from './starring-in.model';
 import { Gender, GenderString } from '../../admin-panel/enums/gender.enum';
 
@@ -26,7 +25,6 @@ export interface ICharacter {
     measurements: IMeasurements | null;
     quote: IQuote | null;
     charType: characterType;
-    relationships: IRelationship[];
     nationality: string;
     starringIn: IStarringIn[];
     profilePic: string | null;
@@ -52,7 +50,6 @@ export class Character implements ICharacter {
     measurements: Measurements | null = null;
     quote: IQuote | null = null;
     charType: characterType = 'BACKGROUND';
-    relationships: IRelationship[] = [];
     nationality: string = '';
     starringIn: IStarringIn[] = [];
 

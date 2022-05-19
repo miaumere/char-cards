@@ -13,7 +13,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatDialogModule } from '@angular/material/dialog';
 import { AdminPanelForCharactersComponent } from './components/admin-panel-for-characters/admin-panel-for-characters.component';
-import { CharacterRelationsComponent } from './components/character-relations/character-relations.component';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
@@ -37,7 +36,6 @@ import { MatExpansionModule } from '@angular/material/expansion';
         AdminPanelComponent,
         CharacterModifyComponent,
         AdminPanelForCharactersComponent,
-        CharacterRelationsComponent,
         CharacterPreferencesComponent,
     ],
     imports: [

@@ -3,7 +3,7 @@
     [reloadChartObservable]="reloadChart$"
 ></app-relation-tree>
 <app-edit-relations
-    *ngIf="isUserLogged"
+    *appIfLoggedUser
     [color]="themeColor1"
     [charId]="charId"
     [charFullName]="charFullName"

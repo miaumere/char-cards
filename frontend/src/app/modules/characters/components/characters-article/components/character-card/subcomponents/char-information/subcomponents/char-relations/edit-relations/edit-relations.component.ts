@@ -1,11 +1,4 @@
-import {
-    Component,
-    EventEmitter,
-    Input,
-    OnInit,
-    Output,
-    ViewEncapsulation,
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { TranslateService } from '@ngx-translate/core';
@@ -16,18 +9,14 @@ import { BaseComponent } from 'src/app/core/base.component';
 import { CharactersService } from 'src/app/core/service/characters.service';
 import { CharacterItem } from 'src/app/modules/characters/models/character-item.model';
 import {
-    IRelation,
     IRelationForCharacter,
     IRelationRequest,
-    IRelationTreeDto,
 } from 'src/app/modules/characters/models/relations/relation-tree-dto.model';
 import {
     RelationType,
     RelationTypeString,
 } from 'src/app/modules/characters/models/relations/relation-type.enum';
-import { IRelationship } from 'src/app/modules/characters/models/relationship.model';
 import { colorsForRelations } from '../relation-tree/colors-for-relations.const';
-import * as moment from 'moment';
 
 @Component({
     selector: 'app-edit-relations [charId] [charFullName]',

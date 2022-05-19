@@ -1,4 +1,3 @@
-import { CharacterRelationsComponent } from './components/character-relations/character-relations.component';
 import { CharacterModifyComponent } from './components/character-modify/character-modify.component';
 
 import { NgModule } from '@angular/core';
@@ -18,10 +17,7 @@ const routes: Routes = [
         path: 'character-modify/:type',
         component: CharacterModifyComponent,
     },
-    {
-        path: 'character-relations/:type',
-        component: CharacterRelationsComponent,
-    },
+
     {
         path: 'panel',
         component: AdminPanelComponent,
@@ -29,11 +25,6 @@ const routes: Routes = [
             {
                 path: 'character-modify/:type',
                 component: CharacterModifyComponent,
-            },
-
-            {
-                path: 'character-relations/:type',
-                component: CharacterRelationsComponent,
             },
             {
                 path: 'character-preferences',

@@ -62,12 +62,6 @@ public class Character {
     private Set<StarringCharacters> existingCharacters;
 
     @OneToMany(mappedBy = "character", cascade = CascadeType.ALL)
-    private List<Relationship> relationships;
-
-    @OneToMany(mappedBy = "relatedCharacter", cascade = CascadeType.ALL)
-    private List<Relationship> relatedTo;
-
-    @OneToMany(mappedBy = "character", cascade = CascadeType.ALL)
     private List<Preference> preferences;
 
     @OneToMany(mappedBy = "preferedCharacter", cascade = CascadeType.ALL)
@@ -186,22 +180,6 @@ public class Character {
 
     public void setProfilePics(Set<Image> profilePics) {
         this.profilePics = profilePics;
-    }
-
-    public List<Relationship> getRelationships() {
-        return relationships;
-    }
-
-    public void setRelationships(List<Relationship> relationships) {
-        this.relationships = relationships;
-    }
-
-    public List<Relationship> getRelatedTo() {
-        return relatedTo;
-    }
-
-    public void setRelatedTo(List<Relationship> relatedTo) {
-        this.relatedTo = relatedTo;
     }
 
     public Gender getGender() {

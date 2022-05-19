@@ -15,10 +15,7 @@ import {
     Character,
     ICharacter,
 } from 'src/app/modules/characters/models/character.model';
-import {
-    IRelationshipsForCharacter,
-    RelationshipsForCharacter,
-} from 'src/app/modules/admin-panel/models/relationships/relationships-for-char.model';
+
 import { IQuote } from 'src/app/modules/characters/models/quote.model';
 import {
     IEditCharacter,
@@ -30,7 +27,6 @@ import {
 } from 'src/app/modules/admin-panel/models/character-story/story.model';
 import { CharacterForChange } from 'src/app/modules/admin-panel/models/character-for-change.model';
 import { EditImageName } from 'src/app/modules/admin-panel/models/images/edit-image-name.model';
-import { EditRelationship } from 'src/app/modules/admin-panel/models/relationships/edit-relationship.model';
 import { CreateCharacter } from 'src/app/modules/admin-panel/models/create-character.model';
 import { IEditPreference } from 'src/app/modules/admin-panel/models/preferences/edit-preferences.model';
 import {
