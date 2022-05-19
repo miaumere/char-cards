@@ -34,7 +34,6 @@ export class CharacterAdditionalInfoComponent
 
     ngOnInit(): void {
         setTimeout(() => {
-            console.log('form: ', this.form);
             this.getNationalityForCharacter();
 
             if (this.isUserLogged) {

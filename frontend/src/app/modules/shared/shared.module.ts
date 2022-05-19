@@ -15,6 +15,7 @@ import { EditIconComponent } from './components/edit-icon/edit-icon.component';
 import { IfLoggedUserDirective } from './directives/if-logged-user.directive';
 
 const pipes = [NulledPipe, SanitizerPipe, EnumValPipe, GenderIconColorPipe];
+const directives = [IfLoggedUserDirective];
 
 const sharedDeclarations = [
     IconComponent,
@@ -26,13 +27,13 @@ const sharedDeclarations = [
 ];
 
 @NgModule({
-    declarations: [...sharedDeclarations, IfLoggedUserDirective],
+    declarations: [...sharedDeclarations, ...directives],
     imports: [
         CommonModule,
         MatIconModule,
         MatProgressSpinnerModule,
         MatDividerModule,
     ],
-    exports: [...sharedDeclarations],
+    exports: [...sharedDeclarations, ...directives],
 })
 export class SharedModule {}
