@@ -1,0 +1,70 @@
+<div class="info__color color" *ngIf="colors">
+    <app-divider></app-divider>
+    <form class="colors" [formGroup]="form">
+        <div class="color__container">
+            <span class="color__icon">
+                <app-icon [icon]="'clothing'" [color]="'white'"></app-icon>
+            </span>
+            <input
+                type="color"
+                formControlName="themeColor1"
+                class="color-input"
+                (change)="saveEvent.emit()"
+            />
+            <input
+                type="color"
+                formControlName="themeColor2"
+                class="color-input"
+                (change)="saveEvent.emit()"
+            />
+            <input
+                type="color"
+                formControlName="themeColor3"
+                class="color-input"
+                (change)="saveEvent.emit()"
+            />
+        </div>
+        <div class="color__container">
+            <span class="color__icon">
+                <app-icon [icon]="'eye'" [color]="'white'"></app-icon>
+            </span>
+
+            <input
+                type="color"
+                formControlName="eyeColor1"
+                class="color-input"
+                (change)="saveEvent.emit()"
+            />
+
+            <input
+                type="color"
+                formControlName="eyeColor2"
+                class="color-input"
+                (change)="saveEvent.emit()"
+            />
+        </div>
+        <div class="color__container">
+            <span class="color__icon">
+                <app-icon [icon]="'face'" [color]="'white'"></app-icon>
+            </span>
+            <span class="color__icon"> </span>
+
+            <input
+                type="color"
+                formControlName="skinColor"
+                class="color-input"
+                (change)="saveEvent.emit()"
+            />
+            <span class="color__icon">
+                <app-icon [icon]="'hair'" [color]="'white'"></app-icon>
+            </span>
+
+            <input
+                type="color"
+                formControlName="hairColor"
+                class="color-input"
+                (change)="saveEvent.emit()"
+            />
+        </div>
+    </form>
+</div>

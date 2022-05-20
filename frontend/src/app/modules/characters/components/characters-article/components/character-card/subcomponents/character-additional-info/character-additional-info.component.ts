@@ -42,12 +42,6 @@ export class CharacterAdditionalInfoComponent
         }, 0);
     }
 
-    getLinearGradientForEyeColor(colors: IColors) {
-        return {
-            'background-image': `linear-gradient(to right, ${colors.eyeColor1} 75%,  ${colors.eyeColor2} 75%,  ${colors.eyeColor2})`,
-        };
-    }
-
     getCountriesList() {
         this.subscriptions$.add(
             this._countriesService.getCountries().subscribe((countries) => {

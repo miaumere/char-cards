@@ -1,3 +1,4 @@
+import { IColors } from './../../../../models/colors.model';
 import { CharacterPreferences } from './../../../../models/character-preferences.model';
 import {
     Component,
@@ -63,6 +64,23 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
                         const untypedChar = this.character as any;
                         const element = untypedChar[key];
 
+                        if (key === 'colors') {
+                            for (const colorKey in element) {
+                                if (
+                                    Object.prototype.hasOwnProperty.call(
+                                        element,
+                                        colorKey
+                                    )
+                                ) {
+                                    const colorElement = element[colorKey];
+                                    this.form.addControl(
+                                        colorKey,
+                                        new FormControl(colorElement)
+                                    );
+                                }
+                            }
+                        }
+
                         this.form.addControl(key, new FormControl(element));
                     }
                 }
@@ -85,6 +103,20 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
     }
 
     saveCharacter() {
+        console.log('form value: ', this.form.value);
+        const request = this.form.value;
+        const colors: IColors = {
+            eyeColor1: this.form.get('eyeColor1')?.value,
+            eyeColor2: this.form.get('eyeColor2')?.value,
+            themeColor1: this.form.get('themeColor1')?.value,
+            themeColor2: this.form.get('themeColor2')?.value,
+            themeColor3: this.form.get('themeColor3')?.value,
+            hairColor: this.form.get('hairColor')?.value,
+            skinColor: this.form.get('skinColor')?.value,
+        };
+
+        request.colors = colors;
+
         this.subscriptions$.add(
             this._charactersService
                 .putCharacterDetails(this.form.value, false)

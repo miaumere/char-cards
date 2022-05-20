@@ -222,7 +222,9 @@
                         </div>
                     </mat-tab>
 
-                    <mat-tab>
+                    <mat-tab
+                        [disabled]="preference.backwardPreferences.length === 0"
+                    >
                         <ng-template mat-tab-label>
                             <span
                                 >💞

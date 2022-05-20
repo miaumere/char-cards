@@ -87,76 +87,17 @@
         <span class="info__data">{{ character?.occupation }}</span>
     </div>
 
-    <ng-container *ngIf="character?.colors">
-        <div class="info__color color">
-            <app-divider></app-divider>
-            <div class="colors">
-                <div class="color__container">
-                    <span class="color__icon">
-                        <app-icon
-                            [icon]="'clothing'"
-                            [color]="'white'"
-                        ></app-icon>
-                    </span>
-                    <div
-                        class="color__item"
-                        [ngStyle]="{
-                            background: character?.colors.themeColor1
-                        }"
-                    ></div>
-                    <div
-                        class="color__item"
-                        [ngStyle]="{
-                            background: character?.colors.themeColor2
-                        }"
-                    ></div>
-                    <div
-                        class="color__item"
-                        [ngStyle]="{
-                            background: character?.colors.themeColor3
-                        }"
-                    ></div>
-                </div>
-                <div class="color__container">
-                    <span class="color__icon">
-                        <app-icon [icon]="'eye'" [color]="'white'"></app-icon>
-                    </span>
-
-                    <div
-                        class="color__item color__item--eye"
-                        [ngStyle]="
-                            getLinearGradientForEyeColor(character?.colors)
-                        "
-                    ></div>
-                </div>
-                <div class="color__container">
-                    <span class="color__icon">
-                        <app-icon [icon]="'face'" [color]="'white'"></app-icon>
-                    </span>
-                    <span class="color__icon"> </span>
-                    <div
-                        class="color__item"
-                        [ngStyle]="{
-                            background: character?.colors.skinColor
-                        }"
-                    ></div>
-                    <span class="color__icon">
-                        <app-icon [icon]="'hair'" [color]="'white'"></app-icon>
-                    </span>
-                    <div
-                        class="color__item"
-                        [ngStyle]="{
-                            background: character?.colors.hairColor
-                        }"
-                    ></div>
-                </div>
-            </div>
-        </div>
-    </ng-container>
-
     <app-temperament-bars
         *ngIf="hasTemperamentInfo"
         [temperaments]="character?.temperament"
     >
     </app-temperament-bars>
+    <ng-container *ngIf="character?.colors || isUserLogged">
+        <app-colors
+            [colors]="character?.colors"
+            [form]="form"
+            (saveEvent)="saveEvent.emit()"
+        >
+        </app-colors>
+    </ng-container>
 </div>
