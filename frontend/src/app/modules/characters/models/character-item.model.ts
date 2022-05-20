@@ -1,6 +1,7 @@
 export interface ICharacterItem {
     id: number;
     fullName: string;
+    pseudonym: string;
 
     characterType: string;
     profilePic: string | null;
@@ -10,6 +11,7 @@ export interface ICharacterItem {
 export class CharacterItem implements ICharacterItem {
     id: number = 0;
     fullName: string = '';
+    pseudonym: string = '';
 
     characterType: string = '';
     profilePic: string | null = null;

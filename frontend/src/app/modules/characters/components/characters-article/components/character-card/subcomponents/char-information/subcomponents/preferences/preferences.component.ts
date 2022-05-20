@@ -121,7 +121,7 @@ export class PreferencesComponent extends BaseComponent implements OnInit {
         const regex = new RegExp(value, 'gi');
 
         const filteredChars = this.filteredCharList.filter((c) => {
-            return c.fullName.match(regex);
+            return c.fullName.match(regex) || c.pseudonym.match(regex);
         });
 
         this.filteredCharList = filteredChars;

@@ -157,3 +157,34 @@ div[role='listbox'] {
     background-color: transparent;
     height: 2rem !important;
 }
+
+.option {
+    display: flex;
+    align-items: center;
+    font-size: initial;
+
+    &__image {
+        height: 1.75rem;
+        width: 1.75rem;
+
+        border-radius: 50%;
+    }
+}
+
+.option-container {
+    display: flex;
+}
+
+.char-item {
+    display: flex;
+    flex-direction: column;
+
+    &__name {
+        height: 1rem;
+    }
+
+    &__pseudonym {
+        font-size: x-small;
+        color: $accent;
+    }
+}

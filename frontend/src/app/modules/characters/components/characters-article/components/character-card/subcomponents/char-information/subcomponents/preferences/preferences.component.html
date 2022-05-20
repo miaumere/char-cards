@@ -46,14 +46,22 @@
                             [value]="char"
                             class="option"
                         >
-                            <app-profile-pic
-                                [profilePic]="char.profilePic"
-                                [charId]="char.id"
-                                [height]="'35px'"
-                                style="margin-top: 1.3rem"
-                            >
-                            </app-profile-pic>
-                            <span>{{ char.fullName }}</span>
+                            <div class="option-container">
+                                <app-profile-pic
+                                    [profilePic]="char.profilePic"
+                                    [charId]="char.id"
+                                    [height]="'35px'"
+                                >
+                                </app-profile-pic>
+                                <div class="char-item">
+                                    <span class="char-item__name">{{
+                                        char.fullName
+                                    }}</span>
+                                    <span class="char-item__pseudonym">{{
+                                        char.pseudonym
+                                    }}</span>
+                                </div>
+                            </div>
                         </mat-option>
                     </mat-autocomplete>
                 </mat-form-field>

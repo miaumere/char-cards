@@ -18,19 +18,6 @@
     align-items: flex-start;
 }
 
-.option {
-    display: flex;
-    align-items: center;
-    font-size: initial;
-
-    &__image {
-        height: 1.75rem;
-        width: 1.75rem;
-
-        border-radius: 50%;
-    }
-}
-
 .preferences-form {
     display: flex;
     flex-direction: column;
