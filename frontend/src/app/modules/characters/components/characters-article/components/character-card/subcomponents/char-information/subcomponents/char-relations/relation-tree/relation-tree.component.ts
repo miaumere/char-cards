@@ -132,7 +132,7 @@ export class RelationTreeComponent extends BaseComponent implements OnInit {
         const element = (this.chartContainer as any).nativeElement;
 
         const svgWidth = 600;
-        const svgHeight = 400;
+        const svgHeight = 450;
 
         const moveMouseEvent = new Subject<MouseEvent>();
 

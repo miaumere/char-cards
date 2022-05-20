@@ -43,7 +43,10 @@ export class CurrentPreferencesComponent
 
     createChart() {
         const element = (this.chartContainer as any).nativeElement;
-        const svgWidth = (this.chartContainer as any).nativeElement.offsetWidth;
+        const svgWidth =
+            (this.chartContainer as any).nativeElement.offsetWidth > 650
+                ? 650
+                : (this.chartContainer as any).nativeElement.offsetWidth;
         const svgHeight = 100;
         const margin = { top: 30, right: 40, bottom: 50, left: 60 };
         const height = svgHeight - margin.top - margin.bottom;

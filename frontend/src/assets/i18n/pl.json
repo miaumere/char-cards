@@ -137,6 +137,7 @@
         "PREFERENCES": "Preferencje",
         "NEW_PREFERENCES": "Nowe preferencje",
         "CURRENT_PREFERENCES": "Obecne preferencje",
+        "BACKWARD_PREFERENCES": "Odwrotne preferencje",
         "ADD_PREFERENCE": "Dodaj preferencję",
         "CHOOSE_DATE": "Data preferencji",
         "NO_PREFERENCES": "Brak preferencji dla postaci.",

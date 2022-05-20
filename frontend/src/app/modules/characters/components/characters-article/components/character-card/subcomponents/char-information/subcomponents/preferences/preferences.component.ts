@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDatepicker } from '@angular/material/datepicker';
 import { ActivatedRoute } from '@angular/router';
@@ -68,16 +68,18 @@ export class PreferencesComponent extends BaseComponent implements OnInit {
 
     @Input('preferences') characterCurrentPreferences: CharacterPreferences[] =
         [];
-
+    @Input() readonly bgColor: string = '';
     @Input()
-    readonly bgColor: string = '';
-    @Input() readonly charId: number = 0;
+    readonly charId: number = 0;
+
+    @Output() preferencesChangedEvent = new EventEmitter();
 
     chosenType?: string = '';
 
     preferences: AllPreferences[] = [];
 
     charList: CharacterItem[] = [];
+    filteredCharList: CharacterItem[] = [];
 
     preferencesForm = new FormGroup({
         range: new FormControl(0),
@@ -85,7 +87,6 @@ export class PreferencesComponent extends BaseComponent implements OnInit {
         date: new FormControl(),
     });
 
-    filteredCharacters = new Observable<CharacterItem[]>();
     selectedCharacter?: CharacterItem;
 
     date: Date | null = null;
@@ -104,17 +105,26 @@ export class PreferencesComponent extends BaseComponent implements OnInit {
     ngOnInit() {
         this.getCharactersList();
         this.getAllPreferences();
+
+        this.preferencesForm
+            .get('character')
+            ?.valueChanges.subscribe((value) => {
+                this._filterCharacters(value);
+            });
     }
 
-    private _filterCharacters(value: CharacterItem) {
-        const filterValue = value.fullName.toLowerCase();
+    private _filterCharacters(value: string) {
+        if (!value) {
+            this.filteredCharList = this.charList;
+            return;
+        }
+        const regex = new RegExp(value, 'gi');
 
-        return this.charList.filter(
-            (c) =>
-                `${c.charName} ${c.charSurname}`
-                    .toLowerCase()
-                    .indexOf(filterValue) === 0
-        );
+        const filteredChars = this.filteredCharList.filter((c) => {
+            return c.fullName.match(regex);
+        });
+
+        this.filteredCharList = filteredChars;
     }
 
     chosenMonthHandler(date: Date, datepicker: MatDatepicker<any>) {
@@ -157,6 +167,7 @@ export class PreferencesComponent extends BaseComponent implements OnInit {
                 );
                 this.preferencesForm.reset();
                 this.getAllPreferences();
+                this.preferencesChangedEvent.emit();
             },
             (err) => {
                 this._toastrService.error(
@@ -166,24 +177,20 @@ export class PreferencesComponent extends BaseComponent implements OnInit {
         );
     }
 
-    getCharactersList() {
+    private getCharactersList() {
         this.subscriptions$.add(
             this._charactersService.getCharacters().subscribe((charList) => {
-                this.charList = (charList as CharacterItem[]).filter(
-                    (x) => x.id !== this.charId
-                );
-                this.filteredCharacters = this.preferencesForm
-                    .get('character')
-                    ?.valueChanges.pipe(
-                        startWith(''),
-                        map((character) =>
-                            character
-                                ? this._filterCharacters(character)
-                                : this.charList
-                        )
-                    ) as Observable<CharacterItem[]>;
+                const listWithoutMainCharacter = (
+                    charList as CharacterItem[]
+                ).filter((x) => x.id !== this.charId);
+                this.charList = listWithoutMainCharacter;
+                this.filteredCharList = listWithoutMainCharacter;
             })
         );
+    }
+
+    getProfilePicForCharacter(id: number) {
+        return this.charList.find((char) => char.id === id)?.profilePic;
     }
 
     getAllPreferences() {
@@ -196,6 +203,12 @@ export class PreferencesComponent extends BaseComponent implements OnInit {
         );
     }
 
+    insertDeleteInfo() {
+        this._toastrService.warning(
+            this._translate.instant('TOASTR_MESSAGE.DELETE_INFO')
+        );
+    }
+
     deletePreference(id: number) {
         this.subscriptions$.add(
             this._charactersService.deletePreference(id).subscribe(
@@ -204,6 +217,8 @@ export class PreferencesComponent extends BaseComponent implements OnInit {
                         this._translate.instant('TOASTR_MESSAGE.SAVE_SUCCESS')
                     );
                     this.getAllPreferences();
+
+                    this.preferencesChangedEvent.emit();
                 },
                 (err) => {
                     this._toastrService.error(
@@ -212,5 +227,10 @@ export class PreferencesComponent extends BaseComponent implements OnInit {
                 }
             )
         );
+    }
+
+    getPreferenceTypeForRange(range: number) {
+        return this.preferencesTypes.find((type) => type.preferenceMin < range)
+            ?.preferenceType;
     }
 }

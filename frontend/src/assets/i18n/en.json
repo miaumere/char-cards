@@ -137,6 +137,7 @@
         "PREFERENCES": "Preferences",
         "NEW_PREFERENCES": "New preferences",
         "CURRENT_PREFERENCES": "Current preferences",
+        "BACKWARD_PREFERENCES": "Backward preferences",
         "ADD_PREFERENCE": "Add preference",
         "CHOOSE_DATE": "Choose date",
         "NO_PREFERENCES": "No preferences for this character.",

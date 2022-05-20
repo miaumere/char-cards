@@ -48,6 +48,7 @@ import { CharacterAdditionalInfoComponent } from './components/characters-articl
 import { PreferencesLegendComponent } from './components/characters-article/components/character-card/subcomponents/char-information/subcomponents/preferences/preferences-legend/preferences-legend.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSliderModule } from '@angular/material/slider';
+import { MatTabsModule } from '@angular/material/tabs';
 
 @NgModule({
     declarations: [
@@ -102,6 +103,7 @@ import { MatSliderModule } from '@angular/material/slider';
         MatCheckboxModule,
         MatSlideToggleModule,
         MatSliderModule,
+        MatTabsModule,
     ],
     exports: [HistoricalPreferencesComponent],
 

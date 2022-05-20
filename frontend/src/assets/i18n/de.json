@@ -137,6 +137,7 @@
         "PREFERENCES": "Vorlieben",
         "NEW_PREFERENCES": "Neue Vorlieben",
         "CURRENT_PREFERENCES": "Aktuelle Vorlieben",
+        "BACKWARD_PREFERENCES": "rückwärts Vorlieben",
         "ADD_PREFERENCE": "Vorlieben hinzufügen",
         "CHOOSE_DATE": "Datum auswählen",
         "NO_PREFERENCES": "Keine Vorlieben für diesen Figure.",

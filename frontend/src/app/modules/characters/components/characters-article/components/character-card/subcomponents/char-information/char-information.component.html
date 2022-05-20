@@ -61,7 +61,7 @@
 
     <div
         class="information__segment"
-        *ngIf="preferences && !!preferences.length"
+        *ngIf="(preferences && !!preferences.length) || isUserLogged"
     >
         <app-divider></app-divider>
         <h2 class="story__title" [ngStyle]="{ color: themeColor1 }">
@@ -71,6 +71,7 @@
             [preferences]="preferences"
             [bgColor]="bgColor1"
             [charId]="character.externalId"
+            (preferencesChangedEvent)="emitInfoHasChangedEvent()"
         >
         </app-preferences>
     </div>

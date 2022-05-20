@@ -42,20 +42,17 @@
                     />
                     <mat-autocomplete #auto="matAutocomplete">
                         <mat-option
-                            *ngFor="let char of filteredCharacters | async"
+                            *ngFor="let char of filteredCharList"
                             [value]="char"
                             class="option"
                         >
-                            <img
-                                *ngIf="char.profilePic"
-                                [src]="
-                                    'data:image/' +
-                                        char.profilePic?.extension +
-                                        ';base64, ' +
-                                        char.profilePic?.image | sanitizer
-                                "
-                                class="option__image"
-                            />
+                            <app-profile-pic
+                                [profilePic]="char.profilePic"
+                                [charId]="char.id"
+                                [height]="'35px'"
+                                style="margin-top: 1.3rem"
+                            >
+                            </app-profile-pic>
                             <span>{{ char.fullName }}</span>
                         </mat-option>
                     </mat-autocomplete>
@@ -140,6 +137,131 @@
             </form>
         </mat-card>
 
-        <div class="existing-preferences"></div>
+        <div
+            class="existing-preferences existing-preferences--current"
+            *ngIf="preferences && preferences.length > 0"
+        >
+            <div
+                class="existing-preference"
+                *ngFor="let preference of preferences"
+            >
+                <div class="existing-preference__name">
+                    <a [routerLink]="['/char-cards', preference.characterId]">
+                        <app-profile-pic
+                            [profilePic]="
+                                getProfilePicForCharacter(
+                                    preference.characterId
+                                )
+                            "
+                            [charId]="preference.characterId"
+                            [height]="'50px'"
+                            class="preference-profile-pic"
+                        >
+                        </app-profile-pic>
+                    </a>
+                    {{ preference.characterFullname }}
+                </div>
+
+                <mat-tab-group>
+                    <mat-tab>
+                        <ng-template mat-tab-label>
+                            <span
+                                >💕
+                                {{
+                                    'EDIT_PREFERENCES.CURRENT_PREFERENCES'
+                                        | translate
+                                }}</span
+                            >
+                        </ng-template>
+                        <div style="height: 100px">
+                            <div
+                                *ngFor="
+                                    let currentPreference of preference.preferences
+                                "
+                                class="preference-container"
+                            >
+                                <div class="options">
+                                    <mat-icon
+                                        class="close-icon"
+                                        (click)="insertDeleteInfo()"
+                                        (dblclick)="
+                                            deletePreference(
+                                                currentPreference.id
+                                            )
+                                        "
+                                        >close</mat-icon
+                                    >
+                                </div>
+                                <div
+                                    [class]="
+                                        'preference-container__range legend-item--' +
+                                        getPreferenceTypeForRange(
+                                            currentPreference.range
+                                        )
+                                    "
+                                >
+                                    {{ currentPreference.range }}
+                                </div>
+                                <div class="preference-container__date">
+                                    {{
+                                        !!currentPreference.dateOfOrigin
+                                            ? (currentPreference.dateOfOrigin
+                                              | date: 'MM.yyyy')
+                                            : ('SHARED.NOW' | translate)
+                                    }}
+                                </div>
+                            </div>
+                        </div>
+                    </mat-tab>
+
+                    <mat-tab>
+                        <ng-template mat-tab-label>
+                            <span
+                                >💞
+                                {{
+                                    'EDIT_PREFERENCES.BACKWARD_PREFERENCES'
+                                        | translate
+                                }}</span
+                            >
+                        </ng-template>
+
+                        <div style="height: 100px">
+                            <div
+                                *ngFor="
+                                    let backwardPreference of preference.backwardPreferences
+                                "
+                                class="preference-container"
+                            >
+                                <div
+                                    [class]="
+                                        'preference-container__range legend-item--' +
+                                        getPreferenceTypeForRange(
+                                            backwardPreference.range
+                                        )
+                                    "
+                                >
+                                    {{ backwardPreference.range }}
+                                </div>
+                                <div class="preference-container__date">
+                                    {{
+                                        !!backwardPreference.dateOfOrigin
+                                            ? (backwardPreference.dateOfOrigin
+                                              | date: 'MM.yyyy')
+                                            : ('SHARED.NOW' | translate)
+                                    }}
+                                </div>
+                            </div>
+                        </div>
+                    </mat-tab>
+                </mat-tab-group>
+            </div>
+        </div>
+
+        <div
+            class="existing-preferences existing-preferences--empty"
+            *ngIf="preferences.length === 0"
+        >
+            {{ 'EDIT_PREFERENCES.NO_PREFERENCES' | translate }}
+        </div>
     </div>
 </mat-expansion-panel>

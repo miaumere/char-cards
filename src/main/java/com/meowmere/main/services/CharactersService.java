@@ -527,7 +527,7 @@ public class CharactersService {
 
     //#endregion
 
-    //#region Relationships
+    //#region Relations
 
     public ResponseEntity getRelations(Long id) {
 
@@ -867,7 +867,10 @@ public class CharactersService {
                     .getCurrentPreferenceForCharacters(preferenceRequest.getCharacterId(), preferenceRequest.getPreferedCharacterId());
 
             if(currentPref != null) {
-                return new ResponseEntity(HttpStatus.BAD_REQUEST);
+                currentPref.setRange(preferenceRequest.getRange());
+                currentPref.setDateOfOrigin(preferenceRequest.getDate());
+                preferenceRepository.saveAndFlush(currentPref);
+                return new ResponseEntity(HttpStatus.OK);
             }
         }
         if(character == preferedCharacter){
@@ -895,11 +898,17 @@ public class CharactersService {
 
                 List<Preference> historicalPreferences = preferenceRepository
                         .getHistoricalPreferences(charId, id);
+
+                List<Preference> backwardPreferences = preferenceRepository
+                        .getHistoricalPreferences(id, charId);
+
                 AllPreferencesDTO dto = new AllPreferencesDTO();
                 ArrayList<HistoricPreferenceDTO> historicPreferenceDTOS = new ArrayList<>();
-                dto.setRelCharacterId(character.getExternalId());
-                dto.setRelCharacterSurname(character.getCharSurname());
-                dto.setRelCharacterName(character.getCharName());
+                ArrayList<HistoricPreferenceDTO> backwardPreferenceDTOS = new ArrayList<>();
+
+                dto.setCharacterId(character.getExternalId());
+                dto.setCharacterFullname(character.getCharName() + " " + character.getCharSurname());
+
                 if(historicalPreferences != null && historicalPreferences.size() > 0) {
                     for (Preference pref: historicalPreferences) {
                         HistoricPreferenceDTO historicPreferenceDTO = new HistoricPreferenceDTO();
@@ -911,7 +920,23 @@ public class CharactersService {
                         historicPreferenceDTOS.add(historicPreferenceDTO);
                     }
                 }
+
+                if(backwardPreferences != null && backwardPreferences.size() > 0) {
+                    for (Preference pref: backwardPreferences) {
+                        HistoricPreferenceDTO backwardPreferenceDTO = new HistoricPreferenceDTO();
+                        if(pref.getDateOfOrigin() != null) {
+                            backwardPreferenceDTO.setDateOfOrigin(pref.getDateOfOrigin().toString());
+                        }
+                        backwardPreferenceDTO.setId(pref.getId());
+                        backwardPreferenceDTO.setRange(pref.getRange());
+                        backwardPreferenceDTOS.add(backwardPreferenceDTO);
+                    }
+                }
+
+
                 dto.setPreferences(historicPreferenceDTOS);
+                dto.setBackwardPreferences(backwardPreferenceDTOS);
+
                 dtos.add(dto);
             }
 
@@ -923,10 +948,9 @@ public class CharactersService {
     public ResponseEntity getHistoricalPreferencesForCharacter(Long charId, Long relatedCharId) {
         Character character = characterRepository.getOne(relatedCharId);
         AllPreferencesDTO dto = new AllPreferencesDTO();
-        dto.setRelCharacterId(relatedCharId);
+        dto.setCharacterId(relatedCharId);
         if(character != null) {
-            dto.setRelCharacterName(character.getCharName());
-            dto.setRelCharacterSurname(character.getCharSurname());
+            dto.setCharacterFullname(character.getCharName() + " " + character.getCharSurname());
 
             ArrayList<HistoricPreferenceDTO> historicPreferenceDTOS = new ArrayList<>();
             ArrayList<Preference> preferences = preferenceRepository.getHistoricalPreferences(charId, relatedCharId);

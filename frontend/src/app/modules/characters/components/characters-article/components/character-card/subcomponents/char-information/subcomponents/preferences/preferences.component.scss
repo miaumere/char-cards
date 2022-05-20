@@ -15,6 +15,7 @@
 
 .edit-preferences-container {
     display: flex;
+    align-items: flex-start;
 }
 
 .option {
@@ -87,10 +88,16 @@
         margin-right: 0.5rem;
 
         font-size: 0.6rem;
+
+        color: black;
+        font-weight: bolder;
     }
 
     &__name {
         font-size: 0.75rem;
+
+        color: black;
+        font-weight: bolder;
     }
 
     &--hatred {
@@ -162,8 +169,67 @@
     font-size: x-small;
 }
 
+.new-preferences {
+    background: $card-bg-second;
+}
 .date-container {
     display: flex;
     width: 100%;
     margin-left: 0.5rem;
+}
+
+.existing-preferences {
+    margin-left: 4rem;
+
+    &--current {
+        margin-left: 1rem;
+    }
+
+    &--empty {
+        color: grey;
+        font-size: smaller;
+    }
+}
+
+.existing-preference {
+    background: $card-bg-second;
+
+    padding: 0.5rem;
+    border-radius: 3px;
+    margin-bottom: 1rem;
+
+    &__name {
+        display: flex;
+        align-items: center;
+    }
+}
+
+.preference-profile-pic {
+    margin-right: 1rem;
+    margin-top: -1rem;
+
+    user-select: none;
+}
+
+.preference-container {
+    display: flex;
+    align-items: center;
+
+    &__range {
+        display: flex;
+        justify-content: center;
+
+        padding: 0.25rem 0.5rem;
+        border-radius: 3px;
+        width: 1rem;
+
+        color: black;
+
+        font-weight: bolder;
+    }
+
+    &__date {
+        margin-left: 1rem;
+        margin: 0.5rem;
+    }
 }

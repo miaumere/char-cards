@@ -223,7 +223,7 @@
                 (optionSelected)="createRelationWithCharacter($event)"
             >
                 <mat-option
-                    *ngFor="let char of filteredCharacters | async"
+                    *ngFor="let char of filteredCharList"
                     [value]="char"
                     [disabled]="relatedPeopleIds.includes(char.id)"
                 >

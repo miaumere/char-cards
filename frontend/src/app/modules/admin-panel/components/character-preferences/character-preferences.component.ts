@@ -80,8 +80,8 @@ export class CharacterPreferencesComponent
         date: new FormControl(),
     });
 
-    filteredCharacters = new Observable<CharacterItem[]>();
     selectedCharacter?: CharacterItem;
+    filteredCharList: CharacterItem[] = [];
 
     date: any;
 
@@ -102,15 +102,19 @@ export class CharacterPreferencesComponent
         this.getCharactersList();
         this.getAllPreferences();
     }
-    private _filterCharacters(value: string) {
-        const filterValue = value.toLowerCase();
 
-        return this.charList.filter(
-            (c) =>
-                `${c.charName} ${c.charSurname}`
-                    .toLowerCase()
-                    .indexOf(filterValue) === 0
-        );
+    private _filterCharacters(value: string) {
+        if (!value) {
+            this.filteredCharList = this.charList;
+            return;
+        }
+        const regex = new RegExp(value, 'gi');
+
+        const filteredChars = this.filteredCharList.filter((c) => {
+            return c.fullName.match(regex);
+        });
+
+        this.filteredCharList = filteredChars;
     }
 
     chosenMonthHandler(date: Date, datepicker: MatDatepicker<any>) {
@@ -127,53 +131,10 @@ export class CharacterPreferencesComponent
         this.chosenType = matchingType?.preferenceType;
     }
 
-    addPreference() {
-        const foundChar = this.charList.find(
-            (c) =>
-                `${c.charName} ${c.charSurname}`.toLowerCase() ===
-                this.preferencesForm.get('character')?.value.toLowerCase()
-        );
-
-        if (foundChar) {
-            const objToSend: IEditPreference = {
-                characterId: this.charId,
-                preferedCharacterId: foundChar.id,
-                range: this.preferencesForm.get('range')?.value,
-                date: this.preferencesForm.get('date')?.value,
-            };
-
-            this._charactersService.postEditPreferences(objToSend).subscribe(
-                (_) => {
-                    this._toastrService.success(
-                        this._translate.instant('TOASTR_MESSAGE.SAVE_SUCCESS')
-                    );
-                    this.preferencesForm.reset();
-                    this.getAllPreferences();
-                },
-                (err) => {
-                    this._toastrService.error(
-                        this._translate.instant('TOASTR_MESSAGE.ERROR')
-                    );
-                }
-            );
-        }
-    }
-
     getCharactersList() {
         this.subscriptions$.add(
             this._charactersService.getCharacters().subscribe((charList) => {
                 this.charList = charList;
-
-                this.filteredCharacters = this.preferencesForm.controls[
-                    'character'
-                ].valueChanges.pipe(
-                    startWith(''),
-                    map((character) =>
-                        character
-                            ? this._filterCharacters(character)
-                            : this.charList
-                    )
-                );
             })
         );
     }

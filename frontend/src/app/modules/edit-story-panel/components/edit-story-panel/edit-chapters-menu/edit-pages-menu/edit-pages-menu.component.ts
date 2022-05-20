@@ -80,10 +80,7 @@ export class EditPagesMenuComponent extends BaseComponent implements OnInit {
         const filterValue = value.toLowerCase();
 
         return this.charList.filter(
-            (c) =>
-                `${c.charName} ${c.charSurname}`
-                    .toLowerCase()
-                    .indexOf(filterValue) === 0
+            (c) => `${c.fullName}`.toLowerCase().indexOf(filterValue) === 0
         );
     }
 
@@ -225,7 +222,7 @@ export class EditPagesMenuComponent extends BaseComponent implements OnInit {
         if (charFormValue) {
             const foundChar = this.charList.find(
                 (c) =>
-                    `${c.charName} ${c.charSurname}`.toLowerCase() ===
+                    `${c.fullName}`.toLowerCase() ===
                     charFormValue.toLowerCase()
             );
 

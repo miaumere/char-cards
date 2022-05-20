@@ -152,3 +152,8 @@ figcaption {
 div[role='listbox'] {
     max-width: 200px;
 }
+
+.mat-tab-label {
+    background-color: transparent;
+    height: 2rem !important;
+}

@@ -31,7 +31,7 @@ export class EditRelationsComponent extends BaseComponent implements OnInit {
 
     @Output() relationsChangedEvent = new EventEmitter<true>();
 
-    filteredCharacters = new Observable<CharacterItem[]>();
+    filteredCharList: CharacterItem[] = [];
     charList: CharacterItem[] = [];
 
     relationsForCharacter: IRelationForCharacter[] = [];
@@ -63,6 +63,12 @@ export class EditRelationsComponent extends BaseComponent implements OnInit {
     ngOnInit(): void {
         this.getCharacterRelations();
         this.getCharactersList();
+
+        this.newCharacterForm
+            .get('characterToAdd')
+            ?.valueChanges.subscribe((value) => {
+                this._filterCharacters(value);
+            });
     }
 
     getRelationWithPerson(personId: number) {
@@ -73,6 +79,20 @@ export class EditRelationsComponent extends BaseComponent implements OnInit {
                     | undefined
             )?.controls ?? []
         );
+    }
+
+    private _filterCharacters(value: string) {
+        if (!value) {
+            this.filteredCharList = this.charList;
+            return;
+        }
+        const regex = new RegExp(value, 'gi');
+
+        const filteredChars = this.filteredCharList.filter((c) => {
+            return c.fullName.match(regex);
+        });
+
+        this.filteredCharList = filteredChars;
     }
 
     getCharacterRelations() {
@@ -253,19 +273,11 @@ export class EditRelationsComponent extends BaseComponent implements OnInit {
     getCharactersList() {
         this.subscriptions$.add(
             this._characterService.getCharacters().subscribe((charList) => {
-                this.charList = (charList as CharacterItem[]).filter(
-                    (x) => x.id !== this.charId
-                );
-                this.filteredCharacters = this.newCharacterForm
-                    .get('characterToAdd')
-                    ?.valueChanges.pipe(
-                        startWith(''),
-                        map((character) =>
-                            character
-                                ? this._filterCharacters(character)
-                                : this.charList
-                        )
-                    ) as Observable<CharacterItem[]>;
+                const listWithoutMainCharacter = (
+                    charList as CharacterItem[]
+                ).filter((x) => x.id !== this.charId);
+                this.charList = listWithoutMainCharacter;
+                this.filteredCharList = listWithoutMainCharacter;
             })
         );
     }
@@ -321,16 +333,6 @@ export class EditRelationsComponent extends BaseComponent implements OnInit {
         typedRelationFormArray.push(newInputGroup);
 
         this.newCharacterForm.reset();
-    }
-
-    private _filterCharacters(value: CharacterItem) {
-        const filterValue = value.fullName.toLowerCase();
-        return this.charList.filter(
-            (c) =>
-                `${c.charName} ${c.charSurname}`
-                    .toLowerCase()
-                    .indexOf(filterValue) === 0
-        );
     }
 
     isSourceCheckboxVisible(relationFG: FormGroup) {

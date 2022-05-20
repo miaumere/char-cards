@@ -13,7 +13,7 @@ public class CharactersMenuDTO {
     }
     public CharactersMenuDTO(Character character, String profilePic) {
         this.id = character.externalId;
-        this.fullName = character.getCharName() + " " + character.getCharSurname();
+        this.fullName = character.getCharName() + " " + character.getCharSurname() + "(" + character.getPseudonim() + ")";
         this.profilePic = profilePic;
         this.characterType = character.getCharType().name();
     }
