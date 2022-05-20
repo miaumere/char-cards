@@ -96,20 +96,6 @@
                         >
                             <mat-icon>edit</mat-icon>
                         </button>
-
-                        <button
-                            mat-icon-button
-                            class="sidebar__option"
-                            [matTooltip]="
-                                'CHARS_PANEL.EDIT_PREFERENCES' | translate
-                            "
-                            [routerLink]="['./panel/character-preferences']"
-                            [queryParams]="{
-                                id: character.id
-                            }"
-                        >
-                            <mat-icon>favorite</mat-icon>
-                        </button>
                     </mat-card-actions>
                 </mat-card-content>
             </mat-card>

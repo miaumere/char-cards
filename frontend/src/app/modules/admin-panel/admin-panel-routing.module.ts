@@ -5,7 +5,6 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AdminPanelComponent } from './components/admin-panel/admin-panel.component';
 import { AdminPanelForCharactersComponent } from './components/admin-panel-for-characters/admin-panel-for-characters.component';
-import { CharacterPreferencesComponent } from './components/character-preferences/character-preferences.component';
 
 const routes: Routes = [
     {
@@ -25,10 +24,6 @@ const routes: Routes = [
             {
                 path: 'character-modify/:type',
                 component: CharacterModifyComponent,
-            },
-            {
-                path: 'character-preferences',
-                component: CharacterPreferencesComponent,
             },
         ],
     },
