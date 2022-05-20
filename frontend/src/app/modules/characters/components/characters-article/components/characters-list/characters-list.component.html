@@ -75,7 +75,12 @@
                             class="rdest rdest--side"
                         />
                     </span>
-                    {{ character.fullName }}
+                    <div class="name">
+                        <div>{{ character.fullName }}</div>
+                        <div class="name__pseudonym">
+                            {{ character.pseudonym }}
+                        </div>
+                    </div>
                 </span>
             </a>
         </ng-container>

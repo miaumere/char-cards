@@ -33,4 +33,7 @@ public class CharactersMenuDTO {
     public String getPseudonym() {
         return pseudonym;
     }
+    public String getCharacterType() {
+        return characterType;
+    }
 }

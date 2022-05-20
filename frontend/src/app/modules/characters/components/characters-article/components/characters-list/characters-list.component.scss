@@ -78,3 +78,18 @@ $gradient2: #435548;
 
     overflow-y: scroll;
 }
+
+.name {
+    display: flex;
+    flex-direction: column;
+    &__pseudonym {
+        width: 100px;
+
+        font-size: smaller;
+        color: $accent;
+
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
