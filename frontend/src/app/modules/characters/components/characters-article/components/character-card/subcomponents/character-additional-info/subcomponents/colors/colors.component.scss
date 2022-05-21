@@ -45,6 +45,10 @@
     border: none;
     cursor: pointer;
 
+    &[disabled] {
+        cursor: auto;
+    }
+
     &::-webkit-color-swatch {
         border: none;
         border-radius: 3px;

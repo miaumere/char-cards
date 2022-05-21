@@ -2,7 +2,6 @@ import { TranslateModule } from '@ngx-translate/core';
 import { FilenameModifierPipe } from './pipes/filename-modifier.pipe';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { CharactersComponent } from './components/characters-article/characters.component';
 import { CharactersRoutingModule } from './characters-routing.module';
 import { CharactersIndexComponent } from './characters-index.component';
 import { CharactersListComponent } from './components/characters-article/components/characters-list/characters-list.component';
@@ -53,7 +52,6 @@ import { ColorsComponent } from './components/characters-article/components/char
 
 @NgModule({
     declarations: [
-        CharactersComponent,
         CharactersIndexComponent,
         CharactersListComponent,
         CharacterCardComponent,

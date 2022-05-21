@@ -14,25 +14,30 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { CharactersService } from 'src/app/core/service/characters.service';
+import * as tinycolor from 'tinycolor2';
+import { ActivatedRoute } from '@angular/router';
+import { AuthService } from 'src/app/core/service/auth.service';
+import { Measurements } from 'src/app/modules/characters/models/measurements.model';
+import { StatisticsService } from 'src/app/core/service/statistics.service';
 
 @Component({
-    selector:
-        'app-character-card [character] [themeColor] [bgColorFirst] [bgColorSecond] [preferences] [isUserLogged]',
+    selector: 'app-character-card',
     templateUrl: './character-card.component.html',
     styleUrls: ['./character-card.component.scss'],
 })
 export class CharacterCardComponent extends BaseComponent implements OnInit {
-    @Input() character: Character | null = null;
+    background = '';
 
-    @Input('themeColor') themeColor1 = '';
-    @Input('bgColorFirst') bgColor1 = '';
-    @Input('bgColorSecond') bgColor2 = '';
+    routeId: number | null = null;
+    character: Character | null = null;
 
-    @Input() preferences: CharacterPreferences[] = [];
+    themeColor1 = '';
+    bgColor1 = '';
+    bgColor2 = '';
 
-    @Output() characterHadChangedEvent = new EventEmitter();
+    preferences: CharacterPreferences[] = [];
 
-    @Input() isUserLogged = false;
+    isUserLogged = false;
 
     form = new FormGroup({});
 
@@ -41,55 +46,29 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
     constructor(
         private _charactersService: CharactersService,
         private _toastrService: ToastrService,
-        private _translate: TranslateService
+        private _translate: TranslateService,
+        private _route: ActivatedRoute,
+        private _authService: AuthService,
+        private _statisticsService: StatisticsService
     ) {
         super();
     }
 
-    ngOnInit() {}
+    ngOnInit() {
+        this._route.params.subscribe((route) => {
+            this.routeId = route.id;
+            this.getCharacterById();
+        });
 
-    ngOnChanges(changes: SimpleChanges) {
-        if (
-            changes.hasOwnProperty('isUserLogged') ||
-            changes.hasOwnProperty('character')
-        ) {
-            if (this.isUserLogged && this.character) {
-                for (const key in this.character) {
-                    if (
-                        Object.prototype.hasOwnProperty.call(
-                            this.character,
-                            key
-                        )
-                    ) {
-                        const untypedChar = this.character as any;
-                        const element = untypedChar[key];
-
-                        if (key === 'colors') {
-                            for (const colorKey in element) {
-                                if (
-                                    Object.prototype.hasOwnProperty.call(
-                                        element,
-                                        colorKey
-                                    )
-                                ) {
-                                    const colorElement = element[colorKey];
-                                    this.form.addControl(
-                                        colorKey,
-                                        new FormControl(colorElement)
-                                    );
-                                }
-                            }
-                        }
-
-                        this.form.addControl(key, new FormControl(element));
-                    }
-                }
-            }
-        }
+        this.subscriptions$.add(
+            this._authService.isUserLogged$.subscribe((isUserLogged) => {
+                this.isUserLogged = isUserLogged;
+            })
+        );
     }
 
     changed() {
-        this.characterHadChangedEvent.emit();
+        this.saveCharacter();
     }
 
     clicked(key: string) {
@@ -103,7 +82,6 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
     }
 
     saveCharacter() {
-        console.log('form value: ', this.form.value);
         const request = this.form.value;
         const colors: IColors = {
             eyeColor1: this.form.get('eyeColor1')?.value,
@@ -116,7 +94,6 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
         };
 
         request.colors = colors;
-
         this.subscriptions$.add(
             this._charactersService
                 .putCharacterDetails(this.form.value, false)
@@ -127,7 +104,7 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
                                 'TOASTR_MESSAGE.SAVE_SUCCESS'
                             )
                         );
-                        this.characterHadChangedEvent.emit();
+                        this.getCharacterById();
                     },
                     (err) => {
                         this._toastrService.error(
@@ -136,5 +113,111 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
                     }
                 )
         );
+    }
+
+    bgColorFromChild(bgColor: string) {
+        this.background =
+            '' + tinycolor(this.background).darken(20).desaturate(25);
+
+        this.background = bgColor ? bgColor : 'grey';
+    }
+
+    getCharacterById() {
+        this.character = null;
+        this.form = new FormGroup({});
+
+        if (this.routeId !== null) {
+            this._charactersService
+                .getCharacterById(this.routeId)
+                .subscribe((character) => {
+                    this.character = new Character(character);
+
+                    document.title = `${this.character.charName} ${this.character.charSurname}`;
+
+                    this.character.measurements = character.measurements
+                        ? new Measurements(character.measurements)
+                        : null;
+
+                    this.background = character.colors!.themeColor1;
+                    const themeColorForChar = tinycolor(
+                        character?.colors?.themeColor1
+                    );
+                    const bgColorForChar = tinycolor(
+                        character?.colors?.themeColor2
+                    );
+                    const darkerBgColorForChar = tinycolor(
+                        character?.colors?.themeColor2
+                    );
+
+                    this.bgColor1 =
+                        '' +
+                        (tinycolor(bgColorForChar).isDark()
+                            ? tinycolor(bgColorForChar)
+                                  .darken(15)
+                                  .desaturate(10)
+                            : tinycolor(bgColorForChar)
+                                  .darken(35)
+                                  .desaturate(50));
+
+                    this.bgColor2 =
+                        '' +
+                        (themeColorForChar.isLight()
+                            ? tinycolor(themeColorForChar)
+                                  .darken(55)
+                                  .desaturate(30)
+                            : tinycolor(themeColorForChar)
+                                  .darken(25)
+                                  .desaturate(30));
+
+                    this.themeColor1 =
+                        '' +
+                        (themeColorForChar.isLight()
+                            ? tinycolor(themeColorForChar).darken(15)
+                            : tinycolor(themeColorForChar).lighten(35));
+
+                    for (const key in this.character) {
+                        if (
+                            Object.prototype.hasOwnProperty.call(
+                                this.character,
+                                key
+                            )
+                        ) {
+                            const untypedChar = this.character as any;
+                            const element = untypedChar[key];
+
+                            if (key === 'colors') {
+                                for (const colorKey in element) {
+                                    if (
+                                        Object.prototype.hasOwnProperty.call(
+                                            element,
+                                            colorKey
+                                        )
+                                    ) {
+                                        const colorElement = element[colorKey];
+
+                                        this.form.addControl(
+                                            colorKey,
+                                            new FormControl(colorElement)
+                                        );
+
+                                        this.form
+                                            .get(colorKey)
+                                            ?.setValue(colorElement);
+                                    }
+                                }
+                                continue;
+                            }
+
+                            this.form.addControl(key, new FormControl(element));
+                        }
+                    }
+                });
+
+            this._statisticsService
+                .getPreferencesForCharacter(this.routeId)
+                .subscribe((preferences) => {
+                    this.preferences = preferences;
+                });
+        }
     }
 }

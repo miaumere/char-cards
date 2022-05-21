@@ -3,7 +3,6 @@ import { CharactersService } from 'src/app/core/service/characters.service';
 import { CharacterItem } from 'src/app/modules/characters/models/character-item.model';
 import { ActivatedRoute } from '@angular/router';
 import { BaseComponent } from 'src/app/core/base.component';
-import { finalize } from 'rxjs/operators';
 import { FormGroup, FormControl } from '@angular/forms';
 import { CharType } from 'src/app/modules/admin-panel/enums/character-type.enum';
 

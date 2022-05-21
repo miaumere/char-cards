@@ -1,5 +1,12 @@
 import { FormControl, FormGroup } from '@angular/forms';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+    Component,
+    EventEmitter,
+    Input,
+    OnInit,
+    Output,
+    SimpleChanges,
+} from '@angular/core';
 import { IColors } from 'src/app/modules/characters/models/colors.model';
 
 @Component({
@@ -10,6 +17,7 @@ import { IColors } from 'src/app/modules/characters/models/colors.model';
 export class ColorsComponent implements OnInit {
     @Input() colors: IColors | null = null;
     @Input() form: FormGroup = new FormGroup({});
+    @Input() isUserLogged: boolean = false;
 
     @Input() editedKey: string | null = null;
     @Output() editedKeyChange = new EventEmitter<string | null>();
@@ -17,5 +25,7 @@ export class ColorsComponent implements OnInit {
 
     constructor() {}
 
-    ngOnInit(): void {}
+    ngOnInit(): void {
+        this.form.updateValueAndValidity();
+    }
 }

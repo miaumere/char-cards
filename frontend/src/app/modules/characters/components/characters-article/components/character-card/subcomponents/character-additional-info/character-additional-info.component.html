@@ -94,6 +94,7 @@
     </app-temperament-bars>
     <ng-container *ngIf="character?.colors || isUserLogged">
         <app-colors
+            [isUserLogged]="isUserLogged"
             [colors]="character?.colors"
             [form]="form"
             (saveEvent)="saveEvent.emit()"
