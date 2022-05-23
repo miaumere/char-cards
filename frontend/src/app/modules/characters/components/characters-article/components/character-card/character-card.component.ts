@@ -1,3 +1,5 @@
+import { ITemperament } from './../../../../models/temperament.model';
+import { IMeasurements } from './../../../../models/measurements.model';
 import { IColors } from './../../../../models/colors.model';
 import { CharacterPreferences } from './../../../../models/character-preferences.model';
 import {
@@ -94,9 +96,31 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
         };
 
         request.colors = colors;
+
+        const measurements: IMeasurements = {
+            babyHeight: this.form.get('babyHeight')?.value,
+            childHeight: this.form.get('childHeight')?.value,
+            teenHeight: this.form.get('teenHeight')?.value,
+            adultHeight: this.form.get('adultHeight')?.value,
+            babyWeight: this.form.get('babyWeight')?.value,
+            childWeight: this.form.get('childWeight')?.value,
+            teenWeight: this.form.get('teenWeight')?.value,
+            adultWeight: this.form.get('adultWeight')?.value,
+        };
+        request.measurements = measurements;
+
+        const temperament: ITemperament = {
+            melancholic: this.form.get('melancholic')?.value,
+            sanguine: this.form.get('sanguine')?.value,
+            choleric: this.form.get('choleric')?.value,
+            flegmatic: this.form.get('flegmatic')?.value,
+        };
+
+        request.temperament = temperament;
+
         this.subscriptions$.add(
             this._charactersService
-                .putCharacterDetails(this.form.value, false)
+                .putCharacterDetails(request, false)
                 .subscribe(
                     (_) => {
                         this._toastrService.success(
@@ -145,9 +169,6 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
                     const bgColorForChar = tinycolor(
                         character?.colors?.themeColor2
                     );
-                    const darkerBgColorForChar = tinycolor(
-                        character?.colors?.themeColor2
-                    );
 
                     this.bgColor1 =
                         '' +
@@ -185,24 +206,28 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
                             const untypedChar = this.character as any;
                             const element = untypedChar[key];
 
-                            if (key === 'colors') {
-                                for (const colorKey in element) {
+                            if (
+                                key === 'colors' ||
+                                key === 'measurements' ||
+                                key === 'temperament'
+                            ) {
+                                for (const childKey in element) {
                                     if (
                                         Object.prototype.hasOwnProperty.call(
                                             element,
-                                            colorKey
+                                            childKey
                                         )
                                     ) {
-                                        const colorElement = element[colorKey];
+                                        const childElement = element[childKey];
 
                                         this.form.addControl(
-                                            colorKey,
-                                            new FormControl(colorElement)
+                                            childKey,
+                                            new FormControl(childElement)
                                         );
 
                                         this.form
-                                            .get(colorKey)
-                                            ?.setValue(colorElement);
+                                            .get(childKey)
+                                            ?.setValue(childElement);
                                     }
                                 }
                                 continue;

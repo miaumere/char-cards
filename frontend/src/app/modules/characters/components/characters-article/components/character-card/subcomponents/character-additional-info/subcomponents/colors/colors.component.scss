@@ -2,6 +2,8 @@
     display: flex;
     flex-direction: column;
 
+    margin-bottom: 1rem;
+
     &__container {
         display: flex;
 
@@ -41,7 +43,7 @@
     padding: 0;
     background: none;
 
-    width: 3rem;
+    width: 100%;
     border: none;
     cursor: pointer;
 

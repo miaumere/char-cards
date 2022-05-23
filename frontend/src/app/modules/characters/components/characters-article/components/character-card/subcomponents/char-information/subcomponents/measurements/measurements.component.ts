@@ -1,64 +1,42 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import {
     IMeasurements,
     Measurements,
 } from 'src/app/modules/characters/models/measurements.model';
 
 @Component({
-    selector: 'app-measurements [measurements]',
+    selector: 'app-measurements [measurements] [form] [isUserLogged]',
     templateUrl: './measurements.component.html',
     styleUrls: ['./measurements.component.scss'],
 })
 export class MeasurementsComponent implements OnInit {
+    @Input() isUserLogged: boolean = false;
     @Input() measurements: Measurements | null = null;
+    @Input() form: FormGroup = new FormGroup({});
+    @Output() measurementsChangedEvent = new EventEmitter();
 
     displayedColumns: string[] = ['baby', 'child', 'teen', 'adult'];
 
-    measurementsData: any;
+    measurementsData: [string[], string[]] = [[], []];
 
     constructor() {}
 
     ngOnInit() {
-        if (this.measurements) {
-            const measurementsInstance = new Measurements(this.measurements);
+        this.measurementsData = [
+            ['babyHeight', 'childHeight', 'teenHeight', 'adultHeight'],
+            ['babyWeight', 'childWeight', 'teenWeight', 'adultWeight'],
+        ];
 
-            const characterHeight = [
-                measurementsInstance.getValueWithUnit(
-                    measurementsInstance.babyHeight,
-                    'height'
-                ),
-                measurementsInstance.getValueWithUnit(
-                    measurementsInstance.childHeight,
-                    'height'
-                ),
-                measurementsInstance.getValueWithUnit(
-                    measurementsInstance.teenHeight,
-                    'height'
-                ),
-                measurementsInstance.getValueWithUnit(
-                    measurementsInstance.adultHeight,
-                    'height'
-                ),
-            ];
-            const characterWeight = [
-                measurementsInstance.getValueWithUnit(
-                    measurementsInstance.babyWeight,
-                    'weight'
-                ),
-                measurementsInstance.getValueWithUnit(
-                    measurementsInstance.childWeight,
-                    'weight'
-                ),
-                measurementsInstance.getValueWithUnit(
-                    measurementsInstance.teenWeight,
-                    'weight'
-                ),
-                measurementsInstance.getValueWithUnit(
-                    measurementsInstance.adultWeight,
-                    'weight'
-                ),
-            ];
-            this.measurementsData = [characterHeight, characterWeight];
+        if (!this.isUserLogged) {
+            for (const measurementData of this.measurementsData) {
+                for (const measurement of measurementData) {
+                    this.form.get(measurement)?.disable();
+                }
+            }
         }
+    }
+    inputChange() {
+        this.measurementsChangedEvent.emit();
     }
 }

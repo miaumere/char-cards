@@ -1,45 +1,123 @@
 <div class="info__temperament temperament">
     <app-divider></app-divider>
-    <div class="temperaments">
-        <div class="temperament__container" *ngIf="temperaments?.melancholic">
+    <div class="save-icon-container" *appIfLoggedUser>
+        <app-edit-icon
+            (clickedEvent)="isEditModeToggled = true"
+            *ngIf="!isEditModeToggled"
+        ></app-edit-icon>
+        <mat-icon
+            class="option-icon option-icon--cancel"
+            *ngIf="isEditModeToggled"
+            (click)="isEditModeToggled = false"
+            style="margin-top: 0.15rem"
+            >cancel</mat-icon
+        >
+
+        <mat-icon
+            class="save-icon"
+            *ngIf="isEditModeToggled === true"
+            (click)="save()"
+            >save</mat-icon
+        >
+    </div>
+    <form class="temperaments" [formGroup]="form">
+        <div
+            class="temperament__container"
+            *ngIf="temperaments?.melancholic || isUserLogged"
+        >
             <span class="info__desc">
                 {{ 'CHARACTER_CARD.MELANCHOLIC' | translate }}
             </span>
-            <div
-                appProgressBar
-                [percentValue]="temperaments?.melancholic"
-                temperamentType="melancholic"
-            ></div>
+            <ng-container
+                *ngTemplateOutlet="
+                    temperamentSegment;
+                    context: {
+                        temperament: temperaments?.melancholic,
+                        temperamentType: 'melancholic',
+                        form: form
+                    }
+                "
+            ></ng-container>
         </div>
-        <div class="temperament__container" *ngIf="temperaments?.sanguine">
+        <div
+            class="temperament__container"
+            *ngIf="temperaments?.sanguine || isUserLogged"
+        >
             <span class="info__desc">
                 {{ 'CHARACTER_CARD.SANGUINE' | translate }}
             </span>
-            <div
-                appProgressBar
-                [percentValue]="temperaments?.sanguine"
-                temperamentType="sanguine"
-            ></div>
+            <ng-container
+                *ngTemplateOutlet="
+                    temperamentSegment;
+                    context: {
+                        temperament: temperaments?.sanguine,
+                        temperamentType: 'sanguine',
+                        form: form
+                    }
+                "
+            ></ng-container>
         </div>
-        <div class="temperament__container" *ngIf="temperaments?.flegmatic">
+        <div
+            class="temperament__container"
+            *ngIf="temperaments?.flegmatic || isUserLogged"
+        >
             <span class="info__desc">
                 {{ 'CHARACTER_CARD.FLEGMATIC' | translate }}
             </span>
-            <div
-                appProgressBar
-                [percentValue]="temperaments?.flegmatic"
-                temperamentType="flegmatic"
-            ></div>
+            <ng-container
+                *ngTemplateOutlet="
+                    temperamentSegment;
+                    context: {
+                        temperament: temperaments?.flegmatic,
+                        temperamentType: 'flegmatic',
+                        form: form
+                    }
+                "
+            ></ng-container>
         </div>
-        <div class="temperament__container" *ngIf="temperaments?.choleric">
+        <div
+            class="temperament__container"
+            *ngIf="temperaments?.choleric || isUserLogged"
+        >
             <span class="info__desc">
                 {{ 'CHARACTER_CARD.CHOLERIC' | translate }}
             </span>
-            <div
-                appProgressBar
-                [percentValue]="temperaments?.choleric"
-                temperamentType="choleric"
-            ></div>
+
+            <ng-container
+                *ngTemplateOutlet="
+                    temperamentSegment;
+                    context: {
+                        temperament: temperaments?.choleric,
+                        temperamentType: 'choleric',
+                        form: form
+                    }
+                "
+            ></ng-container>
         </div>
-    </div>
+    </form>
 </div>
+
+<ng-template
+    #temperamentSegment
+    let-temperament="temperament"
+    let-temperamentType="temperamentType"
+    let-form="form"
+>
+    <div
+        *ngIf="!isEditModeToggled"
+        appProgressBar
+        [percentValue]="temperament"
+        [temperamentType]="temperamentType"
+    ></div>
+
+    <div [formGroup]="form" *ngIf="isEditModeToggled" class="form-container">
+        <mat-slider
+            class="temperament-range"
+            thumbLabel
+            step="5"
+            tickInterval="5"
+            [formControlName]="temperamentType"
+        >
+        </mat-slider>
+    </div>
+</ng-template>

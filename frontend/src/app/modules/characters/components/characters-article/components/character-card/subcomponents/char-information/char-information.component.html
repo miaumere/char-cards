@@ -1,11 +1,6 @@
 <mat-card class="information" *ngIf="character">
     <!-- tutaj powinien być if  -->
 
-    <div class="information__segment">
-        <app-tags></app-tags>
-        <app-divider></app-divider>
-    </div>
-
     <div class="profile-pic-quotes-container">
         <div class="profile-pic-edition-container">
             <app-profile-pic
@@ -87,6 +82,9 @@
 
         <app-measurements
             [measurements]="character.measurements"
+            [form]="form"
+            (measurementsChangedEvent)="emitInfoHasChangedEvent()"
+            [isUserLogged]="isUserLogged"
         ></app-measurements>
     </div>
 

@@ -26,6 +26,15 @@ export class ColorsComponent implements OnInit {
     constructor() {}
 
     ngOnInit(): void {
-        this.form.updateValueAndValidity();
+        if (!this.isUserLogged) {
+            this.form.get('eyeColor1')?.disable();
+            this.form.get('eyeColor2')?.disable();
+            this.form.get('themeColor1')?.disable();
+            this.form.get('themeColor2')?.disable();
+            this.form.get('themeColor3')?.disable();
+            this.form.get('hairColor')?.disable();
+            this.form.get('skinColor')?.disable();
+            this.form.updateValueAndValidity();
+        }
     }
 }

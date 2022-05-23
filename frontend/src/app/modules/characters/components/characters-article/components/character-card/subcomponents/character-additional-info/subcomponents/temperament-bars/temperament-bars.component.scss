@@ -1,8 +1,6 @@
 @import 'variables';
 
 .temperaments {
-    width: 90%;
-
     margin-top: 1rem;
 }
 
@@ -13,21 +11,50 @@
         margin-top: 0.2rem;
 
         display: flex;
-        justify-content: space-between;
-        align-items: baseline;
+        align-items: center;
+
+        height: 2rem;
     }
 }
 
 .info {
     font-size: 0.7rem;
-    background: #1d1d1d;
-    padding-top: 0.5rem;
 
     &__desc {
         font-weight: bold;
         text-transform: uppercase;
         color: $accent;
 
-        width: 88px;
+        margin-bottom: 1rem;
+
+        width: 0;
     }
+}
+
+.save-icon {
+    font-size: 0.9rem;
+
+    transition: 0.3s;
+    cursor: pointer;
+    color: $accent;
+
+    &:hover {
+        color: rgb(197, 250, 179);
+    }
+}
+
+.save-icon-container {
+    display: flex;
+    height: 0;
+    margin-right: 0.5rem;
+}
+
+.temperament-range {
+    height: 28px;
+}
+
+.form-container {
+    display: flex;
+    align-items: center;
+    height: 1rem;
 }

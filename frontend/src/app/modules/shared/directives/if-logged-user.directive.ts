@@ -28,6 +28,8 @@ export class IfLoggedUserDirective
             this._authService.loggedUser$.subscribe((loggedUser) => {
                 if (loggedUser) {
                     this.view.createEmbeddedView(this.template);
+                } else {
+                    this.view.remove();
                 }
             })
         );

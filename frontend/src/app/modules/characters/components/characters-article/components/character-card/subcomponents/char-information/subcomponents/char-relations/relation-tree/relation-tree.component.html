@@ -1,5 +1,7 @@
 <div class="save-icon-container">
-    <mat-icon class="save-icon" (click)="upsertCoords()">save</mat-icon>
+    <mat-icon class="save-icon" (click)="upsertCoords()" *appIfLoggedUser
+        >save</mat-icon
+    >
 </div>
 
 <figure #chart class="chart"></figure>

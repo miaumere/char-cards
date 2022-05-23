@@ -7,10 +7,12 @@
             <div class="icons-options">
                 <app-edit-icon
                     (clickedEvent)="setEditedKey('nationality')"
-                    *ngIf="editedKey !== 'nationality'"
+                    *ngIf="editedKey !== 'nationality' && isUserLogged"
                 ></app-edit-icon>
 
-                <ng-container *ngIf="editedKey === 'nationality'">
+                <ng-container
+                    *ngIf="editedKey === 'nationality' && isUserLogged"
+                >
                     <mat-icon
                         class="option-icon option-icon--cancel"
                         (click)="setEditedKey(null)"
@@ -67,7 +69,7 @@
     </div>
 
     <ng-container *ngIf="character?.death">
-        <div>
+        <div style="margin-top: 0.5rem">
             <span class="info__desc">
                 💀 {{ 'CHARACTER_CARD.DEATH' | translate }}
             </span>
@@ -88,8 +90,11 @@
     </div>
 
     <app-temperament-bars
-        *ngIf="hasTemperamentInfo"
+        *ngIf="hasTemperamentInfo || isUserLogged"
         [temperaments]="character?.temperament"
+        [isUserLogged]="isUserLogged"
+        [form]="form"
+        (saveEvent)="saveEvent.emit()"
     >
     </app-temperament-bars>
     <ng-container *ngIf="character?.colors || isUserLogged">
@@ -101,4 +106,9 @@
         >
         </app-colors>
     </ng-container>
+
+    <div>
+        <app-divider></app-divider>
+        <app-tags></app-tags>
+    </div>
 </div>
