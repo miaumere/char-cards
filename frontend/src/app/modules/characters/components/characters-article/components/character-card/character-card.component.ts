@@ -83,6 +83,56 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
         }
     }
 
+    patchForm() {
+        this.form = new FormGroup({});
+
+        for (const key in this.character) {
+            if (Object.prototype.hasOwnProperty.call(this.character, key)) {
+                const untypedChar = this.character as any;
+                const element = untypedChar[key];
+
+                if (
+                    key === 'colors' ||
+                    key === 'measurements' ||
+                    key === 'temperament'
+                ) {
+                    for (const childKey in element) {
+                        if (
+                            Object.prototype.hasOwnProperty.call(
+                                element,
+                                childKey
+                            )
+                        ) {
+                            const childElement = element[childKey];
+
+                            this.form.addControl(
+                                childKey,
+                                new FormControl(childElement)
+                            );
+
+                            this.form.get(childKey)?.setValue(childElement);
+                        }
+                    }
+                    continue;
+                }
+
+                if (key === 'birthday' || key === 'death') {
+                    const element = untypedChar[key];
+
+                    const formControlValue = element ? new Date(element) : null;
+
+                    this.form.addControl(
+                        key,
+                        new FormControl(formControlValue)
+                    );
+                    continue;
+                }
+
+                this.form.addControl(key, new FormControl(element));
+            }
+        }
+    }
+
     saveCharacter() {
         const request = this.form.value;
         const colors: IColors = {
@@ -118,6 +168,12 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
 
         request.temperament = temperament;
 
+        const birthdayDate = new Date(request.birthday).getTime();
+        request.birthday = isNaN(birthdayDate) ? 0 : birthdayDate;
+
+        const deathDate = new Date(request.death).getTime();
+        request.death = isNaN(deathDate) ? 0 : deathDate;
+
         this.subscriptions$.add(
             this._charactersService
                 .putCharacterDetails(request, false)
@@ -148,7 +204,6 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
 
     getCharacterById() {
         this.character = null;
-        this.form = new FormGroup({});
 
         if (this.routeId !== null) {
             this._charactersService
@@ -196,46 +251,7 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
                             ? tinycolor(themeColorForChar).darken(15)
                             : tinycolor(themeColorForChar).lighten(35));
 
-                    for (const key in this.character) {
-                        if (
-                            Object.prototype.hasOwnProperty.call(
-                                this.character,
-                                key
-                            )
-                        ) {
-                            const untypedChar = this.character as any;
-                            const element = untypedChar[key];
-
-                            if (
-                                key === 'colors' ||
-                                key === 'measurements' ||
-                                key === 'temperament'
-                            ) {
-                                for (const childKey in element) {
-                                    if (
-                                        Object.prototype.hasOwnProperty.call(
-                                            element,
-                                            childKey
-                                        )
-                                    ) {
-                                        const childElement = element[childKey];
-
-                                        this.form.addControl(
-                                            childKey,
-                                            new FormControl(childElement)
-                                        );
-
-                                        this.form
-                                            .get(childKey)
-                                            ?.setValue(childElement);
-                                    }
-                                }
-                                continue;
-                            }
-
-                            this.form.addControl(key, new FormControl(element));
-                        }
-                    }
+                    this.patchForm();
                 });
 
             this._statisticsService

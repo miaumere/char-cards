@@ -26,6 +26,7 @@ export class CharacterAdditionalInfoComponent
     @Output() saveEvent = new EventEmitter();
 
     flag?: Country = undefined;
+    originalFlag?: Country = undefined;
     countries: Country[] = [];
 
     constructor(private _countriesService: CountriesService) {
@@ -33,13 +34,11 @@ export class CharacterAdditionalInfoComponent
     }
 
     ngOnInit(): void {
-        setTimeout(() => {
-            this.getNationalityForCharacter();
+        this.getNationalityForCharacter();
 
-            if (this.isUserLogged) {
-                this.getCountriesList();
-            }
-        }, 0);
+        if (this.isUserLogged) {
+            this.getCountriesList();
+        }
     }
 
     getCountriesList() {
@@ -67,6 +66,7 @@ export class CharacterAdditionalInfoComponent
                     .subscribe((flag) => {
                         if (flag) {
                             this.flag = flag;
+                            this.originalFlag = flag;
                         }
                     })
             );
@@ -77,8 +77,9 @@ export class CharacterAdditionalInfoComponent
         this.infoHasChangedEvent.emit(true);
     }
 
-    setEditedKey(value: string | null) {
-        this.editedKey = value;
-        this.editedKeyChange.emit(value);
+    setEditedKey(key: string | null) {
+        this.editedKey = key;
+        this.flag = this.originalFlag;
+        this.editedKeyChange.emit(key);
     }
 }

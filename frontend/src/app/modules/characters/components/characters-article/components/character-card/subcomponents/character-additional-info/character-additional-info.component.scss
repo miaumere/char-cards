@@ -6,10 +6,22 @@
     padding-top: 0.5rem;
 }
 
-.edit-country {
+.edit-country,
+.edit-date {
     display: flex;
     height: 1rem;
     width: 10px;
+}
+
+.edit-field {
+    display: flex;
+    width: 10px;
+
+    margin-left: -1rem;
+
+    &--occupation {
+        width: 60%;
+    }
 }
 
 .edit-nationality {
@@ -39,14 +51,11 @@
         font-weight: bold;
         text-transform: uppercase;
         color: $accent;
+
+        line-height: 1.4;
     }
 
     &__data {
-        margin-left: 0.5rem;
-
-        &--death {
-            color: #ff0000;
-        }
     }
 }
 
@@ -75,7 +84,20 @@
 }
 
 .card-info {
-    align-items: center;
-
     margin-top: 0.5rem;
+
+    display: flex;
+    align-items: center;
+}
+
+.date-form-field {
+    margin-top: -0.6rem;
+    width: 6rem;
+}
+
+.edit-date {
+    margin-left: -1rem;
+}
+
+.container {
 }

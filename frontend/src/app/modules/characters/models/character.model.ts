@@ -15,6 +15,7 @@ export interface ICharacter {
     pseudonim: string;
     birthday: number;
     gender: GenderString;
+    profession: string;
     death: number;
     deathReason: string;
     occupation: string;
@@ -44,6 +45,7 @@ export class Character implements ICharacter {
     death: number = 0;
     deathReason: string = '';
     occupation: string = '';
+    profession: string = '';
     story: Story[] = [];
     colors: IColors | null = null;
     temperament: ITemperament | null = null;

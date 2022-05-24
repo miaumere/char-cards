@@ -29,7 +29,6 @@ public class CharacterDTO {
     public CharacterTemperamentDTO temperament;
     public CharacterMeasurementsDTO measurements;
     public List<ImageDTO> imagesList;
-    public List<RelationshipDTO> relationships;
     public List<BookWithStarringCharsDTO> starringIn;
     private String profilePic;
 
@@ -152,14 +151,6 @@ public class CharacterDTO {
 
     public void setMeasurements(CharacterMeasurementsDTO measurements) {
         this.measurements = measurements;
-    }
-
-    public List<RelationshipDTO> getRelationships() {
-        return relationships;
-    }
-
-    public void setRelationships(List<RelationshipDTO> relationships) {
-        this.relationships = relationships;
     }
 
     public String getPseudonim() {

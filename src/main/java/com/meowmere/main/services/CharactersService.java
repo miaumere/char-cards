@@ -295,7 +295,7 @@ public class CharactersService {
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
-    public ResponseEntity editCharacter(EditCharacterRequest request, boolean isDead) {
+    public ResponseEntity editCharacter(EditCharacterRequest request) {
         Character character = characterRepository.getOne(request.getExternalId());
 
         if(character == null) {
@@ -307,20 +307,14 @@ public class CharactersService {
         character.setCharSurname(request.getCharSurname());
         character.setGender(Gender.valueOf(request.getGender()));
         character.setNationality(request.getNationality());
-        if(request.getBirthday() != null) {
-            character.setBirthday(request.getBirthday());
-        }
+        character.setBirthday(request.getBirthday());
         character.setOccupation(request.getOccupation());
 
-        if(isDead) {
             if(request.getDeath() != null){
-                character.setDeath(request.getDeath());
-                character.setDeathReason(request.getDeathReason());
+                character.setDeath(request.getDeath() == null || request.getDeath() == 0 ? 0 : request.getDeath());
+                character.setDeathReason(request.getDeathReason() == null ? "" : request.getDeathReason());
             }
-        } else {
-            character.setDeath(null);
-            character.setDeathReason(null);
-        }
+
 
         characterRepository.saveAndFlush(character);
 

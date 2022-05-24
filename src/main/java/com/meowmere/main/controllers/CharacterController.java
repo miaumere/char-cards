@@ -112,9 +112,8 @@ public class CharacterController {
     }
 
     @PutMapping("/edit-character")
-    public ResponseEntity editCharacter(@RequestBody EditCharacterRequest request,
-                                        @RequestParam Boolean isDead) {
-        return charactersService.editCharacter(request, isDead);
+    public ResponseEntity editCharacter(@RequestBody EditCharacterRequest request) {
+        return charactersService.editCharacter(request);
     }
 
     @PutMapping("/edit-story-indexes")

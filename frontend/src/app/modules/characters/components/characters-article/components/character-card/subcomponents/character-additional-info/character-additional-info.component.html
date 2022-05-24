@@ -1,92 +1,196 @@
-<div class="card">
-    <div class="card-info nationality" *ngIf="flag || isUserLogged">
-        <span class="info__desc">
-            🚩 {{ 'CHARACTER_CARD.NATIONALITY' | translate }}
-        </span>
-        <form class="edit-country" [formGroup]="form">
-            <div class="icons-options">
-                <app-edit-icon
-                    (clickedEvent)="setEditedKey('nationality')"
-                    *ngIf="editedKey !== 'nationality' && isUserLogged"
-                ></app-edit-icon>
-
+<form class="card" [formGroup]="form">
+    <div class="container">
+        <div class="card-info nationality" *ngIf="flag || isUserLogged">
+            <span class="info__desc">
+                🚩 {{ 'CHARACTER_CARD.NATIONALITY' | translate }}
+            </span>
+            <div class="edit-country">
                 <ng-container
-                    *ngIf="editedKey === 'nationality' && isUserLogged"
-                >
-                    <mat-icon
-                        class="option-icon option-icon--cancel"
-                        (click)="setEditedKey(null)"
-                        >cancel</mat-icon
-                    >
+                    *ngTemplateOutlet="
+                        editButtons;
+                        context: {
+                            key: 'nationality'
+                        }
+                    "
+                ></ng-container>
 
-                    <mat-icon
-                        class="option-icon option-icon--save"
-                        (click)="saveEvent.emit()"
-                        >save</mat-icon
-                    >
+                <ng-container *ngIf="editedKey !== 'nationality'">
+                    <div *ngIf="flag" [title]="flag.name.common">
+                        <img [src]="flag?.flags.svg | sanitizer" class="flag" />
+                    </div>
+                    <div *ngIf="!flag">?</div>
                 </ng-container>
-            </div>
 
-            <ng-container *ngIf="editedKey !== 'nationality'">
-                <div *ngIf="flag" [title]="flag.name.common">
-                    <img [src]="flag?.flags.svg | sanitizer" class="flag" />
-                </div>
-                <div *ngIf="!flag">?</div>
-            </ng-container>
-
-            <mat-form-field
-                *ngIf="editedKey === 'nationality'"
-                class="edit-nationality"
-            >
-                <mat-label>
-                    {{ 'CHARACTER_MODIFY.NATIONALITY' | translate }}</mat-label
+                <mat-form-field
+                    *ngIf="editedKey === 'nationality'"
+                    class="edit-nationality"
                 >
-
-                <mat-select formControlName="nationality">
-                    <mat-option [value]="null">---</mat-option>
-                    <mat-option
-                        *ngFor="let country of countries"
-                        [value]="country.cca2"
+                    <mat-label>
+                        {{
+                            'CHARACTER_MODIFY.NATIONALITY' | translate
+                        }}</mat-label
                     >
-                        <img
-                            [src]="country.flags?.svg"
-                            class="flag flag--in-list"
-                        />
-                        {{ country.name.common }}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-        </form>
-    </div>
 
-    <div class="card-info" *ngIf="character?.birthday || isUserLogged">
-        <span class="info__desc">
-            🎂 {{ 'CHARACTER_CARD.BIRTHDAY' | translate }}
-        </span>
-        <span class="info__data"
-            >{{ character?.birthday | date: 'dd/MM/yyyy' }}
-        </span>
-    </div>
+                    <mat-select formControlName="nationality">
+                        <mat-option [value]="null">---</mat-option>
+                        <mat-option
+                            *ngFor="let country of countries"
+                            [value]="country.cca2"
+                        >
+                            <img
+                                [src]="country.flags?.svg"
+                                class="flag flag--in-list"
+                            />
+                            {{ country.name.common }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
 
-    <ng-container *ngIf="character?.death">
-        <div style="margin-top: 0.5rem">
+        <div class="card-info" *ngIf="character?.birthday || isUserLogged">
+            <span class="info__desc">
+                🎂 {{ 'CHARACTER_CARD.BIRTHDAY' | translate }}
+            </span>
+            <div class="edit-date">
+                <ng-container
+                    *ngTemplateOutlet="
+                        editButtons;
+                        context: {
+                            key: 'birthday'
+                        }
+                    "
+                ></ng-container>
+                <span class="info__data" *ngIf="editedKey !== 'birthday'"
+                    >{{
+                        character?.birthday
+                            ? (character?.birthday | date: 'dd/MM/yyyy')
+                            : '?'
+                    }}
+                </span>
+
+                <mat-form-field
+                    *ngIf="editedKey === 'birthday'"
+                    class="date-form-field"
+                >
+                    <input
+                        matInput
+                        [matDatepicker]="birthday"
+                        [formControlName]="'birthday'"
+                    />
+
+                    <mat-datepicker-toggle
+                        matSuffix
+                        [for]="birthday"
+                    ></mat-datepicker-toggle>
+                    <mat-datepicker-toggle
+                        matSuffix
+                        (click)="this.form.get('birthday')?.setValue(null)"
+                    >
+                        <mat-icon matDatepickerToggleIcon>clear</mat-icon>
+                    </mat-datepicker-toggle>
+                    <mat-datepicker #birthday></mat-datepicker>
+                </mat-form-field>
+            </div>
+        </div>
+
+        <div class="card-info" *ngIf="character?.death || isUserLogged">
             <span class="info__desc">
                 💀 {{ 'CHARACTER_CARD.DEATH' | translate }}
             </span>
-            <span class="info__data info__data--death">
-                {{ character?.death | date: 'dd/MM/yyyy' }}
-                <span *ngIf="character?.deathReason">
-                    ({{ character?.deathReason }})
+            <div class="edit-date">
+                <ng-container
+                    *ngTemplateOutlet="
+                        editButtons;
+                        context: {
+                            key: 'death'
+                        }
+                    "
+                ></ng-container>
+                <span class="info__data" *ngIf="editedKey !== 'death'"
+                    >{{
+                        character?.death
+                            ? (character?.death | date: 'dd/MM/yyyy')
+                            : '?'
+                    }}
                 </span>
-            </span>
-        </div>
-    </ng-container>
 
-    <div class="card-info" *ngIf="character?.occupation">
-        <span class="info__desc">
-            💼 {{ 'CHARACTER_CARD.PROFESSION' | translate }}
-        </span>
-        <span class="info__data">{{ character?.occupation }}</span>
+                <mat-form-field
+                    *ngIf="editedKey === 'death'"
+                    class="date-form-field"
+                >
+                    <input
+                        matInput
+                        [matDatepicker]="death"
+                        [formControlName]="'death'"
+                    />
+
+                    <mat-datepicker-toggle
+                        matSuffix
+                        [for]="death"
+                    ></mat-datepicker-toggle>
+                    <mat-datepicker-toggle
+                        matSuffix
+                        (click)="this.form.get('death')?.setValue(null)"
+                    >
+                        <mat-icon matDatepickerToggleIcon>clear</mat-icon>
+                    </mat-datepicker-toggle>
+                    <mat-datepicker #death></mat-datepicker>
+                </mat-form-field>
+            </div>
+        </div>
+
+        <div class="card-info" *ngIf="character?.deathReason || isUserLogged">
+            <span class="info__desc">
+                📃 {{ 'CHARACTER_MODIFY.DEATH_REASON' | translate }}
+            </span>
+            <div class="edit-field">
+                <ng-container
+                    *ngTemplateOutlet="
+                        editButtons;
+                        context: {
+                            key: 'deathReason'
+                        }
+                    "
+                ></ng-container>
+                <span class="info__data" *ngIf="editedKey !== 'deathReason'"
+                    >{{ character?.deathReason }}
+                </span>
+
+                <mat-form-field
+                    *ngIf="editedKey === 'deathReason'"
+                    class="date-form-field"
+                >
+                    <input matInput [formControlName]="'deathReason'" />
+                </mat-form-field>
+            </div>
+        </div>
+
+        <div class="card-info" *ngIf="character?.profession || isUserLogged">
+            <span class="info__desc">
+                💼 {{ 'CHARACTER_CARD.PROFESSION' | translate }}
+            </span>
+            <div class="edit-field edit-field--occupation">
+                <ng-container
+                    *ngTemplateOutlet="
+                        editButtons;
+                        context: {
+                            key: 'occupation'
+                        }
+                    "
+                ></ng-container>
+                <span class="info__data" *ngIf="editedKey !== 'occupation'"
+                    >{{ character?.occupation }}
+                </span>
+
+                <mat-form-field
+                    *ngIf="editedKey === 'occupation'"
+                    class="date-form-field"
+                >
+                    <input matInput [formControlName]="'occupation'" />
+                </mat-form-field>
+            </div>
+        </div>
     </div>
 
     <app-temperament-bars
@@ -111,4 +215,25 @@
         <app-divider></app-divider>
         <app-tags></app-tags>
     </div>
-</div>
+</form>
+
+<ng-template #editButtons let-key="key">
+    <div class="icons-options">
+        <app-edit-icon
+            (clickedEvent)="setEditedKey(key)"
+            *ngIf="editedKey !== key && isUserLogged"
+        ></app-edit-icon>
+        <ng-container *ngIf="editedKey === key && isUserLogged">
+            <mat-icon
+                class="option-icon option-icon--cancel"
+                (click)="setEditedKey(null)"
+                >cancel</mat-icon
+            >
+            <mat-icon
+                class="option-icon option-icon--save"
+                (click)="saveEvent.emit()"
+                >save</mat-icon
+            >
+        </ng-container>
+    </div>
+</ng-template>
