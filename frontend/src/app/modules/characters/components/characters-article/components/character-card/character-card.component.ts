@@ -17,7 +17,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { CharactersService } from 'src/app/core/service/characters.service';
 import * as tinycolor from 'tinycolor2';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/core/service/auth.service';
 import { Measurements } from 'src/app/modules/characters/models/measurements.model';
 import { StatisticsService } from 'src/app/core/service/statistics.service';
@@ -51,7 +51,8 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
         private _translate: TranslateService,
         private _route: ActivatedRoute,
         private _authService: AuthService,
-        private _statisticsService: StatisticsService
+        private _statisticsService: StatisticsService,
+        private _router: Router
     ) {
         super();
     }
@@ -126,7 +127,7 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
                     continue;
                 }
 
-                if (key === 'charName' || key === 'charSurname') {
+                if (key === 'charName') {
                     const element = untypedChar[key];
 
                     this.form.addControl(
@@ -217,9 +218,8 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
         this.character = null;
 
         if (this.routeId !== null) {
-            this._charactersService
-                .getCharacterById(this.routeId)
-                .subscribe((character) => {
+            this._charactersService.getCharacterById(this.routeId).subscribe(
+                (character) => {
                     this.character = new Character(character);
 
                     document.title = `${this.character.charName} ${this.character.charSurname}`;
@@ -263,7 +263,11 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
                             : tinycolor(themeColorForChar).lighten(35));
 
                     this.patchForm(null);
-                });
+                },
+                () => {
+                    this._router.navigate(['./char-cards']);
+                }
+            );
 
             this._statisticsService
                 .getPreferencesForCharacter(this.routeId)

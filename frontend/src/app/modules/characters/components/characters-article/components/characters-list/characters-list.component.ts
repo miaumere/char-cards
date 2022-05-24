@@ -71,7 +71,7 @@ export class CharactersListComponent extends BaseComponent implements OnInit {
         const regex = new RegExp(inputValue, 'gi');
 
         const filteredChars = this.charList.filter((c) => {
-            return c.fullName.match(regex);
+            return c.fullName.match(regex) || c.pseudonym.match(regex);
         });
 
         const mainChars = filteredChars.filter(

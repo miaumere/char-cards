@@ -71,7 +71,10 @@
                     class="quote__cite"
                     [ngStyle]="{ color: themeColor1 }"
                 >
-                    <span *ngIf="quotation.id !== editedQuoteId">
+                    <span
+                        class="quote__cite"
+                        *ngIf="quotation.id !== editedQuoteId"
+                    >
                         ~ {{ quotation.context }}
                     </span>
                     <mat-form-field

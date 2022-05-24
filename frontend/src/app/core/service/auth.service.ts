@@ -49,7 +49,7 @@ export class AuthService {
 
     private emitLoggedUser() {
         this.loggedUser$.next(this._loggedUser);
-        this.isUserLogged$.next(true);
+        this.isUserLogged$.next(!!this._loggedUser);
     }
 
     logout() {

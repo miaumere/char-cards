@@ -24,14 +24,15 @@ $gradient2: #435548;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
 
     margin: 0.5rem;
-    padding: 1rem;
+    padding: 0.5rem;
 
     text-align: center;
 
     transition: 0.2s;
+
+    height: 9rem;
 
     &__name {
         display: flex;
@@ -69,8 +70,6 @@ $gradient2: #435548;
 .characters {
     display: flex;
     flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
 
     height: calc(100vh - #{$navbar-height + $search-bar-height});
 
@@ -82,6 +81,16 @@ $gradient2: #435548;
 .name {
     display: flex;
     flex-direction: column;
+
+    height: 1rem;
+
+    &__name {
+        width: 100px;
+
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
     &__pseudonym {
         width: 100px;
 
