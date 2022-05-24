@@ -1,112 +1,223 @@
 <mat-tab-group>
-  <mat-tab label="Edycja stron">
-
-    <div class="new-pages">
-      <div>
-        <button (click)="fileInput.click()" mat-stroked-button [ngStyle]="{'background': bookColor}">
-          <mat-icon> attach_file</mat-icon>
-          <span [translate]="'SHARED.FILE_INPUT'" [translateParams]="{num: filesListNumber}"> </span>
-          <input #fileInput type="file" (change)="onFileInput($event.target.files)" style="display:none;" multiple />
-        </button>
-      </div>
-
-      <button mat-stroked-button [ngStyle]="{'background': bookColor}" [disabled]="filesListNumber === 0"
-        style="margin: 1rem;" (click)="addNewPages()">
-        <mat-icon>library_add</mat-icon>
-        {{ 'PAGES_PANEL.ADD_PAGES' | translate }}
-      </button>
-    </div>
-
-
-    <div class="edit-pages" *ngIf="pagesNumber.length > 0" class="boundary" cdkDropList
-      (cdkDropListDropped)="drop($event)">
-
-      <mat-card *ngFor="let pageId of pagesNumber; index as i;" class="page-card" [ngStyle]="{'background': bookColor}"
-        cdkDragBoundary=".boundary" cdkDrag>
-        <mat-card-header>
-          <mat-card-title>
-            <span style="font-size: xx-large;">
-              {{+i + 1}}.
-            </span>
-          </mat-card-title>
-
-        </mat-card-header>
-        <img src="{{pageURL}}/{{chapterId}}/{{i}}" class="image" />
-        <mat-card-actions>
-          <button mat-mini-fab color="warn" (click)="insertDeleteInfo()" (dblclick)="deletePage(pageId)">
-            <mat-icon>delete</mat-icon>
-          </button>
-        </mat-card-actions>
-      </mat-card>
-    </div>
-    <div class="edit-pages" *ngIf="pagesNumber.length === 0">
-      {{ 'CHAPTERS.NO_PAGES_MSG' | translate }}
-    </div>
-  </mat-tab>
-
-  <mat-tab label="Edycja postaci występujących">
-    <div class="edit-existing-characters">
-      <form [formGroup]="charactersInChapterForm" class="starring-characters-form">
-        <mat-form-field class="edit-existing-characters__form-field">
-          <mat-label>{{ 'PAGES_PANEL.ADD_STARRING_CHAR_MSG' | translate }}</mat-label>
-          <input matInput formControlName="character" required [matAutocomplete]="auto">
-          <mat-autocomplete #auto="matAutocomplete">
-            <mat-option *ngFor="let char of filteredCharacters | async" [value]="char.fullName">
-              <img *ngIf="char.profilePic"
-                [src]="'data:image/' + char.profilePic?.extension + ';base64, ' + char.profilePic?.image | sanitizer"
-                class="option__image">
-              <span>{{char.fullName}}</span>
-            </mat-option>
-          </mat-autocomplete>
-        </mat-form-field>
-
-        <label id="type-radio-group">{{ 'PAGES_PANEL.STARRING_TYPE' | translate }}</label>
-        <mat-radio-group formControlName="starringType" aria-labelledby="type-radio-group"
-          class="starring-characters-form__radio-group radio-group">
-          <ng-container *ngFor="let gen of StarringType | enumVal">
-            <mat-radio-button class="example-margin" [value]="gen.key" name="gender" class="radio-group__item">
-              {{gen.value}}
-            </mat-radio-button>
-          </ng-container>
-        </mat-radio-group>
-
-        <button mat-stroked-button [ngStyle]="{'background': bookColor}" [disabled]="charactersInChapterForm.invalid"
-          (click)="createStarringCharacter()">
-          <mat-icon>library_add</mat-icon>
-          {{ 'PAGES_PANEL.ADD_STARRING_CHAR' | translate }}
-        </button>
-      </form>
-
-      <div class="starring-characters">
-        <ng-container *ngIf="starringCharacters.length > 0">
-          <span>{{ 'PAGES_PANEL.STARRING_CHARS' | translate }}</span>
-          <div class="starring-characters__container">
-            <mat-card *ngFor="let starringCharacter of starringCharacters" class="starring-char-card">
-              <mat-card-header>
-                <div mat-card-avatar>
-                  <img *ngIf="starringCharacter.character.profilePic" class="header-image"
-                    [src]="'data:image/' + starringCharacter.character.profilePic?.extension + ';base64, ' +starringCharacter.character.profilePic?.image | sanitizer">
-                </div>
-                <mat-card-title>{{starringCharacter.character.charName}} {{starringCharacter.character.charSurname}}
-                </mat-card-title>
-                <mat-card-subtitle>{{starringCharacter.starringType}}</mat-card-subtitle>
-              </mat-card-header>
-              <mat-card-actions>
-                <button mat-stroked-button color="warn" (click)="insertDeleteInfo()"
-                  (dblclick)="deleteStarringCharacter(starringCharacter.id)">
-                  <mat-icon>delete</mat-icon>
-                  {{ 'PAGES_PANEL.DELETE_STARRING' | translate }}
+    <mat-tab label="Edycja stron">
+        <div class="new-pages">
+            <div>
+                <button
+                    (click)="fileInput.click()"
+                    mat-stroked-button
+                    [ngStyle]="{ background: bookColor }"
+                >
+                    <mat-icon> attach_file</mat-icon>
+                    <span
+                        [translate]="'SHARED.FILE_INPUT'"
+                        [translateParams]="{ num: filesListNumber }"
+                    >
+                    </span>
+                    <input
+                        #fileInput
+                        type="file"
+                        (change)="onFileInput($event.target.files)"
+                        style="display: none"
+                        multiple
+                    />
                 </button>
-              </mat-card-actions>
+            </div>
+
+            <button
+                mat-stroked-button
+                [ngStyle]="{ background: bookColor }"
+                [disabled]="filesListNumber === 0"
+                style="margin: 1rem"
+                (click)="addNewPages()"
+            >
+                <mat-icon>library_add</mat-icon>
+                {{ 'PAGES_PANEL.ADD_PAGES' | translate }}
+            </button>
+        </div>
+
+        <div
+            class="edit-pages"
+            *ngIf="pagesNumber.length > 0"
+            class="boundary"
+            cdkDropList
+            (cdkDropListDropped)="drop($event)"
+        >
+            <mat-card
+                *ngFor="let pageId of pagesNumber; index as i"
+                class="page-card"
+                [ngStyle]="{ background: bookColor }"
+                cdkDragBoundary=".boundary"
+                cdkDrag
+            >
+                <mat-card-header>
+                    <mat-card-title>
+                        <span style="font-size: xx-large"> {{ +i + 1 }}. </span>
+                    </mat-card-title>
+                </mat-card-header>
+                <img
+                    src="{{ pageURL }}/{{ chapterId }}/{{ i }}"
+                    class="image"
+                />
+                <mat-card-actions>
+                    <button
+                        mat-mini-fab
+                        color="warn"
+                        (click)="insertDeleteInfo()"
+                        (dblclick)="deletePage(pageId)"
+                    >
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </mat-card-actions>
             </mat-card>
+        </div>
+        <div class="edit-pages" *ngIf="pagesNumber.length === 0">
+            {{ 'CHAPTERS.NO_PAGES_MSG' | translate }}
+        </div>
+    </mat-tab>
 
-          </div>
-        </ng-container>
-        <div *ngIf="starringCharacters.length === 0"> {{ 'PAGES_PANEL.NO_STARRING_CHARS' | translate }}</div>
-      </div>
+    <mat-tab label="Edycja postaci występujących">
+        <div class="edit-existing-characters">
+            <form
+                [formGroup]="charactersInChapterForm"
+                class="starring-characters-form"
+            >
+                <mat-form-field class="edit-existing-characters__form-field">
+                    <mat-label>{{
+                        'PAGES_PANEL.ADD_STARRING_CHAR_MSG' | translate
+                    }}</mat-label>
 
-    </div>
+                    <input
+                        matInput
+                        formControlName="character"
+                        required
+                        [matAutocomplete]="auto"
+                    />
+                    <mat-autocomplete #auto="matAutocomplete">
+                        <mat-option
+                            *ngFor="let char of filteredCharList"
+                            [value]="char"
+                            class="option"
+                            [disabled]="isCharacterStarring(char)"
+                        >
+                            <div class="option-container">
+                                <app-profile-pic
+                                    [profilePic]="char.profilePic"
+                                    [charId]="char.id"
+                                    [height]="'35px'"
+                                >
+                                </app-profile-pic>
+                                <div class="char-item">
+                                    <span class="char-item__name">{{
+                                        char.fullName
+                                    }}</span>
+                                    <span class="char-item__pseudonym">{{
+                                        char.pseudonym
+                                    }}</span>
+                                </div>
+                            </div>
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
 
-  </mat-tab>
+                <label id="type-radio-group">{{
+                    'PAGES_PANEL.STARRING_TYPE' | translate
+                }}</label>
+                <mat-radio-group
+                    formControlName="starringType"
+                    aria-labelledby="type-radio-group"
+                    class="starring-characters-form__radio-group radio-group"
+                >
+                    <ng-container *ngFor="let gen of StarringType | enumVal">
+                        <mat-radio-button
+                            class="example-margin"
+                            [value]="gen.key"
+                            name="gender"
+                            class="radio-group__item"
+                        >
+                            {{ gen.value }}
+                        </mat-radio-button>
+                    </ng-container>
+                </mat-radio-group>
 
+                <button
+                    mat-stroked-button
+                    [ngStyle]="{ background: bookColor }"
+                    [disabled]="charactersInChapterForm.invalid"
+                    (click)="createStarringCharacter()"
+                >
+                    <mat-icon>library_add</mat-icon>
+                    {{ 'PAGES_PANEL.ADD_STARRING_CHAR' | translate }}
+                </button>
+            </form>
+
+            <div class="starring-characters">
+                <ng-container *ngIf="starringCharacters.length > 0">
+                    <span>{{ 'PAGES_PANEL.STARRING_CHARS' | translate }}</span>
+                    <div class="starring-characters__container">
+                        <mat-card
+                            *ngFor="let starringCharacter of starringCharacters"
+                            class="starring-char-card"
+                        >
+                            <mat-card-header>
+                                <div mat-card-avatar class="card-avatar">
+                                    <a
+                                        [routerLink]="[
+                                            '/char-cards',
+                                            starringCharacter.character.id
+                                        ]"
+                                    >
+                                        <app-profile-pic
+                                            [profilePic]="
+                                                starringCharacter.character
+                                                    .profilePic
+                                            "
+                                            [charId]="
+                                                starringCharacter.character.id
+                                            "
+                                            [height]="'50px'"
+                                            class="preference-profile-pic"
+                                        >
+                                        </app-profile-pic>
+                                    </a>
+                                </div>
+                                <mat-card-title>
+                                    {{ starringCharacter.character.fullName }}
+                                    <div class="char-item__pseudonym">
+                                        {{
+                                            starringCharacter.character
+                                                .pseudonym
+                                        }}
+                                    </div>
+                                </mat-card-title>
+                                <mat-card-subtitle>{{
+                                    starringCharacter.starringType
+                                }}</mat-card-subtitle>
+                            </mat-card-header>
+                            <mat-card-actions>
+                                <button
+                                    mat-stroked-button
+                                    color="warn"
+                                    (click)="insertDeleteInfo()"
+                                    (dblclick)="
+                                        deleteStarringCharacter(
+                                            starringCharacter.id
+                                        )
+                                    "
+                                >
+                                    <mat-icon>delete</mat-icon>
+                                    {{
+                                        'PAGES_PANEL.DELETE_STARRING'
+                                            | translate
+                                    }}
+                                </button>
+                            </mat-card-actions>
+                        </mat-card>
+                    </div>
+                </ng-container>
+                <div *ngIf="starringCharacters.length === 0">
+                    {{ 'PAGES_PANEL.NO_STARRING_CHARS' | translate }}
+                </div>
+            </div>
+        </div>
+    </mat-tab>
 </mat-tab-group>

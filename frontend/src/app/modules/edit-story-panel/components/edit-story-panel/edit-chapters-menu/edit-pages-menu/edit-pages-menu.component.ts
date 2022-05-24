@@ -48,8 +48,7 @@ export class EditPagesMenuComponent extends BaseComponent implements OnInit {
     });
 
     charList: CharacterItem[] = [];
-    filteredCharacters = new Observable<CharacterItem[]>();
-    selectedCharacter?: CharacterItem;
+    filteredCharList: CharacterItem[] = [];
 
     starringCharacters: StarringCharacter[] = [];
 
@@ -74,14 +73,26 @@ export class EditPagesMenuComponent extends BaseComponent implements OnInit {
         });
 
         this.getCharactersList();
+
+        this.charactersInChapterForm
+            .get('character')
+            ?.valueChanges.subscribe((value) => {
+                this._filterCharacters(value);
+            });
     }
 
     private _filterCharacters(value: string) {
-        const filterValue = value.toLowerCase();
+        if (!value) {
+            this.filteredCharList = this.charList;
+            return;
+        }
+        const regex = new RegExp(value, 'gi');
 
-        return this.charList.filter(
-            (c) => `${c.fullName}`.toLowerCase().indexOf(filterValue) === 0
-        );
+        const filteredChars = this.filteredCharList.filter((c) => {
+            return c.fullName.match(regex) || c.pseudonym.match(regex);
+        });
+
+        this.filteredCharList = filteredChars;
     }
 
     getChapter(id: number) {
@@ -101,17 +112,7 @@ export class EditPagesMenuComponent extends BaseComponent implements OnInit {
         this.subscriptions$.add(
             this._characterService.getCharacters().subscribe((charList) => {
                 this.charList = charList;
-
-                this.filteredCharacters = this.charactersInChapterForm.controls[
-                    'character'
-                ].valueChanges.pipe(
-                    startWith(''),
-                    map((character) =>
-                        character
-                            ? this._filterCharacters(character)
-                            : this.charList
-                    )
-                );
+                this.filteredCharList = charList;
             })
         );
     }
@@ -217,51 +218,34 @@ export class EditPagesMenuComponent extends BaseComponent implements OnInit {
     }
 
     createStarringCharacter() {
-        const charFormValue =
-            this.charactersInChapterForm.get('character')?.value;
-        if (charFormValue) {
-            const foundChar = this.charList.find(
-                (c) =>
-                    `${c.fullName}`.toLowerCase() ===
-                    charFormValue.toLowerCase()
-            );
+        const objToSend: IEditStarringCharacter = {
+            id: this.editedCharacterId ? +this.editedCharacterId : null,
+            characterId:
+                this.charactersInChapterForm.get('character')?.value.id,
 
-            if (foundChar) {
-                const objToSend: IEditStarringCharacter = {
-                    id: this.editedCharacterId ? +this.editedCharacterId : null,
-                    characterId: foundChar.id,
-                    chapterId: this.chapterId,
-                    starringType:
-                        StarringType[
-                            this.charactersInChapterForm.get('starringType')
-                                ?.value
-                        ],
-                };
+            chapterId: this.chapterId,
+            starringType:
+                StarringType[
+                    this.charactersInChapterForm.get('starringType')?.value
+                ],
+        };
 
-                this.subscriptions$.add(
-                    this._storyService
-                        .postStarringCharacters(objToSend)
-                        .subscribe(
-                            (_) => {
-                                this._toastrService.success(
-                                    this._translate.instant(
-                                        'TOASTR_MESSAGE.SAVE_SUCCESS'
-                                    )
-                                );
-                                this.charactersInChapterForm.reset();
-                                this.getStarringCharactersForChapter();
-                            },
-                            (err) => {
-                                this._toastrService.error(
-                                    this._translate.instant(
-                                        'TOASTR_MESSAGE.ERROR'
-                                    )
-                                );
-                            }
-                        )
-                );
-            }
-        }
+        this.subscriptions$.add(
+            this._storyService.postStarringCharacters(objToSend).subscribe(
+                (_) => {
+                    this._toastrService.success(
+                        this._translate.instant('TOASTR_MESSAGE.SAVE_SUCCESS')
+                    );
+                    this.charactersInChapterForm.reset();
+                    this.getStarringCharactersForChapter();
+                },
+                (err) => {
+                    this._toastrService.error(
+                        this._translate.instant('TOASTR_MESSAGE.ERROR')
+                    );
+                }
+            )
+        );
     }
 
     deletePage(pageId: number) {
@@ -297,6 +281,12 @@ export class EditPagesMenuComponent extends BaseComponent implements OnInit {
                     );
                 }
             )
+        );
+    }
+
+    isCharacterStarring(char: CharacterItem): boolean {
+        return !!this.starringCharacters.find(
+            (x) => x.character?.id === char.id
         );
     }
 }

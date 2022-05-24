@@ -30,46 +30,46 @@ import { MatListModule } from '@angular/material/list';
 import { EditPagesMenuComponent } from './components/edit-story-panel/edit-chapters-menu/edit-pages-menu/edit-pages-menu.component';
 import { EditChaptersListMenuComponent } from './components/edit-story-panel/edit-chapters-menu/edit-chapters-list/edit-chapters-list.component';
 import { MatTabsModule } from '@angular/material/tabs';
+import { CharactersModule } from '../characters/characters.module';
 
 @NgModule({
-  declarations: [
-    EditStoryPanelComponent,
-    EditStoryMenuComponent,
-    EditChaptersMenuComponent,
-    EditPagesMenuComponent,
-    EditChaptersListMenuComponent
-  ],
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    SharedModule,
-    EditStoryPanelRoutingModule,
-    DragDropModule,
-    MatButtonModule,
-    MatInputModule,
-    MatDialogModule,
-    MatTooltipModule,
-    MatStepperModule,
-    MatRadioModule,
-    MatSelectModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatCheckboxModule,
-    MatSlideToggleModule,
-    MatSliderModule,
-    MatTooltipModule,
-    MatAutocompleteModule,
-    MatCardModule,
-    MatIconModule,
-    MatTreeModule,
-    MatListModule,
-    MatSidenavModule,
-    MatTabsModule,
-    TranslateModule
-  ],
-  providers: [
-    StoryService
-  ]
+    declarations: [
+        EditStoryPanelComponent,
+        EditStoryMenuComponent,
+        EditChaptersMenuComponent,
+        EditPagesMenuComponent,
+        EditChaptersListMenuComponent,
+    ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        SharedModule,
+        EditStoryPanelRoutingModule,
+        DragDropModule,
+        MatButtonModule,
+        MatInputModule,
+        MatDialogModule,
+        MatTooltipModule,
+        MatStepperModule,
+        MatRadioModule,
+        MatSelectModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        MatCheckboxModule,
+        MatSlideToggleModule,
+        MatSliderModule,
+        MatTooltipModule,
+        MatAutocompleteModule,
+        MatCardModule,
+        MatIconModule,
+        MatTreeModule,
+        MatListModule,
+        MatSidenavModule,
+        MatTabsModule,
+        TranslateModule,
+        CharactersModule,
+    ],
+    providers: [StoryService],
 })
-export class EditStoryPanelModule { }
+export class EditStoryPanelModule {}

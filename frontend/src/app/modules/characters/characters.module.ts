@@ -105,7 +105,7 @@ import { ColorsComponent } from './components/characters-article/components/char
         MatSliderModule,
         MatTabsModule,
     ],
-    exports: [HistoricalPreferencesComponent],
+    exports: [HistoricalPreferencesComponent, ProfilePicComponent],
 
     providers: [{ provide: MAT_DATE_LOCALE, useValue: 'en-GB' }],
 })
