@@ -1,9 +1,5 @@
 <section class="characters-card global-section" *ngIf="character">
     <div class="state-buttons" *ngIf="isUserLogged">
-        <button mat-mini-fab color="warn">
-            <mat-icon>delete</mat-icon>
-        </button>
-
         <button
             class="archive-button"
             (click)="changeStateOfChar()"
@@ -19,6 +15,14 @@
                 [color]="'white'"
                 [size]="0.8"
             ></app-icon>
+        </button>
+
+        <button
+            [matTooltip]="'CHARS_PANEL.DELETE' | translate"
+            (click)="insertDeleteInfo()"
+            (dblclick)="deleteCharacter()"
+        >
+            <mat-icon class="close-icon delete-button">delete</mat-icon>
         </button>
     </div>
 

@@ -30,7 +30,7 @@ export class CharactersListComponent extends BaseComponent implements OnInit {
 
     ngOnInit() {
         this.subscriptions$.add(
-            this._charactersService.getAllCharacters().subscribe((charList) => {
+            this._charactersService.getCharacters().subscribe((charList) => {
                 let charactersList: CharacterItem[] = [];
 
                 const mainCharacters = charList?.filter(

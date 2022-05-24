@@ -222,6 +222,9 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
             this._charactersService.getCharacterById(this.routeId).subscribe(
                 (character) => {
                     this.character = new Character(character);
+                    if (this.character.archived && !this.isUserLogged) {
+                        this.returnToCharList();
+                    }
 
                     document.title = `${this.character.charName} ${this.character.charSurname}`;
 
@@ -266,7 +269,7 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
                     this.patchForm(null);
                 },
                 () => {
-                    this._router.navigate(['./char-cards']);
+                    this.returnToCharList();
                 }
             );
 
@@ -276,6 +279,10 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
                     this.preferences = preferences;
                 });
         }
+    }
+
+    returnToCharList() {
+        this._router.navigate(['./char-cards']);
     }
 
     changeStateOfChar() {
@@ -305,5 +312,33 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
                     )
             );
         }
+    }
+
+    insertDeleteInfo() {
+        this._toastrService.warning(
+            this._translate.instant('TOASTR_MESSAGE.DELETE_INFO')
+        );
+    }
+
+    deleteCharacter() {
+        if (!this.routeId) {
+            return;
+        }
+
+        this.subscriptions$.add(
+            this._charactersService.deleteCharacter(this.routeId).subscribe(
+                (_) => {
+                    this._toastrService.success(
+                        this._translate.instant('TOASTR_MESSAGE.SAVE_SUCCESS')
+                    );
+                    this.returnToCharList();
+                },
+                (err) => {
+                    this._toastrService.error(
+                        this._translate.instant('TOASTR_MESSAGE.ERROR')
+                    );
+                }
+            )
+        );
     }
 }

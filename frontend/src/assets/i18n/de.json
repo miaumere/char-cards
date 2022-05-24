@@ -71,6 +71,7 @@
         "EDIT_PREFERENCES": "Vorlieben bearbeiten",
         "ARCHIVE": "Figure archivieren",
         "UNARCHIVE": "Figure zurücksetzen",
+        "DELETE": "Zeichen löschen",
         "SEND": "Speichern",
         "NO_CHARACTERS": "Keine Figuren gefunden. 😥"
     },

@@ -69,8 +69,9 @@
         "EDIT_QUOTES": "Edytuj cytaty postaci",
         "EDIT_RELATIONSHIPS": "Edytuj relacje postaci",
         "EDIT_PREFERENCES": "Edytuj preferencje postaci",
-        "ARCHIVE": "Zarchiwizuj postać",
-        "UNARCHIVE": "Przywróć postać",
+        "ARCHIVE": "Ukryj postać",
+        "UNARCHIVE": "Odsłoń postać",
+        "DELETE": "Usuń postać",
         "SEND": "Wyślij",
         "NO_CHARACTERS": "Nie znaleziono postaci. 😥"
     },

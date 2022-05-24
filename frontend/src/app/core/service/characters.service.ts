@@ -47,7 +47,6 @@ import {
 export class CharactersService {
     private readonly charControllerURL = '/api/characters';
 
-    private readonly _getNonArchivedCharactersURL = `${this.charControllerURL}/get-characters`;
     private readonly _getCharacterByIdURL = `${this.charControllerURL}/get-character`;
     private readonly _getAllCharactersURL = `${this.charControllerURL}/get-all-characters`;
     private readonly _getCharacterDetailsURL = `${this.charControllerURL}/get-details`;
@@ -78,21 +77,20 @@ export class CharactersService {
     private readonly _deleteImageURL = `${this.charControllerURL}/delete-image`;
     private readonly _deleteStoryURL = `${this.charControllerURL}/delete-story`;
     private readonly _deletePreferenceURL = `${this.charControllerURL}/delete-preference`;
+    private readonly _deleteCharacterURL = `${this.charControllerURL}/delete-character`;
 
     constructor(private http: HttpClient) {}
 
     // only characters which aren't archived:
     getCharacters() {
-        return this.http
-            .get<ICharacterItem[]>(this._getNonArchivedCharactersURL)
-            .pipe(
-                map((response) => {
-                    const mappedResponse = response.map(
-                        (r) => new CharacterItem(r)
-                    );
-                    return mappedResponse;
-                })
-            );
+        return this.http.get<ICharacterItem[]>(this._getAllCharactersURL).pipe(
+            map((response) => {
+                const mappedResponse = response.map(
+                    (r) => new CharacterItem(r)
+                );
+                return mappedResponse;
+            })
+        );
     }
 
     getAllPreferencesForChar(charId: number) {
@@ -152,18 +150,6 @@ export class CharactersService {
         );
     }
     //#endregion
-
-    // archived and non-archived characters:
-    getAllCharacters() {
-        return this.http.get<ICharacterItem[]>(this._getAllCharactersURL).pipe(
-            map((response) => {
-                const mappedResponse = response.map(
-                    (r) => new CharacterItem(r)
-                );
-                return mappedResponse;
-            })
-        );
-    }
 
     getCharacterById(id: number) {
         return this.http
@@ -323,11 +309,9 @@ export class CharactersService {
         return this.http.delete<void>(this._deletePreferenceURL, { params });
     }
 
-    // custom methods:
+    deleteCharacter(id: number) {
+        const params = new HttpParams().set('id', '' + id);
 
-    getCharacter(charId: number) {
-        return this.getAllCharacters().pipe(
-            tap((charArray) => charArray.filter((char) => char.id === charId))
-        );
+        return this.http.delete<void>(this._deleteCharacterURL, { params });
     }
 }

@@ -1,3 +1,4 @@
+import { CharactersModule } from './../characters/characters.module';
 import { StoryService } from 'src/app/core/service/story.service';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
@@ -19,33 +20,31 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { ChapterComponent } from './components/pages/chapters/chapter/chapter.component';
 import { TranslateModule } from '@ngx-translate/core';
 
-
 @NgModule({
-  declarations: [
-    PagesComponent,
-    BooksListComponent,
-    ChaptersComponent,
-    ChaptersListComponent,
-    ChapterComponent
-  ],
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    SharedModule,
-    PagesRoutingModule,
-    MatButtonModule,
-    MatSelectModule,
-    MatCardModule,
-    MatIconModule,
-    MatListModule,
-    MatRippleModule,
-    MatSidenavModule,
-    MatExpansionModule,
-    TranslateModule
-  ],
-  providers: [
-    StoryService
-  ]
+    declarations: [
+        PagesComponent,
+        BooksListComponent,
+        ChaptersComponent,
+        ChaptersListComponent,
+        ChapterComponent,
+    ],
+    imports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        SharedModule,
+        PagesRoutingModule,
+        MatButtonModule,
+        MatSelectModule,
+        MatCardModule,
+        MatIconModule,
+        MatListModule,
+        MatRippleModule,
+        MatSidenavModule,
+        MatExpansionModule,
+        TranslateModule,
+        CharactersModule,
+    ],
+    providers: [StoryService],
 })
-export class PagesModule { }
+export class PagesModule {}

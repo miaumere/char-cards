@@ -18,4 +18,6 @@ public interface RelationCoordinatesRepository extends JpaRepository<RelationCoo
     @Query("SELECT r FROM RelationCoordinates r where r.sourceCharacter.externalId = :characterId and r.targetCharacter.externalId = :relatedCharacterId")
     RelationCoordinates getCoordinatesForCharacterAndRelatedCharacter(@Param("characterId") Long characterId, @Param("relatedCharacterId") Long relatedCharacterId);
 
+    @Query("SELECT r FROM RelationCoordinates r where r.sourceCharacter.externalId = :characterId or r.targetCharacter.externalId = :characterId")
+    List<RelationCoordinates> getAllCoordinatesForCharacter(@Param("characterId") Long characterId);
 }

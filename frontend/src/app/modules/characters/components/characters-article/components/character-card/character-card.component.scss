@@ -23,12 +23,12 @@
     display: flex;
     align-items: center;
 
-    margin-left: 16rem;
+    margin-left: 22rem;
     margin-top: 1rem;
 }
 
 .archive-button {
-    margin-left: 0.5rem;
+    margin-right: 1rem;
     transition: 0.3s;
 
     &::ng-deep svg {
@@ -42,4 +42,8 @@
             fill: white;
         }
     }
+}
+
+.delete-button {
+    font-size: 1.5rem;
 }

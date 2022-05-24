@@ -384,6 +384,46 @@ public class CharactersService {
         return new ResponseEntity(dto, HttpStatus.OK);
     }
 
+    public ResponseEntity deleteCharacter(Long id)  {
+        Character character = characterRepository.getOne(id);
+        Temperament temperament = temperamentRepository.getTemperamentForCharacter(id);
+        temperamentRepository.delete(temperament);
+
+        Measurements measurement = measurementsRepository.getMeasurementsById(id);
+        measurementsRepository.delete(measurement);
+
+        Colors colors = colorsRepository.getColorsForCharacter(id);
+        colorsRepository.delete(colors);
+
+        List<Quote> quotes = quoteRepository.getAllQuotesByCharacterId(id);
+        quotes.forEach(quote -> quoteRepository.delete(quote));
+
+
+        List<Image> images = imageRepository.getImagesForCharacter(id);
+        images.forEach(image -> imageRepository.delete(image));
+        Image profilePicForCharacter = imageRepository.getProfilePicForCharacter(id);
+        imageRepository.delete(profilePicForCharacter);
+
+        List<CharacterStory> storiesForCharacter = characterStoryRepository.getStoriesForCharacter(id);
+        storiesForCharacter.forEach(characterStory -> characterStoryRepository.delete(characterStory));
+
+        List<Preference> preferences = preferenceRepository.getAllPreferencesForCharacter(id);
+        preferences.forEach(preference -> preferenceRepository.delete(preference));
+
+        List<StarringCharacters> starringCharacters = starringCharactersRepository.getStarringCharactersByCharacterId(id);
+        starringCharacters.forEach(starringCharacter -> starringCharactersRepository.delete(starringCharacter));
+
+        List<RelationCoordinates> relationCoordinates = relationCoordinatesRepository.getAllCoordinatesForCharacter(id);
+        relationCoordinates.forEach(relationCoordinate -> relationCoordinatesRepository.delete(relationCoordinate));
+
+        List<Relation> relationList = relationsRepository.getRelationsForCharacter(id);
+        relationList.forEach(relation -> relationsRepository.delete(relation));
+
+        characterRepository.delete(character);
+
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
+    }
+
     //#region Images
     public ResponseEntity newImages(MultipartHttpServletRequest multipartHttpServletRequest, Long id) {
         Map<String, MultipartFile> allFiles = multipartHttpServletRequest.getFileMap();

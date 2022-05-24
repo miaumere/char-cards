@@ -69,8 +69,9 @@
         "EDIT_QUOTES": "Edit quotes",
         "EDIT_RELATIONSHIPS": "Edit relationships",
         "EDIT_PREFERENCES": "Edit preferences",
-        "ARCHIVE": "Archive character",
-        "UNARCHIVE": "Unarchive character",
+        "ARCHIVE": "Hide character",
+        "UNARCHIVE": "Make character visible",
+        "DELETE": "Delete character",
         "SEND": "Send",
         "NO_CHARACTERS": "No characters found. 😥"
     },

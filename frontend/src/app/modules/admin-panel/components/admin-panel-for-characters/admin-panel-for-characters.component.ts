@@ -9,73 +9,83 @@ import { BaseComponent } from 'src/app/core/base.component';
 import { FormGroup, FormControl } from '@angular/forms';
 
 @Component({
-  selector: 'app-admin-panel-for-characters',
-  templateUrl: './admin-panel-for-characters.component.html',
-  styleUrls: ['./admin-panel-for-characters.component.scss']
+    selector: 'app-admin-panel-for-characters',
+    templateUrl: './admin-panel-for-characters.component.html',
+    styleUrls: ['./admin-panel-for-characters.component.scss'],
 })
-export class AdminPanelForCharactersComponent extends BaseComponent implements OnInit {
-  charList: CharacterItem[] = [];
-  filteredChars: CharacterItem[] = [];
+export class AdminPanelForCharactersComponent
+    extends BaseComponent
+    implements OnInit
+{
+    charList: CharacterItem[] = [];
+    filteredChars: CharacterItem[] = [];
 
-  searchForm = new FormGroup({
-    char: new FormControl(''),
-  });
+    searchForm = new FormGroup({
+        char: new FormControl(''),
+    });
 
-
-  constructor(
-    private _charactersService: CharactersService,
-    private _toastrService: ToastrService,
-    private _translate: TranslateService
-  ) {
-    super();
-  }
-
-  ngOnInit() {
-    this.getAllCharacters();
-  }
-
-  getAllCharacters() {
-
-    this.subscriptions$.add(
-      this._charactersService
-        .getAllCharacters()
-
-        .subscribe(
-          charList => {
-            const archivedCharacters = charList.filter(x => x.archived);
-            const nonArchivedCharcaters = charList.filter(x => !x.archived);
-            this.charList = nonArchivedCharcaters.concat(archivedCharacters);
-            this.filteredChars = nonArchivedCharcaters.concat(archivedCharacters);
-          })
-    )
-  }
-
-  changeStateOfChar(id: number) {
-    const matchingChar = this.charList.find(c =>
-      c.id === id
-    );
-    if (matchingChar) {
-      this.subscriptions$.add(
-        this._charactersService
-          .patchCharacterState(new CharacterForChange(id, !matchingChar.archived))
-          .subscribe(_ => {
-            this._toastrService.success(this._translate.instant('TOASTR_MESSAGE.SAVE_SUCCESS'));
-            this.getAllCharacters();
-          },
-            err => {
-              this._toastrService.error(this._translate.instant('TOASTR_MESSAGE.ERROR'))
-            })
-      )
+    constructor(
+        private _charactersService: CharactersService,
+        private _toastrService: ToastrService,
+        private _translate: TranslateService
+    ) {
+        super();
     }
-  }
 
-  searchCharacter() {
-    const inputValue: string = '' + this.searchForm.get('char')?.value.toLowerCase();
-    const regex = new RegExp(inputValue, 'gi');
+    ngOnInit() {
+        this.getAllCharacters();
+    }
 
-    const filteredChars = this.charList.filter(c => {
-      return c.fullName.match(regex)
-    })
-    this.filteredChars = filteredChars;
-  }
+    getAllCharacters() {
+        this.subscriptions$.add(
+            this._charactersService.getCharacters().subscribe((charList) => {
+                const archivedCharacters = charList.filter((x) => x.archived);
+                const nonArchivedCharcaters = charList.filter(
+                    (x) => !x.archived
+                );
+                this.charList =
+                    nonArchivedCharcaters.concat(archivedCharacters);
+                this.filteredChars =
+                    nonArchivedCharcaters.concat(archivedCharacters);
+            })
+        );
+    }
+
+    changeStateOfChar(id: number) {
+        const matchingChar = this.charList.find((c) => c.id === id);
+        if (matchingChar) {
+            this.subscriptions$.add(
+                this._charactersService
+                    .patchCharacterState(
+                        new CharacterForChange(id, !matchingChar.archived)
+                    )
+                    .subscribe(
+                        (_) => {
+                            this._toastrService.success(
+                                this._translate.instant(
+                                    'TOASTR_MESSAGE.SAVE_SUCCESS'
+                                )
+                            );
+                            this.getAllCharacters();
+                        },
+                        (err) => {
+                            this._toastrService.error(
+                                this._translate.instant('TOASTR_MESSAGE.ERROR')
+                            );
+                        }
+                    )
+            );
+        }
+    }
+
+    searchCharacter() {
+        const inputValue: string =
+            '' + this.searchForm.get('char')?.value.toLowerCase();
+        const regex = new RegExp(inputValue, 'gi');
+
+        const filteredChars = this.charList.filter((c) => {
+            return c.fullName.match(regex);
+        });
+        this.filteredChars = filteredChars;
+    }
 }

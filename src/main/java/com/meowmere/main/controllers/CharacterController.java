@@ -158,4 +158,9 @@ public class CharacterController {
     public ResponseEntity deletePreference(@RequestParam Long id) {
         return charactersService.deletePreference(id);
     }
+
+    @DeleteMapping("/delete-character")
+    public ResponseEntity deleteCharacter(@RequestParam Long id) {
+        return charactersService.deleteCharacter(id);
+    }
 }

@@ -1,58 +1,104 @@
-<div class="chapters-list" [ngStyle]="{'background': bgColor}">
-
-  <div *ngIf="chapters.length > 0" class="chapters-list__container chapters-list-container">
-    <h2 class="chapters-list-container__title">{{ 'CHAPTERS.AVAILABLE_CHAPTERS' | translate }}</h2>
-    <mat-card *ngFor="let chapter of chapters; index as i" class="chapter-card">
-      <mat-card-header>
-        <div mat-card-avatar>
-          <mat-icon mat-list-icon>bookmark</mat-icon>
-        </div>
-        <mat-card-title [ngStyle]="{'color': bookColor}">{{i+1}}. {{chapter.name}}</mat-card-title>
-        <mat-card-subtitle>{{chapter.chapterDesc}}</mat-card-subtitle>
-      </mat-card-header>
-      <mat-card-content>
-        <p>
-          {{ 'CHAPTERS.PAGES_COUNT' | translate }} {{chapter.pagesIds?.length}}
-        </p>
-
-        <mat-expansion-panel [ngStyle]="{'background': bookColor, 'color': fontColor}"
-          *ngIf="chapter.starringChars?.length > 0">
-          <mat-expansion-panel-header>
-            {{ 'CHAPTERS.STARRING_CHARACTERS' | translate }}
-          </mat-expansion-panel-header>
-          <div class="char-card-container">
-            <mat-card class="char-card" *ngFor="let starringChar of chapter.starringChars"
-              [ngStyle]="{'color': fontColor}">
-              <mat-card-header>
-                <div mat-card-avatar *ngIf="starringChar?.character?.profilePic">
-                  <img mat-card-image class="char-card__avatar"
-                    [src]="'data:image/' + starringChar?.character?.profilePic?.extension + ';base64, ' +starringChar?.character?.profilePic?.image | sanitizer">
+<div class="chapters-list" [ngStyle]="{ background: bgColor }">
+    <div
+        *ngIf="chapters.length > 0"
+        class="chapters-list__container chapters-list-container"
+    >
+        <h2 class="chapters-list-container__title">
+            {{ 'CHAPTERS.AVAILABLE_CHAPTERS' | translate }}
+        </h2>
+        <mat-card
+            *ngFor="let chapter of chapters; index as i"
+            class="chapter-card"
+        >
+            <mat-card-header>
+                <div mat-card-avatar>
+                    <mat-icon mat-list-icon>bookmark</mat-icon>
                 </div>
-                <mat-card-title>{{starringChar?.character?.charName}} {{starringChar?.character?.charSurname}}
-                </mat-card-title>
-                <mat-card-subtitle [ngStyle]="{'color': fontColor}">{{starringChar?.starringType}}</mat-card-subtitle>
-              </mat-card-header>
+                <mat-card-title [ngStyle]="{ color: bookColor }"
+                    >{{ i + 1 }}. {{ chapter.name }}</mat-card-title
+                >
+                <mat-card-subtitle>{{ chapter.chapterDesc }}</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+                <p>
+                    {{ 'CHAPTERS.PAGES_COUNT' | translate }}
+                    {{ chapter.pagesIds?.length }}
+                </p>
 
-            </mat-card>
-          </div>
+                <mat-expansion-panel
+                    [ngStyle]="{ background: bookColor, color: fontColor }"
+                    *ngIf="chapter.starringChars?.length > 0"
+                >
+                    <mat-expansion-panel-header>
+                        {{ 'CHAPTERS.STARRING_CHARACTERS' | translate }}
+                    </mat-expansion-panel-header>
+                    <div class="char-card-container">
+                        <mat-card
+                            class="char-card"
+                            *ngFor="
+                                let starringCharacter of chapter.starringChars
+                            "
+                            [ngStyle]="{ color: fontColor }"
+                        >
+                            <mat-card-header>
+                                <div mat-card-avatar class="card-avatar">
+                                    <a
+                                        [routerLink]="[
+                                            '/char-cards',
+                                            starringCharacter.character.id
+                                        ]"
+                                    >
+                                        <app-profile-pic
+                                            [profilePic]="
+                                                starringCharacter.character
+                                                    .profilePic
+                                            "
+                                            [charId]="
+                                                starringCharacter.character.id
+                                            "
+                                            [height]="'50px'"
+                                            class="preference-profile-pic"
+                                        >
+                                        </app-profile-pic>
+                                    </a>
+                                </div>
+                                <mat-card-title>
+                                    {{ starringCharacter.character.fullName }}
+                                    <div class="char-item__pseudonym">
+                                        {{
+                                            starringCharacter.character
+                                                .pseudonym
+                                        }}
+                                    </div>
+                                </mat-card-title>
+                                <mat-card-subtitle>{{
+                                    starringCharacter.starringType
+                                }}</mat-card-subtitle>
+                            </mat-card-header>
+                        </mat-card>
+                    </div>
+                </mat-expansion-panel>
+            </mat-card-content>
+            <mat-card-actions>
+                <button
+                    mat-stroked-button
+                    [ngStyle]="{ background: bookColor, color: fontColor }"
+                    [routerLink]="['./']"
+                    [routerLink]="['./pages']"
+                    [queryParams]="{
+                        id: bookId,
+                        chapterId: chapter.id,
+                        color: bookColor
+                    }"
+                >
+                    <mat-icon>navigate_next</mat-icon>
+                    {{ 'CHAPTERS.GO_TO_CHAPTER' | translate }}
+                </button>
+            </mat-card-actions>
+        </mat-card>
+    </div>
 
-        </mat-expansion-panel>
-      </mat-card-content>
-      <mat-card-actions>
-        <button mat-stroked-button [ngStyle]="{'background': bookColor, 'color': fontColor}" [routerLink]="['./']"
-          [routerLink]="['./pages']" [queryParams]="{
-            id: bookId,
-          chapterId: chapter.id,
-          color: bookColor
-        }">
-          <mat-icon>navigate_next</mat-icon>
-          {{ 'CHAPTERS.GO_TO_CHAPTER' | translate }}
-
-        </button>
-      </mat-card-actions>
-    </mat-card>
-  </div>
-
-  <div *ngIf="chapters.length === 0">
-    {{ 'CHAPTERS.NO_CHAPTERS_MSG' | translate }} </div>
+    <div *ngIf="chapters.length === 0">
+        {{ 'CHAPTERS.NO_CHAPTERS_MSG' | translate }}
+    </div>
 </div>
