@@ -16,6 +16,8 @@ export interface ICharacter {
     birthday: number;
     gender: GenderString;
     profession: string;
+    archived: boolean;
+
     death: number;
     deathReason: string;
     occupation: string;
@@ -39,6 +41,8 @@ export class Character implements ICharacter {
 
     profilePic: string | null = null;
     imagesList: IImageForMain[] = [];
+
+    archived: boolean = false;
 
     birthday: number = 0;
     gender: GenderString = Gender[Gender.UNKNOWNGENDER] as GenderString;

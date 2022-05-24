@@ -25,7 +25,9 @@ type iconType =
     | 'unknowngender'
     | 'nonbinary'
     | 'heart'
-    | 'list';
+    | 'list'
+    | 'eye-on'
+    | 'eye-off';
 
 @Component({
     selector: 'app-icon',

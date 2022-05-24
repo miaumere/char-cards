@@ -9,6 +9,8 @@ public class CharactersMenuDTO {
 
     private String characterType;
     private String profilePic;
+    private Boolean archived;
+
 
     public CharactersMenuDTO() {
     }
@@ -18,6 +20,7 @@ public class CharactersMenuDTO {
         this.profilePic = profilePic;
         this.characterType = character.getCharType().name();
         this.pseudonym = character.getPseudonim();
+        this.archived = character.getArchived();
 
     }
 
@@ -35,5 +38,9 @@ public class CharactersMenuDTO {
     }
     public String getCharacterType() {
         return characterType;
+    }
+
+    public Boolean getArchived() {
+        return archived;
     }
 }

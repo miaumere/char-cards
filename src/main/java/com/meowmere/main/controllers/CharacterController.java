@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +34,7 @@ public class CharacterController {
     }
 
     @GetMapping("/get-all-characters")
-    public ResponseEntity getEveryCharacter() { return charactersService.getEveryCharacter();}
+    public ResponseEntity getEveryCharacter(HttpServletRequest request) { return charactersService.getEveryCharacter(request);}
 
     @GetMapping("/get-character/{characterId}")
     public ResponseEntity getCharacterById(@PathVariable Long characterId) {

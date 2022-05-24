@@ -15,7 +15,7 @@
                 ></ng-container>
 
                 <ng-container *ngIf="editedKey !== 'nationality'">
-                    <div *ngIf="flag" [title]="flag.name.common">
+                    <div *ngIf="flag" [matTooltip]="flag.name.common">
                         <img [src]="flag?.flags.svg | sanitizer" class="flag" />
                     </div>
                     <div *ngIf="!flag">?</div>

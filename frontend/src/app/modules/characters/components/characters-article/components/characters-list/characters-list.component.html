@@ -21,7 +21,7 @@
                 isMain ? (isMain = false) : (isMain = true); searchCharacter()
             "
         >
-            <img src="../../../../../assets/svg/rdest.svg" class="rdest" />
+            <img [src]="rdestUrl" class="rdest" />
             {{ 'enum.charType.MAIN' | translate }}
         </button>
 
@@ -32,10 +32,7 @@
                 isSide ? (isSide = false) : (isSide = true); searchCharacter()
             "
         >
-            <img
-                src="../../../../../assets/svg/rdest.svg"
-                class="rdest--side"
-            />
+            <img [src]="rdestUrl" class="rdest--side" />
             {{ 'enum.charType.SIDE' | translate }}
         </button>
 
@@ -52,38 +49,40 @@
     </form>
 
     <div class="characters">
-        <ng-container *ngFor="let character of filteredChars; index as i">
-            <a
-                class="character"
-                [routerLink]="['/char-cards', character.id]"
-                routerLinkActive="router-link-active"
-            >
-                <app-profile-pic
-                    [charId]="character.externalId"
-                    [profilePic]="character.profilePic"
-                ></app-profile-pic>
-                <span class="character__name">
-                    <span *ngIf="character.characterType === 'MAIN'">
-                        <img
-                            src="../../../../../assets/svg/rdest.svg"
-                            class="rdest"
-                        />
-                    </span>
-                    <span *ngIf="character.characterType === 'SIDE'">
-                        <img
-                            src="../../../../../assets/svg/rdest.svg"
-                            class="rdest rdest--side"
-                        />
-                    </span>
-                    <div class="name">
-                        <div class="name__name">{{ character.fullName }}</div>
-                        <div class="name__pseudonym">
-                            {{ character.pseudonym }}
-                        </div>
-                    </div>
+        <a
+            *ngFor="let character of filteredChars; index as i"
+            class="character"
+            [routerLink]="['/char-cards', character.id]"
+            routerLinkActive="router-link-active"
+            [ngClass]="{ 'character--archived': character.archived }"
+        >
+            <app-profile-pic
+                [charId]="character.externalId"
+                [profilePic]="character.profilePic"
+            ></app-profile-pic>
+            <span class="character__name">
+                <span
+                    *ngIf="
+                        character.characterType === 'SIDE' ||
+                        character.characterType === 'MAIN'
+                    "
+                >
+                    <img
+                        [src]="rdestUrl"
+                        class="rdest"
+                        [ngClass]="{
+                            'rdest--side': character.characterType === 'SIDE'
+                        }"
+                    />
                 </span>
-            </a>
-        </ng-container>
+                <div class="name">
+                    <div class="name__name">{{ character.fullName }}</div>
+                    <div class="name__pseudonym">
+                        {{ character.pseudonym }}
+                    </div>
+                </div>
+            </span>
+        </a>
 
         <ng-container *ngIf="filteredChars.length === 0">
             {{ 'CHARS_PANEL.NO_CHARACTERS' | translate }}

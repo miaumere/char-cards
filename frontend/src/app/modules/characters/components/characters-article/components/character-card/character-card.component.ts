@@ -21,6 +21,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/core/service/auth.service';
 import { Measurements } from 'src/app/modules/characters/models/measurements.model';
 import { StatisticsService } from 'src/app/core/service/statistics.service';
+import { CharacterForChange } from 'src/app/modules/admin-panel/models/character-for-change.model';
 
 @Component({
     selector: 'app-character-card',
@@ -274,6 +275,35 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
                 .subscribe((preferences) => {
                     this.preferences = preferences;
                 });
+        }
+    }
+
+    changeStateOfChar() {
+        if (this.routeId && this.character) {
+            this.subscriptions$.add(
+                this._charactersService
+                    .patchCharacterState(
+                        new CharacterForChange(
+                            +this.routeId,
+                            !this.character.archived
+                        )
+                    )
+                    .subscribe(
+                        (_) => {
+                            this._toastrService.success(
+                                this._translate.instant(
+                                    'TOASTR_MESSAGE.SAVE_SUCCESS'
+                                )
+                            );
+                            this.changed();
+                        },
+                        (err) => {
+                            this._toastrService.error(
+                                this._translate.instant('TOASTR_MESSAGE.ERROR')
+                            );
+                        }
+                    )
+            );
         }
     }
 }

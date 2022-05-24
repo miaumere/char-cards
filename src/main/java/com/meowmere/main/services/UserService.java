@@ -99,4 +99,25 @@ public class UserService {
 
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
+
+    public Boolean isUserLogged(HttpServletRequest request) {
+        Cookie tokenCookie = WebUtils.getCookie(request,"token");
+        if(tokenCookie == null) {
+            return false;
+        }
+
+        try {
+            String JWTFromCookie = tokenCookie.getValue();
+            Algorithm algorithm = Algorithm.HMAC256(aleaSecretkey);
+            JWTVerifier verifier = JWT.require(algorithm).build();
+            DecodedJWT jwt = verifier.verify(JWTFromCookie);
+
+            String username = jwt.getSubject();
+
+            Users foundLoggedUser = usersRepository.findUserByUsername(username);
+            return foundLoggedUser != null;
+        } catch (Exception exception){
+            return false;
+        }
+    }
 }

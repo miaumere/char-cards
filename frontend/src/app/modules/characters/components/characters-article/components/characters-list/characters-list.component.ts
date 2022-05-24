@@ -12,6 +12,7 @@ import { CharType } from 'src/app/modules/admin-panel/enums/character-type.enum'
     styleUrls: ['./characters-list.component.scss'],
 })
 export class CharactersListComponent extends BaseComponent implements OnInit {
+    readonly rdestUrl = '../../../../../assets/svg/rdest.svg';
     charList: CharacterItem[] = [];
     filteredChars: CharacterItem[] = [];
 
@@ -23,16 +24,13 @@ export class CharactersListComponent extends BaseComponent implements OnInit {
     isSide = true;
     isBackground = true;
 
-    constructor(
-        private _charactersService: CharactersService,
-        private _route: ActivatedRoute
-    ) {
+    constructor(private _charactersService: CharactersService) {
         super();
     }
 
     ngOnInit() {
         this.subscriptions$.add(
-            this._charactersService.getCharacters().subscribe((charList) => {
+            this._charactersService.getAllCharacters().subscribe((charList) => {
                 let charactersList: CharacterItem[] = [];
 
                 const mainCharacters = charList?.filter(

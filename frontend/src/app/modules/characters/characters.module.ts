@@ -49,6 +49,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatTabsModule } from '@angular/material/tabs';
 import { ColorsComponent } from './components/characters-article/components/character-card/subcomponents/character-additional-info/subcomponents/colors/colors.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
     declarations: [
@@ -104,6 +105,7 @@ import { ColorsComponent } from './components/characters-article/components/char
         MatSlideToggleModule,
         MatSliderModule,
         MatTabsModule,
+        MatTooltipModule,
     ],
     exports: [HistoricalPreferencesComponent, ProfilePicComponent],
 

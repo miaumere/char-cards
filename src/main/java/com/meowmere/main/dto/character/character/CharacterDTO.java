@@ -14,6 +14,7 @@ import java.util.List;
 public class CharacterDTO {
     public Long externalId;
     public String charType;
+    public Boolean archived;
     public String charName;
     public String charSurname;
     public String pseudonim;
@@ -183,5 +184,13 @@ public class CharacterDTO {
 
     public void setProfilePic(String profilePic) {
         this.profilePic = profilePic;
+    }
+
+    public Boolean getArchived() {
+        return archived;
+    }
+
+    public void setArchived(Boolean archived) {
+        this.archived = archived;
     }
 }

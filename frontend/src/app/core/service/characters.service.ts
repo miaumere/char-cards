@@ -155,16 +155,14 @@ export class CharactersService {
 
     // archived and non-archived characters:
     getAllCharacters() {
-        return this.http
-            .get<ICharacterForListItem[]>(this._getAllCharactersURL)
-            .pipe(
-                map((response) => {
-                    const mappedResponse = response.map(
-                        (r) => new CharacterItem(r)
-                    );
-                    return mappedResponse;
-                })
-            );
+        return this.http.get<ICharacterItem[]>(this._getAllCharactersURL).pipe(
+            map((response) => {
+                const mappedResponse = response.map(
+                    (r) => new CharacterItem(r)
+                );
+                return mappedResponse;
+            })
+        );
     }
 
     getCharacterById(id: number) {

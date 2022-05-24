@@ -16,8 +16,9 @@ public interface CharacterRepository extends JpaRepository<Character, Long> {
     @Query("SELECT c FROM Character c WHERE c.archived = false ORDER BY c.charName")
     List<Character> getNonArchivedCharacters();
 
-    @Query("SELECT c FROM Character c WHERE c.archived = false and c.externalId = :id")
-    Character getNonArchivedCharacter(@Param("id") Long externalId);
+    @Query("SELECT c FROM Character c ORDER BY  c.archived, c.charName, c.charType")
+    List<Character> getSortedCharacters();
+
 
     @Query("SELECT count(c) FROM Character c WHERE c.gender = :gender")
     int getCharactersForGender(@Param("gender") Gender gender);

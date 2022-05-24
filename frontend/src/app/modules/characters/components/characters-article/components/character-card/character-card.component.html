@@ -1,4 +1,27 @@
 <section class="characters-card global-section" *ngIf="character">
+    <div class="state-buttons" *ngIf="isUserLogged">
+        <button mat-mini-fab color="warn">
+            <mat-icon>delete</mat-icon>
+        </button>
+
+        <button
+            class="archive-button"
+            (click)="changeStateOfChar()"
+            [matTooltip]="
+                (character.archived
+                    ? 'CHARS_PANEL.UNARCHIVE'
+                    : 'CHARS_PANEL.ARCHIVE'
+                ) | translate
+            "
+        >
+            <app-icon
+                [icon]="character.archived ? 'eye-on' : 'eye-off'"
+                [color]="'white'"
+                [size]="0.8"
+            ></app-icon>
+        </button>
+    </div>
+
     <app-character-main-info
         [character]="character"
         [color]="themeColor1"

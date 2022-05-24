@@ -16,3 +16,30 @@
 
     background: $card-bg;
 }
+
+.state-buttons {
+    position: absolute;
+
+    display: flex;
+    align-items: center;
+
+    margin-left: 16rem;
+    margin-top: 1rem;
+}
+
+.archive-button {
+    margin-left: 0.5rem;
+    transition: 0.3s;
+
+    &::ng-deep svg {
+        transition: 0.3s;
+
+        fill: $accent;
+    }
+
+    &:hover {
+        &::ng-deep svg {
+            fill: white;
+        }
+    }
+}

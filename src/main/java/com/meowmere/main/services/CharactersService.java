@@ -47,6 +47,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -80,7 +81,9 @@ public class CharactersService {
     @Autowired
     public BookRepository bookRepository;
     @Autowired
-    public RelationCoordinatesRepository relationCoordinatesRepository ;
+    public RelationCoordinatesRepository relationCoordinatesRepository;
+    @Autowired
+    private UserService userService;
 
     public ResponseEntity getNonArchivedCharacters() {
         List<Character> allCharactersFromDb = characterRepository.getNonArchivedCharacters();
@@ -99,9 +102,27 @@ public class CharactersService {
         return new ResponseEntity(dtoList, HttpStatus.OK);
     }
 
+    public ResponseEntity getEveryCharacter(HttpServletRequest request) {
+        Boolean isUserLogged = userService.isUserLogged(request);
+        List<Character> allCharactersFromDb = isUserLogged ? characterRepository.getSortedCharacters() : characterRepository.getNonArchivedCharacters();
+        ArrayList<CharactersMenuDTO> dtoList = new ArrayList<>();
+
+        for(Character characterFromDb : allCharactersFromDb) {
+            Image image = imageRepository.getProfilePicForCharacter(characterFromDb.getExternalId());
+            String profilePic = null;
+            if(image != null){
+                profilePic = UtilsShared.GetProfilePicBase64Code(image.getExtension(), image.getImage());
+            }
+            CharactersMenuDTO dto = new CharactersMenuDTO(characterFromDb, profilePic);
+
+            dtoList.add(dto);
+        }
+        return new ResponseEntity(dtoList, HttpStatus.OK);
+    }
+
     public ResponseEntity getCharacter(Long externalId) {
         ModelMapper modelMapper = new ModelMapper();
-        Character oneCharacter = characterRepository.getNonArchivedCharacter(externalId);
+        Character oneCharacter = characterRepository.getOne(externalId);
         if(oneCharacter == null) {
             String err = "Nie udało się znaleźć postaci o podanym id.";
             return new ResponseEntity<>(err, HttpStatus.NOT_FOUND);
@@ -199,27 +220,6 @@ public class CharactersService {
 
 
         return new ResponseEntity<>(dto, HttpStatus.OK);
-    }
-
-    public ResponseEntity getEveryCharacter() {
-        ModelMapper modelMapper = new ModelMapper();
-        List<Character> charactersFromDb =
-                characterRepository.findAll(Sort.by(Sort.Direction.ASC, "charName"));
-        ArrayList<EveryCharacterMenuDTO> dtoList = new ArrayList<>();
-        for (Character character : charactersFromDb) {
-            EveryCharacterMenuDTO dto = modelMapper.map(character, EveryCharacterMenuDTO.class);
-
-            String profilePic = null;
-
-            Image image = imageRepository.getProfilePicForCharacter(character.getExternalId());
-            if(image != null){
-                profilePic = UtilsShared.GetProfilePicBase64Code(image.getExtension(), image.getImage());
-            }
-            dto.setProfilePic(profilePic);
-
-            dtoList.add(dto);
-        }
-        return new ResponseEntity(dtoList, HttpStatus.OK);
     }
 
     public ResponseEntity changeStatusForCharacter(ChangeCharacterStateRequest character) {
