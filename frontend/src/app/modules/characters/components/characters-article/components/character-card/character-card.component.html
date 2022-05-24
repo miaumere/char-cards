@@ -6,8 +6,10 @@
         [bgColorSecond]="bgColor2"
         [isUserLogged]="isUserLogged"
         (infoHasChangedEvent)="changed()"
-        [(editedKey)]="editedKey"
+        [editedKey]="editedKey"
         [form]="form"
+        (saveEvent)="saveCharacter()"
+        (editedKeyChange)="patchForm($event)"
     >
     </app-character-main-info>
 
@@ -17,7 +19,8 @@
         (infoHasChangedEvent)="changed()"
         [form]="form"
         (saveEvent)="saveCharacter()"
-        (editedKeyChange)="patchForm()"
+        (editedKeyChange)="patchForm($event)"
+        [editedKey]="editedKey"
     >
     </app-character-additional-info>
     <button

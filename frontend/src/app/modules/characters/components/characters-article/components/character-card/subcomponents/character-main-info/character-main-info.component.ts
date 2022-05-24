@@ -9,6 +9,7 @@ import {
     Input,
     OnInit,
     Output,
+    SimpleChanges,
     ViewChild,
 } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
@@ -18,6 +19,8 @@ import { ToastrService } from 'ngx-toastr';
 import { BaseComponent } from 'src/app/core/base.component';
 import { CharactersService } from 'src/app/core/service/characters.service';
 import { CountriesService } from 'src/app/core/service/countries.service';
+import { CharType } from 'src/app/modules/admin-panel/enums/character-type.enum';
+import { Gender } from 'src/app/modules/admin-panel/enums/gender.enum';
 import { Country } from 'src/app/modules/admin-panel/models/countries/country.model';
 import { Character } from 'src/app/modules/characters/models/character.model';
 import { IColors } from 'src/app/modules/characters/models/colors.model';
@@ -33,6 +36,8 @@ export class CharacterMainInfoComponent
     extends BaseComponent
     implements OnInit
 {
+    readonly Gender = Gender;
+    readonly CharType = CharType;
     @Input() character: Character | null = null;
     @Input('color') themeColor1: string = '';
     @Input('bgColor') bgColor1: string = '';
@@ -42,6 +47,8 @@ export class CharacterMainInfoComponent
     @Input() form = new FormGroup({});
 
     @Output() infoHasChangedEvent = new EventEmitter<true>();
+    @Output() saveEvent = new EventEmitter();
+    @Output() editedKeyChange = new EventEmitter<string | null>();
 
     constructor() {
         super();
@@ -51,5 +58,10 @@ export class CharacterMainInfoComponent
 
     emitInfoHasChangedEvent() {
         this.infoHasChangedEvent.emit(true);
+    }
+
+    setEditedKey(key: string | null) {
+        this.editedKey = key;
+        this.editedKeyChange.emit(key);
     }
 }

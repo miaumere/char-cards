@@ -198,7 +198,9 @@
         [temperaments]="character?.temperament"
         [isUserLogged]="isUserLogged"
         [form]="form"
+        [editedKey]="editedKey"
         (saveEvent)="saveEvent.emit()"
+        (editedKeyChange)="setEditedKey('temperament')"
     >
     </app-temperament-bars>
     <ng-container *ngIf="character?.colors || isUserLogged">

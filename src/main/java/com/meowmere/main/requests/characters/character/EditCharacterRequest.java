@@ -8,6 +8,7 @@ public class EditCharacterRequest {
     public Long externalId;
     public String charName;
     public String charSurname;
+    public String charType;
     public String pseudonim;
     public Long birthday;
     public String gender;
@@ -121,5 +122,13 @@ public class EditCharacterRequest {
 
     public void setNationality(String nationality) {
         this.nationality = nationality;
+    }
+
+    public String getCharType() {
+        return charType;
+    }
+
+    public void setCharType(String charType) {
+        this.charType = charType;
     }
 }

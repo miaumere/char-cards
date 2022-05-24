@@ -2,20 +2,20 @@
     <app-divider></app-divider>
     <div class="save-icon-container" *appIfLoggedUser>
         <app-edit-icon
-            (clickedEvent)="isEditModeToggled = true"
-            *ngIf="!isEditModeToggled"
+            (clickedEvent)="setEditedKey('temperament')"
+            *ngIf="editedKey !== 'temperament'"
         ></app-edit-icon>
         <mat-icon
             class="option-icon option-icon--cancel"
-            *ngIf="isEditModeToggled"
-            (click)="isEditModeToggled = false"
+            *ngIf="editedKey === 'temperament'"
+            (click)="cancel()"
             style="margin-top: 0.15rem"
             >cancel</mat-icon
         >
 
         <mat-icon
             class="save-icon"
-            *ngIf="isEditModeToggled === true"
+            *ngIf="editedKey === 'temperament'"
             (click)="save()"
             >save</mat-icon
         >
@@ -104,13 +104,17 @@
     let-form="form"
 >
     <div
-        *ngIf="!isEditModeToggled"
+        *ngIf="editedKey !== 'temperament'"
         appProgressBar
         [percentValue]="temperament"
         [temperamentType]="temperamentType"
     ></div>
 
-    <div [formGroup]="form" *ngIf="isEditModeToggled" class="form-container">
+    <div
+        [formGroup]="form"
+        *ngIf="editedKey === 'temperament'"
+        class="form-container"
+    >
         <mat-slider
             class="temperament-range"
             thumbLabel

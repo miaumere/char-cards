@@ -342,7 +342,6 @@ public class StoryService {
             starringCharacter.setStarringType(StarringType.valueOf(request.getStarringType()));
             starringCharactersRepository.saveAndFlush(starringCharacter);
         }
-        this.setCharactersType();
 
         return new ResponseEntity(HttpStatus.OK);
     }
@@ -486,32 +485,4 @@ public class StoryService {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    public void setCharactersType() {
-        List<Character> characters = characterRepository.getCharsWithEnoughChaptersToBeMain();
-        List<Character> sideCharacters = characterRepository.getCharsWithEnoughChaptersToBeSide();
-        List<Character> bgChars = characterRepository.findAll();
-
-        if(characters != null && characters.size() > 0){
-            for (Character character : characters) {
-                bgChars.remove(character);
-                character.setCharType(CharType.MAIN);
-                characterRepository.save(character);
-            }
-        }
-        if(sideCharacters != null && sideCharacters.size() > 0){
-            for (Character sideCharacter : sideCharacters) {
-                bgChars.remove(sideCharacter);
-                sideCharacter.setCharType(CharType.SIDE);
-                characterRepository.save(sideCharacter);
-            }
-        }
-
-         if(bgChars != null && bgChars.size() > 0) {
-             for (Character bgChar : bgChars) {
-                 bgChar.setCharType(CharType.BACKGROUND);
-                 characterRepository.save(bgChar);
-             }
-         }
-
-    }
 }

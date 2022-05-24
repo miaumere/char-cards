@@ -12,7 +12,7 @@ import {
 } from '@angular/core';
 import { BaseComponent } from 'src/app/core/base.component';
 import { Character } from 'src/app/modules/characters/models/character.model';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { CharactersService } from 'src/app/core/service/characters.service';
@@ -73,17 +73,15 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
         this.saveCharacter();
     }
 
-    clicked(key: string) {
+    patchForm(key: string | null) {
         this.editedKey = null;
-        if (this.character) {
+        if (this.character && key) {
             const keys = Object.keys(this.character);
             if (keys.includes(key)) {
                 this.editedKey = key;
             }
         }
-    }
 
-    patchForm() {
         this.form = new FormGroup({});
 
         for (const key in this.character) {
@@ -128,12 +126,25 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
                     continue;
                 }
 
+                if (key === 'charName' || key === 'charSurname') {
+                    const element = untypedChar[key];
+
+                    this.form.addControl(
+                        key,
+                        new FormControl(element, Validators.required)
+                    );
+                    continue;
+                }
+
                 this.form.addControl(key, new FormControl(element));
             }
         }
     }
 
     saveCharacter() {
+        if (!this.form.valid) {
+            return;
+        }
         const request = this.form.value;
         const colors: IColors = {
             eyeColor1: this.form.get('eyeColor1')?.value,
@@ -251,7 +262,7 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
                             ? tinycolor(themeColorForChar).darken(15)
                             : tinycolor(themeColorForChar).lighten(35));
 
-                    this.patchForm();
+                    this.patchForm(null);
                 });
 
             this._statisticsService

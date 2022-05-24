@@ -31,7 +31,7 @@
     },
     "CHARACTER_CARD": {
         "NO_CHARS": "Brak postaci",
-        "NATIONALITY": "Narodowość",
+        "NATIONALITY": "Kraj",
         "DEATH": "Śmierć",
         "BIRTHDAY": "Urodziny",
         "PROFESSION": "Zajęcie",
@@ -83,7 +83,7 @@
         "BIRTHDATE": "Data urodzenia",
         "IS_DEAD": "Czy ta postać nie żyje?",
         "DEATH_REASON": "Powód śmierci",
-        "NATIONALITY": "Narodowość",
+        "NATIONALITY": "Country",
         "MELANCHOLIC": "Melancholizm",
         "SANGUINE": "Sangwinizm",
         "FLEGMATIC": "Flegmatyzm",

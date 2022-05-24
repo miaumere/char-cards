@@ -1,61 +1,145 @@
 <form class="card" *ngIf="character" [formGroup]="form">
-    <div [ngSwitch]="character?.charType" class="card-type-block">
-        <span class="card__type" [ngStyle]="{ background: bgColor2 }">
+    <div class="card-type-block">
+        <ng-container
+            *ngTemplateOutlet="
+                editButtons;
+                context: {
+                    key: 'charType'
+                }
+            "
+        ></ng-container>
+
+        <span
+            class="card__type"
+            [ngStyle]="{ background: bgColor2 }"
+            *ngIf="editedKey !== 'charType'"
+        >
             {{ 'enum.charType.' + character?.charType | translate }}
         </span>
+
+        <mat-select
+            *ngIf="editedKey === 'charType'"
+            [formControlName]="'charType'"
+        >
+            <mat-option
+                *ngFor="let charType of CharType | enumVal"
+                [value]="charType.value"
+            >
+                {{ 'enum.charType.' + charType.value | translate }}
+            </mat-option>
+        </mat-select>
     </div>
 
     <span class="card__name">
-        <!-- <app-edit-icon (clickedEvent)="clicked()"></app-edit-icon> -->
+        <div class="gender-block">
+            <ng-container
+                *ngTemplateOutlet="
+                    editButtons;
+                    context: {
+                        key: 'gender'
+                    }
+                "
+            ></ng-container>
 
-        <app-icon
-            *ngIf="character.gender"
-            [icon]="character.gender | lowercase"
-            [color]="character.gender | genderIconColor"
-            [size]="'0.7'"
-        >
-        </app-icon>
+            <app-icon
+                *ngIf="editedKey !== 'gender'"
+                [icon]="character.gender | lowercase"
+                [color]="character.gender | genderIconColor"
+                [size]="'0.7'"
+            >
+            </app-icon>
+
+            <mat-select
+                *ngIf="editedKey === 'gender'"
+                [formControlName]="'gender'"
+            >
+                <mat-select-trigger>
+                    <app-icon
+                        [icon]="form.get('gender')?.value | lowercase"
+                        [color]="form.get('gender')?.value | genderIconColor"
+                        [size]="'0.7'"
+                    >
+                    </app-icon>
+                </mat-select-trigger>
+
+                <mat-option
+                    *ngFor="let genderType of Gender | enumVal"
+                    [value]="genderType.value"
+                >
+                    <app-icon
+                        [icon]="genderType.value | lowercase"
+                        [color]="genderType.value | genderIconColor"
+                        [size]="'0.7'"
+                    >
+                    </app-icon>
+                </mat-option>
+            </mat-select>
+        </div>
+
         <div class="name">
             <div class="name-block">
-                <div class="icons-options" *appIfLoggedUser>
-                    <!-- (clickedEvent)="clicked('charName')" -->
+                <ng-container
+                    *ngTemplateOutlet="
+                        editButtons;
+                        context: {
+                            key: 'charName'
+                        }
+                    "
+                ></ng-container>
+                <span *ngIf="editedKey !== 'charName'"
+                    >{{ character?.charName }}
+                </span>
 
-                    <app-edit-icon
-                        *ngIf="editedKey !== 'charName'"
-                    ></app-edit-icon>
-
-                    <ng-container *ngIf="editedKey === 'charName'">
-                        <mat-icon
-                            class="option-icon option-icon--cancel"
-                            (click)="editedKey = null"
-                            >cancel</mat-icon
-                        >
-                        <!-- (click)="saveCharacter()" -->
-
-                        <mat-icon class="option-icon option-icon--save"
-                            >save</mat-icon
-                        >
-                    </ng-container>
-                </div>
-
-                {{ character.charName }}
+                <mat-form-field
+                    *ngIf="editedKey === 'charName'"
+                    class="name-form-field"
+                >
+                    <input matInput [formControlName]="'charName'" />
+                </mat-form-field>
             </div>
-            <!-- (clickedEvent)="clicked('charSurname')" -->
 
-            <div class="name-block">
-                <app-edit-icon *ngIf="isUserLogged"></app-edit-icon>
-                {{ character.charSurname }}
+            <div class="name-block name-block--surname">
+                <ng-container
+                    *ngTemplateOutlet="
+                        editButtons;
+                        context: {
+                            key: 'charSurname'
+                        }
+                    "
+                ></ng-container>
+                <span *ngIf="editedKey !== 'charSurname'"
+                    >{{ character?.charSurname }}
+                </span>
+
+                <mat-form-field
+                    *ngIf="editedKey === 'charSurname'"
+                    class="name-form-field"
+                >
+                    <input matInput [formControlName]="'charSurname'" />
+                </mat-form-field>
             </div>
         </div>
     </span>
 
-    <div class="card__info info">
-        <span
-            [ngStyle]="{ color: character.colors?.themeColor1 }"
-            class="name--pseudonim"
-        >
-            {{ character.pseudonim }}
+    <div
+        [ngStyle]="{ color: character.colors?.themeColor1 }"
+        class="name--pseudonim"
+    >
+        <ng-container
+            *ngTemplateOutlet="
+                editButtons;
+                context: {
+                    key: 'pseudonim'
+                }
+            "
+        ></ng-container>
+        <span *ngIf="editedKey !== 'pseudonim'"
+            >{{ character?.pseudonim }}
         </span>
+
+        <mat-form-field *ngIf="editedKey === 'pseudonim'">
+            <input matInput [formControlName]="'pseudonim'" />
+        </mat-form-field>
     </div>
 
     <app-divider></app-divider>
@@ -68,3 +152,24 @@
     >
     </app-images>
 </form>
+
+<ng-template #editButtons let-key="key">
+    <div class="icons-options">
+        <app-edit-icon
+            (clickedEvent)="setEditedKey(key)"
+            *ngIf="editedKey !== key && isUserLogged"
+        ></app-edit-icon>
+        <ng-container *ngIf="editedKey === key && isUserLogged">
+            <mat-icon
+                class="option-icon option-icon--cancel"
+                (click)="setEditedKey(null)"
+                >cancel</mat-icon
+            >
+            <mat-icon
+                class="option-icon option-icon--save"
+                (click)="saveEvent.emit()"
+                >save</mat-icon
+            >
+        </ng-container>
+    </div>
+</ng-template>

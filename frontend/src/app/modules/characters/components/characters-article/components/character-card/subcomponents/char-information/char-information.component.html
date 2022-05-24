@@ -73,7 +73,7 @@
 
     <div
         class="information__segment"
-        *ngIf="character.measurements?.hasAnyValues"
+        *ngIf="character.measurements?.hasAnyValues || isUserLogged"
     >
         <app-divider></app-divider>
         <h2 class="story__title" [ngStyle]="{ color: themeColor1 }">

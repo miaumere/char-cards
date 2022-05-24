@@ -303,6 +303,7 @@ public class CharactersService {
             return new ResponseEntity(msg, HttpStatus.NOT_FOUND);
         }
         character.setPseudonim(request.getPseudonim());
+        character.setCharType(CharType.valueOf(request.getCharType()));
         character.setCharName(request.getCharName());
         character.setCharSurname(request.getCharSurname());
         character.setGender(Gender.valueOf(request.getGender()));
@@ -339,6 +340,10 @@ public class CharactersService {
 
         Measurements measurements = measurementsRepository.getMeasurementsById(request.getExternalId());
         if(request.getMeasurements() != null) {
+            if(measurements == null) {
+                measurements = new Measurements();
+                measurements.setCharacter(character);
+            }
             measurements.setBabyHeight(request.getMeasurements().getBabyHeight());
             measurements.setBabyWeight(request.getMeasurements().getBabyWeight());
             measurements.setChildHeight(request.getMeasurements().getChildHeight());

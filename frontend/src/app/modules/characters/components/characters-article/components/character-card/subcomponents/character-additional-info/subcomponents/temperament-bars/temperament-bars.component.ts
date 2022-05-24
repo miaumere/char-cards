@@ -11,15 +11,26 @@ export class TemperamentBarsComponent implements OnInit {
     @Input() temperaments: ITemperament | null = null;
     @Input() form: FormGroup = new FormGroup({});
     @Input() isUserLogged: boolean = false;
+    @Input() editedKey: string | null = null;
 
     @Output() saveEvent = new EventEmitter();
+    @Output() editedKeyChange = new EventEmitter<string | null>();
 
-    isEditModeToggled = false;
     constructor() {}
 
     ngOnInit(): void {}
 
     save(): void {
         this.saveEvent.emit();
+    }
+
+    cancel() {
+        this.editedKey = null;
+        this.editedKeyChange.emit(null);
+    }
+
+    setEditedKey(key: string | null) {
+        this.editedKey = key;
+        this.editedKeyChange.emit(key);
     }
 }
