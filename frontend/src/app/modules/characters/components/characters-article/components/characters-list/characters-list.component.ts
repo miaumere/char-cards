@@ -28,6 +28,8 @@ export class CharactersListComponent extends BaseComponent implements OnInit {
     }
 
     ngOnInit() {
+        document.title = `Alea`;
+
         this.subscriptions$.add(
             this._charactersService.getCharacters().subscribe((charList) => {
                 let charactersList: CharacterItem[] = [];
