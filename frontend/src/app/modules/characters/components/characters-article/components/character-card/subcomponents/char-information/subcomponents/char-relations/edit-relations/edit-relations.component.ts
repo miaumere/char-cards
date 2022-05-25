@@ -89,7 +89,10 @@ export class EditRelationsComponent extends BaseComponent implements OnInit {
         const regex = new RegExp(value, 'gi');
 
         const filteredChars = this.filteredCharList.filter((c) => {
-            return c.fullName.match(regex) || c.pseudonym.match(regex);
+            if (c.pseudonym) {
+                return c.fullName.match(regex) || c.pseudonym.match(regex);
+            }
+            return c.fullName.match(regex);
         });
 
         this.filteredCharList = filteredChars;
