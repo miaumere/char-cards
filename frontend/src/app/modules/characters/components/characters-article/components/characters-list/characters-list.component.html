@@ -61,10 +61,22 @@
                 routerLinkActive="router-link-active"
                 [ngClass]="{ 'character--archived': character.archived }"
             >
-                <app-profile-pic
-                    [charId]="character.externalId"
-                    [profilePic]="character.profilePic"
-                ></app-profile-pic>
+                <div>
+                    <div
+                        *ngIf="character.hasBirthdayToday"
+                        [matTooltip]="
+                            character.birthdayDate | date: 'dd/MM/yyyy'
+                        "
+                        class="birthday-cake"
+                    >
+                        🎂
+                    </div>
+                    <app-profile-pic
+                        [charId]="character.externalId"
+                        [profilePic]="character.profilePic"
+                    ></app-profile-pic>
+                </div>
+
                 <span class="character__name">
                     <span
                         *ngIf="

@@ -10,18 +10,21 @@ public class CharactersMenuDTO {
     private String characterType;
     private String profilePic;
     private Boolean archived;
+    private Long birthday;
 
 
     public CharactersMenuDTO() {
     }
     public CharactersMenuDTO(Character character, String profilePic) {
         this.id = character.externalId;
-        this.fullName = character.getCharName() != null ? character.getCharName() : "?" + " " + character.getCharSurname() != null ? character.getCharSurname() : "?";
+        String name = character.getCharName() != null ? character.getCharName() : "?";
+        String surname =  character.getCharSurname() != null ? character.getCharSurname() : "?";
+        this.fullName = name + " " + surname;
         this.profilePic = profilePic;
         this.characterType = character.getCharType().name();
         this.pseudonym = character.getPseudonim();
         this.archived = character.getArchived();
-
+        this.birthday = character.getBirthday();
     }
 
     public String getFullName() {
@@ -39,8 +42,11 @@ public class CharactersMenuDTO {
     public String getCharacterType() {
         return characterType;
     }
-
     public Boolean getArchived() {
         return archived;
     }
+    public Long getBirthday() {
+        return birthday;
+    }
+
 }

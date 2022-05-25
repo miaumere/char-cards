@@ -234,67 +234,6 @@ public class CharactersService {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    public ResponseEntity createCharacter(CreateCharacterRequest request) {
-        Character character = new Character();
-        if(request.getBirthday() != null) {
-            Date birthdayDate = new Date(request.getBirthday());
-            Long parsedBirthdayDate = birthdayDate.getTime() / 1000;
-            character.setBirthday(parsedBirthdayDate);
-        }
-        character.setPseudonim(request.getPseudonim());
-        character.setCharName(request.getCharName());
-        character.setCharSurname(request.getCharSurname());
-        character.setOccupation(request.getOccupation());
-        character.setGender(Gender.valueOf(request.getGender()));
-        character.setNationality(request.getNationality());
-        character.setCharType(CharType.BACKGROUND);
-
-        if(request.getDeath() != null) {
-            Date deathDate = new Date(request.getDeath());
-            Long parsedDeathDate = deathDate.getTime() / 1000;
-            character.setDeath(parsedDeathDate);
-            character.setDeathReason(request.getDeathReason());
-        }
-
-        Temperament temperamentForCharacter = new Temperament(
-                request.getTemperament().getMelancholic(),
-                request.getTemperament().getSanguine(),
-                request.getTemperament().getFlegmatic(),
-                request.getTemperament().getCholeric(),
-                character
-        );
-        Colors colorsForCharacter = new Colors(
-                request.getColors().getThemeColor1(),
-                request.getColors().getThemeColor2(),
-                request.getColors().getThemeColor3(),
-                request.getColors().getEyeColor1(),
-                request.getColors().getEyeColor2(),
-                request.getColors().getHairColor(),
-                request.getColors().getSkinColor(),
-                character);
-
-        characterRepository.saveAndFlush(character);
-        temperamentRepository.saveAndFlush(temperamentForCharacter);
-        colorsRepository.saveAndFlush(colorsForCharacter);
-
-        if(request.getMeasurements() != null) {
-            Measurements measurementsForCharacter = new Measurements(
-                    request.getMeasurements().getBabyHeight(),
-                    request.getMeasurements().getBabyWeight(),
-                    request.getMeasurements().getChildHeight(),
-                    request.getMeasurements().getChildWeight(),
-                    request.getMeasurements().getTeenHeight(),
-                    request.getMeasurements().getTeenWeight(),
-                    request.getMeasurements().getAdultHeight(),
-                    request.getMeasurements().getAdultWeight(),
-                    character);
-            measurementsRepository.saveAndFlush(measurementsForCharacter);
-
-        }
-
-        return new ResponseEntity(HttpStatus.CREATED);
-    }
-
     public ResponseEntity upsertCharacter(EditCharacterRequest request) {
 
         if(request.getExternalId() == 0) {

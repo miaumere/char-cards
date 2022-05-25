@@ -91,11 +91,6 @@ public class CharacterController {
         return this.charactersService.getHistoricalPreferencesForCharacter(charId, relatedCharId);
     }
 
-    @PostMapping("/new-character")
-    public ResponseEntity createCharacter(@RequestBody CreateCharacterRequest request) {
-        return charactersService.createCharacter(request);
-    }
-
     @PostMapping("/upsert-quote")
     public ResponseEntity upsertQuoteForCharacter(@RequestBody UpsertQuoteRequest request) {
         return charactersService.upsertQuote(request);

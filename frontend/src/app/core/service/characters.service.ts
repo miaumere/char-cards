@@ -74,7 +74,6 @@ export class CharactersService {
 
     constructor(private http: HttpClient) {}
 
-    // only characters which aren't archived:
     getCharacters() {
         return this.http.get<ICharacterItem[]>(this._getAllCharactersURL).pipe(
             map((response) => {
