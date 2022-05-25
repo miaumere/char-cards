@@ -387,13 +387,19 @@ public class CharactersService {
     public ResponseEntity deleteCharacter(Long id)  {
         Character character = characterRepository.getOne(id);
         Temperament temperament = temperamentRepository.getTemperamentForCharacter(id);
-        temperamentRepository.delete(temperament);
+        if(temperament != null) {
+            temperamentRepository.delete(temperament);
+        }
 
         Measurements measurement = measurementsRepository.getMeasurementsById(id);
-        measurementsRepository.delete(measurement);
+        if(measurement != null) {
+            measurementsRepository.delete(measurement);
+        }
 
         Colors colors = colorsRepository.getColorsForCharacter(id);
-        colorsRepository.delete(colors);
+        if(colors != null) {
+            colorsRepository.delete(colors);
+        }
 
         List<Quote> quotes = quoteRepository.getAllQuotesByCharacterId(id);
         quotes.forEach(quote -> quoteRepository.delete(quote));
@@ -402,7 +408,9 @@ public class CharactersService {
         List<Image> images = imageRepository.getImagesForCharacter(id);
         images.forEach(image -> imageRepository.delete(image));
         Image profilePicForCharacter = imageRepository.getProfilePicForCharacter(id);
-        imageRepository.delete(profilePicForCharacter);
+        if(profilePicForCharacter != null) {
+            imageRepository.delete(profilePicForCharacter);
+        }
 
         List<CharacterStory> storiesForCharacter = characterStoryRepository.getStoriesForCharacter(id);
         storiesForCharacter.forEach(characterStory -> characterStoryRepository.delete(characterStory));

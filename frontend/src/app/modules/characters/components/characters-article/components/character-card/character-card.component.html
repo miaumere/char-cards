@@ -21,6 +21,7 @@
             [matTooltip]="'CHARS_PANEL.DELETE' | translate"
             (click)="insertDeleteInfo()"
             (dblclick)="deleteCharacter()"
+            [ngClass]="{ 'delete-button--disabled': !character.archived }"
         >
             <mat-icon class="close-icon delete-button">delete</mat-icon>
         </button>
