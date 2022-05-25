@@ -19,8 +19,19 @@ export class Measurements implements IMeasurements {
     adultHeight: number | null = null;
     adultWeight: number | null = null;
 
-    constructor(initialValues: IMeasurements) {
-        Object.assign(this, initialValues);
+    constructor(initialValues?: IMeasurements) {
+        if (initialValues) {
+            Object.assign(this, initialValues);
+        } else {
+            this.babyHeight = null;
+            this.babyWeight = null;
+            this.childHeight = null;
+            this.childWeight = null;
+            this.teenHeight = null;
+            this.teenWeight = null;
+            this.adultHeight = null;
+            this.adultWeight = null;
+        }
     }
 
     getValueWithUnit(value: number | null, type: 'height' | 'weight') {

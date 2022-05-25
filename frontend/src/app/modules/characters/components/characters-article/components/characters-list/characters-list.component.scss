@@ -105,3 +105,18 @@ $gradient2: #435548;
         text-overflow: ellipsis;
     }
 }
+
+.create-new-character {
+    color: $accent;
+
+    left: 1rem;
+    top: 1.5rem;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+
+    &:hover {
+        color: white;
+    }
+}

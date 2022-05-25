@@ -16,7 +16,7 @@ public class CharactersMenuDTO {
     }
     public CharactersMenuDTO(Character character, String profilePic) {
         this.id = character.externalId;
-        this.fullName = character.getCharName() + " " + character.getCharSurname();
+        this.fullName = character.getCharName() != null ? character.getCharName() : "?" + " " + character.getCharSurname() != null ? character.getCharSurname() : "?";
         this.profilePic = profilePic;
         this.characterType = character.getCharType().name();
         this.pseudonym = character.getPseudonim();

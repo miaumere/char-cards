@@ -1,3 +1,4 @@
+import { IRelatedPersonData } from './../../../../../../../../../models/relations/relation-tree-dto.model';
 import { BaseComponent } from 'src/app/core/base.component';
 import { CharactersService } from 'src/app/core/service/characters.service';
 import { Component, OnInit, ViewChild, ElementRef, Input } from '@angular/core';
@@ -18,8 +19,8 @@ import {
     RelationType,
     RelationTypeString,
 } from 'src/app/modules/characters/models/relations/relation-type.enum';
-import * as tinycolor from 'tinycolor2';
 import { colorsForRelations } from './colors-for-relations.const';
+
 import * as moment from 'moment';
 
 function degToRad(deg: number) {
@@ -86,9 +87,10 @@ export class RelationTreeComponent extends BaseComponent implements OnInit {
                 .getRelationsTreeData(this.charId)
                 .subscribe((data) => {
                     this.data = data;
-
-                    this.chartContainer = this.chartContainer;
-                    this.createChart();
+                    if (!!data) {
+                        this.chartContainer = this.chartContainer;
+                        this.createChart();
+                    }
                 })
         );
     }
@@ -101,7 +103,7 @@ export class RelationTreeComponent extends BaseComponent implements OnInit {
         name: string,
         radius: number,
         strokeColor: string,
-        personId?: number
+        person?: IRelatedPersonData
     ): IGeneratedCircleElement {
         const circle = svgViewport
             .append('circle')
@@ -109,13 +111,20 @@ export class RelationTreeComponent extends BaseComponent implements OnInit {
             .attr('cy', offsetY)
             .attr('r', radius)
             .attr('stroke', strokeColor)
-            .attr('fill', `url(#${personId})`);
+            .attr('class', 'no-profile-pic-svg')
+            .attr(
+                'fill',
+                person?.imageMimeData ? `url(#${person?.id})` : 'slategray'
+            );
 
         const cleanUrl = [...this.router.url].filter((x) => isNaN(+x)).join('');
 
         const text = svgViewport
             .append('a')
-            .attr('xlink:href', personId ? `./#/${cleanUrl}${personId}` : null)
+            .attr(
+                'xlink:href',
+                person?.id ? `./#/${cleanUrl}${person?.id}` : null
+            )
             .append('text')
             .attr('x', offsetX)
             .attr('y', offsetY + radius + 15)
@@ -213,7 +222,7 @@ export class RelationTreeComponent extends BaseComponent implements OnInit {
                 person.fullName,
                 this.circleRadius,
                 'black',
-                person.id
+                person
             );
 
             circle.circle

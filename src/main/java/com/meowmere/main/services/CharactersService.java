@@ -295,12 +295,23 @@ public class CharactersService {
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
-    public ResponseEntity editCharacter(EditCharacterRequest request) {
+    public ResponseEntity upsertCharacter(EditCharacterRequest request) {
+
+        if(request.getExternalId() == 0) {
+            Character createdCharacter = new Character();
+            createdCharacter.setCharName(request.getCharName());
+            createdCharacter.setCharType(CharType.BACKGROUND);
+            createdCharacter.setGender(Gender.UNKNOWNGENDER);
+
+            characterRepository.saveAndFlush(createdCharacter);
+
+            return new ResponseEntity(createdCharacter.getExternalId(), HttpStatus.CREATED);
+        }
+
         Character character = characterRepository.getOne(request.getExternalId());
 
         if(character == null) {
-            String msg = "Postać o podanym id nie istnieje.";
-            return new ResponseEntity(msg, HttpStatus.NOT_FOUND);
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
         character.setPseudonim(request.getPseudonim());
         character.setCharType(CharType.valueOf(request.getCharType()));
@@ -320,6 +331,10 @@ public class CharactersService {
         characterRepository.saveAndFlush(character);
 
         Colors colors = colorsRepository.getColorsForCharacter(request.getExternalId());
+        if(colors == null) {
+            colors = new Colors();
+            colors.setCharacter(character);
+        }
                 colors.setThemeColor1(request.getColors().getThemeColor1());
                 colors.setThemeColor2(request.getColors().getThemeColor2());
                 colors.setThemeColor3(request.getColors().getThemeColor3());
@@ -331,6 +346,10 @@ public class CharactersService {
         colorsRepository.saveAndFlush(colors);
 
         Temperament temperament = temperamentRepository.getTemperamentForCharacter(request.getExternalId());
+        if(temperament == null) {
+            temperament = new Temperament();
+            temperament.setCharacter(character);
+        }
         temperament.setMelancholic(request.getTemperament().getMelancholic());
         temperament.setCholeric(request.getTemperament().getCholeric());
         temperament.setFlegmatic(request.getTemperament().getFlegmatic());
@@ -428,8 +447,7 @@ public class CharactersService {
         relationList.forEach(relation -> relationsRepository.delete(relation));
 
         characterRepository.delete(character);
-
-        return new ResponseEntity(HttpStatus.NO_CONTENT);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     //#region Images
@@ -614,7 +632,9 @@ public class CharactersService {
             }
 
             person.setId(relatedChar.getExternalId());
-            person.setFullName(relatedChar.getCharName() + " " + relatedChar.getCharSurname());
+            person.setFullName(relatedChar.getCharName() != null ? relatedChar.getCharName() : "?"
+                    + " "
+                    + relatedChar.getCharSurname() != null ? relatedChar.getCharSurname() : "?");
             Image image = imageRepository.getProfilePicForCharacter(relatedChar.getExternalId());
             String profilePic = null;
             if(image != null){
@@ -719,6 +739,10 @@ public class CharactersService {
 
     public ResponseEntity getRelationsTreeData(Long id) {
         RelationTreeDto result = new RelationTreeDto();
+
+        if(id == null || id == 0) {
+            return new ResponseEntity(null, HttpStatus.OK);
+        }
         Character character = characterRepository.getOne(id);
         if(character == null) {
             return new ResponseEntity(result, HttpStatus.NOT_FOUND);
@@ -759,11 +783,13 @@ public class CharactersService {
         for (Character characterFromDb:characters) {
             RelationTreePersonDto personDto = new RelationTreePersonDto();
             personDto.setId(characterFromDb.getExternalId());
+            String name = characterFromDb.getCharName() != null ? characterFromDb.getCharName() : "?";
+            String surname = characterFromDb.getCharSurname() != null ? characterFromDb.getCharSurname() : "?";
+
             personDto.setFullName(
-                    characterFromDb.getCharName()
-                            + " "
-                            + characterFromDb.getCharSurname()
+                    name + " " + surname
             );
+
             Image image = imageRepository.getProfilePicForCharacter(characterFromDb.getExternalId());
             String profilePic = null;
             if(image != null){

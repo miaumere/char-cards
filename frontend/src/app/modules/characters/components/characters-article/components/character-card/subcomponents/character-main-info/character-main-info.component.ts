@@ -45,6 +45,7 @@ export class CharacterMainInfoComponent
     @Input() isUserLogged: boolean = false;
     @Input() editedKey: string | null = null;
     @Input() form = new FormGroup({});
+    @Input() isNewChar = false;
 
     @Output() infoHasChangedEvent = new EventEmitter<true>();
     @Output() saveEvent = new EventEmitter();

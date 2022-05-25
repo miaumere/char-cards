@@ -1,5 +1,9 @@
 <article class="char-menu" *ngIf="charList && !!charList">
     <form [formGroup]="searchForm" class="search-form">
+        <a [routerLink]="['/char-cards', 0]">
+            <mat-icon class="create-new-character">person_add</mat-icon>
+        </a>
+
         <span class="search-form__form-field">
             <mat-icon>search</mat-icon>
             <mat-form-field>

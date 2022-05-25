@@ -448,56 +448,5 @@ export class CharacterModifyComponent extends BaseComponent implements OnInit {
         }
 
         character.measurements = measurements;
-
-        switch (this.type) {
-            case 'new':
-                this.subscriptions$.add(
-                    this._charactersService
-                        .postNewCharacter(character)
-                        .subscribe(
-                            (_) => {
-                                this._toastrService.success(
-                                    this._translate.instant(
-                                        'TOASTR_MESSAGE.SAVE_SUCCESS'
-                                    )
-                                );
-                                this._route.navigate(['./admin-panel']);
-                            },
-                            (err) => {
-                                this._toastrService.error(
-                                    this._translate.instant(
-                                        'TOASTR_MESSAGE.ERROR'
-                                    )
-                                );
-                            }
-                        )
-                );
-                break;
-
-            case 'edit':
-                this.subscriptions$.add(
-                    this._charactersService
-                        .putCharacterDetails(character, this.isDead)
-                        .pipe(finalize(() => {}))
-                        .subscribe(
-                            (_) => {
-                                this._toastrService.success(
-                                    this._translate.instant(
-                                        'TOASTR_MESSAGE.SAVE_SUCCESS'
-                                    )
-                                );
-                                this.getCharacterDetails();
-                            },
-                            (err) => {
-                                this._toastrService.error(
-                                    this._translate.instant(
-                                        'TOASTR_MESSAGE.ERROR'
-                                    )
-                                );
-                            }
-                        )
-                );
-                break;
-        }
     }
 }

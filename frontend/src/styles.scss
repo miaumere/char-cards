@@ -188,3 +188,10 @@ div[role='listbox'] {
         color: $accent;
     }
 }
+
+.disabled {
+    opacity: 0.2;
+    pointer-events: none;
+    cursor: default;
+    user-select: none;
+}

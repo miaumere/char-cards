@@ -112,9 +112,9 @@ public class CharacterController {
         return charactersService.editPreferences(preferenceRequest);
     }
 
-    @PutMapping("/edit-character")
-    public ResponseEntity editCharacter(@RequestBody EditCharacterRequest request) {
-        return charactersService.editCharacter(request);
+    @PostMapping("/character")
+    public ResponseEntity upsertCharacter(@RequestBody EditCharacterRequest request) {
+        return charactersService.upsertCharacter(request);
     }
 
     @PutMapping("/edit-story-indexes")

@@ -1,7 +1,7 @@
 import { Story } from '../../admin-panel/models/character-story/story.model';
-import { IColors } from './colors.model';
+import { Colors, IColors } from './colors.model';
 import { IImageForMain } from './image-for-main.model';
-import { ITemperament } from './temperament.model';
+import { ITemperament, Temperament } from './temperament.model';
 import { IMeasurements, Measurements } from './measurements.model';
 import { IQuote } from './quote.model';
 import { IStarringIn } from './starring-in.model';
@@ -59,7 +59,26 @@ export class Character implements ICharacter {
     nationality: string = '';
     starringIn: IStarringIn[] = [];
 
-    constructor(initialValues: ICharacter) {
-        Object.assign(this, initialValues);
+    constructor(initialValues?: ICharacter) {
+        if (initialValues) {
+            this.colors = new Colors();
+            this.measurements = new Measurements();
+
+            Object.assign(this, initialValues);
+            if (!initialValues.temperament) {
+                this.temperament = new Temperament(0, 0, 0, 0);
+            }
+            if (!initialValues.measurements) {
+                this.measurements = new Measurements();
+            }
+            if (!initialValues.colors) {
+                this.colors = new Colors();
+            }
+        } else {
+            this.charName = '';
+            this.colors = new Colors();
+            this.temperament = new Temperament(0, 0, 0, 0);
+            this.measurements = new Measurements();
+        }
     }
 }

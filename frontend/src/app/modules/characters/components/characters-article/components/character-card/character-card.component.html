@@ -3,6 +3,7 @@
         <button
             class="archive-button"
             (click)="changeStateOfChar()"
+            [ngClass]="{ disabled: isNewChar }"
             [matTooltip]="
                 (character.archived
                     ? 'CHARS_PANEL.UNARCHIVE'
@@ -20,6 +21,7 @@
         <button
             [matTooltip]="'CHARS_PANEL.DELETE' | translate"
             (click)="insertDeleteInfo()"
+            [ngClass]="{ disabled: isNewChar }"
             (dblclick)="deleteCharacter()"
             [ngClass]="{ 'delete-button--disabled': !character.archived }"
         >
@@ -38,6 +40,7 @@
         [form]="form"
         (saveEvent)="saveCharacter()"
         (editedKeyChange)="patchForm($event)"
+        [isNewChar]="isNewChar"
     >
     </app-character-main-info>
 
@@ -49,6 +52,7 @@
         (saveEvent)="saveCharacter()"
         (editedKeyChange)="patchForm($event)"
         [editedKey]="editedKey"
+        [ngClass]="{ disabled: isNewChar }"
     >
     </app-character-additional-info>
 
@@ -60,6 +64,7 @@
         [isUserLogged]="isUserLogged"
         (infoHasChangedEvent)="changed()"
         [form]="form"
+        [ngClass]="{ disabled: isNewChar }"
     >
     </app-char-information>
 </section>

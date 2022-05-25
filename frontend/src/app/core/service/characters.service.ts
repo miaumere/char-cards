@@ -65,12 +65,11 @@ export class CharactersService {
     private readonly _postUpsertStoryForCharacterURL = `${this.charControllerURL}/upsert-story`;
     private readonly _postRelationsURL = `${this.charControllerURL}/relations`;
     private readonly _postCoordsURL = `${this.charControllerURL}/coords`;
+    private readonly _postUpsertCharacterURL = `${this.charControllerURL}/character`;
 
-    private readonly _postNewCharacterURL = `${this.charControllerURL}/new-character`;
     private readonly _postEditImagesURL = `${this.charControllerURL}/new-images`;
     private readonly _postEditPreferenceURL = `${this.charControllerURL}/edit-preferences`;
 
-    private readonly _putEditCharacterURL = `${this.charControllerURL}/edit-character`;
     private readonly _putStoryIndexesURL = `${this.charControllerURL}/edit-story-indexes`;
 
     private readonly _deleteQuoteURL = `${this.charControllerURL}/delete-quote`;
@@ -238,10 +237,6 @@ export class CharactersService {
         );
     }
 
-    postNewCharacter(requestBody: CreateCharacter) {
-        return this.http.post<void>(this._postNewCharacterURL, requestBody);
-    }
-
     postEditImages(formData: FormData, charId: number) {
         const params = new HttpParams().set('id', '' + charId);
 
@@ -270,13 +265,10 @@ export class CharactersService {
         return this.http.post<UpsertQuote>(this._postQuoteURL, requestBody);
     }
 
-    putCharacterDetails(requestBody: EditCharacter, idDead: boolean) {
-        const params = new HttpParams().set('isDead', '' + idDead);
-
-        return this.http.put<EditCharacter>(
-            this._putEditCharacterURL,
-            requestBody,
-            { params }
+    upsertCharacter(requestBody: EditCharacter) {
+        return this.http.post<EditCharacter>(
+            this._postUpsertCharacterURL,
+            requestBody
         );
     }
 

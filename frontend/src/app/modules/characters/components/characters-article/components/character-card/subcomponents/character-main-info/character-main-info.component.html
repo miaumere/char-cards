@@ -13,6 +13,7 @@
             class="card__type"
             [ngStyle]="{ background: themeColor1 }"
             *ngIf="editedKey !== 'charType'"
+            [ngClass]="{ disabled: isNewChar }"
         >
             {{ 'enum.charType.' + character?.charType | translate }}
         </span>
@@ -31,7 +32,7 @@
     </div>
 
     <span class="card__name">
-        <div class="gender-block">
+        <div class="gender-block" [ngClass]="{ disabled: isNewChar }">
             <ng-container
                 *ngTemplateOutlet="
                     editButtons;
@@ -98,7 +99,10 @@
                 </mat-form-field>
             </div>
 
-            <div class="name-block name-block--surname">
+            <div
+                class="name-block name-block--surname"
+                [ngClass]="{ disabled: isNewChar }"
+            >
                 <ng-container
                     *ngTemplateOutlet="
                         editButtons;
@@ -145,6 +149,7 @@
     <app-divider></app-divider>
 
     <app-images
+        [ngClass]="{ disabled: isNewChar }"
         [character]="character"
         [isUserLogged]="isUserLogged"
         [bgColor]="bgColor2"
@@ -154,7 +159,10 @@
 </form>
 
 <ng-template #editButtons let-key="key">
-    <div class="icons-options">
+    <div
+        class="icons-options"
+        [ngClass]="{ disabled: isNewChar && key !== 'charName' }"
+    >
         <app-edit-icon
             (clickedEvent)="setEditedKey(key)"
             *ngIf="editedKey !== key && isUserLogged"

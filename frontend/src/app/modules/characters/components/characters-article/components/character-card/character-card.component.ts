@@ -46,6 +46,8 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
 
     editedKey: string | null = null;
 
+    isNewChar = false;
+
     constructor(
         private _charactersService: CharactersService,
         private _toastrService: ToastrService,
@@ -60,8 +62,18 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
 
     ngOnInit() {
         this._route.params.subscribe((route) => {
-            this.routeId = route.id;
-            this.getCharacterById();
+            this.routeId = +route.id;
+
+            if (this.routeId === 0) {
+                this.character = new Character();
+                this.isNewChar = true;
+
+                this.patchForm(null);
+                this.editedKey = 'charName';
+                this.form.markAllAsTouched();
+            } else {
+                this.getCharacterById();
+            }
         });
 
         this.subscriptions$.add(
@@ -73,6 +85,7 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
 
     changed() {
         this.saveCharacter();
+        this.getCharacterById();
     }
 
     patchForm(key: string | null) {
@@ -188,23 +201,25 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
         request.death = isNaN(deathDate) ? 0 : deathDate;
 
         this.subscriptions$.add(
-            this._charactersService
-                .putCharacterDetails(request, false)
-                .subscribe(
-                    (_) => {
-                        this._toastrService.success(
-                            this._translate.instant(
-                                'TOASTR_MESSAGE.SAVE_SUCCESS'
-                            )
-                        );
-                        this.getCharacterById();
-                    },
-                    (err) => {
-                        this._toastrService.error(
-                            this._translate.instant('TOASTR_MESSAGE.ERROR')
-                        );
+            this._charactersService.upsertCharacter(request).subscribe(
+                (id) => {
+                    this._toastrService.success(
+                        this._translate.instant('TOASTR_MESSAGE.SAVE_SUCCESS')
+                    );
+
+                    if (this.isNewChar) {
+                        this._router.navigate(['./char-cards', id]);
+                        this.isNewChar = false;
+                        return;
                     }
-                )
+                    this.getCharacterById();
+                },
+                (err) => {
+                    this._toastrService.error(
+                        this._translate.instant('TOASTR_MESSAGE.ERROR')
+                    );
+                }
+            )
         );
     }
 
@@ -226,7 +241,9 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
                         this.returnToCharList();
                     }
 
-                    document.title = `${this.character.charName} ${this.character.charSurname}`;
+                    document.title = `${this.character.charName ?? '?'} ${
+                        this.character.charSurname ?? '?'
+                    }`;
 
                     this.character.measurements = character.measurements
                         ? new Measurements(character.measurements)
@@ -303,6 +320,7 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
                                 )
                             );
                             this.changed();
+                            this.getCharacterById();
                         },
                         (err) => {
                             this._toastrService.error(
