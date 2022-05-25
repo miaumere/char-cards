@@ -76,6 +76,10 @@ public class Character {
     @OneToMany(mappedBy = "targetCharacter", cascade = CascadeType.ALL)
     private List<RelationCoordinates> coordinatesForTarget;
 
+    @OneToMany(mappedBy = "character", cascade = CascadeType.ALL)
+    private List<CharacterTag> characterTags;
+
+
     public Character() {};
 
     public CharType getCharType() {
@@ -268,5 +272,13 @@ public class Character {
 
     public void setCoordinatesForTarget(List<RelationCoordinates> coordinatesForTarget) {
         this.coordinatesForTarget = coordinatesForTarget;
+    }
+
+    public List<CharacterTag> getCharacterTags() {
+        return characterTags;
+    }
+
+    public void setCharacterTags(List<CharacterTag> characterTags) {
+        this.characterTags = characterTags;
     }
 };
