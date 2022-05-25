@@ -5,8 +5,8 @@ import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs/operators';
 import { BaseComponent } from 'src/app/core/base.component';
 import { CharactersService } from 'src/app/core/service/characters.service';
-import { UpsertQuote } from 'src/app/modules/admin-panel/models/quotes/upsert-quote.model';
 import { IQuote } from 'src/app/modules/characters/models/quote.model';
+import { UpsertQuote } from 'src/app/modules/characters/models/quotes/upsert-quote.model';
 
 @Component({
     selector: 'app-quotes',

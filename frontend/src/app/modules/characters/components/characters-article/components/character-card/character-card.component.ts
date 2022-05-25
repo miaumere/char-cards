@@ -21,7 +21,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/core/service/auth.service';
 import { Measurements } from 'src/app/modules/characters/models/measurements.model';
 import { StatisticsService } from 'src/app/core/service/statistics.service';
-import { CharacterForChange } from 'src/app/modules/admin-panel/models/character-for-change.model';
+import { CharacterForChange } from 'src/app/modules/characters/models/character-for-change.model';
 
 @Component({
     selector: 'app-character-card',

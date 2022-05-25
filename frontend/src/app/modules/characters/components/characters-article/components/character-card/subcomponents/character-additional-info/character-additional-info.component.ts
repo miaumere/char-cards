@@ -2,9 +2,8 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { BaseComponent } from 'src/app/core/base.component';
 import { CountriesService } from 'src/app/core/service/countries.service';
-import { Country } from 'src/app/modules/admin-panel/models/countries/country.model';
 import { Character } from 'src/app/modules/characters/models/character.model';
-import { IColors } from 'src/app/modules/characters/models/colors.model';
+import { Country } from 'src/app/modules/characters/models/countries/country.model';
 
 @Component({
     selector: 'app-character-additional-info',

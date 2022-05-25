@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Gender, GenderString } from '../../admin-panel/enums/gender.enum';
+import { GenderString, Gender } from '../../characters/enums/gender.enum';
 
 @Pipe({
     name: 'genderIconColor',

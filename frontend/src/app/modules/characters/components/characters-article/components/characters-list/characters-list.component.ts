@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { CharactersService } from 'src/app/core/service/characters.service';
 import { CharacterItem } from 'src/app/modules/characters/models/character-item.model';
-import { ActivatedRoute } from '@angular/router';
 import { BaseComponent } from 'src/app/core/base.component';
 import { FormGroup, FormControl } from '@angular/forms';
-import { CharType } from 'src/app/modules/admin-panel/enums/character-type.enum';
+import { CharType } from 'src/app/modules/characters/enums/char-type.enum';
 
 @Component({
     selector: 'app-characters-list',

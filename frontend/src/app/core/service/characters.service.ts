@@ -1,45 +1,39 @@
-import { ICoordinatesRequest } from './../../modules/characters/models/relations/relation-tree-dto.model';
-import { StoryRequest } from './../../modules/admin-panel/models/character-story/story-request.model';
-import { LoaderService } from './loader.service';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
+import {
+    AllPreferences,
+    IAllPreferences,
+} from 'src/app/modules/characters/models/all-preferences.model';
+import { CharacterForChange } from 'src/app/modules/characters/models/character-for-change.model';
 import {
     CharacterItem,
     ICharacterItem,
 } from 'src/app/modules/characters/models/character-item.model';
-import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
-import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import { map, tap, finalize } from 'rxjs/operators';
-import { ICharacterForListItem } from 'src/app/modules/characters/models/character-for-list-item.model';
+import { StoryRequest } from 'src/app/modules/characters/models/character-story/story-request.model';
+import {
+    IStory,
+    Story,
+} from 'src/app/modules/characters/models/character-story/story.model';
 import {
     Character,
     ICharacter,
 } from 'src/app/modules/characters/models/character.model';
-
-import { IQuote } from 'src/app/modules/characters/models/quote.model';
 import {
-    IEditCharacter,
     EditCharacter,
-} from 'src/app/modules/admin-panel/models/edit-character.model';
-import {
-    IStory,
-    Story,
-} from 'src/app/modules/admin-panel/models/character-story/story.model';
-import { CharacterForChange } from 'src/app/modules/admin-panel/models/character-for-change.model';
-import { EditImageName } from 'src/app/modules/admin-panel/models/images/edit-image-name.model';
-import { CreateCharacter } from 'src/app/modules/admin-panel/models/create-character.model';
-import { IEditPreference } from 'src/app/modules/admin-panel/models/preferences/edit-preferences.model';
-import {
-    IAllPreferences,
-    AllPreferences,
-} from 'src/app/modules/characters/models/all-preferences.model';
-import { UpsertQuote } from 'src/app/modules/admin-panel/models/quotes/upsert-quote.model';
+    IEditCharacter,
+} from 'src/app/modules/characters/models/edit-character.model';
+import { EditImageName } from 'src/app/modules/characters/models/images/edit-image-name.model';
+import { IEditPreference } from 'src/app/modules/characters/models/preferences/edit-preferences.model';
+import { IQuote } from 'src/app/modules/characters/models/quote.model';
+import { UpsertQuote } from 'src/app/modules/characters/models/quotes/upsert-quote.model';
 import {
     IRelationForCharacter,
     IRelationRequest,
     IRelationTreeDto,
     RelationTreeDto,
 } from 'src/app/modules/characters/models/relations/relation-tree-dto.model';
+import { ICoordinatesRequest } from './../../modules/characters/models/relations/relation-tree-dto.model';
 
 @Injectable({
     providedIn: 'root',

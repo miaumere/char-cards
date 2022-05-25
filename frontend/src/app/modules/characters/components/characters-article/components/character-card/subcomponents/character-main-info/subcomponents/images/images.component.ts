@@ -13,9 +13,9 @@ import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs/operators';
 import { BaseComponent } from 'src/app/core/base.component';
 import { CharactersService } from 'src/app/core/service/characters.service';
-import { EditImageName } from 'src/app/modules/admin-panel/models/images/edit-image-name.model';
 import { Character } from 'src/app/modules/characters/models/character.model';
 import { IImageForMain } from 'src/app/modules/characters/models/image-for-main.model';
+import { EditImageName } from 'src/app/modules/characters/models/images/edit-image-name.model';
 
 @Component({
     selector: 'app-images [character] [isUserLogged] [bgColor]',

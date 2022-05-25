@@ -1,19 +1,14 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDatepicker } from '@angular/material/datepicker';
-import { ActivatedRoute } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
-import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
 import { BaseComponent } from 'src/app/core/base.component';
 import { CharactersService } from 'src/app/core/service/characters.service';
-import { IEditPreference } from 'src/app/modules/admin-panel/models/preferences/edit-preferences.model';
 import { AllPreferences } from 'src/app/modules/characters/models/all-preferences.model';
 import { CharacterItem } from 'src/app/modules/characters/models/character-item.model';
 import { CharacterPreferences } from 'src/app/modules/characters/models/character-preferences.model';
-import { IPreferenceTypes } from 'src/app/modules/characters/models/preference-type.model';
-import { preferenceTypes } from '../../../../preference-types';
+import { IEditPreference } from 'src/app/modules/characters/models/preferences/edit-preferences.model';
 
 @Component({
     selector: 'app-preferences [preferences] [bgColor] [charId]',

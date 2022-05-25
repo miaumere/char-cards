@@ -5,12 +5,11 @@ import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { BaseComponent } from 'src/app/core/base.component';
 import { CharactersService } from 'src/app/core/service/characters.service';
-import { StoryRequest } from 'src/app/modules/admin-panel/models/character-story/story-request.model';
+import { StoryRequest } from 'src/app/modules/characters/models/character-story/story-request.model';
 import {
-    IStory,
     Story,
-} from 'src/app/modules/admin-panel/models/character-story/story.model';
-import { IImageForMain } from 'src/app/modules/characters/models/image-for-main.model';
+    IStory,
+} from 'src/app/modules/characters/models/character-story/story.model';
 
 @Component({
     selector: 'app-story [story] [color] [charId] [isUserLogged]',

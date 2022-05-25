@@ -40,17 +40,6 @@
         </button>
     </li>
     <mat-menu #menu="matMenu">
-        <a [routerLink]="['/admin-panel']">
-            <button
-                mat-menu-item
-                *ngIf="
-                    (_authService.loggedUser$ | async) &&
-                    (_authService.loggedUser$ | async)?.username
-                "
-            >
-                {{ 'NAVBAR.ADMIN_CHARACTERS' | translate }}
-            </button>
-        </a>
         <a [routerLink]="['/edit-story-panel']">
             <button
                 mat-menu-item

@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import {
-    ICountry,
-    Country,
-} from 'src/app/modules/admin-panel/models/countries/country.model';
+
 import { map, tap } from 'rxjs/operators';
 import { of, Observable } from 'rxjs';
+import {
+    Country,
+    ICountry,
+} from 'src/app/modules/characters/models/countries/country.model';
 
 @Injectable({
     providedIn: 'root',

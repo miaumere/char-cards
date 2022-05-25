@@ -1,11 +1,11 @@
-import { Story } from '../../admin-panel/models/character-story/story.model';
 import { Colors, IColors } from './colors.model';
 import { IImageForMain } from './image-for-main.model';
 import { ITemperament, Temperament } from './temperament.model';
 import { IMeasurements, Measurements } from './measurements.model';
 import { IQuote } from './quote.model';
 import { IStarringIn } from './starring-in.model';
-import { Gender, GenderString } from '../../admin-panel/enums/gender.enum';
+import { Gender, GenderString } from '../enums/gender.enum';
+import { Story } from './character-story/story.model';
 
 type characterType = 'MAIN' | 'SIDE' | 'BACKGROUND' | null;
 export interface ICharacter {

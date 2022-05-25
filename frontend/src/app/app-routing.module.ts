@@ -25,14 +25,7 @@ const routes: Routes = [
         loadChildren: () =>
             import('./modules/login/login.module').then((m) => m.LoginModule),
     },
-    {
-        path: 'admin-panel',
-        canActivate: [AdminPermissionsGuard],
-        loadChildren: () =>
-            import('./modules/admin-panel/admin-panel.module').then(
-                (m) => m.AdminPanelModule
-            ),
-    },
+
     {
         path: 'edit-story-panel',
         // canActivate: [AdminPermissionsGuard],
