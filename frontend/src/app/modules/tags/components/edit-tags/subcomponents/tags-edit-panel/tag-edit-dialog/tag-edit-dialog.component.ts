@@ -36,6 +36,7 @@ export class TagEditDialogComponent extends BaseComponent implements OnInit {
         private _tagsService: TagsService
     ) {
         super();
+        dialogRef.disableClose = true;
     }
 
     ngOnInit(): void {

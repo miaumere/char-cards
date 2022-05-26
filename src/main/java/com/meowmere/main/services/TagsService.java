@@ -8,10 +8,8 @@ import com.meowmere.main.dto.statistics.NationalitiesStatisticsDTO;
 import com.meowmere.main.dto.statistics.StatisticsDTO;
 import com.meowmere.main.dto.statistics.TypeStatisticsDTO;
 import com.meowmere.main.dto.statistics.age.AgeDTO;
+import com.meowmere.main.entities.characters.*;
 import com.meowmere.main.entities.characters.Character;
-import com.meowmere.main.entities.characters.Image;
-import com.meowmere.main.entities.characters.Preference;
-import com.meowmere.main.entities.characters.Tag;
 import com.meowmere.main.entities.story.Book;
 import com.meowmere.main.enums.CharType;
 import com.meowmere.main.enums.Gender;
@@ -27,9 +25,9 @@ import java.util.*;
 @Service
 public class TagsService {
     @Autowired
-    TagRepository tagRepository;
+    public TagRepository tagRepository;
     @Autowired
-    CharacterTagRepository characterTagRepository;
+    public CharacterTagRepository characterTagRepository;
 
     public ResponseEntity getAllTags() {
         List<Tag> tags = tagRepository.findAll();
@@ -57,6 +55,10 @@ public class TagsService {
     public ResponseEntity deleteTag(Integer id) {
         Tag tag = tagRepository.getOne(id);
         if(tag != null) {
+
+            List<CharacterTag> characterTags = characterTagRepository.getCharacterTagsForTag(id);
+            characterTags.forEach(characterTag -> characterTagRepository.delete(characterTag));
+
             tagRepository.delete(tag);
         }
         return  new ResponseEntity(HttpStatus.OK);

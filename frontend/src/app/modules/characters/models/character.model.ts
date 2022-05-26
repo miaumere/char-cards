@@ -6,6 +6,7 @@ import { IQuote } from './quote.model';
 import { IStarringIn } from './starring-in.model';
 import { Gender, GenderString } from '../enums/gender.enum';
 import { Story } from './character-story/story.model';
+import { ITag, Tag } from '../../tags/models/tag.model';
 
 type characterType = 'MAIN' | 'SIDE' | 'BACKGROUND' | null;
 export interface ICharacter {
@@ -31,6 +32,8 @@ export interface ICharacter {
     nationality: string;
     starringIn: IStarringIn[];
     profilePic: string | null;
+
+    tags: ITag[];
 }
 
 export class Character implements ICharacter {
@@ -58,6 +61,8 @@ export class Character implements ICharacter {
     charType: characterType = 'BACKGROUND';
     nationality: string = '';
     starringIn: IStarringIn[] = [];
+
+    tags: ITag[] = [];
 
     constructor(initialValues?: ICharacter) {
         if (initialValues) {

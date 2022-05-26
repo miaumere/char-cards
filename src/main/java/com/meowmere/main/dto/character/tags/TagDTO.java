@@ -5,6 +5,9 @@ public class TagDTO {
     private String name;
     private String color;
 
+    public TagDTO() {
+    }
+
     public TagDTO(Integer id, String name, String color) {
         this.id = id;
         this.name = name;

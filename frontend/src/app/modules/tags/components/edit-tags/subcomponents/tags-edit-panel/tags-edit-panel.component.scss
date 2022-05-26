@@ -12,13 +12,14 @@
 .tags {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
 }
 
 .tag {
     &:first-child {
         margin: 0;
     }
-    margin-left: 1rem;
+    margin: 0.2rem 0.5rem;
 }
 
 .add-icon {

@@ -6,9 +6,11 @@ import com.meowmere.main.dto.character.measurements.CharacterMeasurementsDTO;
 import com.meowmere.main.dto.character.quote.CharacterQuoteDTO;
 import com.meowmere.main.dto.character.relationship.RelationshipDTO;
 import com.meowmere.main.dto.character.story.CharacterStoryDTO;
+import com.meowmere.main.dto.character.tags.TagDTO;
 import com.meowmere.main.dto.character.temperament.CharacterTemperamentDTO;
 import com.meowmere.main.dto.story.starring.BookWithStarringCharsDTO;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CharacterDTO {
@@ -32,6 +34,7 @@ public class CharacterDTO {
     public List<ImageDTO> imagesList;
     public List<BookWithStarringCharsDTO> starringIn;
     private String profilePic;
+    private List<TagDTO> tags = new ArrayList<>();
 
 
     public String getCharType() {
@@ -192,5 +195,13 @@ public class CharacterDTO {
 
     public void setArchived(Boolean archived) {
         this.archived = archived;
+    }
+
+    public List<TagDTO> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<TagDTO> tags) {
+        this.tags = tags;
     }
 }

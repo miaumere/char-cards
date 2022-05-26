@@ -14,6 +14,7 @@ import com.meowmere.main.dto.character.quote.CharacterQuoteDTO;
 import com.meowmere.main.dto.character.quote.QuoteForListDTO;
 import com.meowmere.main.dto.character.relation.*;
 import com.meowmere.main.dto.character.story.CharacterStoryDTO;
+import com.meowmere.main.dto.character.tags.TagDTO;
 import com.meowmere.main.dto.character.temperament.CharacterTemperamentDTO;
 import com.meowmere.main.dto.story.books.BookDTO;
 import com.meowmere.main.dto.story.starring.BookWithStarringCharsDTO;
@@ -84,6 +85,10 @@ public class CharactersService {
     public RelationCoordinatesRepository relationCoordinatesRepository;
     @Autowired
     private UserService userService;
+    @Autowired
+    public TagRepository tagRepository;
+    @Autowired
+    public CharacterTagRepository characterTagRepository;
 
     public ResponseEntity getNonArchivedCharacters() {
         List<Character> allCharactersFromDb = characterRepository.getNonArchivedCharacters();
@@ -218,6 +223,14 @@ public class CharactersService {
         }
         dto.setStarringIn(bookWithStarringCharsDTOS);
 
+        List<Tag> tags = tagRepository.getTagsForCharacter(externalId);
+
+        List<TagDTO> tagDTOS = new ArrayList<>();
+        for (Tag tag: tags) {
+            TagDTO tagDTO= new TagDTO(tag.getId(), tag.getName(), tag.getColor());
+            tagDTOS.add(tagDTO);
+        }
+        dto.setTags(tagDTOS);
 
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
@@ -384,6 +397,9 @@ public class CharactersService {
 
         List<Relation> relationList = relationsRepository.getRelationsForCharacter(id);
         relationList.forEach(relation -> relationsRepository.delete(relation));
+
+        List<CharacterTag> characterTags = characterTagRepository.getCharacterTagsForCharacter(id);
+        characterTags.forEach(characterTag -> characterTagRepository.delete(characterTag));
 
         characterRepository.delete(character);
         return new ResponseEntity(HttpStatus.OK);

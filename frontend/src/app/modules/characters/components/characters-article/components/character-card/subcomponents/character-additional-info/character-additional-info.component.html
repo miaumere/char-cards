@@ -216,7 +216,10 @@
     <div>
         <app-divider></app-divider>
         <div class="tags">
-            <!-- <app-tag></app-tag> -->
+            <app-tag
+                *ngFor="let tag of character?.tags"
+                [tagData]="tag"
+            ></app-tag>
         </div>
     </div>
 </form>
