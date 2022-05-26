@@ -1,3 +1,4 @@
+import { TagsModule } from './../tags/tags.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { FilenameModifierPipe } from './pipes/filename-modifier.pipe';
 import { CommonModule } from '@angular/common';
@@ -28,7 +29,6 @@ import { HistoricalPreferencesComponent } from './components/characters-article/
 import { PreferencesComponent } from './components/characters-article/components/character-card/subcomponents/char-information/subcomponents/preferences/preferences.component';
 import { StarringInInfoComponent } from './components/characters-article/components/character-card/subcomponents/char-information/subcomponents/starring-in-info/starring-in-info.component';
 import { CharacterMainInfoComponent } from './components/characters-article/components/character-card/subcomponents/character-main-info/character-main-info.component';
-import { TagsComponent } from './components/tags/tags/tags.component';
 import { MatChipsModule } from '@angular/material/chips';
 import { TemperamentBarsComponent } from './components/characters-article/components/character-card/subcomponents/character-additional-info/subcomponents/temperament-bars/temperament-bars.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
@@ -67,7 +67,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
         StoryComponent,
         CharInformationComponent,
         CharacterMainInfoComponent,
-        TagsComponent,
         TemperamentBarsComponent,
         ImagesComponent,
         ProfilePicComponent,
@@ -106,6 +105,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
         MatSliderModule,
         MatTabsModule,
         MatTooltipModule,
+        TagsModule,
     ],
     exports: [HistoricalPreferencesComponent, ProfilePicComponent],
 

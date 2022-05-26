@@ -51,6 +51,19 @@
                 {{ 'NAVBAR.ADMIN_CHAPTERS' | translate }}
             </button>
         </a>
+
+        <a [routerLink]="['/tags']">
+            <button
+                mat-menu-item
+                *ngIf="
+                    (_authService.loggedUser$ | async) &&
+                    (_authService.loggedUser$ | async)?.username
+                "
+            >
+                {{ 'NAVBAR.TAGS' | translate }}
+            </button>
+        </a>
+
         <a [routerLink]="['/login']">
             <button mat-menu-item *ngIf="!(_authService.loggedUser$ | async)">
                 <mat-icon svgIcon="log-in"></mat-icon>

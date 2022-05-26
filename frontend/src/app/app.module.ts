@@ -1,4 +1,4 @@
-import { AdminPermissionsGuard } from './core/guards/admin-permissions-guard.service';
+import { AdminPermissionsResolver } from './core/resolvers/admin-permissions.resolver';
 import { CoreInterceptorService } from './core/interceptors/core-interceptor.service';
 import { EditStoryPanelModule } from './modules/edit-story-panel/edit-story-panel.module';
 import { CoreModule } from './core/core.module';
@@ -88,7 +88,7 @@ export function initApp(translate: TranslateService) {
     ],
     providers: [
         HttpClientModule,
-        AdminPermissionsGuard,
+        AdminPermissionsResolver,
         {
             provide: HTTP_INTERCEPTORS,
             useClass: CoreInterceptorService,

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AdminPermissionsGuard } from './core/guards/admin-permissions-guard.service';
+import { AdminPermissionsResolver } from './core/resolvers/admin-permissions.resolver';
 
 const routes: Routes = [
     {
@@ -25,19 +25,20 @@ const routes: Routes = [
         loadChildren: () =>
             import('./modules/login/login.module').then((m) => m.LoginModule),
     },
-
     {
         path: 'edit-story-panel',
-        // canActivate: [AdminPermissionsGuard],
+        resolve: [AdminPermissionsResolver],
         loadChildren: () =>
             import('./modules/edit-story-panel/edit-story-panel.module').then(
                 (m) => m.EditStoryPanelModule
             ),
     },
-    // {
-    //   path: 'statistics',
-    //   loadChildren: () => import('./modules/statistics/statistics.module').then(m => m.StatisticsModule)
-    // }
+    {
+        path: 'tags',
+        resolve: [AdminPermissionsResolver],
+        loadChildren: () =>
+            import('./modules/tags/tags.module').then((m) => m.TagsModule),
+    },
 ];
 
 @NgModule({

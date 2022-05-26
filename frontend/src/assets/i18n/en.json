@@ -19,6 +19,7 @@
         "STATISTICS": "Statistics",
         "ADMIN_CHARACTERS": "Admin panel - characters",
         "ADMIN_CHAPTERS": "Admin panel - chapters",
+        "TAGS": "Tags",
         "LOGIN": "Login",
         "LOGOUT": "Logout",
         "NO_USER": "User not logged in"
@@ -228,6 +229,10 @@
         "CONFLICT_DEF": "A conflict is a clash of interest. The basis of conflict may vary but it is always a part of society. Basis of conflict may be personal, racial, class, caste, political and international.",
         "ENEMY_DEF": "Enmity is a feeling of hatred towards someone that lasts for a long time.",
         "HATRED_DEF": "Hatred is a feeling. It can cause an angry, or resentful emotional response, which can be used against certain people, or ideas. Hatred is often associated with feelings of anger, disgust and a disposition towards the source of hostility."
+    },
+    "EDIT_TAGS": {
+        "TAG_NAME": "Tag name",
+        "TAG_COLOR": "Tag color"
     },
     "TOASTR_MESSAGE": {
         "ERROR": "An error has occured.",

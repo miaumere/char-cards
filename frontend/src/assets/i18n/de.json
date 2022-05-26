@@ -19,6 +19,7 @@
         "STATISTICS": "Statistiken",
         "ADMIN_CHARACTERS": "Administrationsmenü - Figuren",
         "ADMIN_CHAPTERS": "Administrationsmenü - Kapitel",
+        "TAGS": "Tags",
         "LOGIN": "Anmelden",
         "LOGOUT": "Ausloggen",
         "NO_USER": "Benutzer nicht angemeldet"
@@ -228,6 +229,10 @@
         "CONFLICT_DEF": "Verachtung ist eine starke Geringschätzung, basierend auf der bewussten oder unbewussten Überzeugung des Unwertes der von ihr betroffenen Personen (auch Personengruppen) oder Institutionen.",
         "ENEMY_DEF": "Der Begriff Feindschaft bezeichnet eine soziale Beziehung zwischen zwei oder mehr Individuen oder Gruppen, die durch die Existenz von Feindbildern gekennzeichnet ist. Die Feindschaft kann aufgrund einer Konkurrenzsituation, einer asymmetrischen Beziehung oder einer mit negativen Emotionen behafteten Beziehungsgeschichte entstehen.",
         "HATRED_DEF": "Hass ist ein intensives Gefühl der Abneigung und Feindseligkeit. Hass wird als Gegenpol zur Liebe betrachtet."
+    },
+    "EDIT_TAGS": {
+        "TAG_NAME": "Tag-Name",
+        "TAG_COLOR": "Tag-Farbe"
     },
     "TOASTR_MESSAGE": {
         "ERROR": "Ein Fehler ist aufgetreten.",

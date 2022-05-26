@@ -35,11 +35,21 @@ body .mat-standard-chip {
     height: 21px !important;
 
     border-radius: 3px !important;
-    padding: 0 2px 0 6px !important;
+    padding: 0 11px 0 16px !important;
     margin-left: 0.3rem !important;
 
     line-height: 21px !important;
-    font-size: x-small !important;
+    font-size: 12px !important;
+
+    cursor: pointer;
+    transition: 0.2s;
+
+    border: 1px solid rgba(0, 0, 0, 0.2);
+
+    &:hover {
+        filter: brightness(130%);
+        border: 1px solid rgba(255, 255, 255, 0.4);
+    }
 
     &::before {
         border-radius: 50% !important;
@@ -50,6 +60,6 @@ body .mat-standard-chip {
         position: absolute !important;
         width: 5px !important;
         top: 7px !important;
-        background: white !important;
+        background: #1b1d1e !important;
     }
 }

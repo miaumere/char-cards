@@ -1,0 +1,17 @@
+<div class="tags-edit-panel">
+    <h2 class="tags-edit-panel__title">🔶{{ 'NAVBAR.TAGS' | translate }}</h2>
+
+    <div class="tags">
+        <app-tag
+            *ngFor="let tag of tags"
+            [tagData]="tag"
+            class="tag"
+            (click)="openNewTagDialog(tag)"
+        ></app-tag>
+        <mat-icon
+            class="basic-icon basic-icon--expand add-icon"
+            (click)="openNewTagDialog()"
+            >add</mat-icon
+        >
+    </div>
+</div>

@@ -1,0 +1,6 @@
+<mat-chip
+    [ngStyle]="{ background: tagData.color, color: textColor }"
+    *ngIf="tagData"
+    [disableRipple]="true"
+    >{{ tagData.name }}
+</mat-chip>

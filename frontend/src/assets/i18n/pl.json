@@ -19,6 +19,7 @@
         "STATISTICS": "Statystyki",
         "ADMIN_CHARACTERS": "Panel admina - postacie",
         "ADMIN_CHAPTERS": "Panel admina - części",
+        "TAGS": "Tagi",
         "LOGIN": "Zaloguj się",
         "LOGOUT": "Wyloguj się",
         "NO_USER": "Niezalogowany"
@@ -229,6 +230,10 @@
         "ENEMY_DEF": "Awersja, niechęć do danej osoby.",
         "HATRED_DEF": "Silna niechęć, awersja, wrogość do danej osoby."
     },
+    "EDIT_TAGS": {
+        "TAG_NAME": "Nazwa tagu",
+        "TAG_COLOR": "Kolor tagu"
+    },
     "TOASTR_MESSAGE": {
         "ERROR": "Wystąpił błąd.",
         "LOGIN_SUCCESS": "Udało się zalogować.",
@@ -242,6 +247,7 @@
         "NO_CHARACTER": "Błąd walidacji!  Postać nie istnieje.",
         "EMPTY_FIELDS": "Uzupełnij wszystkie pola!"
     },
+
     "enum": {
         "charType": {
             "MAIN": "Postać główna",
