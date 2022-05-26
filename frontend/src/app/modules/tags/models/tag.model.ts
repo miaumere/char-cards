@@ -11,4 +11,8 @@ export class Tag implements ITag {
     constructor(initialValues: ITag) {
         Object.assign(this, initialValues);
     }
+
+    toString() {
+        return this.name;
+    }
 }

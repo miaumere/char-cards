@@ -1,9 +1,14 @@
+import { TagsService } from 'src/app/core/service/tags.service';
+import { Tag } from 'src/app/modules/tags/models/tag.model';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { BaseComponent } from 'src/app/core/base.component';
 import { CountriesService } from 'src/app/core/service/countries.service';
 import { Character } from 'src/app/modules/characters/models/character.model';
 import { Country } from 'src/app/modules/characters/models/countries/country.model';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { ToastrService } from 'ngx-toastr';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-character-additional-info',
@@ -28,7 +33,19 @@ export class CharacterAdditionalInfoComponent
     originalFlag?: Country = undefined;
     countries: Country[] = [];
 
-    constructor(private _countriesService: CountriesService) {
+    newTagForm = new FormGroup({
+        tagToAdd: new FormControl(null),
+    });
+
+    filteredTagsList: Tag[] = [];
+    tagsList: Tag[] = [];
+
+    constructor(
+        private _countriesService: CountriesService,
+        private _tagsService: TagsService,
+        private _toastrService: ToastrService,
+        private _translate: TranslateService
+    ) {
         super();
     }
 
@@ -37,7 +54,26 @@ export class CharacterAdditionalInfoComponent
 
         if (this.isUserLogged) {
             this.getCountriesList();
+
+            this.getTags();
+            this.newTagForm.get('tagToAdd')?.valueChanges.subscribe((value) => {
+                this._filterTags(value);
+            });
         }
+    }
+
+    private _filterTags(value: string) {
+        if (!value) {
+            this.filteredTagsList = this.tagsList;
+            return;
+        }
+        const regex = new RegExp(value, 'gi');
+
+        const filteredTags = this.filteredTagsList.filter((c) => {
+            return c.name.match(regex);
+        });
+
+        this.filteredTagsList = filteredTags;
     }
 
     getCountriesList() {
@@ -80,5 +116,49 @@ export class CharacterAdditionalInfoComponent
         this.editedKey = key;
         this.flag = this.originalFlag;
         this.editedKeyChange.emit(key);
+    }
+
+    addTagToCharacter(event: MatAutocompleteSelectedEvent) {
+        this.newTagForm.get('tagToAdd')?.reset();
+        const tag = event.option?.value;
+        if (tag.id && this.character?.externalId) {
+            this.subscriptions$.add(
+                this._tagsService
+                    .assignTagToCharacter(tag.id, this.character?.externalId)
+                    .subscribe(() => {
+                        this.emitInfoHasChangedEvent();
+                    })
+            );
+        }
+    }
+
+    deleteCharacterTag(tagId: number) {
+        if (this.character) {
+            this.subscriptions$.add(
+                this._tagsService
+                    .deleteCharacterTag(tagId, this.character?.externalId)
+                    .subscribe(() => {
+                        this.emitInfoHasChangedEvent();
+                    })
+            );
+        }
+    }
+
+    insertDeleteInfo() {
+        this._toastrService.warning(
+            this._translate.instant('TOASTR_MESSAGE.DELETE_INFO')
+        );
+    }
+
+    getTags() {
+        this.subscriptions$.add(
+            this._tagsService.getAllTags().subscribe((tags) => {
+                const otherTags = tags.filter((x) => {
+                    return !this.character?.tags.some((y) => y.id === x.id);
+                });
+                this.tagsList = otherTags;
+                this.filteredTagsList = otherTags;
+            })
+        );
     }
 }

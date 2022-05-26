@@ -1,5 +1,6 @@
 package com.meowmere.main.controllers;
 
+import com.meowmere.main.dto.character.tags.AssignTagToCharacterRequest;
 import com.meowmere.main.dto.character.tags.TagDTO;
 import com.meowmere.main.services.StatisticsService;
 import com.meowmere.main.services.TagsService;
@@ -25,7 +26,15 @@ public class TagsController {
         return tagsService.upsertTag(request);
     }
 
-    @DeleteMapping("/delete-tag")
+    @PostMapping("assign-tag")
+    public ResponseEntity assignTagToCharacter(@RequestBody AssignTagToCharacterRequest request) {
+        return tagsService.assignTag(request);
+    }
+
+    @DeleteMapping("delete-tag")
     public ResponseEntity deleteTag(@RequestParam Integer id) {return tagsService.deleteTag(id);}
+
+    @DeleteMapping("delete-character-tag")
+    public ResponseEntity deleteCharacterTag(@RequestParam Integer tagId, @RequestParam Long characterId) {return tagsService.deleteCharacterTag(tagId, characterId);}
 
 }

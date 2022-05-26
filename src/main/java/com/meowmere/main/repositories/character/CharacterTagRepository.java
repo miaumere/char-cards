@@ -18,4 +18,6 @@ public interface CharacterTagRepository extends JpaRepository<CharacterTag, Inte
     @Query("select ct from CharacterTag ct where ct.tag.id = :tagId")
     List<CharacterTag> getCharacterTagsForTag(@Param("tagId") Integer tagId);
 
+    @Query("select ct from CharacterTag ct where ct.tag.id = :tagId and ct.character.externalId = :charId")
+    CharacterTag getCharacterTagForCharacterAndTag(@Param("tagId") Integer tagId, @Param("charId") Long charId);
 }

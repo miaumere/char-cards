@@ -2,6 +2,7 @@ package com.meowmere.main.services;
 
 import com.meowmere.main.dto.character.image.ImageDTO;
 import com.meowmere.main.dto.character.preference.PreferenceDTO;
+import com.meowmere.main.dto.character.tags.AssignTagToCharacterRequest;
 import com.meowmere.main.dto.character.tags.TagDTO;
 import com.meowmere.main.dto.statistics.GenderStatisticDTO;
 import com.meowmere.main.dto.statistics.NationalitiesStatisticsDTO;
@@ -28,6 +29,8 @@ public class TagsService {
     public TagRepository tagRepository;
     @Autowired
     public CharacterTagRepository characterTagRepository;
+    @Autowired
+    public CharacterRepository characterRepository;
 
     public ResponseEntity getAllTags() {
         List<Tag> tags = tagRepository.findAll();
@@ -52,6 +55,21 @@ public class TagsService {
         return new ResponseEntity(HttpStatus.OK);
     }
 
+    public ResponseEntity assignTag(AssignTagToCharacterRequest request) {
+        Tag tag = tagRepository.getOne(request.getTagId());
+        Character character = characterRepository.getOne(request.getCharacterId());
+
+        if(tag == null || character == null) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+        CharacterTag characterTag = new CharacterTag();
+        characterTag.setTag(tag);
+        characterTag.setCharacter(character);
+
+        characterTagRepository.saveAndFlush(characterTag);
+        return new ResponseEntity(HttpStatus.CREATED);
+    }
+
     public ResponseEntity deleteTag(Integer id) {
         Tag tag = tagRepository.getOne(id);
         if(tag != null) {
@@ -61,6 +79,12 @@ public class TagsService {
 
             tagRepository.delete(tag);
         }
+        return  new ResponseEntity(HttpStatus.OK);
+    }
+
+    public ResponseEntity deleteCharacterTag(Integer tagId, Long characterId) {
+        CharacterTag characterTag = characterTagRepository.getCharacterTagForCharacterAndTag(tagId, characterId);
+        characterTagRepository.delete(characterTag);
         return  new ResponseEntity(HttpStatus.OK);
     }
 }
