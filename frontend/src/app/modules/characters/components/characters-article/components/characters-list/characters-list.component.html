@@ -18,38 +18,63 @@
             </mat-form-field>
         </span>
 
-        <button
-            mat-raised-button
-            [color]="isMain ? 'accent' : 'basic'"
-            (click)="
-                isMain ? (isMain = false) : (isMain = true); searchCharacter()
-            "
-        >
-            <img [src]="rdestUrl" class="rdest" />
-            {{ 'enum.charType.MAIN' | translate }}
-        </button>
+        <div class="buttons-container">
+            <button
+                mat-raised-button
+                [color]="isMain ? 'accent' : 'basic'"
+                (click)="
+                    isMain ? (isMain = false) : (isMain = true);
+                    searchCharacter()
+                "
+                class="char-type-button"
+            >
+                <div class="char-type-button__container">
+                    <img [src]="rdestUrl" class="rdest rdest--main" />
+                    {{ 'enum.charType.MAIN' | translate }}
+                </div>
+            </button>
 
-        <button
-            mat-raised-button
-            [color]="isSide ? 'accent' : 'basic'"
-            (click)="
-                isSide ? (isSide = false) : (isSide = true); searchCharacter()
-            "
-        >
-            <img [src]="rdestUrl" class="rdest--side" />
-            {{ 'enum.charType.SIDE' | translate }}
-        </button>
+            <button
+                mat-raised-button
+                [color]="isSide ? 'accent' : 'basic'"
+                (click)="
+                    isSide ? (isSide = false) : (isSide = true);
+                    searchCharacter()
+                "
+                class="char-type-button"
+            >
+                <div class="char-type-button__container">
+                    <img [src]="rdestUrl" class="rdest rdest--side" />
+                    {{ 'enum.charType.SIDE' | translate }}
+                </div>
+            </button>
 
-        <button
-            mat-raised-button
-            [color]="isBackground ? 'accent' : 'basic'"
-            (click)="
-                isBackground ? (isBackground = false) : (isBackground = true);
-                searchCharacter()
-            "
-        >
-            {{ 'enum.charType.BACKGROUND' | translate }}
-        </button>
+            <button
+                mat-raised-button
+                [color]="isBackground ? 'accent' : 'basic'"
+                (click)="
+                    isBackground
+                        ? (isBackground = false)
+                        : (isBackground = true);
+                    searchCharacter()
+                "
+                class="char-type-button"
+            >
+                <div class="char-type-button__container">
+                    {{ 'enum.charType.BACKGROUND' | translate }}
+                </div>
+            </button>
+        </div>
+
+        <div class="tags">
+            <app-tag
+                class="tag"
+                [ngClass]="{ 'tag--disabled': !chosenTags.includes(tag) }"
+                [tagData]="tag"
+                *ngFor="let tag of tags"
+                (click)="setTagFilter(tag)"
+            ></app-tag>
+        </div>
     </form>
 
     <div class="characters">

@@ -24,6 +24,8 @@ import org.springframework.stereotype.Service;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import static java.util.Comparator.comparing;
+
 @Service
 public class TagsService {
     @Autowired
@@ -40,6 +42,21 @@ public class TagsService {
         if(tags != null) {
             tags.forEach(tag -> tagDTOS.add(new TagDTO(tag.getId(), tag.getName(), tag.getColor())));
         }
+        return new ResponseEntity(tagDTOS, HttpStatus.OK);
+    }
+
+    public ResponseEntity getAssignedTags() {
+        List<Tag> tags = tagRepository.getTagsWithAssignations();
+
+        ArrayList<TagDTO> tagDTOS = new ArrayList<>();
+        if(tags != null) {
+            for (Tag tag : tags) {
+                Integer characterTagsSize = characterTagRepository.getCharacterTagsForTag(tag.getId()).size();
+                tagDTOS.add(new TagDTO(tag.getId(), "("+characterTagsSize+")" + tag.getName(), tag.getColor()));
+            }
+        }
+
+        tagDTOS.sort(comparing(TagDTO::getName).reversed());
         return new ResponseEntity(tagDTOS, HttpStatus.OK);
     }
 

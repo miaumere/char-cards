@@ -1,3 +1,5 @@
+import { ITag, Tag } from '../../tags/models/tag.model';
+
 export interface ICharacterItem {
     id: number;
     fullName: string;
@@ -8,6 +10,8 @@ export interface ICharacterItem {
     archived: boolean;
 
     birthday: number | null;
+
+    tags: Tag[];
 }
 
 export class CharacterItem implements ICharacterItem {
@@ -21,6 +25,8 @@ export class CharacterItem implements ICharacterItem {
 
     birthday: number | null = null;
     hasBirthdayToday: boolean = false;
+
+    tags: Tag[] = [];
 
     constructor(initialValues: ICharacterItem) {
         Object.assign(this, initialValues);

@@ -13,4 +13,6 @@ public interface TagRepository extends JpaRepository<Tag, Integer> {
     @Query("select t from Tag t where t.id in(select ct.tag.id from CharacterTag ct where ct.character.externalId = :charId) order by t.name")
     List<Tag> getTagsForCharacter(@Param("charId") Long charId);
 
+    @Query("select t from Tag t where t.id in(select ct.tag.id from CharacterTag ct) order by t.name")
+    List<Tag> getTagsWithAssignations();
 }

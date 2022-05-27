@@ -1,6 +1,9 @@
 package com.meowmere.main.dto.character.character;
 
+import com.meowmere.main.dto.character.tags.TagDTO;
 import com.meowmere.main.entities.characters.Character;
+
+import java.util.List;
 
 public class CharactersMenuDTO {
     private Long id;
@@ -11,6 +14,8 @@ public class CharactersMenuDTO {
     private String profilePic;
     private Boolean archived;
     private Long birthday;
+
+    private List<TagDTO> tags;
 
 
     public CharactersMenuDTO() {
@@ -49,4 +54,11 @@ public class CharactersMenuDTO {
         return birthday;
     }
 
+    public List<TagDTO> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<TagDTO> tags) {
+        this.tags = tags;
+    }
 }

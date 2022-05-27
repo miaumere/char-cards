@@ -21,6 +21,7 @@ import com.meowmere.main.dto.story.starring.BookWithStarringCharsDTO;
 import com.meowmere.main.dto.story.starring.ChaptersWithCharStarringTypeDTO;
 import com.meowmere.main.entities.characters.Character;
 import com.meowmere.main.entities.characters.*;
+import com.meowmere.main.entities.characters.Image;
 import com.meowmere.main.entities.story.Book;
 import com.meowmere.main.entities.story.Chapter;
 import com.meowmere.main.entities.story.StarringCharacters;
@@ -30,7 +31,6 @@ import com.meowmere.main.repositories.story.BookRepository;
 import com.meowmere.main.repositories.story.ChapterRepository;
 import com.meowmere.main.repositories.story.StarringCharactersRepository;
 import com.meowmere.main.requests.characters.character.ChangeCharacterStateRequest;
-import com.meowmere.main.requests.characters.character.CreateCharacterRequest;
 import com.meowmere.main.requests.characters.character.EditCharacterRequest;
 import com.meowmere.main.requests.characters.image.ImageRenameRequest;
 import com.meowmere.main.requests.characters.preference.PreferenceRequest;
@@ -40,7 +40,6 @@ import com.meowmere.main.utils.UtilsShared;
 import org.apache.commons.io.FilenameUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -49,8 +48,10 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
+import static java.util.Comparator.comparing;
 import java.io.IOException;
 import java.util.*;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -90,26 +91,11 @@ public class CharactersService {
     @Autowired
     public CharacterTagRepository characterTagRepository;
 
-    public ResponseEntity getNonArchivedCharacters() {
-        List<Character> allCharactersFromDb = characterRepository.getNonArchivedCharacters();
-        ArrayList<CharactersMenuDTO> dtoList = new ArrayList<>();
-
-        for(Character characterFromDb : allCharactersFromDb) {
-            Image image = imageRepository.getProfilePicForCharacter(characterFromDb.getExternalId());
-            String profilePic = null;
-            if(image != null){
-                profilePic = UtilsShared.GetProfilePicBase64Code(image.getExtension(), image.getImage());
-            }
-            CharactersMenuDTO dto = new CharactersMenuDTO(characterFromDb, profilePic);
-
-            dtoList.add(dto);
-        }
-        return new ResponseEntity(dtoList, HttpStatus.OK);
-    }
-
     public ResponseEntity getEveryCharacter(HttpServletRequest request) {
         Boolean isUserLogged = userService.isUserLogged(request);
         List<Character> allCharactersFromDb = isUserLogged ? characterRepository.getSortedCharacters() : characterRepository.getNonArchivedCharacters();
+        allCharactersFromDb.sort(comparing(Character::getCharType).thenComparing(Character::getArchived).thenComparing(Character::getCharName));
+
         ArrayList<CharactersMenuDTO> dtoList = new ArrayList<>();
 
         for(Character characterFromDb : allCharactersFromDb) {
@@ -120,6 +106,12 @@ public class CharactersService {
             }
             CharactersMenuDTO dto = new CharactersMenuDTO(characterFromDb, profilePic);
 
+            List<TagDTO> tagDTOS = new ArrayList<>();
+            List<Tag> tags= tagRepository.getTagsForCharacter(characterFromDb.getExternalId());
+            if(tags != null) {
+                tags.forEach(tag -> tagDTOS.add(new TagDTO(tag.getId(), tag.getName(), tag.getColor())));
+            }
+            dto.setTags(tagDTOS);
             dtoList.add(dto);
         }
         return new ResponseEntity(dtoList, HttpStatus.OK);
@@ -330,31 +322,6 @@ public class CharactersService {
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
-    public ResponseEntity getCharacterDetails(Long id) {
-        ModelMapper modelMapper = new ModelMapper();
-        Character characterFromDb = characterRepository.getOne(id);
-        if(characterFromDb == null) {
-            String msg = "Nie znaleziono postaci o podanym id.";
-            return new ResponseEntity(msg, HttpStatus.NOT_FOUND);
-        }
-        CharacterDetailsDTO dto = modelMapper.map(characterFromDb, CharacterDetailsDTO.class);
-        Colors colorsForCharacter = colorsRepository.getColorsForCharacter(id);
-        if (colorsForCharacter != null) {
-            dto.setColors(modelMapper.map(colorsForCharacter, CharacterColorDTO.class));
-        }
-
-        Temperament temperamentForCharacter = temperamentRepository.getTemperamentForCharacter(id);
-        if(temperamentForCharacter != null) {
-            dto.setTemperament(modelMapper.map(temperamentForCharacter, CharacterTemperamentDTO.class));
-        }
-
-        Measurements measurementsForCharacter = measurementsRepository.getMeasurementsById(id);
-        if(measurementsForCharacter != null){
-            dto.setMeasurements(modelMapper.map(measurementsForCharacter, CharacterMeasurementsDTO.class));
-        }
-        return new ResponseEntity(dto, HttpStatus.OK);
-    }
-
     public ResponseEntity deleteCharacter(Long id)  {
         Character character = characterRepository.getOne(id);
         Temperament temperament = temperamentRepository.getTemperamentForCharacter(id);
@@ -415,10 +382,10 @@ public class CharactersService {
         }
         Iterator it = allFiles.entrySet().iterator();
         while (it.hasNext()) {
-            Image imageToSave = new Image();
+            Image image = new Image();
             Map.Entry pair = (Map.Entry)it.next();
             String key = String.valueOf(pair.getKey());
-            imageToSave.setIsProfilePic(!!key.equals("profilePic"));
+            image.setIsProfilePic(!!key.equals("profilePic"));
             MultipartFile file = (MultipartFile) pair.getValue();
 
             if(file != null) {
@@ -429,21 +396,20 @@ public class CharactersService {
                     return new ResponseEntity(HttpStatus.UNSUPPORTED_MEDIA_TYPE);
                 }
                 try {
-                    if(imageToSave.getIsProfilePic()) {
+                    if(image.getIsProfilePic()) {
                         Image oldProfilePic = imageRepository.getProfilePicForCharacter(character.getExternalId());
                         if(oldProfilePic != null) {
                             imageRepository.delete(oldProfilePic);
                         }
                     }
 
-
                     byte [] byteArr = file.getBytes();
-                    imageToSave.setImage(byteArr);
-                    imageToSave.setName(FilenameUtils.removeExtension(file.getOriginalFilename()));
-                    imageToSave.setExtension(extension);
-                    imageToSave.setCharacter(character);
+                    image.setImage(byteArr);
+                    image.setName(FilenameUtils.removeExtension(file.getOriginalFilename()));
+                    image.setExtension(extension);
+                    image.setCharacter(character);
 
-                    imageRepository.saveAndFlush(imageToSave);
+                    imageRepository.saveAndFlush(image);
 
                 } catch (IOException e) {}
 

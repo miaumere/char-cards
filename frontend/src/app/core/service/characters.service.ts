@@ -43,7 +43,6 @@ export class CharactersService {
 
     private readonly _getCharacterByIdURL = `${this.charControllerURL}/get-character`;
     private readonly _getAllCharactersURL = `${this.charControllerURL}/get-all-characters`;
-    private readonly _getCharacterDetailsURL = `${this.charControllerURL}/get-details`;
     private readonly _getQuotesURL = `${this.charControllerURL}/get-quotes`;
     private readonly _getStoriesForCharURL = `${this.charControllerURL}/get-stories-for-character`;
     private readonly _getHistoricalPreferencesForCharacterURL = `${this.charControllerURL}/get-characters-historical-preferences`;
@@ -158,14 +157,6 @@ export class CharactersService {
         const params = new HttpParams().set('id', '' + id);
 
         return this.http.get<IQuote[]>(this._getQuotesURL, { params });
-    }
-
-    getCharacterDetails(id: number) {
-        const params = new HttpParams().set('id', '' + id);
-
-        return this.http.get<IEditCharacter>(this._getCharacterDetailsURL, {
-            params,
-        });
     }
 
     getStoriesForCharacter(id: number) {

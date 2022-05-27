@@ -21,6 +21,12 @@ public class TagsController {
         return tagsService.getAllTags();
     }
 
+    @GetMapping("get-assigned-tags")
+    public ResponseEntity getAssignedTags() {
+        return tagsService.getAssignedTags();
+    }
+
+
     @PostMapping("upsert-tag")
     public ResponseEntity upsertTag(@RequestBody TagDTO request) {
         return tagsService.upsertTag(request);

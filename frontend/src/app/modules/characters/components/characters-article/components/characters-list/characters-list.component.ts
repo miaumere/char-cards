@@ -4,6 +4,9 @@ import { CharacterItem } from 'src/app/modules/characters/models/character-item.
 import { BaseComponent } from 'src/app/core/base.component';
 import { FormGroup, FormControl } from '@angular/forms';
 import { CharType } from 'src/app/modules/characters/enums/char-type.enum';
+import { TagsService } from 'src/app/core/service/tags.service';
+import { combineLatest } from 'rxjs';
+import { ITag } from 'src/app/modules/tags/models/tag.model';
 
 @Component({
     selector: 'app-characters-list',
@@ -12,8 +15,11 @@ import { CharType } from 'src/app/modules/characters/enums/char-type.enum';
 })
 export class CharactersListComponent extends BaseComponent implements OnInit {
     readonly rdestUrl = '../../../../../assets/svg/rdest.svg';
+
     charList: CharacterItem[] = [];
     filteredChars: CharacterItem[] = [];
+
+    tags: ITag[] = [];
 
     searchForm = new FormGroup({
         char: new FormControl(''),
@@ -22,45 +28,35 @@ export class CharactersListComponent extends BaseComponent implements OnInit {
     isMain = true;
     isSide = true;
     isBackground = true;
+    chosenTags: ITag[] = [];
 
-    constructor(private _charactersService: CharactersService) {
+    constructor(
+        private _charactersService: CharactersService,
+        private _tagsService: TagsService
+    ) {
         super();
     }
 
     ngOnInit() {
         document.title = `Alea`;
+        combineLatest([
+            this._tagsService.getAssignedTags(),
+            this._charactersService.getCharacters(),
+        ]).subscribe(([tags, characters]) => {
+            this.tags = tags;
+            this.charList = characters;
+            this.filteredChars = characters;
+        });
+    }
 
-        this.subscriptions$.add(
-            this._charactersService.getCharacters().subscribe((charList) => {
-                let charactersList: CharacterItem[] = [];
+    setTagFilter(tag: ITag) {
+        if (this.chosenTags.includes(tag)) {
+            this.chosenTags = this.chosenTags.filter((t) => t.id !== tag.id);
+        } else {
+            this.chosenTags.push(tag);
+        }
 
-                const mainCharacters = charList?.filter(
-                    (x) => x.characterType === 'MAIN'
-                );
-
-                const sideCharacters = charList?.filter(
-                    (x) => x.characterType === 'SIDE'
-                );
-
-                const bgCharacters = charList?.filter(
-                    (x) => x.characterType === 'BACKGROUND'
-                );
-
-                if (!!mainCharacters) {
-                    charactersList = mainCharacters;
-                }
-
-                if (!!sideCharacters) {
-                    charactersList = charactersList.concat(sideCharacters);
-                }
-                if (!!bgCharacters) {
-                    charactersList = charactersList.concat(bgCharacters);
-                }
-
-                this.charList = charactersList;
-                this.filteredChars = charactersList;
-            })
-        );
+        this.searchCharacter();
     }
 
     searchCharacter() {
@@ -95,6 +91,31 @@ export class CharactersListComponent extends BaseComponent implements OnInit {
         if (this.isBackground && !!bgChars) {
             finalFilteredChars = finalFilteredChars.concat(bgChars);
         }
+
+        const filtered: CharacterItem[] = [];
+
+        if (this.chosenTags?.length > 0) {
+            for (const character of this.charList) {
+                let similarTagsNumber: number = 0;
+
+                for (const chosenTag of this.chosenTags) {
+                    if (
+                        character.tags?.find((tag) => tag.id === chosenTag.id)
+                    ) {
+                        similarTagsNumber += 1;
+                    }
+                }
+                if (similarTagsNumber === this.chosenTags.length) {
+                    filtered.push(character);
+                }
+            }
+            // this.filteredChars = filtered;
+            this.filteredChars = finalFilteredChars.filter((char) => {
+                return !!filtered.find((f) => f.id === char.id);
+            });
+            return;
+        }
+
         this.filteredChars = finalFilteredChars;
     }
 }

@@ -28,10 +28,6 @@ public class CharacterController {
     @Autowired
     CharactersService charactersService;
 
-    @GetMapping("/get-characters")
-    public ResponseEntity getCharactersList(HttpServletResponse response) throws InterruptedException {
-        return charactersService.getNonArchivedCharacters();
-    }
 
     @GetMapping("/get-all-characters")
     public ResponseEntity getEveryCharacter(HttpServletRequest request) { return charactersService.getEveryCharacter(request);}
@@ -44,11 +40,6 @@ public class CharacterController {
     @GetMapping("/get-quotes")
     public ResponseEntity getQuotesForCharacter(@RequestParam Long id) {
         return charactersService.getAllQuotesForCharacter(id);
-    }
-
-    @GetMapping("/get-details")
-    public ResponseEntity getDetailsForCharacter(@RequestParam Long id){
-        return charactersService.getCharacterDetails(id);
     }
 
     // #region

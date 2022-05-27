@@ -10,8 +10,11 @@ export class TagsService {
     private readonly _tagsControllerURL = '/api/tags';
 
     private readonly _getAllTagsURL = `${this._tagsControllerURL}/get-tags`;
+    private readonly _getAssignedTagsURL = `${this._tagsControllerURL}/get-assigned-tags`;
+
     private readonly _upsertTagURL = `${this._tagsControllerURL}/upsert-tag`;
     private readonly _assignTagToCharacterURL = `${this._tagsControllerURL}/assign-tag`;
+
     private readonly _deleteTagURL = `${this._tagsControllerURL}/delete-tag`;
     private readonly _deleteCharacterTagURL = `${this._tagsControllerURL}/delete-character-tag`;
 
@@ -19,6 +22,15 @@ export class TagsService {
 
     getAllTags() {
         return this.http.get<ITag[]>(this._getAllTagsURL).pipe(
+            map((response) => {
+                const mappedResponse = response.map((r) => new Tag(r));
+                return mappedResponse;
+            })
+        );
+    }
+
+    getAssignedTags() {
+        return this.http.get<ITag[]>(this._getAssignedTagsURL).pipe(
             map((response) => {
                 const mappedResponse = response.map((r) => new Tag(r));
                 return mappedResponse;
