@@ -16,6 +16,7 @@ import com.meowmere.main.enums.CharType;
 import com.meowmere.main.enums.Gender;
 import com.meowmere.main.repositories.character.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -33,14 +34,12 @@ public class TagsService {
     public CharacterRepository characterRepository;
 
     public ResponseEntity getAllTags() {
-        List<Tag> tags = tagRepository.findAll();
-        ArrayList<TagDTO> tagDTOS = new ArrayList<>();
+        List<Tag> tags = tagRepository.findAll(Sort.by(Sort.Direction.ASC, "name"));
 
+        ArrayList<TagDTO> tagDTOS = new ArrayList<>();
         if(tags != null) {
             tags.forEach(tag -> tagDTOS.add(new TagDTO(tag.getId(), tag.getName(), tag.getColor())));
         }
-
-
         return new ResponseEntity(tagDTOS, HttpStatus.OK);
     }
 

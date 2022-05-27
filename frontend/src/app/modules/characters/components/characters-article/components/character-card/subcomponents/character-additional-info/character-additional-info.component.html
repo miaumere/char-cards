@@ -251,7 +251,7 @@
             <div *ngFor="let tag of character?.tags" class="tag-container">
                 <mat-icon
                     *appIfLoggedUser
-                    class="close-icon"
+                    class="close-icon tag-container__icon"
                     (click)="insertDeleteInfo()"
                     (dblclick)="deleteCharacterTag(tag.id)"
                     >close</mat-icon
