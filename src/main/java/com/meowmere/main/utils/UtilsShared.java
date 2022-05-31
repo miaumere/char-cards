@@ -1,6 +1,8 @@
 package com.meowmere.main.utils;
 
 import java.io.File;
+import java.util.Base64;
+
 
 public class UtilsShared {
 
@@ -20,5 +22,13 @@ public class UtilsShared {
 
 
             return UtilsShared._mainDir;
+    }
+
+    public static String GetProfilePicBase64Code(String extension, byte[] image) {
+        if(extension == null || image == null) {
+            return "";
+        }
+
+        return "data:image/" + extension + ";base64," + Base64.getEncoder().encodeToString(image);
     }
 }

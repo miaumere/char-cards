@@ -24,6 +24,9 @@ public class Image {
     @Column
     private String extension;
 
+    @Column
+    private Integer imageOrder;
+
     @ManyToOne
     @NotFound(action = NotFoundAction.IGNORE)
     @JoinColumn(name = "character_id")
@@ -75,5 +78,13 @@ public class Image {
 
     public void setCharacter(Character character) {
         this.character = character;
+    }
+
+    public Integer getImageOrder() {
+        return imageOrder;
+    }
+
+    public void setImageOrder(Integer order) {
+        this.imageOrder = order;
     }
 }

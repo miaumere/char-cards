@@ -1,0 +1,177 @@
+@import 'variables';
+.relations {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+
+    background: transparent;
+    box-shadow: none;
+
+    margin-top: 1rem;
+    & .mat-expansion-panel-body {
+        padding: 0;
+    }
+}
+
+.add-icon {
+    margin-right: 0.5rem;
+
+    &--left {
+        margin-left: 200px;
+    }
+}
+
+.new-relation-add {
+    display: flex;
+}
+
+.relation {
+    display: flex;
+
+    width: 350px;
+
+    margin: 0.5rem;
+    padding: 0.5rem;
+    border-radius: 3px;
+
+    background: $chars-list-bg;
+}
+
+.relations-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.form-box {
+    margin: 0.25rem;
+    &__title {
+        display: block;
+
+        font-size: smaller;
+        color: $accent;
+        line-height: normal;
+    }
+
+    &--profile-pic {
+        width: 100px;
+
+        display: flex;
+        align-items: flex-start;
+
+        margin-right: -1rem;
+    }
+}
+
+.character-in-relation {
+    &__name {
+        display: block;
+        width: 75px;
+
+        font-size: x-small;
+        color: $accent;
+
+        line-height: 90%;
+
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
+
+.type-select {
+    display: flex;
+    align-items: center;
+
+    width: 6rem;
+    height: 20px;
+
+    padding-left: 6px;
+
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 3px;
+
+    font-size: 10px;
+}
+
+.dates-inputs {
+    display: flex;
+    align-items: center;
+}
+
+.date-input {
+    width: 5rem;
+    font-size: x-small;
+
+    &--second {
+        margin-left: 0.5rem;
+    }
+}
+
+.toggle-icon {
+    font-size: small;
+    cursor: pointer;
+
+    transition: 0.3s;
+
+    &:hover {
+        color: $accent;
+    }
+}
+
+.mat-icon-button {
+    height: 10px;
+}
+
+.picker {
+    transform: scale(0.6);
+    margin-left: -0.5rem;
+}
+
+.form-item {
+    border-bottom: 1px solid #313131;
+    margin-bottom: 0.75rem;
+}
+
+.type-select-container {
+    display: flex;
+    justify-content: space-between;
+    margin-right: 0.7rem;
+}
+
+.icons-container {
+    display: flex;
+    align-items: baseline;
+
+    &--person {
+        z-index: 100;
+        position: absolute;
+        margin-top: 0.5rem;
+    }
+}
+
+.save-icon {
+    transform: scale(1);
+    margin-left: auto;
+    margin-right: 0.5rem;
+
+    transition: 0.3s;
+    cursor: pointer;
+    color: $accent;
+
+    &:hover {
+        color: rgb(197, 250, 179);
+    }
+}
+
+.add-new-character {
+    margin-top: 0.5rem;
+    margin-left: 0.7rem;
+}
+
+.source-question {
+    font-size: x-small;
+    line-height: initial;
+
+    width: 80px;
+}

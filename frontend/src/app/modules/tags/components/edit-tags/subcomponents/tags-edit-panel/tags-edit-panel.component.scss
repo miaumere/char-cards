@@ -1,0 +1,27 @@
+@import 'variables';
+
+.tags-edit-panel {
+    margin-left: 4rem;
+    margin-top: 4rem;
+    &__title {
+        font-size: -webkit-xxx-large;
+        margin: 1rem;
+    }
+}
+
+.tags {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.tag {
+    &:first-child {
+        margin: 0;
+    }
+    margin: 0.2rem 0.5rem;
+}
+
+.add-icon {
+    margin-left: 1rem;
+}

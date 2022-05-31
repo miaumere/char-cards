@@ -1,0 +1,68 @@
+@import 'variables';
+
+.image-name {
+    margin: 0 3px;
+
+    cursor: pointer;
+}
+
+.profile-pic {
+    display: flex;
+    align-items: center;
+
+    max-width: 300px;
+
+    &__image {
+        width: 190px;
+        height: 250px;
+        object-fit: scale-down;
+
+        background-position: 50% 50%;
+        background-repeat: no-repeat;
+        background-size: cover;
+
+        margin: 0;
+
+        &--inactive {
+            display: none;
+        }
+
+        &--active {
+            display: block;
+        }
+    }
+
+    &__button {
+        padding: 0.3rem;
+        margin: 0.2rem;
+        border-radius: 3px;
+
+        font-size: 0.6rem;
+
+        background: rgb(48, 48, 48);
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+.buttons-container {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+
+    overflow-y: auto;
+
+    margin-top: 0.5rem;
+    max-height: 40vh;
+}
+
+.image-input {
+    width: 5rem;
+}
+
+.figure {
+    display: flex;
+    justify-content: center;
+}

@@ -6,13 +6,17 @@ import com.meowmere.main.dto.character.measurements.CharacterMeasurementsDTO;
 import com.meowmere.main.dto.character.quote.CharacterQuoteDTO;
 import com.meowmere.main.dto.character.relationship.RelationshipDTO;
 import com.meowmere.main.dto.character.story.CharacterStoryDTO;
+import com.meowmere.main.dto.character.tags.TagDTO;
 import com.meowmere.main.dto.character.temperament.CharacterTemperamentDTO;
+import com.meowmere.main.dto.story.starring.BookWithStarringCharsDTO;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CharacterDTO {
     public Long externalId;
     public String charType;
+    public Boolean archived;
     public String charName;
     public String charSurname;
     public String pseudonim;
@@ -28,7 +32,10 @@ public class CharacterDTO {
     public CharacterTemperamentDTO temperament;
     public CharacterMeasurementsDTO measurements;
     public List<ImageDTO> imagesList;
-    public List<RelationshipDTO> relationships;
+    public List<BookWithStarringCharsDTO> starringIn;
+    private String profilePic;
+    private List<TagDTO> tags = new ArrayList<>();
+
 
     public String getCharType() {
         return charType;
@@ -150,14 +157,6 @@ public class CharacterDTO {
         this.measurements = measurements;
     }
 
-    public List<RelationshipDTO> getRelationships() {
-        return relationships;
-    }
-
-    public void setRelationships(List<RelationshipDTO> relationships) {
-        this.relationships = relationships;
-    }
-
     public String getPseudonim() {
         return pseudonim;
     }
@@ -172,5 +171,37 @@ public class CharacterDTO {
 
     public void setNationality(String nationality) {
         this.nationality = nationality;
+    }
+
+    public List<BookWithStarringCharsDTO> getStarringIn() {
+        return starringIn;
+    }
+
+    public void setStarringIn(List<BookWithStarringCharsDTO> starringIn) {
+        this.starringIn = starringIn;
+    }
+
+    public String getProfilePic() {
+        return profilePic;
+    }
+
+    public void setProfilePic(String profilePic) {
+        this.profilePic = profilePic;
+    }
+
+    public Boolean getArchived() {
+        return archived;
+    }
+
+    public void setArchived(Boolean archived) {
+        this.archived = archived;
+    }
+
+    public List<TagDTO> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<TagDTO> tags) {
+        this.tags = tags;
     }
 }

@@ -1,0 +1,37 @@
+<div mat-dialog-content>
+    <form [formGroup]="tagForm" class="tags-form">
+        <mat-form-field>
+            <mat-label>{{ 'EDIT_TAGS.TAG_NAME' | translate }}</mat-label>
+            <input matInput formControlName="name" required />
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>{{ 'EDIT_TAGS.TAG_COLOR' | translate }}</mat-label>
+            <input matInput type="color" formControlName="color" />
+        </mat-form-field>
+    </form>
+</div>
+<div mat-dialog-actions class="buttons">
+    <div class="button">
+        <button
+            mat-raised-button
+            color="warn"
+            (click)="deleteTag()"
+            *ngIf="!!data.tagData"
+        >
+            {{ 'SHARED.DELETE' | translate }}
+        </button>
+    </div>
+
+    <div class="button">
+        <button mat-button (click)="closeDialog()">
+            {{ 'SHARED.PREVIOUS' | translate }}
+        </button>
+    </div>
+
+    <div class="button">
+        <button mat-raised-button color="accent" (click)="saveTag()">
+            {{ 'SHARED.SEND' | translate }}
+        </button>
+    </div>
+</div>

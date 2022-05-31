@@ -1,59 +1,122 @@
 import { Component, OnInit } from '@angular/core';
 import { CharactersService } from 'src/app/core/service/characters.service';
 import { CharacterItem } from 'src/app/modules/characters/models/character-item.model';
-import { ActivatedRoute } from '@angular/router';
 import { BaseComponent } from 'src/app/core/base.component';
-import { finalize } from 'rxjs/operators';
+import { FormGroup, FormControl } from '@angular/forms';
+import { CharType } from 'src/app/modules/characters/enums/char-type.enum';
+import { TagsService } from 'src/app/core/service/tags.service';
+import { combineLatest } from 'rxjs';
+import { ITag } from 'src/app/modules/tags/models/tag.model';
 
 @Component({
-  selector: 'app-characters-list',
-  templateUrl: './characters-list.component.html',
-  styleUrls: ['./characters-list.component.scss']
+    selector: 'app-characters-list',
+    templateUrl: './characters-list.component.html',
+    styleUrls: ['./characters-list.component.scss'],
 })
 export class CharactersListComponent extends BaseComponent implements OnInit {
+    readonly rdestUrl = '../../../../../assets/svg/rdest.svg';
 
-  charList: CharacterItem[] | null = null;
-  loading = true;
+    charList: CharacterItem[] = [];
+    filteredChars: CharacterItem[] = [];
 
-  constructor(private _charactersService: CharactersService, private _route: ActivatedRoute) { super(); }
+    tags: ITag[] = [];
 
-  ngOnInit() {
-    // Sposob pobierania danych z servisu bez resolvera
-    this.subscriptions$.add(
-      this._charactersService
-        .charList$
-        .pipe(
-          finalize(() => {
-            this.loading = false;
-          })
-        )
-        .subscribe(charList => {
+    searchForm = new FormGroup({
+        char: new FormControl(''),
+    });
 
-          let charactersList: any = [];
-          const mainCharacters = charList?.filter(x => x.characterType === 'MAIN');
+    isMain = true;
+    isSide = true;
+    isBackground = true;
+    chosenTags: ITag[] = [];
 
-          const sideCharacters = charList?.filter(x => x.characterType === 'SIDE');
+    constructor(
+        private _charactersService: CharactersService,
+        private _tagsService: TagsService
+    ) {
+        super();
+    }
 
-          const bgCharacters = charList?.filter(x => x.characterType === 'BACKGROUND');
+    ngOnInit() {
+        document.title = `Alea`;
+        combineLatest([
+            this._tagsService.getAssignedTags(),
+            this._charactersService.getCharacters(),
+        ]).subscribe(([tags, characters]) => {
+            this.tags = tags;
+            this.charList = characters;
+            this.filteredChars = characters;
+        });
+    }
 
-          if (!!mainCharacters) {
-            charactersList = mainCharacters;
-          }
+    setTagFilter(tag: ITag) {
+        if (this.chosenTags.includes(tag)) {
+            this.chosenTags = this.chosenTags.filter((t) => t.id !== tag.id);
+        } else {
+            this.chosenTags.push(tag);
+        }
 
-          if (!!sideCharacters) {
-            charactersList = charactersList.concat(sideCharacters);
-          }
-          if (!!bgCharacters) {
-            charactersList = charactersList.concat(bgCharacters);
-          }
+        this.searchCharacter();
+    }
 
-          // console.log(charactersList)
-          this.charList = charactersList;
+    searchCharacter() {
+        let finalFilteredChars: CharacterItem[] = [];
+        const inputValue: string = this.searchForm
+            .get('char')
+            ?.value.toLowerCase();
 
+        const regex = new RegExp(inputValue, 'gi');
 
-          this.loading = false;
-        })
-    );
-  }
+        const filteredChars = this.charList.filter((c) => {
+            if (c.pseudonym) {
+                return c.fullName.match(regex) || c.pseudonym.match(regex);
+            }
+            return c.fullName.match(regex);
+        });
 
+        const mainChars = filteredChars.filter(
+            (c) => c.characterType === CharType[0]
+        );
+        const sideChars = filteredChars.filter(
+            (c) => c.characterType === CharType[1]
+        );
+        const bgChars = filteredChars.filter(
+            (c) => c.characterType === CharType[2]
+        );
+
+        if (this.isMain && !!mainChars) {
+            finalFilteredChars = mainChars;
+        }
+        if (this.isSide && !!sideChars) {
+            finalFilteredChars = finalFilteredChars.concat(sideChars);
+        }
+        if (this.isBackground && !!bgChars) {
+            finalFilteredChars = finalFilteredChars.concat(bgChars);
+        }
+
+        const filtered: CharacterItem[] = [];
+
+        if (this.chosenTags?.length > 0) {
+            for (const character of this.charList) {
+                let similarTagsNumber: number = 0;
+
+                for (const chosenTag of this.chosenTags) {
+                    if (
+                        character.tags?.find((tag) => tag.id === chosenTag.id)
+                    ) {
+                        similarTagsNumber += 1;
+                    }
+                }
+                if (similarTagsNumber === this.chosenTags.length) {
+                    filtered.push(character);
+                }
+            }
+            this.filteredChars = finalFilteredChars.filter((char) => {
+                return !!filtered.find((f) => f.id === char.id);
+            });
+            return;
+        }
+
+        this.filteredChars = finalFilteredChars;
+    }
 }

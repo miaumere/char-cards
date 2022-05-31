@@ -1,57 +1,89 @@
-import { Story } from '../../admin-panel/models/character-story/story.model';
-import { IColors } from './colors.model';
+import { Colors, IColors } from './colors.model';
 import { IImageForMain } from './image-for-main.model';
-import { ITemperament } from './temperament.model';
+import { ITemperament, Temperament } from './temperament.model';
 import { IMeasurements, Measurements } from './measurements.model';
 import { IQuote } from './quote.model';
-import { IRelationship } from './relationship.model';
+import { IStarringIn } from './starring-in.model';
+import { Gender, GenderString } from '../enums/gender.enum';
+import { Story } from './character-story/story.model';
+import { ITag, Tag } from '../../tags/models/tag.model';
 
 type characterType = 'MAIN' | 'SIDE' | 'BACKGROUND' | null;
-type gender = 'MALE' | 'FEMALE' | null;
 export interface ICharacter {
-  externalId: number;
-  charName: string;
-  charSurname: string;
-  pseudonim: string;
-  birthday: number;
-  gender: gender;
-  death: number;
-  deathReason: string;
-  occupation: string;
-  story: Story[];
-  colors: IColors;
-  imagesList: IImageForMain[];
-  temperament: ITemperament;
-  measurements: IMeasurements;
-  quotes: IQuote;
-  charType: characterType;
-  relationships: IRelationship[] | null;
-  nationality: string;
+    externalId: number;
+    charName: string;
+    charSurname: string;
+    pseudonim: string;
+    birthday: number;
+    gender: GenderString;
+    profession: string;
+    archived: boolean;
+
+    death: number;
+    deathReason: string;
+    occupation: string;
+    story: Story[];
+    colors: IColors | null;
+    imagesList: IImageForMain[];
+    temperament: ITemperament | null;
+    measurements: IMeasurements | null;
+    quote: IQuote | null;
+    charType: characterType;
+    nationality: string;
+    starringIn: IStarringIn[];
+    profilePic: string | null;
+
+    tags: ITag[];
 }
 
 export class Character implements ICharacter {
-  externalId: number;
-  charName: string;
-  charSurname: string;
-  pseudonim: string;
-  birthday: number;
-  gender: gender;
-  death: number;
-  deathReason: string;
-  occupation: string;
-  story: Story[];
-  colors: IColors;
-  imagesList: IImageForMain[];
-  temperament: ITemperament;
-  measurements: Measurements;
-  quotes: IQuote;
-  charType: characterType;
-  relationships: IRelationship[] | null;
-  nationality: string;
+    externalId: number = 0;
+    charName: string = '';
+    charSurname: string = '';
+    pseudonim: string = '';
 
-  constructor(initialValues: ICharacter) {
-    Object.assign(this, initialValues);
-  }
+    profilePic: string | null = null;
+    imagesList: IImageForMain[] = [];
 
+    archived: boolean = false;
+
+    birthday: number = 0;
+    gender: GenderString = Gender[Gender.UNKNOWNGENDER] as GenderString;
+    death: number = 0;
+    deathReason: string = '';
+    occupation: string = '';
+    profession: string = '';
+    story: Story[] = [];
+    colors: IColors | null = null;
+    temperament: ITemperament | null = null;
+    measurements: Measurements | null = null;
+    quote: IQuote | null = null;
+    charType: characterType = 'BACKGROUND';
+    nationality: string = '';
+    starringIn: IStarringIn[] = [];
+
+    tags: ITag[] = [];
+
+    constructor(initialValues?: ICharacter) {
+        if (initialValues) {
+            this.colors = new Colors();
+            this.measurements = new Measurements();
+
+            Object.assign(this, initialValues);
+            if (!initialValues.temperament) {
+                this.temperament = new Temperament(0, 0, 0, 0);
+            }
+            if (!initialValues.measurements) {
+                this.measurements = new Measurements();
+            }
+            if (!initialValues.colors) {
+                this.colors = new Colors();
+            }
+        } else {
+            this.charName = '';
+            this.colors = new Colors();
+            this.temperament = new Temperament(0, 0, 0, 0);
+            this.measurements = new Measurements();
+        }
+    }
 }
-

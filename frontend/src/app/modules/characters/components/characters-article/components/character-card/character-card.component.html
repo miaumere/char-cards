@@ -1,228 +1,69 @@
-<app-loader [visible]="!character && loading"></app-loader>
+<section class="characters-card global-section" *ngIf="character">
+    <div class="state-buttons" *ngIf="isUserLogged">
+        <button
+            class="archive-button"
+            (click)="changeStateOfChar()"
+            [ngClass]="{ disabled: isNewChar }"
+            [matTooltip]="
+                (character.archived
+                    ? 'CHARS_PANEL.UNARCHIVE'
+                    : 'CHARS_PANEL.ARCHIVE'
+                ) | translate
+            "
+        >
+            <app-icon
+                [icon]="character.archived ? 'eye-on' : 'eye-off'"
+                [color]="'white'"
+                [size]="0.8"
+            ></app-icon>
+        </button>
 
-<section class="characters-card" *ngIf="character && !loading">
-  <div class="card">
-    <mat-card class="example-card" [ngStyle]="{'background': bgColor1}">
-      <span class="card__type" [ngStyle]="{'background': bgColor2}">
-        {{charType}}
-      </span>
-      <mat-card-header>
-        <span class="card__name" [ngStyle]="{'background': bgColor2}">
-          <app-icon *ngIf="character.gender" [icon]="character.gender | lowercase"
-            [color]="character.gender === 'MALE' ? '#89cff0' : '#FFC0CB'" [size]="'0.7'">
-          </app-icon>
-          <span class="name">
-            {{character.charName}} {{ character.charSurname}}
-            <span [ngStyle]="{'color': character.colors.themeColor1}" class="name--pseudonim">
-              {{character.pseudonim}}</span>
-          </span>
-        </span>
-      </mat-card-header>
-      <ng-container *ngIf="character.imagesList.length > 0">
-        <img *ngFor="let image of character.imagesList;index as i"
-          [src]="'data:image/' + image?.extension + ';base64, ' + image.image | sanitizer"
-          class="profile-pic__image profile-pic__image--inactive" [ngClass]="{
-        'profile-pic__image--active': i === currentImageIndex
-      }">
-        <div>
-
-          <button class="profile-pic__button" [ngStyle]="{'background': bgColor2}" matRipple
-            *ngFor="let image of character.imagesList; index as i"
-            (click)="setImage(i)">{{image.name | filenameModifier}}</button>
-        </div>
-
-      </ng-container>
-      <div class="card__profile-pic--empty" *ngIf="character.imagesList.length === 0">
-        Brak zdjęć
-      </div>
-      <mat-card class="card__info info" [ngStyle]="{'background': bgColor2}">
-        <div class="nationality" *ngIf="flagURL">
-          <span class="info__desc">Narodowość</span>
-          <img class="info__data flag" [src]="flagURL">
-        </div>
-
-        <ng-container *ngIf="character.birthday">
-          <div>
-            <span class="info__desc">Data urodzenia</span>
-            <span class="info__data">{{character.birthday | date: 'dd/MM/yyyy'}}
-            </span>
-          </div>
-        </ng-container>
-
-        <ng-container *ngIf="character.death">
-          <div>
-            <span class="info__desc">
-              Śmierć:
-            </span>
-            <span class="info__data info__data--death">
-              {{character.death | date: 'dd/MM/yyyy'}}
-              <span *ngIf="character.deathReason">
-                ({{character.deathReason}})
-              </span>
-            </span>
-          </div>
-        </ng-container>
-        <ng-container *ngIf="character.occupation">
-          <span class="info__desc">Zajęcie</span>
-          <span class="info__data">{{character.occupation}}</span>
-        </ng-container>
-
-        <ng-container *ngIf="character.colors">
-          <div class="info__color color">
-            <mat-divider></mat-divider>
-            <div class="color__container">
-              <span class="color__icon">
-                <app-icon [icon]="'clothing'" [color]="'white'"></app-icon>
-              </span>
-              <div class="color__item" [ngStyle]="{'background': character.colors.themeColor1}"></div>
-              <div class="color__item" [ngStyle]="{'background': character.colors.themeColor2}"></div>
-              <div class="color__item" [ngStyle]="{'background': character.colors.themeColor3}"></div>
-            </div>
-            <div class="color__container">
-              <span class="color__icon">
-                <app-icon [icon]="'eye'" [color]="'white'"></app-icon>
-              </span>
-              <div class="color__item color__item--eye"
-                [ngStyle]="{'background-image': 'linear-gradient(to left,'+ character.colors.eyeColor1 + ', ' + character.colors.eyeColor2}">
-              </div>
-            </div>
-            <div class="color__container">
-              <span class="color__icon">
-                <app-icon [icon]="'face'" [color]="'white'"></app-icon>
-              </span>
-              <span class="color__icon">
-              </span>
-              <div class="color__item" [ngStyle]="{'background': character.colors.skinColor}"></div>
-              <span class="color__icon">
-                <app-icon [icon]="'hair'" [color]="'white'"></app-icon>
-              </span>
-              <div class="color__item" [ngStyle]="{'background': character.colors.hairColor}"></div>
-            </div>
-
-          </div>
-        </ng-container>
-        <ng-container
-          *ngIf="character.temperament?.melancholic || character.temperament?.sanguine || character.temperament?.flegmatic || character.temperament?.choleric">
-          <div class="info__temperament temperament">
-            <mat-divider></mat-divider>
-            <div class="temperament__container" *ngIf="character.temperament.melancholic">
-              <span class="info__desc">Melancholik</span>
-              <div appProgressBar [percentValue]="character.temperament.melancholic" temperamentType='melancholic'>
-              </div>
-            </div>
-            <div class="temperament__container" *ngIf="character.temperament.sanguine">
-              <span class="info__desc">Sangwinik</span>
-              <div appProgressBar [percentValue]="character.temperament.sanguine" temperamentType='sanguine'>
-              </div>
-            </div>
-            <div class="temperament__container" *ngIf="character.temperament.flegmatic">
-              <span class="info__desc">Flegmatyk</span>
-              <div appProgressBar [percentValue]="character.temperament.flegmatic" temperamentType='flegmatic'>
-              </div>
-            </div>
-            <div class="temperament__container" *ngIf="character.temperament.choleric">
-              <span class="info__desc">Choleryk</span>
-              <div appProgressBar [percentValue]="character.temperament.choleric" temperamentType='choleric'>
-              </div>
-            </div>
-          </div>
-
-        </ng-container>
-
-
-      </mat-card>
-    </mat-card>
-
-  </div>
-
-  <mat-card class="information">
-    <div *ngIf="character.quote" class="information__quote quote">
-      <blockquote class="quote__blockquote">
-        {{character.quote.quote}}
-      </blockquote>
-      <cite *ngIf="character.quote.context" class="quote__cite" [ngStyle]="{'color': themeColor1}">~
-        {{character.quote.context}}</cite>
-
-    </div>
-    <div class="information__story ">
-      <ng-container *ngIf="character.story">
-        <ng-container *ngFor="let story of character.story">
-
-          <div class="story">
-            <h2 class="story__title" [ngStyle]="{'color': themeColor1}">{{story.title}}</h2>
-            <div class="story__story-block">
-              {{story.story}}
-            </div>
-          </div>
-        </ng-container>
-      </ng-container>
-      <ng-container *ngIf="character.story.length === 0">
-        Brak znanej historii.
-      </ng-container>
-
-    </div>
-    <div *ngIf="character.relationships && character.relationships.length > 0">
-      <mat-divider></mat-divider>
-
-      <h2 class="story__title" [ngStyle]="{'color': themeColor1}">Relacje rodzinne</h2>
-      <ul class="relationships">
-        <ng-container *ngFor="let relationship of character.relationships">
-          <li class="relationship" [routerLink]="['../', relationship.relatedCharacter.id]"
-            [title]="relationship.relatedCharacter.charName + ' ' + relationship.relatedCharacter.charSurname">
-            <div class="relation-profile-pic">
-              <img class="relation-profile-pic__image"
-                [src]="'data:image/' + relationship.relatedCharacter?.profilePic?.extension + ';base64, ' + relationship.relatedCharacter?.profilePic?.image | sanitizer">
-            </div>
-            <span>{{relationship.relatedCharacter.charName}}
-              {{relationship.relatedCharacter.charSurname}}</span>
-            <span [ngStyle]="{'color': themeColor1}">
-              {{relationship.relationName}}
-            </span>
-          </li>
-        </ng-container>
-
-      </ul>
-
+        <button
+            [matTooltip]="'CHARS_PANEL.DELETE' | translate"
+            (click)="insertDeleteInfo()"
+            [ngClass]="{ disabled: isNewChar }"
+            (dblclick)="deleteCharacter()"
+            [ngClass]="{ 'delete-button--disabled': !character.archived }"
+        >
+            <mat-icon class="close-icon delete-button">delete</mat-icon>
+        </button>
     </div>
 
-    <div *ngIf="character.measurements?.hasAnyValues">
-      <mat-divider></mat-divider>
-      <h2 class="story__title" [ngStyle]="{'color': themeColor1}">Tabela wzrostu i wagi</h2>
-      <table mat-table [dataSource]="measurementsData" style="width: 100%">
-        <ng-container matColumnDef="baby">
-          <th mat-header-cell *matHeaderCellDef
-            [style.display]="character.measurements.hasBabyValues ? 'table-cell' : 'none'"
-            class="measurements-table-cell">
-            Niemowlę (0-3) </th>
-          <td mat-cell *matCellDef="let element" class="measurements-table-cell"
-            [style.display]="character.measurements.hasBabyValues ? 'table-cell' : 'none'">
-            {{element[0] | nulled}}</td>
-        </ng-container>
-        <ng-container matColumnDef="child">
-          <th mat-header-cell *matHeaderCellDef class="measurements-table-cell"
-            [style.display]="character.measurements.hasChildValues ? 'table-cell' : 'none'"> Dziecko (4-11) </th>
-          <td mat-cell *matCellDef="let element" class="measurements-table-cell"
-            [style.display]="character.measurements.hasChildValues ? 'table-cell' : 'none'"> {{element[1] | nulled}}
-          </td>
-        </ng-container>
-        <ng-container matColumnDef="teen">
-          <th mat-header-cell *matHeaderCellDef class="measurements-table-cell"
-            [style.display]="character.measurements.hasTeenValues ? 'table-cell' : 'none'"> Nastolatek (12-19) </th>
-          <td mat-cell *matCellDef="let element" class="measurements-table-cell"
-            [style.display]="character.measurements.hasTeenValues ? 'table-cell' : 'none'"> {{element[2] | nulled}}</td>
-        </ng-container>
-        <ng-container matColumnDef="adult">
-          <th mat-header-cell *matHeaderCellDef class="measurements-table-cell"
-            [style.display]="character.measurements.hasAdultValues ? 'table-cell' : 'none'"> Dorosły (20+) </th>
-          <td mat-cell *matCellDef="let element" class="measurements-table-cell"
-            [style.display]="character.measurements.hasAdultValues ? 'table-cell' : 'none'"> {{element[3] | nulled}}
-          </td>
-        </ng-container>
+    <app-character-main-info
+        [character]="character"
+        [color]="themeColor1"
+        [fontColor]="fontColor"
+        [isUserLogged]="isUserLogged"
+        (infoHasChangedEvent)="changed()"
+        [editedKey]="editedKey"
+        [form]="form"
+        (saveEvent)="saveCharacter()"
+        (editedKeyChange)="patchForm($event)"
+        [isNewChar]="isNewChar"
+    >
+    </app-character-main-info>
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-      </table>
+    <app-character-additional-info
+        [character]="character"
+        [isUserLogged]="isUserLogged"
+        (infoHasChangedEvent)="changed()"
+        [form]="form"
+        [color]="themeColor1"
+        (saveEvent)="saveCharacter()"
+        (editedKeyChange)="patchForm($event)"
+        [editedKey]="editedKey"
+        [ngClass]="{ disabled: isNewChar }"
+    >
+    </app-character-additional-info>
 
-    </div>
-  </mat-card>
+    <app-char-information
+        [character]="character"
+        [color]="themeColor1"
+        [preferences]="preferences"
+        [isUserLogged]="isUserLogged"
+        (infoHasChangedEvent)="changed()"
+        [form]="form"
+        [ngClass]="{ disabled: isNewChar }"
+    >
+    </app-char-information>
 </section>

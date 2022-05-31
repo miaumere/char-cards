@@ -1,32 +1,33 @@
 @mixin font-regular {
-  font-family: "Courier New", Courier, monospace;
+    font-family: 'Courier New', Courier, monospace;
 }
 
 @mixin font-special {
-  font-family: "Halimun";
+    font-family: 'Halimun';
 }
 
 @mixin profile-pic {
-  height: 100px;
-  width: 100px;
+    height: 100px;
+    width: 100px;
 
-  border-radius: 50%;
-  border: 2px solid black;
+    border-radius: 50%;
+    border: 2px solid black;
 
-  background: darkslategrey;
+    background: darkslategrey;
 
-  filter: grayscale(100);
-
-  transition: 0.2s;
+    transition: 0.2s;
 }
 
 $navbar-height: 3rem;
 
 $card-bg: #ffffff1c;
 $card-bg-second: rgba(0, 0, 0, 0.4);
-$accent: #69f0ae;
+$chars-list-bg: #1b1d1e;
+$accent: #90a4ae;
 $primary: #9c27b0;
 
 $z-index: (
-  navbar: 1000,
+    navbar: 1000,
 );
+
+$dark-bg-component-color: rgba(0, 0, 0, 0.4);

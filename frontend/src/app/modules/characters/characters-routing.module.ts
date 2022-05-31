@@ -2,32 +2,28 @@ import { CharactersListComponent } from './components/characters-article/compone
 import { CharactersIndexComponent } from './characters-index.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { CharactersComponent } from './components/characters-article/characters.component';
-import { CharactersService } from 'src/app/core/service/characters.service';
+import { CharacterCardComponent } from './components/characters-article/components/character-card/character-card.component';
 
 const routes: Routes = [
-  {
-    path: '',
-    component: CharactersIndexComponent,
-    resolve: {
-      charList: CharactersService
-    },
-    children: [
-      {
+    {
         path: '',
-        pathMatch: 'full',
-        component: CharactersListComponent
-      },
-      {
-        path: ':id',
-        component: CharactersComponent
-      },
-    ]
-  },
+        component: CharactersIndexComponent,
+        children: [
+            {
+                path: '',
+                pathMatch: 'full',
+                component: CharactersListComponent,
+            },
+            {
+                path: ':id',
+                component: CharacterCardComponent,
+            },
+        ],
+    },
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+    imports: [RouterModule.forChild(routes)],
+    exports: [RouterModule],
 })
-export class CharactersRoutingModule { }
+export class CharactersRoutingModule {}

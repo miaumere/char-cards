@@ -1,0 +1,42 @@
+<img
+    class="character__profile-pic"
+    *ngIf="profilePicFromCharacter"
+    [src]="profilePicFromCharacter | sanitizer"
+    [ngStyle]="{
+        width: height,
+        height: height,
+        borderRadius: isCircle ? '50px' : '3px'
+    }"
+/>
+<div
+    [ngStyle]="{
+        width: height,
+        height: height,
+        borderRadius: isCircle ? '50px' : '3px'
+    }"
+    *ngIf="!profilePicFromCharacter"
+    class="character__profile-pic character__profile-pic--empty"
+></div>
+
+<div *ngIf="isUserLogged" class="file-options">
+    <div class="upload-file">
+        <mat-icon (click)="profilePicInput.click()" class="file-icon">
+            attach_file</mat-icon
+        >
+
+        <span>
+            {{
+                isProfilePicChosen
+                    ? ('EDIT_IMAGES.PROFILE_PIC_CHOSEN' | translate)
+                    : ('SHARED.CHOOSE_FILE' | translate)
+            }}
+        </span>
+
+        <input
+            #profilePicInput
+            type="file"
+            (change)="handleFileInput($event)"
+            style="display: none"
+        />
+    </div>
+</div>

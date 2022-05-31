@@ -16,8 +16,8 @@ public interface CharacterRepository extends JpaRepository<Character, Long> {
     @Query("SELECT c FROM Character c WHERE c.archived = false ORDER BY c.charName")
     List<Character> getNonArchivedCharacters();
 
-    @Query("SELECT c FROM Character c WHERE c.archived = false and c.externalId = :id")
-    Character getNonArchivedCharacter(@Param("id") Long externalId);
+    @Query("SELECT c FROM Character c ORDER BY  c.archived, c.charName, c.charType")
+    List<Character> getSortedCharacters();
 
     @Query("SELECT count(c) FROM Character c WHERE c.gender = :gender")
     int getCharactersForGender(@Param("gender") Gender gender);
@@ -32,13 +32,5 @@ public interface CharacterRepository extends JpaRepository<Character, Long> {
     @Query("select c.birthday from Character c where c.death is null and c.birthday is not null")
     List<Long> getCharactersBirthdays();
 
-    @Query("select c from Character c, StarringCharacters sc " +
-            "where c.externalId = sc.character.externalId and sc.starringType = 'MAIN' group by c.externalId " +
-            "having count(c)>3")
-    List<Character> getCharsWithEnoughChaptersToBeMain();
 
-    @Query("select c from Character c, StarringCharacters sc " +
-            "where c.externalId = sc.character.externalId and sc.starringType = 'SIDE' group by c.externalId " +
-            "having count(c) > 3")
-    List<Character> getCharsWithEnoughChaptersToBeSide();
 }

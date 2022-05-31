@@ -1,12 +1,10 @@
 package com.meowmere.main.dto.character.relationship;
 
-import com.meowmere.main.dto.character.image.ProfilePicForMainDTO;
-
 public class RelatedCharacterDTO {
     public Long id;
     public String charName;
     public String charSurname;
-    public ProfilePicForMainDTO profilePic;
+    public String profilePic;
 
     public Long getId() {
         return id;
@@ -32,11 +30,11 @@ public class RelatedCharacterDTO {
         this.charSurname = charSurname;
     }
 
-    public ProfilePicForMainDTO getProfilePic() {
+    public String getProfilePic() {
         return profilePic;
     }
 
-    public void setProfilePic(ProfilePicForMainDTO profilePic) {
+    public void setProfilePic(String profilePic) {
         this.profilePic = profilePic;
     }
 }

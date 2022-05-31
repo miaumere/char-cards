@@ -1,0 +1,101 @@
+<mat-card class="information" *ngIf="character">
+    <!-- tutaj powinien być if  -->
+
+    <div class="profile-pic-quotes-container">
+        <div class="profile-pic-edition-container">
+            <app-profile-pic
+                [profilePic]="character.profilePic"
+                [charId]="character.externalId"
+                [isUserLogged]="isUserLogged"
+                (profilePicChangedEvent)="emitInfoHasChangedEvent()"
+            ></app-profile-pic>
+        </div>
+
+        <app-divider [vertical]="true"></app-divider>
+
+        <app-quotes
+            [isUserLogged]="isUserLogged"
+            [quote]="character.quote"
+            [color]="themeColor1"
+            [charId]="character.externalId"
+            (quotesChangedEvent)="emitInfoHasChangedEvent()"
+        >
+        </app-quotes>
+    </div>
+
+    <div class="information__segment">
+        <app-divider></app-divider>
+        <h2 class="story__title" [ngStyle]="{ color: themeColor1 }">
+            📖 {{ 'CHARACTER_CARD.STORY' | translate }}
+        </h2>
+        <app-story
+            [story]="character.story"
+            [color]="themeColor1"
+            [isUserLogged]="isUserLogged"
+            (storyChangedEvent)="emitInfoHasChangedEvent()"
+            [charId]="character.externalId"
+        >
+        </app-story>
+    </div>
+
+    <div class="information__segment">
+        <app-divider></app-divider>
+
+        <h2 class="story__title" [ngStyle]="{ color: themeColor1 }">
+            👨‍👨‍👦‍👦 {{ 'CHARACTER_CARD.FAMILY_RELATIONS' | translate }}
+        </h2>
+
+        <app-char-relations
+            [color]="themeColor1"
+            [isUserLogged]="isUserLogged"
+            [profilePic]="character.profilePic"
+            [charId]="character.externalId"
+            [charFullName]="character.charName + ' ' + character.charSurname"
+        ></app-char-relations>
+    </div>
+
+    <div
+        class="information__segment"
+        *ngIf="(preferences && !!preferences.length) || isUserLogged"
+    >
+        <app-divider></app-divider>
+        <h2 class="story__title" [ngStyle]="{ color: themeColor1 }">
+            💘 {{ 'CHARACTER_CARD.PREFERENCES' | translate }}
+        </h2>
+        <app-preferences
+            [preferences]="preferences"
+            [charId]="character.externalId"
+            (preferencesChangedEvent)="emitInfoHasChangedEvent()"
+        >
+        </app-preferences>
+    </div>
+
+    <div
+        class="information__segment"
+        *ngIf="character.measurements?.hasAnyValues || isUserLogged"
+    >
+        <app-divider></app-divider>
+        <h2 class="story__title" [ngStyle]="{ color: themeColor1 }">
+            📏 {{ 'CHARACTER_CARD.WEIGHT_HEIGHT_TABLE' | translate }}
+        </h2>
+
+        <app-measurements
+            [measurements]="character.measurements"
+            [form]="form"
+            (measurementsChangedEvent)="emitInfoHasChangedEvent()"
+            [isUserLogged]="isUserLogged"
+        ></app-measurements>
+    </div>
+
+    <div
+        class="information__segment"
+        *ngIf="character.starringIn && !!character.starringIn.length"
+    >
+        <app-divider></app-divider>
+        <h2 class="story__title" [ngStyle]="{ color: themeColor1 }">
+            📚 {{ 'CHARACTER_CARD.APPEARANCE' | translate }}
+        </h2>
+        <app-starring-in-info [starringIn]="character.starringIn">
+        </app-starring-in-info>
+    </div>
+</mat-card>

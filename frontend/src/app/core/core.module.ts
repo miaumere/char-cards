@@ -6,20 +6,20 @@ import { SharedModule } from '../modules/shared/shared.module';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-
+import { TranslateModule } from '@ngx-translate/core';
+import { MatSelectModule } from '@angular/material/select';
 @NgModule({
-  declarations: [
-    NavbarComponent
-  ],
-  imports: [
-    CommonModule,
-    SharedModule,
-    RouterModule,
-    MatMenuModule,
-    MatIconModule,
-    MatButtonModule],
-  exports: [
-    NavbarComponent
-  ]
+    declarations: [NavbarComponent],
+    imports: [
+        CommonModule,
+        SharedModule,
+        RouterModule,
+        MatMenuModule,
+        MatIconModule,
+        MatButtonModule,
+        TranslateModule,
+        MatSelectModule,
+    ],
+    exports: [NavbarComponent],
 })
-export class CoreModule { }
+export class CoreModule {}

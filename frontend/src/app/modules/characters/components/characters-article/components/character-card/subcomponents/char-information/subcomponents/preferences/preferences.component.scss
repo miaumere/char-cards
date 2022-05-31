@@ -1,0 +1,222 @@
+@import 'variables';
+
+.info-icon {
+    cursor: help;
+
+    border-radius: 50%;
+
+    font-size: initial;
+    background: white;
+    color: #3b73af;
+    border-radius: 50%;
+    height: 1rem;
+    width: 1rem;
+}
+
+.edit-preferences-container {
+    display: flex;
+    align-items: flex-start;
+}
+
+.preferences-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    font-size: initial;
+
+    &__field {
+        display: flex;
+        justify-content: center;
+
+        width: 100%;
+
+        margin-top: 1rem;
+
+        &--date {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        &--range {
+        }
+    }
+}
+
+.legend {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    user-select: none;
+
+    border-radius: 3px;
+    box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2),
+        0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 1px 3px 0 rgba(0, 0, 0, 0.12);
+
+    &__item {
+    }
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    opacity: 0.5;
+
+    padding: 0.3rem;
+
+    transition: 0.3s;
+
+    &__value {
+        margin-right: 0.5rem;
+
+        font-size: 0.6rem;
+
+        color: black;
+        font-weight: bolder;
+    }
+
+    &__name {
+        font-size: 0.75rem;
+
+        color: black;
+        font-weight: bolder;
+    }
+
+    &--hatred {
+        background-color: #8b8b8b;
+        border-radius: 0 0 3px 3px;
+    }
+
+    &--enemy {
+        background-color: #cba6b8;
+    }
+
+    &--conflict {
+        background-color: #b3c2cd;
+    }
+
+    &--neutral {
+        background-color: #c4c4c4;
+    }
+
+    &--sympathy {
+        background-color: #bfc9aa;
+    }
+
+    &--admiration {
+        background-color: #c7b7ab;
+    }
+
+    &--love {
+        background-color: #c9a6a6;
+        border-radius: 3px 3px 0 0;
+    }
+
+    &--chosen {
+        opacity: 1;
+    }
+}
+
+.historical-preferences {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.preferences {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+
+    background: transparent;
+    box-shadow: none;
+
+    margin-top: 1rem;
+    & .mat-expansion-panel-body {
+        padding: 0;
+    }
+}
+
+.add-preference {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    width: 100%;
+}
+
+.date-input {
+    width: 6rem;
+
+    font-size: x-small;
+}
+
+.new-preferences {
+    background: $card-bg-second;
+}
+.date-container {
+    display: flex;
+    width: 100%;
+    margin-left: 0.5rem;
+}
+
+.existing-preferences {
+    margin-left: 4rem;
+
+    &--current {
+        margin-left: 1rem;
+    }
+
+    &--empty {
+        color: grey;
+        font-size: smaller;
+    }
+}
+
+.existing-preference {
+    background: $card-bg-second;
+
+    padding: 0.5rem;
+    border-radius: 3px;
+    margin-bottom: 1rem;
+
+    &__name {
+        display: flex;
+        align-items: center;
+    }
+}
+
+.preference-profile-pic {
+    margin-right: 1rem;
+    margin-top: -1rem;
+
+    user-select: none;
+}
+
+.preference-container {
+    display: flex;
+    align-items: center;
+
+    &__range {
+        display: flex;
+        justify-content: center;
+
+        padding: 0.25rem 0.5rem;
+        border-radius: 3px;
+        width: 1rem;
+
+        color: black;
+
+        font-weight: bolder;
+    }
+
+    &__date {
+        margin-left: 1rem;
+        margin: 0.5rem;
+    }
+}

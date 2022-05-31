@@ -1,0 +1,11 @@
+<app-relation-tree
+    [charId]="charId"
+    [reloadChartObservable]="reloadChart$"
+></app-relation-tree>
+<app-edit-relations
+    *appIfLoggedUser
+    [color]="themeColor1"
+    [charId]="charId"
+    [charFullName]="charFullName"
+    (relationsChangedEvent)="reloadChart()"
+></app-edit-relations>

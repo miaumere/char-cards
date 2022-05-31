@@ -1,30 +1,49 @@
-import { IProfilePic } from '../../admin-panel/models/images/profile-pic.model';
+import { ITag, Tag } from '../../tags/models/tag.model';
 
 export interface ICharacterItem {
-  id: number;
-  charName: string;
-  charSurname: string;
-  characterType: string;
-  profilePic: IProfilePic | null;
-  archived: boolean;
+    id: number;
+    fullName: string;
+    pseudonym: string;
+
+    characterType: string;
+    profilePic: string | null;
+    archived: boolean;
+
+    birthday: number | null;
+
+    tags: Tag[];
 }
 
 export class CharacterItem implements ICharacterItem {
-  id: number;
-  charName: string;
-  charSurname: string;
-  characterType: string;
-  profilePic: IProfilePic | null;
-  archived: boolean;
+    id: number = 0;
+    fullName: string = '';
+    pseudonym: string = '';
 
-  get fullName() {
-    return `${this.charName} ${this.charSurname}`;
-  }
+    characterType: string = '';
+    profilePic: string | null = null;
+    archived: boolean = false;
 
-  constructor(initialValues: ICharacterItem) {
-    Object.assign(this, initialValues);
-  }
+    birthday: number | null = null;
+    hasBirthdayToday: boolean = false;
 
+    tags: Tag[] = [];
 
+    constructor(initialValues: ICharacterItem) {
+        Object.assign(this, initialValues);
 
+        if (initialValues.birthday) {
+            const todayDate = new Date();
+
+            const birthdayDate = new Date(initialValues.birthday);
+
+            if (birthdayDate.getMonth() === todayDate.getMonth()) {
+                this.hasBirthdayToday =
+                    birthdayDate.getDate() === todayDate.getDate();
+            }
+        }
+    }
+
+    toString(): string {
+        return this.fullName;
+    }
 }

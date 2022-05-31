@@ -1,0 +1,285 @@
+<form class="card" [formGroup]="form">
+    <div class="container">
+        <div class="card-info nationality" *ngIf="flag || isUserLogged">
+            <span class="info__desc" [ngStyle]="{ color: themeColor1 }">
+                🚩 {{ 'CHARACTER_CARD.NATIONALITY' | translate }}
+            </span>
+            <div class="edit-country">
+                <ng-container
+                    *ngTemplateOutlet="
+                        editButtons;
+                        context: {
+                            key: 'nationality'
+                        }
+                    "
+                ></ng-container>
+
+                <ng-container *ngIf="editedKey !== 'nationality'">
+                    <div *ngIf="flag" [matTooltip]="flag.name.common">
+                        <img [src]="flag?.flags.svg | sanitizer" class="flag" />
+                    </div>
+                    <div *ngIf="!flag">?</div>
+                </ng-container>
+
+                <mat-form-field
+                    *ngIf="editedKey === 'nationality'"
+                    class="edit-nationality"
+                >
+                    <mat-label>
+                        {{
+                            'CHARACTER_MODIFY.NATIONALITY' | translate
+                        }}</mat-label
+                    >
+
+                    <mat-select formControlName="nationality">
+                        <mat-option [value]="null">---</mat-option>
+                        <mat-option
+                            *ngFor="let country of countries"
+                            [value]="country.cca2"
+                        >
+                            <img
+                                [src]="country.flags?.svg"
+                                class="flag flag--in-list"
+                            />
+                            {{ country.name.common }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+
+        <div class="card-info" *ngIf="character?.birthday || isUserLogged">
+            <span class="info__desc" [ngStyle]="{ color: themeColor1 }">
+                🎂 {{ 'CHARACTER_CARD.BIRTHDAY' | translate }}
+            </span>
+            <div class="edit-date">
+                <ng-container
+                    *ngTemplateOutlet="
+                        editButtons;
+                        context: {
+                            key: 'birthday'
+                        }
+                    "
+                ></ng-container>
+                <span class="info__data" *ngIf="editedKey !== 'birthday'"
+                    >{{
+                        character?.birthday
+                            ? (character?.birthday | date: 'dd/MM/yyyy')
+                            : '?'
+                    }}
+                </span>
+
+                <mat-form-field
+                    *ngIf="editedKey === 'birthday'"
+                    class="date-form-field"
+                >
+                    <input
+                        matInput
+                        [matDatepicker]="birthday"
+                        [formControlName]="'birthday'"
+                    />
+
+                    <mat-datepicker-toggle
+                        matSuffix
+                        [for]="birthday"
+                    ></mat-datepicker-toggle>
+                    <mat-datepicker-toggle
+                        matSuffix
+                        (click)="this.form.get('birthday')?.setValue(null)"
+                    >
+                        <mat-icon matDatepickerToggleIcon>clear</mat-icon>
+                    </mat-datepicker-toggle>
+                    <mat-datepicker #birthday></mat-datepicker>
+                </mat-form-field>
+            </div>
+        </div>
+
+        <div class="card-info" *ngIf="character?.death || isUserLogged">
+            <span class="info__desc" [ngStyle]="{ color: themeColor1 }">
+                💀 {{ 'CHARACTER_CARD.DEATH' | translate }}
+            </span>
+            <div class="edit-date">
+                <ng-container
+                    *ngTemplateOutlet="
+                        editButtons;
+                        context: {
+                            key: 'death'
+                        }
+                    "
+                ></ng-container>
+                <span class="info__data" *ngIf="editedKey !== 'death'"
+                    >{{
+                        character?.death
+                            ? (character?.death | date: 'dd/MM/yyyy')
+                            : '?'
+                    }}
+                </span>
+
+                <mat-form-field
+                    *ngIf="editedKey === 'death'"
+                    class="date-form-field"
+                >
+                    <input
+                        matInput
+                        [matDatepicker]="death"
+                        [formControlName]="'death'"
+                    />
+
+                    <mat-datepicker-toggle
+                        matSuffix
+                        [for]="death"
+                    ></mat-datepicker-toggle>
+                    <mat-datepicker-toggle
+                        matSuffix
+                        (click)="this.form.get('death')?.setValue(null)"
+                    >
+                        <mat-icon matDatepickerToggleIcon>clear</mat-icon>
+                    </mat-datepicker-toggle>
+                    <mat-datepicker #death></mat-datepicker>
+                </mat-form-field>
+            </div>
+        </div>
+
+        <div class="card-info" *ngIf="character?.deathReason || isUserLogged">
+            <span class="info__desc" [ngStyle]="{ color: themeColor1 }">
+                📃 {{ 'CHARACTER_MODIFY.DEATH_REASON' | translate }}
+            </span>
+            <div class="edit-field">
+                <ng-container
+                    *ngTemplateOutlet="
+                        editButtons;
+                        context: {
+                            key: 'deathReason'
+                        }
+                    "
+                ></ng-container>
+                <span class="info__data" *ngIf="editedKey !== 'deathReason'"
+                    >{{ character?.deathReason }}
+                </span>
+
+                <mat-form-field
+                    *ngIf="editedKey === 'deathReason'"
+                    class="date-form-field"
+                >
+                    <input matInput [formControlName]="'deathReason'" />
+                </mat-form-field>
+            </div>
+        </div>
+
+        <div class="card-info" *ngIf="character?.profession || isUserLogged">
+            <span class="info__desc" [ngStyle]="{ color: themeColor1 }">
+                💼 {{ 'CHARACTER_CARD.PROFESSION' | translate }}
+            </span>
+            <div class="edit-field edit-field--occupation">
+                <ng-container
+                    *ngTemplateOutlet="
+                        editButtons;
+                        context: {
+                            key: 'occupation'
+                        }
+                    "
+                ></ng-container>
+                <span class="info__data" *ngIf="editedKey !== 'occupation'"
+                    >{{ character?.occupation }}
+                </span>
+
+                <mat-form-field
+                    *ngIf="editedKey === 'occupation'"
+                    class="date-form-field"
+                >
+                    <input matInput [formControlName]="'occupation'" />
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+
+    <app-temperament-bars
+        *ngIf="hasTemperamentInfo || isUserLogged"
+        [temperaments]="character?.temperament"
+        [isUserLogged]="isUserLogged"
+        [form]="form"
+        [editedKey]="editedKey"
+        (saveEvent)="saveEvent.emit()"
+        (editedKeyChange)="setEditedKey('temperament')"
+        [color]="themeColor1"
+    >
+    </app-temperament-bars>
+    <ng-container *ngIf="character?.colors || isUserLogged">
+        <app-colors
+            [isUserLogged]="isUserLogged"
+            [colors]="character?.colors"
+            [form]="form"
+            (saveEvent)="saveEvent.emit()"
+        >
+        </app-colors>
+    </ng-container>
+
+    <div>
+        <app-divider></app-divider>
+
+        <form [formGroup]="newTagForm" *appIfLoggedUser>
+            <mat-form-field class="add-new-tag">
+                <mat-icon
+                    class="basic-icon basic-icon--expand add-icon"
+                    matSuffix
+                    >add</mat-icon
+                >
+                <input
+                    matInput
+                    formControlName="tagToAdd"
+                    [matAutocomplete]="auto"
+                    [placeholder]="'EDIT_TAGS.TAG_NAME' | translate"
+                    class="relationship-box__input"
+                />
+                <mat-autocomplete
+                    #auto="matAutocomplete"
+                    (optionSelected)="addTagToCharacter($event)"
+                >
+                    <mat-option
+                        *ngFor="let tag of filteredTagsList"
+                        [value]="tag"
+                        class="option"
+                    >
+                        <div class="option-container">
+                            <app-tag [tagData]="tag"></app-tag>
+                        </div>
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+        </form>
+
+        <div class="tags" [ngClass]="{ 'tags--edit': isUserLogged }">
+            <div *ngFor="let tag of character?.tags" class="tag-container">
+                <mat-icon
+                    *appIfLoggedUser
+                    class="close-icon tag-container__icon"
+                    (click)="insertDeleteInfo()"
+                    (dblclick)="deleteCharacterTag(tag.id)"
+                    >close</mat-icon
+                >
+                <app-tag [tagData]="tag"></app-tag>
+            </div>
+        </div>
+    </div>
+</form>
+
+<ng-template #editButtons let-key="key">
+    <div class="icons-options">
+        <app-edit-icon
+            (clickedEvent)="setEditedKey(key)"
+            *ngIf="editedKey !== key && isUserLogged"
+        ></app-edit-icon>
+        <ng-container *ngIf="editedKey === key && isUserLogged">
+            <mat-icon
+                class="option-icon option-icon--cancel"
+                (click)="setEditedKey(null)"
+                >cancel</mat-icon
+            >
+            <mat-icon
+                class="option-icon option-icon--save"
+                (click)="saveEvent.emit()"
+                >save</mat-icon
+            >
+        </ng-container>
+    </div>
+</ng-template>

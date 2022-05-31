@@ -1,0 +1,50 @@
+.profile-pic-preview {
+    height: 100px;
+    width: 100px;
+
+    box-sizing: border-box;
+
+    border-radius: 3px;
+    border: 1px solid black;
+    margin-top: 1rem;
+    transition: 0.3s;
+
+    &:hover {
+        border-color: white;
+    }
+}
+
+.pic-container {
+    display: flex;
+    flex-direction: column;
+    margin: 0.5rem 0;
+
+    &__title {
+        margin-bottom: -0.5rem;
+    }
+}
+
+.pics-comparison {
+    display: flex;
+    flex-direction: column;
+
+    margin-right: 1rem;
+}
+
+.image-cropper-container {
+    background: #a5a5a5;
+}
+
+.options-container {
+    display: flex;
+}
+.option-buttons {
+    display: flex;
+    flex-direction: column;
+
+    margin-left: 1.25rem;
+}
+
+.crop-profile-pic {
+    display: flex;
+}

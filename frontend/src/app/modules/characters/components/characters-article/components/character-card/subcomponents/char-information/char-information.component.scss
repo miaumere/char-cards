@@ -1,0 +1,29 @@
+.information {
+    display: flex;
+    flex-direction: column;
+
+    min-width: 50vw;
+    height: 89vh;
+    width: calc(100vw - 495px);
+
+    font-size: 0.7rem;
+
+    background: #0000007a;
+
+    overflow-y: scroll;
+
+    &__segment {
+        margin-top: 1rem;
+    }
+}
+
+.profile-pic-quotes-container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.profile-pic-edition-container {
+    width: 125px;
+    height: 100px;
+}

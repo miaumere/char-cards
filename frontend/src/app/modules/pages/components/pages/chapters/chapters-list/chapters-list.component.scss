@@ -1,34 +1,44 @@
-@import "../../../../../../../global_styles/variables.scss";
+@import 'variables';
 
 .chapters-list {
-  display: flex;
-  justify-content: center;
+    display: flex;
+    justify-content: center;
 
-  height: calc(100vh - #{$navbar-height});
+    height: calc(100vh - #{$navbar-height});
 
-  overflow: scroll;
+    overflow: scroll;
+
+    &__container {
+        width: 100%;
+        text-align: center;
+    }
+}
+.chapters-list-container {
+    &__title {
+        font-size: xx-large;
+    }
 }
 .chapter-card {
-  background: $card-bg;
-  margin: 3rem;
+    background: $card-bg;
+    margin: 3rem;
 }
 
 .char-card {
-  background: $card-bg;
+    background: $card-bg;
 
-  margin: 1rem;
-  padding-bottom: 0;
+    margin: 1rem;
+    padding-bottom: 0;
 
-  width: 15rem;
+    width: 15rem;
 
-  &__avatar {
-    @include profile-pic;
-    width: 3.125rem;
-    height: 3.125rem;
-  }
+    &__avatar {
+        @include profile-pic;
+        width: 3.125rem;
+        height: 3.125rem;
+    }
 }
 
 .char-card-container {
-  display: flex;
-  flex-wrap: wrap;
+    display: flex;
+    flex-wrap: wrap;
 }

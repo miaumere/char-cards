@@ -1,23 +1,135 @@
-<app-loader [visible]="!charList && loading"></app-loader>
+<article class="char-menu" *ngIf="charList && !!charList">
+    <form [formGroup]="searchForm" class="search-form">
+        <a [routerLink]="['/char-cards', 0]">
+            <mat-icon class="create-new-character">person_add</mat-icon>
+        </a>
 
-<aside class="global-section" class="char-menu" *ngIf="!loading && charList && charList.length > 0">
-  <ng-container *ngFor="let character of charList; index as i">
-    <a class="character" [routerLink]="['/char-cards', character.id]" routerLinkActive="router-link-active">
-      <img class="character__profile-pic" *ngIf="character.profilePic"
-        [src]="'data:image/' + character.profilePic?.extension + ';base64, ' + character.profilePic.image | sanitizer">
-      <div *ngIf="!character.profilePic" class="character__profile-pic character__profile-pic--empty">
-      </div>
-      <span class="character__name">
-        <span *ngIf="character.characterType === 'MAIN'"> <img src="../../../../../assets/svg/rdest.svg" class="rdest">
+        <span class="search-form__form-field">
+            <mat-icon>search</mat-icon>
+            <mat-form-field>
+                <mat-label>{{
+                    'CHARS_PANEL.SEARCH_CHAR' | translate
+                }}</mat-label>
+                <input
+                    matInput
+                    formControlName="char"
+                    (input)="searchCharacter()"
+                />
+            </mat-form-field>
         </span>
-        <span *ngIf="character.characterType === 'SIDE'"> <img src="../../../../../assets/svg/rdest.svg"
-            class="rdest rdest--side">
-        </span>
-        {{ character.fullName }}
-      </span>
-    </a>
-  </ng-container>
-</aside>
-<div *ngIf="charList && charList.length === 0 && !loading">
-  Brak postaci.
-</div>
+
+        <div class="buttons-container">
+            <button
+                mat-raised-button
+                [color]="isMain ? 'accent' : 'basic'"
+                (click)="
+                    isMain ? (isMain = false) : (isMain = true);
+                    searchCharacter()
+                "
+                class="char-type-button"
+            >
+                <div class="char-type-button__container">
+                    <img [src]="rdestUrl" class="rdest rdest--main" />
+                    {{ 'enum.charType.MAIN' | translate }}
+                </div>
+            </button>
+
+            <button
+                mat-raised-button
+                [color]="isSide ? 'accent' : 'basic'"
+                (click)="
+                    isSide ? (isSide = false) : (isSide = true);
+                    searchCharacter()
+                "
+                class="char-type-button"
+            >
+                <div class="char-type-button__container">
+                    <img [src]="rdestUrl" class="rdest rdest--side" />
+                    {{ 'enum.charType.SIDE' | translate }}
+                </div>
+            </button>
+
+            <button
+                mat-raised-button
+                [color]="isBackground ? 'accent' : 'basic'"
+                (click)="
+                    isBackground
+                        ? (isBackground = false)
+                        : (isBackground = true);
+                    searchCharacter()
+                "
+                class="char-type-button"
+            >
+                <div class="char-type-button__container">
+                    {{ 'enum.charType.BACKGROUND' | translate }}
+                </div>
+            </button>
+        </div>
+
+        <div class="tags">
+            <app-tag
+                class="tag"
+                [ngClass]="{ 'tag--disabled': !chosenTags.includes(tag) }"
+                [tagData]="tag"
+                *ngFor="let tag of tags"
+                (click)="setTagFilter(tag)"
+            ></app-tag>
+        </div>
+    </form>
+
+    <div class="characters">
+        <div class="characters__list">
+            <a
+                *ngFor="let character of filteredChars; index as i"
+                class="character"
+                [routerLink]="['/char-cards', character.id]"
+                routerLinkActive="router-link-active"
+                [ngClass]="{ 'character--archived': character.archived }"
+            >
+                <div>
+                    <div
+                        *ngIf="character.hasBirthdayToday"
+                        [matTooltip]="
+                            character.birthdayDate | date: 'dd/MM/yyyy'
+                        "
+                        class="birthday-cake"
+                    >
+                        🎂
+                    </div>
+                    <app-profile-pic
+                        [charId]="character.externalId"
+                        [profilePic]="character.profilePic"
+                    ></app-profile-pic>
+                </div>
+
+                <span class="character__name">
+                    <span
+                        *ngIf="
+                            character.characterType === 'SIDE' ||
+                            character.characterType === 'MAIN'
+                        "
+                    >
+                        <img
+                            [src]="rdestUrl"
+                            class="rdest"
+                            [ngClass]="{
+                                'rdest--side':
+                                    character.characterType === 'SIDE'
+                            }"
+                        />
+                    </span>
+                    <div class="name">
+                        <div class="name__name">{{ character.fullName }}</div>
+                        <div class="name__pseudonym">
+                            {{ character.pseudonym }}
+                        </div>
+                    </div>
+                </span>
+            </a>
+        </div>
+
+        <div *ngIf="filteredChars.length === 0" class="empty-list">
+            {{ 'CHARS_PANEL.NO_CHARACTERS' | translate }}
+        </div>
+    </div>
+</article>

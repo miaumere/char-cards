@@ -1,0 +1,21 @@
+@import 'variables';
+
+.measurements {
+    margin-top: auto;
+
+    &-table-cell {
+        text-align: center;
+    }
+}
+.weight-height-table {
+    width: 100%;
+    background: $dark-bg-component-color;
+}
+
+.measurements-form-field {
+    width: 3rem;
+}
+
+.measurements-input {
+    margin-left: 0.5rem;
+}

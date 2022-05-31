@@ -1,156 +1,197 @@
-@import "./global_styles/reset.scss";
-@import "./global_styles/variables.scss";
-@import "./global_styles/scrollbar.scss";
-@import "./global_styles/table.scss";
-@import "./global_styles/admin-panel.scss";
-@import "~ngx-toastr/toastr.css";
+@import '~@angular/material/theming';
+@include mat-core();
 
-@import "./fonts.scss";
+$my-app-primary: mat-palette($mat-blue-grey);
+$my-app-accent: mat-palette($mat-blue-grey, A200, A100, A400);
+$my-app-theme: mat-dark-theme($my-app-primary, $my-app-accent);
+
+@include angular-material-theme($my-app-theme);
+
+@import './global_styles/reset.scss';
+@import './global_styles/variables.scss';
+@import './global_styles/scrollbar.scss';
+@import './global_styles/table.scss';
+@import './global_styles/additional-icons-styles.scss';
+@import './global_styles/tags.scss';
+
+@import './global_styles/admin-panel.scss';
+@import '~ngx-toastr/toastr.css';
+
+@import './fonts.scss';
 
 body {
-  font-size: 62.5%;
-  background-image: linear-gradient(to top, #b9b9b9 0%, #3c3e3f 100%);
-  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+    font-size: 62.5%;
+    background: $chars-list-bg;
 
-  color: whitesmoke;
+    color: whitesmoke;
 }
 
 button {
-  font-family: inherit;
-}
-
-// $button_gradient1: rgba(0, 0, 0, 0.7);
-// $button_gradient2: rgba(0, 0, 0, 0.2);
-
-.global {
-  // &-button {
-  //   display: flex;
-  //   justify-content: center;
-  //   align-items: center;
-
-  //   border-radius: 3px;
-  //   border: 1px solid black;
-  //   padding: 0.5rem;
-
-  //   color: white;
-  //   font-family: inherit;
-  //   font-size: 0.6rem;
-  //   letter-spacing: 2px;
-
-  //   background: linear-gradient(to bottom, $button_gradient1, $button_gradient2);
-
-  //   outline: none;
-
-  //   cursor: pointer;
-  //   text-transform: uppercase;
-
-  //   &:active {
-  //     border-bottom: 2px solid black;
-
-  //     background: linear-gradient(to bottom, $button_gradient2, $button_gradient1);
-
-  //     transform: translateY(4px);
-  //   }
-
-  //   &[disabled] {
-  //     background: linear-gradient(to bottom, #5c5c5c, #b1b1b1);
-  //   }
-  // }
-
-  // &-section {
-  //   height: calc(100vh - #{$navbar-height});
-  // }
-
-  // &-input {
-  //   &[type="text"],
-  //   &[type="number"],
-  //   &[type="date"],
-  //   &[type="password"],
-  //   &[list],
-  //   &[name] {
-  //     padding: 5px;
-  //     border-radius: 5px;
-  //     border: 1px solid #ccc;
-  //     box-shadow: 1px 1px 1px #999;
-
-  //     outline: none;
-  //   }
-  //   &[type="color"] {
-  //     &::-webkit-color-swatch-wrapper {
-  //       padding: 0;
-  //     }
-  //   }
-  //   &[disabled],
-  //   &[readonly] {
-  //     background-color: #e4e4e1;
-  //     background-image: linear-gradient(to top, rgba(255, 255, 255, 0.1) 0%, rgba(143, 152, 157, 0.6) 100%);
-  //   }
-  // }
-
-  // &-label {
-  //   margin: 0.5rem;
-  // }
-
-  // &-textarea {
-  //   padding: 10px;
-  //   line-height: 1.5;
-  //   border-radius: 5px;
-  //   border: 1px solid #ccc;
-  //   box-shadow: 1px 1px 1px #999;
-
-  //   outline: none;
-  // }
-  &-progress-bar {
-    height: 100%;
-    width: 100px;
-
-    border-radius: 3px;
-    border-bottom: 1px solid #3e3e3e;
-    margin: 0 1rem;
-
-    background-color: #1d1d1d;
-
-    &__color {
-      height: 10px;
-
-      border-radius: 3px;
-
-      text-align: center;
-
-      &--melancholic {
-        background-image: linear-gradient(to right, #3a6186 0%, #89253e 100%);
-      }
-      &--sanguine {
-        background-image: linear-gradient(to right, #5614b0 0%, #dbd65c 100%);
-      }
-      &--flegmatic {
-        background-image: linear-gradient(to right, #5a3f37 0%, #2c7744 100%);
-      }
-      &--choleric {
-        background-image: linear-gradient(to right, #ff5f6d 0%, #ffc371 100%);
-      }
-    }
-    &__value {
-      position: absolute;
-      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-    }
-  }
+    font-family: inherit;
 }
 
 ::-webkit-resizer {
-  background: url("./assets/images/arrows.svg");
-  background-size: 100%;
+    background: url('./assets/images/arrows.svg');
+    background-size: 100%;
 }
 
 a {
-  color: whitesmoke;
+    color: whitesmoke;
 }
 
 html,
 body {
-  height: 100%;
+    height: 100%;
 }
-body {
-  margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+
+body,
+figure,
+figcaption {
+    margin: 0;
+}
+
+* {
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.global-progress-bar {
+    height: 0.6rem;
+    width: 120px;
+
+    border-radius: 3px;
+    margin-top: 1rem;
+
+    background-color: rgb(78, 78, 78);
+
+    &__color {
+        height: 10px;
+
+        border-radius: 3px;
+
+        text-align: center;
+
+        &--melancholic {
+            background-image: linear-gradient(
+                to right,
+                #3a6186 0%,
+                #89253e 100%
+            );
+        }
+        &--sanguine {
+            background-image: linear-gradient(
+                to right,
+                #5614b0 0%,
+                #dbd65c 100%
+            );
+        }
+        &--flegmatic {
+            background-image: linear-gradient(
+                to right,
+                #5a3f37 0%,
+                #2c7744 100%
+            );
+        }
+        &--choleric {
+            background-image: linear-gradient(
+                to right,
+                #ff5f6d 0%,
+                #ffc371 100%
+            );
+        }
+    }
+    &__value {
+        position: absolute;
+        text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
+            1px 1px 0 #000;
+    }
+}
+
+::selection {
+    background: white;
+    color: black;
+}
+
+.test {
+    background: red;
+}
+
+.mat-expansion-panel-body {
+    padding: 0 !important;
+}
+
+.mat-expansion-panel-header {
+    padding: 0 !important;
+    padding-left: 0.75rem !important;
+    display: block;
+
+    &:hover {
+        background: transparent !important;
+    }
+}
+
+.mat-select-panel {
+    background: $chars-list-bg;
+}
+
+.mat-calendar {
+    background: $chars-list-bg;
+}
+
+.mat-option {
+    background: $chars-list-bg;
+}
+.mat-option-text {
+    display: flex;
+    align-items: center;
+}
+
+.mat-card {
+    background: $chars-list-bg;
+}
+
+div[role='listbox'] {
+    max-width: 200px;
+}
+
+.mat-tab-label {
+    background-color: transparent;
+    height: 2rem !important;
+}
+
+.option {
+    display: flex;
+    align-items: center;
+    font-size: initial;
+
+    &__image {
+        height: 1.75rem;
+        width: 1.75rem;
+
+        border-radius: 50%;
+    }
+}
+
+.option-container {
+    display: flex;
+}
+
+.char-item {
+    display: flex;
+    flex-direction: column;
+
+    &__name {
+        height: 1rem;
+    }
+
+    &__pseudonym {
+        font-size: x-small;
+        color: $accent;
+    }
+}
+
+.disabled {
+    opacity: 0.2;
+    pointer-events: none;
+    cursor: default;
+    user-select: none;
 }

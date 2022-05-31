@@ -1,0 +1,127 @@
+.tag-icon {
+    margin-bottom: -0.5rem;
+}
+.edit-icon {
+    cursor: pointer;
+    transition: 0.3s;
+
+    display: block;
+
+    font-size: small;
+
+    height: 1rem !important;
+    width: 1rem !important;
+
+    color: #90a4ae;
+
+    &:hover {
+        color: white;
+    }
+}
+
+.option-icon,
+.close-icon {
+    cursor: pointer;
+    width: 1rem !important;
+    height: 0.6rem !important;
+
+    font-size: 0.6rem;
+
+    color: grey;
+}
+
+.option-icon {
+    transition: 0.3s;
+    &:hover {
+        color: white;
+    }
+    &--cancel {
+        color: rgb(253, 174, 160);
+    }
+
+    &--save {
+        margin-top: 3px;
+
+        color: rgb(172, 205, 234);
+    }
+}
+
+.close-icon {
+    color: tomato;
+
+    transition: 0.3s;
+
+    &:hover {
+        color: white;
+    }
+}
+
+.file-icon {
+    font-size: initial;
+    margin-top: 0.5rem;
+
+    transition: 0.3s;
+
+    color: $accent;
+
+    cursor: pointer;
+
+    &:hover {
+        color: white;
+    }
+    &--save {
+        &:hover {
+            color: rgb(197, 250, 179);
+        }
+    }
+}
+
+.disabled-icon {
+    pointer-events: none;
+    color: grey;
+}
+
+.upload-file {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    height: 0.5rem;
+
+    padding: 0.2rem;
+    border-radius: 3px;
+    padding-right: 0.5rem;
+    margin-top: 0.3rem;
+
+    color: $accent;
+
+    transition: 0.3s;
+
+    cursor: pointer;
+}
+
+.basic-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    height: 1rem !important;
+
+    font-size: 1rem;
+    color: $accent;
+
+    transition: 0.3s;
+    cursor: pointer;
+
+    &:hover {
+        color: white;
+    }
+}
+
+.file-options {
+    display: flex;
+    justify-content: space-around;
+    font-size: x-small;
+
+    margin-left: -1rem;
+}

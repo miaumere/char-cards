@@ -62,10 +62,23 @@ public class Character {
     private Set<StarringCharacters> existingCharacters;
 
     @OneToMany(mappedBy = "character", cascade = CascadeType.ALL)
-    private List<Relationship> relationships;
+    private List<Preference> preferences;
+
+    @OneToMany(mappedBy = "preferedCharacter", cascade = CascadeType.ALL)
+    private List<Preference> preferedBy;
 
     @OneToMany(mappedBy = "relatedCharacter", cascade = CascadeType.ALL)
-    private List<Relationship> relatedTo;
+    private List<Relation> relatedCharacter;
+
+    @OneToMany(mappedBy = "sourceCharacter", cascade = CascadeType.ALL)
+    private List<RelationCoordinates> coordinatesForSource;
+
+    @OneToMany(mappedBy = "targetCharacter", cascade = CascadeType.ALL)
+    private List<RelationCoordinates> coordinatesForTarget;
+
+    @OneToMany(mappedBy = "character", cascade = CascadeType.ALL)
+    private List<CharacterTag> characterTags;
+
 
     public Character() {};
 
@@ -173,22 +186,6 @@ public class Character {
         this.profilePics = profilePics;
     }
 
-    public List<Relationship> getRelationships() {
-        return relationships;
-    }
-
-    public void setRelationships(List<Relationship> relationships) {
-        this.relationships = relationships;
-    }
-
-    public List<Relationship> getRelatedTo() {
-        return relatedTo;
-    }
-
-    public void setRelatedTo(List<Relationship> relatedTo) {
-        this.relatedTo = relatedTo;
-    }
-
     public Gender getGender() {
         return gender;
     }
@@ -235,5 +232,53 @@ public class Character {
 
     public void setNationality(String nationality) {
         this.nationality = nationality;
+    }
+
+    public List<Preference> getPreferences() {
+        return preferences;
+    }
+
+    public void setPreferences(List<Preference> preferences) {
+        this.preferences = preferences;
+    }
+
+    public List<Preference> getPreferedBy() {
+        return preferedBy;
+    }
+
+    public void setPreferedBy(List<Preference> preferedBy) {
+        this.preferedBy = preferedBy;
+    }
+
+    public List<Relation> getRelatedCharacter() {
+        return relatedCharacter;
+    }
+
+    public void setRelatedCharacter(List<Relation> relatedCharacter) {
+        this.relatedCharacter = relatedCharacter;
+    }
+
+    public List<RelationCoordinates> getCoordinatesForSource() {
+        return coordinatesForSource;
+    }
+
+    public void setCoordinatesForSource(List<RelationCoordinates> coordinatesForSource) {
+        this.coordinatesForSource = coordinatesForSource;
+    }
+
+    public List<RelationCoordinates> getCoordinatesForTarget() {
+        return coordinatesForTarget;
+    }
+
+    public void setCoordinatesForTarget(List<RelationCoordinates> coordinatesForTarget) {
+        this.coordinatesForTarget = coordinatesForTarget;
+    }
+
+    public List<CharacterTag> getCharacterTags() {
+        return characterTags;
+    }
+
+    public void setCharacterTags(List<CharacterTag> characterTags) {
+        this.characterTags = characterTags;
     }
 };

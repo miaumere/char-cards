@@ -1,0 +1,90 @@
+@import 'variables';
+
+.name {
+    display: flex;
+    flex-wrap: wrap;
+
+    margin-left: 1rem;
+
+    &--pseudonim {
+        display: flex;
+        align-items: baseline;
+
+        font-size: 0.8rem;
+    }
+}
+
+.name-block {
+    display: flex;
+    align-items: center;
+}
+
+.card-type-block {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+
+    width: 220px;
+    height: 95vh;
+
+    margin-left: 1rem;
+
+    text-align: center;
+
+    background: $chars-list-bg;
+
+    &__type {
+        padding: 0.25rem 0.5rem;
+        border-radius: 3px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    &__name {
+        display: flex;
+        align-items: center;
+
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        margin-bottom: 0.5rem;
+        border-radius: 3px;
+
+        font-size: 1rem;
+        font-weight: bold;
+        text-align: center;
+    }
+}
+
+.icons-options {
+    display: flex;
+    flex-direction: column;
+
+    height: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.name-form-field {
+    width: 7rem;
+}
+
+.name-block {
+}
+
+.gender-block {
+    display: flex;
+}
+
+.card-type-block {
+    margin-top: 1rem;
+
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    width: 9rem;
+}

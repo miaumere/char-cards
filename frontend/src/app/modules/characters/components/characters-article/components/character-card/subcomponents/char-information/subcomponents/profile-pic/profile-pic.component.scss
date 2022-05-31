@@ -1,0 +1,27 @@
+.character {
+    &__profile-pic {
+        height: 100px;
+        width: 100px;
+
+        box-sizing: border-box;
+
+        border-radius: 3px;
+        border: 1px solid black;
+        margin-top: 1rem;
+
+        transition: 0.3s;
+
+        &--empty {
+            background: slategray;
+            background-image: url('../../../../../../../../../../../assets/svg/iconmonstr-user-19.svg');
+
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: contain;
+        }
+
+        &:hover {
+            border-color: white;
+        }
+    }
+}

@@ -1,0 +1,120 @@
+<div
+    *ngIf="quote"
+    class="quote-block-container quote-block-container--main-quote"
+>
+    <blockquote class="quote__blockquote">
+        {{ quote.quote }}
+    </blockquote>
+    <cite
+        *ngIf="quote.context"
+        class="quote__cite"
+        [ngStyle]="{ color: themeColor1 }"
+        >~ {{ quote.context }}</cite
+    >
+</div>
+
+<mat-expansion-panel
+    (opened)="expandQuotes = true"
+    (closed)="expandQuotes = false"
+    class="quotes"
+    [expanded]="expandQuotes"
+    [togglePosition]="'before'"
+    *ngIf="isUserLogged && moreQuotes && moreQuotes.length > 0"
+>
+    <mat-expansion-panel-header style="height: 1rem">
+    </mat-expansion-panel-header>
+    <ng-container *ngIf="moreQuotes && moreQuotes.length > 0">
+        <form
+            *ngFor="let quotation of moreQuotes"
+            class="quote-block-container"
+            [formGroup]="form"
+        >
+            <div class="options">
+                <div
+                    (click)="setEditedQuote(quotation)"
+                    *ngIf="quotation.id !== editedQuoteId"
+                >
+                    <app-edit-icon *ngIf="isUserLogged"></app-edit-icon>
+                </div>
+
+                <ng-container *ngIf="editedQuoteId === quotation.id">
+                    <mat-icon
+                        class="option-icon option-icon--cancel"
+                        *ngIf="
+                            quotation.id === editedQuoteId && quotation.id !== 0
+                        "
+                        (click)="cancelEditMode()"
+                        >cancel</mat-icon
+                    >
+
+                    <mat-icon
+                        class="option-icon option-icon--save"
+                        *ngIf="quotation.id === editedQuoteId"
+                        (click)="createNewQuote()"
+                        >save</mat-icon
+                    >
+                </ng-container>
+            </div>
+
+            <div class="information__quote quote">
+                <blockquote class="quote__blockquote">
+                    <span *ngIf="quotation.id !== editedQuoteId">{{
+                        quotation.quote
+                    }}</span>
+
+                    <mat-form-field *ngIf="quotation.id === editedQuoteId">
+                        <input matInput formControlName="quote" />
+                    </mat-form-field>
+                </blockquote>
+                <cite
+                    *ngIf="quotation.context"
+                    class="quote__cite"
+                    [ngStyle]="{ color: themeColor1 }"
+                >
+                    <span
+                        class="quote__cite"
+                        *ngIf="quotation.id !== editedQuoteId"
+                    >
+                        ~ {{ quotation.context }}
+                    </span>
+                    <mat-form-field
+                        *ngIf="quotation.id === editedQuoteId"
+                        style="margin-top: -1rem"
+                    >
+                        <input matInput formControlName="context" />
+                    </mat-form-field>
+                </cite>
+            </div>
+            <div class="options" *ngIf="isUserLogged">
+                <mat-icon
+                    class="close-icon"
+                    (click)="insertDeleteInfo()"
+                    (dblclick)="deleteQuote(quotation.id)"
+                    >close</mat-icon
+                >
+            </div>
+        </form>
+    </ng-container>
+
+    <div class="new-quote-add" *ngIf="isUserLogged && canAddMoreQuotes">
+        <mat-icon
+            *ngIf="isUserLogged"
+            class="basic-icon basic-icon--expand add-icon"
+            (click)="addNewQuote()"
+            >add</mat-icon
+        >
+    </div>
+</mat-expansion-panel>
+
+<div
+    class="new-quote-add"
+    *ngIf="isUserLogged && moreQuotes && moreQuotes.length === 0"
+    style="width: 2.5rem"
+>
+    <mat-icon
+        *ngIf="isUserLogged"
+        class="basic-icon basic-icon--expand add-icon"
+        (click)="addNewQuote(); expandQuotes = true"
+        >add</mat-icon
+    >
+</div>

@@ -3,12 +3,13 @@
     <div class="chapters-sidenav">
       <button mat-stroked-button [ngStyle]="{'background': book?.color}" [routerLink]="['../']">
         <mat-icon>keyboard_backspace</mat-icon>
-        Powrót
+        {{ 'SHARED.RETURN' | translate }}
       </button>
       <div>
         <h2 class="book-name">{{book?.name}}</h2>
         <div *ngIf="chapters.length > 0" [ngStyle]="{'color': fontColor}">
-          <h2>Spis treści</h2>
+          <h2> {{ 'CHAPTERS.TABLE_OF_CONTESTS' | translate }}
+          </h2>
           <mat-list role="list" *ngFor="let chapter of chapters; index as i" class="chapter-list">
             <a [routerLink]="['./pages']" [queryParams]="{
             id: bookId,

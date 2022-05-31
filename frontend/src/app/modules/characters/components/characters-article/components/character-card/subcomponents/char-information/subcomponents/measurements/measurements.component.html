@@ -1,0 +1,124 @@
+<form [formGroup]="form">
+    <table
+        mat-table
+        [dataSource]="measurementsData"
+        class="weight-height-table"
+    >
+        <ng-container matColumnDef="baby">
+            <th
+                mat-header-cell
+                *matHeaderCellDef
+                class="measurements-table-cell"
+            >
+                {{ 'CHARACTER_CARD.BABY' | translate }}
+                (0-3)
+            </th>
+            <td
+                mat-cell
+                *matCellDef="let element"
+                class="measurements-table-cell"
+            >
+                <mat-form-field class="measurements-form-field">
+                    <input
+                        class="measurements-input"
+                        matInput
+                        type="number"
+                        min="0"
+                        max="200"
+                        [formControlName]="element[0]"
+                        (change)="inputChange()"
+                    />
+                </mat-form-field>
+                {{ element[0].includes('Height') ? 'cm' : 'kg' }}
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="child">
+            <th
+                mat-header-cell
+                *matHeaderCellDef
+                class="measurements-table-cell"
+            >
+                {{ 'CHARACTER_CARD.CHILD' | translate }}
+                (4-11)
+            </th>
+            <td
+                mat-cell
+                *matCellDef="let element"
+                class="measurements-table-cell"
+            >
+                <mat-form-field class="measurements-form-field">
+                    <input
+                        class="measurements-input"
+                        matInput
+                        type="number"
+                        min="0"
+                        max="200"
+                        (change)="inputChange()"
+                        [formControlName]="element[1]"
+                    />
+                </mat-form-field>
+                {{ element[1].includes('Height') ? 'cm' : 'kg' }}
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="teen">
+            <th
+                mat-header-cell
+                *matHeaderCellDef
+                class="measurements-table-cell"
+            >
+                {{ 'CHARACTER_CARD.TEEN' | translate }}
+                (12-19)
+            </th>
+            <td
+                mat-cell
+                *matCellDef="let element"
+                class="measurements-table-cell"
+            >
+                <mat-form-field class="measurements-form-field">
+                    <input
+                        class="measurements-input"
+                        matInput
+                        type="number"
+                        min="0"
+                        (change)="inputChange()"
+                        max="200"
+                        [formControlName]="element[2]"
+                    />
+                </mat-form-field>
+                {{ element[2].includes('Height') ? 'cm' : 'kg' }}
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="adult">
+            <th
+                mat-header-cell
+                *matHeaderCellDef
+                class="measurements-table-cell"
+            >
+                {{ 'CHARACTER_CARD.ADULT' | translate }}
+                (20+)
+            </th>
+            <td
+                mat-cell
+                *matCellDef="let element"
+                class="measurements-table-cell"
+            >
+                <mat-form-field class="measurements-form-field">
+                    <input
+                        class="measurements-input"
+                        matInput
+                        type="number"
+                        min="0"
+                        max="200"
+                        (change)="inputChange()"
+                        [formControlName]="element[3]"
+                        [disabled]="true"
+                    />
+                </mat-form-field>
+                {{ element[3].includes('Height') ? 'cm' : 'kg' }}
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+</form>

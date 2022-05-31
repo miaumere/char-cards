@@ -4,6 +4,7 @@ public class ImageDTO {
     public Long id;
     public String extension;
     public String name;
+    public Integer imageOrder;
     public byte[] image;
 
     public Long getId() {
@@ -36,5 +37,13 @@ public class ImageDTO {
 
     public void setImage(byte[] image) {
         this.image = image;
+    }
+
+    public Integer getImageOrder() {
+        return imageOrder;
+    }
+
+    public void setImageOrder(Integer imageOrder) {
+        imageOrder = imageOrder;
     }
 }

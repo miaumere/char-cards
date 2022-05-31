@@ -1,0 +1,63 @@
+@import 'variables';
+
+.quote {
+    &__blockquote {
+        line-height: 1.5;
+        font-size: 0.6rem;
+
+        margin: 0;
+    }
+
+    &__cite {
+        font-size: 11px;
+    }
+}
+
+.expanded {
+    transform: rotate(-180deg);
+}
+
+.quotes {
+    background: transparent;
+    box-shadow: none;
+}
+
+.quotes {
+    & .mat-expansion-panel-body {
+        padding: 0;
+    }
+    background: transparent;
+    box-shadow: none;
+}
+
+.add-icon {
+    margin-right: 0.5rem;
+}
+
+.new-quote-add {
+    display: flex;
+    justify-content: flex-end;
+    width: 295px;
+}
+
+.options {
+    display: flex;
+    flex-direction: column;
+}
+
+.quote-block-container {
+    display: flex;
+    justify-content: space-between;
+
+    border-radius: 3px;
+    padding: 1rem;
+    margin: 0.5rem;
+
+    width: 250px;
+
+    background: $dark-bg-component-color;
+
+    &--main-quote {
+        flex-direction: column;
+    }
+}

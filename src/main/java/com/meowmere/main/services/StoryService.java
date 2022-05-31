@@ -1,7 +1,6 @@
 package com.meowmere.main.services;
 
 import com.meowmere.main.dto.character.character.CharactersMenuDTO;
-import com.meowmere.main.dto.character.image.ProfilePicForMainDTO;
 import com.meowmere.main.dto.story.books.BookDTO;
 import com.meowmere.main.dto.story.chapters.ChapterDTO;
 import com.meowmere.main.dto.story.chapters.ChapterWithCharsDTO;
@@ -128,22 +127,16 @@ public class StoryService {
                     for (StarringCharacters starringCharacter : starringCharacters) {
                         StarringCharacterDTO dto = new StarringCharacterDTO();
 
-                        CharactersMenuDTO charactersMenuDTO = new CharactersMenuDTO();
                         Character character = starringCharacter.getCharacter();
 
-                        charactersMenuDTO.setId(character.getExternalId());
-                        charactersMenuDTO.setCharacterType(character.getCharType().name());
-                        charactersMenuDTO.setCharName(character.getCharName());
-                        charactersMenuDTO.setCharSurname(character.getCharSurname());
-
-                        ProfilePicForMainDTO profilePicForMainDTO = new ProfilePicForMainDTO();
-
+                        String profilePic = null;
                         Image image = imageRepository.getProfilePicForCharacter(character.getExternalId());
                         if(image != null) {
-                            profilePicForMainDTO.setImage(image.getImage());
-                            profilePicForMainDTO.setExtension(image.getExtension());
-                            charactersMenuDTO.setProfilePic(profilePicForMainDTO);
+                            profilePic = UtilsShared.GetProfilePicBase64Code(image.getExtension(), image.getImage());
+
                         }
+
+                        CharactersMenuDTO charactersMenuDTO = new CharactersMenuDTO(character, profilePic);
 
                         dto.setCharacter(charactersMenuDTO);
                         dto.setStarringType(starringCharacter.getStarringType().name());
@@ -206,22 +199,17 @@ public class StoryService {
             for (StarringCharacters starringCharacter : starringCharacters) {
                 StarringCharacterDTO dto = new StarringCharacterDTO();
 
-                CharactersMenuDTO charactersMenuDTO = new CharactersMenuDTO();
                 Character character = starringCharacter.getCharacter();
 
-                charactersMenuDTO.setId(character.getExternalId());
-                charactersMenuDTO.setCharacterType(character.getCharType().name());
-                charactersMenuDTO.setCharName(character.getCharName());
-                charactersMenuDTO.setCharSurname(character.getCharSurname());
-
-                ProfilePicForMainDTO profilePicForMainDTO = new ProfilePicForMainDTO();
+                String profilePic = null;
 
                 Image image = imageRepository.getProfilePicForCharacter(character.getExternalId());
                 if(image != null) {
-                    profilePicForMainDTO.setImage(image.getImage());
-                    profilePicForMainDTO.setExtension(image.getExtension());
-                    charactersMenuDTO.setProfilePic(profilePicForMainDTO);
+                    profilePic = UtilsShared.GetProfilePicBase64Code(image.getExtension(), image.getImage());
                 }
+
+                CharactersMenuDTO charactersMenuDTO = new CharactersMenuDTO(character, profilePic);
+
 
                 dto.setCharacter(charactersMenuDTO);
                 dto.setStarringType(starringCharacter.getStarringType().name());
@@ -354,7 +342,6 @@ public class StoryService {
             starringCharacter.setStarringType(StarringType.valueOf(request.getStarringType()));
             starringCharactersRepository.saveAndFlush(starringCharacter);
         }
-        this.setCharactersType();
 
         return new ResponseEntity(HttpStatus.OK);
     }
@@ -498,32 +485,4 @@ public class StoryService {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    public void setCharactersType() {
-        List<Character> characters = characterRepository.getCharsWithEnoughChaptersToBeMain();
-        List<Character> sideCharacters = characterRepository.getCharsWithEnoughChaptersToBeSide();
-        List<Character> bgChars = characterRepository.findAll();
-
-        if(characters != null && characters.size() > 0){
-            for (Character character : characters) {
-                bgChars.remove(character);
-                character.setCharType(CharType.MAIN);
-                characterRepository.save(character);
-            }
-        }
-        if(sideCharacters != null && sideCharacters.size() > 0){
-            for (Character sideCharacter : sideCharacters) {
-                bgChars.remove(sideCharacter);
-                sideCharacter.setCharType(CharType.SIDE);
-                characterRepository.save(sideCharacter);
-            }
-        }
-
-         if(bgChars != null && bgChars.size() > 0) {
-             for (Character bgChar : bgChars) {
-                 bgChar.setCharType(CharType.BACKGROUND);
-                 characterRepository.save(bgChar);
-             }
-         }
-
-    }
 }

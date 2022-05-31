@@ -14,4 +14,7 @@ public interface StarringCharactersRepository  extends JpaRepository<StarringCha
     @Query("SELECT s FROM StarringCharacters s WHERE s.chapter.externalId = :chapterId")
     ArrayList<StarringCharacters> getStarringCharactersByChapterId(@Param("chapterId") Long chapterId);
 
+    @Query("SELECT s FROM StarringCharacters s WHERE s.character.externalId = :characterId")
+    ArrayList<StarringCharacters> getStarringCharactersByCharacterId(@Param("characterId") Long characterId);
+
 }

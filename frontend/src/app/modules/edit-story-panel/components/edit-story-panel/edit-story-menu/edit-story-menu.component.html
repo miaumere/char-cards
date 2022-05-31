@@ -1,19 +1,20 @@
-<article *ngIf="books?.length > 0" class="books">
+<article class="books">
   <div class="new-book-form-container">
     <form class="new-book-form" [formGroup]="form">
       <mat-form-field>
-        <mat-label>Nazwa szkicownika</mat-label>
-        <input matInput placeholder="Np. różowy szkicownik" formControlName="bookName">
+        <mat-label>{{ 'BOOKS_PANEL.BOOK_NAME' | translate }}
+        </mat-label>
+        <input matInput formControlName="bookName">
       </mat-form-field>
       <mat-form-field>
-        <mat-label>Kolor szkicownika</mat-label>
+        <mat-label>{{ 'BOOKS_PANEL.BOOK_COLOR' | translate }}</mat-label>
         <input matInput type="color" formControlName="bookColor">
       </mat-form-field>
 
       <mat-form-field>
-        <mat-label>Ikonka szkicownika:</mat-label>
+        <mat-label>{{ 'BOOKS_PANEL.BOOK_ICON' | translate }}</mat-label>
         <mat-select formControlName="icon">
-          <mat-option [value]="null">Bez ikonki</mat-option>
+          <mat-option [value]="null">{{ 'BOOKS_PANEL.NO_ICON' | translate }}</mat-option>
           <mat-option *ngFor="let icon of AvailableIcons  | enumVal" [value]="icon.value">
             {{icon.value}}
           </mat-option>
@@ -24,12 +25,12 @@
         <button mat-raised-button color="primary" (click)="createNewBook()" [disabled]="form.invalid" style="margin-right: 1rem;
         ">
           <mat-icon>library_add</mat-icon>
-          Dodaj szkicownik
+          {{ 'BOOKS_PANEL.ADD_BOOK' | translate }}
         </button>
 
         <button mat-raised-button color="accent" (click)="editBook()" [disabled]="!editMode">
           <mat-icon>edit</mat-icon>
-          Edytuj szkicownik
+          {{ 'BOOKS_PANEL.EDIT_BOOK' | translate }}
         </button>
       </div>
     </form>
@@ -37,7 +38,7 @@
 
 
     <div class="preview-box">
-      <span>Podgląd</span>
+      <span>{{ 'BOOKS_PANEL.PREVIEW' | translate }}</span>
       <div class="preview">
         <app-book-icon [icon]="form.controls['icon'].value" [color]="form.controls['bookColor'].value" [size]='5'>
         </app-book-icon>
@@ -45,7 +46,7 @@
       </div>
     </div>
   </div>
-  <div cdkDropList class="boundary books-container" (cdkDropListDropped)="drop($event)">
+  <div cdkDropList class="boundary books-container" (cdkDropListDropped)="drop($event)" *ngIf="books?.length > 0">
     <div *ngFor="let book of books; index as i" cdkDrag cdkDragBoundary=".boundary">
       <mat-card class="book-card">
         <mat-card-header>
@@ -56,14 +57,15 @@
         </mat-card-content>
         <mat-card-actions class="book-card__buttons-container">
           <button mat-mini-fab color="warn" (click)="insertDeleteInfo()" (dblclick)="deleteBook(book.id)"
-            matTooltip="Usuń szkicownik">
+            [matTooltip]="'BOOKS_PANEL.DELETE_BOOK' | translate">
             <mat-icon>delete_forever</mat-icon>
           </button>
-          <button mat-mini-fab color="primary" (click)="enableEditForm(book)" matTooltip="Edytuj szkicownik">
+          <button mat-mini-fab color="primary" (click)="enableEditForm(book)"
+            [matTooltip]="'BOOKS_PANEL.EDIT_BOOK' | translate">
             <mat-icon>edit</mat-icon>
           </button>
-          <button mat-mini-fab color="primary" matTooltip="Lista części" [routerLink]="['./edit-chapters']"
-            [queryParams]="{
+          <button mat-mini-fab color="primary" [matTooltip]="'BOOKS_PANEL.CHAPTERS_LIST' | translate"
+            [routerLink]="['./edit-chapters']" [queryParams]="{
           id: book.id
         }">
             <mat-icon>library_books</mat-icon>

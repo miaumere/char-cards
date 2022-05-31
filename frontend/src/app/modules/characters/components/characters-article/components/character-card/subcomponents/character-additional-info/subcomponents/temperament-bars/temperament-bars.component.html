@@ -1,0 +1,127 @@
+<div class="info__temperament temperament">
+    <app-divider></app-divider>
+    <div class="save-icon-container" *appIfLoggedUser>
+        <app-edit-icon
+            (clickedEvent)="setEditedKey('temperament')"
+            *ngIf="editedKey !== 'temperament'"
+        ></app-edit-icon>
+        <mat-icon
+            class="option-icon option-icon--cancel"
+            *ngIf="editedKey === 'temperament'"
+            (click)="cancel()"
+            style="margin-top: 0.15rem"
+            >cancel</mat-icon
+        >
+
+        <mat-icon
+            class="save-icon"
+            *ngIf="editedKey === 'temperament'"
+            (click)="save()"
+            >save</mat-icon
+        >
+    </div>
+    <form class="temperaments" [formGroup]="form">
+        <div
+            class="temperament__container"
+            *ngIf="temperaments?.melancholic || isUserLogged"
+        >
+            <span class="info__desc" [ngStyle]="{ color: themeColor1 }">
+                {{ 'CHARACTER_CARD.MELANCHOLIC' | translate }}
+            </span>
+            <ng-container
+                *ngTemplateOutlet="
+                    temperamentSegment;
+                    context: {
+                        temperament: temperaments?.melancholic,
+                        temperamentType: 'melancholic',
+                        form: form
+                    }
+                "
+            ></ng-container>
+        </div>
+        <div
+            class="temperament__container"
+            *ngIf="temperaments?.sanguine || isUserLogged"
+        >
+            <span class="info__desc" [ngStyle]="{ color: themeColor1 }">
+                {{ 'CHARACTER_CARD.SANGUINE' | translate }}
+            </span>
+            <ng-container
+                *ngTemplateOutlet="
+                    temperamentSegment;
+                    context: {
+                        temperament: temperaments?.sanguine,
+                        temperamentType: 'sanguine',
+                        form: form
+                    }
+                "
+            ></ng-container>
+        </div>
+        <div
+            class="temperament__container"
+            *ngIf="temperaments?.flegmatic || isUserLogged"
+        >
+            <span class="info__desc" [ngStyle]="{ color: themeColor1 }">
+                {{ 'CHARACTER_CARD.FLEGMATIC' | translate }}
+            </span>
+            <ng-container
+                *ngTemplateOutlet="
+                    temperamentSegment;
+                    context: {
+                        temperament: temperaments?.flegmatic,
+                        temperamentType: 'flegmatic',
+                        form: form
+                    }
+                "
+            ></ng-container>
+        </div>
+        <div
+            class="temperament__container"
+            *ngIf="temperaments?.choleric || isUserLogged"
+        >
+            <span class="info__desc" [ngStyle]="{ color: themeColor1 }">
+                {{ 'CHARACTER_CARD.CHOLERIC' | translate }}
+            </span>
+
+            <ng-container
+                *ngTemplateOutlet="
+                    temperamentSegment;
+                    context: {
+                        temperament: temperaments?.choleric,
+                        temperamentType: 'choleric',
+                        form: form
+                    }
+                "
+            ></ng-container>
+        </div>
+    </form>
+</div>
+
+<ng-template
+    #temperamentSegment
+    let-temperament="temperament"
+    let-temperamentType="temperamentType"
+    let-form="form"
+>
+    <div
+        *ngIf="editedKey !== 'temperament'"
+        appProgressBar
+        [percentValue]="temperament"
+        [temperamentType]="temperamentType"
+    ></div>
+
+    <div
+        [formGroup]="form"
+        *ngIf="editedKey === 'temperament'"
+        class="form-container"
+    >
+        <mat-slider
+            class="temperament-range"
+            thumbLabel
+            step="5"
+            tickInterval="5"
+            [formControlName]="temperamentType"
+        >
+        </mat-slider>
+    </div>
+</ng-template>
