@@ -3,20 +3,18 @@
 </div>
 
 <ng-container *ngIf="isLinearChartVisible && chosenChar">
-    <a [routerLink]="['/char-cards', chosenChar.relCharId]" class="chosen-char">
-        <div class="char-info__profile-pic" *ngIf="chosenChar.relCharAvatar">
-            <img
-                [src]="
-                    'data:image/' +
-                        chosenChar.relCharAvatar!.extension +
-                        ';base64, ' +
-                        chosenChar.relCharAvatar.image | sanitizer
-                "
-                class="profile-pic"
-            />
+    <a [routerLink]="['/char-cards', chosenChar.id]" class="chosen-char">
+        <div class="char-info__profile-pic" *ngIf="chosenChar.profilePic">
+            <app-profile-pic
+                [charId]="chosenChar.id"
+                [profilePic]="chosenChar.profilePic"
+                [height]="'50px'"
+                [isCircle]="true"
+            >
+            </app-profile-pic>
         </div>
         <span
-            >{{ chosenChar.fullName }} -
+            >{{ chosenChar.fullname }} -
             {{ 'PREFERENCES.HISTORICAL_PREFERENCES' | translate }}</span
         >
     </a>

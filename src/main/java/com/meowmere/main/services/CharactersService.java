@@ -903,8 +903,12 @@ public class CharactersService {
                 ArrayList<HistoricPreferenceDTO> historicPreferenceDTOS = new ArrayList<>();
                 ArrayList<HistoricPreferenceDTO> backwardPreferenceDTOS = new ArrayList<>();
 
+                String name = character.getCharName() != null ? character.getCharName() : "?";
+                String surname =  character.getCharSurname() != null ? character.getCharSurname() : "?";
+                String fullName = name + " " + surname;
+
                 dto.setCharacterId(character.getExternalId());
-                dto.setCharacterFullname(character.getCharName() + " " + character.getCharSurname());
+                dto.setCharacterFullname(fullName);
 
                 if(historicalPreferences != null && historicalPreferences.size() > 0) {
                     for (Preference pref: historicalPreferences) {
@@ -947,7 +951,11 @@ public class CharactersService {
         AllPreferencesDTO dto = new AllPreferencesDTO();
         dto.setCharacterId(relatedCharId);
         if(character != null) {
-            dto.setCharacterFullname(character.getCharName() + " " + character.getCharSurname());
+            String name = character.getCharName() != null ? character.getCharName() : "?";
+            String surname =  character.getCharSurname() != null ? character.getCharSurname() : "?";
+            String fullName = name + " " + surname;
+            
+            dto.setCharacterFullname(fullName);
             dto.setCharacterId(character.getExternalId());
 
             ArrayList<HistoricPreferenceDTO> historicPreferenceDTOS = new ArrayList<>();

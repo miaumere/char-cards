@@ -1,5 +1,6 @@
 package com.meowmere.main.services;
 
+import com.meowmere.main.dto.character.character.CharactersMenuDTO;
 import com.meowmere.main.dto.character.image.ImageDTO;
 import com.meowmere.main.dto.character.preference.PreferenceDTO;
 import com.meowmere.main.dto.statistics.GenderStatisticDTO;
@@ -187,16 +188,21 @@ public class StatisticsService {
                 if(relChar != null) {
                     PreferenceDTO preferenceDTO = new PreferenceDTO();
                     preferenceDTO.setRange(preference.getRange());
-                    preferenceDTO.setRelCharId(relChar.getExternalId());
-                    preferenceDTO.setRelCharName(relChar.getCharName());
-                    preferenceDTO.setRelCharSurname(relChar.getCharSurname());
-                    ImageDTO imageDTO = new ImageDTO();
-                    Image profilePic = imageRepository.getProfilePicForCharacter(relChar.getExternalId());
-                    if(profilePic != null) {
-                        imageDTO.setExtension(profilePic.getExtension());
-                        imageDTO.setImage(profilePic.getImage());
+
+                    String name = relChar.getCharName() != null ? relChar.getCharName() : "?";
+                    String surname =  relChar.getCharSurname() != null ? relChar.getCharSurname() : "?";
+                    String fullName = name + " " + surname;
+
+                    preferenceDTO.setId(relChar.getExternalId());
+                    preferenceDTO.setFullname(fullName);
+
+                    Image image = imageRepository.getProfilePicForCharacter(relChar.getExternalId());
+                    String profilePic = null;
+                    if(image != null){
+                        profilePic = UtilsShared.GetProfilePicBase64Code(image.getExtension(), image.getImage());
                     }
-                    preferenceDTO.setRelCharAvatar(imageDTO);
+                    preferenceDTO.setProfilePic(profilePic);
+
                     preferenceDTOS.add(preferenceDTO);
                 }
 

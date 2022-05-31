@@ -120,7 +120,7 @@ export class CurrentPreferencesComponent
 
         for (const pref of this.preferences) {
             defs.append('pattern')
-                .attr('id', 'image_' + (pref as any).relCharId)
+                .attr('id', 'image_' + (pref as any).id)
                 .attr('x', '0')
                 .attr('y', '0')
                 .attr('height', '1')
@@ -132,12 +132,7 @@ export class CurrentPreferencesComponent
                 .attr('height', '1')
                 .attr('width', '1')
                 .attr('preserveAspectRatio', 'xMidYMid slice')
-                .attr(
-                    'xlink:href',
-                    `data:image/${
-                        (pref.relCharAvatar as any).extension
-                    };base64,${(pref.relCharAvatar as any)?.image}`
-                );
+                .attr('xlink:href', pref.profilePic);
         }
 
         rects = (innerSpace as any)
@@ -171,11 +166,13 @@ export class CurrentPreferencesComponent
             .attr('cy', '-10')
             .attr('cx', (d: any) => xAxisScale(d.range))
             .attr('stroke', 'black')
-            .attr('fill', (d: any) => `url(#image_${d.relCharId})`)
+            .attr('fill', (d: any) =>
+                d?.profilePic ? `url(#image_${d?.id})` : 'slategray'
+            )
             .on('click', (d: any) => {
                 const data = d.target.__data__;
                 this.isLinearChartVisible = true;
-                this.chosenCharId = data.relCharId;
+                this.chosenCharId = data.id;
                 this.chosenChar = data;
             });
 

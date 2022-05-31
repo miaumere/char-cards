@@ -3,42 +3,33 @@ package com.meowmere.main.dto.character.preference;
 import com.meowmere.main.dto.character.image.ImageDTO;
 
 public class PreferenceDTO {
-    private Long relCharId;
-    private String relCharName;
-    private String relCharSurname;
-    private ImageDTO relCharAvatar;
+    private Long id;
+    private String fullname;
+    private String profilePic;
     private Integer range;
 
-    public Long getRelCharId() {
-        return relCharId;
+    public Long getId() {
+        return id;
     }
 
-    public void setRelCharId(Long relCharId) {
-        this.relCharId = relCharId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public String getRelCharName() {
-        return relCharName;
+    public String getFullname() {
+        return fullname;
     }
 
-    public void setRelCharName(String relCharName) {
-        this.relCharName = relCharName;
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
     }
 
-    public String getRelCharSurname() {
-        return relCharSurname;
+    public String getProfilePic() {
+        return profilePic;
     }
 
-    public void setRelCharSurname(String relCharSurname) {
-        this.relCharSurname = relCharSurname;
-    }
-
-    public ImageDTO getRelCharAvatar() {
-        return relCharAvatar;
-    }
-
-    public void setRelCharAvatar(ImageDTO relCharAvatar) {
-        this.relCharAvatar = relCharAvatar;
+    public void setProfilePic(String profilePic) {
+        this.profilePic = profilePic;
     }
 
     public Integer getRange() {
