@@ -21,29 +21,19 @@
         color: black;
 
         &--main {
-            background-image: linear-gradient(120deg, #a6c0fe 0%, #f68084 100%);
+            background: #a6c0fe;
         }
         &--side {
-            background-image: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
+            background: #84fab0;
         }
         &--bg {
-            background-image: linear-gradient(
-                to right,
-                #ffecd2 0%,
-                #fcb69f 100%
-            );
+            background: #fcb69f;
         }
         &--mtn {
-            background-image: linear-gradient(120deg, #e0c3fc 0%, #8ec5fc 100%);
+            background: #e0c3fc;
         }
         &--no {
-            background-image: linear-gradient(
-                to right,
-                #f78ca0 0%,
-                #f9748f 19%,
-                #fd868c 60%,
-                #fe9a8b 100%
-            );
+            background: #fd868c;
         }
     }
 }

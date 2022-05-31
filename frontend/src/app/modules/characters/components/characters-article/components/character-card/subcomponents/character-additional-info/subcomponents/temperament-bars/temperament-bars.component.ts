@@ -12,6 +12,7 @@ export class TemperamentBarsComponent implements OnInit {
     @Input() form: FormGroup = new FormGroup({});
     @Input() isUserLogged: boolean = false;
     @Input() editedKey: string | null = null;
+    @Input('color') themeColor1: string = '';
 
     @Output() saveEvent = new EventEmitter();
     @Output() editedKeyChange = new EventEmitter<string | null>();

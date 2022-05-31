@@ -11,7 +11,7 @@
 
         <span
             class="card__type"
-            [ngStyle]="{ background: themeColor1 }"
+            [ngStyle]="{ background: themeColor1, color: fontColor }"
             *ngIf="editedKey !== 'charType'"
             [ngClass]="{ disabled: isNewChar }"
         >
@@ -88,7 +88,7 @@
                     "
                 ></ng-container>
                 <span *ngIf="editedKey !== 'charName'"
-                    >{{ character?.charName }}
+                    >{{ character?.charName }} &nbsp;
                 </span>
 
                 <mat-form-field
@@ -111,8 +111,8 @@
                         }
                     "
                 ></ng-container>
-                <span *ngIf="editedKey !== 'charSurname'"
-                    >{{ character?.charSurname }}
+                <span *ngIf="editedKey !== 'charSurname'">
+                    {{ character?.charSurname }}
                 </span>
 
                 <mat-form-field
@@ -125,10 +125,7 @@
         </div>
     </span>
 
-    <div
-        [ngStyle]="{ color: character.colors?.themeColor1 }"
-        class="name--pseudonim"
-    >
+    <div [ngStyle]="{ color: themeColor1 }" class="name--pseudonim">
         <ng-container
             *ngTemplateOutlet="
                 editButtons;
@@ -152,7 +149,8 @@
         [ngClass]="{ disabled: isNewChar }"
         [character]="character"
         [isUserLogged]="isUserLogged"
-        [bgColor]="bgColor2"
+        [bgColor]="themeColor1"
+        [fontColor]="fontColor"
         (imagesHaveChangedEvent)="emitInfoHasChangedEvent()"
     >
     </app-images>

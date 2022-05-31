@@ -1,7 +1,7 @@
 <form class="card" [formGroup]="form">
     <div class="container">
         <div class="card-info nationality" *ngIf="flag || isUserLogged">
-            <span class="info__desc">
+            <span class="info__desc" [ngStyle]="{ color: themeColor1 }">
                 🚩 {{ 'CHARACTER_CARD.NATIONALITY' | translate }}
             </span>
             <div class="edit-country">
@@ -49,7 +49,7 @@
         </div>
 
         <div class="card-info" *ngIf="character?.birthday || isUserLogged">
-            <span class="info__desc">
+            <span class="info__desc" [ngStyle]="{ color: themeColor1 }">
                 🎂 {{ 'CHARACTER_CARD.BIRTHDAY' | translate }}
             </span>
             <div class="edit-date">
@@ -95,7 +95,7 @@
         </div>
 
         <div class="card-info" *ngIf="character?.death || isUserLogged">
-            <span class="info__desc">
+            <span class="info__desc" [ngStyle]="{ color: themeColor1 }">
                 💀 {{ 'CHARACTER_CARD.DEATH' | translate }}
             </span>
             <div class="edit-date">
@@ -141,7 +141,7 @@
         </div>
 
         <div class="card-info" *ngIf="character?.deathReason || isUserLogged">
-            <span class="info__desc">
+            <span class="info__desc" [ngStyle]="{ color: themeColor1 }">
                 📃 {{ 'CHARACTER_MODIFY.DEATH_REASON' | translate }}
             </span>
             <div class="edit-field">
@@ -167,7 +167,7 @@
         </div>
 
         <div class="card-info" *ngIf="character?.profession || isUserLogged">
-            <span class="info__desc">
+            <span class="info__desc" [ngStyle]="{ color: themeColor1 }">
                 💼 {{ 'CHARACTER_CARD.PROFESSION' | translate }}
             </span>
             <div class="edit-field edit-field--occupation">
@@ -201,6 +201,7 @@
         [editedKey]="editedKey"
         (saveEvent)="saveEvent.emit()"
         (editedKeyChange)="setEditedKey('temperament')"
+        [color]="themeColor1"
     >
     </app-temperament-bars>
     <ng-container *ngIf="character?.colors || isUserLogged">
@@ -247,7 +248,7 @@
             </mat-form-field>
         </form>
 
-        <div class="tags">
+        <div class="tags" [ngClass]="{ 'tags--edit': isUserLogged }">
             <div *ngFor="let tag of character?.tags" class="tag-container">
                 <mat-icon
                     *appIfLoggedUser

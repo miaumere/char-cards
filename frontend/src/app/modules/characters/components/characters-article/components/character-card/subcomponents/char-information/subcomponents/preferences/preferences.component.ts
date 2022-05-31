@@ -11,7 +11,7 @@ import { CharacterPreferences } from 'src/app/modules/characters/models/characte
 import { IEditPreference } from 'src/app/modules/characters/models/preferences/edit-preferences.model';
 
 @Component({
-    selector: 'app-preferences [preferences] [bgColor] [charId]',
+    selector: 'app-preferences [preferences] [charId]',
     templateUrl: './preferences.component.html',
     styleUrls: ['./preferences.component.scss'],
 })
@@ -63,7 +63,6 @@ export class PreferencesComponent extends BaseComponent implements OnInit {
 
     @Input('preferences') characterCurrentPreferences: CharacterPreferences[] =
         [];
-    @Input() readonly bgColor: string = '';
     @Input()
     readonly charId: number = 0;
 

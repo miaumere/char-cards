@@ -46,7 +46,7 @@
         </h2>
 
         <app-char-relations
-            [color]="bgColor1"
+            [color]="themeColor1"
             [isUserLogged]="isUserLogged"
             [profilePic]="character.profilePic"
             [charId]="character.externalId"
@@ -64,7 +64,6 @@
         </h2>
         <app-preferences
             [preferences]="preferences"
-            [bgColor]="bgColor1"
             [charId]="character.externalId"
             (preferencesChangedEvent)="emitInfoHasChangedEvent()"
         >

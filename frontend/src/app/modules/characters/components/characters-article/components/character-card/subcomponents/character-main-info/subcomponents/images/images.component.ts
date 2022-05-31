@@ -18,7 +18,7 @@ import { IImageForMain } from 'src/app/modules/characters/models/image-for-main.
 import { EditImageName } from 'src/app/modules/characters/models/images/edit-image-name.model';
 
 @Component({
-    selector: 'app-images [character] [isUserLogged] [bgColor]',
+    selector: 'app-images [character] [isUserLogged] [bgColor] [fontColor]',
     templateUrl: './images.component.html',
     styleUrls: ['./images.component.scss'],
 })
@@ -26,6 +26,7 @@ export class ImagesComponent extends BaseComponent implements OnInit {
     @Input() character: Character | null = null;
     @Input() isUserLogged: boolean = false;
     @Input('bgColor') bgColor2: Character | null = null;
+    @Input() fontColor: string = '';
 
     @Output() imagesHaveChangedEvent = new EventEmitter<true>();
 

@@ -35,8 +35,7 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
     character: Character | null = null;
 
     themeColor1 = '';
-    bgColor1 = '';
-    bgColor2 = '';
+    fontColor = '';
 
     preferences: CharacterPreferences[] = [];
 
@@ -253,36 +252,16 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
                     const themeColorForChar = tinycolor(
                         character?.colors?.themeColor1
                     );
-                    const bgColorForChar = tinycolor(
-                        character?.colors?.themeColor2
-                    );
-
-                    this.bgColor1 =
-                        '' +
-                        (tinycolor(bgColorForChar).isDark()
-                            ? tinycolor(bgColorForChar)
-                                  .darken(15)
-                                  .desaturate(10)
-                            : tinycolor(bgColorForChar)
-                                  .darken(35)
-                                  .desaturate(50));
-
-                    this.bgColor2 =
-                        '' +
-                        (themeColorForChar.isLight()
-                            ? tinycolor(themeColorForChar)
-                                  .darken(55)
-                                  .desaturate(30)
-                            : tinycolor(themeColorForChar)
-                                  .darken(25)
-                                  .desaturate(30));
 
                     this.themeColor1 =
                         '' +
-                        (themeColorForChar.isLight()
-                            ? tinycolor(themeColorForChar).darken(15)
+                        (tinycolor(character?.colors?.themeColor1).isLight()
+                            ? tinycolor(themeColorForChar)
                             : tinycolor(themeColorForChar).lighten(35));
 
+                    this.fontColor = tinycolor(this.themeColor1).isLight()
+                        ? 'black'
+                        : 'white';
                     this.patchForm(null);
                 },
                 () => {

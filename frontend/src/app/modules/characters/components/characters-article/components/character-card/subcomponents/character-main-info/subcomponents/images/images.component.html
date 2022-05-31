@@ -30,7 +30,7 @@
             <div
                 cdkDrag
                 class="profile-pic__button"
-                [ngStyle]="{ background: bgColor2 }"
+                [ngStyle]="{ background: bgColor2, color: fontColor }"
                 *ngFor="let image of character.imagesList; index as i"
             >
                 <ng-container *ngIf="isUserLogged">
@@ -112,7 +112,12 @@
                 style="display: none"
             />
 
-            <mat-icon (click)="setNewImages()" class="file-icon file-icon--save"
+            <mat-icon
+                (click)="setNewImages()"
+                class="file-icon file-icon--save"
+                [ngClass]="{
+                    disabled: images?.length === 0 || images === null
+                }"
                 >save_alt</mat-icon
             >
         </div>

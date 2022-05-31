@@ -1,5 +1,5 @@
 export interface ICharacterPreferences {
-    relcharId: number;
+    relCharId: number;
     relCharName: string;
     relCharSurname: string;
     relCharAvatar: any | null;
@@ -7,7 +7,7 @@ export interface ICharacterPreferences {
 }
 
 export class CharacterPreferences implements ICharacterPreferences {
-    relcharId: number = 0;
+    relCharId: number = 0;
     relCharName: string = '';
     relCharSurname: string = '';
     relCharAvatar: any | null = null;

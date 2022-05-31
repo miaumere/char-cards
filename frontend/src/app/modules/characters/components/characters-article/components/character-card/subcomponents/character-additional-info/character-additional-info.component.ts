@@ -22,6 +22,7 @@ export class CharacterAdditionalInfoComponent
     @Input() isUserLogged: boolean = false;
     @Input() character: Character | null = null;
     @Input() form = new FormGroup({});
+    @Input('color') themeColor1: string = '';
 
     @Input() editedKey: string | null = null;
     @Output() editedKeyChange = new EventEmitter<string | null>();

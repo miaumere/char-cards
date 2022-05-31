@@ -1,6 +1,6 @@
 @import 'variables';
 
-$search-bar-height: 4rem;
+$search-bar-height: 5.5rem;
 
 $gradient1: #420730;
 $gradient2: #435548;
@@ -26,7 +26,6 @@ $gradient2: #435548;
     align-items: center;
 
     margin: 0.5rem;
-    padding: 0.5rem;
 
     text-align: center;
 
@@ -49,14 +48,16 @@ $gradient2: #435548;
 
 .rdest {
     height: 1rem;
-    margin-right: 0.5rem;
+    margin-left: 1rem;
 
     &--side {
-        opacity: 0.4;
+        opacity: 0.6;
     }
 }
 
 .search-form {
+    position: fixed;
+
     display: flex;
     justify-content: center;
     align-items: flex-start;
@@ -67,6 +68,10 @@ $gradient2: #435548;
 
     font-size: initial;
 
+    background-color: rgb(27 29 30 / 70%);
+    backdrop-filter: blur(3px);
+    top: 3rem;
+
     &__form-field {
         display: flex;
         align-items: center;
@@ -74,15 +79,16 @@ $gradient2: #435548;
 }
 
 .characters {
-    height: calc(100vh - #{$navbar-height + $search-bar-height});
-
     width: 100%;
 
-    overflow-y: scroll;
+    overflow-y: auto;
+
+    margin-top: 5rem;
 
     &__list {
-        display: flex;
-        flex-wrap: wrap;
+        display: grid;
+        grid-gap: 10px;
+        grid-template-columns: repeat(auto-fill, 8rem);
 
         width: 100%;
     }
@@ -95,7 +101,7 @@ $gradient2: #435548;
     height: 2rem;
 
     &__name {
-        width: 100px;
+        width: 7.5rem;
 
         white-space: nowrap;
         overflow: hidden;
@@ -117,9 +123,9 @@ $gradient2: #435548;
     color: $accent;
 
     left: 1rem;
-    top: 1.5rem;
 
     margin: 0 1rem;
+    margin-top: 1.5rem;
 
     cursor: pointer;
 
@@ -173,7 +179,13 @@ $gradient2: #435548;
 }
 
 .tag {
+    height: 2rem;
+
     &--disabled {
         opacity: 0.5;
     }
+}
+
+.empty-list {
+    margin-top: 4rem;
 }

@@ -99,7 +99,6 @@ export class HistoricalPreferencesComponent
                         historicalPreferences.preferences[0] =
                             historicalPreferences.preferences[1];
                         historicalPreferences.preferences[1] = tmp;
-                        console.log(historicalPreferences.preferences);
                     }
                     this.createChart();
                 })

@@ -61,8 +61,10 @@ export class CharactersListComponent extends BaseComponent implements OnInit {
 
     searchCharacter() {
         let finalFilteredChars: CharacterItem[] = [];
-        const inputValue: string =
-            '' + this.searchForm.get('char')?.value.toLowerCase();
+        const inputValue: string = this.searchForm
+            .get('char')
+            ?.value.toLowerCase();
+
         const regex = new RegExp(inputValue, 'gi');
 
         const filteredChars = this.charList.filter((c) => {
@@ -109,7 +111,6 @@ export class CharactersListComponent extends BaseComponent implements OnInit {
                     filtered.push(character);
                 }
             }
-            // this.filteredChars = filtered;
             this.filteredChars = finalFilteredChars.filter((char) => {
                 return !!filtered.find((f) => f.id === char.id);
             });

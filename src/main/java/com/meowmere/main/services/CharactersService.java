@@ -184,7 +184,7 @@ public class CharactersService {
         dto.setProfilePic(profilePic);
 
         ArrayList<BookWithStarringCharsDTO> bookWithStarringCharsDTOS = new ArrayList<>();
-        List<Book> books = bookRepository.findAll();
+        List<Book> books = bookRepository.getNonEmptyBooksForCharacter(externalId);
         if(books != null) {
             for (Book book: books) {
                 BookWithStarringCharsDTO withStarringCharsDTO = new BookWithStarringCharsDTO();
@@ -213,6 +213,9 @@ public class CharactersService {
                 }
             }
         }
+
+
+
         dto.setStarringIn(bookWithStarringCharsDTOS);
 
         List<Tag> tags = tagRepository.getTagsForCharacter(externalId);
@@ -524,7 +527,7 @@ public class CharactersService {
 
         for (Relation relationFromDb: relationsFromDb) {
             Long relatedCharExternalId = relationFromDb.getRelatedCharacter().getExternalId();
-            if(relatedCharExternalId == id) {
+            if(relatedCharExternalId.equals(id)) {
                 relatedCharExternalId = relationFromDb.getCharacter().getExternalId();
             }
             Boolean containsId = relationsMap.containsKey(relatedCharExternalId);
@@ -566,7 +569,7 @@ public class CharactersService {
             List<RelationDTO> relationDTOS = new ArrayList<>();
 
             for (Relation relation : relations) {
-                Boolean isSource = relation.getRelatedCharacter().getExternalId() != id;
+                Boolean isSource = !relation.getRelatedCharacter().getExternalId().equals(id);
                 RelationDTO relationDTO = new RelationDTO(
                         relation.getId(),
                         relation.getType(),
@@ -945,6 +948,7 @@ public class CharactersService {
         dto.setCharacterId(relatedCharId);
         if(character != null) {
             dto.setCharacterFullname(character.getCharName() + " " + character.getCharSurname());
+            dto.setCharacterId(character.getExternalId());
 
             ArrayList<HistoricPreferenceDTO> historicPreferenceDTOS = new ArrayList<>();
             ArrayList<Preference> preferences = preferenceRepository.getHistoricalPreferences(charId, relatedCharId);

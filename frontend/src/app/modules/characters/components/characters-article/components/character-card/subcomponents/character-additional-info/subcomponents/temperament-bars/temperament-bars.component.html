@@ -25,7 +25,7 @@
             class="temperament__container"
             *ngIf="temperaments?.melancholic || isUserLogged"
         >
-            <span class="info__desc">
+            <span class="info__desc" [ngStyle]="{ color: themeColor1 }">
                 {{ 'CHARACTER_CARD.MELANCHOLIC' | translate }}
             </span>
             <ng-container
@@ -43,7 +43,7 @@
             class="temperament__container"
             *ngIf="temperaments?.sanguine || isUserLogged"
         >
-            <span class="info__desc">
+            <span class="info__desc" [ngStyle]="{ color: themeColor1 }">
                 {{ 'CHARACTER_CARD.SANGUINE' | translate }}
             </span>
             <ng-container
@@ -61,7 +61,7 @@
             class="temperament__container"
             *ngIf="temperaments?.flegmatic || isUserLogged"
         >
-            <span class="info__desc">
+            <span class="info__desc" [ngStyle]="{ color: themeColor1 }">
                 {{ 'CHARACTER_CARD.FLEGMATIC' | translate }}
             </span>
             <ng-container
@@ -79,7 +79,7 @@
             class="temperament__container"
             *ngIf="temperaments?.choleric || isUserLogged"
         >
-            <span class="info__desc">
+            <span class="info__desc" [ngStyle]="{ color: themeColor1 }">
                 {{ 'CHARACTER_CARD.CHOLERIC' | translate }}
             </span>
 

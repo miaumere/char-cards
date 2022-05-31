@@ -128,8 +128,8 @@
             </a>
         </div>
 
-        <ng-container *ngIf="filteredChars.length === 0">
+        <div *ngIf="filteredChars.length === 0" class="empty-list">
             {{ 'CHARS_PANEL.NO_CHARACTERS' | translate }}
-        </ng-container>
+        </div>
     </div>
 </article>
