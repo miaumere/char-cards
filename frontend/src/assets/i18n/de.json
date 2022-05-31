@@ -198,21 +198,6 @@
         "NO_PAGES_MSG": "Keine Seiten für diesen Kapitel.",
         "NO_STARRING_CHARS": "Keine Beziehungen für diesen Figure."
     },
-    "STATISTICS": {
-        "GENDER_CHART_TITLE": "Anzahl der Männer & Frauen",
-        "CHARS_TYPE_CHART_TITLE": "Figurentypen",
-        "MAIN": "Hauptfiguren",
-        "SIDE": "Nebenfiguren",
-        "BG": "Hintergrundfiguren",
-        "NATIONALITY_CHART_TITLE": "Figuren Nationalität",
-        "OTHERS": "Andere",
-        "NONE": "Keiner",
-        "AGE_CHART_TITLE": "Alter der Figuren",
-        "AGE": "Alter",
-        "CHARS_NUM": "Figuren",
-        "AGE_UNKNOWN": "Alter unbekann",
-        "NO_STATISTICS": "Keinen statistiken"
-    },
     "PREFERENCES": {
         "HISTORICAL_PREFERENCES": "historische Vorlieben",
         "LOVE": "Liebe",

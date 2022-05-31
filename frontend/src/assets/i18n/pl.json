@@ -198,21 +198,7 @@
         "NO_PAGES_MSG": "Brak stron dla tej części.",
         "NO_STARRING_CHARS": "Brak postaci przypisanych do tej części."
     },
-    "STATISTICS": {
-        "GENDER_CHART_TITLE": "Ilość kobiet i mężczyzn",
-        "CHARS_TYPE_CHART_TITLE": "Rodzaje postaci",
-        "MAIN": "Główni",
-        "SIDE": "Poboczni",
-        "BG": "Epizodyczni",
-        "NATIONALITY_CHART_TITLE": "Narodowość postaci",
-        "OTHERS": "Inne",
-        "NONE": "Brak",
-        "AGE_CHART_TITLE": "Wiek postaci",
-        "AGE": "Wiek",
-        "CHARS_NUM": "Ilość <br /> postaci",
-        "AGE_UNKNOWN": "Nieznany",
-        "NO_STATISTICS": "Brak statystyk"
-    },
+
     "PREFERENCES": {
         "HISTORICAL_PREFERENCES": "historyczne preferencje",
         "LOVE": "Miłość",
