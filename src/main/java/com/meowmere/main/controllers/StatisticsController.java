@@ -14,10 +14,6 @@ public class StatisticsController {
     @Autowired
     StatisticsService statisticsService;
 
-    @GetMapping("/get-main-statistics")
-    public ResponseEntity getGenderStatistics() {
-        return statisticsService.getStatistics();
-    }
 
     @GetMapping("/get-preferences-for-char")
     public ResponseEntity getPreferencesForChar(@RequestParam Long id) {return statisticsService.getPreferencesForCharacter(id);}
