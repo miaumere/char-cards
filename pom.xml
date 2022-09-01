@@ -101,9 +101,9 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
 					<addResources>true</addResources>
-					<jvmArguments>
-						-Xdebug -Xrunjdwp:server=y, transport=dt_socket,address=5005, suspend=n
-					</jvmArguments>
+<!--					<jvmArguments>-->
+<!--						-Xdebug -Xrunjdwp:server=y, transport=dt_socket,address=5005, suspend=n-->
+<!--					</jvmArguments>-->
 				</configuration>
 			</plugin>
 			<plugin>

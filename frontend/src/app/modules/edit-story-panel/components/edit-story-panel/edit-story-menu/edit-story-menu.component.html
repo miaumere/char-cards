@@ -1,79 +1,124 @@
 <article class="books">
-  <div class="new-book-form-container">
-    <form class="new-book-form" [formGroup]="form">
-      <mat-form-field>
-        <mat-label>{{ 'BOOKS_PANEL.BOOK_NAME' | translate }}
-        </mat-label>
-        <input matInput formControlName="bookName">
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>{{ 'BOOKS_PANEL.BOOK_COLOR' | translate }}</mat-label>
-        <input matInput type="color" formControlName="bookColor">
-      </mat-form-field>
+    <div class="new-book-form-container">
+        <form class="new-book-form" [formGroup]="form">
+            <mat-form-field>
+                <mat-label
+                    >{{ 'BOOKS_PANEL.BOOK_NAME' | translate }}
+                </mat-label>
+                <input matInput formControlName="bookName" />
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>{{
+                    'BOOKS_PANEL.BOOK_COLOR' | translate
+                }}</mat-label>
+                <input matInput type="color" formControlName="bookColor" />
+            </mat-form-field>
 
-      <mat-form-field>
-        <mat-label>{{ 'BOOKS_PANEL.BOOK_ICON' | translate }}</mat-label>
-        <mat-select formControlName="icon">
-          <mat-option [value]="null">{{ 'BOOKS_PANEL.NO_ICON' | translate }}</mat-option>
-          <mat-option *ngFor="let icon of AvailableIcons  | enumVal" [value]="icon.value">
-            {{icon.value}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
+            <mat-form-field>
+                <mat-label>{{ 'BOOKS_PANEL.BOOK_ICON' | translate }}</mat-label>
+                <mat-select formControlName="icon">
+                    <mat-option [value]="null">{{
+                        'BOOKS_PANEL.NO_ICON' | translate
+                    }}</mat-option>
+                    <mat-option
+                        *ngFor="let icon of AvailableIcons | enumVal"
+                        [value]="icon.value"
+                    >
+                        {{ icon.value }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
 
-      <div>
-        <button mat-raised-button color="primary" (click)="createNewBook()" [disabled]="form.invalid" style="margin-right: 1rem;
-        ">
-          <mat-icon>library_add</mat-icon>
-          {{ 'BOOKS_PANEL.ADD_BOOK' | translate }}
-        </button>
+            <div>
+                <button
+                    mat-raised-button
+                    color="primary"
+                    (click)="createNewBook()"
+                    [disabled]="form.invalid"
+                    style="margin-right: 1rem"
+                >
+                    <mat-icon>library_add</mat-icon>
+                    {{ 'BOOKS_PANEL.ADD_BOOK' | translate }}
+                </button>
 
-        <button mat-raised-button color="accent" (click)="editBook()" [disabled]="!editMode">
-          <mat-icon>edit</mat-icon>
-          {{ 'BOOKS_PANEL.EDIT_BOOK' | translate }}
-        </button>
-      </div>
-    </form>
+                <button
+                    mat-raised-button
+                    color="accent"
+                    (click)="editBook()"
+                    [disabled]="!editMode"
+                >
+                    <mat-icon>edit</mat-icon>
+                    {{ 'BOOKS_PANEL.EDIT_BOOK' | translate }}
+                </button>
+            </div>
+        </form>
 
-
-
-    <div class="preview-box">
-      <span>{{ 'BOOKS_PANEL.PREVIEW' | translate }}</span>
-      <div class="preview">
-        <app-book-icon [icon]="form.controls['icon'].value" [color]="form.controls['bookColor'].value" [size]='5'>
-        </app-book-icon>
-
-      </div>
+        <div class="preview-box">
+            <span>{{ 'BOOKS_PANEL.PREVIEW' | translate }}</span>
+            <!-- <div class="preview">
+                <app-book-icon
+                    [color]="form.controls['bookColor'].value"
+                    [size]="5"
+                >
+                </app-book-icon>
+            </div> -->
+        </div>
     </div>
-  </div>
-  <div cdkDropList class="boundary books-container" (cdkDropListDropped)="drop($event)" *ngIf="books?.length > 0">
-    <div *ngFor="let book of books; index as i" cdkDrag cdkDragBoundary=".boundary">
-      <mat-card class="book-card">
-        <mat-card-header>
-          <mat-card-title class="book-card__header">{{book.name}}</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <app-book-icon [icon]="book.icon" [color]="book.color" [size]='3' [number]='i+1'></app-book-icon>
-        </mat-card-content>
-        <mat-card-actions class="book-card__buttons-container">
-          <button mat-mini-fab color="warn" (click)="insertDeleteInfo()" (dblclick)="deleteBook(book.id)"
-            [matTooltip]="'BOOKS_PANEL.DELETE_BOOK' | translate">
-            <mat-icon>delete_forever</mat-icon>
-          </button>
-          <button mat-mini-fab color="primary" (click)="enableEditForm(book)"
-            [matTooltip]="'BOOKS_PANEL.EDIT_BOOK' | translate">
-            <mat-icon>edit</mat-icon>
-          </button>
-          <button mat-mini-fab color="primary" [matTooltip]="'BOOKS_PANEL.CHAPTERS_LIST' | translate"
-            [routerLink]="['./edit-chapters']" [queryParams]="{
-          id: book.id
-        }">
-            <mat-icon>library_books</mat-icon>
-          </button>
-        </mat-card-actions>
-      </mat-card>
+    <div
+        cdkDropList
+        class="boundary books-container"
+        (cdkDropListDropped)="drop($event)"
+        *ngIf="books?.length > 0"
+    >
+        <div
+            *ngFor="let book of books; index as i"
+            cdkDrag
+            cdkDragBoundary=".boundary"
+        >
+            <mat-card class="book-card">
+                <mat-card-header>
+                    <mat-card-title class="book-card__header">{{
+                        book.name
+                    }}</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <!-- <app-book-icon
+                        [color]="book.color"
+                        [size]="3"
+                        [number]="i + 1"
+                    ></app-book-icon> -->
+                </mat-card-content>
+                <mat-card-actions class="book-card__buttons-container">
+                    <button
+                        mat-mini-fab
+                        color="warn"
+                        (click)="insertDeleteInfo()"
+                        (dblclick)="deleteBook(book.id)"
+                        [matTooltip]="'BOOKS_PANEL.DELETE_BOOK' | translate"
+                    >
+                        <mat-icon>delete_forever</mat-icon>
+                    </button>
+                    <button
+                        mat-mini-fab
+                        color="primary"
+                        (click)="enableEditForm(book)"
+                        [matTooltip]="'BOOKS_PANEL.EDIT_BOOK' | translate"
+                    >
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                    <button
+                        mat-mini-fab
+                        color="primary"
+                        [matTooltip]="'BOOKS_PANEL.CHAPTERS_LIST' | translate"
+                        [routerLink]="['./edit-chapters']"
+                        [queryParams]="{
+                            id: book.id
+                        }"
+                    >
+                        <mat-icon>library_books</mat-icon>
+                    </button>
+                </mat-card-actions>
+            </mat-card>
+        </div>
     </div>
-  </div>
-
-
 </article>

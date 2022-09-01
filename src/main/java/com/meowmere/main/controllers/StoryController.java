@@ -1,8 +1,7 @@
 package com.meowmere.main.controllers;
 
+import com.meowmere.main.dto.story.books.BookDTO;
 import com.meowmere.main.requests.characters.stories.EditStarringCharacterRequest;
-import com.meowmere.main.requests.story.books.CreateBookRequest;
-import com.meowmere.main.requests.story.books.EditBookRequest;
 import com.meowmere.main.requests.story.chapters.ChapterRequest;
 import com.meowmere.main.services.StoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,8 +39,11 @@ public class StoryController {
         return storyService.getChaptersWithCharactersForBook(id);
     }
 
-    @PostMapping("/new-book")
-    public ResponseEntity createBook(@RequestBody CreateBookRequest request) {return storyService.createBook(request);}
+    @PostMapping("upsert-book")
+    public ResponseEntity upsertBook(@RequestBody BookDTO request) {
+        return storyService.upsertBook(request);
+    }
+
 
     @PostMapping("/new-pages")
     public ResponseEntity createNewPages(MultipartHttpServletRequest multipartHttpServletRequest,
@@ -57,9 +59,6 @@ public class StoryController {
 
     @PostMapping("/edit-chapter")
     public ResponseEntity editChapter(@RequestBody ChapterRequest request) {return storyService.editChapter(request);}
-
-    @PutMapping("/edit-book")
-    public ResponseEntity editBook(@RequestBody EditBookRequest request) {return storyService.editBook(request);}
 
     @PatchMapping("edit-book-order")
     public ResponseEntity editBookOrder(@RequestBody ArrayList<Long> request)

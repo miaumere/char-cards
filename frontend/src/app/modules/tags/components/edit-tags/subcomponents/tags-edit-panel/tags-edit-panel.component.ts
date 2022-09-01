@@ -1,4 +1,3 @@
-import { ITag } from './../../../../models/tag.model';
 import { BaseComponent } from 'src/app/core/base.component';
 import { Component, OnInit } from '@angular/core';
 import { TagsService } from 'src/app/core/service/tags.service';
@@ -41,7 +40,7 @@ export class TagsEditPanelComponent extends BaseComponent implements OnInit {
             data: dialogData,
         });
 
-        dialogRef.afterClosed().subscribe((result) => {
+        dialogRef.afterClosed().subscribe(() => {
             this.getAllTags();
         });
     }

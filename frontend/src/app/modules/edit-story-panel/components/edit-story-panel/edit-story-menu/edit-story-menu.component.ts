@@ -55,19 +55,19 @@ export class EditStoryMenuComponent extends BaseComponent implements OnInit {
         objToSend.color = this.form.controls['bookColor'].value;
         objToSend.icon = this.form.controls['icon'].value;
 
-        this._storyService.createBook(objToSend).subscribe(
-            (_) => {
-                this._toastrService.success(
-                    this._translate.instant('TOASTR_MESSAGE.SAVE_SUCCESS')
-                );
-                this.getAllBooks();
-            },
-            (err) => {
-                this._toastrService.error(
-                    this._translate.instant('TOASTR_MESSAGE.ERROR')
-                );
-            }
-        );
+        // this._storyService.createBook(objToSend).subscribe(
+        //     (_) => {
+        //         this._toastrService.success(
+        //             this._translate.instant('TOASTR_MESSAGE.SAVE_SUCCESS')
+        //         );
+        //         this.getAllBooks();
+        //     },
+        //     (err) => {
+        //         this._toastrService.error(
+        //             this._translate.instant('TOASTR_MESSAGE.ERROR')
+        //         );
+        //     }
+        // );
     }
 
     insertDeleteInfo() {
@@ -96,10 +96,10 @@ export class EditStoryMenuComponent extends BaseComponent implements OnInit {
 
     enableEditForm(book: Book) {
         this.editMode = true;
-        this.editedBookId = book.id;
+        // this.editedBookId = book.id;
         this.form.controls['bookName'].setValue(book.name);
         this.form.controls['bookColor'].setValue(book.color);
-        this.form.controls['icon'].setValue(book.icon);
+        // this.form.controls['icon'].setValue(book.icon);
     }
 
     editBook() {
@@ -107,23 +107,23 @@ export class EditStoryMenuComponent extends BaseComponent implements OnInit {
         objToSend.id = this.editedBookId;
         objToSend.color = this.form.controls['bookColor'].value;
         objToSend.name = this.form.controls['bookName'].value;
-        objToSend.icon = this.form.controls['icon'].value;
+        // objToSend.icon = this.form.controls['icon'].value;
 
-        this.subscriptions$.add(
-            this._storyService.putEditBook(objToSend).subscribe(
-                (_) => {
-                    this._toastrService.success(
-                        this._translate.instant('TOASTR_MESSAGE.SAVE_SUCCESS')
-                    );
-                    this.getAllBooks();
-                },
-                (err) => {
-                    this._toastrService.error(
-                        this._translate.instant('TOASTR_MESSAGE.ERROR')
-                    );
-                }
-            )
-        );
+        // this.subscriptions$.add(
+        //     this._storyService.putEditBook(objToSend).subscribe(
+        //         (_) => {
+        //             this._toastrService.success(
+        //                 this._translate.instant('TOASTR_MESSAGE.SAVE_SUCCESS')
+        //             );
+        //             this.getAllBooks();
+        //         },
+        //         (err) => {
+        //             this._toastrService.error(
+        //                 this._translate.instant('TOASTR_MESSAGE.ERROR')
+        //             );
+        //         }
+        //     )
+        // );
     }
 
     drop(e: CdkDragDrop<string[]>) {
@@ -135,7 +135,7 @@ export class EditStoryMenuComponent extends BaseComponent implements OnInit {
         for (const key in this.books) {
             if (this.books.hasOwnProperty(key)) {
                 const element = this.books[key];
-                ids.push(element.id);
+                // ids.push(element.id);
             }
         }
 

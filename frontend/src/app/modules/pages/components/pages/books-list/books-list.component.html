@@ -1,26 +1,51 @@
-<div *ngIf="!!books.length" class="book-list">
-  <h2 class="book-list__title">{{ 'BOOKS_LIST.BOOKS_LIST_TITLE' | translate }}
-  </h2>
-  <div class="book-list-container">
+<div class="books-list">
+    <div class="books-list__title">
+        📚 {{ 'BOOKS_LIST.BOOKS_LIST_TITLE' | translate }}
+    </div>
 
-    <mat-card *ngFor="let book of books" class="book-card" matRipple [matRippleColor]="book.color">
-      <a [routerLink]="['./chapters']" [queryParams]="{
-    id: book.id,
-    color: book.color
-  }">
-        <mat-card-header>
-          <mat-card-title>{{book.name}}</mat-card-title>
-        </mat-card-header>
-        <div class="book-card__icon-container">
-          <app-book-icon [icon]="book.icon" [color]="book.color" [size]='3'></app-book-icon>
+    <div
+        *ngIf="!!(books$ | async)?.length; else noBooksTemplate"
+        cdkDropList
+        [cdkDropListData]="books$ | async"
+        (cdkDropListDropped)="drop($event)"
+        cdkDropListOrientation="horizontal"
+        class="book-list-container"
+    >
+        <div *ngFor="let book of books$ | async" class="book-card" cdkDrag>
+            <div class="book-card__title">
+                <mat-icon class="option-icon" *appIfLoggedUser cdkDragHandle
+                    >drag_indicator</mat-icon
+                >
+
+                <mat-icon class="option-icon" (click)="openBookDialog(book)"
+                    >edit</mat-icon
+                >{{ book.name }}
+            </div>
+            <a
+                [routerLink]="['./chapters']"
+                [queryParams]="{
+                    id: book.id,
+                    color: book.color
+                }"
+            >
+                <app-book-icon
+                    class="book-card__icon-container"
+                    [book]="book"
+                    [size]="3"
+                ></app-book-icon>
+            </a>
         </div>
-
-      </a>
-
-    </mat-card>
-  </div>
-
+        <div class="book-card__add-icon" *appIfLoggedUser>
+            <mat-icon
+                class="basic-icon basic-icon--expand add-icon"
+                (click)="openBookDialog()"
+                >add</mat-icon
+            >
+        </div>
+    </div>
 </div>
-<div *ngIf="!books.length" class="book-list">
-  {{ 'BOOKS_LIST.NO_BOOKS' | translate }}
-</div>
+<ng-template #noBooksTemplate>
+    <div class="book-list">
+        {{ 'BOOKS_LIST.NO_BOOKS' | translate }}
+    </div>
+</ng-template>

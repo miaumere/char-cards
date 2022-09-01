@@ -1,40 +1,32 @@
-<ng-container>
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" version="1.1" id="svg3725"
-    [attr.fill]="color" [attr.transform]="size">
+<svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 29 24"
+    version="1.1"
+    [attr.fill]="book.color"
+    [attr.transform]="size"
+>
+    <rect
+        y="1.5148515"
+        x="3.4158416"
+        height="10"
+        width="18.5"
+        style="fill: #ebe4e4"
+    />
 
-    <defs />
-    <g>
-      <rect y="1.5148515" x="3.4158416" height="6.2673268" width="18.5" id="rect3735" style="fill:#ffffff" />
-    </g>
-    <g>
-      <path
-        d="M5.495 4c-1.375 0-1.375-2 0-2h16.505v-2h-17c-1.657 0-3 1.343-3 3v18c0 1.657 1.343 3 3 3h17v-20h-16.505z" />
-    </g>
-    <text x="2" y="20" [attr.fill]="numberFontColor" *ngIf="!!number" class="text">{{number}}</text>
+    <path
+        d="M5.495 4c-1.375 0-1.375-2 0-2h16.505v-2h-17c-1.657 0-3 1.343-3 3v18c0 1.657 1.343 3 3 3h17v-20h-16.505z"
+        fill="#ffffff70"
+        style="transform: translate(-1px, 0px) scale(1.1)"
+    />
 
+    <path
+        style="transform: translateY(1px); stroke: black"
+        d="M5.495 4c-1.375 0-1.375-2 0-2h16.505v-2h-17c-1.657 0-3 1.343-3 3v18c0 1.657 1.343 3 3 3h17v-20h-16.505z"
+    />
 
-  </svg>
-
-
-</ng-container>
-
-<ng-container [ngSwitch]="icon">
-  <svg class="svg__path--biohazard " *ngSwitchCase="'BIOHAZARD'" xmlns:svg="http://www.w3.org/2000/svg"
-    xmlns="http://www.w3.org/2000/svg" id="svg22" version="1.1" viewBox="0 0 24 24" height="24" width="24">
-    <defs id="defs26" />
-    <g id="layer2">
-      <ellipse ry="11.108911" rx="11.094059" cy="12.29703" cx="11.896039" id="path37"
-        style="fill:#ffff00;stroke-width:1.02931535" />
-    </g>
-    <g style="display:inline" id="layer1">
-      <path id="path20"
-        d="M 12,2 C 17.514,2 22,6.486 22,12 22,17.514 17.514,22 12,22 6.486,22 2,17.514 2,12 2,6.486 6.486,2 12,2 Z M 12,0 C 5.373,0 0,5.373 0,12 0,18.627 5.373,24 12,24 18.627,24 24,18.627 24,12 24,5.373 18.627,0 12,0 Z m 0,13.456 c 0.76,0 1.377,-0.604 1.377,-1.351 0,-0.746 -0.617,-1.351 -1.377,-1.351 -0.76,0 -1.377,0.605 -1.377,1.351 0,0.747 0.617,1.351 1.377,1.351 z M 13.263,9.959 15.004,7 C 16.77,8.002 17.961,9.863 18,12 H 14.489 C 14.452,11.127 13.971,10.377 13.263,9.959 Z m 0,4.293 1.741,2.959 C 14.121,17.713 13.094,18 12,18 10.906,18 9.879,17.713 8.996,17.211 l 1.741,-2.959 c 0.372,0.219 0.8,0.354 1.263,0.354 0.463,0 0.891,-0.134 1.263,-0.354 z M 9.511,12 H 6 C 6.039,9.863 7.23,8.002 8.996,7 l 1.741,2.959 C 10.029,10.377 9.548,11.128 9.511,12 Z" />
-    </g>
-  </svg>
-
-  <ng-container *ngSwitchCase="'PANTHER'" class="svg__path--panther">
-    <img src="../../../../../assets/svg/pampera.svg" class="panther">
-
-  </ng-container>
-
-</ng-container>
+    <text x="5" y="17" [attr.fill]="numberFontColor" class="text">
+        {{ book.symbol }}
+    </text>
+</svg>

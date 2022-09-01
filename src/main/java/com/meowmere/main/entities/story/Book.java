@@ -22,6 +22,9 @@ public class Book {
     private String color;
 
     @Column
+    private String symbol;
+
+    @Column
     @Enumerated(EnumType.STRING)
     private AvailableIcon icon;
 
@@ -64,5 +67,13 @@ public class Book {
 
     public void setIcon(AvailableIcon icon) {
         this.icon = icon;
+    }
+
+    public String getSymbol() {
+        return symbol;
+    }
+
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
     }
 }

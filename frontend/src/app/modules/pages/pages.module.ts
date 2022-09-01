@@ -19,6 +19,10 @@ import { ChaptersListComponent } from './components/pages/chapters/chapters-list
 import { MatExpansionModule } from '@angular/material/expansion';
 import { ChapterComponent } from './components/pages/chapters/chapter/chapter.component';
 import { TranslateModule } from '@ngx-translate/core';
+import { BookEditDialogComponent } from './components/pages/books-list/book-edit-dialog/book-edit-dialog.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @NgModule({
     declarations: [
@@ -27,6 +31,7 @@ import { TranslateModule } from '@ngx-translate/core';
         ChaptersComponent,
         ChaptersListComponent,
         ChapterComponent,
+        BookEditDialogComponent,
     ],
     imports: [
         CommonModule,
@@ -44,6 +49,9 @@ import { TranslateModule } from '@ngx-translate/core';
         MatExpansionModule,
         TranslateModule,
         CharactersModule,
+        MatFormFieldModule,
+        MatInputModule,
+        DragDropModule,
     ],
     providers: [StoryService],
 })

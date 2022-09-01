@@ -1,10 +1,12 @@
 package com.meowmere.main.dto.story.books;
 
 public class BookDTO {
-    public Long id;
-    public String color;
-    public String name;
-    public String icon;
+    private Long id;
+    private String color;
+    private String name;
+    private String symbol;
+    private Long bookOrder;
+
 
     public Long getId() {
         return id;
@@ -30,11 +32,19 @@ public class BookDTO {
         this.name = name;
     }
 
-    public String getIcon() {
-        return icon;
+    public String getSymbol() {
+        return symbol;
     }
 
-    public void setIcon(String icon) {
-        this.icon = icon;
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
+    }
+
+    public Long getBookOrder() {
+        return bookOrder;
+    }
+
+    public void setBookOrder(Long bookOrder) {
+        this.bookOrder = bookOrder;
     }
 }

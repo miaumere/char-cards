@@ -12,6 +12,7 @@ import {
     CropProfilePicComponent,
 } from 'src/app/modules/characters/components/characters-article/components/character-card/subcomponents/char-information/subcomponents/profile-pic/crop-profile-pic/crop-profile-pic.component';
 import { TagsService } from 'src/app/core/service/tags.service';
+import { generateRandomColor } from 'src/app/modules/shared/functions/colors.function';
 
 export interface TagDialogData {
     tagData?: Tag;
@@ -25,18 +26,15 @@ export interface TagDialogData {
 export class TagEditDialogComponent extends BaseComponent implements OnInit {
     tagForm: FormGroup = new FormGroup({
         name: new FormControl('', Validators.required),
-        color: new FormControl(
-            '#' + Math.floor(Math.random() * 16777215).toString(16)
-        ),
+        color: new FormControl(generateRandomColor()),
     });
     constructor(
         @Inject(MAT_DIALOG_DATA) public data: TagDialogData,
-        public dialogRef: MatDialogRef<CropProfilePicComponent>,
+        public dialogRef: MatDialogRef<TagEditDialogComponent>,
         public dialog: MatDialog,
         private _tagsService: TagsService
     ) {
         super();
-        dialogRef.disableClose = true;
     }
 
     ngOnInit(): void {

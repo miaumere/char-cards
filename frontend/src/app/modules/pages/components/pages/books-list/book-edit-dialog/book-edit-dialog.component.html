@@ -1,13 +1,18 @@
 <div mat-dialog-content>
-    <form [formGroup]="tagForm" class="tags-form">
+    <form [formGroup]="bookForm" class="book-form">
         <mat-form-field>
-            <mat-label>{{ 'EDIT_TAGS.TAG_NAME' | translate }}</mat-label>
+            <mat-label>{{ 'BOOKS_PANEL.BOOK_NAME' | translate }}</mat-label>
             <input matInput formControlName="name" required />
         </mat-form-field>
 
         <mat-form-field>
-            <mat-label>{{ 'EDIT_TAGS.TAG_COLOR' | translate }}</mat-label>
+            <mat-label>{{ 'BOOKS_PANEL.BOOK_COLOR' | translate }}</mat-label>
             <input matInput type="color" formControlName="color" />
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>{{ 'BOOKS_PANEL.BOOK_ICON' | translate }}</mat-label>
+            <input matInput formControlName="symbol" required />
         </mat-form-field>
     </form>
 </div>
@@ -16,15 +21,15 @@
         <button
             mat-raised-button
             color="warn"
-            (click)="deleteTag()"
-            *ngIf="!!data.tagData"
+            *ngIf="!!data.book"
+            (click)="deleteBook()"
         >
             {{ 'SHARED.DELETE' | translate }}
         </button>
     </div>
 
     <div class="button">
-        <button mat-raised-button color="accent" (click)="saveTag()">
+        <button mat-raised-button color="accent" (click)="saveBook()">
             {{ 'SHARED.SEND' | translate }}
         </button>
     </div>

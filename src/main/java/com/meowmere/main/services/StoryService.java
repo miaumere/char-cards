@@ -12,8 +12,6 @@ import com.meowmere.main.entities.story.Chapter;
 import com.meowmere.main.entities.story.Page;
 import com.meowmere.main.entities.story.StarringCharacters;
 import com.meowmere.main.enums.AvailableExtensions;
-import com.meowmere.main.enums.AvailableIcon;
-import com.meowmere.main.enums.CharType;
 import com.meowmere.main.enums.StarringType;
 import com.meowmere.main.repositories.character.CharacterRepository;
 import com.meowmere.main.repositories.character.ImageRepository;
@@ -22,8 +20,6 @@ import com.meowmere.main.repositories.story.ChapterRepository;
 import com.meowmere.main.repositories.story.PageRepository;
 import com.meowmere.main.repositories.story.StarringCharactersRepository;
 import com.meowmere.main.requests.characters.stories.EditStarringCharacterRequest;
-import com.meowmere.main.requests.story.books.CreateBookRequest;
-import com.meowmere.main.requests.story.books.EditBookRequest;
 import com.meowmere.main.requests.story.chapters.ChapterRequest;
 import com.meowmere.main.utils.UtilsShared;
 import org.apache.commons.io.FilenameUtils;
@@ -222,19 +218,17 @@ public class StoryService {
         return new ResponseEntity(starringCharacterDTOS, HttpStatus.OK);
     }
 
-    public ResponseEntity createBook(CreateBookRequest request) {
-        Book book = new Book();
-        Long booksNumber = bookRepository.count();
-        book.setBookOrder(booksNumber+1);
-        book.setColor(request.getColor());
+
+    public ResponseEntity upsertBook(BookDTO request) {
+        Book book = request.getId() == null ?  new Book() : bookRepository.getOne(request.getId());
         book.setName(request.getName());
-        if(request.getIcon() != null) {
-            book.setIcon(AvailableIcon.valueOf(request.getIcon()));
-        }
+        book.setColor(request.getColor());
+        book.setSymbol(request.getSymbol());
+        book.setBookOrder(request.getBookOrder() == null ? bookRepository.count()+1 : request.getBookOrder());
 
         bookRepository.saveAndFlush(book);
 
-        return new ResponseEntity(HttpStatus.CREATED);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     public ResponseEntity createPages(MultipartHttpServletRequest multipartHttpServletRequest, Long chapterId){
@@ -348,7 +342,13 @@ public class StoryService {
 
     public ResponseEntity deleteBook(Long id) {
         Book book = bookRepository.getOne(id);
+
         if(book != null) {
+            ArrayList<Chapter> chapters = chapterRepository.getChaptersForBook(id);
+            if(chapters.size() > 0) {
+                return new ResponseEntity(HttpStatus.BAD_REQUEST);
+            }
+
             bookRepository.delete(book);
         }
         return  new ResponseEntity(HttpStatus.OK);
@@ -402,21 +402,6 @@ public class StoryService {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    public ResponseEntity editBook(EditBookRequest request) {
-        Book book = bookRepository.getOne(request.getId());
-        if (book == null) {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
-        }
-        if(request.getIcon() != null) {
-            book.setIcon(AvailableIcon.valueOf(request.getIcon()));
-        }
-        book.setName(request.getName());
-        book.setColor(request.getColor());
-        bookRepository.saveAndFlush(book);
-
-        return new ResponseEntity(HttpStatus.OK);
-    }
-
     public ResponseEntity editBookOrder(ArrayList<Long> booksIds){
         List<Book> books = bookRepository.findAll();
         HashMap<Long, Long> booksFromDb = new HashMap<>();
@@ -427,7 +412,7 @@ public class StoryService {
         }
         booksFromDb.forEach((key, value) -> {
             Book book = bookRepository.getOne(key);
-            book.setBookOrder(9999 + value);
+            book.setBookOrder(value);
             bookRepository.saveAndFlush(book);
         });
 
