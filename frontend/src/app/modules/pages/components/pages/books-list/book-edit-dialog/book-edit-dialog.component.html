@@ -18,17 +18,6 @@
 </div>
 <div mat-dialog-actions class="buttons">
     <div class="button">
-        <button
-            mat-raised-button
-            color="warn"
-            *ngIf="!!data.book"
-            (click)="deleteBook()"
-        >
-            {{ 'SHARED.DELETE' | translate }}
-        </button>
-    </div>
-
-    <div class="button">
         <button mat-raised-button color="accent" (click)="saveBook()">
             {{ 'SHARED.SEND' | translate }}
         </button>

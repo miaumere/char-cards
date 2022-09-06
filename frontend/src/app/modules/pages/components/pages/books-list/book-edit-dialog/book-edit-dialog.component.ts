@@ -92,21 +92,4 @@ export class BookEditDialogComponent extends BaseComponent implements OnInit {
             })
         );
     }
-
-    deleteBook() {
-        if (!!this.data.book && !!this.data.book?.id) {
-            this.subscriptions$.add(
-                this._storyService.deleteBook(this.data.book?.id).subscribe({
-                    error: () => {
-                        this._toastrService.error(
-                            this._translate.instant('TOASTR_MESSAGE.ERROR')
-                        );
-                    },
-                    complete: () => {
-                        this.dialog.closeAll();
-                    },
-                })
-            );
-        }
-    }
 }

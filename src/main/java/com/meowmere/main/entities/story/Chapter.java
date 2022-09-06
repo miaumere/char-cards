@@ -19,6 +19,15 @@ public class Chapter {
     @Column
     private String chapterDesc;
 
+    @Column
+    private Long createDate;
+
+    @Column
+    private String actionTime;
+
+    @Column
+    private String actionPlace;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @NotFound(action = NotFoundAction.IGNORE)
     @JoinColumn(name = "book_id")

@@ -20,12 +20,18 @@
                 <mat-icon class="option-icon" (click)="openBookDialog(book)"
                     >edit</mat-icon
                 >{{ book.name }}
+
+                <mat-icon
+                    class="close-icon"
+                    (click)="insertDeleteInfo()"
+                    (dblclick)="deleteBook(book.id)"
+                    >close</mat-icon
+                >
             </div>
             <a
                 [routerLink]="['./chapters']"
                 [queryParams]="{
-                    id: book.id,
-                    color: book.color
+                    id: book.id
                 }"
             >
                 <app-book-icon

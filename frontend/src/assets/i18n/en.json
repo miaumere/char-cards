@@ -168,7 +168,10 @@
         "PAGES_COUNT": "Pages count:",
         "STARRING_CHARACTERS": "Starring characters:",
         "NO_CHAPTERS_MSG": "No chapters in this book.",
-        "NO_PAGES_MSG": "No pages in this chapter."
+        "NO_PAGES_MSG": "No pages in this chapter.",
+        "CREATE_DATE": "Date added",
+        "ACTION_TIME": "Action time",
+        "ACTION_PLACE": "Action location"
     },
     "BOOKS_PANEL": {
         "PREVIEW": "Preview",

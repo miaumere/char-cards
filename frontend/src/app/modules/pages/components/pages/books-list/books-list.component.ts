@@ -49,6 +49,27 @@ export class BooksListComponent extends BaseComponent {
         );
     }
 
+    deleteBook(id: number) {
+        this.subscriptions$.add(
+            this._storyService.deleteBook(id).subscribe({
+                error: () => {
+                    this._toastrService.error(
+                        this._translate.instant('TOASTR_MESSAGE.ERROR')
+                    );
+                },
+                complete: () => {
+                    this.books$ = this._storyService.getAllBooks();
+                },
+            })
+        );
+    }
+
+    insertDeleteInfo() {
+        this._toastrService.warning(
+            this._translate.instant('TOASTR_MESSAGE.DELETE_INFO')
+        );
+    }
+
     drop(event: CdkDragDrop<string[]>) {
         moveItemInArray(
             event.container.data,

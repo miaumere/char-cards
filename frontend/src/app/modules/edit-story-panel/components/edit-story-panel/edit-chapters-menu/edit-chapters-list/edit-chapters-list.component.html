@@ -1,121 +1,117 @@
-<div class="edit-chapters-list" [ngStyle]="{ color: fontColor }">
-    <div *ngIf="book">
-        <form
-            [formGroup]="chapterForm"
-            *ngIf="isNewChapterFormVisible"
-            class="edit-chapters-form"
-        >
-            <mat-form-field>
-                <mat-label>{{
-                    'CHAPTERS_PANEL.CHAPTER_TITLE' | translate
-                }}</mat-label>
-                <input matInput formControlName="name" required />
-            </mat-form-field>
-            <mat-form-field class="edit-chapters-form__textarea">
-                <mat-label>{{
-                    'CHAPTERS_PANEL.CHAPTER_DESC' | translate
-                }}</mat-label>
-                <textarea
-                    matInput
-                    maxlength="255"
-                    style="width: 15rem"
-                    formControlName="chapterDesc"
-                    required
-                    class="edit-chapters-form__textarea"
-                ></textarea>
-            </mat-form-field>
-        </form>
-        <div class="edit-chapters-buttons">
-            <button
-                mat-raised-button
-                [ngStyle]="{ background: book.color, color: fontColor }"
-                [disabled]="chapterForm.invalid"
-                (click)="createNewChapter()"
-                style="margin-right: 1rem"
-            >
-                <mat-icon>library_add</mat-icon>
-                {{ 'CHAPTERS_PANEL.NEW_CHAPTER' | translate }}
-            </button>
-
-            <button
-                mat-raised-button
-                [ngStyle]="{ background: book.color, color: fontColor }"
-                [disabled]="chapterForm.invalid || !editedChapter"
-                (click)="editChapter()"
-            >
-                <mat-icon>library_add</mat-icon>
-                {{ 'SHARED.EDIT' | translate }}
-            </button>
-        </div>
-    </div>
+<div class="chapters-list">
+    <h2
+        class="chapters-list-title"
+        [ngStyle]="{
+            color: fontColor
+        }"
+    >
+        📔 {{ 'CHAPTERS.AVAILABLE_CHAPTERS' | translate }}
+    </h2>
 
     <div
-        *ngIf="chapters.length > 0"
+        *ngIf="chapters.length > 0; else noChapters"
         cdkDropList
         (cdkDropListDropped)="drop($event)"
-        class="boundary"
     >
         <div
-            *ngFor="let chapter of chapters"
-            cdkDragBoundary=".boundary"
+            *ngFor="let chapter of chapters; index as i"
             cdkDrag
-            style="margin: 1rem"
+            class="chapter-card"
         >
-            <mat-card class="chapter-card">
-                <mat-card-header>
-                    <div mat-card-avatar>
-                        <mat-icon mat-list-icon>bookmark</mat-icon>
+            <div class="chapter-card__header chapter-card-header">
+                <div
+                    class="chapter-card-header__name"
+                    [ngStyle]="{
+                        color: fontColor
+                    }"
+                >
+                    <mat-icon class="option-icon" *appIfLoggedUser cdkDragHandle
+                        >drag_indicator</mat-icon
+                    >
+
+                    <mat-icon class="option-icon" *appIfLoggedUser
+                        >edit</mat-icon
+                    >
+
+                    {{ i + 1 }}. {{ chapter.name }}
+                </div>
+                <div class="chapter-card-header__desc">
+                    {{ chapter.chapterDesc }}
+                </div>
+            </div>
+            <div class="chapter-card-information-with-options">
+                <div class="chapter-card__information">
+                    <div class="chapter-card-information">
+                        <span
+                            class="chapter-card-information__header"
+                            [ngStyle]="{
+                                color: fontColor
+                            }"
+                            >📃 {{ 'CHAPTERS.PAGES_COUNT' | translate }}
+                        </span>
+                        <span class="chapter-card-information__info">{{
+                            chapter.pagesIds?.length
+                        }}</span>
                     </div>
-                    <mat-card-title>{{ chapter.name }}</mat-card-title>
-                    <mat-card-subtitle>{{
-                        chapter.chapterDesc
-                    }}</mat-card-subtitle>
-                </mat-card-header>
-                <p>
-                    {{ 'CHAPTERS.PAGES_COUNT' | translate }}
-                    {{ chapter.pagesIds?.length }}
-                </p>
-                <mat-card-actions class="chapter-buttons-container">
-                    <button
-                        mat-mini-fab
-                        [ngStyle]="{
-                            background: book!.color,
-                            color: fontColor
-                        }"
-                        (click)="insertEditInfoToForm(chapter)"
+
+                    <div
+                        class="chapter-card-information"
+                        *ngIf="chapter.createDate"
                     >
-                        <mat-icon>edit</mat-icon>
-                    </button>
-                    <button
-                        mat-mini-fab
-                        color="primary"
-                        [routerLink]="['./edit-pages']"
-                        [ngStyle]="{
-                            background: book!.color,
-                            color: fontColor
-                        }"
-                        [queryParams]="{
-                            id: bookId,
-                            chapterId: chapter.id,
-                            color: book!.color,
-                            fontColor: fontColor
-                        }"
-                    >
-                        <mat-icon>library_books</mat-icon>
-                    </button>
-                    <button
-                        mat-mini-fab
-                        color="warn"
+                        <span
+                            class="chapter-card-information__header"
+                            [ngStyle]="{
+                                color: fontColor
+                            }"
+                            >📆 {{ 'CHAPTERS.CREATE_DATE' | translate }}
+                        </span>
+                        <span class="chapter-card-information__info">{{
+                            chapter.createDate | date: 'dd/MM/yyyy'
+                        }}</span>
+                    </div>
+
+                    <div class="chapter-card-information">
+                        <span
+                            class="chapter-card-information__header"
+                            [ngStyle]="{
+                                color: fontColor
+                            }"
+                        >
+                            🌄 {{ 'CHAPTERS.ACTION_TIME' | translate }}
+                        </span>
+                        <span class="chapter-card-information__info">{{
+                            chapter.actionTime | nulled
+                        }}</span>
+                    </div>
+
+                    <div class="chapter-card-information">
+                        <span
+                            class="chapter-card-information__header"
+                            [ngStyle]="{
+                                color: fontColor
+                            }"
+                        >
+                            🏡 {{ 'CHAPTERS.ACTION_PLACE' | translate }}
+                        </span>
+                        <span class="chapter-card-information__info">{{
+                            chapter.actionPlace | nulled
+                        }}</span>
+                    </div>
+                </div>
+                <div class="options" *appIfLoggedUser>
+                    <mat-icon
+                        class="close-icon"
                         (click)="insertDeleteInfo()"
                         (dblclick)="deleteChapter(chapter.id)"
+                        >close</mat-icon
                     >
-                        <mat-icon>delete</mat-icon>
-                    </button>
-                </mat-card-actions>
-            </mat-card>
+                </div>
+            </div>
         </div>
     </div>
-    <span *ngIf="chapters.length === 0">
+</div>
+<ng-template #noChapters>
+    <span [ngStyle]="{ color: fontColor }" class="no-chapters-info">
         {{ 'CHAPTERS.NO_CHAPTERS_MSG' | translate }}
     </span>
-</div>
+</ng-template>

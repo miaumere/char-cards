@@ -168,7 +168,10 @@
         "PAGES_COUNT": "Ilość stron:",
         "STARRING_CHARACTERS": "Postacie występujące:",
         "NO_CHAPTERS_MSG": "Brak części w tym szkicowniku.",
-        "NO_PAGES_MSG": "Brak stron w tej części."
+        "NO_PAGES_MSG": "Brak stron w tej części.",
+        "CREATE_DATE": "Data dodania",
+        "ACTION_TIME": "Czas akcji",
+        "ACTION_PLACE": "Miejsce akcji"
     },
     "BOOKS_PANEL": {
         "PREVIEW": "Podgląd",

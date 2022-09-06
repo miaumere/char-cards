@@ -1,54 +1,73 @@
 @import 'variables';
 
-.edit-chapters-buttons {
-    display: flex;
-    justify-content: center;
-}
-
-.edit-chapters-form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-
-    margin-top: 5rem;
-
-    font-size: initial;
-
-    &__textarea {
-        width: 20rem;
-    }
-}
-
 .chapter-buttons-container {
     display: flex !important;
     justify-content: space-evenly;
 }
 
+.chapters-list-title {
+    @include section-title;
+}
+
 .chapter-card {
-    cursor: all-scroll;
-    width: 30rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
 
-    background-color: $card-bg;
+    margin: 1rem;
+    padding: 1rem;
+
+    background-color: $card-bg-second;
+
+    &__header {
+        display: flex;
+        flex-direction: column;
+        width: 20rem;
+    }
+
+    &__information {
+        margin-right: 1rem;
+
+        width: 20rem;
+    }
 }
 
-.boundary {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+.chapter-card-header {
+    &__name {
+        margin-bottom: 0.5rem;
+        font-size: 1rem;
+    }
 
-    width: fit-content;
-
-    border: 1px dotted white;
-    margin-top: 1rem;
-
-    overflow-y: scroll;
+    &__desc {
+        font-size: 0.75rem;
+        margin-right: 1rem;
+    }
 }
 
-.edit-chapters-list {
+.chapter-card-information {
+    margin-bottom: 0.5rem;
+    font-size: 0.75rem;
+
+    &__header {
+        font-weight: bold;
+    }
+
+    &__info {
+    }
+}
+.chapters-list {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
+
+    height: calc(100vh - #{$navbar-height});
+    overflow: scroll;
+}
+
+.no-chapters-info {
+    font-size: large;
+}
+
+.chapter-card-information-with-options {
+    display: flex;
 }

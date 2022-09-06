@@ -3,10 +3,13 @@ package com.meowmere.main.dto.story.chapters;
 import java.util.ArrayList;
 
 public class ChapterDTO {
-    public Long id;
-    public String chapterDesc;
-    public String name;
-    public ArrayList<Long> pagesIds;
+    private Long id;
+    private String chapterDesc;
+    private String name;
+    private ArrayList<Long> pagesIds;
+    private Long createDate;
+    private String actionTime;
+    private String actionPlace;
 
     public Long getId() {
         return id;
@@ -38,5 +41,29 @@ public class ChapterDTO {
 
     public void setPagesIds(ArrayList<Long> pagesIds) {
         this.pagesIds = pagesIds;
+    }
+
+    public Long getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Long createDate) {
+        this.createDate = createDate;
+    }
+
+    public String getActionTime() {
+        return actionTime;
+    }
+
+    public void setActionTime(String actionTime) {
+        this.actionTime = actionTime;
+    }
+
+    public String getActionPlace() {
+        return actionPlace;
+    }
+
+    public void setActionPlace(String actionPlace) {
+        this.actionPlace = actionPlace;
     }
 }

@@ -31,6 +31,7 @@ import { EditPagesMenuComponent } from './components/edit-story-panel/edit-chapt
 import { EditChaptersListMenuComponent } from './components/edit-story-panel/edit-chapters-menu/edit-chapters-list/edit-chapters-list.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { CharactersModule } from '../characters/characters.module';
+import { EditChapterDialogComponent } from './components/edit-story-panel/edit-chapters-menu/edit-chapters-list/edit-chapter-dialog/edit-chapter-dialog.component';
 
 @NgModule({
     declarations: [
@@ -39,6 +40,7 @@ import { CharactersModule } from '../characters/characters.module';
         EditChaptersMenuComponent,
         EditPagesMenuComponent,
         EditChaptersListMenuComponent,
+        EditChapterDialogComponent,
     ],
     imports: [
         CommonModule,

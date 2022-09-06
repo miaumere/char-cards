@@ -168,7 +168,10 @@
         "PAGES_COUNT": "Seitenzahl:",
         "STARRING_CHARACTERS": "Mit Charakteren:",
         "NO_CHAPTERS_MSG": "Keine Kapitel in diesem Buch.",
-        "NO_PAGES_MSG": "Keine Seiten in diesem Kapitel."
+        "NO_PAGES_MSG": "Keine Seiten in diesem Kapitel.",
+        "CREATE_DATE": "Datum hinzugefügt",
+        "ACTION_TIME": "Aktionszeit",
+        "ACTION_PLACE": "Aktionsort"
     },
     "BOOKS_PANEL": {
         "PREVIEW": "Vorschau",

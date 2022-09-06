@@ -63,9 +63,12 @@ export class EditChaptersListMenuComponent
                     if (book) {
                         this.book = book;
                         const bookColor = tinycolor(book?.color);
-                        if (bookColor.isLight()) {
-                            this.fontColor = 'black';
-                        }
+
+                        this.fontColor =
+                            '' +
+                            (bookColor.isLight()
+                                ? bookColor
+                                : bookColor.lighten(35));
                     }
                 })
         );

@@ -6,10 +6,16 @@
 
     height: calc(100vh - #{$navbar-height});
     width: 15rem;
+
+    background: $chars-list-bg;
 }
 
+.chapters-content {
+    height: calc(100vh - #{$navbar-height});
+}
 .book-name {
-    font-size: xx-large;
+    font-size: larger;
+    margin-left: 2rem;
 }
 
 .chapter-list {
@@ -21,7 +27,6 @@
 
         &--active {
             background: rgba(255, 255, 255, 0.4);
-            border-radius: 0.188rem;
         }
     }
 }
@@ -31,4 +36,12 @@
     width: 200px;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.book-icon {
+    display: flex;
+
+    margin-top: 2rem;
+    margin-left: 2rem;
+    margin-bottom: 2rem;
 }

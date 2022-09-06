@@ -1,10 +1,12 @@
+ajajajajja
+
 <div class="chapters-list" [ngStyle]="{ background: bgColor }">
     <div
         *ngIf="chapters.length > 0"
         class="chapters-list__container chapters-list-container"
     >
         <h2 class="chapters-list-container__title">
-            {{ 'CHAPTERS.AVAILABLE_CHAPTERS' | translate }}
+            📄 {{ 'CHAPTERS.AVAILABLE_CHAPTERS' | translate }}
         </h2>
         <mat-card
             *ngFor="let chapter of chapters; index as i"
@@ -83,7 +85,6 @@
                 <button
                     mat-stroked-button
                     [ngStyle]="{ background: bookColor, color: fontColor }"
-                    [routerLink]="['./']"
                     [routerLink]="['./pages']"
                     [queryParams]="{
                         id: bookId,

@@ -3,6 +3,9 @@ export interface IChapter {
     name: string;
     chapterDesc: string;
     pagesIds: number[];
+    createDate: number | null;
+    actionTime: string;
+    actionPlace: string;
 }
 
 export class Chapter implements IChapter {
@@ -10,6 +13,9 @@ export class Chapter implements IChapter {
     name: string = '';
     chapterDesc: string = '';
     pagesIds: number[] = [];
+    createDate: number | null = null;
+    actionTime: string = '';
+    actionPlace: string = '';
 
     constructor(initialValues: IChapter) {
         Object.assign(this, initialValues);
