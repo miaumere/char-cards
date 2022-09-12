@@ -12,7 +12,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatSelectModule } from '@angular/material/select';
-import { MatRippleModule } from '@angular/material/core';
+import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { ChaptersComponent } from './components/pages/chapters/chapters.component';
 import { ChaptersListComponent } from './components/pages/chapters/chapters-list/chapters-list.component';
@@ -23,6 +23,19 @@ import { BookEditDialogComponent } from './components/pages/books-list/book-edit
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { ChaptersListMenuComponent } from './components/pages/chapters-list/chapters-list.component';
+import { EditChapterDialogComponent } from './components/pages/chapters-list/edit-chapter-dialog/edit-chapter-dialog.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatSliderModule } from '@angular/material/slider';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatTreeModule } from '@angular/material/tree';
 
 @NgModule({
     declarations: [
@@ -32,6 +45,8 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
         ChaptersListComponent,
         ChapterComponent,
         BookEditDialogComponent,
+        ChaptersListMenuComponent,
+        EditChapterDialogComponent,
     ],
     imports: [
         CommonModule,
@@ -50,8 +65,29 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
         TranslateModule,
         CharactersModule,
         MatFormFieldModule,
-        MatInputModule,
         DragDropModule,
+        MatButtonModule,
+        MatInputModule,
+        MatDialogModule,
+        MatStepperModule,
+        MatRadioModule,
+        MatSelectModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        MatCheckboxModule,
+        MatSlideToggleModule,
+        MatSliderModule,
+        MatTooltipModule,
+        MatAutocompleteModule,
+        MatCardModule,
+        MatIconModule,
+        MatTreeModule,
+        MatListModule,
+        MatSidenavModule,
+        MatTabsModule,
+        TranslateModule,
+        CharactersModule,
+        MatExpansionModule,
     ],
     providers: [StoryService],
 })

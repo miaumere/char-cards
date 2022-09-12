@@ -28,10 +28,8 @@ import { EditChaptersMenuComponent } from './components/edit-story-panel/edit-ch
 import { MatTreeModule } from '@angular/material/tree';
 import { MatListModule } from '@angular/material/list';
 import { EditPagesMenuComponent } from './components/edit-story-panel/edit-chapters-menu/edit-pages-menu/edit-pages-menu.component';
-import { EditChaptersListMenuComponent } from './components/edit-story-panel/edit-chapters-menu/edit-chapters-list/edit-chapters-list.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { CharactersModule } from '../characters/characters.module';
-import { EditChapterDialogComponent } from './components/edit-story-panel/edit-chapters-menu/edit-chapters-list/edit-chapter-dialog/edit-chapter-dialog.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 
 @NgModule({
@@ -40,12 +38,11 @@ import { MatExpansionModule } from '@angular/material/expansion';
         EditStoryMenuComponent,
         EditChaptersMenuComponent,
         EditPagesMenuComponent,
-        EditChaptersListMenuComponent,
-        EditChapterDialogComponent,
     ],
     imports: [
         CommonModule,
         FormsModule,
+        TranslateModule,
         ReactiveFormsModule,
         SharedModule,
         EditStoryPanelRoutingModule,

@@ -1,12 +1,11 @@
+import { ChaptersListComponent } from './components/pages/chapters/chapters-list/chapters-list.component';
 import { PagesComponent } from './components/pages/pages.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { BooksListComponent } from './components/pages/books-list/books-list.component';
 import { ChaptersComponent } from './components/pages/chapters/chapters.component';
-import { ChaptersListComponent } from './components/pages/chapters/chapters-list/chapters-list.component';
-import { ChapterComponent } from './components/pages/chapters/chapter/chapter.component';
-import { EditChaptersListMenuComponent } from '../edit-story-panel/components/edit-story-panel/edit-chapters-menu/edit-chapters-list/edit-chapters-list.component';
 import { EditPagesMenuComponent } from '../edit-story-panel/components/edit-story-panel/edit-chapters-menu/edit-pages-menu/edit-pages-menu.component';
+import { ChaptersListMenuComponent } from './components/pages/chapters-list/chapters-list.component';
 
 const routes: Routes = [
     {
@@ -19,11 +18,11 @@ const routes: Routes = [
             },
             {
                 path: 'chapters',
-                component: ChaptersComponent,
+                component: ChaptersListMenuComponent,
                 children: [
                     {
                         path: '',
-                        component: EditChaptersListMenuComponent,
+                        component: ChaptersListMenuComponent,
                     },
                     {
                         path: 'pages',

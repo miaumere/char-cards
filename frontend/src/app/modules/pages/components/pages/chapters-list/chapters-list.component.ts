@@ -22,14 +22,11 @@ import { IEditStarringCharacter } from 'src/app/modules/edit-story-panel/models/
 import { CharactersService } from 'src/app/core/service/characters.service';
 
 @Component({
-    selector: 'app-edit-chapters-list',
-    templateUrl: './edit-chapters-list.component.html',
-    styleUrls: ['./edit-chapters-list.component.scss'],
+    selector: 'app-chapters-list',
+    templateUrl: './chapters-list.component.html',
+    styleUrls: ['./chapters-list.component.scss'],
 })
-export class EditChaptersListMenuComponent
-    extends BaseComponent
-    implements OnInit
-{
+export class ChaptersListMenuComponent extends BaseComponent implements OnInit {
     readonly StarringType = StarringType;
 
     isNewChapterFormVisible = true;
