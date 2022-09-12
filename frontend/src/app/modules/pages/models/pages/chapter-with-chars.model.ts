@@ -7,18 +7,14 @@ import {
 
 export interface IChapterWithChars extends IChapter {
     id: number;
-    chapterDesc: string;
-    name: string;
+
     pagesIds: number[];
-    starringChars: IStarringCharacter[];
 }
 
 export class ChapterWithChars extends Chapter implements IChapterWithChars {
     id: number = 0;
-    chapterDesc: string = '';
-    name: string = '';
+
     pagesIds: number[] = [];
-    starringChars: IStarringCharacter[] = [];
 
     constructor(initialValues: IChapterWithChars) {
         super(initialValues);

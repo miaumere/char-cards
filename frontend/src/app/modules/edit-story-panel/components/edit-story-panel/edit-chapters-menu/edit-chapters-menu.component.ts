@@ -8,7 +8,7 @@ import { Chapter } from '../../../models/chapters/chapter.model';
 import { Book } from '../../../models/books/book.model';
 import { find, filter, map } from 'rxjs/operators';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { EditChapter } from '../../../models/chapters/edit-chapter.model';
+import { ChapterRequest } from '../../../models/chapters/edit-chapter.model';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import * as tinycolor from 'tinycolor2';
 

@@ -58,7 +58,7 @@ public class StoryController {
     }
 
     @PostMapping("/edit-chapter")
-    public ResponseEntity editChapter(@RequestBody ChapterRequest request) {return storyService.editChapter(request);}
+    public ResponseEntity editChapter(@RequestBody ChapterRequest request) {return storyService.upsertChapter(request);}
 
     @PatchMapping("edit-book-order")
     public ResponseEntity editBookOrder(@RequestBody ArrayList<Long> request)

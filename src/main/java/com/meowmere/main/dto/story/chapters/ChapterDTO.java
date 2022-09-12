@@ -7,9 +7,9 @@ public class ChapterDTO {
     private String chapterDesc;
     private String name;
     private ArrayList<Long> pagesIds;
-    private Long createDate;
-    private String actionTime;
-    private String actionPlace;
+    protected Long createDate;
+    protected String actionTime;
+    protected String actionPlace;
 
     public Long getId() {
         return id;

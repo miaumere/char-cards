@@ -287,10 +287,4 @@ export class EditPagesMenuComponent extends BaseComponent implements OnInit {
             )
         );
     }
-
-    isCharacterStarring(char: CharacterItem): boolean {
-        return !!this.starringCharacters.find(
-            (x) => x.character?.id === char.id
-        );
-    }
 }

@@ -1,9 +1,9 @@
 package com.meowmere.main.requests.story.chapters;
 
-public class ChapterRequest {
+import com.meowmere.main.dto.story.chapters.ChapterDTO;
+
+public class ChapterRequest extends ChapterDTO {
     public Long id;
-    public String chapterDesc;
-    public String name;
     public Long bookId;
 
     public Long getId() {
@@ -12,22 +12,6 @@ public class ChapterRequest {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getChapterDesc() {
-        return chapterDesc;
-    }
-
-    public void setChapterDesc(String chapterDesc) {
-        this.chapterDesc = chapterDesc;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public Long getBookId() {

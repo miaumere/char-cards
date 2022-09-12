@@ -1,6 +1,5 @@
-export class EditChapter {
-    id: number | null = null;
-    name: string = '';
-    chapterDesc: string = '';
+import { Chapter } from './chapter.model';
+
+export class ChapterRequest extends Chapter {
     bookId: number = 0;
 }

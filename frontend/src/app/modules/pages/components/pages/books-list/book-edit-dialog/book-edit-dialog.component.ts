@@ -61,8 +61,6 @@ export class BookEditDialogComponent extends BaseComponent implements OnInit {
 
     constructor(
         private _storyService: StoryService,
-        private _toastrService: ToastrService,
-        private _translate: TranslateService,
         @Inject(MAT_DIALOG_DATA) public data: BookDialogData,
         public dialogRef: MatDialogRef<BookEditDialogComponent>,
         public dialog: MatDialog

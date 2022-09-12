@@ -107,6 +107,10 @@ public class StoryService {
             ModelMapper modelMapper = new ModelMapper();
             for (Chapter chapter: chapters) {
                 ChapterWithCharsDTO chapterWithCharsDTO = modelMapper.map(chapter, ChapterWithCharsDTO.class);
+                chapterWithCharsDTO.setActionPlace(chapter.getActionPlace());
+                chapterWithCharsDTO.setActionTime(chapter.getActionTime());
+                chapterWithCharsDTO.setCreateDate(chapter.getCreateDate());
+
                 ArrayList<Long> pagesIds = new ArrayList<>();
                 ArrayList<Page> pages = pageRepository.getPagesForChapter(chapter.getExternalId());
                 for (Page page : pages) {
@@ -291,7 +295,7 @@ public class StoryService {
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
-    public ResponseEntity editChapter(ChapterRequest request) {
+    public ResponseEntity upsertChapter(ChapterRequest request) {
         Book book = bookRepository.getOne(request.getBookId());
         if(book == null) {
             return  new ResponseEntity("Nie istnieje szkicownik o podanym id.",HttpStatus.NOT_FOUND);
@@ -301,6 +305,11 @@ public class StoryService {
             chapter.setBook(book);
             chapter.setChapterDesc(request.getChapterDesc());
             chapter.setName(request.getName());
+            if(chapter.getExternalId() == null) {
+                chapter.setCreateDate(System.currentTimeMillis() / 1000L);
+            }
+            chapter.setActionPlace(request.getActionPlace());
+            chapter.setActionTime(request.getActionTime());
 
             Integer chaptersForBookSize = chapterRepository.getChaptersForBook(request.getBookId()).size();
             chapter.setChapterNumber(chaptersForBookSize);
@@ -314,6 +323,9 @@ public class StoryService {
         }
         chapter.setName(request.getName());
         chapter.setChapterDesc(request.getChapterDesc());
+        chapter.setActionTime(request.getActionTime());
+        chapter.setActionPlace(request.getActionPlace());
+
         chapterRepository.saveAndFlush(chapter);
 
 

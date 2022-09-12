@@ -1,6 +1,6 @@
 import { IEditStarringCharacter } from 'src/app/modules/edit-story-panel/models/starring/edit-starring-character.model';
 import { StarringCharacter } from './../../modules/edit-story-panel/models/starring/starring-character.model';
-import { EditChapter } from './../../modules/edit-story-panel/models/chapters/edit-chapter.model';
+import { ChapterRequest } from './../../modules/edit-story-panel/models/chapters/edit-chapter.model';
 import {
     IChapter,
     Chapter,
@@ -32,7 +32,7 @@ export class StoryService {
     private readonly _getChaptersWithCharsURL = `${this.storyControllerURL}/get-chapters-with-characters`;
 
     private readonly _upsertBookURL = `${this.storyControllerURL}/upsert-book`;
-    private readonly _editChapterURL = `${this.storyControllerURL}/edit-chapter`;
+    private readonly _upsertChapterURL = `${this.storyControllerURL}/edit-chapter`;
     private readonly _newPagesURL = `${this.storyControllerURL}/new-pages`;
     private readonly _editStarringCharacterURL = `${this.storyControllerURL}/edit-starring-character`;
 
@@ -60,10 +60,12 @@ export class StoryService {
         const params = new HttpParams().set('id', '' + id);
 
         return this.http
-            .get<IChapter[]>(this._getChapterForBookURL, { params })
+            .get<IChapterWithChars[]>(this._getChaptersWithCharsURL, { params })
             .pipe(
                 map((response) => {
-                    const mappedResponse = response.map((r) => new Chapter(r));
+                    const mappedResponse = response.map(
+                        (r) => new ChapterWithChars(r)
+                    );
                     return mappedResponse;
                 })
             );
@@ -126,8 +128,11 @@ export class StoryService {
         return this.http.post<void>(this._newPagesURL, formData, httpOptions);
     }
 
-    editChapter(requestBody: EditChapter) {
-        return this.http.post<EditChapter>(this._editChapterURL, requestBody);
+    upsertChapter(requestBody: Partial<ChapterRequest>) {
+        return this.http.post<Partial<ChapterRequest>>(
+            this._upsertChapterURL,
+            requestBody
+        );
     }
 
     patchBookSequence(requestBody: number[]) {

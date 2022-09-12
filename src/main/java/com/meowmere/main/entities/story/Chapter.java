@@ -97,4 +97,28 @@ public class Chapter {
     public void setStarringCharacters(List<StarringCharacters> starringCharacters) {
         this.starringCharacters = starringCharacters;
     }
+
+    public Long getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Long createDate) {
+        this.createDate = createDate;
+    }
+
+    public String getActionTime() {
+        return actionTime;
+    }
+
+    public void setActionTime(String actionTime) {
+        this.actionTime = actionTime;
+    }
+
+    public String getActionPlace() {
+        return actionPlace;
+    }
+
+    public void setActionPlace(String actionPlace) {
+        this.actionPlace = actionPlace;
+    }
 }

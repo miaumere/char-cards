@@ -14,4 +14,5 @@ public class ChapterWithCharsDTO extends ChapterDTO {
     public void setStarringChars(ArrayList<StarringCharacterDTO> starringChars) {
         this.starringChars = starringChars;
     }
+
 }
