@@ -65,8 +65,11 @@ export class EditPagesMenuComponent extends BaseComponent implements OnInit {
     ngOnInit() {
         this._activatedRoute?.parent?.queryParams.subscribe((queryParam) => {
             this.chapterId = +queryParam.chapterId;
-            this.bookColor = queryParam.color;
-            this.fontColor = queryParam.fontColor;
+            const bookColor = queryParam.color;
+            this.bookColor = bookColor;
+
+            this.fontColor = tinycolor(bookColor).isLight() ? 'black' : 'white';
+
             this.bookId = +queryParam.id;
             this.getChapter(this.chapterId);
             this.getStarringCharactersForChapter();

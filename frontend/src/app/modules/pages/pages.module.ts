@@ -15,7 +15,6 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { ChaptersComponent } from './components/pages/chapters/chapters.component';
-import { ChaptersListComponent } from './components/pages/chapters/chapters-list/chapters-list.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { ChapterComponent } from './components/pages/chapters/chapter/chapter.component';
 import { TranslateModule } from '@ngx-translate/core';
@@ -42,7 +41,6 @@ import { MatTreeModule } from '@angular/material/tree';
         PagesComponent,
         BooksListComponent,
         ChaptersComponent,
-        ChaptersListComponent,
         ChapterComponent,
         BookEditDialogComponent,
         ChaptersListMenuComponent,

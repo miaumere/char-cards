@@ -42,6 +42,16 @@
                                 (click)="openChapterDialog(chapter)"
                                 >edit</mat-icon
                             >
+                            <mat-icon
+                                class="option-icon"
+                                [routerLink]="['./pages']"
+                                [queryParams]="{
+                                    id: bookId,
+                                    chapterId: chapter.id,
+                                    color: book?.color
+                                }"
+                                >subdirectory_arrow_right</mat-icon
+                            >
 
                             {{ i + 1 }}. {{ chapter.name }}
                         </div>
@@ -132,8 +142,11 @@
                         (opened)="setCharacters(i)"
                         [expanded]="i === openedPanelId"
                         [hideToggle]="true"
+                        class="expansion-panel"
                     >
-                        <mat-expansion-panel-header>
+                        <mat-expansion-panel-header
+                            style="background: transparent"
+                        >
                             {{ 'CHAPTERS.STARRING_CHARACTERS' | translate }}
                         </mat-expansion-panel-header>
 
@@ -231,19 +244,16 @@
                                 </button>
                             </form>
 
-                            <div class="char-card-container">
-                                <mat-card
-                                    class="char-card"
+                            <div class="staring-list">
+                                <div
+                                    class="char-card-container"
                                     *ngFor="
                                         let starringCharacter of chapter.starringChars
                                     "
                                     [ngStyle]="{ color: fontColor }"
                                 >
-                                    <mat-card-header>
-                                        <div
-                                            mat-card-avatar
-                                            class="card-avatar"
-                                        >
+                                    <div class="avatar-info-container">
+                                        <div class="card-avatar">
                                             <a
                                                 [routerLink]="[
                                                     '/char-cards',
@@ -267,23 +277,36 @@
                                                 </app-profile-pic>
                                             </a>
                                         </div>
-                                        <mat-card-title>
-                                            {{
-                                                starringCharacter.character
-                                                    .fullName
-                                            }}
-                                            <div class="char-item__pseudonym">
+                                        <div class="card-header">
+                                            <div class="card-header__name">
+                                                {{
+                                                    starringCharacter.character
+                                                        .fullName
+                                                }}
+                                            </div>
+
+                                            <span class="char-item__pseudonym">
                                                 {{
                                                     starringCharacter.character
                                                         .pseudonym
                                                 }}
-                                            </div>
-                                        </mat-card-title>
-                                        <mat-card-subtitle>{{
-                                            starringCharacter.starringType
-                                        }}</mat-card-subtitle>
-                                    </mat-card-header>
-                                </mat-card>
+                                            </span>
+                                            {{ starringCharacter.starringType }}
+                                        </div>
+                                    </div>
+                                    <div class="options" *appIfLoggedUser>
+                                        <mat-icon
+                                            class="close-icon"
+                                            (click)="insertDeleteInfo()"
+                                            (dblclick)="
+                                                deleteStarringCharacter(
+                                                    starringCharacter.id
+                                                )
+                                            "
+                                            >close</mat-icon
+                                        >
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </mat-expansion-panel>

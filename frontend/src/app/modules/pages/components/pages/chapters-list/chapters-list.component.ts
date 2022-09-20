@@ -87,6 +87,7 @@ export class ChaptersListMenuComponent extends BaseComponent implements OnInit {
                 this._filterCharacters(value);
             });
     }
+
     private _filterCharacters(value: string) {
         if (!value) {
             this.filteredCharList = this.charList;
@@ -94,15 +95,18 @@ export class ChaptersListMenuComponent extends BaseComponent implements OnInit {
         }
         const regex = new RegExp(value, 'gi');
 
-        const filteredChars = this.filteredCharList.filter((c) => {
-            if (c.pseudonym) {
-                return c.fullName.match(regex) || c.pseudonym.match(regex);
-            }
+        if (!!this.filteredCharList.length) {
+            const filteredChars = this.filteredCharList.filter((c) => {
+                if (c.pseudonym) {
+                    return c.fullName.match(regex) || c.pseudonym.match(regex);
+                }
 
-            return c.fullName.match(regex);
-        });
-
-        this.filteredCharList = filteredChars;
+                return c.fullName.match(regex);
+            });
+            this.filteredCharList = filteredChars;
+        } else {
+            this.filteredCharList = [];
+        }
     }
 
     getCharactersList() {
@@ -139,6 +143,7 @@ export class ChaptersListMenuComponent extends BaseComponent implements OnInit {
             this._storyService
                 .getChaptersForBook(this.bookId)
                 .subscribe((chapters) => {
+                    console.log('chapters: ', chapters);
                     this.chapters = chapters;
                 })
         );

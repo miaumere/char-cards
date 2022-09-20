@@ -1,10 +1,5 @@
 @import 'variables';
 
-.chapter-buttons-container {
-    display: flex !important;
-    justify-content: space-evenly;
-}
-
 .chapters-list-title {
     @include section-title;
 }
@@ -27,6 +22,8 @@
 
     &__information {
         margin-right: 1rem;
+        margin-left: 3rem;
+        margin-top: 2rem;
     }
 }
 
@@ -84,18 +81,18 @@
     justify-content: space-between;
 }
 
-.char-card {
+.char-card-container {
+    display: flex;
+    justify-content: space-between;
+    border-radius: 3px;
+
+    background: $card-bg-second;
+    width: 20rem;
+
     margin: 0.5rem;
     padding-bottom: 0;
 
-    width: 15rem;
     height: 6rem;
-}
-
-.char-card-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
 }
 
 .starring-characters-form {
@@ -104,11 +101,11 @@
     align-items: center;
     flex-direction: column;
 
+    margin-bottom: 1rem;
+
     &__radio-group {
         display: flex;
         flex-direction: column;
-
-        margin-top: 1rem;
     }
 }
 
@@ -126,4 +123,31 @@
 .mat-card-header .mat-card-title {
     margin-bottom: 12px;
     height: 3rem;
+}
+
+.expansion-panel {
+    background-color: $card-bg-second;
+}
+
+.card-avatar {
+    margin: 0.5rem;
+}
+
+.avatar-info-container {
+    display: flex;
+    align-items: center;
+}
+
+.card-header {
+    display: flex;
+    flex-direction: column;
+
+    &__name {
+        font-size: 1rem;
+    }
+}
+
+.staring-list {
+    display: flex;
+    flex-wrap: wrap;
 }

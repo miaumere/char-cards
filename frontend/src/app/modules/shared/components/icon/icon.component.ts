@@ -28,7 +28,6 @@ type iconType =
     | 'list'
     | 'eye-on'
     | 'eye-off';
-
 @Component({
     selector: 'app-icon',
     templateUrl: './icon.component.html',

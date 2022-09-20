@@ -32,29 +32,18 @@ export class Chapter implements IChapter {
             this.createDateObj = new Date(initialValues.createDate * 1000);
 
             let sortedChars: StarringCharacter[] = [];
-
-            const mainCharacters: StarringCharacter[] = [];
-            const sideCharacters: StarringCharacter[] = [];
-            const bgCharacters: StarringCharacter[] = [];
-            const mentionedCharacters: StarringCharacter[] = [];
-
-            if (initialValues.starringChars?.length)
-                for (const starringCharObject of initialValues.starringChars) {
-                    switch (starringCharObject.starringType) {
-                        case 'MAIN':
-                            mainCharacters.push(starringCharObject);
-                            break;
-                        case 'SIDE':
-                            sideCharacters.push(starringCharObject);
-                            break;
-                        case 'BACKGROUND':
-                            bgCharacters.push(starringCharObject);
-                            break;
-                        case 'MENTIONED':
-                            mentionedCharacters.push(starringCharObject);
-                            break;
-                    }
-                }
+            const mainCharacters = initialValues.starringChars.filter(
+                (x) => x.starringType === 'MAIN'
+            );
+            const sideCharacters = initialValues.starringChars.filter(
+                (x) => x.starringType === 'SIDE'
+            );
+            const bgCharacters = initialValues.starringChars.filter(
+                (x) => x.starringType === 'BACKGROUND'
+            );
+            const mentionedCharacters = initialValues.starringChars.filter(
+                (x) => x.starringType === 'MENTIONED'
+            );
 
             if (!!mainCharacters) {
                 sortedChars = mainCharacters;

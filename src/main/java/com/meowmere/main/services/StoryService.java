@@ -300,34 +300,21 @@ public class StoryService {
         if(book == null) {
             return  new ResponseEntity("Nie istnieje szkicownik o podanym id.",HttpStatus.NOT_FOUND);
         }
-        if(request.getId() == null) {
-            Chapter chapter = new Chapter();
+
+        Chapter chapter = request.getId() == null ? new Chapter() : chapterRepository.getOne(request.getId());
             chapter.setBook(book);
             chapter.setChapterDesc(request.getChapterDesc());
             chapter.setName(request.getName());
-            if(chapter.getExternalId() == null) {
+
+            if(request.getId() == null) {
                 chapter.setCreateDate(System.currentTimeMillis() / 1000L);
+                chapter.setChapterNumber(chapterRepository.getChaptersForBook(request.getBookId()).size() + 1000);
             }
+
             chapter.setActionPlace(request.getActionPlace());
             chapter.setActionTime(request.getActionTime());
 
-            Integer chaptersForBookSize = chapterRepository.getChaptersForBook(request.getBookId()).size();
-            chapter.setChapterNumber(chaptersForBookSize);
-
-            chapterRepository.saveAndFlush(chapter);
-            return new ResponseEntity(HttpStatus.CREATED);
-        }
-        Chapter chapter = chapterRepository.getOne(request.getId());
-        if(chapter == null) {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
-        }
-        chapter.setName(request.getName());
-        chapter.setChapterDesc(request.getChapterDesc());
-        chapter.setActionTime(request.getActionTime());
-        chapter.setActionPlace(request.getActionPlace());
-
         chapterRepository.saveAndFlush(chapter);
-
 
         return new ResponseEntity(HttpStatus.OK);
     }
@@ -452,7 +439,7 @@ public class StoryService {
 
         for (int i = 0; i < chapterIds.size() ; i++) {
             Chapter chapter = chapterRepository.getOne(chapterIds.get(i));
-            chapter.setChapterNumber(i);
+            chapter.setChapterNumber(9999 + i);
             chapterRepository.saveAndFlush(chapter);
         }
 
