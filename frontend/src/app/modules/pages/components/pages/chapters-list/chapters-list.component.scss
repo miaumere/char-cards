@@ -46,9 +46,6 @@
     &__header {
         font-weight: bold;
     }
-
-    &__info {
-    }
 }
 .chapters-list {
     display: flex;
@@ -102,6 +99,7 @@
     flex-direction: column;
 
     margin-bottom: 1rem;
+    margin-top: -1rem;
 
     &__radio-group {
         display: flex;
