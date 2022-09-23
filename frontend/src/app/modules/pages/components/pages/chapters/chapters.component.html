@@ -1,10 +1,11 @@
 <mat-sidenav-container>
     <mat-sidenav mode="side" opened>
         <div class="chapters-sidenav">
-            <button mat-stroked-button [routerLink]="['./']">
-                <mat-icon>keyboard_backspace</mat-icon>
-                {{ 'SHARED.RETURN' | translate }}
-            </button>
+            <div class="chapters-sidenav__back">
+                <mat-icon class="option-icon" [routerLink]="['../']"
+                    >subdirectory_arrow_left</mat-icon
+                >
+            </div>
 
             <div class="book-icon">
                 <app-book-icon [book]="book" [size]="3"></app-book-icon>

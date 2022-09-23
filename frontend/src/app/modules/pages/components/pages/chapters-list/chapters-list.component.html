@@ -47,7 +47,7 @@
                                 [routerLink]="['./pages']"
                                 [queryParams]="{
                                     id: bookId,
-                                    chapterId: chapter.id,
+                                    chapterId: chapter.id - 1,
                                     color: book?.color
                                 }"
                                 >subdirectory_arrow_right</mat-icon
@@ -160,7 +160,7 @@
                                     class="edit-existing-characters__form-field"
                                 >
                                     <mat-label>{{
-                                        'PAGES_PANEL.ADD_STARRING_CHAR_MSG'
+                                        'PAGES_PANEL.ADD_STARRING_CHAR'
                                             | translate
                                     }}</mat-label>
 
@@ -209,25 +209,28 @@
                                 <label id="type-radio-group">{{
                                     'PAGES_PANEL.STARRING_TYPE' | translate
                                 }}</label>
-                                <mat-radio-group
-                                    formControlName="starringType"
-                                    aria-labelledby="type-radio-group"
+                                <div
                                     class="starring-characters-form__radio-group radio-group"
                                 >
-                                    <ng-container
+                                    <label
+                                        class="radio-group__item"
                                         *ngFor="
                                             let gen of StarringType | enumVal
                                         "
                                     >
-                                        <mat-radio-button
-                                            [value]="gen.key"
+                                        <input
                                             name="starringType"
-                                            class="radio-group__item"
-                                        >
-                                            {{ gen.value }}
-                                        </mat-radio-button>
-                                    </ng-container>
-                                </mat-radio-group>
+                                            [value]="gen.key"
+                                            formControlName="starringType"
+                                            type="radio"
+                                            [ngStyle]="{
+                                                'accent-color': fontColor
+                                            }"
+                                        />
+
+                                        {{ gen.value }}
+                                    </label>
+                                </div>
 
                                 <button
                                     mat-stroked-button

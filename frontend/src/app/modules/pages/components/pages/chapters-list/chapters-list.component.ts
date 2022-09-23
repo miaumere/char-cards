@@ -139,14 +139,14 @@ export class ChaptersListMenuComponent extends BaseComponent implements OnInit {
     }
 
     getChapters() {
-        this.subscriptions$.add(
-            this._storyService
-                .getChaptersForBook(this.bookId)
-                .subscribe((chapters) => {
-                    console.log('chapters: ', chapters);
-                    this.chapters = chapters;
-                })
-        );
+        if (this.bookId)
+            this.subscriptions$.add(
+                this._storyService
+                    .getChaptersForBook(this.bookId)
+                    .subscribe((chapters) => {
+                        this.chapters = chapters;
+                    })
+            );
     }
 
     openChapterDialog(chapter?: Chapter) {

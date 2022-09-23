@@ -8,6 +8,11 @@
     width: 15rem;
 
     background: $chars-list-bg;
+
+    &__back {
+        display: block;
+        padding: 1rem;
+    }
 }
 
 .chapters-content {

@@ -5,7 +5,6 @@ import { BooksListComponent } from './components/pages/books-list/books-list.com
 import { ChaptersComponent } from './components/pages/chapters/chapters.component';
 import { EditPagesMenuComponent } from '../edit-story-panel/components/edit-story-panel/edit-chapters-menu/edit-pages-menu/edit-pages-menu.component';
 import { ChaptersListMenuComponent } from './components/pages/chapters-list/chapters-list.component';
-import { EditChaptersMenuComponent } from '../edit-story-panel/components/edit-story-panel/edit-chapters-menu/edit-chapters-menu.component';
 
 const routes: Routes = [
     {

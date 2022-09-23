@@ -2,7 +2,6 @@ import { EditStoryPanelComponent } from './components/edit-story-panel/edit-stor
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { EditStoryMenuComponent } from './components/edit-story-panel/edit-story-menu/edit-story-menu.component';
-import { EditChaptersMenuComponent } from './components/edit-story-panel/edit-chapters-menu/edit-chapters-menu.component';
 import { EditPagesMenuComponent } from './components/edit-story-panel/edit-chapters-menu/edit-pages-menu/edit-pages-menu.component';
 import { ChaptersComponent } from '../pages/components/pages/chapters/chapters.component';
 
