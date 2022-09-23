@@ -93,7 +93,6 @@
 			<version>2.3.0</version>
 		</dependency>
     </dependencies>
-
 	<build>
 		<plugins>
 			<plugin>
@@ -102,10 +101,11 @@
 				<configuration>
 					<addResources>true</addResources>
 <!--					<jvmArguments>-->
-<!--						-Xdebug -Xrunjdwp:server=y, transport=dt_socket,address=5005, suspend=n-->
+<!--						Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=127.0.0.1:5050-->
 <!--					</jvmArguments>-->
 				</configuration>
 			</plugin>
+
 			<plugin>
 				<groupId>com.github.eirslett</groupId>
 				<artifactId>frontend-maven-plugin</artifactId>

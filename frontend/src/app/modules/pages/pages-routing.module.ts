@@ -18,7 +18,7 @@ const routes: Routes = [
             },
             {
                 path: 'chapters',
-                component: EditChaptersMenuComponent,
+                component: ChaptersComponent,
                 children: [
                     {
                         path: '',

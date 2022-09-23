@@ -1,3 +1,5 @@
+@import 'variables';
+
 .edit-pages {
     display: flex;
     align-items: center;
@@ -8,6 +10,18 @@
     width: fit-content;
 
     margin: 1rem;
+    padding: 1rem;
+
+    background: $card-bg;
+    border-radius: 3px;
+
+    &__options {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        padding: 0.25rem;
+    }
 }
 
 .image {
@@ -17,14 +31,27 @@
     background-repeat: no-repeat;
     background-size: cover;
 
-    width: 150px;
+    border-radius: 3px;
+
+    width: 8rem;
+    height: 10rem;
+
+    background: black;
 }
 
 .new-pages {
     display: flex;
-    justify-content: center;
     align-items: center;
-    flex-direction: column;
 
+    margin-left: 2rem;
     margin-top: 2rem;
+
+    &__back-icon {
+        margin-right: 2rem;
+    }
+}
+
+.number {
+    font-size: 0.7rem;
+    font-weight: 700;
 }

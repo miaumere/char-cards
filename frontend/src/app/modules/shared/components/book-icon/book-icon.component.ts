@@ -25,7 +25,7 @@ export class BookIconComponent implements OnInit {
         if (this.size) {
             this.size = 'scale(' + this.size + ')';
         }
-        if (this.book.color) {
+        if (this.book?.color) {
             const bookColor = tinycolor(this.book.color);
             if (bookColor.isLight()) {
                 this.numberFontColor = 'black';

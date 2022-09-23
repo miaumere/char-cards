@@ -1,7 +1,19 @@
 <div class="new-pages">
+    <mat-icon
+        class="option-icon new-pages__back-icon"
+        [routerLink]="['../']"
+        [queryParams]="{
+            id: chapterId
+        }"
+        >subdirectory_arrow_left</mat-icon
+    >
     <div *appIfLoggedUser class="file-options">
-        <div class="upload-file">
-            <mat-icon (click)="fileInput.click()" class="file-icon">
+        <div class="upload-file" [ngStyle]="{ color: bookColor }">
+            <mat-icon
+                (click)="fileInput.click()"
+                class="file-icon"
+                [ngStyle]="{ color: bookColor }"
+            >
                 attach_file</mat-icon
             >
 
@@ -37,30 +49,32 @@
     cdkDropList
     (cdkDropListDropped)="drop($event)"
 >
-    <mat-card
+    <div
         *ngFor="let pageId of pagesNumber; index as i"
         class="page-card"
-        [ngStyle]="{ background: bookColor, color: fontColor }"
+        [ngStyle]="{ color: bookColor }"
         cdkDrag
     >
-        <mat-card-header>
-            <mat-card-title>
+        <div class="page-card__options">
+            <div>
                 <mat-icon class="option-icon" cdkDragHandle
                     >drag_indicator</mat-icon
                 >
-                <span style="font-size: xx-large"> {{ +i + 1 }}. </span>
-                <div class="options" *appIfLoggedUser>
-                    <mat-icon
-                        class="close-icon"
-                        (click)="insertDeleteInfo()"
-                        (dblclick)="deletePage(pageId)"
-                        >close</mat-icon
-                    >
-                </div>
-            </mat-card-title>
-        </mat-card-header>
+                <span class="number"> {{ +i + 1 }}. </span>
+            </div>
+
+            <div class="options" *appIfLoggedUser>
+                <mat-icon
+                    class="close-icon"
+                    (click)="insertDeleteInfo()"
+                    (dblclick)="deletePage(pageId)"
+                    >close</mat-icon
+                >
+            </div>
+        </div>
+
         <img src="{{ pageURL }}/{{ chapterId }}/{{ i }}" class="image" />
-    </mat-card>
+    </div>
 </div>
 
 <div class="edit-pages" *ngIf="pagesNumber.length === 0">

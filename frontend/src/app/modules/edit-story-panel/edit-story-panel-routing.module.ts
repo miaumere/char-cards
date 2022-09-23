@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { EditStoryMenuComponent } from './components/edit-story-panel/edit-story-menu/edit-story-menu.component';
 import { EditChaptersMenuComponent } from './components/edit-story-panel/edit-chapters-menu/edit-chapters-menu.component';
 import { EditPagesMenuComponent } from './components/edit-story-panel/edit-chapters-menu/edit-pages-menu/edit-pages-menu.component';
+import { ChaptersComponent } from '../pages/components/pages/chapters/chapters.component';
 
 const routes: Routes = [
     {
@@ -16,7 +17,7 @@ const routes: Routes = [
             },
             {
                 path: 'edit-chapters',
-                component: EditChaptersMenuComponent,
+                component: ChaptersComponent,
                 children: [
                     {
                         path: 'edit-pages',
