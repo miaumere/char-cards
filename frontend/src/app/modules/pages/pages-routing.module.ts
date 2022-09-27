@@ -3,8 +3,8 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { BooksListComponent } from './components/pages/books-list/books-list.component';
 import { ChaptersComponent } from './components/pages/chapters/chapters.component';
-import { EditPagesMenuComponent } from '../edit-story-panel/components/edit-story-panel/edit-chapters-menu/edit-pages-menu/edit-pages-menu.component';
 import { ChaptersListMenuComponent } from './components/pages/chapters-list/chapters-list.component';
+import { ChapterDetailsComponent } from './components/pages/chapters/chapter-details/chapter-details.component';
 
 const routes: Routes = [
     {
@@ -25,7 +25,7 @@ const routes: Routes = [
                     },
                     {
                         path: 'pages',
-                        component: EditPagesMenuComponent,
+                        component: ChapterDetailsComponent,
                     },
                 ],
             },

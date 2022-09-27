@@ -16,7 +16,7 @@ import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { ChaptersComponent } from './components/pages/chapters/chapters.component';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { ChapterComponent } from './components/pages/chapters/chapter/chapter.component';
+import { ChapterPreviewComponent } from './components/pages/chapters/chapter-preview/chapter-preview.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { BookEditDialogComponent } from './components/pages/books-list/book-edit-dialog/book-edit-dialog.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -35,16 +35,18 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTreeModule } from '@angular/material/tree';
+import { ChapterDetailsComponent } from './components/pages/chapters/chapter-details/chapter-details.component';
 
 @NgModule({
     declarations: [
         PagesComponent,
         BooksListComponent,
         ChaptersComponent,
-        ChapterComponent,
+        ChapterPreviewComponent,
         BookEditDialogComponent,
         ChaptersListMenuComponent,
         EditChapterDialogComponent,
+        ChapterDetailsComponent,
     ],
     imports: [
         CommonModule,

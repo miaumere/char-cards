@@ -1,0 +1,40 @@
+<div class="options chapter-preview-options" *appIfLoggedUser>
+    <mat-icon class="close-icon" (click)="closedEvent.emit()">close</mat-icon>
+</div>
+<div class="chapter">
+    <ng-container *ngIf="pagesNumber?.length > 0">
+        <mat-icon
+            (click)="setImage(currentImageIndex - 1)"
+            class="arrow-icon"
+            [ngClass]="currentImageIndex === 0 ? 'arrow-icon--inactive' : ''"
+            >keyboard_arrow_left</mat-icon
+        >
+
+        <div
+            *ngFor="let pageId of pagesNumber; index as i"
+            class="image-container"
+        >
+            <img
+                src="{{ pageURL }}/{{ chapterId }}/{{ i }}"
+                class="image image--inactive"
+                [ngClass]="{
+                    'image--active': i === currentImageIndex
+                }"
+            />
+        </div>
+
+        <mat-icon
+            (click)="setImage(currentImageIndex + 1)"
+            class="arrow-icon"
+            [ngClass]="
+                currentImageIndex === pagesNumber?.length - 1
+                    ? 'arrow-icon--inactive'
+                    : ''
+            "
+            >keyboard_arrow_right</mat-icon
+        >
+    </ng-container>
+    <div *ngIf="pagesNumber?.length === 0">
+        {{ 'CHAPTERS.NO_PAGES_MSG' | translate }}
+    </div>
+</div>

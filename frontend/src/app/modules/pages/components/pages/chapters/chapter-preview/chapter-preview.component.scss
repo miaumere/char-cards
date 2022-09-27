@@ -4,6 +4,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    background: black;
 
     height: calc(100vh - #{$navbar-height});
 }
@@ -31,4 +32,23 @@
         display: block;
         border: 3px solid black;
     }
+}
+
+.arrow-icon {
+    cursor: pointer;
+
+    &--inactive {
+        color: rgba(128, 128, 128, 0.452);
+        pointer-events: none;
+    }
+}
+
+.chapter-preview-options {
+    display: flex;
+    position: absolute;
+    justify-content: flex-end;
+
+    width: 100%;
+
+    margin-top: 1rem;
 }

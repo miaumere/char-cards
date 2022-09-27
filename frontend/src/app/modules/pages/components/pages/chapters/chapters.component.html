@@ -13,36 +13,28 @@
             </div>
 
             <div>
-                <div
-                    *ngIf="chapters.length > 0"
-                    [ngStyle]="{ color: fontColor }"
-                >
-                    <mat-list
-                        role="list"
+                <div *ngIf="chapters.length > 0" class="chapter-list">
+                    <a
+                        #rla="routerLinkActive"
+                        class="chapter-list__item ellipsis"
+                        routerLinkActive="chapter-list__item--active"
+                        [routerLink]="['./pages']"
+                        [queryParams]="{
+                            id: bookId,
+                            chapterId: chapter.id,
+                            color: book?.color
+                        }"
+                        [ngStyle]="
+                            rla.isActive
+                                ? { color: bookColor }
+                                : { color: '#ffffff66' }
+                        "
                         *ngFor="let chapter of chapters; index as i"
-                        class="chapter-list"
                     >
-                        <a
-                            [routerLink]="['./pages']"
-                            [queryParams]="{
-                                id: bookId,
-                                chapterId: chapter.id,
-                                color: book?.color
-                            }"
-                        >
-                            <mat-list-item
-                                role="listitem"
-                                [ngStyle]="{ color: fontColor }"
-                                class="chapter-list__item"
-                                routerLinkActive="chapter-list__item--active"
-                                class="ellipsis"
-                            >
-                                <div class="ellipsis">
-                                    {{ i + 1 }}. {{ chapter.name }}
-                                </div>
-                            </mat-list-item>
-                        </a>
-                    </mat-list>
+                        <div class="ellipsis">
+                            {{ i + 1 }}. {{ chapter.name }}
+                        </div>
+                    </a>
                 </div>
             </div>
         </div>

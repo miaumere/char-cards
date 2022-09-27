@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { BaseComponent } from 'src/app/core/base.component';
 import { ActivatedRoute } from '@angular/router';
 import { StoryService } from 'src/app/core/service/story.service';
@@ -7,40 +7,36 @@ import { Page } from 'src/app/modules/pages/models/pages/page.model';
 import { map } from 'rxjs/operators';
 
 @Component({
-    selector: 'app-chapter',
-    templateUrl: './chapter.component.html',
-    styleUrls: ['./chapter.component.scss'],
+    selector: 'app-chapter-preview [chapterId] [bookId]',
+    templateUrl: './chapter-preview.component.html',
+    styleUrls: ['./chapter-preview.component.scss'],
 })
-export class ChapterComponent extends BaseComponent implements OnInit {
+export class ChapterPreviewComponent extends BaseComponent implements OnInit {
     readonly pageURL = '/api/stories/get-images';
     pagesNumber: number[] = [];
-    bookColor: string = '';
-    bgColor: string = '';
-    chapterId: number = 0;
-    bookId: number = 0;
+    @Input() chapterId: number = 0;
+    @Input() bookId: number = 0;
 
     pages: Page[] = [];
 
-    currentImageIndex = 0;
+    @Input() currentImageIndex = 0;
+    @Output() closedEvent = new EventEmitter<true>();
 
-    constructor(
-        private _activatedRoute: ActivatedRoute,
-        private _storyService: StoryService
-    ) {
+    constructor(private _storyService: StoryService) {
         super();
     }
 
     ngOnInit() {
-        this._activatedRoute?.parent?.queryParams.subscribe((queryParam) => {
-            this.chapterId = +queryParam.chapterId;
-            this.bookId = +queryParam.id;
-            this.bookColor = queryParam.color;
+        // this._activatedRoute?.parent?.queryParams.subscribe((queryParam) => {
+        //     this.chapterId = +queryParam.chapterId;
+        //     this.bookId = +queryParam.id;
+        //     this.currentImageIndex = +queryParam.imageIndex;
 
-            const bookColor = tinycolor(queryParam.color);
-            this.bgColor = '' + bookColor.darken(35).desaturate(30);
+        // });
 
+        if (this.chapterId) {
             this.getChapter(this.chapterId);
-        });
+        }
     }
 
     getChapter(id: number) {

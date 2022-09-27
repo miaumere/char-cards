@@ -25,15 +25,19 @@
 
 .chapter-list {
     &__item {
-        white-space: nowrap !important;
-        width: 200px !important;
-        overflow: hidden !important;
-        text-overflow: ellipsis !important;
+        display: block;
 
-        &--active {
-            background: rgba(255, 255, 255, 0.4);
-            background: red;
-        }
+        white-space: nowrap;
+        width: 200px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+        color: white;
+        font-weight: normal;
+        font-size: 0.75rem;
+
+        margin-bottom: 0.5rem;
+        margin-left: 0.5rem;
     }
 }
 

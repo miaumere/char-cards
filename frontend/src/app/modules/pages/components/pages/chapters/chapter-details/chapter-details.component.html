@@ -1,0 +1,99 @@
+<ng-container *ngIf="!isPreviewModeToggled">
+    <div class="new-pages">
+        <mat-icon
+            class="option-icon new-pages__back-icon"
+            [routerLink]="['../']"
+            [queryParams]="{
+                id: bookId
+            }"
+            >subdirectory_arrow_left</mat-icon
+        >
+
+        <div *appIfLoggedUser class="file-options">
+            <div class="upload-file" [ngStyle]="{ color: bookColor }">
+                <mat-icon
+                    (click)="fileInput.click()"
+                    class="file-icon"
+                    [ngStyle]="{ color: bookColor }"
+                >
+                    attach_file</mat-icon
+                >
+
+                <span
+                    [translate]="'SHARED.FILE_INPUT'"
+                    [translateParams]="{ num: filesListNumber }"
+                >
+                </span>
+            </div>
+            <input
+                #fileInput
+                type="file"
+                (change)="onFileInput($event.target.files)"
+                multiple
+                style="display: none"
+            />
+
+            <mat-icon
+                (click)="addNewPages()"
+                class="file-icon file-icon--save"
+                [ngClass]="{
+                    disabled: !filesListNumber
+                }"
+                >save_alt</mat-icon
+            >
+        </div>
+    </div>
+
+    <div
+        class="edit-pages"
+        *ngIf="pagesNumber.length > 0"
+        cdkDropListOrientation="horizontal"
+        cdkDropList
+        (cdkDropListDropped)="drop($event)"
+    >
+        <div
+            *ngFor="let pageId of pagesNumber; index as i"
+            class="page-card"
+            [ngStyle]="{ color: bookColor }"
+            cdkDrag
+        >
+            <div class="page-card__options">
+                <div>
+                    <mat-icon class="option-icon" cdkDragHandle
+                        >drag_indicator</mat-icon
+                    >
+                    <mat-icon
+                        class="option-icon"
+                        (click)="isPreviewModeToggled = true"
+                        >search</mat-icon
+                    >
+                    <span class="number"> {{ +i + 1 }}. </span>
+                </div>
+
+                <div class="options" *appIfLoggedUser>
+                    <mat-icon
+                        class="close-icon"
+                        (click)="insertDeleteInfo()"
+                        (dblclick)="deletePage(pageId)"
+                        >close</mat-icon
+                    >
+                </div>
+            </div>
+
+            <img src="{{ pageURL }}/{{ chapterId }}/{{ i }}" class="image" />
+        </div>
+    </div>
+
+    <div class="edit-pages" *ngIf="pagesNumber.length === 0">
+        <mat-icon class="none-icon">add_photo_alternate</mat-icon>
+    </div>
+</ng-container>
+
+<div class="chapter" *ngIf="isPreviewModeToggled">
+    <app-chapter-preview
+        [chapterId]="chapterId"
+        [bookId]="bookId"
+        [currentImageIndex]="currentImageIndex"
+        (closedEvent)="isPreviewModeToggled = false"
+    ></app-chapter-preview>
+</div>

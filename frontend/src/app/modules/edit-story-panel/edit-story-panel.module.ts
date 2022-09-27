@@ -26,17 +26,12 @@ import { EditStoryMenuComponent } from './components/edit-story-panel/edit-story
 import { MatIconModule } from '@angular/material/icon';
 import { MatTreeModule } from '@angular/material/tree';
 import { MatListModule } from '@angular/material/list';
-import { EditPagesMenuComponent } from './components/edit-story-panel/edit-chapters-menu/edit-pages-menu/edit-pages-menu.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { CharactersModule } from '../characters/characters.module';
 import { MatExpansionModule } from '@angular/material/expansion';
 
 @NgModule({
-    declarations: [
-        EditStoryPanelComponent,
-        EditStoryMenuComponent,
-        EditPagesMenuComponent,
-    ],
+    declarations: [EditStoryPanelComponent, EditStoryMenuComponent],
     imports: [
         CommonModule,
         FormsModule,

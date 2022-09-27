@@ -1,6 +1,6 @@
 import { StoryService } from 'src/app/core/service/story.service';
 import { ActivatedRoute } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { BaseComponent } from 'src/app/core/base.component';
 import { Book } from 'src/app/modules/edit-story-panel/models/books/book.model';
 import { map } from 'rxjs/operators';
@@ -16,7 +16,8 @@ export class ChaptersComponent extends BaseComponent implements OnInit {
     bookId: number = 0;
     book: Book | null = null;
     chapters: Chapter[] = [];
-    fontColor = 'white';
+
+    bookColor: string = 'white';
 
     constructor(
         private _activatedRoute: ActivatedRoute,
@@ -44,11 +45,12 @@ export class ChaptersComponent extends BaseComponent implements OnInit {
                 .subscribe((book) => {
                     if (book) {
                         this.book = book;
-
-                        const bookColor = tinycolor(book?.color);
-                        if (bookColor.isLight()) {
-                            this.fontColor = 'black';
-                        }
+                        const bookColor = tinycolor(book.color);
+                        this.bookColor =
+                            '' +
+                            (bookColor.isLight()
+                                ? bookColor
+                                : bookColor.lighten(35));
                     }
                 })
         );

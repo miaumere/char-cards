@@ -1,10 +1,10 @@
 import { TranslateService } from '@ngx-translate/core';
-import { StarringType } from './../../../../enums/StarringType.enum';
+import { StarringType } from '../../../../../edit-story-panel/enums/StarringType.enum';
 import {
     StarringCharacter,
     IStarringCharacter,
-} from './../../../../models/starring/starring-character.model';
-import { CharactersService } from './../../../../../../core/service/characters.service';
+} from '../../../../../edit-story-panel/models/starring/starring-character.model';
+import { CharactersService } from '../../../../../../core/service/characters.service';
 import { ToastrService } from 'ngx-toastr';
 import { StoryService } from 'src/app/core/service/story.service';
 import { ActivatedRoute } from '@angular/router';
@@ -21,11 +21,11 @@ import { Observable } from 'rxjs';
 import { IEditStarringCharacter } from 'src/app/modules/edit-story-panel/models/starring/edit-starring-character.model';
 
 @Component({
-    selector: 'app-edit-pages-menu',
-    templateUrl: './edit-pages-menu.component.html',
-    styleUrls: ['./edit-pages-menu.component.scss'],
+    selector: 'app-chapter-details',
+    templateUrl: './chapter-details.component.html',
+    styleUrls: ['./chapter-details.component.scss'],
 })
-export class EditPagesMenuComponent extends BaseComponent implements OnInit {
+export class ChapterDetailsComponent extends BaseComponent implements OnInit {
     readonly pageURL = '/api/stories/get-images';
     readonly StarringType = StarringType;
 
@@ -52,11 +52,14 @@ export class EditPagesMenuComponent extends BaseComponent implements OnInit {
 
     starringCharacters: StarringCharacter[] = [];
 
+    currentImageIndex = 0;
+
+    isPreviewModeToggled = false;
+
     constructor(
         private _activatedRoute: ActivatedRoute,
         private _storyService: StoryService,
         private _toastrService: ToastrService,
-        private _characterService: CharactersService,
         private _translate: TranslateService
     ) {
         super();
