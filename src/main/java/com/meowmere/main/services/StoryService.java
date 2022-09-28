@@ -247,7 +247,16 @@ public class StoryService {
 
 
             MultipartFile file = (MultipartFile) pair.getValue();
-            if(file != null) {
+
+
+            long  fileSize = file.getSize();
+            if(file != null || fileSize == 0) {
+                continue;
+            }
+
+            if (fileSize > 6291456) {
+
+            }
                 String fileName = StringUtils.cleanPath(file.getOriginalFilename());
                 String extension = FilenameUtils.getExtension(fileName);
                 if (!Stream.of(AvailableExtensions.values()).anyMatch(v -> v.name().toLowerCase().equals(extension.toLowerCase()))) {
@@ -288,7 +297,7 @@ public class StoryService {
                 } catch (IOException e) {}
 
                 it.remove();
-            }}
+            }
 
 
 
