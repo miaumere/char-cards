@@ -280,7 +280,7 @@ public class StoryService {
                     fos.close();
 
                     Page pageToSave = new Page();
-                    pageToSave.setPageNumber(pageRepository.getPagesForChapter(chapterId).size()+1);
+                    pageToSave.setPageNumber(pageRepository.getPagesForChapter(chapterId).size());
                     pageToSave.setChapter(chapter);
                     pageToSave.setFileLocation(fileToSaveName);
 
@@ -447,25 +447,11 @@ public class StoryService {
     }
 
     public ResponseEntity editPagesOrder(ArrayList<Long> pagesIds, Long chapterId){
-        List<Page> pages = pageRepository.getPagesForChapter(chapterId);
-        HashMap<Long, Integer> chaptersFromDb = new HashMap<>();
-
-        for (int i = 0; i < pages.size() ; i++) {
-            Page page = pages.get(i);
-            chaptersFromDb.put(page.getId(), page.getPageNumber());
-        }
-        chaptersFromDb.forEach((key, value) -> {
-            Page page = pageRepository.getOne(key);
-            page.setPageNumber(9999 + value);
-            pageRepository.saveAndFlush(page);
-        });
-
         for (int i = 0; i < pagesIds.size() ; i++) {
             Page page = pageRepository.getOne(pagesIds.get(i));
             page.setPageNumber(i);
             pageRepository.saveAndFlush(page);
         }
-
         return new ResponseEntity(HttpStatus.OK);
     }
 

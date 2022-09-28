@@ -16,10 +16,10 @@ export class ChapterPreviewComponent extends BaseComponent implements OnInit {
     pagesNumber: number[] = [];
     @Input() chapterId: number = 0;
     @Input() bookId: number = 0;
+    @Input() currentImageIndex = 0;
 
     pages: Page[] = [];
 
-    @Input() currentImageIndex = 0;
     @Output() closedEvent = new EventEmitter<true>();
 
     constructor(private _storyService: StoryService) {
@@ -27,15 +27,10 @@ export class ChapterPreviewComponent extends BaseComponent implements OnInit {
     }
 
     ngOnInit() {
-        // this._activatedRoute?.parent?.queryParams.subscribe((queryParam) => {
-        //     this.chapterId = +queryParam.chapterId;
-        //     this.bookId = +queryParam.id;
-        //     this.currentImageIndex = +queryParam.imageIndex;
-
-        // });
-
         if (this.chapterId) {
             this.getChapter(this.chapterId);
+            console.log('currentImageIndex: ', this.currentImageIndex);
+            // this.currentImageIndex = this.currentImageIndex + 1;
         }
     }
 

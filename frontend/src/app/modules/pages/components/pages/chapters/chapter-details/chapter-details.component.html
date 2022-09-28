@@ -64,10 +64,12 @@
                     >
                     <mat-icon
                         class="option-icon"
-                        (click)="isPreviewModeToggled = true"
+                        (click)="
+                            isPreviewModeToggled = true; currentImageIndex = +i
+                        "
                         >search</mat-icon
                     >
-                    <span class="number"> {{ +i + 1 }}. </span>
+                    <span class="number"> {{ +i }}. </span>
                 </div>
 
                 <div class="options" *appIfLoggedUser>
