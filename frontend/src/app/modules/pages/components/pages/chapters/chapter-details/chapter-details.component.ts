@@ -76,6 +76,8 @@ export class ChapterDetailsComponent extends BaseComponent implements OnInit {
 
             this.bookId = +queryParam.id;
             this.getChapter(this.chapterId);
+
+            this.isPreviewModeToggled = false;
         });
     }
     getChapter(id: number) {
