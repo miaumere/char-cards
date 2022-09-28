@@ -29,8 +29,6 @@ export class ChapterPreviewComponent extends BaseComponent implements OnInit {
     ngOnInit() {
         if (this.chapterId) {
             this.getChapter(this.chapterId);
-            console.log('currentImageIndex: ', this.currentImageIndex);
-            // this.currentImageIndex = this.currentImageIndex + 1;
         }
     }
 

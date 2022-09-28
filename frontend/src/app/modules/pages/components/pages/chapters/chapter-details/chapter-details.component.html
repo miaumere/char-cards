@@ -1,4 +1,4 @@
-<ng-container *ngIf="!isPreviewModeToggled">
+<div [ngStyle]="{ display: !isPreviewModeToggled ? 'block' : 'none' }">
     <div class="new-pages">
         <mat-icon
             class="option-icon new-pages__back-icon"
@@ -89,7 +89,7 @@
     <div class="edit-pages" *ngIf="pagesNumber.length === 0">
         <mat-icon class="none-icon">add_photo_alternate</mat-icon>
     </div>
-</ng-container>
+</div>
 
 <div class="chapter" *ngIf="isPreviewModeToggled">
     <app-chapter-preview
