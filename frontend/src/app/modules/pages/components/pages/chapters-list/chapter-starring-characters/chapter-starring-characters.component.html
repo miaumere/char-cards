@@ -1,10 +1,10 @@
-<!-- <div>
+<div>
     <mat-expansion-panel
         [ngStyle]="{
             color: fontColor
         }"
-        (opened)="setCharacters(i)"
-        [expanded]="i === openedPanelId"
+        (opened)="setCharacters(index)"
+        [expanded]="index === openedPanelId"
         [hideToggle]="true"
         class="expansion-panel"
     >
@@ -80,7 +80,7 @@
                 <button
                     mat-stroked-button
                     [disabled]="charactersInChapterForm.invalid"
-                    (click)="createStarringCharacter(chapter.id)"
+                    (click)="createStarringCharacter(chapter?.id)"
                 >
                     <mat-icon>library_add</mat-icon>
                     {{ 'PAGES_PANEL.ADD_STARRING_CHAR' | translate }}
@@ -137,4 +137,4 @@
             </div>
         </div>
     </mat-expansion-panel>
-</div> -->
+</div>

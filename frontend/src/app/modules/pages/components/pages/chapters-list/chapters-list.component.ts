@@ -28,8 +28,6 @@ import { insertDeleteInfo } from 'src/app/modules/shared/functions/insert-delete
     styleUrls: ['./chapters-list.component.scss'],
 })
 export class ChaptersListMenuComponent extends BaseComponent implements OnInit {
-    readonly StarringType = StarringType;
-
     insertDeleteInfo = () =>
         insertDeleteInfo(this._toastrService, this._translate);
 
@@ -39,31 +37,20 @@ export class ChaptersListMenuComponent extends BaseComponent implements OnInit {
         name: new FormControl('', Validators.required),
         chapterDesc: new FormControl('', Validators.required),
     });
-    charactersInChapterForm = new FormGroup({
-        character: new FormControl('', Validators.required),
-        starringType: new FormControl('', Validators.required),
-    });
+
     bookId: number = 0;
     book: Book | null = null;
     fontColor: string = '';
 
     chapters: Chapter[] = [];
 
-    editedCharacterId: number = 0;
-
     editedChapter: Chapter | null = null;
-
-    charList: CharacterItem[] = [];
-    filteredCharList: CharacterItem[] = [];
-
-    openedPanelId: number | null = null;
 
     constructor(
         private _activatedRoute: ActivatedRoute,
         private _storyService: StoryService,
         private _toastrService: ToastrService,
         private _translate: TranslateService,
-        private _characterService: CharactersService,
 
         public dialog: MatDialog
     ) {
@@ -77,49 +64,6 @@ export class ChaptersListMenuComponent extends BaseComponent implements OnInit {
 
         this.getBook();
         this.getChapters();
-
-        this.getCharactersList();
-    }
-
-    setCharacters(panelId: number) {
-        this.openedPanelId = panelId;
-        this.charactersInChapterForm.get('character')?.reset();
-
-        this.charactersInChapterForm
-            .get('character')
-            ?.valueChanges.subscribe((value) => {
-                this._filterCharacters(value);
-            });
-    }
-
-    private _filterCharacters(value: string) {
-        if (!value) {
-            this.filteredCharList = this.charList;
-            return;
-        }
-        const regex = new RegExp(value, 'gi');
-
-        if (!!this.filteredCharList.length) {
-            const filteredChars = this.filteredCharList.filter((c) => {
-                if (c.pseudonym) {
-                    return c.fullName.match(regex) || c.pseudonym.match(regex);
-                }
-
-                return c.fullName.match(regex);
-            });
-            this.filteredCharList = filteredChars;
-        } else {
-            this.filteredCharList = [];
-        }
-    }
-
-    getCharactersList() {
-        this.subscriptions$.add(
-            this._characterService.getCharacters().subscribe((charList) => {
-                this.charList = charList;
-                this.filteredCharList = charList;
-            })
-        );
     }
 
     getBook() {
@@ -214,56 +158,5 @@ export class ChaptersListMenuComponent extends BaseComponent implements OnInit {
         );
     }
 
-    isCharacterStarring(char: CharacterItem, chapter: Chapter): boolean {
-        return !!chapter.starringChars.find((x) => x.character?.id === char.id);
-    }
-
-    createStarringCharacter(chapterId: number) {
-        const objToSend: IEditStarringCharacter = {
-            id: this.editedCharacterId ? +this.editedCharacterId : null,
-            characterId:
-                this.charactersInChapterForm.get('character')?.value.id,
-
-            chapterId: chapterId,
-            starringType:
-                StarringType[
-                    this.charactersInChapterForm.get('starringType')?.value
-                ],
-        };
-
-        this.subscriptions$.add(
-            this._storyService.postStarringCharacters(objToSend).subscribe(
-                (_) => {
-                    this._toastrService.success(
-                        this._translate.instant('TOASTR_MESSAGE.SAVE_SUCCESS')
-                    );
-                    this.charactersInChapterForm.reset();
-                    this.getChapters();
-                },
-                (err) => {
-                    this._toastrService.error(
-                        this._translate.instant('TOASTR_MESSAGE.ERROR')
-                    );
-                }
-            )
-        );
-    }
-
-    deleteStarringCharacter(starringId: number) {
-        this.subscriptions$.add(
-            this._storyService.deleteCharFromChapter(starringId).subscribe(
-                (_) => {
-                    this._toastrService.success(
-                        this._translate.instant('TOASTR_MESSAGE.SAVE_SUCCESS')
-                    );
-                    this.getChapters();
-                },
-                (err) => {
-                    this._toastrService.error(
-                        this._translate.instant('TOASTR_MESSAGE.ERROR')
-                    );
-                }
-            )
-        );
-    }
+    changeVisibility(chapterId: number) {}
 }

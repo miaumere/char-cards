@@ -1,0 +1,74 @@
+@import 'variables';
+
+.staring-list {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.char-card-container {
+    display: flex;
+    justify-content: space-between;
+    border-radius: 3px;
+
+    background: $chars-list-bg;
+    width: 15rem;
+
+    margin: 0.5rem;
+    padding-bottom: 0;
+
+    height: 6rem;
+}
+
+.starring-characters-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    margin-bottom: 1rem;
+    margin-top: -1rem;
+
+    &__radio-group {
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+.radio-group {
+    &__item {
+        font-size: 0.7rem;
+        margin: 0.2rem 0;
+    }
+}
+
+.char-card-form-and-chars {
+    display: flex;
+    flex-direction: column;
+}
+
+.mat-card-header .mat-card-title {
+    margin-bottom: 12px;
+    height: 3rem;
+}
+
+.expansion-panel {
+    background-color: $card-bg-second;
+}
+
+.card-avatar {
+    margin: 0.5rem;
+}
+
+.avatar-info-container {
+    display: flex;
+    align-items: center;
+}
+
+.card-header {
+    display: flex;
+    flex-direction: column;
+
+    &__name {
+        font-size: 1rem;
+    }
+}

@@ -1,7 +1,7 @@
 import {
     IStarringCharacter,
     StarringCharacter,
-} from '../starring/starring-character.model';
+} from 'src/app/modules/edit-story-panel/models/starring/starring-character.model';
 
 export interface IChapter {
     id: number | null;
@@ -12,6 +12,7 @@ export interface IChapter {
     actionTime: string;
     actionPlace: string;
     starringChars: IStarringCharacter[];
+    visible: boolean;
 }
 
 export class Chapter implements IChapter {
@@ -23,6 +24,8 @@ export class Chapter implements IChapter {
     actionTime: string = '';
     actionPlace: string = '';
     starringChars: IStarringCharacter[] = [];
+
+    visible: boolean = false;
 
     createDateObj?: Date;
 

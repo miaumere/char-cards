@@ -43,7 +43,10 @@
                                 >edit</mat-icon
                             >
 
-                            <mat-icon class="option-icon" *appIfLoggedUser
+                            <mat-icon
+                                class="option-icon"
+                                *appIfLoggedUser
+                                (click)="changeVisibility(chapter)"
                                 >visibility</mat-icon
                             >
 
@@ -139,7 +142,12 @@
                     </div>
                 </div>
 
-                <app-chapter-starring-characters></app-chapter-starring-characters>
+                <app-chapter-starring-characters
+                    [fontColor]="fontColor"
+                    [index]="i"
+                    (infoHasChangedEvent)="getChapters()"
+                    [chapter]="chapter"
+                ></app-chapter-starring-characters>
             </div>
         </ng-container>
     </div>
