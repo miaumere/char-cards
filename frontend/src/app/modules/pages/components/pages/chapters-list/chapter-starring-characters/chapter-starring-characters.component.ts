@@ -12,7 +12,8 @@ import { CharacterItem } from 'src/app/modules/characters/models/character-item.
 import { CharactersService } from 'src/app/core/service/characters.service';
 
 @Component({
-    selector: 'app-chapter-starring-characters [fontColor] [index] [chapter]',
+    selector:
+        'app-chapter-starring-characters [fontColor] [index] [chapter] [charactersList]',
     templateUrl: './chapter-starring-characters.component.html',
     styleUrls: ['./chapter-starring-characters.component.scss'],
 })
@@ -36,7 +37,7 @@ export class ChapterStarringCharactersComponent
         starringType: new FormControl('', Validators.required),
     });
 
-    charList: CharacterItem[] = [];
+    @Input() charactersList: CharacterItem[] = [];
     filteredCharList: CharacterItem[] = [];
 
     editedCharacterId: number = 0;
@@ -46,8 +47,7 @@ export class ChapterStarringCharactersComponent
     constructor(
         private _storyService: StoryService,
         private _toastrService: ToastrService,
-        private _translate: TranslateService,
-        private _characterService: CharactersService
+        private _translate: TranslateService
     ) {
         super();
     }
@@ -61,12 +61,12 @@ export class ChapterStarringCharactersComponent
                 this._filterCharacters(value);
             });
 
-        this.getCharactersList();
+        this.filteredCharList = this.charactersList;
     }
 
     private _filterCharacters(value: string) {
         if (!value) {
-            this.filteredCharList = this.charList;
+            this.filteredCharList = this.charactersList;
             return;
         }
         const regex = new RegExp(value, 'gi');
@@ -83,15 +83,6 @@ export class ChapterStarringCharactersComponent
         } else {
             this.filteredCharList = [];
         }
-    }
-
-    getCharactersList() {
-        this.subscriptions$.add(
-            this._characterService.getCharacters().subscribe((charList) => {
-                this.charList = charList;
-                this.filteredCharList = charList;
-            })
-        );
     }
 
     createStarringCharacter(chapterId: number) {

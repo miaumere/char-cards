@@ -28,6 +28,9 @@ public class Chapter {
     @Column
     private String actionPlace;
 
+    @Column
+    private Boolean visible = false;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @NotFound(action = NotFoundAction.IGNORE)
     @JoinColumn(name = "book_id")
@@ -120,5 +123,13 @@ public class Chapter {
 
     public void setActionPlace(String actionPlace) {
         this.actionPlace = actionPlace;
+    }
+
+    public Boolean getVisible() {
+        return visible;
+    }
+
+    public void setVisible(Boolean visible) {
+        this.visible = visible;
     }
 }

@@ -11,6 +11,8 @@ public class ChapterDTO {
     protected String actionTime;
     protected String actionPlace;
 
+    private Boolean visible;
+
     public Long getId() {
         return id;
     }
@@ -65,5 +67,13 @@ public class ChapterDTO {
 
     public void setActionPlace(String actionPlace) {
         this.actionPlace = actionPlace;
+    }
+
+    public Boolean getVisible() {
+        return visible;
+    }
+
+    public void setVisible(Boolean visible) {
+        this.visible = visible;
     }
 }

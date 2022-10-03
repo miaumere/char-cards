@@ -21,6 +21,7 @@ import com.meowmere.main.repositories.story.PageRepository;
 import com.meowmere.main.repositories.story.StarringCharactersRepository;
 import com.meowmere.main.requests.characters.stories.EditStarringCharacterRequest;
 import com.meowmere.main.requests.story.chapters.ChapterRequest;
+import com.meowmere.main.requests.story.chapters.ChapterVisibilityRequest;
 import com.meowmere.main.utils.UtilsShared;
 import org.apache.commons.io.FilenameUtils;
 import org.modelmapper.ModelMapper;
@@ -112,6 +113,7 @@ public class StoryService {
                 chapterWithCharsDTO.setActionPlace(chapter.getActionPlace());
                 chapterWithCharsDTO.setActionTime(chapter.getActionTime());
                 chapterWithCharsDTO.setCreateDate(chapter.getCreateDate());
+                chapterWithCharsDTO.setVisible(chapter.getVisible());
 
                 ArrayList<Long> pagesIds = new ArrayList<>();
                 ArrayList<Page> pages = pageRepository.getPagesForChapter(chapter.getExternalId());
@@ -224,7 +226,6 @@ public class StoryService {
         return new ResponseEntity(starringCharacterDTOS, HttpStatus.OK);
     }
 
-
     public ResponseEntity upsertBook(BookDTO request) {
         Book book = request.getId() == null ?  new Book() : bookRepository.getOne(request.getId());
         book.setName(request.getName());
@@ -247,9 +248,6 @@ public class StoryService {
         Iterator it = allFiles.entrySet().iterator();
         while (it.hasNext()) {
             try {
-                byte [] byteArr;
-
-
                 Map.Entry pair = (Map.Entry) it.next();
 
                 MultipartFile file = (MultipartFile) pair.getValue();
@@ -466,4 +464,13 @@ public class StoryService {
         return new ResponseEntity(HttpStatus.OK);
     }
 
+    public ResponseEntity changeChapterVisibility(ChapterVisibilityRequest request) {
+        Chapter chapter = chapterRepository.getOne(request.getChapterId());
+        if(chapter == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        chapter.setVisible(request.getVisibility());
+        chapterRepository.saveAndFlush(chapter);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }

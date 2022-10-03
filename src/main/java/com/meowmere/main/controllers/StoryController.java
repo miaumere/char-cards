@@ -1,8 +1,10 @@
 package com.meowmere.main.controllers;
 
 import com.meowmere.main.dto.story.books.BookDTO;
+import com.meowmere.main.requests.characters.character.ChangeCharacterStateRequest;
 import com.meowmere.main.requests.characters.stories.EditStarringCharacterRequest;
 import com.meowmere.main.requests.story.chapters.ChapterRequest;
+import com.meowmere.main.requests.story.chapters.ChapterVisibilityRequest;
 import com.meowmere.main.services.StoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -74,6 +76,11 @@ public class StoryController {
     @PatchMapping("/edit-pages-order")
     public ResponseEntity editPagesOrder(@RequestBody ArrayList<Long> request, @RequestParam Long chapterId){
         return storyService.editPagesOrder(request, chapterId);
+    }
+
+    @PatchMapping("/change-visibility")
+    public ResponseEntity changeChapterVisibility(@RequestBody ChapterVisibilityRequest request){
+        return storyService.changeChapterVisibility(request);
     }
 
     @DeleteMapping("/delete-book")

@@ -18,136 +18,35 @@
         <ng-container *ngIf="chapters.length > 0; else noChapters">
             <div
                 *ngFor="let chapter of chapters; index as i"
-                cdkDrag
-                class="chapter-card"
+                [ngSwitch]="chapter.visible"
             >
-                <div class="chapter-information">
-                    <div class="chapter-card__header chapter-card-header">
-                        <div
-                            class="chapter-card-header__name"
-                            [ngStyle]="{
-                                color: fontColor
-                            }"
-                        >
-                            <mat-icon
-                                class="option-icon"
-                                *appIfLoggedUser
-                                cdkDragHandle
-                                >drag_indicator</mat-icon
-                            >
+                <ng-container *ngSwitchCase="true">
+                    <ng-container
+                        *ngTemplateOutlet="
+                            chapterCard;
+                            context: {
+                                chapter,
+                                i,
+                                visible: true
+                            }
+                        "
+                    ></ng-container
+                ></ng-container>
 
-                            <mat-icon
-                                class="option-icon"
-                                *appIfLoggedUser
-                                (click)="openChapterDialog(chapter)"
-                                >edit</mat-icon
-                            >
-
-                            <mat-icon
-                                class="option-icon"
-                                *appIfLoggedUser
-                                (click)="changeVisibility(chapter)"
-                                >visibility</mat-icon
-                            >
-
-                            <mat-icon
-                                class="option-icon"
-                                [routerLink]="['./pages']"
-                                [queryParams]="{
-                                    id: bookId,
-                                    chapterId: chapter.id,
-                                    color: book?.color
-                                }"
-                                >subdirectory_arrow_right</mat-icon
-                            >
-
-                            {{ i + 1 }}. {{ chapter.name }}
-                        </div>
-                        <div class="chapter-card-header__desc">
-                            {{ chapter.chapterDesc }}
-                        </div>
-                    </div>
-                    <div class="chapter-card-information-with-options">
-                        <div class="chapter-card__information">
-                            <div class="chapter-card-information">
-                                <span
-                                    class="chapter-card-information__header"
-                                    [ngStyle]="{
-                                        color: fontColor
-                                    }"
-                                    >📃 {{ 'CHAPTERS.PAGES_COUNT' | translate }}
-                                </span>
-                                <span class="chapter-card-information__info">{{
-                                    chapter.pagesIds?.length
-                                }}</span>
-                            </div>
-
-                            <div
-                                class="chapter-card-information"
-                                *ngIf="chapter.createDate"
-                            >
-                                <span
-                                    class="chapter-card-information__header"
-                                    [ngStyle]="{
-                                        color: fontColor
-                                    }"
-                                    >📆
-                                    {{ 'CHAPTERS.CREATE_DATE' | translate }}:
-                                </span>
-                                <span class="chapter-card-information__info">
-                                    {{
-                                        chapter.createDateObj
-                                            | date: 'dd/MM/yyyy'
-                                    }}</span
-                                >
-                            </div>
-
-                            <div class="chapter-card-information">
-                                <span
-                                    class="chapter-card-information__header"
-                                    [ngStyle]="{
-                                        color: fontColor
-                                    }"
-                                >
-                                    🌄 {{ 'CHAPTERS.ACTION_TIME' | translate }}:
-                                </span>
-                                <span class="chapter-card-information__info">{{
-                                    chapter.actionTime | nulled
-                                }}</span>
-                            </div>
-
-                            <div class="chapter-card-information">
-                                <span
-                                    class="chapter-card-information__header"
-                                    [ngStyle]="{
-                                        color: fontColor
-                                    }"
-                                >
-                                    🏡
-                                    {{ 'CHAPTERS.ACTION_PLACE' | translate }}:
-                                </span>
-                                <span class="chapter-card-information__info">{{
-                                    chapter.actionPlace | nulled
-                                }}</span>
-                            </div>
-                        </div>
-                        <div class="options" *appIfLoggedUser>
-                            <mat-icon
-                                class="close-icon"
-                                (click)="insertDeleteInfo()"
-                                (dblclick)="deleteChapter(chapter.id)"
-                                >close</mat-icon
-                            >
-                        </div>
-                    </div>
-                </div>
-
-                <app-chapter-starring-characters
-                    [fontColor]="fontColor"
-                    [index]="i"
-                    (infoHasChangedEvent)="getChapters()"
-                    [chapter]="chapter"
-                ></app-chapter-starring-characters>
+                <ng-container *ngSwitchCase="false">
+                    <ng-container *appIfLoggedUser>
+                        <ng-container
+                            *ngTemplateOutlet="
+                                chapterCard;
+                                context: {
+                                    chapter,
+                                    i,
+                                    visible: false
+                                }
+                            "
+                        ></ng-container>
+                    </ng-container>
+                </ng-container>
             </div>
         </ng-container>
     </div>
@@ -156,4 +55,136 @@
     <span class="no-chapters-info">
         {{ 'CHAPTERS.NO_CHAPTERS_MSG' | translate }}
     </span>
+</ng-template>
+
+<ng-template #chapterCard let-chapter="chapter" let-i="i" let-visible="visible">
+    <div cdkDrag class="chapter-card" [ngClass]="{ hidden: !visible }">
+        <div class="chapter-information">
+            <div class="chapter-card__header chapter-card-header">
+                <div
+                    class="chapter-card-header__name"
+                    [ngStyle]="{
+                        color: fontColor
+                    }"
+                >
+                    <mat-icon class="option-icon" *appIfLoggedUser cdkDragHandle
+                        >drag_indicator</mat-icon
+                    >
+
+                    <mat-icon
+                        class="option-icon"
+                        *appIfLoggedUser
+                        (click)="openChapterDialog(chapter)"
+                        >edit</mat-icon
+                    >
+
+                    <mat-icon
+                        class="option-icon"
+                        *appIfLoggedUser
+                        (click)="changeVisibility(chapter)"
+                        >{{
+                            chapter.visible ? 'visibility' : 'visibility_off'
+                        }}</mat-icon
+                    >
+
+                    <mat-icon
+                        class="option-icon"
+                        [routerLink]="['./pages']"
+                        [queryParams]="{
+                            id: bookId,
+                            chapterId: chapter.id,
+                            color: book?.color
+                        }"
+                        >subdirectory_arrow_right</mat-icon
+                    >
+
+                    {{ i + 1 }}. {{ chapter.name }}
+                </div>
+                <div class="chapter-card-header__desc">
+                    {{ chapter.chapterDesc }}
+                </div>
+            </div>
+            <div class="chapter-card-information-with-options">
+                <div class="chapter-card__information">
+                    <div class="chapter-card-information">
+                        <span
+                            class="chapter-card-information__header"
+                            [ngStyle]="{
+                                color: fontColor
+                            }"
+                            >📃
+                            {{ 'CHAPTERS.PAGES_COUNT' | translate }}
+                        </span>
+                        <span class="chapter-card-information__info">{{
+                            chapter.pagesIds?.length
+                        }}</span>
+                    </div>
+
+                    <div
+                        class="chapter-card-information"
+                        *ngIf="chapter.createDate"
+                    >
+                        <span
+                            class="chapter-card-information__header"
+                            [ngStyle]="{
+                                color: fontColor
+                            }"
+                            >📆 {{ 'CHAPTERS.CREATE_DATE' | translate }}:
+                        </span>
+                        <span class="chapter-card-information__info">
+                            {{
+                                chapter.createDateObj | date: 'dd/MM/yyyy'
+                            }}</span
+                        >
+                    </div>
+
+                    <div class="chapter-card-information">
+                        <span
+                            class="chapter-card-information__header"
+                            [ngStyle]="{
+                                color: fontColor
+                            }"
+                        >
+                            🌄
+                            {{ 'CHAPTERS.ACTION_TIME' | translate }}:
+                        </span>
+                        <span class="chapter-card-information__info">{{
+                            chapter.actionTime | nulled
+                        }}</span>
+                    </div>
+
+                    <div class="chapter-card-information">
+                        <span
+                            class="chapter-card-information__header"
+                            [ngStyle]="{
+                                color: fontColor
+                            }"
+                        >
+                            🏡
+                            {{ 'CHAPTERS.ACTION_PLACE' | translate }}:
+                        </span>
+                        <span class="chapter-card-information__info">{{
+                            chapter.actionPlace | nulled
+                        }}</span>
+                    </div>
+                </div>
+                <div class="options" *appIfLoggedUser>
+                    <mat-icon
+                        class="close-icon"
+                        (click)="insertDeleteInfo()"
+                        (dblclick)="deleteChapter(chapter.id)"
+                        >close</mat-icon
+                    >
+                </div>
+            </div>
+        </div>
+
+        <app-chapter-starring-characters
+            [fontColor]="fontColor"
+            [index]="i"
+            (infoHasChangedEvent)="getChapters()"
+            [chapter]="chapter"
+            [charactersList]="charactersList"
+        ></app-chapter-starring-characters>
+    </div>
 </ng-template>

@@ -1,4 +1,8 @@
-<div [ngStyle]="{ display: !isPreviewModeToggled ? 'block' : 'none' }">
+<div
+    [ngStyle]="{ display: !isPreviewModeToggled ? 'flex' : 'none' }"
+    class="chapter-details"
+    [ngClass]="{ hidden: !chapter?.visible }"
+>
     <div class="new-pages">
         <mat-icon
             class="option-icon new-pages__back-icon"

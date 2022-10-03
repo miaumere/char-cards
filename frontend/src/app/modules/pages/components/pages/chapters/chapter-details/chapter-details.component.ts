@@ -13,6 +13,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { CharacterItem } from 'src/app/modules/characters/models/character-item.model';
 import { map } from 'rxjs/operators';
 import { insertDeleteInfo } from 'src/app/modules/shared/functions/insert-delete.info';
+import { Chapter } from 'src/app/modules/pages/models/chapters/chapter.model';
 
 @Component({
     selector: 'app-chapter-details',
@@ -37,6 +38,8 @@ export class ChapterDetailsComponent extends BaseComponent implements OnInit {
 
     chapterId: number = 0;
 
+    chapter?: Chapter;
+
     editedCharacterId: number = 0;
 
     charactersInChapterForm = new FormGroup({
@@ -51,7 +54,7 @@ export class ChapterDetailsComponent extends BaseComponent implements OnInit {
 
     currentImageIndex = 0;
 
-    isPreviewModeToggled = false;
+    isPreviewModeToggled: boolean = false;
 
     constructor(
         private _activatedRoute: ActivatedRoute,
@@ -83,6 +86,8 @@ export class ChapterDetailsComponent extends BaseComponent implements OnInit {
                 .getChaptersForBook(this.bookId)
                 .pipe(map((arr) => arr.find((x) => x.id === id)))
                 .subscribe((chapter) => {
+                    this.chapter = chapter;
+
                     if (chapter?.pagesIds) {
                         this.pagesNumber = chapter.pagesIds;
                     }

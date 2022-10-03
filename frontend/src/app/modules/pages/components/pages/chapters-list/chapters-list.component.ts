@@ -3,7 +3,6 @@ import { Component, OnInit } from '@angular/core';
 import { BaseComponent } from 'src/app/core/base.component';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Book } from 'src/app/modules/edit-story-panel/models/books/book.model';
-import { Chapter } from 'src/app/modules/edit-story-panel/models/chapters/chapter.model';
 import { ActivatedRoute } from '@angular/router';
 import { StoryService } from 'src/app/core/service/story.service';
 import { ToastrService } from 'ngx-toastr';
@@ -21,6 +20,7 @@ import { CharacterItem } from 'src/app/modules/characters/models/character-item.
 import { IEditStarringCharacter } from 'src/app/modules/edit-story-panel/models/starring/edit-starring-character.model';
 import { CharactersService } from 'src/app/core/service/characters.service';
 import { insertDeleteInfo } from 'src/app/modules/shared/functions/insert-delete.info';
+import { Chapter } from '../../../models/chapters/chapter.model';
 
 @Component({
     selector: 'app-chapters-list',
@@ -43,6 +43,7 @@ export class ChaptersListMenuComponent extends BaseComponent implements OnInit {
     fontColor: string = '';
 
     chapters: Chapter[] = [];
+    charactersList: CharacterItem[] = [];
 
     editedChapter: Chapter | null = null;
 
@@ -51,7 +52,7 @@ export class ChaptersListMenuComponent extends BaseComponent implements OnInit {
         private _storyService: StoryService,
         private _toastrService: ToastrService,
         private _translate: TranslateService,
-
+        private _characterService: CharactersService,
         public dialog: MatDialog
     ) {
         super();
@@ -64,6 +65,7 @@ export class ChaptersListMenuComponent extends BaseComponent implements OnInit {
 
         this.getBook();
         this.getChapters();
+        this.getCharactersList();
     }
 
     getBook() {
@@ -93,6 +95,8 @@ export class ChaptersListMenuComponent extends BaseComponent implements OnInit {
                     .getChaptersForBook(this.bookId)
                     .subscribe((chapters) => {
                         this.chapters = chapters;
+
+                        console.log(chapters);
                     })
             );
     }
@@ -158,5 +162,32 @@ export class ChaptersListMenuComponent extends BaseComponent implements OnInit {
         );
     }
 
-    changeVisibility(chapterId: number) {}
+    getCharactersList() {
+        this.subscriptions$.add(
+            this._characterService.getCharacters().subscribe((charList) => {
+                this.charactersList = charList;
+            })
+        );
+    }
+
+    changeVisibility(chapter: Chapter) {
+        if (!chapter.id) {
+            return;
+        }
+
+        this.subscriptions$.add(
+            this._storyService
+                .patchChapterVisibility(chapter.id, !chapter.visible)
+                .subscribe(
+                    (_) => {
+                        this.getChapters();
+                    },
+                    (err) => {
+                        this._toastrService.error(
+                            this._translate.instant('TOASTR_MESSAGE.ERROR')
+                        );
+                    }
+                )
+        );
+    }
 }

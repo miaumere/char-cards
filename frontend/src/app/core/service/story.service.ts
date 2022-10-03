@@ -1,10 +1,7 @@
 import { IEditStarringCharacter } from 'src/app/modules/edit-story-panel/models/starring/edit-starring-character.model';
 import { StarringCharacter } from './../../modules/edit-story-panel/models/starring/starring-character.model';
 import { ChapterRequest } from './../../modules/edit-story-panel/models/chapters/edit-chapter.model';
-import {
-    IChapter,
-    Chapter,
-} from './../../modules/edit-story-panel/models/chapters/chapter.model';
+
 import { EditBook } from './../../modules/edit-story-panel/models/books/edit-book.model';
 import { CreateBook } from './../../modules/edit-story-panel/models/books/create-book.model';
 import {
@@ -27,7 +24,6 @@ export class StoryService {
     private readonly storyControllerURL = '/api/stories';
 
     private readonly _getAllBooksURL = `${this.storyControllerURL}/get-all-books`;
-    private readonly _getChapterForBookURL = `${this.storyControllerURL}/get-chapters-for-book`;
     private readonly _getStarringCharactersForChapterURL = `${this.storyControllerURL}/get-starring-characters`;
     private readonly _getChaptersWithCharsURL = `${this.storyControllerURL}/get-chapters-with-characters`;
 
@@ -39,6 +35,7 @@ export class StoryService {
     private readonly _patchBookOrderURL = `${this.storyControllerURL}/edit-book-order`;
     private readonly _patchChapterOrderURL = `${this.storyControllerURL}/edit-chapter-order`;
     private readonly _patchPagesOrderURL = `${this.storyControllerURL}/edit-pages-order`;
+    private readonly _patchChangeChapterVisibilityURL = `${this.storyControllerURL}/change-visibility`;
 
     private readonly _deleteBookURL = `${this.storyControllerURL}/delete-book`;
     private readonly _deleteChapterURL = `${this.storyControllerURL}/delete-chapter`;
@@ -156,6 +153,18 @@ export class StoryService {
             this._patchPagesOrderURL,
             requestBody,
             { params }
+        );
+    }
+
+    patchChapterVisibility(chapterId: number, visibility: boolean) {
+        const body = {
+            chapterId,
+            visibility,
+        };
+
+        return this.http.patch<number[]>(
+            this._patchChangeChapterVisibilityURL,
+            body
         );
     }
 

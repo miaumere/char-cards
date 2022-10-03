@@ -195,3 +195,7 @@ div[role='listbox'] {
     cursor: default;
     user-select: none;
 }
+
+.hidden {
+    @include hidden-bg;
+}

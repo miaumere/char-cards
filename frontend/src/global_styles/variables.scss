@@ -37,3 +37,16 @@ $z-index: (
 );
 
 $dark-bg-component-color: rgba(0, 0, 0, 0.4);
+
+$hidden-bg-color1: black;
+$hidden-bg-color2: #1c1e29;
+
+@mixin hidden-bg {
+    background: repeating-linear-gradient(
+        45deg,
+        $hidden-bg-color1,
+        $hidden-bg-color1 10px,
+        $hidden-bg-color2 10px,
+        $hidden-bg-color2 20px
+    );
+}

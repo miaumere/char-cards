@@ -9,9 +9,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { BaseComponent } from 'src/app/core/base.component';
 import { StoryService } from 'src/app/core/service/story.service';
-import { Chapter } from 'src/app/modules/edit-story-panel/models/chapters/chapter.model';
 import { ChapterRequest } from 'src/app/modules/edit-story-panel/models/chapters/edit-chapter.model';
-import { generateRandomColor } from 'src/app/modules/shared/functions/colors.function';
+import { Chapter } from 'src/app/modules/pages/models/chapters/chapter.model';
 
 export interface BookDialogData {
     chapter?: Chapter;
@@ -68,6 +67,7 @@ export class EditChapterDialogComponent
             chapterDesc: this.chapterForm.get('chapterDesc')?.value,
             actionTime: this.chapterForm.get('actionTime')?.value,
             actionPlace: this.chapterForm.get('actionPlace')?.value,
+            visible: true,
         };
 
         this.subscriptions$.add(

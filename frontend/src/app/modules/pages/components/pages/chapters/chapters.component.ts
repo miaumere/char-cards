@@ -4,8 +4,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { BaseComponent } from 'src/app/core/base.component';
 import { Book } from 'src/app/modules/edit-story-panel/models/books/book.model';
 import { map } from 'rxjs/operators';
-import { Chapter } from 'src/app/modules/edit-story-panel/models/chapters/chapter.model';
 import * as tinycolor from 'tinycolor2';
+import { Chapter } from '../../../models/chapters/chapter.model';
 
 @Component({
     selector: 'app-chapters',
