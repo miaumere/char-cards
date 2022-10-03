@@ -1,0 +1,140 @@
+<!-- <div>
+    <mat-expansion-panel
+        [ngStyle]="{
+            color: fontColor
+        }"
+        (opened)="setCharacters(i)"
+        [expanded]="i === openedPanelId"
+        [hideToggle]="true"
+        class="expansion-panel"
+    >
+        <mat-expansion-panel-header style="background: transparent">
+            {{ 'CHAPTERS.STARRING_CHARACTERS' | translate }}
+        </mat-expansion-panel-header>
+
+        <div class="char-card-form-and-chars">
+            <form
+                [formGroup]="charactersInChapterForm"
+                class="starring-characters-form"
+                *appIfLoggedUser
+            >
+                <mat-form-field class="edit-existing-characters__form-field">
+                    <mat-label>{{
+                        'PAGES_PANEL.ADD_STARRING_CHAR' | translate
+                    }}</mat-label>
+
+                    <input
+                        matInput
+                        formControlName="character"
+                        required
+                        [matAutocomplete]="auto"
+                    />
+                    <mat-autocomplete #auto="matAutocomplete">
+                        <mat-option
+                            *ngFor="let char of filteredCharList"
+                            [value]="char"
+                            class="option"
+                        >
+                            <div class="option-container">
+                                <app-profile-pic
+                                    [profilePic]="char.profilePic"
+                                    [charId]="char.id"
+                                    [height]="'35px'"
+                                >
+                                </app-profile-pic>
+                                <div class="char-item">
+                                    <span class="char-item__name">{{
+                                        char.fullName
+                                    }}</span>
+                                    <span class="char-item__pseudonym">{{
+                                        char.pseudonym
+                                    }}</span>
+                                </div>
+                            </div>
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+
+                <label id="type-radio-group">{{
+                    'PAGES_PANEL.STARRING_TYPE' | translate
+                }}</label>
+                <div class="starring-characters-form__radio-group radio-group">
+                    <label
+                        class="radio-group__item"
+                        *ngFor="let gen of StarringType | enumVal"
+                    >
+                        <input
+                            name="starringType"
+                            [value]="gen.key"
+                            formControlName="starringType"
+                            type="radio"
+                            [ngStyle]="{
+                                'accent-color': fontColor
+                            }"
+                        />
+
+                        {{ gen.value }}
+                    </label>
+                </div>
+
+                <button
+                    mat-stroked-button
+                    [disabled]="charactersInChapterForm.invalid"
+                    (click)="createStarringCharacter(chapter.id)"
+                >
+                    <mat-icon>library_add</mat-icon>
+                    {{ 'PAGES_PANEL.ADD_STARRING_CHAR' | translate }}
+                </button>
+            </form>
+
+            <div class="staring-list">
+                <div
+                    class="char-card-container"
+                    *ngFor="let starringCharacter of chapter.starringChars"
+                    [ngStyle]="{ color: fontColor }"
+                >
+                    <div class="avatar-info-container">
+                        <div class="card-avatar">
+                            <a
+                                [routerLink]="[
+                                    '/char-cards',
+                                    starringCharacter.character.id
+                                ]"
+                            >
+                                <app-profile-pic
+                                    [profilePic]="
+                                        starringCharacter.character.profilePic
+                                    "
+                                    [charId]="starringCharacter.character.id"
+                                    [height]="'50px'"
+                                    class="preference-profile-pic"
+                                >
+                                </app-profile-pic>
+                            </a>
+                        </div>
+                        <div class="card-header">
+                            <div class="card-header__name">
+                                {{ starringCharacter.character.fullName }}
+                            </div>
+
+                            <span class="char-item__pseudonym">
+                                {{ starringCharacter.character.pseudonym }}
+                            </span>
+                            {{ starringCharacter.starringType }}
+                        </div>
+                    </div>
+                    <div class="options" *appIfLoggedUser>
+                        <mat-icon
+                            class="close-icon"
+                            (click)="insertDeleteInfo()"
+                            (dblclick)="
+                                deleteStarringCharacter(starringCharacter.id)
+                            "
+                            >close</mat-icon
+                        >
+                    </div>
+                </div>
+            </div>
+        </div>
+    </mat-expansion-panel>
+</div> -->

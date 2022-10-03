@@ -1,3 +1,5 @@
+import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 import { OnDestroy, Directive } from '@angular/core';
 

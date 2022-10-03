@@ -19,6 +19,7 @@ import { CharacterItem } from 'src/app/modules/characters/models/character-item.
 import { finalize, startWith, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { IEditStarringCharacter } from 'src/app/modules/edit-story-panel/models/starring/edit-starring-character.model';
+import { insertDeleteInfo } from 'src/app/modules/shared/functions/insert-delete.info';
 
 @Component({
     selector: 'app-chapter-details',
@@ -90,12 +91,6 @@ export class ChapterDetailsComponent extends BaseComponent implements OnInit {
                         this.pagesNumber = chapter.pagesIds;
                     }
                 })
-        );
-    }
-
-    insertDeleteInfo() {
-        this._toastrService.warning(
-            this._translate.instant('TOASTR_MESSAGE.DBLCLICK_INFO')
         );
     }
 
@@ -175,4 +170,6 @@ export class ChapterDetailsComponent extends BaseComponent implements OnInit {
             )
         );
     }
+
+    insertDeleteInfo() {}
 }
