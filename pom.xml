@@ -92,6 +92,12 @@
 			<artifactId>jaxb-api</artifactId>
 			<version>2.3.0</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.imgscalr/imgscalr-lib -->
+		<dependency>
+			<groupId>org.imgscalr</groupId>
+			<artifactId>imgscalr-lib</artifactId>
+			<version>4.2</version>
+		</dependency>
     </dependencies>
 	<build>
 		<plugins>
@@ -100,12 +106,8 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
 					<addResources>true</addResources>
-<!--					<jvmArguments>-->
-<!--						Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=127.0.0.1:5050-->
-<!--					</jvmArguments>-->
 				</configuration>
 			</plugin>
-
 			<plugin>
 				<groupId>com.github.eirslett</groupId>
 				<artifactId>frontend-maven-plugin</artifactId>

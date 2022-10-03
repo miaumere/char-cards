@@ -38,9 +38,11 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -238,32 +240,31 @@ public class StoryService {
     public ResponseEntity createPages(MultipartHttpServletRequest multipartHttpServletRequest, Long chapterId){
         Map<String, MultipartFile> allFiles = multipartHttpServletRequest.getFileMap();
         Chapter chapter = chapterRepository.getOne(chapterId);
+
         if(chapter == null) {
             return  new ResponseEntity(HttpStatus.NOT_FOUND);
         }
         Iterator it = allFiles.entrySet().iterator();
         while (it.hasNext()) {
-            Map.Entry pair = (Map.Entry)it.next();
+            try {
+                byte [] byteArr;
 
 
-            MultipartFile file = (MultipartFile) pair.getValue();
+                Map.Entry pair = (Map.Entry) it.next();
 
-
-            long  fileSize = file.getSize();
-            if(file != null || fileSize == 0) {
-                continue;
-            }
-
-            if (fileSize > 6291456) {
-
-            }
+                MultipartFile file = (MultipartFile) pair.getValue();
                 String fileName = StringUtils.cleanPath(file.getOriginalFilename());
                 String extension = FilenameUtils.getExtension(fileName);
+
+                long fileSize = file.getSize();
+                if (file == null || fileSize == 0) {
+                    continue;
+                }
+
+
                 if (!Stream.of(AvailableExtensions.values()).anyMatch(v -> v.name().toLowerCase().equals(extension.toLowerCase()))) {
                     return new ResponseEntity(HttpStatus.UNSUPPORTED_MEDIA_TYPE);
                 }
-                try {
-                    byte [] byteArr = file.getBytes();
                     UUID uuid = UUID.randomUUID();
 
                     int leftLimit = 97; // 'a'
@@ -278,14 +279,15 @@ public class StoryService {
 
                     String fileToSaveName = generatedString + uuid + "." + extension;
 
-                    Path path= Paths.get(storiesPath);
-                    if(!Files.exists(path)){
+                    Path path = Paths.get(storiesPath);
+                    if (!Files.exists(path)) {
                         new File(storiesPath).mkdirs();
                     }
 
                     File fileToSave = new File(storiesPath, fileToSaveName);
                     FileOutputStream fos = new FileOutputStream(fileToSave);
-                    fos.write(byteArr);
+
+                    fos.write(file.getBytes());
                     fos.close();
 
                     Page pageToSave = new Page();
@@ -294,13 +296,13 @@ public class StoryService {
                     pageToSave.setFileLocation(fileToSaveName);
 
                     pageRepository.saveAndFlush(pageToSave);
-                } catch (IOException e) {}
+
 
                 it.remove();
+            } catch (IOException e) {
             }
 
-
-
+        }
         return new ResponseEntity(HttpStatus.CREATED);
     }
 

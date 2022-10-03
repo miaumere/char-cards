@@ -3,7 +3,6 @@ package com.meowmere.main.utils;
 import java.io.File;
 import java.util.Base64;
 
-
 public class UtilsShared {
 
     public static String _mainDir = null;

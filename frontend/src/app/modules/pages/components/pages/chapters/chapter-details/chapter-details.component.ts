@@ -146,6 +146,8 @@ export class ChapterDetailsComponent extends BaseComponent implements OnInit {
                         this._translate.instant('TOASTR_MESSAGE.SAVE_SUCCESS')
                     );
                     this.getChapter(this.chapterId);
+                    this.fileList = void this.fileList;
+                    this.filesListNumber = 0;
                 },
                 (err) => {
                     this._toastrService.error(
