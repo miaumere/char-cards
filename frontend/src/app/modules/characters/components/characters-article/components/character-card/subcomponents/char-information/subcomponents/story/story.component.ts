@@ -10,6 +10,7 @@ import {
     Story,
     IStory,
 } from 'src/app/modules/characters/models/character-story/story.model';
+import { insertDeleteInfo } from 'src/app/modules/shared/functions/insert-delete.info';
 
 @Component({
     selector: 'app-story [story] [color] [charId] [isUserLogged]',
@@ -35,6 +36,9 @@ export class StoryComponent extends BaseComponent implements OnInit {
         story: new FormControl('', Validators.required),
     });
 
+    insertDeleteInfo = () =>
+        insertDeleteInfo(this._toastrService, this._translate);
+
     constructor(
         private _toastrService: ToastrService,
         private _translate: TranslateService,
@@ -53,12 +57,6 @@ export class StoryComponent extends BaseComponent implements OnInit {
 
     cancelEditMode() {
         this.editedStoryId = 0;
-    }
-
-    insertDeleteInfo() {
-        this._toastrService.warning(
-            this._translate.instant('TOASTR_MESSAGE.DELETE_INFO')
-        );
     }
 
     deleteStory(storyId: number) {

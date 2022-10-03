@@ -9,6 +9,7 @@ import { AllPreferences } from 'src/app/modules/characters/models/all-preference
 import { CharacterItem } from 'src/app/modules/characters/models/character-item.model';
 import { CharacterPreferences } from 'src/app/modules/characters/models/character-preferences.model';
 import { IEditPreference } from 'src/app/modules/characters/models/preferences/edit-preferences.model';
+import { insertDeleteInfo } from 'src/app/modules/shared/functions/insert-delete.info';
 
 @Component({
     selector: 'app-preferences [preferences] [charId]',
@@ -87,6 +88,9 @@ export class PreferencesComponent extends BaseComponent implements OnInit {
 
     isPrefLegendVisible = false;
     expandPreferences = false;
+
+    insertDeleteInfo = () =>
+        insertDeleteInfo(this._toastrService, this._translate);
 
     constructor(
         private _charactersService: CharactersService,
@@ -197,12 +201,6 @@ export class PreferencesComponent extends BaseComponent implements OnInit {
                 .subscribe((preferences) => {
                     this.preferences = preferences;
                 })
-        );
-    }
-
-    insertDeleteInfo() {
-        this._toastrService.warning(
-            this._translate.instant('TOASTR_MESSAGE.DELETE_INFO')
         );
     }
 

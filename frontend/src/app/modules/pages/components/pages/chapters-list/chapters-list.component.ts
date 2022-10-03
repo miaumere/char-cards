@@ -20,6 +20,7 @@ import { StarringType } from 'src/app/modules/edit-story-panel/enums/StarringTyp
 import { CharacterItem } from 'src/app/modules/characters/models/character-item.model';
 import { IEditStarringCharacter } from 'src/app/modules/edit-story-panel/models/starring/edit-starring-character.model';
 import { CharactersService } from 'src/app/core/service/characters.service';
+import { insertDeleteInfo } from 'src/app/modules/shared/functions/insert-delete.info';
 
 @Component({
     selector: 'app-chapters-list',
@@ -28,6 +29,9 @@ import { CharactersService } from 'src/app/core/service/characters.service';
 })
 export class ChaptersListMenuComponent extends BaseComponent implements OnInit {
     readonly StarringType = StarringType;
+
+    insertDeleteInfo = () =>
+        insertDeleteInfo(this._toastrService, this._translate);
 
     isNewChapterFormVisible = true;
 
@@ -163,12 +167,6 @@ export class ChaptersListMenuComponent extends BaseComponent implements OnInit {
             dialogRef.afterClosed().subscribe(() => {
                 this.getChapters();
             })
-        );
-    }
-
-    insertDeleteInfo() {
-        this._toastrService.warning(
-            this._translate.instant('TOASTR_MESSAGE.DELETE_INFO')
         );
     }
 

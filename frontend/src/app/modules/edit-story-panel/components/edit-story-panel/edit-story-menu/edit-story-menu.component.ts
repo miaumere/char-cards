@@ -9,6 +9,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { CreateBook } from '../../../models/books/create-book.model';
 import { EditBook } from '../../../models/books/edit-book.model';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
+import { insertDeleteInfo } from 'src/app/modules/shared/functions/insert-delete.info';
 
 @Component({
     selector: 'app-edit-story-menu-quotes',
@@ -28,6 +29,9 @@ export class EditStoryMenuComponent extends BaseComponent implements OnInit {
         bookColor: new FormControl('#C1C1C1'),
         icon: new FormControl(),
     });
+
+    insertDeleteInfo = () =>
+        insertDeleteInfo(this._toastrService, this._translate);
 
     constructor(
         private _storyService: StoryService,
@@ -54,26 +58,6 @@ export class EditStoryMenuComponent extends BaseComponent implements OnInit {
         objToSend.name = this.form.controls['bookName'].value;
         objToSend.color = this.form.controls['bookColor'].value;
         objToSend.icon = this.form.controls['icon'].value;
-
-        // this._storyService.createBook(objToSend).subscribe(
-        //     (_) => {
-        //         this._toastrService.success(
-        //             this._translate.instant('TOASTR_MESSAGE.SAVE_SUCCESS')
-        //         );
-        //         this.getAllBooks();
-        //     },
-        //     (err) => {
-        //         this._toastrService.error(
-        //             this._translate.instant('TOASTR_MESSAGE.ERROR')
-        //         );
-        //     }
-        // );
-    }
-
-    insertDeleteInfo() {
-        this._toastrService.warning(
-            this._translate.instant('TOASTR_MESSAGE.DELETE_INFO')
-        );
     }
 
     deleteBook(bookId: number) {

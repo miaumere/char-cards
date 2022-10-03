@@ -7,6 +7,7 @@ import { BaseComponent } from 'src/app/core/base.component';
 import { CharactersService } from 'src/app/core/service/characters.service';
 import { IQuote } from 'src/app/modules/characters/models/quote.model';
 import { UpsertQuote } from 'src/app/modules/characters/models/quotes/upsert-quote.model';
+import { insertDeleteInfo } from 'src/app/modules/shared/functions/insert-delete.info';
 
 @Component({
     selector: 'app-quotes',
@@ -30,6 +31,9 @@ export class QuotesComponent extends BaseComponent implements OnInit {
         quote: new FormControl('', Validators.required),
         context: new FormControl('', Validators.required),
     });
+
+    insertDeleteInfo = () =>
+        insertDeleteInfo(this._toastrService, this._translate);
 
     get canAddMoreQuotes() {
         return !this.moreQuotes.find((q) => q.id === 0);
@@ -105,12 +109,6 @@ export class QuotesComponent extends BaseComponent implements OnInit {
                     );
                 }
             )
-        );
-    }
-
-    insertDeleteInfo() {
-        this._toastrService.warning(
-            this._translate.instant('TOASTR_MESSAGE.DELETE_INFO')
         );
     }
 

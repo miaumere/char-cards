@@ -22,6 +22,7 @@ import { AuthService } from 'src/app/core/service/auth.service';
 import { Measurements } from 'src/app/modules/characters/models/measurements.model';
 import { StatisticsService } from 'src/app/core/service/statistics.service';
 import { CharacterForChange } from 'src/app/modules/characters/models/character-for-change.model';
+import { insertDeleteInfo } from 'src/app/modules/shared/functions/insert-delete.info';
 
 @Component({
     selector: 'app-character-card',
@@ -46,6 +47,9 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
     editedKey: string | null = null;
 
     isNewChar = false;
+
+    insertDeleteInfo = () =>
+        insertDeleteInfo(this._toastrService, this._translate);
 
     constructor(
         private _charactersService: CharactersService,
@@ -309,12 +313,6 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
                     )
             );
         }
-    }
-
-    insertDeleteInfo() {
-        this._toastrService.warning(
-            this._translate.instant('TOASTR_MESSAGE.DELETE_INFO')
-        );
     }
 
     deleteCharacter() {

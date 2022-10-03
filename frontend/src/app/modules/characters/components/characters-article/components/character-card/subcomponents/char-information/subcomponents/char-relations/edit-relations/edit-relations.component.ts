@@ -16,6 +16,7 @@ import {
     RelationType,
     RelationTypeString,
 } from 'src/app/modules/characters/models/relations/relation-type.enum';
+import { insertDeleteInfo } from 'src/app/modules/shared/functions/insert-delete.info';
 import { colorsForRelations } from '../relation-tree/colors-for-relations.const';
 
 @Component({
@@ -47,6 +48,9 @@ export class EditRelationsComponent extends BaseComponent implements OnInit {
     });
 
     readonly colorsForRelations = colorsForRelations;
+
+    insertDeleteInfo = () =>
+        insertDeleteInfo(this._toastrService, this._translate);
 
     get relatedPeopleIds(): number[] {
         return this.relationsForCharacter.map((x) => x.person.id);
@@ -249,12 +253,6 @@ export class EditRelationsComponent extends BaseComponent implements OnInit {
                         );
                     }
                 )
-        );
-    }
-
-    insertDeleteInfo() {
-        this._toastrService.warning(
-            this._translate.instant('TOASTR_MESSAGE.DELETE_INFO')
         );
     }
 

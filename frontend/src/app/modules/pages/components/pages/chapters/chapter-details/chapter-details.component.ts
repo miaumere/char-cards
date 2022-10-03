@@ -1,10 +1,6 @@
 import { TranslateService } from '@ngx-translate/core';
 import { StarringType } from '../../../../../edit-story-panel/enums/StarringType.enum';
-import {
-    StarringCharacter,
-    IStarringCharacter,
-} from '../../../../../edit-story-panel/models/starring/starring-character.model';
-import { CharactersService } from '../../../../../../core/service/characters.service';
+import { StarringCharacter } from '../../../../../edit-story-panel/models/starring/starring-character.model';
 import { ToastrService } from 'ngx-toastr';
 import { StoryService } from 'src/app/core/service/story.service';
 import { ActivatedRoute } from '@angular/router';
@@ -12,13 +8,10 @@ import { Component, OnInit } from '@angular/core';
 import { BaseComponent } from 'src/app/core/base.component';
 
 import * as tinycolor from 'tinycolor2';
-import { Page } from 'src/app/modules/pages/models/pages/page.model';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { CharacterItem } from 'src/app/modules/characters/models/character-item.model';
-import { finalize, startWith, map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
-import { IEditStarringCharacter } from 'src/app/modules/edit-story-panel/models/starring/edit-starring-character.model';
+import { map } from 'rxjs/operators';
 import { insertDeleteInfo } from 'src/app/modules/shared/functions/insert-delete.info';
 
 @Component({
@@ -29,6 +22,9 @@ import { insertDeleteInfo } from 'src/app/modules/shared/functions/insert-delete
 export class ChapterDetailsComponent extends BaseComponent implements OnInit {
     readonly pageURL = '/api/stories/get-images';
     readonly StarringType = StarringType;
+
+    insertDeleteInfo = () =>
+        insertDeleteInfo(this._toastrService, this._translate);
 
     fontColor = 'white';
     bookColor: string = '';
@@ -170,6 +166,4 @@ export class ChapterDetailsComponent extends BaseComponent implements OnInit {
             )
         );
     }
-
-    insertDeleteInfo() {}
 }

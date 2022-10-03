@@ -9,6 +9,7 @@ import { Country } from 'src/app/modules/characters/models/countries/country.mod
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
+import { insertDeleteInfo } from 'src/app/modules/shared/functions/insert-delete.info';
 
 @Component({
     selector: 'app-character-additional-info',
@@ -40,6 +41,9 @@ export class CharacterAdditionalInfoComponent
 
     filteredTagsList: Tag[] = [];
     tagsList: Tag[] = [];
+
+    insertDeleteInfo = () =>
+        insertDeleteInfo(this._toastrService, this._translate);
 
     constructor(
         private _countriesService: CountriesService,
@@ -143,12 +147,6 @@ export class CharacterAdditionalInfoComponent
                     })
             );
         }
-    }
-
-    insertDeleteInfo() {
-        this._toastrService.warning(
-            this._translate.instant('TOASTR_MESSAGE.DELETE_INFO')
-        );
     }
 
     getTags() {

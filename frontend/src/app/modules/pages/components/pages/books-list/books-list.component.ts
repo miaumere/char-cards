@@ -15,6 +15,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
+import { insertDeleteInfo } from 'src/app/modules/shared/functions/insert-delete.info';
 
 @Component({
     selector: 'app-books-list',
@@ -23,6 +24,9 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class BooksListComponent extends BaseComponent {
     books$!: Observable<Book[]>;
+
+    insertDeleteInfo = () =>
+        insertDeleteInfo(this._toastrService, this._translate);
 
     constructor(
         private _toastrService: ToastrService,
@@ -61,12 +65,6 @@ export class BooksListComponent extends BaseComponent {
                     this.books$ = this._storyService.getAllBooks();
                 },
             })
-        );
-    }
-
-    insertDeleteInfo() {
-        this._toastrService.warning(
-            this._translate.instant('TOASTR_MESSAGE.DELETE_INFO')
         );
     }
 

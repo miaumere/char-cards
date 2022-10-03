@@ -16,6 +16,7 @@ import { CharactersService } from 'src/app/core/service/characters.service';
 import { Character } from 'src/app/modules/characters/models/character.model';
 import { IImageForMain } from 'src/app/modules/characters/models/image-for-main.model';
 import { EditImageName } from 'src/app/modules/characters/models/images/edit-image-name.model';
+import { insertDeleteInfo } from 'src/app/modules/shared/functions/insert-delete.info';
 
 @Component({
     selector: 'app-images [character] [isUserLogged] [bgColor] [fontColor]',
@@ -49,6 +50,9 @@ export class ImagesComponent extends BaseComponent implements OnInit {
         name: new FormControl(''),
     });
 
+    insertDeleteInfo = () =>
+        insertDeleteInfo(this._toastrService, this._translate);
+
     constructor(
         private _toastrService: ToastrService,
         private _characterService: CharactersService,
@@ -80,12 +84,6 @@ export class ImagesComponent extends BaseComponent implements OnInit {
 
         this.filesListNumber = files.length;
         this.param.num = files.length;
-    }
-
-    insertDeleteInfo() {
-        this._toastrService.warning(
-            this._translate.instant('TOASTR_MESSAGE.DELETE_INFO')
-        );
     }
 
     setNewImages() {
