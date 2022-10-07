@@ -95,8 +95,6 @@ export class ChaptersListMenuComponent extends BaseComponent implements OnInit {
                     .getChaptersForBook(this.bookId)
                     .subscribe((chapters) => {
                         this.chapters = chapters;
-
-                        console.log(chapters);
                     })
             );
     }

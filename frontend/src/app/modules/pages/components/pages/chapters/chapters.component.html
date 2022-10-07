@@ -14,27 +14,29 @@
 
             <div>
                 <div *ngIf="chapters.length > 0" class="chapter-list">
-                    <a
-                        #rla="routerLinkActive"
-                        class="chapter-list__item ellipsis"
-                        routerLinkActive="chapter-list__item--active"
-                        [routerLink]="['./pages']"
-                        [queryParams]="{
-                            id: bookId,
-                            chapterId: chapter.id,
-                            color: book?.color
-                        }"
-                        [ngStyle]="
-                            rla.isActive
-                                ? { color: bookColor }
-                                : { color: '#ffffff66' }
-                        "
-                        *ngFor="let chapter of chapters; index as i"
-                    >
-                        <div class="ellipsis">
-                            {{ i + 1 }}. {{ chapter.name }}
-                        </div>
-                    </a>
+                    <ng-container *ngFor="let chapter of chapters; index as i">
+                        <a
+                            #rla="routerLinkActive"
+                            class="chapter-list__item ellipsis"
+                            routerLinkActive="chapter-list__item--active"
+                            [routerLink]="['./pages']"
+                            [queryParams]="{
+                                id: bookId,
+                                chapterId: chapter.id,
+                                color: book?.color
+                            }"
+                            [ngStyle]="
+                                rla.isActive
+                                    ? { color: bookColor }
+                                    : { color: '#ffffff66' }
+                            "
+                            *ngIf="chapter.visible"
+                        >
+                            <div class="ellipsis">
+                                {{ i + 1 }}. {{ chapter.name }}
+                            </div>
+                        </a>
+                    </ng-container>
                 </div>
             </div>
         </div>

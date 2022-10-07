@@ -16,36 +16,18 @@
             >
         </div>
         <ng-container *ngIf="chapters.length > 0; else noChapters">
-            <div
-                *ngFor="let chapter of chapters; index as i"
-                [ngSwitch]="chapter.visible"
-            >
-                <ng-container *ngSwitchCase="true">
+            <div *ngFor="let chapter of chapters; index as i">
+                <ng-container *appIfLoggedUser="chapter.visible">
                     <ng-container
                         *ngTemplateOutlet="
                             chapterCard;
                             context: {
                                 chapter,
                                 i,
-                                visible: true
+                                visible: chapter.visible
                             }
                         "
-                    ></ng-container
-                ></ng-container>
-
-                <ng-container *ngSwitchCase="false">
-                    <ng-container *appIfLoggedUser>
-                        <ng-container
-                            *ngTemplateOutlet="
-                                chapterCard;
-                                context: {
-                                    chapter,
-                                    i,
-                                    visible: false
-                                }
-                            "
-                        ></ng-container>
-                    </ng-container>
+                    ></ng-container>
                 </ng-container>
             </div>
         </ng-container>
