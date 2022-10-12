@@ -39,7 +39,7 @@ export class ChaptersListMenuComponent extends BaseComponent implements OnInit {
     });
 
     bookId: number = 0;
-    book: Book | null = null;
+    book!: Book;
     fontColor: string = '';
 
     chapters: Chapter[] = [];
@@ -102,7 +102,7 @@ export class ChaptersListMenuComponent extends BaseComponent implements OnInit {
     openChapterDialog(chapter?: Chapter) {
         const dialogData: BookDialogData = {
             chapter: chapter ?? undefined,
-            bookId: this.bookId,
+            book: this.book,
         };
 
         const dialogRef = this.dialog.open(EditChapterDialogComponent, {

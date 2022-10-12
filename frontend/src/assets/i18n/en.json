@@ -171,7 +171,8 @@
         "NO_PAGES_MSG": "No pages in this chapter.",
         "CREATE_DATE": "Date added",
         "ACTION_TIME": "Action time",
-        "ACTION_PLACE": "Action location"
+        "ACTION_PLACE": "Action location",
+        "BOOK": "Book"
     },
     "BOOKS_PANEL": {
         "PREVIEW": "Preview",

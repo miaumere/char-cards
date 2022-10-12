@@ -5,7 +5,7 @@ import com.meowmere.main.dto.story.starring.StarringCharacterDTO;
 import java.util.ArrayList;
 
 public class ChapterWithCharsDTO extends ChapterDTO {
-    public ArrayList<StarringCharacterDTO> starringChars;
+    public ArrayList<StarringCharacterDTO> starringChars = new ArrayList<>();
 
     public ArrayList<StarringCharacterDTO> getStarringChars() {
         return starringChars;

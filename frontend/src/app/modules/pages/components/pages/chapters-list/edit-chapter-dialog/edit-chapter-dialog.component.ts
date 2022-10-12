@@ -10,11 +10,12 @@ import { ToastrService } from 'ngx-toastr';
 import { BaseComponent } from 'src/app/core/base.component';
 import { StoryService } from 'src/app/core/service/story.service';
 import { ChapterRequest } from 'src/app/modules/edit-story-panel/models/chapters/edit-chapter.model';
+import { Book } from 'src/app/modules/pages/models/books/book.model';
 import { Chapter } from 'src/app/modules/pages/models/chapters/chapter.model';
 
 export interface BookDialogData {
     chapter?: Chapter;
-    bookId: number;
+    book: Book;
 }
 
 @Component({
@@ -29,9 +30,12 @@ export class EditChapterDialogComponent
     chapterForm: FormGroup = new FormGroup({
         name: new FormControl('', Validators.required),
         chapterDesc: new FormControl('', Validators.required),
+        book: new FormControl(''),
         actionTime: new FormControl(''),
         actionPlace: new FormControl(''),
     });
+
+    books: Book[] = [];
 
     constructor(
         private _storyService: StoryService,
@@ -56,13 +60,27 @@ export class EditChapterDialogComponent
             this.chapterForm
                 .get('actionTime')
                 ?.patchValue(this.data.chapter?.actionTime);
+            this.chapterForm.get('book')?.patchValue(this.data.book);
+
+            this.getBooks();
         }
+    }
+
+    getBooks() {
+        this.subscriptions$.add(
+            this._storyService
+                .getAllBooks()
+                .pipe()
+                .subscribe((books) => {
+                    this.books = books;
+                })
+        );
     }
 
     upsertChapter() {
         const chapter: Partial<ChapterRequest> = {
             id: this.data?.chapter?.id ?? null,
-            bookId: this.data.bookId,
+            bookId: this.chapterForm.get('book')?.value.id,
             name: this.chapterForm.get('name')?.value,
             chapterDesc: this.chapterForm.get('chapterDesc')?.value,
             actionTime: this.chapterForm.get('actionTime')?.value,

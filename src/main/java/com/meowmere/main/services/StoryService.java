@@ -114,6 +114,7 @@ public class StoryService {
                 chapterWithCharsDTO.setActionTime(chapter.getActionTime());
                 chapterWithCharsDTO.setCreateDate(chapter.getCreateDate());
                 chapterWithCharsDTO.setVisible(chapter.getVisible());
+                chapterWithCharsDTO.setBookId(chapter.getBook().getExternalId());
 
                 ArrayList<Long> pagesIds = new ArrayList<>();
                 ArrayList<Page> pages = pageRepository.getPagesForChapter(chapter.getExternalId());

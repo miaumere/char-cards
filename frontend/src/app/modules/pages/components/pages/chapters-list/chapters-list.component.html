@@ -49,20 +49,23 @@
                         color: fontColor
                     }"
                 >
-                    <mat-icon class="option-icon" *appIfLoggedUser cdkDragHandle
+                    <mat-icon
+                        class="option-icon"
+                        *appIfLoggedUser="!chapter.visible"
+                        cdkDragHandle
                         >drag_indicator</mat-icon
                     >
 
                     <mat-icon
                         class="option-icon"
-                        *appIfLoggedUser
+                        *appIfLoggedUser="!chapter.visible"
                         (click)="openChapterDialog(chapter)"
                         >edit</mat-icon
                     >
 
                     <mat-icon
                         class="option-icon"
-                        *appIfLoggedUser
+                        *appIfLoggedUser="!chapter.visible"
                         (click)="changeVisibility(chapter)"
                         >{{
                             chapter.visible ? 'visibility' : 'visibility_off'
@@ -162,6 +165,7 @@
         </div>
 
         <app-chapter-starring-characters
+            *ngIf="charactersList && charactersList.length > 0"
             [fontColor]="fontColor"
             [index]="i"
             (infoHasChangedEvent)="getChapters()"

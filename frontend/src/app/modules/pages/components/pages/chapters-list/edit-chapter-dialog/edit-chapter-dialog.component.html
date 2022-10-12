@@ -25,14 +25,35 @@
             </textarea>
         </mat-form-field>
 
+        <mat-form-field>
+            <mat-label>📕 {{ 'CHAPTERS.BOOK' | translate }}</mat-label>
+            <mat-select formControlName="book">
+                <mat-option *ngFor="let book of books" [value]="book">
+                    <app-book-icon
+                        class="book-card__icon-container"
+                        [book]="book"
+                        [size]="1"
+                    ></app-book-icon>
+                    {{ book.name }}</mat-option
+                >
+            </mat-select>
+        </mat-form-field>
+
         <div class="chapter-form__section">
             <mat-form-field class="chapter-form-field">
-                <mat-label>{{ 'CHAPTERS.ACTION_TIME' | translate }}</mat-label>
+                <mat-label
+                    >🌄 {{ 'CHAPTERS.ACTION_TIME' | translate }}</mat-label
+                >
                 <input matInput formControlName="actionTime" />
             </mat-form-field>
 
-            <mat-form-field class="chapter-form-field">
-                <mat-label>{{ 'CHAPTERS.ACTION_PLACE' | translate }}</mat-label>
+            <mat-form-field
+                class="chapter-form-field"
+                style="margin-left: 1rem"
+            >
+                <mat-label
+                    >🏡 {{ 'CHAPTERS.ACTION_PLACE' | translate }}</mat-label
+                >
                 <input matInput formControlName="actionPlace" />
             </mat-form-field>
         </div>

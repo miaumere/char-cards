@@ -13,6 +13,7 @@ export interface IChapter {
     actionPlace: string;
     starringChars: IStarringCharacter[];
     visible: boolean;
+    bookId: number;
 }
 
 export class Chapter implements IChapter {
@@ -28,6 +29,7 @@ export class Chapter implements IChapter {
     visible: boolean = false;
 
     createDateObj?: Date;
+    bookId: number = 0;
 
     constructor(initialValues: IChapter) {
         Object.assign(this, initialValues);

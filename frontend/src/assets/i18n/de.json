@@ -171,7 +171,8 @@
         "NO_PAGES_MSG": "Keine Seiten in diesem Kapitel.",
         "CREATE_DATE": "Datum hinzugefügt",
         "ACTION_TIME": "Aktionszeit",
-        "ACTION_PLACE": "Aktionsort"
+        "ACTION_PLACE": "Aktionsort",
+        "BOOK": "Buch"
     },
     "BOOKS_PANEL": {
         "PREVIEW": "Vorschau",

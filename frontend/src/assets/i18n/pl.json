@@ -171,7 +171,8 @@
         "NO_PAGES_MSG": "Brak stron w tej części.",
         "CREATE_DATE": "Data dodania",
         "ACTION_TIME": "Czas akcji",
-        "ACTION_PLACE": "Miejsce akcji"
+        "ACTION_PLACE": "Miejsce akcji",
+        "BOOK": "Szkicownik"
     },
     "BOOKS_PANEL": {
         "PREVIEW": "Podgląd",

@@ -10,6 +10,8 @@ public class ChapterDTO {
     protected Long createDate;
     protected String actionTime;
     protected String actionPlace;
+    private Long bookId;
+
 
     private Boolean visible;
 
@@ -75,5 +77,13 @@ public class ChapterDTO {
 
     public void setVisible(Boolean visible) {
         this.visible = visible;
+    }
+
+    public Long getBookId() {
+        return bookId;
+    }
+
+    public void setBookId(Long id) {
+        this.bookId = id;
     }
 }
