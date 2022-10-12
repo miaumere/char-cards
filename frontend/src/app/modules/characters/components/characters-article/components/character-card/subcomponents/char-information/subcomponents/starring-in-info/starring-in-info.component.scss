@@ -76,3 +76,18 @@
     font-size: initial;
     @include font-regular;
 }
+
+.books-list {
+    margin-top: 1rem;
+    display: flex;
+}
+
+.book-item {
+    cursor: pointer;
+    transition: 0.2s;
+    width: 5rem;
+
+    &--disabled {
+        transform: scale(0.7);
+    }
+}

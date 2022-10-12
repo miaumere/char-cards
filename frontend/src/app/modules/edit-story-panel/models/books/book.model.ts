@@ -16,4 +16,7 @@ export class Book implements IBook {
     constructor(initialValues: IBook) {
         Object.assign(this, initialValues);
     }
+    toString() {
+        return this.name;
+    }
 }
