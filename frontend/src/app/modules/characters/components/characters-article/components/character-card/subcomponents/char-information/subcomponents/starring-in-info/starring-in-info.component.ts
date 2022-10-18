@@ -14,132 +14,14 @@ export class StarringInInfoComponent implements OnInit {
     readonly StarringType = StarringType;
     readonly squareHeight: number = 15;
 
-    readonly mock: BookForCharacter[] = [
-        {
-            book: {
-                id: 1,
-                name: 'Miłosny',
-                color: 'pink',
-                symbol: '💗',
-                bookOrder: 1,
-            },
-            chapters: [
-                {
-                    chapterId: 1,
-                    chapterName: 'Część pierwsza',
-                    starringType: StarringType.MAIN,
-                },
-                {
-                    chapterId: 1,
-                    chapterName: 'Część pierwsza',
-                    starringType: StarringType.SIDE,
-                },
-                {
-                    chapterId: 1,
-                    chapterName: 'Część pierwsza',
-                    starringType: StarringType.BACKGROUND,
-                },
-                {
-                    chapterId: 1,
-                    chapterName: 'Część pierwsza',
-                    starringType: StarringType.NONE,
-                },
-            ],
-        },
-        {
-            book: {
-                id: 1,
-                name: 'Ogórowy',
-                color: 'green',
-                symbol: '🥒',
-                bookOrder: 2,
-            },
-            chapters: [
-                {
-                    chapterId: 2,
-                    chapterName: 'Część druga',
-                    starringType: StarringType.SIDE,
-                },
-                {
-                    chapterId: 3,
-                    chapterName: 'Część trzecia',
-                    starringType: StarringType.MAIN,
-                },
-                {
-                    chapterId: 3,
-                    chapterName: 'Część trzecia',
-                    starringType: StarringType.MAIN,
-                },
-                {
-                    chapterId: 4,
-                    chapterName: 'chuj',
-                    starringType: null,
-                },
-            ],
-        },
-        {
-            book: {
-                id: 4,
-                name: 'Bez Saturna',
-                color: 'gray',
-                symbol: '🦏',
-                bookOrder: 5,
-            },
-            chapters: [],
-        },
-        {
-            book: {
-                id: 1,
-                name: 'Ceglany',
-                color: 'orange',
-                symbol: '🧱',
-                bookOrder: 1,
-            },
-            chapters: [
-                {
-                    chapterId: 1,
-                    chapterName: 'Część pierwsza',
-                    starringType: StarringType.MAIN,
-                },
-                {
-                    chapterId: 1,
-                    chapterName: 'Część pierwsza',
-                    starringType: StarringType.SIDE,
-                },
-                {
-                    chapterId: 1,
-                    chapterName: 'Część pierwsza',
-                    starringType: StarringType.BACKGROUND,
-                },
-                {
-                    chapterId: 1,
-                    chapterName: 'Część pierwsza',
-                    starringType: StarringType.MENTIONED,
-                },
-                {
-                    chapterId: 1,
-                    chapterName: 'Część pierwsza',
-                    starringType: StarringType.MENTIONED,
-                },
-                {
-                    chapterId: 1,
-                    chapterName: 'Część pierwsza',
-                    starringType: StarringType.MAIN,
-                },
-            ],
-        },
-    ];
-
-    @Input() starringIn: IStarringIn[] | null = [];
+    @Input() starringIn: BookForCharacter[] = [];
     @Input() color: string = 'grey';
 
     constructor() {}
 
     ngOnInit() {
-        // console.log('starringIn: ', this.starringIn);
-        console.log('mock: ', this.mock);
-
-        const maxValue = this.mock.reduce((acc, value) => {
+        console.log('starringIn: ', this.starringIn);
+        const maxValue = this.starringIn.reduce((acc, value) => {
             if (acc.chapters.length > value.chapters.length) {
                 return acc;
             } else {
@@ -147,13 +29,11 @@ export class StarringInInfoComponent implements OnInit {
             }
         }).chapters.length;
 
-        for (const mockItem of this.mock) {
+        for (const mockItem of this.starringIn) {
             if (mockItem.chapters.length >= maxValue) {
                 continue;
             }
-            console.log('mockItem: ', mockItem);
             const loopLength = maxValue - mockItem.chapters.length;
-            console.log('loopLength: ', loopLength);
 
             for (let index = 0; index < loopLength; index++) {
                 mockItem.chapters.push({
@@ -163,7 +43,6 @@ export class StarringInInfoComponent implements OnInit {
                 });
             }
         }
-        console.log('new mock: ', this.mock);
     }
 
     setRectX(order: number): number {

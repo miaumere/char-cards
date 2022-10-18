@@ -13,6 +13,8 @@ import com.meowmere.main.dto.character.preference.HistoricPreferenceDTO;
 import com.meowmere.main.dto.character.quote.CharacterQuoteDTO;
 import com.meowmere.main.dto.character.quote.QuoteForListDTO;
 import com.meowmere.main.dto.character.relation.*;
+import com.meowmere.main.dto.character.starring.BookForCharacter;
+import com.meowmere.main.dto.character.starring.ChapterForCharacter;
 import com.meowmere.main.dto.character.story.CharacterStoryDTO;
 import com.meowmere.main.dto.character.tags.TagDTO;
 import com.meowmere.main.dto.character.temperament.CharacterTemperamentDTO;
@@ -183,40 +185,37 @@ public class CharactersService {
         }
         dto.setProfilePic(profilePic);
 
-        ArrayList<BookWithStarringCharsDTO> bookWithStarringCharsDTOS = new ArrayList<>();
-        List<Book> books = bookRepository.getNonEmptyBooksForCharacter(externalId);
+        ArrayList<BookForCharacter> bookForCharacters = new ArrayList<>();
+
+
+        List<Book> books = bookRepository.findAll();
         if(books != null) {
             for (Book book: books) {
-                BookWithStarringCharsDTO withStarringCharsDTO = new BookWithStarringCharsDTO();
+                ArrayList<ChapterForCharacter> chapterForCharacters = new ArrayList<>();
                 ArrayList<Chapter> chapters = chapterRepository.getChaptersForBook(book.getExternalId());
-                ArrayList<ChaptersWithCharStarringTypeDTO> chaptersWithCharStarringTypeDTOS = new ArrayList<>();
                 if(chapters != null){
-                    for (Chapter chap: chapters) {
-                        ChaptersWithCharStarringTypeDTO chapter = new ChaptersWithCharStarringTypeDTO();
+                    for (Chapter chapter: chapters) {
 
-                        chapter.setChapterNumber(chap.getChapterNumber());
+                        ChapterForCharacter chapterForCharacter = new ChapterForCharacter(chapter);
+                        StarringType starringTypefromDb = starringCharactersRepository.getStarringCharacterTypeByChapterAndCharId(externalId, chapter.getExternalId());
+                        StarringType starringType = starringTypefromDb == null ? StarringType.NONE : starringTypefromDb;
+                        chapterForCharacter.setStarringType(starringType);
 
-                        List<StarringCharacters> starringCharactersList = chap.getStarringCharacters().stream()
-                                .filter(character -> character.getCharacter().getExternalId().equals(externalId))
-                                .collect(Collectors.toList());
-                        if(starringCharactersList != null && starringCharactersList.size() > 0){
-                            StarringCharacters starringCharacterFromList = starringCharactersList.get(0);
-                            chapter.setStarringType(starringCharacterFromList.getStarringType().name());
-                        }
-                        chaptersWithCharStarringTypeDTOS.add(chapter);
-                    }
-                    if(chaptersWithCharStarringTypeDTOS.size() > 0) {
-                        withStarringCharsDTO.setBook(modelMapper.map(book, BookDTO.class));
-                        withStarringCharsDTO.setChapters(chaptersWithCharStarringTypeDTOS);
-                        bookWithStarringCharsDTOS.add(withStarringCharsDTO);
+                        chapterForCharacters.add(chapterForCharacter);
                     }
                 }
+
+                BookForCharacter bookForCharacter = new BookForCharacter();
+                bookForCharacter.setBook(book);
+                bookForCharacter.setChapters(chapterForCharacters);
+
+                bookForCharacters.add(bookForCharacter);
             }
         }
 
 
 
-        dto.setStarringIn(bookWithStarringCharsDTOS);
+        dto.setStarringIn(bookForCharacters);
 
         List<Tag> tags = tagRepository.getTagsForCharacter(externalId);
 

@@ -3,10 +3,10 @@
         <thead>
             <tr>
                 <th></th>
-                <th *ngFor="let mockItem of mock">
-                    <div class="book-item" [title]="mockItem.book.name">
+                <th *ngFor="let starringInItem of starringIn">
+                    <div class="book-item" [title]="starringInItem.book.name">
                         <app-book-icon
-                            [book]="mockItem.book"
+                            [book]="starringInItem.book"
                             [size]="1.1"
                         ></app-book-icon>
                     </div>
@@ -15,14 +15,19 @@
         </thead>
         <tr>
             <td class="chapters-title">{{ 'NAVBAR.CHAPTERS' | translate }}</td>
-            <td *ngFor="let mockItem of mock" class="item-cell">
+            <td *ngFor="let starringInItem of starringIn" class="item-cell">
                 <svg
                     [attr.height]="
-                        squareHeight * (mockItem.chapters.length + 2)
+                        squareHeight * (starringInItem.chapters.length + 2)
                     "
                     [attr.width]="squareHeight"
                 >
-                    <g *ngFor="let chapter of mockItem.chapters; index as i">
+                    <g
+                        *ngFor="
+                            let chapter of starringInItem.chapters;
+                            index as i
+                        "
+                    >
                         <rect
                             *ngIf="chapter.starringType !== null"
                             [attr.y]="setRectX(i)"
@@ -30,10 +35,7 @@
                             [attr.height]="squareHeight"
                             rx="3"
                             [attr.fill]="color"
-                            [class]="
-                                'square square--' +
-                                StarringType[chapter.starringType]
-                            "
+                            [class]="'square square--' + chapter.starringType"
                         />
 
                         <rect

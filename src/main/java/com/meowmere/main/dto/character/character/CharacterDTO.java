@@ -5,6 +5,7 @@ import com.meowmere.main.dto.character.image.ImageDTO;
 import com.meowmere.main.dto.character.measurements.CharacterMeasurementsDTO;
 import com.meowmere.main.dto.character.quote.CharacterQuoteDTO;
 import com.meowmere.main.dto.character.relationship.RelationshipDTO;
+import com.meowmere.main.dto.character.starring.BookForCharacter;
 import com.meowmere.main.dto.character.story.CharacterStoryDTO;
 import com.meowmere.main.dto.character.tags.TagDTO;
 import com.meowmere.main.dto.character.temperament.CharacterTemperamentDTO;
@@ -32,7 +33,7 @@ public class CharacterDTO {
     public CharacterTemperamentDTO temperament;
     public CharacterMeasurementsDTO measurements;
     public List<ImageDTO> imagesList;
-    public List<BookWithStarringCharsDTO> starringIn;
+    public List<BookForCharacter> starringIn;
     private String profilePic;
     private List<TagDTO> tags = new ArrayList<>();
 
@@ -173,11 +174,11 @@ public class CharacterDTO {
         this.nationality = nationality;
     }
 
-    public List<BookWithStarringCharsDTO> getStarringIn() {
+    public List<BookForCharacter> getStarringIn() {
         return starringIn;
     }
 
-    public void setStarringIn(List<BookWithStarringCharsDTO> starringIn) {
+    public void setStarringIn(List<BookForCharacter> starringIn) {
         this.starringIn = starringIn;
     }
 

@@ -12,4 +12,7 @@ import java.util.ArrayList;
 public interface ChapterRepository  extends JpaRepository<Chapter, Long> {
     @Query("SELECT c FROM Chapter c WHERE c.book.externalId = :bookId ORDER BY c.chapterNumber ")
     ArrayList<Chapter> getChaptersForBook(@Param("bookId") Long bookId);
+
+
+
 }
