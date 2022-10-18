@@ -1,6 +1,6 @@
 <article class="char-menu" *ngIf="charList && !!charList">
     <form [formGroup]="searchForm" class="search-form">
-        <a [routerLink]="['/char-cards', 0]">
+        <a [routerLink]="['/char-cards', 0]" *appIfLoggedUser>
             <mat-icon class="create-new-character">person_add</mat-icon>
         </a>
 

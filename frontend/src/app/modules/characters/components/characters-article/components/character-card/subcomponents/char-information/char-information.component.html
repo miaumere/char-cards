@@ -1,6 +1,4 @@
 <mat-card class="information" *ngIf="character">
-    <!-- tutaj powinien być if  -->
-
     <div class="profile-pic-quotes-container">
         <div class="profile-pic-edition-container">
             <app-profile-pic
@@ -28,14 +26,25 @@
         <h2 class="story__title" [ngStyle]="{ color: themeColor1 }">
             📖 {{ 'CHARACTER_CARD.STORY' | translate }}
         </h2>
-        <app-story
-            [story]="character.story"
-            [color]="themeColor1"
-            [isUserLogged]="isUserLogged"
-            (storyChangedEvent)="emitInfoHasChangedEvent()"
-            [charId]="character.externalId"
-        >
-        </app-story>
+        <div class="story-starring-in-container">
+            <app-story
+                class="story-container"
+                [story]="character.story"
+                [color]="themeColor1"
+                [isUserLogged]="isUserLogged"
+                (storyChangedEvent)="emitInfoHasChangedEvent()"
+                [charId]="character.externalId"
+            >
+            </app-story>
+
+            <div *ngIf="character.starringIn && !!character.starringIn.length">
+                <h2 class="story__title" [ngStyle]="{ color: themeColor1 }">
+                    📚 {{ 'CHARACTER_CARD.APPEARANCE' | translate }}
+                </h2>
+                <app-starring-in-info [starringIn]="character.starringIn">
+                </app-starring-in-info>
+            </div>
+        </div>
     </div>
 
     <div class="information__segment">
@@ -85,17 +94,5 @@
             (measurementsChangedEvent)="emitInfoHasChangedEvent()"
             [isUserLogged]="isUserLogged"
         ></app-measurements>
-    </div>
-
-    <div
-        class="information__segment"
-        *ngIf="character.starringIn && !!character.starringIn.length"
-    >
-        <app-divider></app-divider>
-        <h2 class="story__title" [ngStyle]="{ color: themeColor1 }">
-            📚 {{ 'CHARACTER_CARD.APPEARANCE' | translate }}
-        </h2>
-        <app-starring-in-info [starringIn]="character.starringIn">
-        </app-starring-in-info>
     </div>
 </mat-card>

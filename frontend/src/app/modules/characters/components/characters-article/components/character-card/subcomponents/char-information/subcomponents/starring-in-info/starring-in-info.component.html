@@ -42,64 +42,22 @@
             }}</span>
         </div>
     </mat-card> -->
-
-    <div *ngFor="let starring of starringIn" class="books-list">
-        <div
-            class="book-item"
-            [title]="starring.book.name"
-            [ngClass]="{
-                'book-item--disabled': starring.book.id !== chosenBookId
-            }"
-            (click)="chosenBookId = starring.book.id"
-        >
-            <app-book-icon [book]="starring.book" [size]="3"></app-book-icon>
-        </div>
-        <div *ngIf="starring.book.id === chosenBookId">
-            <!-- <table class="chapters-table">
-                <tr>
-                    <th *ngFor="let chapter of starring.chapters">
-                        {{ chapter.chapterNumber + 1 }}
-                    </th>
-                </tr>
-                <tr>
-                    <td
-                        *ngFor="let chapter of starring.chapters"
-                        class="chapters-table__cell"
-                    >
-                        <span
-                            [ngSwitch]="chapter.starringType"
-                            class="starring-type"
-                        >
-                            <span
-                                *ngSwitchCase="'MAIN'"
-                                class="legend-item__symbol legend-item__symbol--main"
-                                >MAIN</span
-                            >
-                            <span
-                                *ngSwitchCase="'SIDE'"
-                                class="legend-item__symbol legend-item__symbol--side"
-                                >SIDE</span
-                            >
-                            <span
-                                *ngSwitchCase="'BACKGROUND'"
-                                class="legend-item__symbol legend-item__symbol--bg"
-                                >BG</span
-                            >
-                            <span
-                                *ngSwitchCase="'MENTIONED'"
-                                class="legend-item__symbol legend-item__symbol--mtn"
-                                >MTN</span
-                            >
-
-                            <span
-                                *ngSwitchDefault
-                                class="legend-item__symbol legend-item__symbol--no"
-                                >-</span
-                            >
-                        </span>
-                    </td>
-                </tr>
-            </table> -->
-        </div>
-    </div>
+</div>
+<div>
+    <table class="chapters-table">
+        <tr>
+            <th *ngFor="let mockItem of mock">
+                <div class="book-item" [title]="mockItem.book.name"></div>
+                <app-book-icon
+                    [book]="mockItem.book"
+                    [size]="1"
+                ></app-book-icon>
+            </th>
+        </tr>
+        <tr *ngFor="let mockItem of mock">
+            <td>Alfreds Futterkiste</td>
+            <td>Maria Anders</td>
+            <td>Germany</td>
+        </tr>
+    </table>
 </div>

@@ -74,8 +74,8 @@ public class StoryController {
     }
 
     @PatchMapping("/edit-pages-order")
-    public ResponseEntity editPagesOrder(@RequestBody ArrayList<Long> request, @RequestParam Long chapterId){
-        return storyService.editPagesOrder(request, chapterId);
+    public ResponseEntity editPagesOrder(@RequestBody ArrayList<Long> request){
+        return storyService.editPagesOrder(request);
     }
 
     @PatchMapping("/change-visibility")

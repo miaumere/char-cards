@@ -33,13 +33,19 @@
 }
 
 .title {
-    @include font-special;
 
     text-transform: none;
     &:checked {
         text-decoration: none;
     }
+
+    & div {
+      @include font-special;
+      font-size: 2rem;
+
+    }
 }
+
 
 .lang-icon {
     width: 15px;

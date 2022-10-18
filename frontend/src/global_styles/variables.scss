@@ -1,9 +1,9 @@
 @mixin font-regular {
-    font-family: 'Courier New', Courier, monospace;
+    font-family: 'OverpassMonoRegular', Courier, monospace;
 }
 
 @mixin font-special {
-    font-family: 'Halimun';
+    font-family: 'GrapeNuts';
 }
 
 @mixin profile-pic {
@@ -22,6 +22,9 @@
     font-size: -webkit-xxx-large;
     margin: 1rem;
     font-weight: 600;
+
+    @include font-special;
+
 }
 
 $navbar-height: 3rem;

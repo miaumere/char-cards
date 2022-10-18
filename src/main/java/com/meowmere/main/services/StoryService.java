@@ -443,20 +443,20 @@ public class StoryService {
         }
         booksFromDb.forEach((key, value) -> {
             Chapter chapter = chapterRepository.getOne(key);
-            chapter.setChapterNumber(9999 + value);
+            chapter.setChapterNumber(value);
             chapterRepository.saveAndFlush(chapter);
         });
 
         for (int i = 0; i < chapterIds.size() ; i++) {
             Chapter chapter = chapterRepository.getOne(chapterIds.get(i));
-            chapter.setChapterNumber(9999 + i);
+            chapter.setChapterNumber(i);
             chapterRepository.saveAndFlush(chapter);
         }
 
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    public ResponseEntity editPagesOrder(ArrayList<Long> pagesIds, Long chapterId){
+    public ResponseEntity editPagesOrder(ArrayList<Long> pagesIds){
         for (int i = 0; i < pagesIds.size() ; i++) {
             Page page = pageRepository.getOne(pagesIds.get(i));
             page.setPageNumber(i);

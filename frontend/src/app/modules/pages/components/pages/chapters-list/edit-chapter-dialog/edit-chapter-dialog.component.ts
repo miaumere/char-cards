@@ -30,7 +30,7 @@ export class EditChapterDialogComponent
     chapterForm: FormGroup = new FormGroup({
         name: new FormControl('', Validators.required),
         chapterDesc: new FormControl('', Validators.required),
-        book: new FormControl(null),
+        book: new FormControl(''),
         actionTime: new FormControl(''),
         actionPlace: new FormControl(''),
     });
@@ -49,10 +49,9 @@ export class EditChapterDialogComponent
     }
 
     ngOnInit(): void {
-        console.log('ogór');
-        if (this.data.chapter) {
-            this.getBooks();
+        this.getBooks();
 
+        if (this.data.chapter) {
             this.chapterForm.get('name')?.patchValue(this.data.chapter?.name);
             this.chapterForm
                 .get('chapterDesc')
@@ -63,8 +62,6 @@ export class EditChapterDialogComponent
             this.chapterForm
                 .get('actionTime')
                 ?.patchValue(this.data.chapter?.actionTime);
-
-            this.chapterForm.get('book')?.patchValue(this.data.book.id);
         }
     }
 
@@ -75,14 +72,17 @@ export class EditChapterDialogComponent
                 .pipe()
                 .subscribe((books) => {
                     this.books = books;
+                    this.chapterForm
+                        .get('book')
+                        ?.patchValue(this.data.book?.id);
                 })
         );
     }
 
     upsertChapter() {
-        const chapter: Partial<ChapterRequest> = {
+        const chapter = {
             id: this.data?.chapter?.id ?? null,
-            bookId: this.chapterForm.get('book')?.value.id,
+            bookId: this.chapterForm.get('book')?.value,
             name: this.chapterForm.get('name')?.value,
             chapterDesc: this.chapterForm.get('chapterDesc')?.value,
             actionTime: this.chapterForm.get('actionTime')?.value,

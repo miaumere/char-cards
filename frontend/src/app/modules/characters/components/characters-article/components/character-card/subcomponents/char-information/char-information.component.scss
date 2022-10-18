@@ -1,3 +1,5 @@
+@import 'variables';
+
 .information {
     display: flex;
     flex-direction: column;
@@ -14,6 +16,8 @@
 
     &__segment {
         margin-top: 1rem;
+
+        @include font-special;
     }
 }
 
@@ -26,4 +30,28 @@
 .profile-pic-edition-container {
     width: 125px;
     height: 100px;
+}
+
+.story {
+    &__title {
+        @include font-special;
+        font-size: 2rem;
+    }
+}
+
+.story-starring-in-container {
+    display: flex;
+    flex-direction: row;
+}
+.story-container {
+    width: 60%;
+}
+
+@media (max-width: 1250px) {
+    .story-starring-in-container {
+        flex-wrap: wrap;
+    }
+    .story-container {
+        width: 100%;
+    }
 }

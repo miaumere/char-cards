@@ -100,6 +100,7 @@ export class ChaptersListMenuComponent extends BaseComponent implements OnInit {
     }
 
     openChapterDialog(chapter?: Chapter) {
+
         const dialogData: BookDialogData = {
             chapter: chapter ?? undefined,
             book: this.book,
