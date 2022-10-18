@@ -42,11 +42,6 @@ export class StarringInInfoComponent implements OnInit {
                 {
                     chapterId: 1,
                     chapterName: 'Część pierwsza',
-                    starringType: StarringType.MENTIONED,
-                },
-                {
-                    chapterId: 1,
-                    chapterName: 'Część pierwsza',
                     starringType: StarringType.NONE,
                 },
             ],
@@ -91,6 +86,47 @@ export class StarringInInfoComponent implements OnInit {
                 bookOrder: 5,
             },
             chapters: [],
+        },
+        {
+            book: {
+                id: 1,
+                name: 'Ceglany',
+                color: 'orange',
+                symbol: '🧱',
+                bookOrder: 1,
+            },
+            chapters: [
+                {
+                    chapterId: 1,
+                    chapterName: 'Część pierwsza',
+                    starringType: StarringType.MAIN,
+                },
+                {
+                    chapterId: 1,
+                    chapterName: 'Część pierwsza',
+                    starringType: StarringType.SIDE,
+                },
+                {
+                    chapterId: 1,
+                    chapterName: 'Część pierwsza',
+                    starringType: StarringType.BACKGROUND,
+                },
+                {
+                    chapterId: 1,
+                    chapterName: 'Część pierwsza',
+                    starringType: StarringType.MENTIONED,
+                },
+                {
+                    chapterId: 1,
+                    chapterName: 'Część pierwsza',
+                    starringType: StarringType.MENTIONED,
+                },
+                {
+                    chapterId: 1,
+                    chapterName: 'Część pierwsza',
+                    starringType: StarringType.MAIN,
+                },
+            ],
         },
     ];
 

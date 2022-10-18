@@ -7,28 +7,22 @@
 
 .square {
     &--MAIN {
-        filter: saturate(2) contrast(2) brightness(0.9);
+        filter: saturate(2) contrast(2) brightness(0.4);
     }
     &--SIDE {
         filter: saturate(1.3) contrast(2);
     }
     &--BACKGROUND {
-        filter: saturate(1) brightness(1.5);
+        filter: saturate(0.5) brightness(1.5) contrast(0.3);
     }
     &--MENTIONED {
         filter: saturate(0.5) brightness(0.5);
     }
+
     &--NONE {
-        filter: saturate(0.6) brightness(0.3);
+        filter: saturate(0.5) brightness(0.2);
     }
 }
-
-// .item-cell {
-//     width: 10px;
-//     margin: 0;
-//     padding: 0;
-//     display: block;
-// }
 
 .chapters-title {
     transform: rotate(300deg);
@@ -36,5 +30,6 @@
 
 .empty {
     fill: transparent;
-    stroke: #90a4ae;
+    stroke-width: 2;
+    filter: saturate(0.5) brightness(0.2);
 }

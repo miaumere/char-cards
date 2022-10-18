@@ -7,14 +7,14 @@
                     <div class="book-item" [title]="mockItem.book.name">
                         <app-book-icon
                             [book]="mockItem.book"
-                            [size]="1"
+                            [size]="1.1"
                         ></app-book-icon>
                     </div>
                 </th>
             </tr>
         </thead>
         <tr>
-            <td class="chapters-title">Części</td>
+            <td class="chapters-title">{{ 'NAVBAR.CHAPTERS' | translate }}</td>
             <td *ngFor="let mockItem of mock" class="item-cell">
                 <svg
                     [attr.height]="
@@ -28,7 +28,7 @@
                             [attr.y]="setRectX(i)"
                             [attr.width]="squareHeight"
                             [attr.height]="squareHeight"
-                            rx="2"
+                            rx="3"
                             [attr.fill]="color"
                             [class]="
                                 'square square--' +
@@ -43,7 +43,8 @@
                             [attr.y]="setRectX(i)"
                             [attr.width]="squareHeight"
                             [attr.height]="squareHeight"
-                            rx="2"
+                            [attr.stroke]="color"
+                            rx="3"
                         ></rect>
                     </g>
                 </svg>
