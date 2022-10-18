@@ -1,9 +1,6 @@
 import { Book } from 'src/app/modules/edit-story-panel/models/books/book.model';
 import { Component, Input, OnInit } from '@angular/core';
 import * as tinycolor from 'tinycolor2';
-import { MatIconRegistry } from '@angular/material/icon';
-import { DomSanitizer } from '@angular/platform-browser';
-import { TAvailableIcons } from 'src/app/modules/edit-story-panel/enums/availableIcons.enum';
 
 @Component({
     selector: 'app-book-icon [book]',

@@ -1,63 +1,53 @@
-<div class="starring__content">
-    <!-- <mat-card class="legend">
-        <mat-card-header>
-            <mat-card-title class="legend">{{
-                'SHARED.LEGEND_KEY' | translate
-            }}</mat-card-title>
-        </mat-card-header>
-        <div class="legend__item legend-item">
-            <span class="legend-item__symbol legend-item__symbol--main"
-                >MAIN</span
-            >
-            <span class="legend-item__desc">{{
-                'CHARACTER_CARD.STARRED_AS_MAIN' | translate
-            }}</span>
-        </div>
-        <div class="legend__item legend-item">
-            <span class="legend-item__symbol legend-item__symbol--side"
-                >SIDE</span
-            >
-            <span class="legend-item__desc">{{
-                'CHARACTER_CARD.STARRED_AS_SIDE' | translate
-            }}</span>
-        </div>
-        <div class="legend__item legend-item">
-            <span class="legend-item__symbol legend-item__symbol--bg">BG</span>
-            <span class="legend-item__desc">{{
-                'CHARACTER_CARD.STARRED_AS_BG' | translate
-            }}</span>
-        </div>
-        <div class="legend__item legend-item">
-            <span class="legend-item__symbol legend-item__symbol--mtn"
-                >MTN</span
-            >
-            <span class="legend-item__desc">{{
-                'CHARACTER_CARD.STARRED_AS_MTN' | translate
-            }}</span>
-        </div>
-        <div class="legend__item legend-item">
-            <span class="legend-item__symbol legend-item__symbol--no">-</span>
-            <span class="legend-item__desc">{{
-                'CHARACTER_CARD.NO_STARRED' | translate
-            }}</span>
-        </div>
-    </mat-card> -->
-</div>
-<div>
-    <table class="chapters-table">
+<div class="container">
+    <table>
+        <thead>
+            <tr>
+                <th></th>
+                <th *ngFor="let mockItem of mock">
+                    <div class="book-item" [title]="mockItem.book.name">
+                        <app-book-icon
+                            [book]="mockItem.book"
+                            [size]="1"
+                        ></app-book-icon>
+                    </div>
+                </th>
+            </tr>
+        </thead>
         <tr>
-            <th *ngFor="let mockItem of mock">
-                <div class="book-item" [title]="mockItem.book.name"></div>
-                <app-book-icon
-                    [book]="mockItem.book"
-                    [size]="1"
-                ></app-book-icon>
-            </th>
-        </tr>
-        <tr *ngFor="let mockItem of mock">
-            <td>Alfreds Futterkiste</td>
-            <td>Maria Anders</td>
-            <td>Germany</td>
+            <td class="chapters-title">Części</td>
+            <td *ngFor="let mockItem of mock" class="item-cell">
+                <svg
+                    [attr.height]="
+                        squareHeight * (mockItem.chapters.length + 2)
+                    "
+                    [attr.width]="squareHeight"
+                >
+                    <g *ngFor="let chapter of mockItem.chapters; index as i">
+                        <rect
+                            *ngIf="chapter.starringType !== null"
+                            [attr.y]="setRectX(i)"
+                            [attr.width]="squareHeight"
+                            [attr.height]="squareHeight"
+                            rx="2"
+                            [attr.fill]="color"
+                            [class]="
+                                'square square--' +
+                                StarringType[chapter.starringType]
+                            "
+                        />
+
+                        <rect
+                            *ngIf="chapter.starringType === null"
+                            class="empty"
+                            [attr.fill]="color"
+                            [attr.y]="setRectX(i)"
+                            [attr.width]="squareHeight"
+                            [attr.height]="squareHeight"
+                            rx="2"
+                        ></rect>
+                    </g>
+                </svg>
+            </td>
         </tr>
     </table>
 </div>

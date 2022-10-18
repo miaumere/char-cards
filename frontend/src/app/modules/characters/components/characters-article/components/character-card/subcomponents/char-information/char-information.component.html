@@ -41,7 +41,10 @@
                 <h2 class="story__title" [ngStyle]="{ color: themeColor1 }">
                     📚 {{ 'CHARACTER_CARD.APPEARANCE' | translate }}
                 </h2>
-                <app-starring-in-info [starringIn]="character.starringIn">
+                <app-starring-in-info
+                    [starringIn]="character.starringIn"
+                    [color]="themeColor1"
+                >
                 </app-starring-in-info>
             </div>
         </div>

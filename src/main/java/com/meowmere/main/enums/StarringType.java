@@ -4,5 +4,6 @@ public enum StarringType {
     MAIN,
     SIDE,
     BACKGROUND,
-    MENTIONED
+    MENTIONED,
+    NONE
 }

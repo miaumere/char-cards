@@ -1,6 +1,7 @@
 export enum StarringType {
-  MAIN,
-  SIDE,
-  BACKGROUND,
-  MENTIONED
+    MAIN,
+    SIDE,
+    BACKGROUND,
+    MENTIONED,
+    NONE,
 }

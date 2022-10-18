@@ -1,84 +1,40 @@
 @import 'variables';
 
-.legend-item {
-    display: flex;
-    align-items: center;
-
-    margin-bottom: 3px;
-
-    &__desc {
-        margin-left: 1rem;
-        font-size: xx-small;
-    }
-    &__symbol {
-        width: 2rem;
-
-        padding: 0.2rem;
-        border-radius: 3px;
-
-        text-align: center;
-        font-size: xx-small;
-        color: black;
-
-        &--main {
-            background: #a6c0fe;
-        }
-        &--side {
-            background: #84fab0;
-        }
-        &--bg {
-            background: #fcb69f;
-        }
-        &--mtn {
-            background: #e0c3fc;
-        }
-        &--no {
-            background: #fd868c;
-        }
-    }
-}
-
-.chapters-table {
-    margin-top: 2rem;
-    &__cell {
-        width: 5rem;
-        text-align: center;
-    }
-}
-.starring-type {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.starring {
-    &__content {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-
-        margin-top: 1rem;
-    }
-}
-.starring-in {
-    margin: 0.5rem;
-    background: $dark-bg-component-color;
-
-    &__book-name {
-        border-radius: 3px;
-        padding: 0.25rem;
-
-        color: black;
-        letter-spacing: 1px;
-        text-align: center;
-    }
-}
-.legend {
-    font-size: initial;
-    @include font-regular;
-}
-
 .book-item {
-    cursor: pointer;
-    width: 5rem;
+    margin-bottom: 0.25rem;
+    margin-left: -0.25rem;
+}
+
+.square {
+    &--MAIN {
+        filter: saturate(2) contrast(2) brightness(0.9);
+    }
+    &--SIDE {
+        filter: saturate(1.3) contrast(2);
+    }
+    &--BACKGROUND {
+        filter: saturate(1) brightness(1.5);
+    }
+    &--MENTIONED {
+        filter: saturate(0.5) brightness(0.5);
+    }
+    &--NONE {
+        filter: saturate(0.6) brightness(0.3);
+    }
+}
+
+// .item-cell {
+//     width: 10px;
+//     margin: 0;
+//     padding: 0;
+//     display: block;
+// }
+
+.chapters-title {
+    transform: rotate(300deg);
+}
+
+.empty {
+    fill: transparent;
+    stroke: #90a4ae;
 }
