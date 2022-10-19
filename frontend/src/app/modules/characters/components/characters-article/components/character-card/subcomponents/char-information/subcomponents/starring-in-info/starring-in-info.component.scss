@@ -22,6 +22,10 @@
     &--NONE {
         filter: saturate(0.5) brightness(0.2);
     }
+
+    &:hover {
+        cursor: help;
+    }
 }
 
 .chapters-title {
@@ -32,4 +36,8 @@
     fill: transparent;
     stroke-width: 2;
     filter: saturate(0.5) brightness(0.2);
+
+    &:hover {
+        cursor: not-allowed;
+    }
 }

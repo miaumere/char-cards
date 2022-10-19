@@ -18,7 +18,7 @@
             <td *ngFor="let starringInItem of starringIn" class="item-cell">
                 <svg
                     [attr.height]="
-                        squareHeight * (starringInItem.chapters.length + 2)
+                        squareHeight * (starringInItem.chapters.length + 5)
                     "
                     [attr.width]="squareHeight"
                 >
@@ -29,6 +29,12 @@
                         "
                     >
                         <rect
+                            [matTooltip]="
+                                chapter.chapterName +
+                                ' - ' +
+                                chapter.starringType
+                            "
+                            matTooltipPosition="above"
                             *ngIf="chapter.starringType !== null"
                             [attr.y]="setRectX(i)"
                             [attr.width]="squareHeight"
