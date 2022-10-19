@@ -28,72 +28,37 @@
         </a>
     </li>
 
-    <li class="navbar__item--user">
-        <button mat-button [matMenuTriggerFor]="menu">
-            <mat-icon svgIcon="user"></mat-icon>
-            <span *ngIf="_authService.loggedUser$ | async">
-                {{ (_authService.loggedUser$ | async)?.username }}
-            </span>
-            <span *ngIf="!(_authService.loggedUser$ | async)">
-                {{ 'NAVBAR.NO_USER' | translate }}
-            </span>
-        </button>
+    <li class="navbar__item" *appIfLoggedUser>
+        <a [routerLink]="['/tags']" routerLinkActive="navbar__item--active">
+            <button mat-button>{{ 'NAVBAR.TAGS' | translate }}</button>
+        </a>
     </li>
-    <mat-menu #menu="matMenu">
-        <a [routerLink]="['/edit-story-panel']">
-            <button
-                mat-menu-item
-                *ngIf="
-                    (_authService.loggedUser$ | async) &&
-                    (_authService.loggedUser$ | async)?.username
-                "
-            >
-                {{ 'NAVBAR.ADMIN_CHAPTERS' | translate }}
-            </button>
-        </a>
 
-        <a [routerLink]="['/tags']">
-            <button
-                mat-menu-item
-                *ngIf="
-                    (_authService.loggedUser$ | async) &&
-                    (_authService.loggedUser$ | async)?.username
-                "
-            >
-                {{ 'NAVBAR.TAGS' | translate }}
-            </button>
-        </a>
-
-        <a [routerLink]="['/login']">
-            <button mat-menu-item *ngIf="!(_authService.loggedUser$ | async)">
-                <mat-icon svgIcon="log-in"></mat-icon>
-                {{ 'NAVBAR.LOGIN' | translate }}
-            </button>
-        </a>
-        <button
-            mat-menu-item
-            (click)="logout()"
-            *ngIf="
-                (_authService.loggedUser$ | async) &&
-                (_authService.loggedUser$ | async)?.username
-            "
-        >
-            <mat-icon>exit_to_app</mat-icon>
-            {{ 'NAVBAR.LOGOUT' | translate }}
-        </button>
-    </mat-menu>
     <li class="navbar__item--lang">
-        <ng-container *ngFor="let lang of supportedLanguages">
-            <button (click)="saveLang(lang.language)">
-                <div
-                    [style.background]="'url(' + lang.flag + ')'"
-                    class="lang-icon"
-                    [ngClass]="{
-                        'lang-icon--active':
-                            lang.language === translate.currentLang
-                    }"
-                ></div>
-            </button>
-        </ng-container>
+        <button
+            mat-button
+            (click)="logout()"
+            *ngIf="_authService.loggedUser$ | async"
+        >
+            {{ (_authService.loggedUser$ | async)?.username }}
+            <mat-icon>exit_to_app</mat-icon>
+        </button>
+        <button mat-button *ngIf="!(_authService.loggedUser$ | async)">
+            <a [routerLink]="['/login']">
+                {{ 'NAVBAR.NO_USER' | translate }}
+            </a>
+        </button>
+        <button
+            (click)="saveLang(lang.language)"
+            *ngFor="let lang of supportedLanguages"
+        >
+            <div
+                [style.background]="'url(' + lang.flag + ')'"
+                class="lang-icon"
+                [ngClass]="{
+                    'lang-icon--active': lang.language === translate.currentLang
+                }"
+            ></div>
+        </button>
     </li>
 </ul>

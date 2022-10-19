@@ -35,24 +35,9 @@ export class NavbarComponent extends BaseComponent implements OnInit {
         public _authService: AuthService,
         private _toastr: ToastrService,
         private _route: Router,
-        iconRegistry: MatIconRegistry,
-        sanitizer: DomSanitizer,
         public translate: TranslateService
     ) {
         super();
-        iconRegistry.addSvgIcon(
-            'log-in',
-            sanitizer.bypassSecurityTrustResourceUrl(
-                '../../../../assets/svg/iconmonstr-key-3.svg'
-            )
-        );
-        iconRegistry.addSvgIcon(
-            'user',
-            sanitizer.bypassSecurityTrustResourceUrl(
-                '../../../../assets/svg/iconmonstr-user-19.svg'
-            )
-        );
-
         translate.addLangs(['en', 'pl']);
         translate.setDefaultLang('en');
     }

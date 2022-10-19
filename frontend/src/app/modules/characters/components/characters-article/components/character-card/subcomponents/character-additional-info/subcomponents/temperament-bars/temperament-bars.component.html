@@ -103,19 +103,15 @@
     let-temperamentType="temperamentType"
     let-form="form"
 >
-    <div
-        *ngIf="editedKey !== 'temperament'"
-        appProgressBar
-        [percentValue]="temperament"
-        [temperamentType]="temperamentType"
-    ></div>
+    <label [for]="temperamentType"> {{ temperament }}% </label>
 
     <meter
+        class="temperament-meter"
+        min="0"
         [value]="temperament"
         max="100"
-        min="0"
-        class="temperament-meter"
-        [ngStyle]="{ '--theme-color': 'red' }"
+        *ngIf="editedKey !== 'temperament'"
+        [id]="temperamentType"
     >
         {{ temperament }}%
     </meter>

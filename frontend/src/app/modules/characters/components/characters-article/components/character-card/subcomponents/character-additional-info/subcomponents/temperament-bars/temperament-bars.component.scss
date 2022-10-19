@@ -1,19 +1,20 @@
 @import 'variables';
 
 .temperaments {
-    margin-top: 1rem;
+    margin-top: 2rem;
 }
 
 .temperament {
     padding-top: 0.5rem;
 
     &__container {
-        margin-top: 0.2rem;
+        margin: 0.2rem;
+        margin-top: -0.5rem;
 
         display: flex;
         align-items: center;
 
-        height: 2rem;
+        justify-content: space-between;
     }
 }
 
@@ -30,6 +31,7 @@
         width: 0;
 
         color: var(--theme-color);
+        margin-bottom: 2rem;
     }
 }
 
@@ -62,7 +64,13 @@
 }
 
 .temperament-meter {
+    width: 70%;
+
     &::-webkit-meter-optimum-value {
         background: var(--theme-color);
+    }
+
+    &::-webkit-meter-bar {
+        background: black;
     }
 }
