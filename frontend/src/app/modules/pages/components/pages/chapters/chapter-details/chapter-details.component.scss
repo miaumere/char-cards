@@ -61,3 +61,8 @@
     align-items: baseline;
     flex-direction: column;
 }
+
+.upload-file,
+.file-icon {
+    color: var(--book-color);
+}

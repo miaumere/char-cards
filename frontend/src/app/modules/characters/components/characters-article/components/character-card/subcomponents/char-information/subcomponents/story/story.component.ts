@@ -13,13 +13,12 @@ import {
 import { insertDeleteInfo } from 'src/app/modules/shared/functions/insert-delete.info';
 
 @Component({
-    selector: 'app-story [story] [color] [charId] [isUserLogged]',
+    selector: 'app-story [story][charId] [isUserLogged]',
     templateUrl: './story.component.html',
     styleUrls: ['./story.component.scss'],
 })
 export class StoryComponent extends BaseComponent implements OnInit {
     @Input() story: Story[] = [];
-    @Input() color: string = '';
     @Input() isUserLogged: boolean = false;
     @Input() charId: number = 0;
 

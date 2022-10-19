@@ -35,6 +35,9 @@
 .story {
     &__title {
         @include font-special;
+
+        color: var(--theme-color);
+
         font-size: 2rem;
     }
 }
@@ -42,9 +45,7 @@
 .story-starring-in-container {
     display: flex;
     flex-direction: row;
-}
-.story-container {
-    width: 60%;
+    width: 100%;
 }
 
 @media (max-width: 1250px) {
@@ -54,4 +55,12 @@
     .story-container {
         width: 100%;
     }
+}
+
+.story-title-container {
+    width: 60%;
+}
+
+.charts-container {
+    display: flex;
 }

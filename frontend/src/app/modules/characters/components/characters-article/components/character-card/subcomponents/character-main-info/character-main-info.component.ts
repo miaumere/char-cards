@@ -26,7 +26,7 @@ import { IColors } from 'src/app/modules/characters/models/colors.model';
 import { IImageForMain } from 'src/app/modules/characters/models/image-for-main.model';
 
 @Component({
-    selector: 'app-character-main-info [character] [color] [fontColor]',
+    selector: 'app-character-main-info [character] [fontColor]',
     templateUrl: './character-main-info.component.html',
     styleUrls: ['./character-main-info.component.scss'],
 })
@@ -37,7 +37,6 @@ export class CharacterMainInfoComponent
     readonly Gender = Gender;
     readonly CharType = CharType;
     @Input() character: Character | null = null;
-    @Input('color') themeColor1: string = '';
     @Input() fontColor: string = '';
 
     @Input() isUserLogged: boolean = false;

@@ -1,9 +1,18 @@
 @import 'variables';
 
 .chart {
+    display: flex;
+    justify-content: center;
+
     user-select: none;
     -moz-user-select: none;
     -webkit-user-select: none;
+}
+
+.chart-and-icon-container {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
 }
 
 .no-data-info {
@@ -26,4 +35,5 @@
 
 .save-icon-container {
     display: flex;
+    margin-left: 1rem;
 }

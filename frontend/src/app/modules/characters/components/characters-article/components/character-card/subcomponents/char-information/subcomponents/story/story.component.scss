@@ -16,6 +16,7 @@
         align-items: baseline;
 
         @include font-special;
+        color: var(--theme-color);
     }
 
     &__story-block {

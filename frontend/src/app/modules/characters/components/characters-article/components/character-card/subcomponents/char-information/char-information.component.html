@@ -14,7 +14,6 @@
         <app-quotes
             [isUserLogged]="isUserLogged"
             [quote]="character.quote"
-            [color]="themeColor1"
             [charId]="character.externalId"
             (quotesChangedEvent)="emitInfoHasChangedEvent()"
         >
@@ -23,28 +22,27 @@
 
     <div class="information__segment">
         <app-divider></app-divider>
-        <h2 class="story__title" [ngStyle]="{ color: themeColor1 }">
-            📖 {{ 'CHARACTER_CARD.STORY' | translate }}
-        </h2>
+
         <div class="story-starring-in-container">
-            <app-story
-                class="story-container"
-                [story]="character.story"
-                [color]="themeColor1"
-                [isUserLogged]="isUserLogged"
-                (storyChangedEvent)="emitInfoHasChangedEvent()"
-                [charId]="character.externalId"
-            >
-            </app-story>
+            <div class="story-title-container">
+                <h2 class="story__title">
+                    📖 {{ 'CHARACTER_CARD.STORY' | translate }}
+                </h2>
+                <app-story
+                    class="story-container"
+                    [story]="character.story"
+                    [isUserLogged]="isUserLogged"
+                    (storyChangedEvent)="emitInfoHasChangedEvent()"
+                    [charId]="character.externalId"
+                >
+                </app-story>
+            </div>
 
             <div *ngIf="character.starringIn && !!character.starringIn.length">
-                <h2 class="story__title" [ngStyle]="{ color: themeColor1 }">
+                <h2 class="story__title">
                     📚 {{ 'CHARACTER_CARD.APPEARANCE' | translate }}
                 </h2>
-                <app-starring-in-info
-                    [starringIn]="character.starringIn"
-                    [color]="themeColor1"
-                >
+                <app-starring-in-info [starringIn]="character.starringIn">
                 </app-starring-in-info>
             </div>
         </div>
@@ -53,17 +51,20 @@
     <div class="information__segment">
         <app-divider></app-divider>
 
-        <h2 class="story__title" [ngStyle]="{ color: themeColor1 }">
-            👨‍👨‍👦‍👦 {{ 'CHARACTER_CARD.FAMILY_RELATIONS' | translate }}
-        </h2>
+        <div>
+            <h2 class="story__title">
+                👨‍👨‍👦‍👦 {{ 'CHARACTER_CARD.FAMILY_RELATIONS' | translate }}
+            </h2>
 
-        <app-char-relations
-            [color]="themeColor1"
-            [isUserLogged]="isUserLogged"
-            [profilePic]="character.profilePic"
-            [charId]="character.externalId"
-            [charFullName]="character.charName + ' ' + character.charSurname"
-        ></app-char-relations>
+            <app-char-relations
+                [isUserLogged]="isUserLogged"
+                [profilePic]="character.profilePic"
+                [charId]="character.externalId"
+                [charFullName]="
+                    character.charName + ' ' + character.charSurname
+                "
+            ></app-char-relations>
+        </div>
     </div>
 
     <div
@@ -71,7 +72,7 @@
         *ngIf="(preferences && !!preferences.length) || isUserLogged"
     >
         <app-divider></app-divider>
-        <h2 class="story__title" [ngStyle]="{ color: themeColor1 }">
+        <h2 class="story__title">
             💘 {{ 'CHARACTER_CARD.PREFERENCES' | translate }}
         </h2>
         <app-preferences
@@ -87,7 +88,7 @@
         *ngIf="character.measurements?.hasAnyValues || isUserLogged"
     >
         <app-divider></app-divider>
-        <h2 class="story__title" [ngStyle]="{ color: themeColor1 }">
+        <h2 class="story__title">
             📏 {{ 'CHARACTER_CARD.WEIGHT_HEIGHT_TABLE' | translate }}
         </h2>
 

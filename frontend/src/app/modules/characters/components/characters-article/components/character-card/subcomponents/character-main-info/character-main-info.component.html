@@ -11,7 +11,7 @@
 
         <span
             class="card__type"
-            [ngStyle]="{ background: themeColor1, color: fontColor }"
+            [ngStyle]="{ color: fontColor }"
             *ngIf="editedKey !== 'charType'"
             [ngClass]="{ disabled: isNewChar }"
         >
@@ -125,7 +125,7 @@
         </div>
     </span>
 
-    <div [ngStyle]="{ color: themeColor1 }" class="name--pseudonim">
+    <div class="name--pseudonim">
         <ng-container
             *ngTemplateOutlet="
                 editButtons;
@@ -149,7 +149,6 @@
         [ngClass]="{ disabled: isNewChar }"
         [character]="character"
         [isUserLogged]="isUserLogged"
-        [bgColor]="themeColor1"
         [fontColor]="fontColor"
         (imagesHaveChangedEvent)="emitInfoHasChangedEvent()"
     >

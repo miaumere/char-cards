@@ -6,7 +6,7 @@ import { StarringType } from 'src/app/modules/edit-story-panel/enums/StarringTyp
 import { BookForCharacter } from 'src/app/modules/characters/models/starring-in/book-for-character';
 
 @Component({
-    selector: 'app-starring-in-info [starringIn] [color]',
+    selector: 'app-starring-in-info [starringIn]',
     templateUrl: './starring-in-info.component.html',
     styleUrls: ['./starring-in-info.component.scss'],
     encapsulation: ViewEncapsulation.None,
@@ -15,7 +15,6 @@ export class StarringInInfoComponent implements OnInit {
     readonly StarringType = StarringType;
 
     @Input() starringIn: BookForCharacter[] = [];
-    @Input() color: string = 'grey';
 
     constructor() {}
 

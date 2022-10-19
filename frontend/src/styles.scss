@@ -19,6 +19,11 @@ $my-app-theme: mat-dark-theme($my-app-primary, $my-app-accent);
 
 @import './fonts.scss';
 
+:root {
+    --theme-color: 'white';
+    --book-color: 'white';
+}
+
 body {
     font-size: 62.5%;
     background: $chars-list-bg;
@@ -49,8 +54,6 @@ figure,
 figcaption {
     margin: 0;
 }
-
-
 
 .global-progress-bar {
     height: 0.6rem;
@@ -105,12 +108,8 @@ figcaption {
 }
 
 ::selection {
-    background: white;
+    background: var(--theme-color);
     color: black;
-}
-
-.test {
-    background: red;
 }
 
 .mat-expansion-panel-body {

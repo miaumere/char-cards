@@ -14,12 +14,8 @@
         >
 
         <div *appIfLoggedUser class="file-options">
-            <div class="upload-file" [ngStyle]="{ color: bookColor }">
-                <mat-icon
-                    (click)="fileInput.click()"
-                    class="file-icon"
-                    [ngStyle]="{ color: bookColor }"
-                >
+            <div class="upload-file">
+                <mat-icon (click)="fileInput.click()" class="file-icon">
                     attach_file</mat-icon
                 >
 

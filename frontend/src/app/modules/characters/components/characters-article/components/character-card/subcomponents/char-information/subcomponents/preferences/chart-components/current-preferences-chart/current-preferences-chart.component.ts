@@ -55,11 +55,7 @@ export class CurrentPreferencesComponent
         let circles: any;
         let rects: any;
 
-        let lineColor = 'black';
-
-        if (!!this.color && tinycolor(this.color).isDark) {
-            lineColor = 'white';
-        }
+        let lineColor = 'white';
 
         const xAxisScale = d3.scaleLinear().domain([0, 100]).range([0, width]);
 

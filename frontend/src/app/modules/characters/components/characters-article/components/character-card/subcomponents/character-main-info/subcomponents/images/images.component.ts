@@ -19,14 +19,13 @@ import { EditImageName } from 'src/app/modules/characters/models/images/edit-ima
 import { insertDeleteInfo } from 'src/app/modules/shared/functions/insert-delete.info';
 
 @Component({
-    selector: 'app-images [character] [isUserLogged] [bgColor] [fontColor]',
+    selector: 'app-images [character] [isUserLogged][fontColor]',
     templateUrl: './images.component.html',
     styleUrls: ['./images.component.scss'],
 })
 export class ImagesComponent extends BaseComponent implements OnInit {
     @Input() character: Character | null = null;
     @Input() isUserLogged: boolean = false;
-    @Input('bgColor') bgColor2: Character | null = null;
     @Input() fontColor: string = '';
 
     @Output() imagesHaveChangedEvent = new EventEmitter<true>();

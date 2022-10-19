@@ -28,6 +28,8 @@
         margin-bottom: 1rem;
 
         width: 0;
+
+        color: var(--theme-color);
     }
 }
 
@@ -57,4 +59,10 @@
     display: flex;
     align-items: center;
     height: 1rem;
+}
+
+.temperament-meter {
+    &::-webkit-meter-optimum-value {
+        background: var(--theme-color);
+    }
 }

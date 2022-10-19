@@ -5,12 +5,7 @@
     <blockquote class="quote__blockquote">
         {{ quote.quote }}
     </blockquote>
-    <cite
-        *ngIf="quote.context"
-        class="quote__cite"
-        [ngStyle]="{ color: themeColor1 }"
-        >~ {{ quote.context }}</cite
-    >
+    <cite *ngIf="quote.context" class="quote__cite">~ {{ quote.context }}</cite>
 </div>
 
 <mat-expansion-panel
@@ -66,11 +61,7 @@
                         <input matInput formControlName="quote" />
                     </mat-form-field>
                 </blockquote>
-                <cite
-                    *ngIf="quotation.context"
-                    class="quote__cite"
-                    [ngStyle]="{ color: themeColor1 }"
-                >
+                <cite *ngIf="quotation.context" class="quote__cite">
                     <span
                         class="quote__cite"
                         *ngIf="quotation.id !== editedQuoteId"

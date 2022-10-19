@@ -32,7 +32,6 @@
     <div class="info-container" [ngClass]="{ hidden: character?.archived }">
         <app-character-main-info
             [character]="character"
-            [color]="themeColor1"
             [fontColor]="fontColor"
             [isUserLogged]="isUserLogged"
             (infoHasChangedEvent)="changed()"
@@ -49,7 +48,6 @@
             [isUserLogged]="isUserLogged"
             (infoHasChangedEvent)="changed()"
             [form]="form"
-            [color]="themeColor1"
             (saveEvent)="saveCharacter()"
             (editedKeyChange)="patchForm($event)"
             [editedKey]="editedKey"
@@ -60,7 +58,6 @@
 
     <app-char-information
         [character]="character"
-        [color]="themeColor1"
         [preferences]="preferences"
         [isUserLogged]="isUserLogged"
         (infoHasChangedEvent)="changed()"

@@ -18,7 +18,6 @@ export class QuotesComponent extends BaseComponent implements OnInit {
     @Input() isUserLogged: boolean = false;
     @Input() quote: IQuote | null = null;
     @Input() charId: number = 0;
-    @Input('color') themeColor1: string = '';
 
     @Output() quotesChangedEvent = new EventEmitter<true>();
 

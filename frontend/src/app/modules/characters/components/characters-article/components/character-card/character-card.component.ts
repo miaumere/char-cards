@@ -263,6 +263,9 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
                             ? tinycolor(themeColorForChar)
                             : tinycolor(themeColorForChar).lighten(35));
 
+                    let root = document.documentElement;
+                    root.style.setProperty('--theme-color', this.themeColor1);
+
                     this.fontColor = tinycolor(this.themeColor1).isLight()
                         ? 'black'
                         : 'white';

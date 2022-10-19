@@ -32,7 +32,6 @@
                         "
                         *ngIf="chapter.starringType !== null"
                         rx="3"
-                        [ngStyle]="{ background: color }"
                         [class]="'square square--' + chapter.starringType"
                         [routerLink]="['../../pages/chapters/pages']"
                         [queryParams]="{
@@ -43,7 +42,6 @@
                     ></div>
                     <div
                         class="square square--empty"
-                        [ngStyle]="{ 'border-color': color }"
                         *ngIf="chapter.starringType === null"
                     ></div>
                 </div>

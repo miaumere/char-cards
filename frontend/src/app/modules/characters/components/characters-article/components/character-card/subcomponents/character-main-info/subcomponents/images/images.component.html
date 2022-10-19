@@ -30,7 +30,7 @@
             <div
                 cdkDrag
                 class="profile-pic__button"
-                [ngStyle]="{ background: bgColor2, color: fontColor }"
+                [ngStyle]="{ color: fontColor }"
                 *ngFor="let image of character.imagesList; index as i"
             >
                 <ng-container *ngIf="isUserLogged">
