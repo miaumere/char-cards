@@ -1,5 +1,5 @@
 <div class="container">
-    <table>
+    <table class="starring-in-table">
         <thead>
             <tr>
                 <th></th>
@@ -16,46 +16,24 @@
         <tr>
             <td class="chapters-title">{{ 'NAVBAR.CHAPTERS' | translate }}</td>
             <td *ngFor="let starringInItem of starringIn" class="item-cell">
-                <svg
-                    [attr.height]="
-                        squareHeight * (starringInItem.chapters.length + 5)
-                    "
-                    [attr.width]="squareHeight"
+                <div
+                    *ngFor="let chapter of starringInItem.chapters; index as i"
                 >
-                    <g
-                        *ngFor="
-                            let chapter of starringInItem.chapters;
-                            index as i
+                    <div
+                        [title]="
+                            chapter.chapterName + ' - ' + chapter.starringType
                         "
-                    >
-                        <rect
-                            [matTooltip]="
-                                chapter.chapterName +
-                                ' - ' +
-                                chapter.starringType
-                            "
-                            matTooltipPosition="above"
-                            *ngIf="chapter.starringType !== null"
-                            [attr.y]="setRectX(i)"
-                            [attr.width]="squareHeight"
-                            [attr.height]="squareHeight"
-                            rx="3"
-                            [attr.fill]="color"
-                            [class]="'square square--' + chapter.starringType"
-                        />
-
-                        <rect
-                            *ngIf="chapter.starringType === null"
-                            class="empty"
-                            [attr.fill]="color"
-                            [attr.y]="setRectX(i)"
-                            [attr.width]="squareHeight"
-                            [attr.height]="squareHeight"
-                            [attr.stroke]="color"
-                            rx="3"
-                        ></rect>
-                    </g>
-                </svg>
+                        *ngIf="chapter.starringType !== null"
+                        rx="3"
+                        [ngStyle]="{ background: color }"
+                        [class]="'square square--' + chapter.starringType"
+                    ></div>
+                    <div
+                        class="square square--empty"
+                        [ngStyle]="{ 'border-color': color }"
+                        *ngIf="chapter.starringType === null"
+                    ></div>
+                </div>
             </td>
         </tr>
     </table>

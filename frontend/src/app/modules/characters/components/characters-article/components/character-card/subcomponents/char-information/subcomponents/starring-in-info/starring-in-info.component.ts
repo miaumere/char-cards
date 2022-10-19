@@ -13,7 +13,6 @@ import { BookForCharacter } from 'src/app/modules/characters/models/starring-in/
 })
 export class StarringInInfoComponent implements OnInit {
     readonly StarringType = StarringType;
-    readonly squareHeight: number = 15;
 
     @Input() starringIn: BookForCharacter[] = [];
     @Input() color: string = 'grey';
@@ -43,9 +42,5 @@ export class StarringInInfoComponent implements OnInit {
                 });
             }
         }
-    }
-
-    setRectX(order: number): number {
-        return order * 20;
     }
 }

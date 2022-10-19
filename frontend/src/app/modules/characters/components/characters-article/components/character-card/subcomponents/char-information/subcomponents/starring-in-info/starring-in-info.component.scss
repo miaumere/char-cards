@@ -2,10 +2,20 @@
 
 .book-item {
     margin-bottom: 0.25rem;
-    margin-left: -0.25rem;
+    margin-left: 0rem;
+}
+
+.starring-in-table {
+    border-collapse: collapse;
 }
 
 .square {
+    border-radius: 3px;
+    height: 15px;
+    width: 15px;
+    box-sizing: border-box;
+    margin-bottom: 0.4rem;
+
     &--MAIN {
         filter: saturate(2) contrast(2) brightness(0.4);
     }
@@ -26,18 +36,21 @@
     &:hover {
         cursor: help;
     }
+
+    &--empty {
+        fill: transparent;
+        border-width: 2px;
+        border-style: solid;
+        border-radius: 3px;
+
+        filter: saturate(0.5) brightness(0.2);
+
+        &:hover {
+            cursor: not-allowed;
+        }
+    }
 }
 
 .chapters-title {
     transform: rotate(300deg);
-}
-
-.empty {
-    fill: transparent;
-    stroke-width: 2;
-    filter: saturate(0.5) brightness(0.2);
-
-    &:hover {
-        cursor: not-allowed;
-    }
 }
