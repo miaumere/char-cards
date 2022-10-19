@@ -61,19 +61,21 @@
                 <div class="starring-characters-form__radio-group radio-group">
                     <label
                         class="radio-group__item"
-                        *ngFor="let gen of StarringType | enumVal"
+                        *ngFor="let type of StarringType | enumVal"
                     >
-                        <input
-                            name="starringType"
-                            [value]="gen.key"
-                            formControlName="starringType"
-                            type="radio"
-                            [ngStyle]="{
-                                'accent-color': fontColor
-                            }"
-                        />
+                        <ng-container *ngIf="type.key !== StarringType.NONE">
+                            <input
+                                name="starringType"
+                                [value]="type.key"
+                                formControlName="starringType"
+                                type="radio"
+                                [ngStyle]="{
+                                    'accent-color': fontColor
+                                }"
+                            />
 
-                        {{ gen.value }}
+                            {{ type.value }}
+                        </ng-container>
                     </label>
                 </div>
 
