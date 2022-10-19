@@ -50,7 +50,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
+
 import static java.util.Comparator.comparing;
+
 import java.io.IOException;
 import java.util.*;
 import java.util.List;
@@ -100,17 +102,17 @@ public class CharactersService {
 
         ArrayList<CharactersMenuDTO> dtoList = new ArrayList<>();
 
-        for(Character characterFromDb : allCharactersFromDb) {
+        for (Character characterFromDb : allCharactersFromDb) {
             Image image = imageRepository.getProfilePicForCharacter(characterFromDb.getExternalId());
             String profilePic = null;
-            if(image != null){
+            if (image != null) {
                 profilePic = UtilsShared.GetProfilePicBase64Code(image.getExtension(), image.getImage());
             }
             CharactersMenuDTO dto = new CharactersMenuDTO(characterFromDb, profilePic);
 
             List<TagDTO> tagDTOS = new ArrayList<>();
-            List<Tag> tags= tagRepository.getTagsForCharacter(characterFromDb.getExternalId());
-            if(tags != null) {
+            List<Tag> tags = tagRepository.getTagsForCharacter(characterFromDb.getExternalId());
+            if (tags != null) {
                 tags.forEach(tag -> tagDTOS.add(new TagDTO(tag.getId(), tag.getName(), tag.getColor())));
             }
             dto.setTags(tagDTOS);
@@ -122,7 +124,7 @@ public class CharactersService {
     public ResponseEntity getCharacter(Long externalId) {
         ModelMapper modelMapper = new ModelMapper();
         Character oneCharacter = characterRepository.getOne(externalId);
-        if(oneCharacter == null) {
+        if (oneCharacter == null) {
             String err = "Nie udało się znaleźć postaci o podanym id.";
             return new ResponseEntity<>(err, HttpStatus.NOT_FOUND);
         }
@@ -130,14 +132,14 @@ public class CharactersService {
         CharacterDTO dto = modelMapper.map(oneCharacter, CharacterDTO.class);
 
         dto.setCharType(oneCharacter.getCharType().name());
-        if(oneCharacter.getGender() != null) {
+        if (oneCharacter.getGender() != null) {
             dto.setGender(oneCharacter.getGender().name());
         }
 
         List<CharacterStory> storiesForCharacter = characterStoryRepository.getStoriesForCharacter(externalId);
         ArrayList<CharacterStoryDTO> stories = new ArrayList<>();
-        if(storiesForCharacter != null && storiesForCharacter.size() > 0){
-            for(CharacterStory story : storiesForCharacter) {
+        if (storiesForCharacter != null && storiesForCharacter.size() > 0) {
+            for (CharacterStory story : storiesForCharacter) {
                 stories.add(modelMapper.map(story, CharacterStoryDTO.class));
             }
         }
@@ -149,29 +151,29 @@ public class CharactersService {
         }
 
         Temperament temperamentForCharacter = temperamentRepository.getTemperamentForCharacter(externalId);
-        if(temperamentForCharacter != null) {
+        if (temperamentForCharacter != null) {
             dto.setTemperament(modelMapper.map(temperamentForCharacter, CharacterTemperamentDTO.class));
         }
 
         Measurements measurementsForCharacter = measurementsRepository.getMeasurementsById(externalId);
-        if(measurementsForCharacter != null){
+        if (measurementsForCharacter != null) {
             dto.setMeasurements(modelMapper.map(measurementsForCharacter, CharacterMeasurementsDTO.class));
         }
 
 
         List<Quote> quotes = quoteRepository.getAllQuotesByCharacterId(externalId);
         Random random = new Random();
-        if(quotes.size() > 1){
+        if (quotes.size() > 1) {
             Quote randomQuote = quotes.get(random.nextInt(quotes.size()));
             dto.setQuote(modelMapper.map(randomQuote, CharacterQuoteDTO.class));
-        } else if(quotes.size() == 1) {
+        } else if (quotes.size() == 1) {
             dto.setQuote(modelMapper.map(quotes.get(0), CharacterQuoteDTO.class));
         }
 
         ArrayList<ImageDTO> imagesList = new ArrayList<>();
         List<Image> imagesFromDb = imageRepository.getImagesForCharacter(externalId);
 
-        if(imagesFromDb != null) {
+        if (imagesFromDb != null) {
             for (Image images : imagesFromDb) {
                 imagesList.add(modelMapper.map(images, ImageDTO.class));
             }
@@ -180,21 +182,19 @@ public class CharactersService {
 
         Image image = imageRepository.getProfilePicForCharacter(oneCharacter.getExternalId());
         String profilePic = null;
-        if(image != null){
+        if (image != null) {
             profilePic = UtilsShared.GetProfilePicBase64Code(image.getExtension(), image.getImage());
         }
         dto.setProfilePic(profilePic);
 
         ArrayList<BookForCharacter> bookForCharacters = new ArrayList<>();
-
-
         List<Book> books = bookRepository.findAll();
-        if(books != null) {
-            for (Book book: books) {
+        if (books != null) {
+            for (Book book : books) {
                 ArrayList<ChapterForCharacter> chapterForCharacters = new ArrayList<>();
-                ArrayList<Chapter> chapters = chapterRepository.getChaptersForBook(book.getExternalId());
-                if(chapters != null){
-                    for (Chapter chapter: chapters) {
+                ArrayList<Chapter> chapters = chapterRepository.getVisibleChaptersForBook(book.getExternalId());
+                if (chapters != null) {
+                    for (Chapter chapter : chapters) {
 
                         ChapterForCharacter chapterForCharacter = new ChapterForCharacter(chapter);
                         StarringType starringTypefromDb = starringCharactersRepository.getStarringCharacterTypeByChapterAndCharId(externalId, chapter.getExternalId());
@@ -213,15 +213,13 @@ public class CharactersService {
             }
         }
 
-
-
         dto.setStarringIn(bookForCharacters);
 
         List<Tag> tags = tagRepository.getTagsForCharacter(externalId);
 
         List<TagDTO> tagDTOS = new ArrayList<>();
-        for (Tag tag: tags) {
-            TagDTO tagDTO= new TagDTO(tag.getId(), tag.getName(), tag.getColor());
+        for (Tag tag : tags) {
+            TagDTO tagDTO = new TagDTO(tag.getId(), tag.getName(), tag.getColor());
             tagDTOS.add(tagDTO);
         }
         dto.setTags(tagDTOS);
@@ -230,20 +228,20 @@ public class CharactersService {
     }
 
     public ResponseEntity changeStatusForCharacter(ChangeCharacterStateRequest character) {
-            Character charToChange = characterRepository.getOne(character.getId());
-            if(charToChange == null) {
-                return new ResponseEntity<>("Nie można zmienić stanu postaci o nieistniejącym id.",
-                        HttpStatus.NOT_FOUND);
-            }
-            charToChange.setArchived(character.getArchived());
-            characterRepository.save(charToChange);
+        Character charToChange = characterRepository.getOne(character.getId());
+        if (charToChange == null) {
+            return new ResponseEntity<>("Nie można zmienić stanu postaci o nieistniejącym id.",
+                    HttpStatus.NOT_FOUND);
+        }
+        charToChange.setArchived(character.getArchived());
+        characterRepository.save(charToChange);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     public ResponseEntity upsertCharacter(EditCharacterRequest request) {
 
-        if(request.getExternalId() == 0) {
+        if (request.getExternalId() == 0) {
             Character createdCharacter = new Character();
             createdCharacter.setCharName(request.getCharName());
             createdCharacter.setCharType(CharType.BACKGROUND);
@@ -256,7 +254,7 @@ public class CharactersService {
 
         Character character = characterRepository.getOne(request.getExternalId());
 
-        if(character == null) {
+        if (character == null) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
         character.setPseudonim(request.getPseudonim());
@@ -268,31 +266,31 @@ public class CharactersService {
         character.setBirthday(request.getBirthday());
         character.setOccupation(request.getOccupation());
 
-            if(request.getDeath() != null){
-                character.setDeath(request.getDeath() == null || request.getDeath() == 0 ? 0 : request.getDeath());
-                character.setDeathReason(request.getDeathReason() == null ? "" : request.getDeathReason());
-            }
+        if (request.getDeath() != null) {
+            character.setDeath(request.getDeath() == null || request.getDeath() == 0 ? 0 : request.getDeath());
+            character.setDeathReason(request.getDeathReason() == null ? "" : request.getDeathReason());
+        }
 
 
         characterRepository.saveAndFlush(character);
 
         Colors colors = colorsRepository.getColorsForCharacter(request.getExternalId());
-        if(colors == null) {
+        if (colors == null) {
             colors = new Colors();
             colors.setCharacter(character);
         }
-                colors.setThemeColor1(request.getColors().getThemeColor1());
-                colors.setThemeColor2(request.getColors().getThemeColor2());
-                colors.setThemeColor3(request.getColors().getThemeColor3());
-                colors.setEyeColor1(request.getColors().getEyeColor1());
-                colors.setEyeColor2(request.getColors().getEyeColor2());
-                colors.setHairColor(request.getColors().getHairColor());
-                colors.setSkinColor(request.getColors().getSkinColor());
+        colors.setThemeColor1(request.getColors().getThemeColor1());
+        colors.setThemeColor2(request.getColors().getThemeColor2());
+        colors.setThemeColor3(request.getColors().getThemeColor3());
+        colors.setEyeColor1(request.getColors().getEyeColor1());
+        colors.setEyeColor2(request.getColors().getEyeColor2());
+        colors.setHairColor(request.getColors().getHairColor());
+        colors.setSkinColor(request.getColors().getSkinColor());
 
         colorsRepository.saveAndFlush(colors);
 
         Temperament temperament = temperamentRepository.getTemperamentForCharacter(request.getExternalId());
-        if(temperament == null) {
+        if (temperament == null) {
             temperament = new Temperament();
             temperament.setCharacter(character);
         }
@@ -304,8 +302,8 @@ public class CharactersService {
         temperamentRepository.saveAndFlush(temperament);
 
         Measurements measurements = measurementsRepository.getMeasurementsById(request.getExternalId());
-        if(request.getMeasurements() != null) {
-            if(measurements == null) {
+        if (request.getMeasurements() != null) {
+            if (measurements == null) {
                 measurements = new Measurements();
                 measurements.setCharacter(character);
             }
@@ -324,20 +322,20 @@ public class CharactersService {
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
-    public ResponseEntity deleteCharacter(Long id)  {
+    public ResponseEntity deleteCharacter(Long id) {
         Character character = characterRepository.getOne(id);
         Temperament temperament = temperamentRepository.getTemperamentForCharacter(id);
-        if(temperament != null) {
+        if (temperament != null) {
             temperamentRepository.delete(temperament);
         }
 
         Measurements measurement = measurementsRepository.getMeasurementsById(id);
-        if(measurement != null) {
+        if (measurement != null) {
             measurementsRepository.delete(measurement);
         }
 
         Colors colors = colorsRepository.getColorsForCharacter(id);
-        if(colors != null) {
+        if (colors != null) {
             colorsRepository.delete(colors);
         }
 
@@ -348,7 +346,7 @@ public class CharactersService {
         List<Image> images = imageRepository.getImagesForCharacter(id);
         images.forEach(image -> imageRepository.delete(image));
         Image profilePicForCharacter = imageRepository.getProfilePicForCharacter(id);
-        if(profilePicForCharacter != null) {
+        if (profilePicForCharacter != null) {
             imageRepository.delete(profilePicForCharacter);
         }
 
@@ -378,34 +376,34 @@ public class CharactersService {
     public ResponseEntity newImages(MultipartHttpServletRequest multipartHttpServletRequest, Long id) {
         Map<String, MultipartFile> allFiles = multipartHttpServletRequest.getFileMap();
         Character character = characterRepository.getOne(id);
-        if(character == null) {
+        if (character == null) {
             String msg = "Nie znaleziono postaci o podanym id.";
             return new ResponseEntity(msg, HttpStatus.NOT_FOUND);
         }
         Iterator it = allFiles.entrySet().iterator();
         while (it.hasNext()) {
             Image image = new Image();
-            Map.Entry pair = (Map.Entry)it.next();
+            Map.Entry pair = (Map.Entry) it.next();
             String key = String.valueOf(pair.getKey());
-            image.setIsProfilePic(!!key.equals("profilePic"));
+            image.setIsProfilePic(key.equals("profilePic"));
             MultipartFile file = (MultipartFile) pair.getValue();
 
-            if(file != null) {
+            if (file != null) {
                 String fileName = StringUtils.cleanPath(file.getOriginalFilename());
                 String extension = FilenameUtils.getExtension(fileName);
 
-                if (!Stream.of(AvailableExtensions.values()).anyMatch(v -> v.name().toLowerCase().equals(extension.toLowerCase()))) {
+                if (!Stream.of(AvailableExtensions.values()).anyMatch(v -> v.name().equalsIgnoreCase(extension))) {
                     return new ResponseEntity(HttpStatus.UNSUPPORTED_MEDIA_TYPE);
                 }
                 try {
-                    if(image.getIsProfilePic()) {
+                    if (image.getIsProfilePic()) {
                         Image oldProfilePic = imageRepository.getProfilePicForCharacter(character.getExternalId());
-                        if(oldProfilePic != null) {
+                        if (oldProfilePic != null) {
                             imageRepository.delete(oldProfilePic);
                         }
                     }
 
-                    byte [] byteArr = file.getBytes();
+                    byte[] byteArr = file.getBytes();
                     image.setImage(byteArr);
                     image.setName(FilenameUtils.removeExtension(file.getOriginalFilename()));
                     image.setExtension(extension);
@@ -413,16 +411,18 @@ public class CharactersService {
 
                     imageRepository.saveAndFlush(image);
 
-                } catch (IOException e) {}
+                } catch (IOException e) {
+                }
 
                 it.remove();
-            }}
+            }
+        }
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
     public ResponseEntity changeImageName(ImageRenameRequest request) {
         Image image = imageRepository.getOne(request.getId());
-        if(image == null) {
+        if (image == null) {
             String msg = "Brak obrazka o podanym id.";
             return new ResponseEntity(msg, HttpStatus.NOT_FOUND);
         }
@@ -436,7 +436,7 @@ public class CharactersService {
         for (int i = 0; i < ids.length; i++) {
             Long currentId = ids[i];
             Image image = imageRepository.getOne(currentId);
-            if(image == null) {
+            if (image == null) {
                 continue;
             }
 
@@ -461,12 +461,12 @@ public class CharactersService {
 
     //#region Quotes
     public ResponseEntity upsertQuote(UpsertQuoteRequest request) {
-        if(request.getQuoteId() == 0) {
+        if (request.getQuoteId() == 0) {
             Quote quote = new Quote();
             quote.setQuote(request.getQuote());
             quote.setContext(request.getContext());
             Character character = characterRepository.getOne(request.getCharacterId());
-            if(character == null) {
+            if (character == null) {
                 String msg = "Nie znaleziono postaci o podanym id.";
                 return new ResponseEntity(msg, HttpStatus.NOT_FOUND);
             }
@@ -478,7 +478,7 @@ public class CharactersService {
             return new ResponseEntity(HttpStatus.CREATED);
         } else {
             Quote quote = quoteRepository.getOne(request.getQuoteId());
-            if(quote == null) {
+            if (quote == null) {
                 String msg = "Nie znaleziono cytatu.";
                 return new ResponseEntity(msg, HttpStatus.NOT_FOUND);
             }
@@ -494,8 +494,8 @@ public class CharactersService {
         ArrayList<QuoteForListDTO> result = new ArrayList<>();
 
         List<Quote> quotesFromDb = quoteRepository.getAllQuotesByCharacterId(id);
-        if(quotesFromDb != null){
-            for (Quote quoteFromDb: quotesFromDb) {
+        if (quotesFromDb != null) {
+            for (Quote quoteFromDb : quotesFromDb) {
                 QuoteForListDTO dto = modelMapper.map(quoteFromDb, QuoteForListDTO.class);
                 result.add(dto);
             }
@@ -505,7 +505,7 @@ public class CharactersService {
 
     public ResponseEntity deleteQuote(Long id) {
         Quote quoteToDelete = quoteRepository.getOne(id);
-        if(quoteToDelete == null) {
+        if (quoteToDelete == null) {
             String msg = "Nie ma takiego cytatu bądź został już wcześniej usunięty.";
             return new ResponseEntity(msg, HttpStatus.NOT_FOUND);
         }
@@ -524,19 +524,19 @@ public class CharactersService {
         List<RelationForCharacter> result = new ArrayList<>();
         Map<Long, List<Relation>> relationsMap = new HashMap<>();
 
-        for (Relation relationFromDb: relationsFromDb) {
+        for (Relation relationFromDb : relationsFromDb) {
             Long relatedCharExternalId = relationFromDb.getRelatedCharacter().getExternalId();
-            if(relatedCharExternalId.equals(id)) {
+            if (relatedCharExternalId.equals(id)) {
                 relatedCharExternalId = relationFromDb.getCharacter().getExternalId();
             }
             Boolean containsId = relationsMap.containsKey(relatedCharExternalId);
 
             List<Relation> relationList = new ArrayList<>();
-            if(containsId) {
+            if (containsId) {
                 relationList = relationsMap.get(relatedCharExternalId);
             }
             relationList.add(relationFromDb);
-            if(containsId) {
+            if (containsId) {
                 relationsMap.replace(relatedCharExternalId, relationsMap.get(relatedCharExternalId), relationList);
             } else {
                 relationsMap.put(relatedCharExternalId, relationList);
@@ -550,7 +550,7 @@ public class CharactersService {
 
             RelatedPersonData person = new RelatedPersonData();
             Character relatedChar = characterRepository.getOne(characterId);
-            if(relatedChar == null) {
+            if (relatedChar == null) {
                 continue;
             }
 
@@ -560,7 +560,7 @@ public class CharactersService {
                     + relatedChar.getCharSurname() != null ? relatedChar.getCharSurname() : "?");
             Image image = imageRepository.getProfilePicForCharacter(relatedChar.getExternalId());
             String profilePic = null;
-            if(image != null){
+            if (image != null) {
                 profilePic = UtilsShared.GetProfilePicBase64Code(image.getExtension(), image.getImage());
             }
             person.setImageMimeData(profilePic);
@@ -584,7 +584,7 @@ public class CharactersService {
         return new ResponseEntity(result, HttpStatus.OK);
     }
 
-    public ResponseEntity upsertRelations( List<RelationRequest> request, Long charId) {
+    public ResponseEntity upsertRelations(List<RelationRequest> request, Long charId) {
         List<Relation> relationsFromDb = relationsRepository.getRelationsForCharacter(charId);
 
         List<Integer> relationsFromDbIds = relationsFromDb.stream().map(Relation::getId).collect(Collectors.toList());
@@ -592,8 +592,8 @@ public class CharactersService {
 
         List<RelationRequest> relationsToAdd = request.stream()
                 .filter((RelationRequest relationFromRequest) -> {
-            return !relationsFromDbIds.contains(relationFromRequest.getId());
-        }) .collect(Collectors.toList());
+                    return !relationsFromDbIds.contains(relationFromRequest.getId());
+                }).collect(Collectors.toList());
 
         relationsToAdd.forEach(relationRequest -> {
             Character character1 = characterRepository.getOne(relationRequest.getSourceCharacterId());
@@ -612,7 +612,7 @@ public class CharactersService {
         List<RelationRequest> relationsToUpdate = request.stream()
                 .filter((RelationRequest relationFromRequest) -> {
                     return relationsFromDbIds.contains(relationFromRequest.getId());
-                }) .collect(Collectors.toList());
+                }).collect(Collectors.toList());
 
         relationsToUpdate.forEach(relationRequest -> {
             Character character1 = characterRepository.getOne(relationRequest.getSourceCharacterId());
@@ -641,14 +641,14 @@ public class CharactersService {
 
 
             Boolean hasAnyRemainingRelations = !relationsRepository.getRelationsForBoth(characterId, characterRelatedId).isEmpty();
-            if(!hasAnyRemainingRelations) {
-                RelationCoordinates relationCoordinates = relationCoordinatesRepository.getCoordinatesForCharacterAndRelatedCharacter(characterId,characterRelatedId);
+            if (!hasAnyRemainingRelations) {
+                RelationCoordinates relationCoordinates = relationCoordinatesRepository.getCoordinatesForCharacterAndRelatedCharacter(characterId, characterRelatedId);
                 RelationCoordinates relationSwappedCoordinates = relationCoordinatesRepository.getCoordinatesForCharacterAndRelatedCharacter(characterRelatedId, characterId);
 
-                if(relationCoordinates != null) {
+                if (relationCoordinates != null) {
                     relationCoordinatesRepository.delete(relationCoordinates);
                 }
-                if(relationSwappedCoordinates != null){
+                if (relationSwappedCoordinates != null) {
                     relationCoordinatesRepository.delete(relationSwappedCoordinates);
                 }
             }
@@ -663,11 +663,11 @@ public class CharactersService {
     public ResponseEntity getRelationsTreeData(Long id) {
         RelationTreeDto result = new RelationTreeDto();
 
-        if(id == null || id == 0) {
+        if (id == null || id == 0) {
             return new ResponseEntity(null, HttpStatus.OK);
         }
         Character character = characterRepository.getOne(id);
-        if(character == null) {
+        if (character == null) {
             return new ResponseEntity(result, HttpStatus.NOT_FOUND);
         }
 
@@ -680,7 +680,7 @@ public class CharactersService {
 
         // Relations
         List<Relation> existingRelations = relationsRepository.getRelationsForCharacter(id);
-        for (Relation existingRelation: existingRelations) {
+        for (Relation existingRelation : existingRelations) {
             characters.add(existingRelation.getCharacter());
             characters.add(existingRelation.getRelatedCharacter());
 
@@ -703,7 +703,7 @@ public class CharactersService {
         List<RelationCoordinates> relationCoordinates = relationCoordinatesRepository.getCoordinatesInCharacterRelationTree(id, characterIds);
 
         // Persons
-        for (Character characterFromDb:characters) {
+        for (Character characterFromDb : characters) {
             RelationTreePersonDto personDto = new RelationTreePersonDto();
             personDto.setId(characterFromDb.getExternalId());
             String name = characterFromDb.getCharName() != null ? characterFromDb.getCharName() : "?";
@@ -715,7 +715,7 @@ public class CharactersService {
 
             Image image = imageRepository.getProfilePicForCharacter(characterFromDb.getExternalId());
             String profilePic = null;
-            if(image != null){
+            if (image != null) {
                 profilePic = UtilsShared.GetProfilePicBase64Code(image.getExtension(), image.getImage());
             }
             personDto.setImageMimeData(profilePic);
@@ -723,7 +723,7 @@ public class CharactersService {
             RelationCoordinates personCoordinates = relationCoordinates
                     .stream().parallel()
                     .filter(relationCoordinate -> relationCoordinate.targetCharacter.getExternalId() == personDto.getId()).findFirst().orElse(null);
-            if(personCoordinates != null) {
+            if (personCoordinates != null) {
                 personDto.setCoordinates(new CoordinatesDTO(personCoordinates.getXTarget(), personCoordinates.getYTarget()));
             }
 
@@ -737,20 +737,20 @@ public class CharactersService {
 
     }
 
-    public ResponseEntity upsertCoords(Long id, List<CoordinatesRequest> request){
+    public ResponseEntity upsertCoords(Long id, List<CoordinatesRequest> request) {
         Character character = characterRepository.getOne(id);
-        if(character == null) {
+        if (character == null) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
-        for (CoordinatesRequest coordinateRequest:request) {
+        for (CoordinatesRequest coordinateRequest : request) {
             RelationCoordinates coordinates = relationCoordinatesRepository.getCoordinatesForCharacterAndRelatedCharacter(id, coordinateRequest.getCharacterId());
             Character relatedCharacter = characterRepository.getOne(coordinateRequest.getCharacterId());
 
-            if(relatedCharacter == null) {
+            if (relatedCharacter == null) {
                 return new ResponseEntity(HttpStatus.NOT_FOUND);
             }
 
-            if(coordinates == null) {
+            if (coordinates == null) {
                 RelationCoordinates relationCoordinates1 = new RelationCoordinates(character, relatedCharacter, coordinateRequest.getX(), coordinateRequest.getY());
                 relationCoordinatesRepository.saveAndFlush(relationCoordinates1);
             } else {
@@ -773,8 +773,8 @@ public class CharactersService {
         ModelMapper modelMapper = new ModelMapper();
         List<CharacterStory> storiesForCharacter = characterStoryRepository.getStoriesForCharacter(id);
         ArrayList<CharacterStoryDTO> stories = new ArrayList<>();
-        if(storiesForCharacter != null && storiesForCharacter.size() > 0){
-            for(CharacterStory story : storiesForCharacter) {
+        if (storiesForCharacter != null && storiesForCharacter.size() > 0) {
+            for (CharacterStory story : storiesForCharacter) {
                 stories.add(modelMapper.map(story, CharacterStoryDTO.class));
             }
         }
@@ -784,19 +784,19 @@ public class CharactersService {
 
     public ResponseEntity deleteStory(Long storyId) {
         CharacterStory characterStory = characterStoryRepository.getOne(storyId);
-        if(characterStory == null) {
+        if (characterStory == null) {
             return new ResponseEntity("Nie ma historii o takim id lub została wcześniej usunięta.", HttpStatus.NOT_FOUND);
         }
         characterStoryRepository.delete(characterStory);
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    public ResponseEntity editStoryIndexes(ArrayList<Long> storyIds, Long charId){
+    public ResponseEntity editStoryIndexes(ArrayList<Long> storyIds, Long charId) {
         List<CharacterStory> characterStories = characterStoryRepository.getStoriesForCharacter(charId);
         HashMap<Long, Integer> storyFromDatabase = new HashMap<>();
 
         for (int i = 0; i < characterStories.size(); i++) {
-            CharacterStory characterStory =  characterStories.get(i);
+            CharacterStory characterStory = characterStories.get(i);
             storyFromDatabase.put(characterStory.getId(), characterStory.getIndexOnList());
         }
 
@@ -820,23 +820,23 @@ public class CharactersService {
 
     public ResponseEntity upsertStoryForCharacter(StoryRequest request) {
         Character character = characterRepository.getOne(request.getCharacterId());
-        if(character == null) {
+        if (character == null) {
             return new ResponseEntity("Nie można utworzyć historii dla nieistniejącej postaci.", HttpStatus.NOT_FOUND);
         }
 
-        if(request.storyId == 0) {
+        if (request.storyId == 0) {
             CharacterStory characterStory = new CharacterStory();
             characterStory.setCharacter(character);
             characterStory.setStoryDesc(request.getStory());
             characterStory.setTitle(request.getTitle());
 
             List<CharacterStory> characterStories = characterStoryRepository.getStoriesForCharacter(character.getExternalId());
-            characterStory.setIndexOnList(characterStories.size()+1);
+            characterStory.setIndexOnList(characterStories.size() + 1);
 
             characterStoryRepository.saveAndFlush(characterStory);
         } else {
             CharacterStory characterStory = characterStoryRepository.getOne(request.getStoryId());
-            if(characterStory == null) {
+            if (characterStory == null) {
                 return new ResponseEntity("Nie można edytować historii, która nie istnieje.", HttpStatus.NOT_FOUND);
             }
             characterStory.setTitle(request.getTitle());
@@ -858,21 +858,21 @@ public class CharactersService {
         Character character = characterRepository.getOne(preferenceRequest.getCharacterId());
         Character preferedCharacter = characterRepository.getOne(preferenceRequest.getPreferedCharacterId());
 
-        if(preferenceRequest.getDate() == null) {
+        if (preferenceRequest.getDate() == null) {
             Preference currentPref = preferenceRepository
                     .getCurrentPreferenceForCharacters(preferenceRequest.getCharacterId(), preferenceRequest.getPreferedCharacterId());
 
-            if(currentPref != null) {
+            if (currentPref != null) {
                 currentPref.setRange(preferenceRequest.getRange());
                 currentPref.setDateOfOrigin(preferenceRequest.getDate());
                 preferenceRepository.saveAndFlush(currentPref);
                 return new ResponseEntity(HttpStatus.OK);
             }
         }
-        if(character == preferedCharacter){
+        if (character == preferedCharacter) {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
-        if(character == null || preferedCharacter == null) {
+        if (character == null || preferedCharacter == null) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
         preference.setCharacter(character);
@@ -888,7 +888,7 @@ public class CharactersService {
     public ResponseEntity getAllPreferencesForCharacter(Long charId) {
         ArrayList<AllPreferencesDTO> dtos = new ArrayList<>();
         List<Long> relatedCharIds = preferenceRepository.getRelatedCharsIds(charId);
-        if(relatedCharIds != null && relatedCharIds.size() > 0){
+        if (relatedCharIds != null && relatedCharIds.size() > 0) {
             for (Long id : relatedCharIds) {
                 Character character = characterRepository.getOne(id);
 
@@ -903,16 +903,16 @@ public class CharactersService {
                 ArrayList<HistoricPreferenceDTO> backwardPreferenceDTOS = new ArrayList<>();
 
                 String name = character.getCharName() != null ? character.getCharName() : "?";
-                String surname =  character.getCharSurname() != null ? character.getCharSurname() : "?";
+                String surname = character.getCharSurname() != null ? character.getCharSurname() : "?";
                 String fullName = name + " " + surname;
 
                 dto.setCharacterId(character.getExternalId());
                 dto.setCharacterFullname(fullName);
 
-                if(historicalPreferences != null && historicalPreferences.size() > 0) {
-                    for (Preference pref: historicalPreferences) {
+                if (historicalPreferences != null && historicalPreferences.size() > 0) {
+                    for (Preference pref : historicalPreferences) {
                         HistoricPreferenceDTO historicPreferenceDTO = new HistoricPreferenceDTO();
-                        if(pref.getDateOfOrigin() != null) {
+                        if (pref.getDateOfOrigin() != null) {
                             historicPreferenceDTO.setDateOfOrigin(pref.getDateOfOrigin().toString());
                         }
                         historicPreferenceDTO.setId(pref.getId());
@@ -921,10 +921,10 @@ public class CharactersService {
                     }
                 }
 
-                if(backwardPreferences != null && backwardPreferences.size() > 0) {
-                    for (Preference pref: backwardPreferences) {
+                if (backwardPreferences != null && backwardPreferences.size() > 0) {
+                    for (Preference pref : backwardPreferences) {
                         HistoricPreferenceDTO backwardPreferenceDTO = new HistoricPreferenceDTO();
-                        if(pref.getDateOfOrigin() != null) {
+                        if (pref.getDateOfOrigin() != null) {
                             backwardPreferenceDTO.setDateOfOrigin(pref.getDateOfOrigin().toString());
                         }
                         backwardPreferenceDTO.setId(pref.getId());
@@ -949,20 +949,20 @@ public class CharactersService {
         Character character = characterRepository.getOne(relatedCharId);
         AllPreferencesDTO dto = new AllPreferencesDTO();
         dto.setCharacterId(relatedCharId);
-        if(character != null) {
+        if (character != null) {
             String name = character.getCharName() != null ? character.getCharName() : "?";
-            String surname =  character.getCharSurname() != null ? character.getCharSurname() : "?";
+            String surname = character.getCharSurname() != null ? character.getCharSurname() : "?";
             String fullName = name + " " + surname;
-            
+
             dto.setCharacterFullname(fullName);
             dto.setCharacterId(character.getExternalId());
 
             ArrayList<HistoricPreferenceDTO> historicPreferenceDTOS = new ArrayList<>();
             ArrayList<Preference> preferences = preferenceRepository.getHistoricalPreferences(charId, relatedCharId);
-            if(preferences != null && preferences.size() > 0) {
-                for (Preference preference:preferences) {
+            if (preferences != null && preferences.size() > 0) {
+                for (Preference preference : preferences) {
                     HistoricPreferenceDTO historicPreferenceDTO = new HistoricPreferenceDTO();
-                    if(preference.getDateOfOrigin() != null) {
+                    if (preference.getDateOfOrigin() != null) {
                         historicPreferenceDTO.setDateOfOrigin(preference.getDateOfOrigin().toString());
                     }
                     historicPreferenceDTO.setRange(preference.getRange());
@@ -974,23 +974,18 @@ public class CharactersService {
         }
 
 
-
         return new ResponseEntity(dto, HttpStatus.OK);
     }
 
-    public ResponseEntity deletePreference(Long id)  {
+    public ResponseEntity deletePreference(Long id) {
         Preference preference = preferenceRepository.getOne(id);
-        if(preference != null) {
+        if (preference != null) {
             preferenceRepository.delete(preference);
         }
 
         return new ResponseEntity(HttpStatus.OK);
     }
     //#endregion
-
-
-
-
 
 
 }
