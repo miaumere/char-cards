@@ -4,7 +4,14 @@
             <tr>
                 <th></th>
                 <th *ngFor="let starringInItem of starringIn">
-                    <div class="book-item" [title]="starringInItem.book.name">
+                    <div
+                        class="book-item"
+                        [title]="starringInItem.book.name"
+                        [routerLink]="['../../pages/chapters']"
+                        [queryParams]="{
+                            id: starringInItem.book.id
+                        }"
+                    >
                         <app-book-icon
                             [book]="starringInItem.book"
                             [size]="1.1"
@@ -27,6 +34,12 @@
                         rx="3"
                         [ngStyle]="{ background: color }"
                         [class]="'square square--' + chapter.starringType"
+                        [routerLink]="['../../pages/chapters/pages']"
+                        [queryParams]="{
+                            id: starringInItem.book.id,
+                            chapterId: chapter.id,
+                            color: starringInItem.book?.color
+                        }"
                     ></div>
                     <div
                         class="square square--empty"
