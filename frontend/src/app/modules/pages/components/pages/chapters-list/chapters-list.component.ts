@@ -15,7 +15,7 @@ import {
     BookDialogData,
     EditChapterDialogComponent,
 } from './edit-chapter-dialog/edit-chapter-dialog.component';
-import { StarringType } from 'src/app/modules/edit-story-panel/enums/StarringType.enum';
+import { StarringType } from 'src/app/modules/characters/models/starring-in/StarringType.enum';
 import { CharacterItem } from 'src/app/modules/characters/models/character-item.model';
 import { IEditStarringCharacter } from 'src/app/modules/edit-story-panel/models/starring/edit-starring-character.model';
 import { CharactersService } from 'src/app/core/service/characters.service';
@@ -100,7 +100,6 @@ export class ChaptersListMenuComponent extends BaseComponent implements OnInit {
     }
 
     openChapterDialog(chapter?: Chapter) {
-
         const dialogData: BookDialogData = {
             chapter: chapter ?? undefined,
             book: this.book,

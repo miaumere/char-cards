@@ -390,7 +390,9 @@ export class RelationTreeComponent extends BaseComponent implements OnInit {
                             RelationType[RelationType.Marriage] ||
                         relationAsString ===
                             RelationType[RelationType.Relationship] ||
-                        relationAsString === RelationType[RelationType.Sibling]
+                        relationAsString ===
+                            RelationType[RelationType.Sibling] ||
+                        relationAsString === RelationType[RelationType.Romance]
                     );
                 };
 

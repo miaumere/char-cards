@@ -22,8 +22,18 @@ export const colorsForRelations = [
     },
     {
         relationType: RelationType[
+            RelationType.Infatuation
+        ] as RelationTypeString,
+        fillColor: 'magenta',
+    },
+    {
+        relationType: RelationType[
             RelationType.Relationship
         ] as RelationTypeString,
-        fillColor: 'green',
+        fillColor: 'purple',
+    },
+    {
+        relationType: RelationType[RelationType.Romance] as RelationTypeString,
+        fillColor: 'lime',
     },
 ];

@@ -1,5 +1,5 @@
 import { TranslateService } from '@ngx-translate/core';
-import { StarringType } from '../../../../../edit-story-panel/enums/StarringType.enum';
+import { StarringType } from '../../../../../characters/models/starring-in/StarringType.enum';
 import { StarringCharacter } from '../../../../../edit-story-panel/models/starring/starring-character.model';
 import { ToastrService } from 'ngx-toastr';
 import { StoryService } from 'src/app/core/service/story.service';

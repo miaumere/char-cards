@@ -338,6 +338,6 @@ export class EditRelationsComponent extends BaseComponent implements OnInit {
 
     isSourceCheckboxVisible(relationFG: FormGroup) {
         const type = relationFG.get('type')?.value as RelationTypeString;
-        return type === 'Crush' || type === 'Parent';
+        return type === 'Crush' || type === 'Parent' || type === 'Infatuation';
     }
 }
