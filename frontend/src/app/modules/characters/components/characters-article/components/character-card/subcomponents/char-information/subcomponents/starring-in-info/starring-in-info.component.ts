@@ -1,7 +1,4 @@
-import { IBook } from './../../../../../../../../../pages/models/books/book.model';
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
-import { IStarringIn } from 'src/app/modules/characters/models/starring-in.model';
-import { Book } from 'src/app/modules/edit-story-panel/models/books/book.model';
 import { StarringType } from 'src/app/modules/characters/models/starring-in/StarringType.enum';
 import { BookForCharacter } from 'src/app/modules/characters/models/starring-in/book-for-character';
 

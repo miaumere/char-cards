@@ -2,12 +2,10 @@ import { TranslateService } from '@ngx-translate/core';
 import { Component, OnInit } from '@angular/core';
 import { BaseComponent } from 'src/app/core/base.component';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Book } from 'src/app/modules/edit-story-panel/models/books/book.model';
 import { ActivatedRoute } from '@angular/router';
 import { StoryService } from 'src/app/core/service/story.service';
 import { ToastrService } from 'ngx-toastr';
 import { map } from 'rxjs/operators';
-import { ChapterRequest } from 'src/app/modules/edit-story-panel/models/chapters/edit-chapter.model';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import * as tinycolor from 'tinycolor2';
 import { MatDialog } from '@angular/material/dialog';
@@ -15,12 +13,11 @@ import {
     BookDialogData,
     EditChapterDialogComponent,
 } from './edit-chapter-dialog/edit-chapter-dialog.component';
-import { StarringType } from 'src/app/modules/characters/models/starring-in/StarringType.enum';
 import { CharacterItem } from 'src/app/modules/characters/models/character-item.model';
-import { IEditStarringCharacter } from 'src/app/modules/edit-story-panel/models/starring/edit-starring-character.model';
 import { CharactersService } from 'src/app/core/service/characters.service';
 import { insertDeleteInfo } from 'src/app/modules/shared/functions/insert-delete.info';
 import { Chapter } from '../../../models/chapters/chapter.model';
+import { Book } from '../../../models/books/book.model';
 
 @Component({
     selector: 'app-chapters-list',

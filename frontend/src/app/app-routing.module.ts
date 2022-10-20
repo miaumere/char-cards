@@ -25,14 +25,7 @@ const routes: Routes = [
         loadChildren: () =>
             import('./modules/login/login.module').then((m) => m.LoginModule),
     },
-    {
-        path: 'edit-story-panel',
-        resolve: [AdminPermissionsResolver],
-        loadChildren: () =>
-            import('./modules/edit-story-panel/edit-story-panel.module').then(
-                (m) => m.EditStoryPanelModule
-            ),
-    },
+
     {
         path: 'tags',
         resolve: [AdminPermissionsResolver],

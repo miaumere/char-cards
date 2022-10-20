@@ -1,11 +1,11 @@
 import { StoryService } from 'src/app/core/service/story.service';
 import { ActivatedRoute } from '@angular/router';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { BaseComponent } from 'src/app/core/base.component';
-import { Book } from 'src/app/modules/edit-story-panel/models/books/book.model';
 import { map } from 'rxjs/operators';
 import * as tinycolor from 'tinycolor2';
 import { Chapter } from '../../../models/chapters/chapter.model';
+import { Book } from '../../../models/books/book.model';
 
 @Component({
     selector: 'app-chapters',

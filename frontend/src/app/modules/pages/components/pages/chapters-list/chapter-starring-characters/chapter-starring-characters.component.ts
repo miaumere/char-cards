@@ -6,7 +6,7 @@ import { insertDeleteInfo } from 'src/app/modules/shared/functions/insert-delete
 import { BaseComponent } from 'src/app/core/base.component';
 import { StoryService } from 'src/app/core/service/story.service';
 import { StarringType } from 'src/app/modules/characters/models/starring-in/StarringType.enum';
-import { IEditStarringCharacter } from 'src/app/modules/edit-story-panel/models/starring/edit-starring-character.model';
+import { IEditStarringCharacter } from 'src/app/modules/characters/models/starring-in/edit-starring-character.model';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { CharacterItem } from 'src/app/modules/characters/models/character-item.model';
 import { CharactersService } from 'src/app/core/service/characters.service';

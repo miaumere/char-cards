@@ -2,11 +2,7 @@ import { Observable } from 'rxjs';
 import { StoryService } from 'src/app/core/service/story.service';
 import { BaseComponent } from 'src/app/core/base.component';
 import { Component, OnInit } from '@angular/core';
-import {
-    Book,
-    IBook,
-} from 'src/app/modules/edit-story-panel/models/books/book.model';
-import { AuthService } from 'src/app/core/service/auth.service';
+
 import {
     BookDialogData,
     BookEditDialogComponent,
@@ -16,6 +12,7 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { insertDeleteInfo } from 'src/app/modules/shared/functions/insert-delete.info';
+import { Book } from '../../../models/books/book.model';
 
 @Component({
     selector: 'app-books-list',

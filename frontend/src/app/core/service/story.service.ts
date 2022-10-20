@@ -1,21 +1,18 @@
-import { IEditStarringCharacter } from 'src/app/modules/edit-story-panel/models/starring/edit-starring-character.model';
-import { StarringCharacter } from './../../modules/edit-story-panel/models/starring/starring-character.model';
-import { ChapterRequest } from './../../modules/edit-story-panel/models/chapters/edit-chapter.model';
+import { IEditStarringCharacter } from 'src/app/modules/characters/models/starring-in/edit-starring-character.model';
 
-import { EditBook } from './../../modules/edit-story-panel/models/books/edit-book.model';
-import { CreateBook } from './../../modules/edit-story-panel/models/books/create-book.model';
-import {
-    IBook,
-    Book,
-} from './../../modules/edit-story-panel/models/books/book.model';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/operators';
-import { IStarringCharacter } from 'src/app/modules/edit-story-panel/models/starring/starring-character.model';
 import {
     IChapterWithChars,
     ChapterWithChars,
 } from 'src/app/modules/pages/models/pages/chapter-with-chars.model';
+import { IBook, Book } from 'src/app/modules/pages/models/books/book.model';
+import { ChapterRequest } from 'src/app/modules/pages/models/chapters/edit-chapter.model';
+import {
+    IStarringCharacter,
+    StarringCharacter,
+} from 'src/app/modules/characters/models/starring-in/starring-character.model';
 
 @Injectable({
     providedIn: 'root',
@@ -109,7 +106,7 @@ export class StoryService {
     }
 
     upsertBook(request: IBook) {
-        return this.http.post<CreateBook>(this._upsertBookURL, request);
+        return this.http.post<IBook>(this._upsertBookURL, request);
     }
 
     postPages(formData: FormData, chapterId: number) {

@@ -1,6 +1,5 @@
 import { TranslateService } from '@ngx-translate/core';
 import { StarringType } from '../../../../../characters/models/starring-in/StarringType.enum';
-import { StarringCharacter } from '../../../../../edit-story-panel/models/starring/starring-character.model';
 import { ToastrService } from 'ngx-toastr';
 import { StoryService } from 'src/app/core/service/story.service';
 import { ActivatedRoute } from '@angular/router';
@@ -14,6 +13,7 @@ import { CharacterItem } from 'src/app/modules/characters/models/character-item.
 import { map } from 'rxjs/operators';
 import { insertDeleteInfo } from 'src/app/modules/shared/functions/insert-delete.info';
 import { Chapter } from 'src/app/modules/pages/models/chapters/chapter.model';
+import { StarringCharacter } from 'src/app/modules/characters/models/starring-in/starring-character.model';
 
 @Component({
     selector: 'app-chapter-details',

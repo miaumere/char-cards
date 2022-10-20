@@ -9,7 +9,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { BaseComponent } from 'src/app/core/base.component';
 import { StoryService } from 'src/app/core/service/story.service';
-import { ChapterRequest } from 'src/app/modules/edit-story-panel/models/chapters/edit-chapter.model';
 import { Book } from 'src/app/modules/pages/models/books/book.model';
 import { Chapter } from 'src/app/modules/pages/models/chapters/chapter.model';
 

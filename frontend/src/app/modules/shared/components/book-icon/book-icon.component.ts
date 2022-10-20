@@ -1,5 +1,5 @@
-import { Book } from 'src/app/modules/edit-story-panel/models/books/book.model';
 import { Component, Input, OnInit } from '@angular/core';
+import { Book } from 'src/app/modules/pages/models/books/book.model';
 import * as tinycolor from 'tinycolor2';
 
 @Component({

@@ -1,7 +1,3 @@
-import {
-    Book,
-    IBook,
-} from './../../../../../edit-story-panel/models/books/book.model';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { BaseComponent } from 'src/app/core/base.component';
@@ -11,13 +7,9 @@ import {
     MatDialogRef,
     MatDialog,
 } from '@angular/material/dialog';
-import {
-    TagDialogData,
-    TagEditDialogComponent,
-} from 'src/app/modules/tags/components/edit-tags/subcomponents/tags-edit-panel/tag-edit-dialog/tag-edit-dialog.component';
+
 import { StoryService } from 'src/app/core/service/story.service';
-import { ToastrService } from 'ngx-toastr';
-import { TranslateService } from '@ngx-translate/core';
+import { Book, IBook } from 'src/app/modules/pages/models/books/book.model';
 
 export interface BookDialogData {
     book?: Book;

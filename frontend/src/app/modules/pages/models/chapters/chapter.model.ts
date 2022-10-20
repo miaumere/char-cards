@@ -1,7 +1,4 @@
-import {
-    IStarringCharacter,
-    StarringCharacter,
-} from 'src/app/modules/edit-story-panel/models/starring/starring-character.model';
+import { IStarringCharacter } from 'src/app/modules/characters/models/starring-in/starring-character.model';
 
 export interface IChapter {
     id: number | null;

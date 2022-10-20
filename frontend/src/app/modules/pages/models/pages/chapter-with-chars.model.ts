@@ -1,4 +1,4 @@
-import { StarringCharacter } from 'src/app/modules/edit-story-panel/models/starring/starring-character.model';
+import { StarringCharacter } from 'src/app/modules/characters/models/starring-in/starring-character.model';
 import { IChapter, Chapter } from '../chapters/chapter.model';
 
 export interface IChapterWithChars extends IChapter {
