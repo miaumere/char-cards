@@ -6,7 +6,7 @@ import {
 export const colorsForRelations = [
     {
         relationType: RelationType[RelationType.Parent] as RelationTypeString,
-        fillColor: 'Tomato',
+        fillColor: 'darkolivegreen',
     },
     {
         relationType: RelationType[RelationType.Marriage] as RelationTypeString,
@@ -14,7 +14,7 @@ export const colorsForRelations = [
     },
     {
         relationType: RelationType[RelationType.Sibling] as RelationTypeString,
-        fillColor: 'CornflowerBlue',
+        fillColor: 'lightgreen',
     },
     {
         relationType: RelationType[RelationType.Crush] as RelationTypeString,
