@@ -11,7 +11,6 @@
             <mat-label>{{
                 'CHAPTERS_PANEL.CHAPTER_DESC' | translate
             }}</mat-label>
-            <input matInput formControlName="chapterDesc" />
             <textarea
                 matInput
                 cdkTextareaAutosize
@@ -36,14 +35,10 @@
                         [book]="bookItem"
                         [size]="1"
                     ></app-book-icon>
-                    {{ bookItem }}</mat-option
+                    {{ bookItem.name }}</mat-option
                 >
             </mat-select>
-
-
-
         </mat-form-field>
-
 
         <div class="chapter-form__section">
             <mat-form-field class="chapter-form-field">

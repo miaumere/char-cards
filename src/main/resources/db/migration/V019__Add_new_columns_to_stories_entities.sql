@@ -6,3 +6,5 @@ ALTER TABLE public.chapter
   ADD action_time varchar(255),
   ADD  create_date int8,
   ADD  visible bool;
+
+DROP TABLE public.relationship;

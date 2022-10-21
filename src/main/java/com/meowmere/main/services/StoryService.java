@@ -68,14 +68,14 @@ public class StoryService {
     @Autowired
     CharacterRepository characterRepository;
 
-    String storiesPath = UtilsShared.GetMainDir()+"stories";
+    String storiesPath = UtilsShared.GetMainDir() + "stories";
 
     public ResponseEntity getBooks() {
         ModelMapper modelMapper = new ModelMapper();
-        List<Book> books = bookRepository.findAll(Sort.by(Sort.Direction.ASC, "bookOrder"));
+        List<Book> books = bookRepository.getAllBooksSorted();
         ArrayList<BookDTO> bookDTOS = new ArrayList<>();
-        if(books != null) {
-            for (Book book: books) {
+        if (books != null) {
+            for (Book book : books) {
                 BookDTO bookDTO = modelMapper.map(book, BookDTO.class);
                 bookDTOS.add(bookDTO);
             }
@@ -86,17 +86,17 @@ public class StoryService {
     public ResponseEntity getChaptersForBook(Long bookId) {
         ArrayList<Chapter> chapters = chapterRepository.getChaptersForBook(bookId);
         ArrayList<ChapterDTO> chapterDTOS = new ArrayList<>();
-        if(chapters != null) {
+        if (chapters != null) {
             ModelMapper modelMapper = new ModelMapper();
-            for (Chapter chapter: chapters) {
-            ChapterDTO chapterDTO = modelMapper.map(chapter, ChapterDTO.class);
-            ArrayList<Long> pagesIds = new ArrayList<>();
-            ArrayList<Page> pages = pageRepository.getPagesForChapter(chapter.getExternalId());
+            for (Chapter chapter : chapters) {
+                ChapterDTO chapterDTO = modelMapper.map(chapter, ChapterDTO.class);
+                ArrayList<Long> pagesIds = new ArrayList<>();
+                ArrayList<Page> pages = pageRepository.getPagesForChapter(chapter.getExternalId());
                 for (Page page : pages) {
                     pagesIds.add(page.getId());
                 }
-            chapterDTO.setPagesIds(pagesIds);
-            chapterDTOS.add(chapterDTO);
+                chapterDTO.setPagesIds(pagesIds);
+                chapterDTOS.add(chapterDTO);
             }
         }
 
@@ -106,9 +106,9 @@ public class StoryService {
     public ResponseEntity getChaptersWithCharactersForBook(Long bookId) {
         ArrayList<ChapterWithCharsDTO> chapterWithCharsDTOS = new ArrayList<>();
         ArrayList<Chapter> chapters = chapterRepository.getChaptersForBook(bookId);
-        if(chapters != null) {
+        if (chapters != null) {
             ModelMapper modelMapper = new ModelMapper();
-            for (Chapter chapter: chapters) {
+            for (Chapter chapter : chapters) {
                 ChapterWithCharsDTO chapterWithCharsDTO = modelMapper.map(chapter, ChapterWithCharsDTO.class);
                 chapterWithCharsDTO.setActionPlace(chapter.getActionPlace());
                 chapterWithCharsDTO.setActionTime(chapter.getActionTime());
@@ -128,7 +128,7 @@ public class StoryService {
                         .getStarringCharactersByChapterId(chapter.getExternalId());
                 ArrayList<StarringCharacterDTO> characterDTOS = new ArrayList<>();
 
-                if(starringCharacters != null && starringCharacters.size() > 0) {
+                if (starringCharacters != null && starringCharacters.size() > 0) {
                     for (StarringCharacters starringCharacter : starringCharacters) {
                         StarringCharacterDTO dto = new StarringCharacterDTO();
 
@@ -136,7 +136,7 @@ public class StoryService {
 
                         String profilePic = null;
                         Image image = imageRepository.getProfilePicForCharacter(character.getExternalId());
-                        if(image != null) {
+                        if (image != null) {
                             profilePic = UtilsShared.GetProfilePicBase64Code(image.getExtension(), image.getImage());
 
                         }
@@ -161,35 +161,35 @@ public class StoryService {
 
     public ResponseEntity getPagesForChapter(Long chapterId, Integer pageNumber) {
         byte[] bytes = new byte[]{};
-            Page page = pageRepository.getPageByPageNumber(pageNumber, chapterId);
-            if(page != null) {
-                Path path= Paths.get(storiesPath);
-                if(!Files.exists(path)){
-                    new File(storiesPath).mkdirs();
-                }
-
-                String separator = System.getProperty("file.separator");
-
-                if(!storiesPath.endsWith(separator)) {
-                    storiesPath += separator;
-                }
-
-
-                try (Stream<Path> walk = Files.walk(Paths.get(storiesPath))) {
-                    List<String> allFilesInDir = walk.filter(Files::isRegularFile)
-                            .map(x -> x.toString()).collect(Collectors.toList());
-
-                    for (String fileInDir: allFilesInDir) {
-                        if(Objects.equals(fileInDir, storiesPath + page.getFileLocation())) {
-                            File image = new File(fileInDir);
-                            bytes = FileCopyUtils.copyToByteArray(image);
-                        }
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
+        Page page = pageRepository.getPageByPageNumber(pageNumber, chapterId);
+        if (page != null) {
+            Path path = Paths.get(storiesPath);
+            if (!Files.exists(path)) {
+                new File(storiesPath).mkdirs();
             }
+
+            String separator = System.getProperty("file.separator");
+
+            if (!storiesPath.endsWith(separator)) {
+                storiesPath += separator;
+            }
+
+
+            try (Stream<Path> walk = Files.walk(Paths.get(storiesPath))) {
+                List<String> allFilesInDir = walk.filter(Files::isRegularFile)
+                        .map(x -> x.toString()).collect(Collectors.toList());
+
+                for (String fileInDir : allFilesInDir) {
+                    if (Objects.equals(fileInDir, storiesPath + page.getFileLocation())) {
+                        File image = new File(fileInDir);
+                        bytes = FileCopyUtils.copyToByteArray(image);
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
 
 
         HttpHeaders httpHeaders = new HttpHeaders();
@@ -200,7 +200,7 @@ public class StoryService {
     public ResponseEntity getStarringCharactersForChapter(Long chapterId) {
         ArrayList<StarringCharacters> starringCharacters = starringCharactersRepository.getStarringCharactersByChapterId(chapterId);
         ArrayList<StarringCharacterDTO> starringCharacterDTOS = new ArrayList<>();
-        if(starringCharacters != null && starringCharacters.size() > 0) {
+        if (starringCharacters != null && starringCharacters.size() > 0) {
             for (StarringCharacters starringCharacter : starringCharacters) {
                 StarringCharacterDTO dto = new StarringCharacterDTO();
 
@@ -209,7 +209,7 @@ public class StoryService {
                 String profilePic = null;
 
                 Image image = imageRepository.getProfilePicForCharacter(character.getExternalId());
-                if(image != null) {
+                if (image != null) {
                     profilePic = UtilsShared.GetProfilePicBase64Code(image.getExtension(), image.getImage());
                 }
 
@@ -228,23 +228,23 @@ public class StoryService {
     }
 
     public ResponseEntity upsertBook(BookDTO request) {
-        Book book = request.getId() == null ?  new Book() : bookRepository.getOne(request.getId());
+        Book book = request.getId() == null ? new Book() : bookRepository.getOne(request.getId());
         book.setName(request.getName());
         book.setColor(request.getColor());
         book.setSymbol(request.getSymbol());
-        book.setBookOrder(request.getBookOrder() == null ? bookRepository.count()+1 : request.getBookOrder());
+        book.setBookOrder(request.getBookOrder() == null ? bookRepository.count() + 1 : request.getBookOrder());
 
         bookRepository.saveAndFlush(book);
 
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    public ResponseEntity createPages(MultipartHttpServletRequest multipartHttpServletRequest, Long chapterId){
+    public ResponseEntity createPages(MultipartHttpServletRequest multipartHttpServletRequest, Long chapterId) {
         Map<String, MultipartFile> allFiles = multipartHttpServletRequest.getFileMap();
         Chapter chapter = chapterRepository.getOne(chapterId);
 
-        if(chapter == null) {
-            return  new ResponseEntity(HttpStatus.NOT_FOUND);
+        if (chapter == null) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
         Iterator it = allFiles.entrySet().iterator();
         while (it.hasNext()) {
@@ -264,37 +264,37 @@ public class StoryService {
                 if (!Stream.of(AvailableExtensions.values()).anyMatch(v -> v.name().toLowerCase().equals(extension.toLowerCase()))) {
                     return new ResponseEntity(HttpStatus.UNSUPPORTED_MEDIA_TYPE);
                 }
-                    UUID uuid = UUID.randomUUID();
+                UUID uuid = UUID.randomUUID();
 
-                    int leftLimit = 97; // 'a'
-                    int rightLimit = 122; // 'z'
-                    int targetStringLength = 10;
-                    Random random = new Random();
+                int leftLimit = 97; // 'a'
+                int rightLimit = 122; // 'z'
+                int targetStringLength = 10;
+                Random random = new Random();
 
-                    String generatedString = random.ints(leftLimit, rightLimit + 1)
-                            .limit(targetStringLength)
-                            .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
-                            .toString();
+                String generatedString = random.ints(leftLimit, rightLimit + 1)
+                        .limit(targetStringLength)
+                        .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                        .toString();
 
-                    String fileToSaveName = generatedString + uuid + "." + extension;
+                String fileToSaveName = generatedString + uuid + "." + extension;
 
-                    Path path = Paths.get(storiesPath);
-                    if (!Files.exists(path)) {
-                        new File(storiesPath).mkdirs();
-                    }
+                Path path = Paths.get(storiesPath);
+                if (!Files.exists(path)) {
+                    new File(storiesPath).mkdirs();
+                }
 
-                    File fileToSave = new File(storiesPath, fileToSaveName);
-                    FileOutputStream fos = new FileOutputStream(fileToSave);
+                File fileToSave = new File(storiesPath, fileToSaveName);
+                FileOutputStream fos = new FileOutputStream(fileToSave);
 
-                    fos.write(file.getBytes());
-                    fos.close();
+                fos.write(file.getBytes());
+                fos.close();
 
-                    Page pageToSave = new Page();
-                    pageToSave.setPageNumber(pageRepository.getPagesForChapter(chapterId).size());
-                    pageToSave.setChapter(chapter);
-                    pageToSave.setFileLocation(fileToSaveName);
+                Page pageToSave = new Page();
+                pageToSave.setPageNumber(pageRepository.getPagesForChapter(chapterId).size());
+                pageToSave.setChapter(chapter);
+                pageToSave.setFileLocation(fileToSaveName);
 
-                    pageRepository.saveAndFlush(pageToSave);
+                pageRepository.saveAndFlush(pageToSave);
 
 
                 it.remove();
@@ -307,22 +307,22 @@ public class StoryService {
 
     public ResponseEntity upsertChapter(ChapterRequest request) {
         Book book = bookRepository.getOne(request.getBookId());
-        if(book == null) {
-            return  new ResponseEntity("Nie istnieje szkicownik o podanym id.",HttpStatus.NOT_FOUND);
+        if (book == null) {
+            return new ResponseEntity("Nie istnieje szkicownik o podanym id.", HttpStatus.NOT_FOUND);
         }
 
         Chapter chapter = request.getId() == null ? new Chapter() : chapterRepository.getOne(request.getId());
-            chapter.setBook(book);
-            chapter.setChapterDesc(request.getChapterDesc());
-            chapter.setName(request.getName());
+        chapter.setBook(book);
+        chapter.setChapterDesc(request.getChapterDesc());
+        chapter.setName(request.getName());
 
-            if(request.getId() == null) {
-                chapter.setCreateDate(System.currentTimeMillis() / 1000L);
-                chapter.setChapterNumber(chapterRepository.getChaptersForBook(request.getBookId()).size() + 1000);
-            }
+        if (request.getId() == null) {
+            chapter.setCreateDate(System.currentTimeMillis() / 1000L);
+            chapter.setChapterNumber(chapterRepository.getChaptersForBook(request.getBookId()).size() + 1000);
+        }
 
-            chapter.setActionPlace(request.getActionPlace());
-            chapter.setActionTime(request.getActionTime());
+        chapter.setActionPlace(request.getActionPlace());
+        chapter.setActionTime(request.getActionTime());
 
         chapterRepository.saveAndFlush(chapter);
 
@@ -331,13 +331,13 @@ public class StoryService {
 
     public ResponseEntity editStarringCharacters(EditStarringCharacterRequest request) {
         Chapter chapter = chapterRepository.getOne(request.getChapterId());
-        if(chapter == null) {
+        if (chapter == null) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
-        if(request.getId() == null) {
+        if (request.getId() == null) {
             StarringCharacters starringCharacter = new StarringCharacters();
             Character character = characterRepository.getOne(request.getCharacterId());
-            if(character == null) {
+            if (character == null) {
                 return new ResponseEntity(HttpStatus.NOT_FOUND);
             }
             starringCharacter.setCharacter(character);
@@ -352,52 +352,52 @@ public class StoryService {
     public ResponseEntity deleteBook(Long id) {
         Book book = bookRepository.getOne(id);
 
-        if(book != null) {
+        if (book != null) {
             ArrayList<Chapter> chapters = chapterRepository.getChaptersForBook(id);
-            if(chapters.size() > 0) {
+            if (chapters.size() > 0) {
                 return new ResponseEntity(HttpStatus.BAD_REQUEST);
             }
 
             bookRepository.delete(book);
         }
-        return  new ResponseEntity(HttpStatus.OK);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     public ResponseEntity deleteChapter(Long id) {
         Chapter chapter = chapterRepository.getOne(id);
-        if(chapter != null) {
+        if (chapter != null) {
             chapterRepository.delete(chapter);
         }
-        return  new ResponseEntity(HttpStatus.OK);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     public ResponseEntity deletePage(Long pageId) {
         Page page = pageRepository.getOne(pageId);
 
-        if(page != null) {
+        if (page != null) {
             Resource resource = resourceLoader.getResource("file:" + storiesPath);
-        try {
-            File file = resource.getFile();
-            File[] images = file.listFiles();
+            try {
+                File file = resource.getFile();
+                File[] images = file.listFiles();
 
-            File image  = Arrays
-                    .stream(images)
-                    .filter(x -> Objects.equals(page.getFileLocation(), x.getName()))
-                    .findFirst()
-                    .orElse(null);
+                File image = Arrays
+                        .stream(images)
+                        .filter(x -> Objects.equals(page.getFileLocation(), x.getName()))
+                        .findFirst()
+                        .orElse(null);
 
-            image.delete();
-            pageRepository.delete(page);
+                image.delete();
+                pageRepository.delete(page);
 
-            ArrayList<Page> pagesFromDb = pageRepository.getPagesForChapter(page.getChapter().getExternalId());
-            if(pagesFromDb.size() > 0) {
-                for (int i = 0; i < pagesFromDb.size(); i++) {
-                    pagesFromDb.get(i).setPageNumber(i);
-                    pageRepository.saveAndFlush(pagesFromDb.get(i));
+                ArrayList<Page> pagesFromDb = pageRepository.getPagesForChapter(page.getChapter().getExternalId());
+                if (pagesFromDb.size() > 0) {
+                    for (int i = 0; i < pagesFromDb.size(); i++) {
+                        pagesFromDb.get(i).setPageNumber(i);
+                        pageRepository.saveAndFlush(pagesFromDb.get(i));
+                    }
                 }
+            } catch (IOException e) {
             }
-        } catch (IOException e) {
-        }
         }
 
         return new ResponseEntity(HttpStatus.OK);
@@ -405,17 +405,17 @@ public class StoryService {
 
     public ResponseEntity deleteStarringCharacterFromChapter(Long id) {
         StarringCharacters starringCharacter = starringCharactersRepository.getOne(id);
-        if (starringCharacter != null ) {
+        if (starringCharacter != null) {
             starringCharactersRepository.delete(starringCharacter);
         }
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    public ResponseEntity editBookOrder(ArrayList<Long> booksIds){
-        List<Book> books = bookRepository.findAll();
+    public ResponseEntity editBookOrder(ArrayList<Long> booksIds) {
+        List<Book> books = bookRepository.getAllBooksSorted();
         HashMap<Long, Long> booksFromDb = new HashMap<>();
 
-        for (int i = 0; i < books.size() ; i++) {
+        for (int i = 0; i < books.size(); i++) {
             Book book = books.get(i);
             booksFromDb.put(book.getExternalId(), book.getBookOrder());
         }
@@ -425,7 +425,7 @@ public class StoryService {
             bookRepository.saveAndFlush(book);
         });
 
-        for (int i = 0; i < booksIds.size() ; i++) {
+        for (int i = 0; i < booksIds.size(); i++) {
             Book book = bookRepository.getOne(booksIds.get(i));
             book.setBookOrder(Long.valueOf(i));
             bookRepository.saveAndFlush(book);
@@ -433,11 +433,11 @@ public class StoryService {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    public ResponseEntity editChapterOrder(ArrayList<Long> chapterIds, Long bookId){
+    public ResponseEntity editChapterOrder(ArrayList<Long> chapterIds, Long bookId) {
         List<Chapter> chapters = chapterRepository.getChaptersForBook(bookId);
         HashMap<Long, Integer> booksFromDb = new HashMap<>();
 
-        for (int i = 0; i < chapters.size() ; i++) {
+        for (int i = 0; i < chapters.size(); i++) {
             Chapter chapter = chapters.get(i);
             booksFromDb.put(chapter.getExternalId(), chapter.getChapterNumber());
         }
@@ -447,7 +447,7 @@ public class StoryService {
             chapterRepository.saveAndFlush(chapter);
         });
 
-        for (int i = 0; i < chapterIds.size() ; i++) {
+        for (int i = 0; i < chapterIds.size(); i++) {
             Chapter chapter = chapterRepository.getOne(chapterIds.get(i));
             chapter.setChapterNumber(i);
             chapterRepository.saveAndFlush(chapter);
@@ -456,8 +456,8 @@ public class StoryService {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    public ResponseEntity editPagesOrder(ArrayList<Long> pagesIds){
-        for (int i = 0; i < pagesIds.size() ; i++) {
+    public ResponseEntity editPagesOrder(ArrayList<Long> pagesIds) {
+        for (int i = 0; i < pagesIds.size(); i++) {
             Page page = pageRepository.getOne(pagesIds.get(i));
             page.setPageNumber(i);
             pageRepository.saveAndFlush(page);
@@ -467,7 +467,7 @@ public class StoryService {
 
     public ResponseEntity changeChapterVisibility(ChapterVisibilityRequest request) {
         Chapter chapter = chapterRepository.getOne(request.getChapterId());
-        if(chapter == null) {
+        if (chapter == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         chapter.setVisible(request.getVisibility());

@@ -188,7 +188,7 @@ public class CharactersService {
         dto.setProfilePic(profilePic);
 
         ArrayList<BookForCharacter> bookForCharacters = new ArrayList<>();
-        List<Book> books = bookRepository.findAll();
+        List<Book> books = bookRepository.getNonEmptyBooksSorted();
         if (books != null) {
             for (Book book : books) {
                 ArrayList<ChapterForCharacter> chapterForCharacters = new ArrayList<>();
@@ -359,7 +359,7 @@ public class CharactersService {
         List<StarringCharacters> starringCharacters = starringCharactersRepository.getStarringCharactersByCharacterId(id);
         starringCharacters.forEach(starringCharacter -> starringCharactersRepository.delete(starringCharacter));
 
-        List<RelationCoordinates> relationCoordinates = relationCoordinatesRepository.getAllCoordinatesForCharacter(id);
+        List<RelationCoordinates> relationCoordinates = relationCoordinatesRepository.getAllRelationsForCharacter(id);
         relationCoordinates.forEach(relationCoordinate -> relationCoordinatesRepository.delete(relationCoordinate));
 
         List<Relation> relationList = relationsRepository.getRelationsForCharacter(id);
