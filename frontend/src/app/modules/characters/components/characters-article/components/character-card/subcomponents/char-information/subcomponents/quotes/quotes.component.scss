@@ -1,11 +1,21 @@
 @import 'variables';
 
 .quote {
-    &__blockquote {
-        line-height: 1.5;
-        font-size: 0.6rem;
+    width: 90%;
 
+    &__blockquote {
+        width: 100%;
+
+        line-height: 1.5;
         margin: 0;
+
+        &--main {
+            font-size: large;
+        }
+    }
+
+    &__input {
+        width: 100%;
     }
 
     &__cite {
@@ -37,8 +47,6 @@
 
 .new-quote-add {
     display: flex;
-    justify-content: flex-end;
-    width: 295px;
 }
 
 .options {
@@ -48,17 +56,24 @@
 
 .quote-block-container {
     display: flex;
-    justify-content: space-between;
+
+    width: 90%;
 
     border-radius: 3px;
     padding: 1rem;
     margin: 0.5rem;
 
-    width: 250px;
-
-    background: $dark-bg-component-color;
-
     &--main-quote {
         flex-direction: column;
+
+        -webkit-box-shadow: 8px 8px 0px 0px var(--theme-color);
+        -moz-box-shadow: 8px 8px 0px 0px var(--theme-color);
+        box-shadow: 8px 8px 0px 0px var(--theme-color);
     }
+}
+
+.blockquote-with-options {
+    display: flex;
+
+    width: 100%;
 }
