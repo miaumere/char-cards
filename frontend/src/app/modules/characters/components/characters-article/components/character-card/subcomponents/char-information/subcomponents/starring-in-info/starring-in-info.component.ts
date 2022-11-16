@@ -16,6 +16,7 @@ export class StarringInInfoComponent implements OnInit {
     constructor() {}
 
     ngOnInit() {
+        // console.log('starring in: ', this.starringIn);
         const maxValue = this.starringIn.reduce((acc, value) => {
             if (acc.chapters.length > value.chapters.length) {
                 return acc;

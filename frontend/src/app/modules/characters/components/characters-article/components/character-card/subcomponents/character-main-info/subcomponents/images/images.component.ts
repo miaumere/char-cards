@@ -1,6 +1,7 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import {
     Component,
+    ElementRef,
     EventEmitter,
     Input,
     OnInit,
@@ -10,7 +11,8 @@ import {
 import { FormGroup, FormControl } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
-import { finalize } from 'rxjs/operators';
+import { fromEvent, Observable } from 'rxjs';
+import { filter, finalize, map } from 'rxjs/operators';
 import { BaseComponent } from 'src/app/core/base.component';
 import { CharactersService } from 'src/app/core/service/characters.service';
 import { Character } from 'src/app/modules/characters/models/character.model';
@@ -48,6 +50,18 @@ export class ImagesComponent extends BaseComponent implements OnInit {
     changeImageNameForm = new FormGroup({
         name: new FormControl(''),
     });
+
+    @ViewChild('fileInput', { static: true }) fileInput: ElementRef =
+        {} as ElementRef;
+
+    clipboard$ = fromEvent(window, 'paste')
+        .pipe(
+            map((event) => <ClipboardEvent>event),
+            filter((e) => {
+                return !!e.clipboardData?.files?.length;
+            })
+        )
+        .subscribe((res) => this.handleFileInput(res.clipboardData!.files));
 
     insertDeleteInfo = () =>
         insertDeleteInfo(this._toastrService, this._translate);

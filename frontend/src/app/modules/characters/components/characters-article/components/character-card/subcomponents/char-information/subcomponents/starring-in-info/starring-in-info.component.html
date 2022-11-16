@@ -31,7 +31,6 @@
                             chapter.chapterName + ' - ' + chapter.starringType
                         "
                         *ngIf="chapter.starringType !== null"
-                        rx="3"
                         [class]="'square square--' + chapter.starringType"
                         [routerLink]="['../../pages/chapters/pages']"
                         [queryParams]="{
