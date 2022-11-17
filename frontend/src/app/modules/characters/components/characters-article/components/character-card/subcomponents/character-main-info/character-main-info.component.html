@@ -144,15 +144,66 @@
     </div>
 
     <app-divider></app-divider>
+    <div class="images-and-tags-section">
+        <app-images
+            [ngClass]="{ disabled: isNewChar }"
+            [character]="character"
+            [isUserLogged]="isUserLogged"
+            [fontColor]="fontColor"
+            (imagesHaveChangedEvent)="emitInfoHasChangedEvent()"
+        >
+        </app-images>
 
-    <app-images
-        [ngClass]="{ disabled: isNewChar }"
-        [character]="character"
-        [isUserLogged]="isUserLogged"
-        [fontColor]="fontColor"
-        (imagesHaveChangedEvent)="emitInfoHasChangedEvent()"
-    >
-    </app-images>
+        <div class="tags-section">
+            <app-divider></app-divider>
+
+            <form [formGroup]="newTagForm" *appIfLoggedUser>
+                <mat-form-field class="add-new-tag">
+                    <mat-icon
+                        class="basic-icon basic-icon--expand add-icon"
+                        matSuffix
+                        >add</mat-icon
+                    >
+                    <input
+                        matInput
+                        formControlName="tagToAdd"
+                        [matAutocomplete]="auto"
+                        [placeholder]="'EDIT_TAGS.TAG_NAME' | translate"
+                        class="relationship-box__input"
+                    />
+                    <mat-autocomplete
+                        #auto="matAutocomplete"
+                        (optionSelected)="addTagToCharacter($event)"
+                    >
+                        <mat-option
+                            *ngFor="let tag of filteredTagsList"
+                            [value]="tag"
+                            class="option"
+                        >
+                            <div class="option-container">
+                                <app-tag [tagData]="tag"></app-tag>
+                            </div>
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+            </form>
+
+            <div class="tags" [ngClass]="{ 'tags--edit': isUserLogged }">
+                <div *ngFor="let tag of character?.tags" class="tags-container">
+                    <mat-icon
+                        *appIfLoggedUser
+                        class="close-icon tag-container__icon"
+                        (click)="insertDeleteInfo()"
+                        (dblclick)="deleteCharacterTag(tag.id)"
+                        >close</mat-icon
+                    >
+                    <div class="tag-container">
+                        <app-tag [tagData]="tag"></app-tag>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </form>
 
 <ng-template #editButtons let-key="key">

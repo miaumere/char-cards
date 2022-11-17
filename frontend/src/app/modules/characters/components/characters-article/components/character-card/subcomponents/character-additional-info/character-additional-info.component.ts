@@ -35,19 +35,11 @@ export class CharacterAdditionalInfoComponent
     originalFlag?: Country = undefined;
     countries: Country[] = [];
 
-    newTagForm = new FormGroup({
-        tagToAdd: new FormControl(null),
-    });
-
-    filteredTagsList: Tag[] = [];
-    tagsList: Tag[] = [];
-
     insertDeleteInfo = () =>
         insertDeleteInfo(this._toastrService, this._translate);
 
     constructor(
         private _countriesService: CountriesService,
-        private _tagsService: TagsService,
         private _toastrService: ToastrService,
         private _translate: TranslateService
     ) {
@@ -59,26 +51,7 @@ export class CharacterAdditionalInfoComponent
 
         if (this.isUserLogged) {
             this.getCountriesList();
-
-            this.getTags();
-            this.newTagForm.get('tagToAdd')?.valueChanges.subscribe((value) => {
-                this._filterTags(value);
-            });
         }
-    }
-
-    private _filterTags(value: string) {
-        if (!value) {
-            this.filteredTagsList = this.tagsList;
-            return;
-        }
-        const regex = new RegExp(value, 'gi');
-
-        const filteredTags = this.filteredTagsList.filter((c) => {
-            return c.name.match(regex);
-        });
-
-        this.filteredTagsList = filteredTags;
     }
 
     getCountriesList() {
@@ -121,43 +94,5 @@ export class CharacterAdditionalInfoComponent
         this.editedKey = key;
         this.flag = this.originalFlag;
         this.editedKeyChange.emit(key);
-    }
-
-    addTagToCharacter(event: MatAutocompleteSelectedEvent) {
-        this.newTagForm.get('tagToAdd')?.reset();
-        const tag = event.option?.value;
-        if (tag.id && this.character?.externalId) {
-            this.subscriptions$.add(
-                this._tagsService
-                    .assignTagToCharacter(tag.id, this.character?.externalId)
-                    .subscribe(() => {
-                        this.emitInfoHasChangedEvent();
-                    })
-            );
-        }
-    }
-
-    deleteCharacterTag(tagId: number) {
-        if (this.character) {
-            this.subscriptions$.add(
-                this._tagsService
-                    .deleteCharacterTag(tagId, this.character?.externalId)
-                    .subscribe(() => {
-                        this.emitInfoHasChangedEvent();
-                    })
-            );
-        }
-    }
-
-    getTags() {
-        this.subscriptions$.add(
-            this._tagsService.getAllTags().subscribe((tags) => {
-                const otherTags = tags.filter((x) => {
-                    return !this.character?.tags.some((y) => y.id === x.id);
-                });
-                this.tagsList = otherTags;
-                this.filteredTagsList = otherTags;
-            })
-        );
     }
 }
