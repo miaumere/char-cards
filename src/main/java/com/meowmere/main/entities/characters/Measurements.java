@@ -1,133 +1,62 @@
 package com.meowmere.main.entities.characters;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 
 import javax.persistence.*;
 
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
-@Table(name="measurements")
+@Table(name = "measurements")
 public class Measurements {
+    @Getter
+    @Setter
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    @Getter
+    @Setter
     @Column
     private Integer babyHeight;
+    @Getter
+    @Setter
     @Column
     private Integer babyWeight;
+    @Getter
+    @Setter
     @Column
     private Integer childHeight;
+    @Getter
+    @Setter
     @Column
     private Integer childWeight;
+    @Getter
+    @Setter
     @Column
     private Integer teenHeight;
+    @Getter
+    @Setter
     @Column
     private Integer teenWeight;
+    @Getter
+    @Setter
     @Column
     private Integer adultHeight;
+    @Getter
+    @Setter
     @Column
     private Integer adultWeight;
 
-    @ManyToOne(fetch =  FetchType.LAZY)
+    @Getter
+    @Setter
+    @ManyToOne(fetch = FetchType.LAZY)
     @NotFound(action = NotFoundAction.IGNORE)
     @JoinColumn(name = "character_id")
     private Character character;
-
-    public Measurements() {};
-
-    public Measurements(Integer babyHeight,
-                        Integer babyWeight,
-                        Integer childHeight,
-                        Integer childWeight,
-                        Integer teenHeight,
-                        Integer teenWeight,
-                        Integer adultHeight,
-                        Integer adultWeight,
-                        Character character) {
-        this.babyHeight = babyHeight;
-        this.babyWeight = babyWeight;
-        this.childHeight = childHeight;
-        this.childWeight = childWeight;
-        this.teenHeight = teenHeight;
-        this.teenWeight = teenWeight;
-        this.adultHeight = adultHeight;
-        this.adultWeight = adultWeight;
-        this.character = character;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public Integer getBabyHeight() {
-        return babyHeight;
-    }
-
-    public void setBabyHeight(Integer babyHeight) {
-        this.babyHeight = babyHeight;
-    }
-
-    public Integer getBabyWeight() {
-        return babyWeight;
-    }
-
-    public void setBabyWeight(Integer babyWeight) {
-        this.babyWeight = babyWeight;
-    }
-
-    public Integer getChildHeight() {
-        return childHeight;
-    }
-
-    public void setChildHeight(Integer childHeight) {
-        this.childHeight = childHeight;
-    }
-
-    public Integer getChildWeight() {
-        return childWeight;
-    }
-
-    public void setChildWeight(Integer childWeight) {
-        this.childWeight = childWeight;
-    }
-
-    public Integer getTeenHeight() {
-        return teenHeight;
-    }
-
-    public void setTeenHeight(Integer teenHeight) {
-        this.teenHeight = teenHeight;
-    }
-
-    public Integer getTeenWeight() {
-        return teenWeight;
-    }
-
-    public void setTeenWeight(Integer teenWeight) {
-        this.teenWeight = teenWeight;
-    }
-
-    public Integer getAdultHeight() {
-        return adultHeight;
-    }
-
-    public void setAdultHeight(Integer adultHeight) {
-        this.adultHeight = adultHeight;
-    }
-
-    public Integer getAdultWeight() {
-        return adultWeight;
-    }
-
-    public void setAdultWeight(Integer adultWeight) {
-        this.adultWeight = adultWeight;
-    }
-
-    public Character getCharacter() {
-        return character;
-    }
-
-    public void setCharacter(Character character) {
-        this.character = character;
-    }
 }

@@ -3,303 +3,123 @@ package com.meowmere.main.entities.characters;
 import com.meowmere.main.entities.story.StarringCharacters;
 import com.meowmere.main.enums.CharType;
 import com.meowmere.main.enums.Gender;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
 import java.util.Set;
 
+@NoArgsConstructor
 @Entity
 @Table(name = "character")
 public class Character {
+    @Getter
+    @Setter
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     public Long externalId;
+    @Getter
+    @Setter
     @Column
     private String charName;
+    @Getter
+    @Setter
     @Column
     private String charSurname;
+    @Getter
+    @Setter
     @Column
     private String pseudonim;
+    @Getter
+    @Setter
     @Column
     private Long birthday;
+    @Getter
+    @Setter
     @Column
     private Long death;
+    @Getter
+    @Setter
     @Column
     @Enumerated(EnumType.STRING)
     private Gender gender;
+    @Getter
+    @Setter
     @Column
     private String deathReason;
+    @Getter
+    @Setter
     @Column
     private String occupation;
+    @Getter
+    @Setter
     @Column
     public Boolean archived = false;
+    @Getter
+    @Setter
     @Column
     public String nationality;
+    @Getter
+    @Setter
     @Column
     public String mbtiPersonality;
-
+    @Getter
+    @Setter
     @Column(name = "character_type")
     @Enumerated(EnumType.STRING)
     public CharType charType;
-
+    @Getter
+    @Setter
     @OneToMany(mappedBy = "character", cascade = CascadeType.ALL)
     private Set<Colors> colors;
-
+    @Getter
+    @Setter
     @OneToMany(mappedBy = "character", cascade = CascadeType.ALL)
     private Set<Temperament> temperament;
-
+    @Getter
+    @Setter
     @OneToMany(mappedBy = "character", cascade = CascadeType.ALL)
     private List<Quote> quotes;
-
+    @Getter
+    @Setter
     @OneToMany(mappedBy = "character", cascade = CascadeType.ALL)
     private Set<Measurements> measurements;
-
+    @Getter
+    @Setter
     @OneToMany(mappedBy = "character", cascade = CascadeType.ALL)
     private Set<CharacterStory> characterStory;
-
+    @Getter
+    @Setter
     @OneToMany(mappedBy = "character", cascade = CascadeType.ALL)
     private Set<Image> profilePics;
-
+    @Getter
+    @Setter
     @OneToMany(mappedBy = "character", cascade = CascadeType.ALL)
     private Set<StarringCharacters> existingCharacters;
-
+    @Getter
+    @Setter
     @OneToMany(mappedBy = "character", cascade = CascadeType.ALL)
     private List<Preference> preferences;
-
+    @Getter
+    @Setter
     @OneToMany(mappedBy = "preferedCharacter", cascade = CascadeType.ALL)
     private List<Preference> preferedBy;
-
+    @Getter
+    @Setter
     @OneToMany(mappedBy = "relatedCharacter", cascade = CascadeType.ALL)
     private List<Relation> relatedCharacter;
-
+    @Getter
+    @Setter
     @OneToMany(mappedBy = "sourceCharacter", cascade = CascadeType.ALL)
     private List<RelationCoordinates> coordinatesForSource;
-
+    @Getter
+    @Setter
     @OneToMany(mappedBy = "targetCharacter", cascade = CascadeType.ALL)
     private List<RelationCoordinates> coordinatesForTarget;
-
+    @Getter
+    @Setter
     @OneToMany(mappedBy = "character", cascade = CascadeType.ALL)
     private List<CharacterTag> characterTags;
-
-
-    public Character() {
-    }
-
-    ;
-
-    public CharType getCharType() {
-        return charType;
-    }
-
-    public void setCharType(CharType charType) {
-        this.charType = charType;
-    }
-
-    public Long getExternalId() {
-        return externalId;
-    }
-
-    public void setExternalId(Long externalId) {
-        this.externalId = externalId;
-    }
-
-    public String getCharName() {
-        return charName;
-    }
-
-    public void setCharName(String charName) {
-        this.charName = charName;
-    }
-
-    public String getCharSurname() {
-        return charSurname;
-    }
-
-    public String getOccupation() {
-        return occupation;
-    }
-
-    public void setOccupation(String occupation) {
-        this.occupation = occupation;
-    }
-
-    public void setCharSurname(String charSurname) {
-        this.charSurname = charSurname;
-    }
-
-    public Long getBirthday() {
-        return birthday;
-    }
-
-    public String getDeathReason() {
-        return deathReason;
-    }
-
-    public void setDeathReason(String deathReason) {
-        this.deathReason = deathReason;
-    }
-
-    public void setBirthday(Long birthday) {
-        this.birthday = birthday;
-    }
-
-    public Long getDeath() {
-        return death;
-    }
-
-    public void setDeath(Long death) {
-        this.death = death;
-    }
-
-    public Set<Colors> getColors() {
-        return colors;
-    }
-
-    public void setColors(Set<Colors> colors) {
-        this.colors = colors;
-    }
-
-    public Set<Temperament> getTemperament() {
-        return temperament;
-    }
-
-    public void setTemperament(Set<Temperament> temperament) {
-        this.temperament = temperament;
-    }
-
-    public List<Quote> getQuotes() {
-        return quotes;
-    }
-
-    public void setQuotes(List<Quote> quotes) {
-        this.quotes = quotes;
-    }
-
-    public Set<Measurements> getMeasurements() {
-        return measurements;
-    }
-
-    public void setMeasurements(Set<Measurements> measurements) {
-        this.measurements = measurements;
-    }
-
-    public Boolean getArchived() {
-        return archived;
-    }
-
-    public void setArchived(Boolean archived) {
-        this.archived = archived;
-    }
-
-    public Set<Image> getProfilePics() {
-        return profilePics;
-    }
-
-    public void setProfilePics(Set<Image> profilePics) {
-        this.profilePics = profilePics;
-    }
-
-    public Gender getGender() {
-        return gender;
-    }
-
-    public void setGender(Gender gender) {
-        this.gender = gender;
-    }
-
-    public Set<CharacterStory> getStory() {
-        return characterStory;
-    }
-
-    public void setStory(Set<CharacterStory> story) {
-        this.characterStory = story;
-    }
-
-    public String getPseudonim() {
-        return pseudonim;
-    }
-
-    public void setPseudonim(String pseudonim) {
-        this.pseudonim = pseudonim;
-    }
-
-    public Set<CharacterStory> getCharacterStory() {
-        return characterStory;
-    }
-
-    public void setCharacterStory(Set<CharacterStory> characterStory) {
-        this.characterStory = characterStory;
-    }
-
-    public Set<StarringCharacters> getExistingCharacters() {
-        return existingCharacters;
-    }
-
-    public void setExistingCharacters(Set<StarringCharacters> existingCharacters) {
-        this.existingCharacters = existingCharacters;
-    }
-
-    public String getNationality() {
-        return nationality;
-    }
-
-    public void setNationality(String nationality) {
-        this.nationality = nationality;
-    }
-
-    public List<Preference> getPreferences() {
-        return preferences;
-    }
-
-    public void setPreferences(List<Preference> preferences) {
-        this.preferences = preferences;
-    }
-
-    public List<Preference> getPreferedBy() {
-        return preferedBy;
-    }
-
-    public void setPreferedBy(List<Preference> preferedBy) {
-        this.preferedBy = preferedBy;
-    }
-
-    public List<Relation> getRelatedCharacter() {
-        return relatedCharacter;
-    }
-
-    public void setRelatedCharacter(List<Relation> relatedCharacter) {
-        this.relatedCharacter = relatedCharacter;
-    }
-
-    public List<RelationCoordinates> getCoordinatesForSource() {
-        return coordinatesForSource;
-    }
-
-    public void setCoordinatesForSource(List<RelationCoordinates> coordinatesForSource) {
-        this.coordinatesForSource = coordinatesForSource;
-    }
-
-    public List<RelationCoordinates> getCoordinatesForTarget() {
-        return coordinatesForTarget;
-    }
-
-    public void setCoordinatesForTarget(List<RelationCoordinates> coordinatesForTarget) {
-        this.coordinatesForTarget = coordinatesForTarget;
-    }
-
-    public List<CharacterTag> getCharacterTags() {
-        return characterTags;
-    }
-
-    public void setCharacterTags(List<CharacterTag> characterTags) {
-        this.characterTags = characterTags;
-    }
-
-    public String getMbtiPersonality() {
-        return mbtiPersonality;
-    }
-
-    public void setMbtiPersonality(String mbtiPersonality) {
-        this.mbtiPersonality = mbtiPersonality;
-    }
-};
+}

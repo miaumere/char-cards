@@ -1,5 +1,7 @@
 package com.meowmere.main.entities.characters;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 
@@ -8,50 +10,27 @@ import javax.persistence.*;
 @Entity
 @Table(name = "quote")
 public class Quote {
+    @Getter
+    @Setter
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Getter
+    @Setter
     @Column
     private String quote;
 
+    @Getter
+    @Setter
     @Column
     private String context;
 
-    @ManyToOne(fetch =  FetchType.LAZY)
+    @Getter
+    @Setter
+    @ManyToOne(fetch = FetchType.LAZY)
     @NotFound(action = NotFoundAction.IGNORE)
     @JoinColumn(name = "character_id")
     private Character character;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getQuote() {
-        return quote;
-    }
-
-    public void setQuote(String quote) {
-        this.quote = quote;
-    }
-
-    public String getContext() {
-        return context;
-    }
-
-    public void setContext(String context) {
-        this.context = context;
-    }
-
-    public Character getCharacter() {
-        return character;
-    }
-
-    public void setCharacter(Character character) {
-        this.character = character;
-    }
 }

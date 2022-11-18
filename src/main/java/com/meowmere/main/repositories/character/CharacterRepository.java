@@ -21,9 +21,4 @@ public interface CharacterRepository extends JpaRepository<Character, Long> {
     @Query("SELECT count(c) FROM Character c WHERE c.gender = :gender")
     int getCharactersForGender(@Param("gender") Gender gender);
 
-
-    @Query("SELECT count(c) FROM Character c WHERE c.charType = :type")
-    int getCharTypeNumber(@Param("type") CharType type);
-
-
 }

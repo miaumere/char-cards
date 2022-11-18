@@ -1,5 +1,7 @@
 package com.meowmere.main.entities.story;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 
@@ -7,129 +9,53 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(uniqueConstraints = {@UniqueConstraint(columnNames ={"book_id","chapter_number"})})
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"book_id", "chapter_number"})})
 public class Chapter {
+    @Getter
+    @Setter
     @Id
     @GeneratedValue
     private Long externalId;
-
+    @Getter
+    @Setter
     @Column
     private String name;
-
+    @Getter
+    @Setter
     @Column
     private String chapterDesc;
-
+    @Getter
+    @Setter
     @Column
     private Long createDate;
-
+    @Getter
+    @Setter
     @Column
     private String actionTime;
-
+    @Getter
+    @Setter
     @Column
     private String actionPlace;
-
+    @Getter
+    @Setter
     @Column
     private Boolean visible = false;
-
+    @Getter
+    @Setter
     @ManyToOne(fetch = FetchType.LAZY)
     @NotFound(action = NotFoundAction.IGNORE)
     @JoinColumn(name = "book_id")
     public Book book;
-
+    @Getter
+    @Setter
     @OneToMany(mappedBy = "chapter", cascade = CascadeType.ALL)
     private List<Page> pages;
-
+    @Getter
+    @Setter
     @OneToMany(mappedBy = "chapter", cascade = CascadeType.ALL)
     private List<StarringCharacters> starringCharacters;
-
-    @Column(name="chapter_number")
+    @Getter
+    @Setter
+    @Column(name = "chapter_number")
     private int chapterNumber;
-
-    public Long getExternalId() {
-        return externalId;
-    }
-
-    public void setExternalId(Long externalId) {
-        this.externalId = externalId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getChapterDesc() {
-        return chapterDesc;
-    }
-
-    public void setChapterDesc(String chapterDesc) {
-        this.chapterDesc = chapterDesc;
-    }
-
-    public Book getBook() {
-        return book;
-    }
-
-    public void setBook(Book book) {
-        this.book = book;
-    }
-
-    public int getChapterNumber() {
-        return chapterNumber;
-    }
-
-    public void setChapterNumber(int chapterNumber) {
-        this.chapterNumber = chapterNumber;
-    }
-
-    public List<Page> getPages() {
-        return pages;
-    }
-
-    public void setPages(List<Page> pages) {
-        this.pages = pages;
-    }
-
-    public List<StarringCharacters> getStarringCharacters() {
-        return starringCharacters;
-    }
-
-    public void setStarringCharacters(List<StarringCharacters> starringCharacters) {
-        this.starringCharacters = starringCharacters;
-    }
-
-    public Long getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(Long createDate) {
-        this.createDate = createDate;
-    }
-
-    public String getActionTime() {
-        return actionTime;
-    }
-
-    public void setActionTime(String actionTime) {
-        this.actionTime = actionTime;
-    }
-
-    public String getActionPlace() {
-        return actionPlace;
-    }
-
-    public void setActionPlace(String actionPlace) {
-        this.actionPlace = actionPlace;
-    }
-
-    public Boolean getVisible() {
-        return visible;
-    }
-
-    public void setVisible(Boolean visible) {
-        this.visible = visible;
-    }
 }
