@@ -39,4 +39,11 @@ public class RelationCoordinates {
     @Setter
     @Column(name = "Y_target")
     private Integer YTarget;
+
+    public RelationCoordinates(Character sourceCharacter, Character targetCharacter, Integer XTarget, Integer YTarget) {
+        this.sourceCharacter = sourceCharacter;
+        this.targetCharacter = targetCharacter;
+        this.XTarget = XTarget;
+        this.YTarget = YTarget;
+    }
 }
