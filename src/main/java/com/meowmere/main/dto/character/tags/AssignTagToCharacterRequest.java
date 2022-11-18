@@ -1,25 +1,17 @@
 package com.meowmere.main.dto.character.tags;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@NoArgsConstructor
 public class AssignTagToCharacterRequest {
+    @Getter
+    @Setter
     private Integer tagId;
+    @Getter
+    @Setter
     private Long characterId;
 
-    public AssignTagToCharacterRequest() {
-    }
 
-    public Integer getTagId() {
-        return tagId;
-    }
-
-    public void setTagId(Integer tagId) {
-        this.tagId = tagId;
-    }
-
-    public Long getCharacterId() {
-        return characterId;
-    }
-
-    public void setCharacterId(Long characterId) {
-        this.characterId = characterId;
-    }
 }

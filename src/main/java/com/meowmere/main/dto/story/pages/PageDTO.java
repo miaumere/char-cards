@@ -1,31 +1,16 @@
 package com.meowmere.main.dto.story.pages;
 
+import lombok.Getter;
+import lombok.Setter;
+
 public class PageDTO {
+    @Getter
+    @Setter
     public Long id;
+    @Getter
+    @Setter
     public Integer pageNumber;
+    @Getter
+    @Setter
     public String fileName;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Integer getPageNumber() {
-        return pageNumber;
-    }
-
-    public void setPageNumber(Integer pageNumber) {
-        this.pageNumber = pageNumber;
-    }
-
-    public String getFileName() {
-        return fileName;
-    }
-
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
-    }
 }

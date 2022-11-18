@@ -1,50 +1,23 @@
 package com.meowmere.main.dto.story.books;
 
+import lombok.Getter;
+import lombok.Setter;
+
 public class BookDTO {
+    @Getter
+    @Setter
     private Long id;
+    @Getter
+    @Setter
     private String color;
+    @Getter
+    @Setter
     private String name;
+    @Getter
+    @Setter
     private String symbol;
+    @Getter
+    @Setter
     private Long bookOrder;
 
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getColor() {
-        return color;
-    }
-
-    public void setColor(String color) {
-        this.color = color;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getSymbol() {
-        return symbol;
-    }
-
-    public void setSymbol(String symbol) {
-        this.symbol = symbol;
-    }
-
-    public Long getBookOrder() {
-        return bookOrder;
-    }
-
-    public void setBookOrder(Long bookOrder) {
-        this.bookOrder = bookOrder;
-    }
 }

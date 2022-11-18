@@ -3,17 +3,19 @@ package com.meowmere.main.dto.character.starring;
 
 import com.meowmere.main.dto.story.books.BookDTO;
 import com.meowmere.main.entities.story.Book;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class BookForCharacter {
+    @Getter
+    @Setter
     private BookDTO book;
+    @Getter
+    @Setter
     private List<ChapterForCharacter> chapters = new ArrayList<>();
-
-    public BookDTO getBook() {
-        return book;
-    }
 
     public void setBook(Book book) {
         BookDTO bookDTO = new BookDTO();
@@ -26,11 +28,5 @@ public class BookForCharacter {
         this.book = bookDTO;
     }
 
-    public List<ChapterForCharacter> getChapters() {
-        return chapters;
-    }
 
-    public void setChapters(List<ChapterForCharacter> chapters) {
-        this.chapters = chapters;
-    }
 }

@@ -2,16 +2,13 @@ package com.meowmere.main.services;
 
 
 import com.meowmere.main.dto.character.character.CharacterDTO;
-import com.meowmere.main.dto.character.character.CharacterDetailsDTO;
 import com.meowmere.main.dto.character.character.CharactersMenuDTO;
-import com.meowmere.main.dto.character.character.EveryCharacterMenuDTO;
 import com.meowmere.main.dto.character.colors.CharacterColorDTO;
 import com.meowmere.main.dto.character.image.ImageDTO;
 import com.meowmere.main.dto.character.measurements.CharacterMeasurementsDTO;
 import com.meowmere.main.dto.character.preference.AllPreferencesDTO;
 import com.meowmere.main.dto.character.preference.HistoricPreferenceDTO;
 import com.meowmere.main.dto.character.quote.CharacterQuoteDTO;
-import com.meowmere.main.dto.character.quote.QuoteForListDTO;
 import com.meowmere.main.dto.character.relation.*;
 import com.meowmere.main.dto.character.starring.BookForCharacter;
 import com.meowmere.main.dto.character.starring.ChapterForCharacter;
@@ -491,12 +488,12 @@ public class CharactersService {
 
     public ResponseEntity getAllQuotesForCharacter(Long id) {
         ModelMapper modelMapper = new ModelMapper();
-        ArrayList<QuoteForListDTO> result = new ArrayList<>();
+        ArrayList<CharacterQuoteDTO> result = new ArrayList<>();
 
         List<Quote> quotesFromDb = quoteRepository.getAllQuotesByCharacterId(id);
         if (quotesFromDb != null) {
             for (Quote quoteFromDb : quotesFromDb) {
-                QuoteForListDTO dto = modelMapper.map(quoteFromDb, QuoteForListDTO.class);
+                CharacterQuoteDTO dto = modelMapper.map(quoteFromDb, CharacterQuoteDTO.class);
                 result.add(dto);
             }
         }
@@ -591,9 +588,9 @@ public class CharactersService {
         List<Integer> relationsFromRequestIds = request.stream().map(RelationRequest::getId).collect(Collectors.toList());
 
         List<RelationRequest> relationsToAdd = request.stream()
-                .filter((RelationRequest relationFromRequest) -> {
-                    return !relationsFromDbIds.contains(relationFromRequest.getId());
-                }).collect(Collectors.toList());
+                .filter((RelationRequest relationFromRequest) ->
+                        !relationsFromDbIds.contains(relationFromRequest.getId())
+                ).collect(Collectors.toList());
 
         relationsToAdd.forEach(relationRequest -> {
             Character character1 = characterRepository.getOne(relationRequest.getSourceCharacterId());
@@ -610,9 +607,9 @@ public class CharactersService {
 
 
         List<RelationRequest> relationsToUpdate = request.stream()
-                .filter((RelationRequest relationFromRequest) -> {
-                    return relationsFromDbIds.contains(relationFromRequest.getId());
-                }).collect(Collectors.toList());
+                .filter((RelationRequest relationFromRequest) ->
+                        relationsFromDbIds.contains(relationFromRequest.getId())
+                ).collect(Collectors.toList());
 
         relationsToUpdate.forEach(relationRequest -> {
             Character character1 = characterRepository.getOne(relationRequest.getSourceCharacterId());
@@ -631,9 +628,8 @@ public class CharactersService {
 
 
         List<Relation> relationsToDelete = relationsFromDb.stream()
-                .filter((Relation relationFromDb) -> {
-                    return !relationsFromRequestIds.contains(relationFromDb.getId());
-                }).collect(Collectors.toList());
+                .filter((Relation relationFromDb) -> !relationsFromRequestIds.contains(relationFromDb.getId())
+                ).collect(Collectors.toList());
 
         relationsToDelete.forEach(relationToDelete -> {
             Long characterId = relationToDelete.getCharacter().getExternalId();

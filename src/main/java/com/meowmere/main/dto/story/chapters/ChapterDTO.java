@@ -1,89 +1,38 @@
 package com.meowmere.main.dto.story.chapters;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.ArrayList;
 
 public class ChapterDTO {
+    @Getter
+    @Setter
     private Long id;
+    @Getter
+    @Setter
     private String chapterDesc;
+    @Getter
+    @Setter
     private String name;
+    @Getter
+    @Setter
     private ArrayList<Long> pagesIds;
+    @Getter
+    @Setter
     protected Long createDate;
+    @Getter
+    @Setter
     protected String actionTime;
+    @Getter
+    @Setter
     protected String actionPlace;
+    @Getter
+    @Setter
     private Long bookId;
-
-
+    @Getter
+    @Setter
     private Boolean visible;
 
-    public Long getId() {
-        return id;
-    }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getChapterDesc() {
-        return chapterDesc;
-    }
-
-    public void setChapterDesc(String chapterDesc) {
-        this.chapterDesc = chapterDesc;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public ArrayList<Long> getPagesIds() {
-        return pagesIds;
-    }
-
-    public void setPagesIds(ArrayList<Long> pagesIds) {
-        this.pagesIds = pagesIds;
-    }
-
-    public Long getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(Long createDate) {
-        this.createDate = createDate;
-    }
-
-    public String getActionTime() {
-        return actionTime;
-    }
-
-    public void setActionTime(String actionTime) {
-        this.actionTime = actionTime;
-    }
-
-    public String getActionPlace() {
-        return actionPlace;
-    }
-
-    public void setActionPlace(String actionPlace) {
-        this.actionPlace = actionPlace;
-    }
-
-    public Boolean getVisible() {
-        return visible;
-    }
-
-    public void setVisible(Boolean visible) {
-        this.visible = visible;
-    }
-
-    public Long getBookId() {
-        return bookId;
-    }
-
-    public void setBookId(Long id) {
-        this.bookId = id;
-    }
 }

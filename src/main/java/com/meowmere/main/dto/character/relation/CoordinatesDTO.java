@@ -1,31 +1,17 @@
 package com.meowmere.main.dto.character.relation;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@NoArgsConstructor
+@AllArgsConstructor
 public class CoordinatesDTO {
+    @Getter
+    @Setter
     private Integer x;
+    @Getter
+    @Setter
     private Integer y;
-
-    public CoordinatesDTO() {
-
-    }
-
-    public CoordinatesDTO(Integer x, Integer y) {
-        this.setX(x);
-        this.setY(y);
-    }
-
-    public Integer getX() {
-        return x;
-    }
-
-    public void setX(Integer x) {
-        this.x = x;
-    }
-
-    public Integer getY() {
-        return y;
-    }
-
-    public void setY(Integer y) {
-        this.y = y;
-    }
 }

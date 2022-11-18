@@ -1,22 +1,14 @@
 package com.meowmere.main.dto.story.starring;
 
+import lombok.Getter;
+import lombok.Setter;
+
 public class ChaptersWithCharStarringTypeDTO {
+    @Getter
+    @Setter
     private Integer chapterNumber;
+    @Getter
+    @Setter
     private String starringType;
 
-    public Integer getChapterNumber() {
-        return chapterNumber;
-    }
-
-    public void setChapterNumber(Integer chapterNumber) {
-        this.chapterNumber = chapterNumber;
-    }
-
-    public String getStarringType() {
-        return starringType;
-    }
-
-    public void setStarringType(String starringType) {
-        this.starringType = starringType;
-    }
 }

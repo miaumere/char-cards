@@ -1,30 +1,16 @@
 package com.meowmere.main.dto.character.story;
 
+import lombok.Getter;
+import lombok.Setter;
+
 public class CharacterStoryDTO {
+    @Getter
+    @Setter
     public Long id;
+    @Getter
+    @Setter
     public String title;
+    @Getter
+    @Setter
     public String story;
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getStory() {
-        return story;
-    }
-    public void setStory(String story) {
-        this.story = story;
-    }
 }

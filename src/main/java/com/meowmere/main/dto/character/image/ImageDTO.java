@@ -1,49 +1,23 @@
 package com.meowmere.main.dto.character.image;
 
+import lombok.Getter;
+import lombok.Setter;
+
 public class ImageDTO {
+    @Getter
+    @Setter
     public Long id;
+    @Getter
+    @Setter
     public String extension;
+    @Getter
+    @Setter
     public String name;
+    @Getter
+    @Setter
     public Integer imageOrder;
+    @Getter
+    @Setter
     public byte[] image;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getExtension() {
-        return extension;
-    }
-
-    public void setExtension(String extension) {
-        this.extension = extension;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public byte[] getImage() {
-        return image;
-    }
-
-    public void setImage(byte[] image) {
-        this.image = image;
-    }
-
-    public Integer getImageOrder() {
-        return imageOrder;
-    }
-
-    public void setImageOrder(Integer imageOrder) {
-        imageOrder = imageOrder;
-    }
 }

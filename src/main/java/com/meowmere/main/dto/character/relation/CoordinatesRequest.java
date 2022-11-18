@@ -1,31 +1,17 @@
 package com.meowmere.main.dto.character.relation;
 
+import lombok.Getter;
+import lombok.Setter;
+
 public class CoordinatesRequest {
+    @Getter
+    @Setter
     private Long characterId;
+    @Getter
+    @Setter
     private Integer x;
+    @Getter
+    @Setter
     private Integer y;
 
-    public Long getCharacterId() {
-        return characterId;
-    }
-
-    public void setCharacterId(Long characterId) {
-        this.characterId = characterId;
-    }
-
-    public Integer getX() {
-        return x;
-    }
-
-    public void setX(Integer x) {
-        this.x = x;
-    }
-
-    public Integer getY() {
-        return y;
-    }
-
-    public void setY(Integer y) {
-        this.y = y;
-    }
 }

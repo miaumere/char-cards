@@ -1,31 +1,17 @@
 package com.meowmere.main.dto.character.preference;
 
+import lombok.Getter;
+import lombok.Setter;
+
 public class HistoricPreferenceDTO {
+    @Getter
+    @Setter
     private Long id;
+    @Getter
+    @Setter
     private String dateOfOrigin;
+    @Getter
+    @Setter
     private Integer range;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getDateOfOrigin() {
-        return dateOfOrigin;
-    }
-
-    public void setDateOfOrigin(String dateOfOrigin) {
-        this.dateOfOrigin = dateOfOrigin;
-    }
-
-    public Integer getRange() {
-        return range;
-    }
-
-    public void setRange(Integer range) {
-        this.range = range;
-    }
 }

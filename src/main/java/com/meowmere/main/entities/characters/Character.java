@@ -12,7 +12,7 @@ import java.util.Set;
 @Table(name = "character")
 public class Character {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public Long externalId;
     @Column
     private String charName;
@@ -35,6 +35,8 @@ public class Character {
     public Boolean archived = false;
     @Column
     public String nationality;
+    @Column
+    public String mbtiPersonality;
 
     @Column(name = "character_type")
     @Enumerated(EnumType.STRING)
@@ -80,7 +82,10 @@ public class Character {
     private List<CharacterTag> characterTags;
 
 
-    public Character() {};
+    public Character() {
+    }
+
+    ;
 
     public CharType getCharType() {
         return charType;
@@ -146,13 +151,21 @@ public class Character {
         this.death = death;
     }
 
-    public Set<Colors> getColors() {return colors;}
+    public Set<Colors> getColors() {
+        return colors;
+    }
 
-    public void setColors(Set<Colors>  colors) {this.colors = colors; }
+    public void setColors(Set<Colors> colors) {
+        this.colors = colors;
+    }
 
-    public Set<Temperament> getTemperament() {return temperament; }
+    public Set<Temperament> getTemperament() {
+        return temperament;
+    }
 
-    public void setTemperament(Set<Temperament> temperament) {this.temperament = temperament; }
+    public void setTemperament(Set<Temperament> temperament) {
+        this.temperament = temperament;
+    }
 
     public List<Quote> getQuotes() {
         return quotes;
@@ -280,5 +293,13 @@ public class Character {
 
     public void setCharacterTags(List<CharacterTag> characterTags) {
         this.characterTags = characterTags;
+    }
+
+    public String getMbtiPersonality() {
+        return mbtiPersonality;
+    }
+
+    public void setMbtiPersonality(String mbtiPersonality) {
+        this.mbtiPersonality = mbtiPersonality;
     }
 };

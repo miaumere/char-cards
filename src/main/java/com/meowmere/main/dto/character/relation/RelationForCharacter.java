@@ -1,32 +1,21 @@
 package com.meowmere.main.dto.character.relation;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.List;
 
+@AllArgsConstructor
 public class RelationForCharacter {
+    @Getter
+    @Setter
     private RelatedPersonData person;
+    @Getter
+    @Setter
     private List<RelationDTO> relations;
 
 
-    public RelationForCharacter(RelatedPersonData person, List<RelationDTO> relations) {
-        this.person = person;
-        this.relations = relations;
-    }
-
-    public RelatedPersonData getPerson() {
-        return person;
-    }
-
-    public void setPerson(RelatedPersonData person) {
-        this.person = person;
-    }
-
-    public List<RelationDTO> getRelations() {
-        return relations;
-    }
-
-    public void setRelations(List<RelationDTO> relations) {
-        this.relations = relations;
-    }
 }
 
 

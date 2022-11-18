@@ -1,31 +1,16 @@
 package com.meowmere.main.dto.character.relation;
 
+import lombok.Getter;
+import lombok.Setter;
+
 public class RelatedPersonData {
+    @Getter
+    @Setter
     private Long id;
+    @Getter
+    @Setter
     private String fullName;
+    @Getter
+    @Setter
     private String imageMimeData;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getFullName() {
-        return fullName;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
-
-    public String getImageMimeData() {
-        return imageMimeData;
-    }
-
-    public void setImageMimeData(String imageMimeData) {
-        this.imageMimeData = imageMimeData;
-    }
 }

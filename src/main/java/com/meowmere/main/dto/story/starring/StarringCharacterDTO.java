@@ -1,33 +1,18 @@
 package com.meowmere.main.dto.story.starring;
 
 import com.meowmere.main.dto.character.character.CharactersMenuDTO;
+import lombok.Getter;
+import lombok.Setter;
 
 public class StarringCharacterDTO {
+    @Getter
+    @Setter
     public Long id;
+    @Getter
+    @Setter
     public CharactersMenuDTO character;
+    @Getter
+    @Setter
     public String starringType;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public CharactersMenuDTO getCharacter() {
-        return character;
-    }
-
-    public void setCharacter(CharactersMenuDTO character) {
-        this.character = character;
-    }
-
-    public String getStarringType() {
-        return starringType;
-    }
-
-    public void setStarringType(String starringType) {
-        this.starringType = starringType;
-    }
 }
