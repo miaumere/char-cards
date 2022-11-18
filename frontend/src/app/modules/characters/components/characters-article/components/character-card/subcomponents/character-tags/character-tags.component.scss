@@ -1,0 +1,68 @@
+:host {
+    height: 40%;
+    display: block;
+}
+
+.tags-section {
+    height: 100%;
+    margin-left: 0.5rem;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.option {
+    margin: 0;
+    padding: 0;
+    height: auto;
+    line-height: inherit;
+}
+
+.add-new-tag {
+    width: 11rem;
+}
+
+.tags-container {
+    margin: 0;
+    padding: 0;
+
+    overflow: hidden;
+
+    display: flex;
+    flex-wrap: wrap;
+
+    margin-bottom: 0.5rem;
+}
+
+.tag {
+    $self: &;
+
+    height: 21px;
+    margin-bottom: 0.5rem;
+    position: relative;
+
+    &:hover {
+        #{$self}__icon-box {
+            opacity: 1;
+        }
+    }
+
+    &__icon-box {
+        opacity: 0;
+
+        transition: 0.2s opacity;
+
+        position: absolute;
+        z-index: 1;
+        right: 0;
+        width: 30px;
+        background: rgba(0, 0, 0, 0.5);
+        text-align: center;
+    }
+
+    &__icon {
+        margin-left: -5px;
+        font-size: 22px;
+    }
+}

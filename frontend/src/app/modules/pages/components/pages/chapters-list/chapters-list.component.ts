@@ -80,6 +80,11 @@ export class ChaptersListMenuComponent extends BaseComponent implements OnInit {
                             (bookColor.isLight()
                                 ? bookColor
                                 : bookColor.lighten(35));
+
+                        document.documentElement.style.setProperty(
+                            '--book-color',
+                            this.fontColor
+                        );
                     }
                 })
         );

@@ -7,7 +7,7 @@
     >
         📚 {{ 'CHAPTERS.AVAILABLE_CHAPTERS' | translate }}
     </h2>
-    <div cdkDropList (cdkDropListDropped)="drop($event)">
+    <div cdkDropList (cdkDropListDropped)="drop($event)" class="drop-list">
         <div class="chapters-list__add-icon" *appIfLoggedUser>
             <mat-icon
                 class="basic-icon basic-icon--expand add-icon"

@@ -50,6 +50,7 @@ import { MatSliderModule } from '@angular/material/slider';
 import { MatTabsModule } from '@angular/material/tabs';
 import { ColorsComponent } from './components/characters-article/components/character-card/subcomponents/character-additional-info/subcomponents/colors/colors.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { CharacterTagsComponent } from './components/characters-article/components/character-card/subcomponents/character-tags/character-tags.component';
 
 @NgModule({
     declarations: [
@@ -78,6 +79,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
         CharacterAdditionalInfoComponent,
         PreferencesLegendComponent,
         ColorsComponent,
+        CharacterTagsComponent,
     ],
     imports: [
         CommonModule,

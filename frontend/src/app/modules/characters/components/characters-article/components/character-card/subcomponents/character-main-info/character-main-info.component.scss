@@ -32,7 +32,6 @@
     flex-direction: column;
 
     width: 220px;
-    height: 95vh;
 
     margin-left: 1rem;
 
@@ -86,53 +85,4 @@
     justify-content: center;
     align-items: baseline;
     width: 9rem;
-}
-
-.option {
-    margin: 0;
-    padding: 0;
-    height: auto;
-    line-height: inherit;
-}
-
-.tags {
-    margin: 0;
-    padding: 0;
-
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    overflow-y: auto;
-
-    &--edit {
-        display: flex;
-        align-content: flex-start;
-
-        height: 30vh;
-    }
-}
-.add-new-tag {
-    width: 11rem;
-}
-
-.tags-container {
-    display: flex;
-    align-items: center;
-    flex-direction: row;
-
-    &__icon {
-        margin-left: -0.5rem;
-        position: absolute;
-    }
-}
-
-.tags-section {
-    margin-left: -1rem;
-}
-
-.images-and-tags-section {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
 }

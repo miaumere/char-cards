@@ -30,30 +30,38 @@
     </div>
 
     <div class="info-container" [ngClass]="{ hidden: character?.archived }">
-        <app-character-main-info
-            [character]="character"
-            [fontColor]="fontColor"
-            [isUserLogged]="isUserLogged"
-            (infoHasChangedEvent)="changed()"
-            [editedKey]="editedKey"
-            [form]="form"
-            (saveEvent)="saveCharacter()"
-            (editedKeyChange)="patchForm($event)"
-            [isNewChar]="isNewChar"
-        >
-        </app-character-main-info>
+        <div class="character-infos">
+            <app-character-main-info
+                [character]="character"
+                [fontColor]="fontColor"
+                [isUserLogged]="isUserLogged"
+                (infoHasChangedEvent)="changed()"
+                [editedKey]="editedKey"
+                [form]="form"
+                (saveEvent)="saveCharacter()"
+                (editedKeyChange)="patchForm($event)"
+                [isNewChar]="isNewChar"
+            >
+            </app-character-main-info>
 
-        <app-character-additional-info
+            <app-character-additional-info
+                [character]="character"
+                [isUserLogged]="isUserLogged"
+                (infoHasChangedEvent)="changed()"
+                [form]="form"
+                (saveEvent)="saveCharacter()"
+                (editedKeyChange)="patchForm($event)"
+                [editedKey]="editedKey"
+                [ngClass]="{ disabled: isNewChar }"
+            >
+            </app-character-additional-info>
+        </div>
+
+        <app-character-tags
             [character]="character"
             [isUserLogged]="isUserLogged"
             (infoHasChangedEvent)="changed()"
-            [form]="form"
-            (saveEvent)="saveCharacter()"
-            (editedKeyChange)="patchForm($event)"
-            [editedKey]="editedKey"
-            [ngClass]="{ disabled: isNewChar }"
-        >
-        </app-character-additional-info>
+        ></app-character-tags>
     </div>
 
     <app-char-information

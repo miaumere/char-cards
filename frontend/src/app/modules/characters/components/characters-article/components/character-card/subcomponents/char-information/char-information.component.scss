@@ -1,18 +1,18 @@
 @import 'variables';
 
+:host {
+    max-height: calc(100vh - #{$navbar-height});
+    overflow-y: scroll;
+    width: 100%;
+}
+
 .information {
     display: flex;
     flex-direction: column;
 
-    min-width: 50vw;
-    height: 89vh;
-    width: calc(100vw - 495px);
-
     font-size: 0.7rem;
 
-    background: #0000007a;
-
-    overflow-y: scroll;
+    background: rgba(0, 0, 0, 0.5);
 
     &__segment {
         margin-top: 1rem;
