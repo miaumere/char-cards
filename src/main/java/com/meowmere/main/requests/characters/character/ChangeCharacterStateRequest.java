@@ -1,8 +1,8 @@
 package com.meowmere.main.requests.characters.character;
 
 public class ChangeCharacterStateRequest {
-    public Long id;
-    public Boolean archived;
+    private Long id;
+    private Boolean archived;
 
     public Long getId() {
         return id;

@@ -15,9 +15,6 @@ import com.meowmere.main.dto.character.starring.ChapterForCharacter;
 import com.meowmere.main.dto.character.story.CharacterStoryDTO;
 import com.meowmere.main.dto.character.tags.TagDTO;
 import com.meowmere.main.dto.character.temperament.CharacterTemperamentDTO;
-import com.meowmere.main.dto.story.books.BookDTO;
-import com.meowmere.main.dto.story.starring.BookWithStarringCharsDTO;
-import com.meowmere.main.dto.story.starring.ChaptersWithCharStarringTypeDTO;
 import com.meowmere.main.entities.characters.Character;
 import com.meowmere.main.entities.characters.*;
 import com.meowmere.main.entities.characters.Image;
@@ -36,6 +33,7 @@ import com.meowmere.main.requests.characters.preference.PreferenceRequest;
 import com.meowmere.main.requests.characters.quotes.UpsertQuoteRequest;
 import com.meowmere.main.requests.characters.stories.StoryRequest;
 import com.meowmere.main.utils.UtilsShared;
+import lombok.var;
 import org.apache.commons.io.FilenameUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +43,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+
+import lombok.val;
+
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -94,21 +95,21 @@ public class CharactersService {
 
     public ResponseEntity getEveryCharacter(HttpServletRequest request) {
         Boolean isUserLogged = userService.isUserLogged(request);
-        List<Character> allCharactersFromDb = isUserLogged ? characterRepository.getSortedCharacters() : characterRepository.getNonArchivedCharacters();
-        allCharactersFromDb.sort(comparing(Character::getCharType).thenComparing(Character::getArchived).thenComparing(Character::getCharName));
+        val allCharactersFromDb = isUserLogged ? characterRepository.getSortedCharacters() : characterRepository.getNonArchivedCharacters();
+        allCharactersFromDb.sort(comparing(Character::getCharType)
+                .thenComparing(Character::getArchived)
+                .thenComparing(Character::getCharName));
 
-        ArrayList<CharactersMenuDTO> dtoList = new ArrayList<>();
+        val dtoList = new ArrayList<>();
 
-        for (Character characterFromDb : allCharactersFromDb) {
-            Image image = imageRepository.getProfilePicForCharacter(characterFromDb.getExternalId());
-            String profilePic = null;
-            if (image != null) {
-                profilePic = UtilsShared.GetProfilePicBase64Code(image.getExtension(), image.getImage());
-            }
+        for (val characterFromDb : allCharactersFromDb) {
+            var image = imageRepository.getProfilePicForCharacter(characterFromDb.getExternalId());
+            var profilePic = image != null ? UtilsShared.GetProfilePicBase64Code(image.getExtension(), image.getImage()) : null;
+
             CharactersMenuDTO dto = new CharactersMenuDTO(characterFromDb, profilePic);
 
             List<TagDTO> tagDTOS = new ArrayList<>();
-            List<Tag> tags = tagRepository.getTagsForCharacter(characterFromDb.getExternalId());
+            val tags = tagRepository.getTagsForCharacter(characterFromDb.getExternalId());
             if (tags != null) {
                 tags.forEach(tag -> tagDTOS.add(new TagDTO(tag.getId(), tag.getName(), tag.getColor())));
             }
@@ -123,7 +124,7 @@ public class CharactersService {
         Character oneCharacter = characterRepository.getOne(externalId);
         if (oneCharacter == null) {
             String err = "Nie udało się znaleźć postaci o podanym id.";
-            return new ResponseEntity<>(err, HttpStatus.NOT_FOUND);
+            return new ResponseEntity(err, HttpStatus.NOT_FOUND);
         }
 
         CharacterDTO dto = modelMapper.map(oneCharacter, CharacterDTO.class);
@@ -133,7 +134,7 @@ public class CharactersService {
             dto.setGender(oneCharacter.getGender().name());
         }
 
-        List<CharacterStory> storiesForCharacter = characterStoryRepository.getStoriesForCharacter(externalId);
+        val storiesForCharacter = characterStoryRepository.getStoriesForCharacter(externalId);
         ArrayList<CharacterStoryDTO> stories = new ArrayList<>();
         if (storiesForCharacter != null && storiesForCharacter.size() > 0) {
             for (CharacterStory story : storiesForCharacter) {
@@ -142,42 +143,42 @@ public class CharactersService {
         }
         dto.setStory(stories);
 
-        Colors colorsForCharacter = colorsRepository.getColorsForCharacter(externalId);
+        val colorsForCharacter = colorsRepository.getColorsForCharacter(externalId);
         if (colorsForCharacter != null) {
             dto.setColors(modelMapper.map(colorsForCharacter, CharacterColorDTO.class));
         }
 
-        Temperament temperamentForCharacter = temperamentRepository.getTemperamentForCharacter(externalId);
+        val temperamentForCharacter = temperamentRepository.getTemperamentForCharacter(externalId);
         if (temperamentForCharacter != null) {
             dto.setTemperament(modelMapper.map(temperamentForCharacter, CharacterTemperamentDTO.class));
         }
 
-        Measurements measurementsForCharacter = measurementsRepository.getMeasurementsById(externalId);
+        val measurementsForCharacter = measurementsRepository.getMeasurementsById(externalId);
         if (measurementsForCharacter != null) {
             dto.setMeasurements(modelMapper.map(measurementsForCharacter, CharacterMeasurementsDTO.class));
         }
 
 
         List<Quote> quotes = quoteRepository.getAllQuotesByCharacterId(externalId);
-        Random random = new Random();
+        val random = new Random();
         if (quotes.size() > 1) {
-            Quote randomQuote = quotes.get(random.nextInt(quotes.size()));
+            val randomQuote = quotes.get(random.nextInt(quotes.size()));
             dto.setQuote(modelMapper.map(randomQuote, CharacterQuoteDTO.class));
         } else if (quotes.size() == 1) {
             dto.setQuote(modelMapper.map(quotes.get(0), CharacterQuoteDTO.class));
         }
 
         ArrayList<ImageDTO> imagesList = new ArrayList<>();
-        List<Image> imagesFromDb = imageRepository.getImagesForCharacter(externalId);
+        val imagesFromDb = imageRepository.getImagesForCharacter(externalId);
 
         if (imagesFromDb != null) {
-            for (Image images : imagesFromDb) {
+            for (val images : imagesFromDb) {
                 imagesList.add(modelMapper.map(images, ImageDTO.class));
             }
         }
         dto.setImagesList(imagesList);
 
-        Image image = imageRepository.getProfilePicForCharacter(oneCharacter.getExternalId());
+        val image = imageRepository.getProfilePicForCharacter(oneCharacter.getExternalId());
         String profilePic = null;
         if (image != null) {
             profilePic = UtilsShared.GetProfilePicBase64Code(image.getExtension(), image.getImage());
@@ -185,24 +186,24 @@ public class CharactersService {
         dto.setProfilePic(profilePic);
 
         ArrayList<BookForCharacter> bookForCharacters = new ArrayList<>();
-        List<Book> books = bookRepository.getNonEmptyBooksSorted();
+        val books = bookRepository.getNonEmptyBooksSorted();
         if (books != null) {
-            for (Book book : books) {
+            for (val book : books) {
                 ArrayList<ChapterForCharacter> chapterForCharacters = new ArrayList<>();
                 ArrayList<Chapter> chapters = chapterRepository.getVisibleChaptersForBook(book.getExternalId());
                 if (chapters != null) {
-                    for (Chapter chapter : chapters) {
+                    for (val chapter : chapters) {
 
-                        ChapterForCharacter chapterForCharacter = new ChapterForCharacter(chapter);
-                        StarringType starringTypefromDb = starringCharactersRepository.getStarringCharacterTypeByChapterAndCharId(externalId, chapter.getExternalId());
-                        StarringType starringType = starringTypefromDb == null ? StarringType.NONE : starringTypefromDb;
+                        val chapterForCharacter = new ChapterForCharacter(chapter);
+                        val starringTypefromDb = starringCharactersRepository.getStarringCharacterTypeByChapterAndCharId(externalId, chapter.getExternalId());
+                        val starringType = starringTypefromDb == null ? StarringType.NONE : starringTypefromDb;
                         chapterForCharacter.setStarringType(starringType);
 
                         chapterForCharacters.add(chapterForCharacter);
                     }
                 }
 
-                BookForCharacter bookForCharacter = new BookForCharacter();
+                val bookForCharacter = new BookForCharacter();
                 bookForCharacter.setBook(book);
                 bookForCharacter.setChapters(chapterForCharacters);
 
@@ -212,11 +213,11 @@ public class CharactersService {
 
         dto.setStarringIn(bookForCharacters);
 
-        List<Tag> tags = tagRepository.getTagsForCharacter(externalId);
+        val tags = tagRepository.getTagsForCharacter(externalId);
 
         List<TagDTO> tagDTOS = new ArrayList<>();
-        for (Tag tag : tags) {
-            TagDTO tagDTO = new TagDTO(tag.getId(), tag.getName(), tag.getColor());
+        for (val tag : tags) {
+            val tagDTO = new TagDTO(tag.getId(), tag.getName(), tag.getColor());
             tagDTOS.add(tagDTO);
         }
         dto.setTags(tagDTOS);
@@ -225,7 +226,7 @@ public class CharactersService {
     }
 
     public ResponseEntity changeStatusForCharacter(ChangeCharacterStateRequest character) {
-        Character charToChange = characterRepository.getOne(character.getId());
+        val charToChange = characterRepository.getOne(character.getId());
         if (charToChange == null) {
             return new ResponseEntity<>("Nie można zmienić stanu postaci o nieistniejącym id.",
                     HttpStatus.NOT_FOUND);
@@ -241,78 +242,44 @@ public class CharactersService {
         if (request.getExternalId() == 0) {
             Character createdCharacter = new Character();
             createdCharacter.setCharName(request.getCharName());
-            createdCharacter.setCharType(CharType.BACKGROUND);
-            createdCharacter.setGender(Gender.UNKNOWNGENDER);
 
             characterRepository.saveAndFlush(createdCharacter);
-
             return new ResponseEntity(createdCharacter.getExternalId(), HttpStatus.CREATED);
         }
 
-        Character character = characterRepository.getOne(request.getExternalId());
+        val character = characterRepository.getOne(request.getExternalId());
 
         if (character == null) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
-        character.setPseudonim(request.getPseudonim());
-        character.setCharType(CharType.valueOf(request.getCharType()));
-        character.setCharName(request.getCharName());
-        character.setCharSurname(request.getCharSurname());
-        character.setGender(Gender.valueOf(request.getGender()));
-        character.setNationality(request.getNationality());
-        character.setBirthday(request.getBirthday());
-        character.setOccupation(request.getOccupation());
-
-        if (request.getDeath() != null) {
-            character.setDeath(request.getDeath() == null || request.getDeath() == 0 ? 0 : request.getDeath());
-            character.setDeathReason(request.getDeathReason() == null ? "" : request.getDeathReason());
-        }
-
+        character.updateCharacter(request);
 
         characterRepository.saveAndFlush(character);
 
-        Colors colors = colorsRepository.getColorsForCharacter(request.getExternalId());
+        var colors = colorsRepository.getColorsForCharacter(request.getExternalId());
         if (colors == null) {
             colors = new Colors();
             colors.setCharacter(character);
         }
-        colors.setThemeColor1(request.getColors().getThemeColor1());
-        colors.setThemeColor2(request.getColors().getThemeColor2());
-        colors.setThemeColor3(request.getColors().getThemeColor3());
-        colors.setEyeColor1(request.getColors().getEyeColor1());
-        colors.setEyeColor2(request.getColors().getEyeColor2());
-        colors.setHairColor(request.getColors().getHairColor());
-        colors.setSkinColor(request.getColors().getSkinColor());
-
+        colors.updateColors(request.getColors());
         colorsRepository.saveAndFlush(colors);
 
-        Temperament temperament = temperamentRepository.getTemperamentForCharacter(request.getExternalId());
+        var temperament = temperamentRepository.getTemperamentForCharacter(request.getExternalId());
         if (temperament == null) {
             temperament = new Temperament();
             temperament.setCharacter(character);
         }
-        temperament.setMelancholic(request.getTemperament().getMelancholic());
-        temperament.setCholeric(request.getTemperament().getCholeric());
-        temperament.setFlegmatic(request.getTemperament().getFlegmatic());
-        temperament.setSanguine(request.getTemperament().getSanguine());
+        temperament.updateTemperament(request.getTemperament());
 
         temperamentRepository.saveAndFlush(temperament);
 
-        Measurements measurements = measurementsRepository.getMeasurementsById(request.getExternalId());
+        var measurements = measurementsRepository.getMeasurementsById(request.getExternalId());
         if (request.getMeasurements() != null) {
             if (measurements == null) {
                 measurements = new Measurements();
                 measurements.setCharacter(character);
             }
-            measurements.setBabyHeight(request.getMeasurements().getBabyHeight());
-            measurements.setBabyWeight(request.getMeasurements().getBabyWeight());
-            measurements.setChildHeight(request.getMeasurements().getChildHeight());
-            measurements.setChildWeight(request.getMeasurements().getChildWeight());
-            measurements.setTeenHeight(request.getMeasurements().getTeenHeight());
-            measurements.setTeenWeight(request.getMeasurements().getTeenWeight());
-            measurements.setAdultHeight(request.getMeasurements().getAdultHeight());
-            measurements.setAdultWeight(request.getMeasurements().getAdultWeight());
-
+            measurements.updateMeasurements(request.getMeasurements());
             measurementsRepository.saveAndFlush(measurements);
         }
 
@@ -320,49 +287,49 @@ public class CharactersService {
     }
 
     public ResponseEntity deleteCharacter(Long id) {
-        Character character = characterRepository.getOne(id);
+        val character = characterRepository.getOne(id);
         Temperament temperament = temperamentRepository.getTemperamentForCharacter(id);
         if (temperament != null) {
             temperamentRepository.delete(temperament);
         }
 
-        Measurements measurement = measurementsRepository.getMeasurementsById(id);
+        var measurement = measurementsRepository.getMeasurementsById(id);
         if (measurement != null) {
             measurementsRepository.delete(measurement);
         }
 
-        Colors colors = colorsRepository.getColorsForCharacter(id);
+        var colors = colorsRepository.getColorsForCharacter(id);
         if (colors != null) {
             colorsRepository.delete(colors);
         }
 
-        List<Quote> quotes = quoteRepository.getAllQuotesByCharacterId(id);
+        val quotes = quoteRepository.getAllQuotesByCharacterId(id);
         quotes.forEach(quote -> quoteRepository.delete(quote));
 
 
-        List<Image> images = imageRepository.getImagesForCharacter(id);
+        val images = imageRepository.getImagesForCharacter(id);
         images.forEach(image -> imageRepository.delete(image));
         Image profilePicForCharacter = imageRepository.getProfilePicForCharacter(id);
         if (profilePicForCharacter != null) {
             imageRepository.delete(profilePicForCharacter);
         }
 
-        List<CharacterStory> storiesForCharacter = characterStoryRepository.getStoriesForCharacter(id);
+        val storiesForCharacter = characterStoryRepository.getStoriesForCharacter(id);
         storiesForCharacter.forEach(characterStory -> characterStoryRepository.delete(characterStory));
 
-        List<Preference> preferences = preferenceRepository.getAllPreferencesForCharacter(id);
+        val preferences = preferenceRepository.getAllPreferencesForCharacter(id);
         preferences.forEach(preference -> preferenceRepository.delete(preference));
 
-        List<StarringCharacters> starringCharacters = starringCharactersRepository.getStarringCharactersByCharacterId(id);
+        val starringCharacters = starringCharactersRepository.getStarringCharactersByCharacterId(id);
         starringCharacters.forEach(starringCharacter -> starringCharactersRepository.delete(starringCharacter));
 
-        List<RelationCoordinates> relationCoordinates = relationCoordinatesRepository.getAllRelationsForCharacter(id);
+        val relationCoordinates = relationCoordinatesRepository.getAllRelationsForCharacter(id);
         relationCoordinates.forEach(relationCoordinate -> relationCoordinatesRepository.delete(relationCoordinate));
 
-        List<Relation> relationList = relationsRepository.getRelationsForCharacter(id);
+        val relationList = relationsRepository.getRelationsForCharacter(id);
         relationList.forEach(relation -> relationsRepository.delete(relation));
 
-        List<CharacterTag> characterTags = characterTagRepository.getCharacterTagsForCharacter(id);
+        val characterTags = characterTagRepository.getCharacterTagsForCharacter(id);
         characterTags.forEach(characterTag -> characterTagRepository.delete(characterTag));
 
         characterRepository.delete(character);
@@ -371,19 +338,19 @@ public class CharactersService {
 
     //#region Images
     public ResponseEntity newImages(MultipartHttpServletRequest multipartHttpServletRequest, Long id) {
-        Map<String, MultipartFile> allFiles = multipartHttpServletRequest.getFileMap();
+        val allFiles = multipartHttpServletRequest.getFileMap();
         Character character = characterRepository.getOne(id);
         if (character == null) {
-            String msg = "Nie znaleziono postaci o podanym id.";
+            val msg = "Nie znaleziono postaci o podanym id.";
             return new ResponseEntity(msg, HttpStatus.NOT_FOUND);
         }
-        Iterator it = allFiles.entrySet().iterator();
+        val it = allFiles.entrySet().iterator();
         while (it.hasNext()) {
-            Image image = new Image();
-            Map.Entry pair = (Map.Entry) it.next();
-            String key = String.valueOf(pair.getKey());
+            val image = new Image();
+            val pair = it.next();
+            val key = String.valueOf(pair.getKey());
             image.setIsProfilePic(key.equals("profilePic"));
-            MultipartFile file = (MultipartFile) pair.getValue();
+            val file = (MultipartFile) pair.getValue();
 
             if (file != null) {
                 String fileName = StringUtils.cleanPath(file.getOriginalFilename());
@@ -418,9 +385,9 @@ public class CharactersService {
     }
 
     public ResponseEntity changeImageName(ImageRenameRequest request) {
-        Image image = imageRepository.getOne(request.getId());
+        val image = imageRepository.getOne(request.getId());
         if (image == null) {
-            String msg = "Brak obrazka o podanym id.";
+            val msg = "Brak obrazka o podanym id.";
             return new ResponseEntity(msg, HttpStatus.NOT_FOUND);
         }
         image.setName(request.getName());
@@ -431,12 +398,11 @@ public class CharactersService {
 
     public ResponseEntity changeImagesOrder(Long[] ids) {
         for (int i = 0; i < ids.length; i++) {
-            Long currentId = ids[i];
-            Image image = imageRepository.getOne(currentId);
+            val currentId = ids[i];
+            val image = imageRepository.getOne(currentId);
             if (image == null) {
                 continue;
             }
-
             image.setImageOrder(i);
             imageRepository.saveAndFlush(image);
         }
@@ -445,9 +411,9 @@ public class CharactersService {
     }
 
     public ResponseEntity deleteImage(Long id) {
-        Image imageToDelete = imageRepository.getOne(id);
+        val imageToDelete = imageRepository.getOne(id);
         if (imageToDelete == null) {
-            String msg = "Nie znaleziono obrazka.";
+            val msg = "Nie znaleziono obrazka.";
             return new ResponseEntity(msg, HttpStatus.NOT_FOUND);
         }
         imageRepository.delete(imageToDelete);
@@ -459,10 +425,10 @@ public class CharactersService {
     //#region Quotes
     public ResponseEntity upsertQuote(UpsertQuoteRequest request) {
         if (request.getQuoteId() == 0) {
-            Quote quote = new Quote();
+            val quote = new Quote();
             quote.setQuote(request.getQuote());
             quote.setContext(request.getContext());
-            Character character = characterRepository.getOne(request.getCharacterId());
+            val character = characterRepository.getOne(request.getCharacterId());
             if (character == null) {
                 String msg = "Nie znaleziono postaci o podanym id.";
                 return new ResponseEntity(msg, HttpStatus.NOT_FOUND);
@@ -474,9 +440,9 @@ public class CharactersService {
             quoteRepository.saveAndFlush(quote);
             return new ResponseEntity(HttpStatus.CREATED);
         } else {
-            Quote quote = quoteRepository.getOne(request.getQuoteId());
+            val quote = quoteRepository.getOne(request.getQuoteId());
             if (quote == null) {
-                String msg = "Nie znaleziono cytatu.";
+                val msg = "Nie znaleziono cytatu.";
                 return new ResponseEntity(msg, HttpStatus.NOT_FOUND);
             }
             quote.setQuote(request.getQuote());
@@ -487,13 +453,13 @@ public class CharactersService {
     }
 
     public ResponseEntity getAllQuotesForCharacter(Long id) {
-        ModelMapper modelMapper = new ModelMapper();
-        ArrayList<CharacterQuoteDTO> result = new ArrayList<>();
+        val modelMapper = new ModelMapper();
+        val result = new ArrayList<>();
 
-        List<Quote> quotesFromDb = quoteRepository.getAllQuotesByCharacterId(id);
+        val quotesFromDb = quoteRepository.getAllQuotesByCharacterId(id);
         if (quotesFromDb != null) {
-            for (Quote quoteFromDb : quotesFromDb) {
-                CharacterQuoteDTO dto = modelMapper.map(quoteFromDb, CharacterQuoteDTO.class);
+            for (val quoteFromDb : quotesFromDb) {
+                val dto = modelMapper.map(quoteFromDb, CharacterQuoteDTO.class);
                 result.add(dto);
             }
         }
@@ -501,7 +467,7 @@ public class CharactersService {
     }
 
     public ResponseEntity deleteQuote(Long id) {
-        Quote quoteToDelete = quoteRepository.getOne(id);
+        val quoteToDelete = quoteRepository.getOne(id);
         if (quoteToDelete == null) {
             String msg = "Nie ma takiego cytatu bądź został już wcześniej usunięty.";
             return new ResponseEntity(msg, HttpStatus.NOT_FOUND);
@@ -516,17 +482,17 @@ public class CharactersService {
 
     public ResponseEntity getRelations(Long id) {
 
-        List<Relation> relationsFromDb = relationsRepository.getRelationsForCharacter(id);
+        val relationsFromDb = relationsRepository.getRelationsForCharacter(id);
 
-        List<RelationForCharacter> result = new ArrayList<>();
+        val result = new ArrayList<>();
         Map<Long, List<Relation>> relationsMap = new HashMap<>();
 
-        for (Relation relationFromDb : relationsFromDb) {
+        for (val relationFromDb : relationsFromDb) {
             Long relatedCharExternalId = relationFromDb.getRelatedCharacter().getExternalId();
             if (relatedCharExternalId.equals(id)) {
                 relatedCharExternalId = relationFromDb.getCharacter().getExternalId();
             }
-            Boolean containsId = relationsMap.containsKey(relatedCharExternalId);
+            val containsId = relationsMap.containsKey(relatedCharExternalId);
 
             List<Relation> relationList = new ArrayList<>();
             if (containsId) {
@@ -541,12 +507,12 @@ public class CharactersService {
         }
 
 
-        for (Map.Entry<Long, List<Relation>> entry : relationsMap.entrySet()) {
-            Long characterId = entry.getKey();
-            List<Relation> relations = entry.getValue();
+        for (val entry : relationsMap.entrySet()) {
+            val characterId = entry.getKey();
+            val relations = entry.getValue();
 
-            RelatedPersonData person = new RelatedPersonData();
-            Character relatedChar = characterRepository.getOne(characterId);
+            val person = new RelatedPersonData();
+            val relatedChar = characterRepository.getOne(characterId);
             if (relatedChar == null) {
                 continue;
             }
@@ -555,7 +521,7 @@ public class CharactersService {
             person.setFullName(relatedChar.getCharName() != null ? relatedChar.getCharName() : "?"
                     + " "
                     + relatedChar.getCharSurname() != null ? relatedChar.getCharSurname() : "?");
-            Image image = imageRepository.getProfilePicForCharacter(relatedChar.getExternalId());
+            val image = imageRepository.getProfilePicForCharacter(relatedChar.getExternalId());
             String profilePic = null;
             if (image != null) {
                 profilePic = UtilsShared.GetProfilePicBase64Code(image.getExtension(), image.getImage());
@@ -564,9 +530,9 @@ public class CharactersService {
 
             List<RelationDTO> relationDTOS = new ArrayList<>();
 
-            for (Relation relation : relations) {
-                Boolean isSource = !relation.getRelatedCharacter().getExternalId().equals(id);
-                RelationDTO relationDTO = new RelationDTO(
+            for (val relation : relations) {
+                val isSource = !relation.getRelatedCharacter().getExternalId().equals(id);
+                val relationDTO = new RelationDTO(
                         relation.getId(),
                         relation.getType(),
                         isSource,
@@ -574,7 +540,7 @@ public class CharactersService {
                         relation.getRelationDateEnd());
                 relationDTOS.add(relationDTO);
             }
-            RelationForCharacter relationForCharacter = new RelationForCharacter(person, relationDTOS);
+            val relationForCharacter = new RelationForCharacter(person, relationDTOS);
             result.add(relationForCharacter);
         }
 
@@ -582,12 +548,12 @@ public class CharactersService {
     }
 
     public ResponseEntity upsertRelations(List<RelationRequest> request, Long charId) {
-        List<Relation> relationsFromDb = relationsRepository.getRelationsForCharacter(charId);
+        val relationsFromDb = relationsRepository.getRelationsForCharacter(charId);
 
-        List<Integer> relationsFromDbIds = relationsFromDb.stream().map(Relation::getId).collect(Collectors.toList());
-        List<Integer> relationsFromRequestIds = request.stream().map(RelationRequest::getId).collect(Collectors.toList());
+        val relationsFromDbIds = relationsFromDb.stream().map(Relation::getId).collect(Collectors.toList());
+        val relationsFromRequestIds = request.stream().map(RelationRequest::getId).collect(Collectors.toList());
 
-        List<RelationRequest> relationsToAdd = request.stream()
+        val relationsToAdd = request.stream()
                 .filter((RelationRequest relationFromRequest) ->
                         !relationsFromDbIds.contains(relationFromRequest.getId())
                 ).collect(Collectors.toList());
@@ -820,7 +786,7 @@ public class CharactersService {
             return new ResponseEntity("Nie można utworzyć historii dla nieistniejącej postaci.", HttpStatus.NOT_FOUND);
         }
 
-        if (request.storyId == 0) {
+        if (request.getStoryId() == 0) {
             CharacterStory characterStory = new CharacterStory();
             characterStory.setCharacter(character);
             characterStory.setStoryDesc(request.getStory());

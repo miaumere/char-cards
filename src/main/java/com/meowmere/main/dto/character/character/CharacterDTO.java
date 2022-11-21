@@ -78,4 +78,16 @@ public class CharacterDTO {
     @Getter
     @Setter
     private List<TagDTO> tags = new ArrayList<>();
+    @Getter
+    @Setter
+    public String mbtiPersonality;
+    @Getter
+    @Setter
+    public String favouriteFood;
+    @Getter
+    @Setter
+    public String leastFavouriteFood;
+    @Getter
+    @Setter
+    public String hobby;
 }

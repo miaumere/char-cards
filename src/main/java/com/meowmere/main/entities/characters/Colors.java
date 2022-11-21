@@ -1,5 +1,9 @@
 package com.meowmere.main.entities.characters;
 
+import com.meowmere.main.dto.character.colors.CharacterColorDTO;
+import com.meowmere.main.enums.CharType;
+import com.meowmere.main.enums.Gender;
+import com.meowmere.main.requests.characters.character.EditCharacterRequest;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -70,5 +74,14 @@ public class Colors {
     @JoinColumn(name = "character_id", unique = true)
     private Character character;
 
+    public void updateColors(CharacterColorDTO request) {
+        setThemeColor1(request.getThemeColor1());
+        setThemeColor2(request.getThemeColor2());
+        setThemeColor3(request.getThemeColor3());
+        setEyeColor1(request.getEyeColor1());
+        setEyeColor2(request.getEyeColor2());
+        setHairColor(request.getHairColor());
+        setSkinColor(request.getSkinColor());
+    }
 
 }

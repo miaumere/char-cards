@@ -1,5 +1,6 @@
 package com.meowmere.main.entities.characters;
 
+import com.meowmere.main.dto.character.temperament.CharacterTemperamentDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -41,6 +42,12 @@ public class Temperament {
     @NotFound(action = NotFoundAction.IGNORE)
     @JoinColumn(name = "character_id", unique = true)
     private Character character;
-
+    
+    public void updateTemperament(CharacterTemperamentDTO request) {
+        setMelancholic(request.getMelancholic());
+        setCholeric(request.getCholeric());
+        setFlegmatic(request.getFlegmatic());
+        setSanguine(request.getSanguine());
+    }
 
 }

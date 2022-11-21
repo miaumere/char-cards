@@ -3,6 +3,7 @@ package com.meowmere.main.entities.characters;
 import com.meowmere.main.entities.story.StarringCharacters;
 import com.meowmere.main.enums.CharType;
 import com.meowmere.main.enums.Gender;
+import com.meowmere.main.requests.characters.character.EditCharacterRequest;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -44,7 +45,7 @@ public class Character {
     @Setter
     @Column
     @Enumerated(EnumType.STRING)
-    private Gender gender;
+    private Gender gender = Gender.UNKNOWNGENDER;
     @Getter
     @Setter
     @Column
@@ -56,20 +57,40 @@ public class Character {
     @Getter
     @Setter
     @Column
-    public Boolean archived = false;
+    private Boolean archived = false;
     @Getter
     @Setter
     @Column
-    public String nationality;
+    private String nationality;
+
     @Getter
     @Setter
     @Column
-    public String mbtiPersonality;
+    private String mbtiPersonality;
+
+    @Getter
+    @Setter
+    @Column
+    private String favouriteFood;
+
+    @Getter
+    @Setter
+    @Column
+    private String leastFavouriteFood;
+
+    @Getter
+    @Setter
+    @Column
+    private String hobby;
+    
+
     @Getter
     @Setter
     @Column(name = "character_type")
     @Enumerated(EnumType.STRING)
-    public CharType charType;
+    private CharType charType = CharType.BACKGROUND;
+
+    //#region related entities
     @Getter
     @Setter
     @OneToMany(mappedBy = "character", cascade = CascadeType.ALL)
@@ -122,4 +143,22 @@ public class Character {
     @Setter
     @OneToMany(mappedBy = "character", cascade = CascadeType.ALL)
     private List<CharacterTag> characterTags;
+    //#endregion
+
+    public void updateCharacter(EditCharacterRequest request) {
+        this.setPseudonim(request.getPseudonim());
+        this.setCharType(CharType.valueOf(request.getCharType()));
+        this.setCharName(request.getCharName());
+        this.setCharSurname(request.getCharSurname());
+        this.setGender(Gender.valueOf(request.getGender()));
+        this.setNationality(request.getNationality());
+        this.setBirthday(request.getBirthday());
+        this.setOccupation(request.getOccupation());
+        this.setMbtiPersonality(request.getMbtiPersonality());
+
+        if (request.getDeath() != null) {
+            this.setDeath(request.getDeath() == null || request.getDeath() == 0 ? 0 : request.getDeath());
+            this.setDeathReason(request.getDeathReason() == null ? "" : request.getDeathReason());
+        }
+    }
 }

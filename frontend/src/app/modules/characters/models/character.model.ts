@@ -32,6 +32,7 @@ export interface ICharacter {
     nationality: string;
     starringIn: IStarringIn[];
     profilePic: string | null;
+    mbtiPersonality: string;
 
     tags: ITag[];
 }
@@ -61,6 +62,7 @@ export class Character implements ICharacter {
     charType: characterType = 'BACKGROUND';
     nationality: string = '';
     starringIn: IStarringIn[] = [];
+    mbtiPersonality: string = '';
 
     tags: ITag[] = [];
 

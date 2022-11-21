@@ -191,6 +191,35 @@
                 </mat-form-field>
             </div>
         </div>
+
+        <div
+            class="card-info"
+            *ngIf="character?.mbtiPersonality || isUserLogged"
+        >
+            <span class="info__desc">
+                🧠 {{ 'CHARACTER_MODIFY.MBTI' | translate }}
+            </span>
+            <div class="edit-field edit-field--occupation">
+                <ng-container
+                    *ngTemplateOutlet="
+                        editButtons;
+                        context: {
+                            key: 'mbtiPersonality'
+                        }
+                    "
+                ></ng-container>
+                <span class="info__data" *ngIf="editedKey !== 'mbtiPersonality'"
+                    >{{ character?.mbtiPersonality }}
+                </span>
+
+                <mat-form-field
+                    *ngIf="editedKey === 'mbtiPersonality'"
+                    class="date-form-field"
+                >
+                    <input matInput [formControlName]="'mbtiPersonality'" />
+                </mat-form-field>
+            </div>
+        </div>
     </div>
 
     <app-temperament-bars

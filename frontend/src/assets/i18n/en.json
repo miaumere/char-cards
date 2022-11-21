@@ -85,6 +85,7 @@
         "BIRTHDATE": "Birthday date",
         "IS_DEAD": "Is this character dead?",
         "DEATH_REASON": "Death reason",
+        "MBTI": "MBTI",
         "NATIONALITY": "Nationality",
         "MELANCHOLIC": "Melancholism",
         "SANGUINE": "Sanguine",

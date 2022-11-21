@@ -1,5 +1,8 @@
 package com.meowmere.main.entities.characters;
 
+import com.meowmere.main.dto.character.colors.CharacterColorDTO;
+import com.meowmere.main.dto.character.measurements.CharacterMeasurementsDTO;
+import com.meowmere.main.dto.character.temperament.CharacterTemperamentDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -59,4 +62,16 @@ public class Measurements {
     @NotFound(action = NotFoundAction.IGNORE)
     @JoinColumn(name = "character_id")
     private Character character;
+
+    public void updateMeasurements(CharacterMeasurementsDTO request) {
+        setBabyHeight(request.getBabyHeight());
+        setBabyWeight(request.getBabyWeight());
+        setChildHeight(request.getChildHeight());
+        setChildWeight(request.getChildWeight());
+        setTeenHeight(request.getTeenHeight());
+        setTeenWeight(request.getTeenWeight());
+        setAdultHeight(request.getAdultHeight());
+        setAdultWeight(request.getAdultWeight());
+    }
+
 }

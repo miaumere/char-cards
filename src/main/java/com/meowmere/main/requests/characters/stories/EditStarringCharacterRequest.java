@@ -1,40 +1,20 @@
 package com.meowmere.main.requests.characters.stories;
 
+import lombok.Getter;
+import lombok.Setter;
+
 public class EditStarringCharacterRequest {
-    public Long id;
-    public Long characterId;
-    public String starringType;
-    public Long chapterId;
+    @Getter
+    @Setter
+    private Long id;
+    @Getter
+    @Setter
+    private Long characterId;
+    @Getter
+    @Setter
+    private String starringType;
+    @Getter
+    @Setter
+    private Long chapterId;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getCharacterId() {
-        return characterId;
-    }
-
-    public void setCharacterId(Long characterId) {
-        this.characterId = characterId;
-    }
-
-    public String getStarringType() {
-        return starringType;
-    }
-
-    public void setStarringType(String starringType) {
-        this.starringType = starringType;
-    }
-
-    public Long getChapterId() {
-        return chapterId;
-    }
-
-    public void setChapterId(Long chapterId) {
-        this.chapterId = chapterId;
-    }
 }

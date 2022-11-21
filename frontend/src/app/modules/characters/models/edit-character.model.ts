@@ -18,6 +18,7 @@ export interface IEditCharacter {
     temperament: ITemperament | null;
     measurements: IMeasurements | null;
     nationality: string;
+    mbtiPersonality: string;
 }
 
 export class EditCharacter implements IEditCharacter {
@@ -34,4 +35,5 @@ export class EditCharacter implements IEditCharacter {
     temperament: ITemperament | null = null;
     measurements: IMeasurements | null = null;
     nationality: string = '';
+    mbtiPersonality: string = '';
 }

@@ -3,7 +3,6 @@ package com.meowmere.main.controllers;
 import com.meowmere.main.dto.character.relation.CoordinatesRequest;
 import com.meowmere.main.dto.character.relation.RelationRequest;
 import com.meowmere.main.requests.characters.character.ChangeCharacterStateRequest;
-import com.meowmere.main.requests.characters.character.CreateCharacterRequest;
 import com.meowmere.main.requests.characters.character.EditCharacterRequest;
 import com.meowmere.main.requests.characters.image.ImageRenameRequest;
 import com.meowmere.main.requests.characters.preference.PreferenceRequest;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +28,9 @@ public class CharacterController {
 
 
     @GetMapping("/get-all-characters")
-    public ResponseEntity getEveryCharacter(HttpServletRequest request) { return charactersService.getEveryCharacter(request);}
+    public ResponseEntity getEveryCharacter(HttpServletRequest request) {
+        return charactersService.getEveryCharacter(request);
+    }
 
     @GetMapping("/get-character/{characterId}")
     public ResponseEntity getCharacterById(@PathVariable Long characterId) {
@@ -66,7 +66,6 @@ public class CharacterController {
     // #endregion
 
 
-
     @GetMapping("/get-stories-for-character")
     public ResponseEntity getStoriesForCharacter(@RequestParam Long id) {
         return this.charactersService.getStoriesForCharacter(id);
@@ -78,7 +77,7 @@ public class CharacterController {
     }
 
     @GetMapping("/get-characters-historical-preferences")
-    public  ResponseEntity getCharactersHistoricalPreferences(@RequestParam Long charId, @RequestParam Long relatedCharId){
+    public ResponseEntity getCharactersHistoricalPreferences(@RequestParam Long charId, @RequestParam Long relatedCharId) {
         return this.charactersService.getHistoricalPreferencesForCharacter(charId, relatedCharId);
     }
 
@@ -105,11 +104,11 @@ public class CharacterController {
 
     @PutMapping("/edit-story-indexes")
     public ResponseEntity editStoryIndexes(@RequestBody ArrayList<Long> storyIds, @RequestParam Long id) {
-        return  charactersService.editStoryIndexes(storyIds, id);
+        return charactersService.editStoryIndexes(storyIds, id);
     }
 
     @PatchMapping("/change-state")
-    public ResponseEntity changeStateOfCharacter(@RequestBody ChangeCharacterStateRequest request){
+    public ResponseEntity changeStateOfCharacter(@RequestBody ChangeCharacterStateRequest request) {
         return charactersService.changeStatusForCharacter(request);
     }
 
@@ -135,10 +134,14 @@ public class CharacterController {
     }
 
     @DeleteMapping("/delete-image")
-    public ResponseEntity deleteImage(@RequestParam Long id) { return charactersService.deleteImage(id);}
+    public ResponseEntity deleteImage(@RequestParam Long id) {
+        return charactersService.deleteImage(id);
+    }
 
     @DeleteMapping("/delete-story")
-    public ResponseEntity deleteStory(@RequestParam Long id) { return charactersService.deleteStory(id);}
+    public ResponseEntity deleteStory(@RequestParam Long id) {
+        return charactersService.deleteStory(id);
+    }
 
     @DeleteMapping("/delete-preference")
     public ResponseEntity deletePreference(@RequestParam Long id) {

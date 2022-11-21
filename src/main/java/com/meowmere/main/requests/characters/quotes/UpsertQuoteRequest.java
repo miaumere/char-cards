@@ -1,40 +1,20 @@
 package com.meowmere.main.requests.characters.quotes;
 
+import lombok.Getter;
+import lombok.Setter;
+
 public class UpsertQuoteRequest {
-    public Long quoteId;
+    @Getter
+    @Setter
+    private Long quoteId;
+    @Getter
+    @Setter
     private String quote;
+    @Getter
+    @Setter
     private String context;
+    @Getter
+    @Setter
     private Long characterId;
 
-    public Long getQuoteId() {
-        return quoteId;
-    }
-
-    public void setQuoteId(Long quoteId) {
-        this.quoteId = quoteId;
-    }
-
-    public String getQuote() {
-        return quote;
-    }
-
-    public void setQuote(String quote) {
-        this.quote = quote;
-    }
-
-    public String getContext() {
-        return context;
-    }
-
-    public void setContext(String context) {
-        this.context = context;
-    }
-
-    public Long getCharacterId() {
-        return characterId;
-    }
-
-    public void setCharacterId(Long characterId) {
-        this.characterId = characterId;
-    }
 }
