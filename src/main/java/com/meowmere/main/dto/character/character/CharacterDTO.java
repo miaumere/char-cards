@@ -90,4 +90,10 @@ public class CharacterDTO {
     @Getter
     @Setter
     public String hobby;
+    @Getter
+    @Setter
+    public String likes;
+    @Getter
+    @Setter
+    public String dislikes;
 }

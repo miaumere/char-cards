@@ -26,10 +26,6 @@ export class NavbarComponent extends BaseComponent implements OnInit {
             flag: 'https://flagcdn.com/pl.svg',
             language: 'pl',
         },
-        {
-            flag: 'https://flagcdn.com/de.svg',
-            language: 'de',
-        },
     ];
     constructor(
         public _authService: AuthService,

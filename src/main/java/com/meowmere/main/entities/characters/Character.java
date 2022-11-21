@@ -81,8 +81,19 @@ public class Character {
     @Getter
     @Setter
     @Column
+    private String likes;
+
+    @Getter
+    @Setter
+    @Column
+    private String dislikes;
+
+
+    @Getter
+    @Setter
+    @Column
     private String hobby;
-    
+
 
     @Getter
     @Setter
