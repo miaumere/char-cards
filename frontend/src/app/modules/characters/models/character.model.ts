@@ -65,6 +65,7 @@ export class Character implements ICharacter {
     mbtiPersonality: string = '';
 
     tags: ITag[] = [];
+    fullName: string = '';
 
     constructor(initialValues?: ICharacter) {
         if (initialValues) {
@@ -81,6 +82,7 @@ export class Character implements ICharacter {
             if (!initialValues.colors) {
                 this.colors = new Colors();
             }
+            this.fullName = `${this.charName} ${this.charSurname ?? ''}`;
         } else {
             this.charName = '';
             this.colors = new Colors();

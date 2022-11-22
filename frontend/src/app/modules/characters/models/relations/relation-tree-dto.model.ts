@@ -1,3 +1,4 @@
+import { CharType } from 'src/app/modules/characters/enums/char-type.enum';
 import { RelationType } from './relation-type.enum';
 
 export interface ICoordinatesRequest {
@@ -88,6 +89,7 @@ export interface IRelatedPersonData {
     id: number;
     fullName: string;
     imageMimeData: string;
+    characterType: CharType;
 }
 
 // Request

@@ -4,6 +4,7 @@ import com.meowmere.main.entities.story.StarringCharacters;
 import com.meowmere.main.enums.CharType;
 import com.meowmere.main.enums.Gender;
 import com.meowmere.main.requests.characters.character.EditCharacterRequest;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,7 +18,6 @@ import java.util.Set;
 @Table(name = "character")
 public class Character {
     @Getter
-    @Setter
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     public Long externalId;

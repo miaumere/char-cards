@@ -28,6 +28,8 @@ export class CharactersListComponent extends BaseComponent implements OnInit {
     isMain = true;
     isSide = true;
     isBackground = true;
+    isPet = true;
+
     chosenTags: ITag[] = [];
 
     constructor(
@@ -83,6 +85,9 @@ export class CharactersListComponent extends BaseComponent implements OnInit {
         const bgChars = filteredChars.filter(
             (c) => c.characterType === CharType[2]
         );
+        const petChars = filteredChars.filter(
+            (c) => c.characterType === CharType[3]
+        );
 
         if (this.isMain && !!mainChars) {
             finalFilteredChars = mainChars;
@@ -92,6 +97,10 @@ export class CharactersListComponent extends BaseComponent implements OnInit {
         }
         if (this.isBackground && !!bgChars) {
             finalFilteredChars = finalFilteredChars.concat(bgChars);
+        }
+
+        if (this.isPet && !!petChars) {
+            finalFilteredChars = finalFilteredChars.concat(petChars);
         }
 
         const filtered: CharacterItem[] = [];

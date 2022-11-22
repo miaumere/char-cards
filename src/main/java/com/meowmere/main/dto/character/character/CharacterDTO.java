@@ -17,61 +17,61 @@ import java.util.List;
 public class CharacterDTO {
     @Getter
     @Setter
-    public Long externalId;
+    private Long externalId;
     @Getter
     @Setter
-    public String charType;
+    private String charType;
     @Getter
     @Setter
-    public Boolean archived;
+    private Boolean archived;
     @Getter
     @Setter
-    public String charName;
+    private String charName;
     @Getter
     @Setter
-    public String charSurname;
+    private String charSurname;
     @Getter
     @Setter
-    public String pseudonim;
+    private String pseudonim;
     @Getter
     @Setter
-    public String gender;
+    private String gender;
     @Getter
     @Setter
-    public String nationality;
+    private String nationality;
     @Getter
     @Setter
-    public Long birthday;
+    private Long birthday;
     @Getter
     @Setter
-    public Long death;
+    private Long death;
     @Getter
     @Setter
-    public String deathReason;
+    private String deathReason;
     @Getter
     @Setter
-    public String occupation;
+    private String occupation;
     @Getter
     @Setter
-    public CharacterQuoteDTO quote;
+    private CharacterQuoteDTO quote;
     @Getter
     @Setter
-    public List<CharacterStoryDTO> story;
+    private List<CharacterStoryDTO> story;
     @Getter
     @Setter
-    public CharacterColorDTO colors;
+    private CharacterColorDTO colors;
     @Getter
     @Setter
-    public CharacterTemperamentDTO temperament;
+    private CharacterTemperamentDTO temperament;
     @Getter
     @Setter
-    public CharacterMeasurementsDTO measurements;
+    private CharacterMeasurementsDTO measurements;
     @Getter
     @Setter
-    public List<ImageDTO> imagesList;
+    private List<ImageDTO> imagesList;
     @Getter
     @Setter
-    public List<BookForCharacter> starringIn;
+    private List<BookForCharacter> starringIn;
     @Getter
     @Setter
     private String profilePic;
@@ -80,20 +80,22 @@ public class CharacterDTO {
     private List<TagDTO> tags = new ArrayList<>();
     @Getter
     @Setter
-    public String mbtiPersonality;
+    private String mbtiPersonality;
     @Getter
     @Setter
-    public String favouriteFood;
+    private String favouriteFood;
     @Getter
     @Setter
-    public String leastFavouriteFood;
+    private String leastFavouriteFood;
     @Getter
     @Setter
-    public String hobby;
+    private String hobby;
     @Getter
     @Setter
-    public String likes;
+    private String likes;
     @Getter
     @Setter
-    public String dislikes;
+    private String dislikes;
+
+    
 }

@@ -36,4 +36,8 @@ export const colorsForRelations = [
         relationType: RelationType[RelationType.Romance] as RelationTypeString,
         fillColor: 'lime',
     },
+    {
+        relationType: RelationType[RelationType.Pet] as RelationTypeString,
+        fillColor: 'orange',
+    },
 ];

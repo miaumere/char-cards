@@ -58,7 +58,9 @@
         "NO_STARRED": "Nie występował ani nie został wspomniany",
         "TAGS": "Tagi",
         "CURRENT_PROFILE_PIC": "Obecne profilowe",
-        "FUTURE_PROFILE_PIC": "Nowe profilowe"
+        "FUTURE_PROFILE_PIC": "Nowe profilowe",
+        "DEATH_REASON": "Powód",
+        "MBTI": "MBTI"
     },
     "CHARS_PANEL": {
         "NEW_CHAR": "Dodaj nową postać",
@@ -76,44 +78,7 @@
         "SEND": "Wyślij",
         "NO_CHARACTERS": "Nie znaleziono postaci. 😥"
     },
-    "CHARACTER_MODIFY": {
-        "NAME": "Imię",
-        "SURNAME": "Surname",
-        "GENDER": "Płeć",
-        "PSEUDONIM": "Pseudonim",
-        "PROFESSION": "Zajęcie",
-        "BIRTHDATE": "Data urodzenia",
-        "IS_DEAD": "Czy ta postać nie żyje?",
-        "DEATH_REASON": "Powód śmierci",
-        "MBTI": "MBTI",
-        "NATIONALITY": "Country",
-        "MELANCHOLIC": "Melancholizm",
-        "SANGUINE": "Sangwinizm",
-        "FLEGMATIC": "Flegmatyzm",
-        "CHOLERIC": "Choleryzm",
-        "THEMECOLOR1": "Motyw kolorystyczny 1",
-        "THEMECOLOR2": "Motyw kolorystyczny 2",
-        "THEMECOLOR3": "Motyw kolorystyczny 3",
-        "EYECOLOR1": "Kolor oczu 1",
-        "EYECOLOR2": "Kolor oczu 2",
-        "HAIRCOLOR": "Kolor włosów",
-        "SKINCOLOR": "Kolor skóry",
-        "HEIGHT_BABY": "Wzrost jako niemowlę",
-        "WEIGHT_BABY": "Waga jako niemowlę",
-        "HEIGHT_CHILD": "Wzrost jako dziecko",
-        "WEIGHT_CHILD": "Waga jako dziecko",
-        "HEIGHT_TEEN": "Wzrost jako nastolatek",
-        "WEIGHT_TEEN": "Waga jako nastolatek",
-        "HEIGHT_ADULT": "Wzrost jako dorosły",
-        "WEIGHT_ADULT": "Waga jako dorosły",
-        "FORM_END_MSG": "Naciśnij przycisk \"Wyślij\", żeby zatwierdzić zmiany.",
-        "PERSONAL_INFO": "Podstawowe dane",
-        "ADDITIONAL_PERSONAL_INFO": "Dodatkowe dane osobowe",
-        "TEMPERAMENT": "Temperament",
-        "COLORS": "Kolory",
-        "WEIGHT_HEIGHT": "Waga i wzrost",
-        "END": "Koniec"
-    },
+
     "EDIT_IMAGES": {
         "ADD_IMAGES": "Dodaj nowe zdjęcia",
         "CURRENT_IMAGES": "Obecne zdjęcia",
@@ -169,7 +134,6 @@
         "PAGES_COUNT": "Ilość stron:",
         "STARRING_CHARACTERS": "Postacie występujące:",
         "NO_CHAPTERS_MSG": "Brak części w tym szkicowniku.",
-        "NO_PAGES_MSG": "Brak stron w tej części.",
         "CREATE_DATE": "Data dodania",
         "ACTION_TIME": "Czas akcji",
         "ACTION_PLACE": "Miejsce akcji",
@@ -199,9 +163,7 @@
         "STARRING_TYPE": "Rodzaj występowania",
         "ADD_STARRING_CHAR": "Dodaj postać do części",
         "STARRING_CHARS": "Obecnie występujące postacie:",
-        "DELETE_STARRING": "Usuń postać z tej części",
-        "NO_PAGES_MSG": "Brak stron dla tej części.",
-        "NO_STARRING_CHARS": "Brak postaci przypisanych do tej części."
+        "DELETE_STARRING": "Usuń postać z tej części"
     },
 
     "PREFERENCES": {
@@ -232,23 +194,15 @@
         "SAVE_SUCCESS": "Zmiany zostały zapisane.",
         "DELETE_INFO": "Aby usunąć wybrany element - naciśnij dwa razy.",
         "DBLCLICK_INFO": "Aby zapisać zmiany - naciśnij dwa razy.",
-        "IMG_NAME_WARN": "Nazwa obrazka nie może być pusta!",
-        "QUOTE_NAME_WARN": "Treść cytatu nie może być pusta!",
-        "NO_RELATION_TYPE": "Nie uzupełniono typu relacji.",
-        "NO_CHARACTER": "Błąd walidacji!  Postać nie istnieje.",
-        "EMPTY_FIELDS": "Uzupełnij wszystkie pola!"
+        "NO_CHARACTER": "Błąd walidacji!  Postać nie istnieje."
     },
 
     "enum": {
         "charType": {
             "MAIN": "Postać główna",
             "SIDE": "Postać poboczna",
-            "BACKGROUND": "Postać epizodyczna"
-        },
-        "relationshipType": {
-            "PARENT": "Rodzic",
-            "CHILD": "Dziecko",
-            "MARRIAGE": "Małżeństwo"
+            "BACKGROUND": "Postać epizodyczna",
+            "PET": "Zwierzę"
         }
     }
 }

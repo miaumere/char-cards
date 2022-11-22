@@ -46,11 +46,40 @@ $gradient2: #435548;
     }
 }
 
-.rdest {
-    height: 1rem;
+.char-symbol {
+    display: block;
+    margin: 0;
+    padding: 0;
 
-    &--side {
-        opacity: 0.6;
+    font-size: 1rem;
+
+    text-shadow: -2px 2px 0px #a929df;
+    &--MAIN {
+        &::before {
+            content: '⭐';
+        }
+    }
+    &--SIDE {
+        opacity: 0.5;
+        &::before {
+            content: '⭐';
+        }
+    }
+
+    &--BACKGROUND {
+        opacity: 0.5;
+        filter: grayscale(100%);
+
+        &::before {
+            content: '⭐';
+        }
+    }
+
+    &--PET {
+        opacity: 0.5;
+        &::before {
+            content: '🐾';
+        }
     }
 }
 
@@ -107,7 +136,7 @@ $gradient2: #435548;
         text-overflow: ellipsis;
     }
     &__pseudonym {
-        width: 100px;
+        width: 120px;
 
         font-size: smaller;
         color: $accent;
@@ -144,25 +173,34 @@ $gradient2: #435548;
 }
 
 .char-type-button {
-    height: 24px;
+    display: flex;
+
+    height: 18px;
     font-size: 11px;
 
     margin-top: 0.2rem;
+
+    color: white;
 
     &__container {
         display: flex;
         justify-content: center;
         align-items: center;
 
-        margin-top: -0.4rem;
+        &::before {
+            content: '[ ';
+        }
+        &::after {
+            content: ' ]';
+        }
     }
 }
 
 .buttons-container {
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
 
-    margin-left: 2rem;
+    margin-left: 1rem;
 }
 
 .tags {
@@ -187,4 +225,11 @@ $gradient2: #435548;
 
 .empty-list {
     margin-top: 4rem;
+}
+
+.name-symbol-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 120px;
 }

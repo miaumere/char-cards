@@ -6,6 +6,7 @@ export enum RelationType {
     Relationship,
     Infatuation,
     Romance,
+    Pet,
 }
 
 export type RelationTypeString = keyof typeof RelationType;

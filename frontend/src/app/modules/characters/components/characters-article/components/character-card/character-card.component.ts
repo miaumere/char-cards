@@ -245,7 +245,7 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
                     }
 
                     document.title = `${this.character.charName ?? '?'} ${
-                        this.character.charSurname ?? '?'
+                        this.character.charSurname ?? ''
                     }`;
 
                     this.character.measurements = character.measurements

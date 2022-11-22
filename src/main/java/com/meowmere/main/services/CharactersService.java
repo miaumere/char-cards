@@ -520,7 +520,7 @@ public class CharactersService {
             person.setId(relatedChar.getExternalId());
             person.setFullName(relatedChar.getCharName() != null ? relatedChar.getCharName() : "?"
                     + " "
-                    + relatedChar.getCharSurname() != null ? relatedChar.getCharSurname() : "?");
+                    + relatedChar.getCharSurname() != null ? relatedChar.getCharSurname() : "");
             val image = imageRepository.getProfilePicForCharacter(relatedChar.getExternalId());
             String profilePic = null;
             if (image != null) {
@@ -669,7 +669,7 @@ public class CharactersService {
             RelationTreePersonDto personDto = new RelationTreePersonDto();
             personDto.setId(characterFromDb.getExternalId());
             String name = characterFromDb.getCharName() != null ? characterFromDb.getCharName() : "?";
-            String surname = characterFromDb.getCharSurname() != null ? characterFromDb.getCharSurname() : "?";
+            String surname = characterFromDb.getCharSurname() != null ? characterFromDb.getCharSurname() : "";
 
             personDto.setFullName(
                     name + " " + surname
@@ -865,7 +865,7 @@ public class CharactersService {
                 ArrayList<HistoricPreferenceDTO> backwardPreferenceDTOS = new ArrayList<>();
 
                 String name = character.getCharName() != null ? character.getCharName() : "?";
-                String surname = character.getCharSurname() != null ? character.getCharSurname() : "?";
+                String surname = character.getCharSurname() != null ? character.getCharSurname() : "";
                 String fullName = name + " " + surname;
 
                 dto.setCharacterId(character.getExternalId());
@@ -913,7 +913,7 @@ public class CharactersService {
         dto.setCharacterId(relatedCharId);
         if (character != null) {
             String name = character.getCharName() != null ? character.getCharName() : "?";
-            String surname = character.getCharSurname() != null ? character.getCharSurname() : "?";
+            String surname = character.getCharSurname() != null ? character.getCharSurname() : "";
             String fullName = name + " " + surname;
 
             dto.setCharacterFullname(fullName);

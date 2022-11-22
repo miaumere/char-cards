@@ -6,7 +6,6 @@ import { BaseComponent } from 'src/app/core/base.component';
 import { CountriesService } from 'src/app/core/service/countries.service';
 import { Character } from 'src/app/modules/characters/models/character.model';
 import { Country } from 'src/app/modules/characters/models/countries/country.model';
-import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { insertDeleteInfo } from 'src/app/modules/shared/functions/insert-delete.info';
@@ -20,6 +19,11 @@ export class CharacterAdditionalInfoComponent
     extends BaseComponent
     implements OnInit
 {
+    readonly analysts = ['INTJ', 'INTP', 'ENTJ', 'ENTP'];
+    readonly diplomats = ['INFJ', 'INFP', 'ENFJ', 'ENFP'];
+    readonly sentinels = ['ISTJ', 'ISFJ', 'ESTJ', 'ESFJ'];
+    readonly explorers = ['ISTP', 'ISFP', 'ESTP', 'ESFP'];
+
     @Input() isUserLogged: boolean = false;
     @Input() character: Character | null = null;
     @Input() form = new FormGroup({});
@@ -94,5 +98,23 @@ export class CharacterAdditionalInfoComponent
         this.editedKey = key;
         this.flag = this.originalFlag;
         this.editedKeyChange.emit(key);
+    }
+
+    getColorForMbti(mbti: string): string {
+        const mbtiUppercase = mbti.toUpperCase();
+        if (this.analysts.some((x) => mbtiUppercase.includes(x))) {
+            return '#88619a';
+        }
+        if (this.diplomats.some((x) => mbtiUppercase.includes(x))) {
+            return '#33a474';
+        }
+        if (this.sentinels.some((x) => mbtiUppercase.includes(x))) {
+            return '#4298b4';
+        }
+        if (this.explorers.some((x) => mbtiUppercase.includes(x))) {
+            return '#e4ae3a';
+        }
+
+        return 'whitesmoke';
     }
 }

@@ -7,5 +7,6 @@ public enum RelationType {
     Crush,
     Relationship,
     Infatuation,
-    Romance
+    Romance,
+    Pet
 }

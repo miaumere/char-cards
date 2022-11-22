@@ -14,22 +14,16 @@ public class CharactersMenuDTO {
     @Getter
     private Long id;
     @Getter
-
     private String fullName;
     @Getter
-
     private String pseudonym;
     @Getter
-
     private String characterType;
     @Getter
-
     private String profilePic;
     @Getter
-
     private Boolean archived;
     @Getter
-
     private Long birthday;
 
     @Getter
@@ -40,7 +34,7 @@ public class CharactersMenuDTO {
     public CharactersMenuDTO(Character character, String profilePic) {
         this.id = character.externalId;
         String name = character.getCharName() != null ? character.getCharName() : "?";
-        String surname = character.getCharSurname() != null ? character.getCharSurname() : "?";
+        String surname = character.getCharSurname() != null ? character.getCharSurname() : "";
         this.fullName = name + " " + surname;
         this.profilePic = profilePic;
         this.characterType = character.getCharType().name();

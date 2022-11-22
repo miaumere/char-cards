@@ -58,7 +58,9 @@
         "NO_STARRED": "No appearance and no mention",
         "TAGS": "Tags",
         "CURRENT_PROFILE_PIC": "Current profile pic",
-        "FUTURE_PROFILE_PIC": "New profile pic"
+        "FUTURE_PROFILE_PIC": "New profile pic",
+        "DEATH_REASON": "Death reason",
+        "MBTI": "MBTI"
     },
     "CHARS_PANEL": {
         "NEW_CHAR": "Add new character",
@@ -76,44 +78,7 @@
         "SEND": "Send",
         "NO_CHARACTERS": "No characters found. 😥"
     },
-    "CHARACTER_MODIFY": {
-        "NAME": "Name",
-        "SURNAME": "Surname",
-        "GENDER": "Gender",
-        "PSEUDONIM": "Pseudonim",
-        "PROFESSION": "Profession",
-        "BIRTHDATE": "Birthday date",
-        "IS_DEAD": "Is this character dead?",
-        "DEATH_REASON": "Death reason",
-        "MBTI": "MBTI",
-        "NATIONALITY": "Nationality",
-        "MELANCHOLIC": "Melancholism",
-        "SANGUINE": "Sanguine",
-        "FLEGMATIC": "Flegmatism",
-        "CHOLERIC": "Cholerism",
-        "THEMECOLOR1": "Color scheme 1",
-        "THEMECOLOR2": "Color scheme 2",
-        "THEMECOLOR3": "Color scheme 3",
-        "EYECOLOR1": "Eye color 1",
-        "EYECOLOR2": "Eye color 2",
-        "HAIRCOLOR": "Hair color",
-        "SKINCOLOR": "Skin color",
-        "HEIGHT_BABY": "Baby height",
-        "WEIGHT_BABY": "Baby weight",
-        "HEIGHT_CHILD": "Child height",
-        "WEIGHT_CHILD": "Child weight",
-        "HEIGHT_TEEN": "Teen height",
-        "WEIGHT_TEEN": "Teen weight",
-        "HEIGHT_ADULT": "Adult height",
-        "WEIGHT_ADULT": "Adult weight",
-        "FORM_END_MSG": "Press \"Send\" button to save changes.",
-        "PERSONAL_INFO": "Personal info",
-        "ADDITIONAL_PERSONAL_INFO": "Addidional personal info",
-        "TEMPERAMENT": "Temperament",
-        "COLORS": "Colors",
-        "WEIGHT_HEIGHT": "Weight & Height",
-        "END": "Done"
-    },
+
     "EDIT_IMAGES": {
         "ADD_IMAGES": "Add new images",
         "CURRENT_IMAGES": "Current images",
@@ -169,7 +134,6 @@
         "PAGES_COUNT": "Pages count:",
         "STARRING_CHARACTERS": "Starring characters:",
         "NO_CHAPTERS_MSG": "No chapters in this book.",
-        "NO_PAGES_MSG": "No pages in this chapter.",
         "CREATE_DATE": "Date added",
         "ACTION_TIME": "Action time",
         "ACTION_PLACE": "Action location",
@@ -199,9 +163,7 @@
         "STARRING_TYPE": "Choose starring type",
         "ADD_STARRING_CHAR": "Add character to chapter",
         "STARRING_CHARS": "Starring characters:",
-        "DELETE_STARRING": "Delete character from chapter",
-        "NO_PAGES_MSG": "No pages for this chapter.",
-        "NO_STARRING_CHARS": "No starring characters in this chapter."
+        "DELETE_STARRING": "Delete character from chapter"
     },
     "PREFERENCES": {
         "HISTORICAL_PREFERENCES": "historical preferences",
@@ -231,22 +193,14 @@
         "SAVE_SUCCESS": "Changes were successfully saved.",
         "DELETE_INFO": "To delete element - double click on delete button.",
         "DBLCLICK_INFO": "To save changes - double click on button",
-        "IMG_NAME_WARN": "Image name can't be empty!",
-        "QUOTE_NAME_WARN": "Quote name can't be empty!",
-        "NO_RELATION_TYPE": "Relation type is empty!",
-        "NO_CHARACTER": "Validation error! Character does not exist.",
-        "EMPTY_FIELDS": "Fill all fields!"
+        "NO_CHARACTER": "Validation error! Character does not exist."
     },
     "enum": {
         "charType": {
             "MAIN": "Main character",
             "SIDE": "Side character",
-            "BACKGROUND": "Background character"
-        },
-        "relationshipType": {
-            "PARENT": "Parent",
-            "CHILD": "Child",
-            "MARRIAGE": "Marriage"
+            "BACKGROUND": "Background character",
+            "PET": "Pet"
         }
     }
 }

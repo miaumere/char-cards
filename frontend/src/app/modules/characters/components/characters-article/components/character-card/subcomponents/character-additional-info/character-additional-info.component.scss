@@ -22,7 +22,7 @@
 
     margin-left: -1rem;
 
-    &--occupation {
+    &--string-value {
         width: 60%;
     }
 }
@@ -59,9 +59,6 @@
 
         color: var(--theme-color);
     }
-
-    &__data {
-    }
 }
 
 .icons-options {
@@ -69,7 +66,6 @@
     flex-direction: column;
 
     height: 1rem;
-    margin-bottom: 0.5rem;
 }
 
 .card {
@@ -93,7 +89,6 @@
     margin-top: 0.5rem;
 
     display: flex;
-    align-items: center;
 }
 
 .date-form-field {
@@ -103,4 +98,9 @@
 
 .edit-date {
     margin-left: -1rem;
+}
+
+.personality {
+    font-size: 0.9rem;
+    font-weight: 900;
 }

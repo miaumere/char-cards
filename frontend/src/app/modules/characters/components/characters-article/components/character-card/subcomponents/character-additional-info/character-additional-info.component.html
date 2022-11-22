@@ -27,7 +27,7 @@
                 >
                     <mat-label>
                         {{
-                            'CHARACTER_MODIFY.NATIONALITY' | translate
+                            'CHARACTER_CARD.NATIONALITY' | translate
                         }}</mat-label
                     >
 
@@ -142,7 +142,7 @@
 
         <div class="card-info" *ngIf="character?.deathReason || isUserLogged">
             <span class="info__desc">
-                📃 {{ 'CHARACTER_MODIFY.DEATH_REASON' | translate }}
+                📃 {{ 'CHARACTER_CARD.DEATH_REASON' | translate }}
             </span>
             <div class="edit-field">
                 <ng-container
@@ -170,7 +170,7 @@
             <span class="info__desc">
                 💼 {{ 'CHARACTER_CARD.PROFESSION' | translate }}
             </span>
-            <div class="edit-field edit-field--occupation">
+            <div class="edit-field edit-field--string-value">
                 <ng-container
                     *ngTemplateOutlet="
                         editButtons;
@@ -197,9 +197,9 @@
             *ngIf="character?.mbtiPersonality || isUserLogged"
         >
             <span class="info__desc">
-                🧠 {{ 'CHARACTER_MODIFY.MBTI' | translate }}
+                🧠 {{ 'CHARACTER_CARD.MBTI' | translate }}
             </span>
-            <div class="edit-field edit-field--occupation">
+            <div class="edit-field edit-field--string-value">
                 <ng-container
                     *ngTemplateOutlet="
                         editButtons;
@@ -208,7 +208,14 @@
                         }
                     "
                 ></ng-container>
-                <span class="info__data" *ngIf="editedKey !== 'mbtiPersonality'"
+                <span
+                    class="info__data personality"
+                    *ngIf="editedKey !== 'mbtiPersonality'"
+                    [ngStyle]="{
+                        color: character?.mbtiPersonality
+                            ? getColorForMbti(character?.mbtiPersonality)
+                            : 'whitesmoke'
+                    }"
                     >{{ character?.mbtiPersonality }}
                 </span>
 

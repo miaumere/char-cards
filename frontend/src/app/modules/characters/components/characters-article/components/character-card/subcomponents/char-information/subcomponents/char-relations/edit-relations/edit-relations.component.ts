@@ -1,3 +1,4 @@
+import { CharType } from 'src/app/modules/characters/enums/char-type.enum';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
@@ -26,6 +27,7 @@ import { colorsForRelations } from '../relation-tree/colors-for-relations.const'
 })
 export class EditRelationsComponent extends BaseComponent implements OnInit {
     readonly RelationType = RelationType;
+
     @Input('color') themeColor1: string = '';
     @Input() charId: number = 0;
     @Input() charFullName: string = '';
@@ -291,6 +293,8 @@ export class EditRelationsComponent extends BaseComponent implements OnInit {
                 id: characterItem.id,
                 fullName: characterItem.fullName,
                 imageMimeData: characterItem.profilePic as string,
+                characterType:
+                    characterItem.characterType as unknown as CharType,
             },
             relations: [
                 {
@@ -338,6 +342,11 @@ export class EditRelationsComponent extends BaseComponent implements OnInit {
 
     isSourceCheckboxVisible(relationFG: FormGroup) {
         const type = relationFG.get('type')?.value as RelationTypeString;
-        return type === 'Crush' || type === 'Parent' || type === 'Infatuation';
+        return (
+            type === 'Crush' ||
+            type === 'Parent' ||
+            type === 'Infatuation' ||
+            type === 'Pet'
+        );
     }
 }
