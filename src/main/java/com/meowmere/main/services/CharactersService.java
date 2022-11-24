@@ -6,6 +6,7 @@ import com.meowmere.main.dto.character.character.CharactersMenuDTO;
 import com.meowmere.main.dto.character.colors.CharacterColorDTO;
 import com.meowmere.main.dto.character.image.ImageDTO;
 import com.meowmere.main.dto.character.measurements.CharacterMeasurementsDTO;
+import com.meowmere.main.dto.character.measurements.MeasurementObj;
 import com.meowmere.main.dto.character.preference.AllPreferencesDTO;
 import com.meowmere.main.dto.character.preference.HistoricPreferenceDTO;
 import com.meowmere.main.dto.character.quote.CharacterQuoteDTO;
@@ -52,6 +53,7 @@ import javax.servlet.http.HttpServletRequest;
 import static java.util.Comparator.comparing;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.*;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -119,6 +121,16 @@ public class CharactersService {
         return new ResponseEntity(dtoList, HttpStatus.OK);
     }
 
+    private double calcBmi(Integer height, Integer weight) {
+        if (height == null || weight == null) {
+            return 0;
+        }
+
+        double bmi = (float) weight / (float) Math.pow((float) height / 100, 2);
+        
+        return (double) Math.ceil(bmi * 100) / 100;
+    }
+
     public ResponseEntity getCharacter(Long externalId) {
         ModelMapper modelMapper = new ModelMapper();
         Character oneCharacter = characterRepository.getOne(externalId);
@@ -154,8 +166,36 @@ public class CharactersService {
         }
 
         val measurementsForCharacter = measurementsRepository.getMeasurementsById(externalId);
+        Map<String, MeasurementObj> measurements = new HashMap<>();
+
         if (measurementsForCharacter != null) {
-            dto.setMeasurements(modelMapper.map(measurementsForCharacter, CharacterMeasurementsDTO.class));
+
+            measurements.put("baby", new MeasurementObj(
+                    measurementsForCharacter.getBabyHeight(),
+                    measurementsForCharacter.getBabyWeight(),
+                    calcBmi(measurementsForCharacter.getBabyHeight(),
+                            measurementsForCharacter.getBabyWeight())
+            ));
+            measurements.put("child", new MeasurementObj(
+                    measurementsForCharacter.getChildHeight(),
+                    measurementsForCharacter.getChildWeight(),
+                    calcBmi(measurementsForCharacter.getChildHeight(),
+                            measurementsForCharacter.getChildWeight())
+            ));
+            measurements.put("teen", new MeasurementObj(
+                    measurementsForCharacter.getTeenHeight(),
+                    measurementsForCharacter.getTeenWeight(),
+                    calcBmi(measurementsForCharacter.getTeenHeight(),
+                            measurementsForCharacter.getTeenWeight())
+            ));
+            measurements.put("adult", new MeasurementObj(
+                    measurementsForCharacter.getAdultHeight(),
+                    measurementsForCharacter.getAdultWeight(),
+                    calcBmi(measurementsForCharacter.getAdultHeight(),
+                            measurementsForCharacter.getAdultWeight())
+            ));
+
+            dto.setMeasurements(measurements);
         }
 
 

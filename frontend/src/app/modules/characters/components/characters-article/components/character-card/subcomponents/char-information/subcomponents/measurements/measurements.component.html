@@ -1,4 +1,4 @@
-<form [formGroup]="form">
+<!-- <form [formGroup]="form">
     <table
         mat-table
         [dataSource]="measurementsData"
@@ -115,10 +115,57 @@
                     />
                 </mat-form-field>
                 {{ element[3].includes('Height') ? 'cm' : 'kg' }}
+                {{ element[3] | json }}
             </td>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+
         <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
-</form>
+</form> -->
+<!-- {{ measurements.keys | json }} -->
+<table class="measurements-table" *ngIf="measurements" [formGroup]="form">
+    <tr>
+        <th *ngFor="let key of Object.keys(measurements)">
+            {{ 'CHARACTER_CARD.' + key | translate }}
+        </th>
+    </tr>
+    <tr>
+        <td *ngFor="let key of Object.keys(measurements)">
+            <mat-form-field class="measurements-form-field">
+                <input
+                    class="measurements-input"
+                    matInput
+                    type="number"
+                    min="0"
+                    max="200"
+                    (change)="inputChange()"
+                    [formControlName]="key + 'Height'"
+                />
+            </mat-form-field>
+            cm
+        </td>
+    </tr>
+    <tr>
+        <td *ngFor="let key of Object.keys(measurements)">
+            <mat-form-field class="measurements-form-field">
+                <input
+                    class="measurements-input"
+                    matInput
+                    type="number"
+                    min="0"
+                    max="200"
+                    (change)="inputChange()"
+                    [formControlName]="key + 'Weight'"
+                />
+            </mat-form-field>
+            kg
+        </td>
+    </tr>
+    <tr>
+        <td *ngFor="let key of Object.keys(measurements)">
+            📈 BMI: {{ measurements[key].bmi }}
+        </td>
+    </tr>
+</table>

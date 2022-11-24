@@ -227,6 +227,141 @@
                 </mat-form-field>
             </div>
         </div>
+
+        <div class="card-info" *ngIf="character?.favouriteFood || isUserLogged">
+            <span class="info__desc">
+                🍉 {{ 'CHARACTER_CARD.FAVOURITE_FOOD' | translate }}
+            </span>
+            <div class="edit-field edit-field--string-value">
+                <ng-container
+                    *ngTemplateOutlet="
+                        editButtons;
+                        context: {
+                            key: 'favouriteFood'
+                        }
+                    "
+                ></ng-container>
+                <span class="info__data" *ngIf="editedKey !== 'favouriteFood'"
+                    >{{ character?.favouriteFood }}
+                </span>
+
+                <mat-form-field
+                    *ngIf="editedKey === 'favouriteFood'"
+                    class="date-form-field"
+                >
+                    <input matInput [formControlName]="'favouriteFood'" />
+                </mat-form-field>
+            </div>
+        </div>
+
+        <div
+            class="card-info"
+            *ngIf="character?.leastFavouriteFood || isUserLogged"
+        >
+            <span class="info__desc">
+                🥑 {{ 'CHARACTER_CARD.LEAST_FAVOURITE_FOOD' | translate }}
+            </span>
+            <div class="edit-field edit-field--string-value">
+                <ng-container
+                    *ngTemplateOutlet="
+                        editButtons;
+                        context: {
+                            key: 'leastFavouriteFood'
+                        }
+                    "
+                ></ng-container>
+                <span
+                    class="info__data"
+                    *ngIf="editedKey !== 'leastFavouriteFood'"
+                    >{{ character?.leastFavouriteFood }}
+                </span>
+
+                <mat-form-field
+                    *ngIf="editedKey === 'leastFavouriteFood'"
+                    class="date-form-field"
+                >
+                    <input matInput [formControlName]="'leastFavouriteFood'" />
+                </mat-form-field>
+            </div>
+        </div>
+
+        <div class="card-info" *ngIf="character?.hobby || isUserLogged">
+            <span class="info__desc">
+                ⛹️ {{ 'CHARACTER_CARD.HOBBY' | translate }}
+            </span>
+            <div class="edit-field edit-field--string-value">
+                <ng-container
+                    *ngTemplateOutlet="
+                        editButtons;
+                        context: {
+                            key: 'hobby'
+                        }
+                    "
+                ></ng-container>
+                <span class="info__data" *ngIf="editedKey !== 'hobby'"
+                    >{{ character?.hobby }}
+                </span>
+
+                <mat-form-field
+                    *ngIf="editedKey === 'hobby'"
+                    class="date-form-field"
+                >
+                    <input matInput [formControlName]="'hobby'" />
+                </mat-form-field>
+            </div>
+        </div>
+
+        <div class="card-info" *ngIf="character?.likes || isUserLogged">
+            <span class="info__desc">
+                😊 {{ 'CHARACTER_CARD.LIKES' | translate }}
+            </span>
+            <div class="edit-field edit-field--string-value">
+                <ng-container
+                    *ngTemplateOutlet="
+                        editButtons;
+                        context: {
+                            key: 'likes'
+                        }
+                    "
+                ></ng-container>
+                <span class="info__data" *ngIf="editedKey !== 'likes'"
+                    >{{ character?.likes }}
+                </span>
+
+                <mat-form-field
+                    *ngIf="editedKey === 'likes'"
+                    class="date-form-field"
+                >
+                    <input matInput [formControlName]="'likes'" />
+                </mat-form-field>
+            </div>
+        </div>
+
+        <div class="card-info" *ngIf="character?.dislikes || isUserLogged">
+            <span class="info__desc">
+                😖 {{ 'CHARACTER_CARD.DISLIKES' | translate }}
+            </span>
+            <div class="edit-field edit-field--string-value">
+                <ng-container
+                    *ngTemplateOutlet="
+                        editButtons;
+                        context: {
+                            key: 'dislikes'
+                        }
+                    "
+                ></ng-container>
+                <span class="info__data" *ngIf="editedKey !== 'dislikes'"
+                    >{{ character?.dislikes }}
+                </span>
+
+                <mat-form-field
+                    *ngIf="editedKey === 'dislikes'"
+                    class="date-form-field"
+                >
+                    <input matInput [formControlName]="'dislikes'" />
+                </mat-form-field>
+            </div>
+        </div>
     </div>
 
     <app-temperament-bars

@@ -29,4 +29,5 @@ public class CharacterMeasurementsDTO {
     @Setter
     public Integer adultWeight;
 
+
 }

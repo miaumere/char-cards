@@ -166,6 +166,11 @@ public class Character {
         this.setBirthday(request.getBirthday());
         this.setOccupation(request.getOccupation());
         this.setMbtiPersonality(request.getMbtiPersonality());
+        this.setFavouriteFood(request.getFavouriteFood());
+        this.setLeastFavouriteFood(request.getLeastFavouriteFood());
+        this.setHobby(request.getHobby());
+        this.setLikes(request.getLikes());
+        this.setDislikes(request.getDislikes());
 
         if (request.getDeath() != null) {
             this.setDeath(request.getDeath() == null || request.getDeath() == 0 ? 0 : request.getDeath());

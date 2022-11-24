@@ -19,7 +19,6 @@ import { CharactersService } from 'src/app/core/service/characters.service';
 import * as tinycolor from 'tinycolor2';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/core/service/auth.service';
-import { Measurements } from 'src/app/modules/characters/models/measurements.model';
 import { StatisticsService } from 'src/app/core/service/statistics.service';
 import { CharacterForChange } from 'src/app/modules/characters/models/character-for-change.model';
 import { insertDeleteInfo } from 'src/app/modules/shared/functions/insert-delete.info';
@@ -101,17 +100,12 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
         }
 
         this.form = new FormGroup({});
-
         for (const key in this.character) {
             if (Object.prototype.hasOwnProperty.call(this.character, key)) {
                 const untypedChar = this.character as any;
                 const element = untypedChar[key];
 
-                if (
-                    key === 'colors' ||
-                    key === 'measurements' ||
-                    key === 'temperament'
-                ) {
+                if (key === 'colors' || key === 'temperament') {
                     for (const childKey in element) {
                         if (
                             Object.prototype.hasOwnProperty.call(
@@ -130,6 +124,22 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
                         }
                     }
                     continue;
+                }
+                if (key === 'measurements') {
+                    for (const childKey in element) {
+                        this.form.addControl(
+                            `${childKey}Height`,
+                            new FormControl(
+                                this.character.measurements![childKey].height
+                            )
+                        );
+                        this.form.addControl(
+                            `${childKey}Weight`,
+                            new FormControl(
+                                this.character.measurements![childKey].weight
+                            )
+                        );
+                    }
                 }
 
                 if (key === 'birthday' || key === 'death') {
@@ -240,6 +250,7 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
             this._charactersService.getCharacterById(this.routeId).subscribe(
                 (character) => {
                     this.character = new Character(character);
+
                     if (this.character.archived && !this.isUserLogged) {
                         this.returnToCharList();
                     }
@@ -247,10 +258,6 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
                     document.title = `${this.character.charName ?? '?'} ${
                         this.character.charSurname ?? ''
                     }`;
-
-                    this.character.measurements = character.measurements
-                        ? new Measurements(character.measurements)
-                        : null;
 
                     this.background = character.colors!.themeColor1;
                     const themeColorForChar = tinycolor(

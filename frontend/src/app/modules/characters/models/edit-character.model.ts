@@ -19,6 +19,12 @@ export interface IEditCharacter {
     measurements: IMeasurements | null;
     nationality: string;
     mbtiPersonality: string;
+
+    favouriteFood: string;
+    leastFavouriteFood: string;
+    hobby: string;
+    likes: string;
+    dislikes: string;
 }
 
 export class EditCharacter implements IEditCharacter {
@@ -36,4 +42,10 @@ export class EditCharacter implements IEditCharacter {
     measurements: IMeasurements | null = null;
     nationality: string = '';
     mbtiPersonality: string = '';
+
+    favouriteFood: string = '';
+    leastFavouriteFood: string = '';
+    hobby: string = '';
+    likes: string = '';
+    dislikes: string = '';
 }

@@ -52,5 +52,19 @@ public class EditCharacterRequest {
     @Getter
     @Setter
     private String mbtiPersonality;
-
+    @Getter
+    @Setter
+    private String favouriteFood;
+    @Getter
+    @Setter
+    private String leastFavouriteFood;
+    @Getter
+    @Setter
+    private String hobby;
+    @Getter
+    @Setter
+    private String likes;
+    @Getter
+    @Setter
+    private String dislikes;
 }

@@ -1,7 +1,7 @@
 import { Colors, IColors } from './colors.model';
 import { IImageForMain } from './image-for-main.model';
 import { ITemperament, Temperament } from './temperament.model';
-import { IMeasurements, Measurements } from './measurements.model';
+import { IMeasurementObj, IMeasurements } from './measurements.model';
 import { IQuote } from './quote.model';
 import { IStarringIn } from './starring-in.model';
 import { Gender, GenderString } from '../enums/gender.enum';
@@ -26,7 +26,7 @@ export interface ICharacter {
     colors: IColors | null;
     imagesList: IImageForMain[];
     temperament: ITemperament | null;
-    measurements: IMeasurements | null;
+    measurements: { [key: string]: IMeasurementObj } | null;
     quote: IQuote | null;
     charType: characterType;
     nationality: string;
@@ -34,10 +34,16 @@ export interface ICharacter {
     profilePic: string | null;
     mbtiPersonality: string;
 
+    favouriteFood: string;
+    leastFavouriteFood: string;
+    hobby: string;
+    likes: string;
+    dislikes: string;
+
     tags: ITag[];
 }
 
-export class Character implements ICharacter {
+export class Character implements ICharacter, IMeasurements {
     externalId: number = 0;
     charName: string = '';
     charSurname: string = '';
@@ -57,37 +63,69 @@ export class Character implements ICharacter {
     story: Story[] = [];
     colors: IColors | null = null;
     temperament: ITemperament | null = null;
-    measurements: Measurements | null = null;
+    measurements: { [key: string]: IMeasurementObj } | null = null;
     quote: IQuote | null = null;
     charType: characterType = 'BACKGROUND';
     nationality: string = '';
     starringIn: IStarringIn[] = [];
     mbtiPersonality: string = '';
 
+    favouriteFood: string = '';
+    leastFavouriteFood: string = '';
+    hobby: string = '';
+    likes: string = '';
+    dislikes: string = '';
+
     tags: ITag[] = [];
     fullName: string = '';
+
+    babyHeight: number | null = null;
+    babyWeight: number | null = null;
+    childHeight: number | null = null;
+    childWeight: number | null = null;
+    teenHeight: number | null = null;
+    teenWeight: number | null = null;
+    adultHeight: number | null = null;
+    adultWeight: number | null = null;
 
     constructor(initialValues?: ICharacter) {
         if (initialValues) {
             this.colors = new Colors();
-            this.measurements = new Measurements();
 
             Object.assign(this, initialValues);
+
+            if (initialValues.measurements) {
+                this.measurements = {};
+
+                const defineOrder = ['baby', 'child', 'teen', 'adult'];
+
+                let orderedEntries = Object.entries(
+                    initialValues.measurements
+                ).sort((curr, next) => {
+                    let result =
+                        defineOrder.indexOf(curr[0]) >
+                        defineOrder.indexOf(next[0]);
+                    return result ? 1 : -1;
+                });
+
+                for (const [key, value] of orderedEntries) {
+                    this.measurements[key] = value;
+                }
+            }
+
             if (!initialValues.temperament) {
                 this.temperament = new Temperament(0, 0, 0, 0);
             }
-            if (!initialValues.measurements) {
-                this.measurements = new Measurements();
-            }
+
             if (!initialValues.colors) {
                 this.colors = new Colors();
             }
+
             this.fullName = `${this.charName} ${this.charSurname ?? ''}`;
         } else {
             this.charName = '';
             this.colors = new Colors();
             this.temperament = new Temperament(0, 0, 0, 0);
-            this.measurements = new Measurements();
         }
     }
 }

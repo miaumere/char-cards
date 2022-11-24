@@ -8,15 +8,29 @@
         color: var(--theme-color);
     }
 }
-.weight-height-table {
+
+.measurements-form-field {
+    width: 3rem;
+    text-align: center;
+}
+
+.measurements-table {
+    border-collapse: collapse;
     width: 100%;
     background: $dark-bg-component-color;
 }
 
-.measurements-form-field {
-    width: 3rem;
-}
+td,
+th {
+    border: 1px solid whitesmoke;
 
-.measurements-input {
-    margin-left: 0.5rem;
+    text-align: center;
+
+    width: 25%;
+    padding: 8px;
+    color: var(--theme-color);
+
+    white-space: pre-wrap;
+    vertical-align: baseline;
+    font-size: 1rem;
 }
