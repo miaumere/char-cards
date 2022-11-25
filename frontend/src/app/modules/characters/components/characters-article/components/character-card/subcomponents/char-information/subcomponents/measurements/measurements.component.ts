@@ -1,9 +1,11 @@
+import { TranslateService } from '@ngx-translate/core';
 import { FormGroup } from '@angular/forms';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import {
     IMeasurementObj,
     IMeasurements,
 } from 'src/app/modules/characters/models/measurements.model';
+import { BmiValue } from './enums/bmi-value.enum';
 
 @Component({
     selector: 'app-measurements [measurements] [form] [isUserLogged]',
@@ -18,9 +20,10 @@ export class MeasurementsComponent implements OnInit {
     @Input() form: FormGroup = new FormGroup({});
     @Output() measurementsChangedEvent = new EventEmitter();
 
-    constructor() {}
+    constructor(private translateService: TranslateService) {}
 
     ngOnInit() {
+        console.log(this.measurements);
         if (!this.isUserLogged) {
             for (const key of Object.keys(this.measurements)) {
                 this.form.get(`${key}Weight`)?.disable();
@@ -31,5 +34,63 @@ export class MeasurementsComponent implements OnInit {
 
     inputChange() {
         this.measurementsChangedEvent.emit();
+    }
+
+    getColorForBmi(bmi: number): string {
+        if (bmi < 16) {
+            return '#082E79';
+        } else if (bmi >= 16.0 && bmi <= 16.99) {
+            return '#4169E1';
+        } else if (bmi >= 17.0 && bmi <= 18.49) {
+            return '#ACE1AF';
+        } else if (bmi >= 18.5 && bmi <= 24.99) {
+            return '#CDEBA7';
+        } else if (bmi >= 25.0 && bmi <= 29.99) {
+            return '#FFFF99';
+        } else if (bmi >= 30.0 && bmi <= 34.99) {
+            return '#FDE456';
+        } else if (bmi >= 35.0 && bmi <= 39.99) {
+            return '#CF2929';
+        } else if (bmi > 40) {
+            return '#b54646';
+        }
+        return 'white';
+    }
+
+    getNameForBmi(bmi: number): string {
+        if (bmi < 16) {
+            return this.translateService.instant(
+                'enum.BmiValue.' + BmiValue[BmiValue.SevereThinnes]
+            );
+        } else if (bmi >= 16.0 && bmi <= 16.99) {
+            return this.translateService.instant(
+                'enum.BmiValue.' + BmiValue[BmiValue.ModerateThinnes]
+            );
+        } else if (bmi >= 17.0 && bmi <= 18.49) {
+            return this.translateService.instant(
+                'enum.BmiValue.' + BmiValue[BmiValue.MildThinnes]
+            );
+        } else if (bmi >= 18.5 && bmi <= 24.99) {
+            return this.translateService.instant(
+                'enum.BmiValue.' + BmiValue[BmiValue.Normal]
+            );
+        } else if (bmi >= 25.0 && bmi <= 29.99) {
+            return this.translateService.instant(
+                'enum.BmiValue.' + BmiValue[BmiValue.Overweight]
+            );
+        } else if (bmi >= 30.0 && bmi <= 34.99) {
+            return this.translateService.instant(
+                'enum.BmiValue.' + BmiValue[BmiValue.MildObese]
+            );
+        } else if (bmi >= 35.0 && bmi <= 39.99) {
+            return this.translateService.instant(
+                'enum.BmiValue.' + BmiValue[BmiValue.ModerateObese]
+            );
+        } else if (bmi > 40) {
+            return this.translateService.instant(
+                'enum.BmiValue.' + BmiValue[BmiValue.SevereObese]
+            );
+        }
+        return '';
     }
 }

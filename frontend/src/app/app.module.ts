@@ -43,6 +43,11 @@ export function HttpLoaderFactory(http: HttpClient) {
 export function initApp(translate: TranslateService) {
     return () => {
         return new Promise<void>((resolve) => {
+            document.documentElement.style.setProperty(
+                '--theme-color',
+                'white'
+            );
+
             const chosenLanguage = localStorage.getItem('language');
 
             if (chosenLanguage) {

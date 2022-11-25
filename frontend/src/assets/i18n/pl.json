@@ -208,6 +208,16 @@
             "SIDE": "Postać poboczna",
             "BACKGROUND": "Postać epizodyczna",
             "PET": "Zwierzę"
+        },
+        "BmiValue": {
+            "SevereThinnes": "Wygłodzenie",
+            "ModerateThinnes": "Wychudzenie",
+            "MildThinnes": "Niedowaga",
+            "Normal": "Pożądana masa ciała",
+            "Overweight": "Nadwaga",
+            "MildObese": "Otyłość I stopnia",
+            "ModerateObese": "Otyłość II stopnia",
+            "SevereObese": "Otyłość III stopnia"
         }
     }
 }

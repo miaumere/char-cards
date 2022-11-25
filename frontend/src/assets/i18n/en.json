@@ -206,6 +206,16 @@
             "SIDE": "Side character",
             "BACKGROUND": "Background character",
             "PET": "Pet"
+        },
+        "BmiValue": {
+            "SevereThinnes": "Severe thinness",
+            "ModerateThinnes": "Moderate thinness",
+            "MildThinnes": "Mild thinness",
+            "Normal": "Normal range",
+            "Overweight": "Overweight ",
+            "MildObese": "Obese I",
+            "ModerateObese": "Obese II",
+            "SevereObese": "Obese III"
         }
     }
 }
