@@ -8,15 +8,8 @@ import * as tinycolor from 'tinycolor2';
     templateUrl: './tag.component.html',
     styleUrls: ['./tag.component.scss'],
 })
-export class TagComponent implements OnInit {
+export class TagComponent {
     @Input() tagData?: ITag = undefined;
-    textColor: string = '';
 
     constructor() {}
-
-    ngOnInit(): void {
-        this.textColor = tinycolor(this.tagData?.color).isLight()
-            ? 'black'
-            : 'white';
-    }
 }

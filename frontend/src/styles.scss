@@ -9,10 +9,8 @@ $my-app-theme: mat-dark-theme($my-app-primary, $my-app-accent);
 
 @import './global_styles/reset.scss';
 @import './global_styles/variables.scss';
-@import './global_styles/scrollbar.scss';
 @import './global_styles/table.scss';
 @import './global_styles/additional-icons-styles.scss';
-@import './global_styles/tags.scss';
 
 @import './global_styles/admin-panel.scss';
 @import '~ngx-toastr/toastr.css';

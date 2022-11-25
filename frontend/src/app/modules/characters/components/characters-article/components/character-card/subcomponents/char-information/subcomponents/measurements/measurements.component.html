@@ -2,7 +2,11 @@
     <tr>
         <ng-container *ngFor="let key of Object.keys(measurements)">
             <th
-                *ngIf="!!measurements[key].height && !!measurements[key].weight"
+                *ngIf="
+                    (!!measurements[key].height &&
+                        !!measurements[key].weight) ||
+                    isUserLogged
+                "
             >
                 {{ 'CHARACTER_CARD.' + key | translate }}
             </th>
@@ -11,7 +15,11 @@
     <tr>
         <ng-container *ngFor="let key of Object.keys(measurements)">
             <td
-                *ngIf="!!measurements[key].height && !!measurements[key].weight"
+                *ngIf="
+                    (!!measurements[key].height &&
+                        !!measurements[key].weight) ||
+                    isUserLogged
+                "
             >
                 <mat-form-field class="measurements-form-field">
                     <input
@@ -31,7 +39,11 @@
     <tr>
         <ng-container *ngFor="let key of Object.keys(measurements)">
             <td
-                *ngIf="!!measurements[key].height && !!measurements[key].weight"
+                *ngIf="
+                    (!!measurements[key].height &&
+                        !!measurements[key].weight) ||
+                    isUserLogged
+                "
             >
                 <mat-form-field class="measurements-form-field">
                     <input
@@ -50,12 +62,11 @@
     </tr>
     <tr>
         <ng-container *ngFor="let key of Object.keys(measurements)">
-            <td
-                [ngStyle]="{ color: getColorForBmi(measurements[key].bmi) }"
-                *ngIf="measurements[key].bmi > 0"
-            >
-                📈 BMI: {{ measurements[key].bmi }}
-                {{ getNameForBmi(measurements[key].bmi) }}
+            <td [ngStyle]="{ color: getColorForBmi(measurements[key].bmi) }">
+                <span *ngIf="measurements[key].bmi > 0">
+                    📈 BMI: {{ measurements[key].bmi }}
+                    {{ getNameForBmi(measurements[key].bmi) }}
+                </span>
             </td>
         </ng-container>
     </tr>
