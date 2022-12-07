@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { BaseComponent } from 'src/app/core/base.component';
 import { generateRandomColor } from 'src/app/modules/shared/functions/colors.function';
 import {
@@ -45,10 +45,10 @@ const getRandomEmoji = () => {
     styleUrls: ['./book-edit-dialog.component.scss'],
 })
 export class BookEditDialogComponent extends BaseComponent implements OnInit {
-    bookForm: FormGroup = new FormGroup({
-        name: new FormControl('', Validators.required),
-        color: new FormControl(generateRandomColor()),
-        symbol: new FormControl(getRandomEmoji()),
+    bookForm: UntypedFormGroup = new UntypedFormGroup({
+        name: new UntypedFormControl('', Validators.required),
+        color: new UntypedFormControl(generateRandomColor()),
+        symbol: new UntypedFormControl(getRandomEmoji()),
     });
 
     constructor(

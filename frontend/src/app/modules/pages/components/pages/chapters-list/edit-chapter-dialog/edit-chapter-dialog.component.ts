@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import {
     MAT_DIALOG_DATA,
     MatDialogRef,
@@ -26,12 +26,12 @@ export class EditChapterDialogComponent
     extends BaseComponent
     implements OnInit
 {
-    chapterForm: FormGroup = new FormGroup({
-        name: new FormControl('', Validators.required),
-        chapterDesc: new FormControl('', Validators.required),
-        book: new FormControl(''),
-        actionTime: new FormControl(''),
-        actionPlace: new FormControl(''),
+    chapterForm: UntypedFormGroup = new UntypedFormGroup({
+        name: new UntypedFormControl('', Validators.required),
+        chapterDesc: new UntypedFormControl('', Validators.required),
+        book: new UntypedFormControl(''),
+        actionTime: new UntypedFormControl(''),
+        actionPlace: new UntypedFormControl(''),
     });
 
     books: Book[] = [];

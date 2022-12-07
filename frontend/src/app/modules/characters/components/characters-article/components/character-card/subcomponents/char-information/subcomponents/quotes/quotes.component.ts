@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { finalize } from 'rxjs/operators';
@@ -26,9 +26,9 @@ export class QuotesComponent extends BaseComponent implements OnInit {
 
     editedQuoteId: number | null = null;
 
-    form = new FormGroup({
-        quote: new FormControl('', Validators.required),
-        context: new FormControl('', Validators.required),
+    form = new UntypedFormGroup({
+        quote: new UntypedFormControl('', Validators.required),
+        context: new UntypedFormControl('', Validators.required),
     });
 
     insertDeleteInfo = () =>

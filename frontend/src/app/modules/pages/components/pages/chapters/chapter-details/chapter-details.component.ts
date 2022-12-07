@@ -8,7 +8,7 @@ import { BaseComponent } from 'src/app/core/base.component';
 
 import * as tinycolor from 'tinycolor2';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { CharacterItem } from 'src/app/modules/characters/models/character-item.model';
 import { map } from 'rxjs/operators';
 import { insertDeleteInfo } from 'src/app/modules/shared/functions/insert-delete.info';
@@ -42,9 +42,9 @@ export class ChapterDetailsComponent extends BaseComponent implements OnInit {
 
     editedCharacterId: number = 0;
 
-    charactersInChapterForm = new FormGroup({
-        character: new FormControl('', Validators.required),
-        starringType: new FormControl('', Validators.required),
+    charactersInChapterForm = new UntypedFormGroup({
+        character: new UntypedFormControl('', Validators.required),
+        starringType: new UntypedFormControl('', Validators.required),
     });
 
     charList: CharacterItem[] = [];

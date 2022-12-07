@@ -8,7 +8,7 @@ import {
     Output,
     ViewChild,
 } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { fromEvent, Observable } from 'rxjs';
@@ -47,8 +47,8 @@ export class ImagesComponent extends BaseComponent implements OnInit {
 
     currentImageIndex = 0;
 
-    changeImageNameForm = new FormGroup({
-        name: new FormControl(''),
+    changeImageNameForm = new UntypedFormGroup({
+        name: new UntypedFormControl(''),
     });
 
     @ViewChild('fileInput', { static: true }) fileInput: ElementRef =

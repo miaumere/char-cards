@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
@@ -26,8 +26,8 @@ export class CharacterTagsComponent extends BaseComponent implements OnInit {
     insertDeleteInfo = () =>
         insertDeleteInfo(this._toastrService, this._translate);
 
-    newTagForm = new FormGroup({
-        tagToAdd: new FormControl(null),
+    newTagForm = new UntypedFormGroup({
+        tagToAdd: new UntypedFormControl(null),
     });
 
     constructor(

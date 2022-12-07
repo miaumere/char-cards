@@ -1,6 +1,6 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { BaseComponent } from 'src/app/core/base.component';
@@ -30,9 +30,9 @@ export class StoryComponent extends BaseComponent implements OnInit {
         return !this.story.find((s) => s.id === 0);
     }
 
-    form = new FormGroup({
-        title: new FormControl('', Validators.required),
-        story: new FormControl('', Validators.required),
+    form = new UntypedFormGroup({
+        title: new UntypedFormControl('', Validators.required),
+        story: new UntypedFormControl('', Validators.required),
     });
 
     insertDeleteInfo = () =>

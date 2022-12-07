@@ -1,4 +1,4 @@
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
@@ -75,7 +75,7 @@ export class CharactersService {
     private readonly _deleteCharacterURL = `${this.charControllerURL}/delete-character`;
 
     private emitChangeSource = new Subject<void>();
-    form = new FormGroup({});
+    form = new UntypedFormGroup({});
     changeEmitted$ = this.emitChangeSource.asObservable();
 
     constructor(private http: HttpClient) {}

@@ -1,4 +1,4 @@
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { Tag, ITag } from './../../../../../models/tag.model';
 import { Component, Inject, OnInit } from '@angular/core';
 import {
@@ -24,9 +24,9 @@ export interface TagDialogData {
     styleUrls: ['./tag-edit-dialog.component.scss'],
 })
 export class TagEditDialogComponent extends BaseComponent implements OnInit {
-    tagForm: FormGroup = new FormGroup({
-        name: new FormControl('', Validators.required),
-        color: new FormControl(generateRandomColor()),
+    tagForm: UntypedFormGroup = new UntypedFormGroup({
+        name: new UntypedFormControl('', Validators.required),
+        color: new UntypedFormControl(generateRandomColor()),
     });
     constructor(
         @Inject(MAT_DIALOG_DATA) public data: TagDialogData,
