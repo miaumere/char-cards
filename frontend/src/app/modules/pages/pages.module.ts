@@ -31,7 +31,6 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSliderModule } from '@angular/material/slider';
-import { MatStepperModule } from '@angular/material/stepper';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTreeModule } from '@angular/material/tree';
@@ -71,7 +70,6 @@ import { ChapterStarringCharactersComponent } from './components/pages/chapters-
         MatButtonModule,
         MatInputModule,
         MatDialogModule,
-        MatStepperModule,
         MatRadioModule,
         MatSelectModule,
         MatDatepickerModule,
