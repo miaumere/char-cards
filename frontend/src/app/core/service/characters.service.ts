@@ -1,5 +1,8 @@
+import { FormGroup } from '@angular/forms';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/internal/Observable';
+import { Subject } from 'rxjs/internal/Subject';
 import { map } from 'rxjs/operators';
 import {
     AllPreferences,
@@ -71,7 +74,15 @@ export class CharactersService {
     private readonly _deletePreferenceURL = `${this.charControllerURL}/delete-preference`;
     private readonly _deleteCharacterURL = `${this.charControllerURL}/delete-character`;
 
+    private emitChangeSource = new Subject<void>();
+    form = new FormGroup({});
+    changeEmitted$ = this.emitChangeSource.asObservable();
+
     constructor(private http: HttpClient) {}
+
+    emitChange() {
+        this.emitChangeSource.next();
+    }
 
     getCharacters() {
         return this.http.get<ICharacterItem[]>(this._getAllCharactersURL).pipe(

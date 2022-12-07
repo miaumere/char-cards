@@ -83,10 +83,19 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
                 this.isUserLogged = isUserLogged;
             })
         );
+
+        this.subscriptions$.add(
+            this._charactersService.changeEmitted$.subscribe(() => {
+                this.changed();
+            })
+        );
     }
 
     changed() {
+        this.form = this._charactersService.form;
+
         this.saveCharacter();
+
         this.getCharacterById();
     }
 
@@ -100,6 +109,7 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
         }
 
         this.form = new FormGroup({});
+        this._charactersService.form = this.form;
         for (const key in this.character) {
             if (Object.prototype.hasOwnProperty.call(this.character, key)) {
                 const untypedChar = this.character as any;
@@ -345,5 +355,12 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
                 }
             )
         );
+    }
+
+    onOutletLoaded(component: any) {
+        component.character = this.character;
+        component.preferences = this.preferences;
+        component.isUserLogged = this.isUserLogged;
+        component.isNewChar = this.isNewChar;
     }
 }

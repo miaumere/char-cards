@@ -51,6 +51,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { ColorsComponent } from './components/characters-article/components/character-card/subcomponents/character-additional-info/subcomponents/colors/colors.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { CharacterTagsComponent } from './components/characters-article/components/character-card/subcomponents/character-tags/character-tags.component';
+import { CharacterFashionComponent } from './components/characters-article/components/character-card/subcomponents/character-fashion/character-fashion.component';
 
 @NgModule({
     declarations: [
@@ -80,6 +81,7 @@ import { CharacterTagsComponent } from './components/characters-article/componen
         PreferencesLegendComponent,
         ColorsComponent,
         CharacterTagsComponent,
+        CharacterFashionComponent,
     ],
     imports: [
         CommonModule,

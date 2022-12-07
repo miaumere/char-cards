@@ -1,3 +1,4 @@
+import { CharactersService } from 'src/app/core/service/characters.service';
 import { TranslateService } from '@ngx-translate/core';
 import { FormGroup } from '@angular/forms';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
@@ -8,7 +9,7 @@ import {
 import { BmiValue } from './enums/bmi-value.enum';
 
 @Component({
-    selector: 'app-measurements [measurements] [form] [isUserLogged]',
+    selector: 'app-measurements [measurements]  [isUserLogged]',
     templateUrl: './measurements.component.html',
     styleUrls: ['./measurements.component.scss'],
 })
@@ -17,22 +18,49 @@ export class MeasurementsComponent implements OnInit {
 
     @Input() isUserLogged: boolean = false;
     @Input() measurements: { [key: string]: IMeasurementObj } = {};
-    @Input() form: FormGroup = new FormGroup({});
+    form = this.charactersService.form;
+
     @Output() measurementsChangedEvent = new EventEmitter();
 
-    constructor(private translateService: TranslateService) {}
+    constructor(
+        private translateService: TranslateService,
+        private charactersService: CharactersService
+    ) {}
 
     ngOnInit() {
-        console.log(this.measurements);
         if (!this.isUserLogged) {
             for (const key of Object.keys(this.measurements)) {
-                this.form.get(`${key}Weight`)?.disable();
                 this.form.get(`${key}Height`)?.disable();
+                this.form.get(`${key}Weight`)?.disable();
             }
+        } else if (this.isUserLogged && !this.measurements) {
+            this.measurements = {
+                baby: {
+                    height: 0,
+                    weight: 0,
+                    bmi: 0,
+                },
+                child: {
+                    height: 0,
+                    weight: 0,
+                    bmi: 0,
+                },
+                teen: {
+                    height: 0,
+                    weight: 0,
+                    bmi: 0,
+                },
+                adult: {
+                    height: 0,
+                    weight: 0,
+                    bmi: 0,
+                },
+            };
         }
     }
 
     inputChange() {
+        this.charactersService.form = this.form;
         this.measurementsChangedEvent.emit();
     }
 

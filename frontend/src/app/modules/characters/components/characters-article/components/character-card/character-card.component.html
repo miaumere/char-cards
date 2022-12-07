@@ -64,13 +64,5 @@
         ></app-character-tags>
     </div>
 
-    <app-char-information
-        [character]="character"
-        [preferences]="preferences"
-        [isUserLogged]="isUserLogged"
-        (infoHasChangedEvent)="changed()"
-        [form]="form"
-        [ngClass]="{ disabled: isNewChar }"
-    >
-    </app-char-information>
+    <router-outlet (activate)="onOutletLoaded($event)"> </router-outlet>
 </section>
