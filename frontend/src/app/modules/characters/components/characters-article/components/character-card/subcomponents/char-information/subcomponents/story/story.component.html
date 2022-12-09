@@ -1,4 +1,4 @@
-<div class="information__story">
+<!-- <div class="information__story">
     <div
         *ngIf="story"
         cdkDropList
@@ -114,4 +114,12 @@
         (click)="addNewQuote()"
         >add</mat-icon
     >
-</div>
+</div> -->
+
+<ckeditor
+    type="inline"
+    [(ngModel)]="model.editorData"
+    [config]="config"
+></ckeditor>
+
+<button (click)="xxx()">ddd</button>

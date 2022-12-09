@@ -1,6 +1,10 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
+import {
+    UntypedFormGroup,
+    UntypedFormControl,
+    Validators,
+} from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { BaseComponent } from 'src/app/core/base.component';
@@ -35,6 +39,48 @@ export class StoryComponent extends BaseComponent implements OnInit {
         story: new UntypedFormControl('', Validators.required),
     });
 
+    model = {
+        editorData: '',
+    };
+
+    config = {
+        // toolbar: [['Bold']],
+        toolbarGroups: [
+            {
+                name: 'basicstyles',
+                groups: ['basicstyles'],
+            },
+            {
+                name: 'links',
+                groups: ['links'],
+            },
+            {
+                name: 'paragraph',
+                groups: ['list', 'blocks'],
+            },
+            {
+                name: 'document',
+                groups: ['mode'],
+            },
+            {
+                name: 'insert',
+                groups: ['insert'],
+            },
+            {
+                name: 'styles',
+                groups: ['styles'],
+            },
+            {
+                name: 'about',
+                groups: ['about'],
+            },
+        ],
+        uiColor:
+            document.documentElement.style.getPropertyValue('--theme-color'),
+        removeButtons:
+            'Underline,Strike,Subscript,Superscript,Anchor,Styles,Specialchar,PasteFromWord',
+    };
+
     insertDeleteInfo = () =>
         insertDeleteInfo(this._toastrService, this._translate);
 
@@ -47,6 +93,10 @@ export class StoryComponent extends BaseComponent implements OnInit {
     }
 
     ngOnInit(): void {}
+
+    xxx() {
+        console.log('model: ', this.model);
+    }
 
     setStoryToEdit(story: Story) {
         this.editedStoryId = story.id;

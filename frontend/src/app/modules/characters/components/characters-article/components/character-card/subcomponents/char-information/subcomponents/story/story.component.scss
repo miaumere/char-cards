@@ -61,3 +61,8 @@
     @include font-special;
     font-size: 1.8rem;
 }
+
+::ng-deep .cke_editable {
+    border: 1px dashed var(--theme-color);
+    padding: 0.5rem;
+}
