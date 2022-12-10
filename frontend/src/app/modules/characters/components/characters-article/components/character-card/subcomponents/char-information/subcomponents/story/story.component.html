@@ -117,9 +117,14 @@
 </div> -->
 
 <ckeditor
-    type="inline"
+    [editor]="Editor"
     [(ngModel)]="model.editorData"
+    data="<p>Hello, world!</p>"
     [config]="config"
 ></ckeditor>
 
 <button (click)="xxx()">ddd</button>
+
+xxxxxxxxxxxxxxxxxxxxxxx
+
+<div [innerHTML]="html" class="character-story"></div>

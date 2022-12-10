@@ -52,7 +52,7 @@ import { ColorsComponent } from './components/characters-article/components/char
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { CharacterTagsComponent } from './components/characters-article/components/character-card/subcomponents/character-tags/character-tags.component';
 import { CharacterFashionComponent } from './components/characters-article/components/character-card/subcomponents/character-fashion/character-fashion.component';
-import { CKEditorModule } from 'ckeditor4-angular';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
 @NgModule({
     declarations: [

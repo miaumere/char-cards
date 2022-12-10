@@ -1,9 +1,20 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+    Component,
+    ElementRef,
+    EventEmitter,
+    Input,
+    OnInit,
+    Output,
+    SecurityContext,
+    ViewChild,
+    ViewEncapsulation,
+} from '@angular/core';
 import {
     UntypedFormGroup,
     UntypedFormControl,
     Validators,
+    FormControl,
 } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
@@ -15,6 +26,10 @@ import {
     IStory,
 } from 'src/app/modules/characters/models/character-story/story.model';
 import { insertDeleteInfo } from 'src/app/modules/shared/functions/insert-delete.info';
+
+import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import Heading from '@ckeditor/ckeditor5-heading/src/heading.js';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
     selector: 'app-story [story][charId] [isUserLogged]',
@@ -35,50 +50,26 @@ export class StoryComponent extends BaseComponent implements OnInit {
     }
 
     form = new UntypedFormGroup({
-        title: new UntypedFormControl('', Validators.required),
+        title: new FormControl('', Validators.required),
         story: new UntypedFormControl('', Validators.required),
     });
 
-    model = {
-        editorData: '',
+    public Editor = ClassicEditor;
+    html: SafeHtml | null = null;
+
+    public config = {
+        fontFamily: {
+            options: [
+                'default',
+                'Ubuntu, Arial, sans-serif',
+                'Ubuntu Mono, Courier New, Courier, monospace',
+            ],
+        },
     };
 
-    config = {
-        // toolbar: [['Bold']],
-        toolbarGroups: [
-            {
-                name: 'basicstyles',
-                groups: ['basicstyles'],
-            },
-            {
-                name: 'links',
-                groups: ['links'],
-            },
-            {
-                name: 'paragraph',
-                groups: ['list', 'blocks'],
-            },
-            {
-                name: 'document',
-                groups: ['mode'],
-            },
-            {
-                name: 'insert',
-                groups: ['insert'],
-            },
-            {
-                name: 'styles',
-                groups: ['styles'],
-            },
-            {
-                name: 'about',
-                groups: ['about'],
-            },
-        ],
-        uiColor:
-            document.documentElement.style.getPropertyValue('--theme-color'),
-        removeButtons:
-            'Underline,Strike,Subscript,Superscript,Anchor,Styles,Specialchar,PasteFromWord',
+    public model = {
+        editorData: '<p>Hello, world!</p>',
+        // plugins: [ Font, ... ],
     };
 
     insertDeleteInfo = () =>
@@ -87,15 +78,23 @@ export class StoryComponent extends BaseComponent implements OnInit {
     constructor(
         private _toastrService: ToastrService,
         private _translate: TranslateService,
-        private _charactersService: CharactersService
+        private _charactersService: CharactersService,
+        private _sanitizer: DomSanitizer
     ) {
         super();
+        document.documentElement.style.setProperty(
+            '--ck-color-base-border',
+            document.documentElement.style.getPropertyValue('--theme-color')
+        );
     }
 
     ngOnInit(): void {}
 
     xxx() {
         console.log('model: ', this.model);
+        this.html = this._sanitizer.bypassSecurityTrustHtml(
+            this.model.editorData
+        );
     }
 
     setStoryToEdit(story: Story) {
