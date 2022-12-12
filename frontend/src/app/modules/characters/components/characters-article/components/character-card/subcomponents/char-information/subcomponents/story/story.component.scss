@@ -1,8 +1,16 @@
 @import 'variables';
 
 .story-containter {
-    background: rebeccapurple;
     display: flex;
+
+    &__button-container {
+        margin-left: 0.5rem;
+    }
+}
+
+.save-button {
+    font-size: 1rem;
+    height: 1rem !important;
 }
 
 ::ng-deep .ck {

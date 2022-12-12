@@ -184,7 +184,7 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
     }
 
     saveCharacter() {
-        console.log('save char');
+        console.log('save char', this.form);
         if (!this.form.valid) {
             return;
         }

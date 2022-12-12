@@ -46,11 +46,6 @@ export class StoryComponent extends BaseComponent implements OnInit {
 
     wereAnyChangesMade = false;
 
-    form = new FormGroup({
-        title: new FormControl('', Validators.required),
-        story: new FormControl('', Validators.required),
-    });
-
     public Editor = InlineEditor;
 
     public model = {
@@ -85,6 +80,13 @@ export class StoryComponent extends BaseComponent implements OnInit {
 
     saveStory() {
         this.storyChangedEvent.emit();
+    }
+
+    onEditorChanges() {
+        this.wereAnyChangesMade = true;
+        this._charactersService.form
+            .get('story')
+            ?.setValue(this.model.editorData);
     }
 }
 

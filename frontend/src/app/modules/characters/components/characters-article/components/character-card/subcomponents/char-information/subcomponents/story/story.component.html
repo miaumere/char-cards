@@ -120,13 +120,17 @@
         [editor]="Editor"
         [(ngModel)]="model.editorData"
         [data]="story"
-        (change)="wereAnyChangesMade = true"
+        (change)="onEditorChanges()"
         [disabled]="!isUserLogged"
         (ready)="onReady($event)"
     ></ckeditor>
-    <div class="new-quote-add" style="width: 2.5rem" *appIfLoggedUser>
+    <div
+        class="story-containter__button-container"
+        style="width: 2.5rem"
+        *appIfLoggedUser
+    >
         <mat-icon
-            class="option-icon option-icon--save"
+            class="option-icon option-icon--save save-button"
             (click)="saveStory()"
             *appIfLoggedUser="wereAnyChangesMade"
             >save</mat-icon
