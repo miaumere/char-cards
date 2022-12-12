@@ -12,7 +12,11 @@ import {
 } from '@angular/core';
 import { BaseComponent } from 'src/app/core/base.component';
 import { Character } from 'src/app/modules/characters/models/character.model';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import {
+    UntypedFormControl,
+    UntypedFormGroup,
+    Validators,
+} from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { CharactersService } from 'src/app/core/service/characters.service';
@@ -180,6 +184,7 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
     }
 
     saveCharacter() {
+        console.log('save char');
         if (!this.form.valid) {
             return;
         }

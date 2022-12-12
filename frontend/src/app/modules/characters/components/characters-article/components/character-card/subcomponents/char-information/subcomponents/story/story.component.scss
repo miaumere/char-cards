@@ -1,65 +1,8 @@
 @import 'variables';
 
-.story {
-    margin-right: 2rem;
-
-    word-break: break-word;
-    line-height: 1.5;
-
-    &__title {
-        font-weight: bold;
-        font-size: 0.9rem;
-        color: lightslategray;
-
-        display: flex;
-        justify-content: space-between;
-        align-items: baseline;
-
-        @include font-special;
-        color: var(--theme-color);
-    }
-
-    &__story-block {
-        @include font-regular;
-
-        word-break: break-word;
-        white-space: pre-line;
-        font-size: initial;
-
-        padding: 1rem 2rem 1rem 0rem;
-    }
-}
-
-.no-story-container {
-    margin: 1rem;
-}
-
-.story-container {
+.story-containter {
+    background: rebeccapurple;
     display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
-}
-
-.story-textarea {
-    border: 1px solid white;
-    border-radius: 3px;
-    padding: 0.5rem;
-    margin-top: -1.25rem;
-
-    background: $dark-bg-component-color;
-    &--invalid {
-        border-color: #f44336;
-    }
-}
-
-.title-input {
-    background: $dark-bg-component-color;
-    margin-top: -1.5rem;
-}
-
-.title {
-    @include font-special;
-    font-size: 1.8rem;
 }
 
 ::ng-deep .ck {
@@ -69,10 +12,7 @@
 
 ::ng-deep .ck h2,
 ::ng-deep .ck h3,
-::ng-deep .ck h4,
-.character-story h2,
-.character-story h3,
-.character-story h4 {
+::ng-deep .ck h4 {
     color: var(--theme-color);
     font-family: 'GrapeNuts' !important;
 }
@@ -80,6 +20,13 @@
 ::ng-deep .ck h2 {
     font-size: 1.8rem;
 }
+::ng-deep .ck h3 {
+    font-size: 1.5rem;
+}
+::ng-deep .ck h4 {
+    font-size: 1.2rem;
+}
+
 ::ng-deep .ck strong {
     font-family: inherit;
 }
@@ -87,13 +34,6 @@
     font-family: inherit;
 }
 
-::ng-deep .ck h3,
-.character-story h3 {
-    font-size: 1.5rem;
-}
-::ng-deep .ck h4 {
-    font-size: 1.2rem;
-}
 ::ng-deep .ck a {
     text-decoration: underline;
 }
@@ -105,15 +45,4 @@ ol {
 
 ::ng-deep .ck ul {
     list-style-type: circle !important;
-    color: red;
-}
-
-.character-story ul {
-    list-style-type: circle;
-    color: red;
-}
-
-.character-story h2 {
-    color: var(--theme-color);
-    font-family: 'GrapeNuts' !important;
 }

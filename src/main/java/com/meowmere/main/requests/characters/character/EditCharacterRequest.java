@@ -6,6 +6,8 @@ import com.meowmere.main.dto.character.temperament.CharacterTemperamentDTO;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.Column;
+
 public class EditCharacterRequest {
     @Getter
     @Setter
@@ -67,4 +69,7 @@ public class EditCharacterRequest {
     @Getter
     @Setter
     private String dislikes;
+    @Getter
+    @Setter
+    private String story;
 }

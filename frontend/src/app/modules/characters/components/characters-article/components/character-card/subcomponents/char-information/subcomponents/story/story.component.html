@@ -115,16 +115,21 @@
         >add</mat-icon
     >
 </div> -->
-
-<ckeditor
-    [editor]="Editor"
-    [(ngModel)]="model.editorData"
-    data="<p>Hello, world!</p>"
-    [config]="config"
-></ckeditor>
-
-<button (click)="xxx()">ddd</button>
-
-xxxxxxxxxxxxxxxxxxxxxxx
-
-<div [innerHTML]="html" class="character-story"></div>
+<div class="story-containter">
+    <ckeditor
+        [editor]="Editor"
+        [(ngModel)]="model.editorData"
+        [data]="story"
+        (change)="wereAnyChangesMade = true"
+        [disabled]="!isUserLogged"
+        (ready)="onReady($event)"
+    ></ckeditor>
+    <div class="new-quote-add" style="width: 2.5rem" *appIfLoggedUser>
+        <mat-icon
+            class="option-icon option-icon--save"
+            (click)="saveStory()"
+            *appIfLoggedUser="wereAnyChangesMade"
+            >save</mat-icon
+        >
+    </div>
+</div>

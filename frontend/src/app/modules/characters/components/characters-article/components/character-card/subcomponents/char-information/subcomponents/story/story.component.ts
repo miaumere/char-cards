@@ -15,6 +15,7 @@ import {
     UntypedFormControl,
     Validators,
     FormControl,
+    FormGroup,
 } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
@@ -27,7 +28,7 @@ import {
 } from 'src/app/modules/characters/models/character-story/story.model';
 import { insertDeleteInfo } from 'src/app/modules/shared/functions/insert-delete.info';
 
-import * as ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import * as InlineEditor from '@ckeditor/ckeditor5-build-inline';
 import Heading from '@ckeditor/ckeditor5-heading/src/heading.js';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
@@ -37,39 +38,23 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
     styleUrls: ['./story.component.scss'],
 })
 export class StoryComponent extends BaseComponent implements OnInit {
-    @Input() story: Story[] = [];
+    @Input() story: string = '';
     @Input() isUserLogged: boolean = false;
     @Input() charId: number = 0;
 
     @Output() storyChangedEvent = new EventEmitter<true>();
 
-    editedStoryId: number = 0;
+    wereAnyChangesMade = false;
 
-    get canAddMoreStories() {
-        return !this.story.find((s) => s.id === 0);
-    }
-
-    form = new UntypedFormGroup({
+    form = new FormGroup({
         title: new FormControl('', Validators.required),
-        story: new UntypedFormControl('', Validators.required),
+        story: new FormControl('', Validators.required),
     });
 
-    public Editor = ClassicEditor;
-    html: SafeHtml | null = null;
-
-    public config = {
-        fontFamily: {
-            options: [
-                'default',
-                'Ubuntu, Arial, sans-serif',
-                'Ubuntu Mono, Courier New, Courier, monospace',
-            ],
-        },
-    };
+    public Editor = InlineEditor;
 
     public model = {
-        editorData: '<p>Hello, world!</p>',
-        // plugins: [ Font, ... ],
+        editorData: '',
     };
 
     insertDeleteInfo = () =>
@@ -78,8 +63,7 @@ export class StoryComponent extends BaseComponent implements OnInit {
     constructor(
         private _toastrService: ToastrService,
         private _translate: TranslateService,
-        private _charactersService: CharactersService,
-        private _sanitizer: DomSanitizer
+        private _charactersService: CharactersService
     ) {
         super();
         document.documentElement.style.setProperty(
@@ -88,115 +72,39 @@ export class StoryComponent extends BaseComponent implements OnInit {
         );
     }
 
-    ngOnInit(): void {}
-
-    xxx() {
-        console.log('model: ', this.model);
-        this.html = this._sanitizer.bypassSecurityTrustHtml(
-            this.model.editorData
-        );
+    ngOnInit(): void {
+        this.model.editorData = this.story;
     }
 
-    setStoryToEdit(story: Story) {
-        this.editedStoryId = story.id;
-        this.form.get('title')?.setValue(story.title);
-        this.form.get('story')?.setValue(story.story);
+    onReady(eventData: { plugins: any }) {
+        eventData.plugins.get('FileRepository').createUploadAdapter =
+            function (loader: { file: Promise<Blob> }) {
+                return new UploadAdapter(loader);
+            };
     }
 
-    cancelEditMode() {
-        this.editedStoryId = 0;
+    saveStory() {
+        this.storyChangedEvent.emit();
+    }
+}
+
+class UploadAdapter {
+    loader: { file: Promise<Blob> };
+    constructor(loader: { file: Promise<Blob> }) {
+        this.loader = loader;
     }
 
-    deleteStory(storyId: number) {
-        if (storyId === 0) {
-            this.story = this.story.filter((s) => s.id !== 0);
-            return;
-        }
-        this.subscriptions$.add(
-            this._charactersService.deleteStory(storyId).subscribe(
-                (_) => {
-                    this._toastrService.success(
-                        this._translate.instant('TOASTR_MESSAGE.SAVE_SUCCESS')
-                    );
-                    this.storyChangedEvent.emit();
-                },
-                (err) => {
-                    this._toastrService.error(
-                        this._translate.instant('TOASTR_MESSAGE.ERROR')
-                    );
-                }
-            )
+    upload() {
+        return this.loader.file.then(
+            (file: Blob) =>
+                new Promise((resolve) => {
+                    const myReader = new FileReader();
+                    myReader.onloadend = () => {
+                        resolve({ default: myReader.result });
+                    };
+
+                    myReader.readAsDataURL(file);
+                })
         );
-    }
-
-    drop(event: CdkDragDrop<string[]>) {
-        moveItemInArray(
-            event.container.data,
-            event.previousIndex,
-            event.currentIndex
-        );
-
-        const ids = this.story.map((x) => x.id);
-
-        this.subscriptions$.add(
-            this._charactersService
-                .putStoriesIndexes(ids, this.charId)
-                .subscribe(
-                    (_) => {
-                        this.storyChangedEvent.emit(true);
-                    },
-                    (err) => {
-                        this._toastrService.error(
-                            this._translate.instant('TOASTR_MESSAGE.ERROR')
-                        );
-                    }
-                )
-        );
-    }
-
-    upsertStory() {
-        if (!this.form.valid) {
-            this.form.markAllAsTouched();
-            return;
-        }
-
-        const objToSend = new StoryRequest(
-            this.form.value,
-            this.charId,
-            this.editedStoryId
-        );
-
-        this.subscriptions$.add(
-            this._charactersService
-                .upsertStoryForCharacter(objToSend)
-                .subscribe(
-                    (_) => {
-                        this._toastrService.success(
-                            this._translate.instant(
-                                'TOASTR_MESSAGE.SAVE_SUCCESS'
-                            )
-                        );
-                        this.storyChangedEvent.emit();
-                        this.form.reset();
-                    },
-                    (err) => {
-                        this._toastrService.error(
-                            this._translate.instant('TOASTR_MESSAGE.ERROR')
-                        );
-                    }
-                )
-        );
-    }
-
-    addNewQuote() {
-        const newStory: IStory = {
-            id: 0,
-            title: '',
-            story: '',
-        };
-        this.story.push(newStory);
-        this.editedStoryId = 0;
-        this.form.get('title')?.setValue('');
-        this.form.get('story')?.setValue('');
     }
 }

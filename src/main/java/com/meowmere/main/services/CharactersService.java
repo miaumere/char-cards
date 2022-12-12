@@ -127,7 +127,7 @@ public class CharactersService {
         }
 
         double bmi = (float) weight / (float) Math.pow((float) height / 100, 2);
-        
+
         return (double) Math.ceil(bmi * 100) / 100;
     }
 
@@ -153,7 +153,7 @@ public class CharactersService {
                 stories.add(modelMapper.map(story, CharacterStoryDTO.class));
             }
         }
-        dto.setStory(stories);
+        dto.setStory(oneCharacter.getStory());
 
         val colorsForCharacter = colorsRepository.getColorsForCharacter(externalId);
         if (colorsForCharacter != null) {
