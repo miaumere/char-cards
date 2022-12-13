@@ -40,16 +40,13 @@
 }
 ::ng-deep .ck * {
     font-family: inherit;
+    font-size: 1rem;
+    line-height: 1.5 !important;
 }
 
 ::ng-deep .ck a {
     text-decoration: underline;
     color: rebeccapurple;
-}
-
-::ng-deep .ck p {
-    line-height: 1.5 !important;
-    font-size: 1rem;
 }
 
 ::ng-deep .ck ol,
@@ -58,5 +55,9 @@ ol {
 }
 
 ::ng-deep .ck ul {
-    list-style-type: circle !important;
+    & li:before {
+        content: '\2765  ';
+
+        color: var(--theme-color);
+    }
 }

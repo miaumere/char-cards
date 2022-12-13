@@ -14,8 +14,6 @@ import { ITag } from 'src/app/modules/tags/models/tag.model';
     styleUrls: ['./characters-list.component.scss'],
 })
 export class CharactersListComponent extends BaseComponent implements OnInit {
-    readonly rdestUrl = '../../../../../assets/svg/rdest.svg';
-
     charList: CharacterItem[] = [];
     filteredChars: CharacterItem[] = [];
 
