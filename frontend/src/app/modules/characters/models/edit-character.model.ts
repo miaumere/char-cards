@@ -25,6 +25,7 @@ export interface IEditCharacter {
     hobby: string;
     likes: string;
     dislikes: string;
+    story: string;
 }
 
 export class EditCharacter implements IEditCharacter {
@@ -48,4 +49,6 @@ export class EditCharacter implements IEditCharacter {
     hobby: string = '';
     likes: string = '';
     dislikes: string = '';
+
+    story: string = '';
 }

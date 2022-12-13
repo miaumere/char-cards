@@ -5,7 +5,6 @@ import { IMeasurementObj, IMeasurements } from './measurements.model';
 import { IQuote } from './quote.model';
 import { IStarringIn } from './starring-in.model';
 import { Gender, GenderString } from '../enums/gender.enum';
-import { Story } from './character-story/story.model';
 import { ITag, Tag } from '../../tags/models/tag.model';
 
 type characterType = 'MAIN' | 'SIDE' | 'BACKGROUND' | null;
@@ -22,7 +21,6 @@ export interface ICharacter {
     death: number;
     deathReason: string;
     occupation: string;
-    story: Story[];
     colors: IColors | null;
     imagesList: IImageForMain[];
     temperament: ITemperament | null;
@@ -41,6 +39,8 @@ export interface ICharacter {
     dislikes: string;
 
     tags: ITag[];
+
+    story: string;
 }
 
 export class Character implements ICharacter, IMeasurements {
@@ -60,7 +60,6 @@ export class Character implements ICharacter, IMeasurements {
     deathReason: string = '';
     occupation: string = '';
     profession: string = '';
-    story: Story[] = [];
     colors: IColors | null = null;
     temperament: ITemperament | null = null;
     measurements: { [key: string]: IMeasurementObj } | null = null;
@@ -87,6 +86,8 @@ export class Character implements ICharacter, IMeasurements {
     teenWeight: number | null = null;
     adultHeight: number | null = null;
     adultWeight: number | null = null;
+
+    story: string = '';
 
     constructor(initialValues?: ICharacter) {
         if (initialValues) {

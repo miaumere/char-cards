@@ -5,7 +5,6 @@ import com.meowmere.main.dto.character.image.ImageDTO;
 import com.meowmere.main.dto.character.measurements.MeasurementObj;
 import com.meowmere.main.dto.character.quote.CharacterQuoteDTO;
 import com.meowmere.main.dto.character.starring.BookForCharacter;
-import com.meowmere.main.dto.character.story.CharacterStoryDTO;
 import com.meowmere.main.dto.character.tags.TagDTO;
 import com.meowmere.main.dto.character.temperament.CharacterTemperamentDTO;
 import lombok.Getter;

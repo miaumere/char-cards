@@ -5,7 +5,6 @@ import com.meowmere.main.dto.character.character.CharacterDTO;
 import com.meowmere.main.dto.character.character.CharactersMenuDTO;
 import com.meowmere.main.dto.character.colors.CharacterColorDTO;
 import com.meowmere.main.dto.character.image.ImageDTO;
-import com.meowmere.main.dto.character.measurements.CharacterMeasurementsDTO;
 import com.meowmere.main.dto.character.measurements.MeasurementObj;
 import com.meowmere.main.dto.character.preference.AllPreferencesDTO;
 import com.meowmere.main.dto.character.preference.HistoricPreferenceDTO;
@@ -13,15 +12,12 @@ import com.meowmere.main.dto.character.quote.CharacterQuoteDTO;
 import com.meowmere.main.dto.character.relation.*;
 import com.meowmere.main.dto.character.starring.BookForCharacter;
 import com.meowmere.main.dto.character.starring.ChapterForCharacter;
-import com.meowmere.main.dto.character.story.CharacterStoryDTO;
 import com.meowmere.main.dto.character.tags.TagDTO;
 import com.meowmere.main.dto.character.temperament.CharacterTemperamentDTO;
 import com.meowmere.main.entities.characters.Character;
 import com.meowmere.main.entities.characters.*;
 import com.meowmere.main.entities.characters.Image;
-import com.meowmere.main.entities.story.Book;
 import com.meowmere.main.entities.story.Chapter;
-import com.meowmere.main.entities.story.StarringCharacters;
 import com.meowmere.main.enums.*;
 import com.meowmere.main.repositories.character.*;
 import com.meowmere.main.repositories.story.BookRepository;
@@ -32,7 +28,6 @@ import com.meowmere.main.requests.characters.character.EditCharacterRequest;
 import com.meowmere.main.requests.characters.image.ImageRenameRequest;
 import com.meowmere.main.requests.characters.preference.PreferenceRequest;
 import com.meowmere.main.requests.characters.quotes.UpsertQuoteRequest;
-import com.meowmere.main.requests.characters.stories.StoryRequest;
 import com.meowmere.main.utils.UtilsShared;
 import lombok.var;
 import org.apache.commons.io.FilenameUtils;
@@ -53,7 +48,6 @@ import javax.servlet.http.HttpServletRequest;
 import static java.util.Comparator.comparing;
 
 import java.io.IOException;
-import java.text.DecimalFormat;
 import java.util.*;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -76,8 +70,7 @@ public class CharactersService {
     public ImageRepository imageRepository;
     @Autowired
     public RelationRepository relationsRepository;
-    @Autowired
-    public CharacterStoryRepository characterStoryRepository;
+
     @Autowired
     public PreferenceRepository preferenceRepository;
     @Autowired
@@ -144,14 +137,6 @@ public class CharactersService {
         dto.setCharType(oneCharacter.getCharType().name());
         if (oneCharacter.getGender() != null) {
             dto.setGender(oneCharacter.getGender().name());
-        }
-
-        val storiesForCharacter = characterStoryRepository.getStoriesForCharacter(externalId);
-        ArrayList<CharacterStoryDTO> stories = new ArrayList<>();
-        if (storiesForCharacter != null && storiesForCharacter.size() > 0) {
-            for (CharacterStory story : storiesForCharacter) {
-                stories.add(modelMapper.map(story, CharacterStoryDTO.class));
-            }
         }
         dto.setStory(oneCharacter.getStory());
 
@@ -345,17 +330,13 @@ public class CharactersService {
 
         val quotes = quoteRepository.getAllQuotesByCharacterId(id);
         quotes.forEach(quote -> quoteRepository.delete(quote));
-
-
+        
         val images = imageRepository.getImagesForCharacter(id);
         images.forEach(image -> imageRepository.delete(image));
         Image profilePicForCharacter = imageRepository.getProfilePicForCharacter(id);
         if (profilePicForCharacter != null) {
             imageRepository.delete(profilePicForCharacter);
         }
-
-        val storiesForCharacter = characterStoryRepository.getStoriesForCharacter(id);
-        storiesForCharacter.forEach(characterStory -> characterStoryRepository.delete(characterStory));
 
         val preferences = preferenceRepository.getAllPreferencesForCharacter(id);
         preferences.forEach(preference -> preferenceRepository.delete(preference));
@@ -766,90 +747,6 @@ public class CharactersService {
 
 
         return new ResponseEntity(HttpStatus.OK);
-    }
-
-    //#endregion
-
-    //#region Stories
-    public ResponseEntity getStoriesForCharacter(Long id) {
-        ModelMapper modelMapper = new ModelMapper();
-        List<CharacterStory> storiesForCharacter = characterStoryRepository.getStoriesForCharacter(id);
-        ArrayList<CharacterStoryDTO> stories = new ArrayList<>();
-        if (storiesForCharacter != null && storiesForCharacter.size() > 0) {
-            for (CharacterStory story : storiesForCharacter) {
-                stories.add(modelMapper.map(story, CharacterStoryDTO.class));
-            }
-        }
-
-        return new ResponseEntity(stories, HttpStatus.OK);
-    }
-
-    public ResponseEntity deleteStory(Long storyId) {
-        CharacterStory characterStory = characterStoryRepository.getOne(storyId);
-        if (characterStory == null) {
-            return new ResponseEntity("Nie ma historii o takim id lub została wcześniej usunięta.", HttpStatus.NOT_FOUND);
-        }
-        characterStoryRepository.delete(characterStory);
-        return new ResponseEntity(HttpStatus.OK);
-    }
-
-    public ResponseEntity editStoryIndexes(ArrayList<Long> storyIds, Long charId) {
-        List<CharacterStory> characterStories = characterStoryRepository.getStoriesForCharacter(charId);
-        HashMap<Long, Integer> storyFromDatabase = new HashMap<>();
-
-        for (int i = 0; i < characterStories.size(); i++) {
-            CharacterStory characterStory = characterStories.get(i);
-            storyFromDatabase.put(characterStory.getId(), characterStory.getIndexOnList());
-        }
-
-        storyFromDatabase.forEach((key, value) -> {
-                    CharacterStory characterStory = characterStoryRepository.getOne(key);
-                    characterStory.setIndexOnList(99999 + value);
-                    characterStoryRepository.saveAndFlush(characterStory);
-                }
-        );
-
-        for (int i = 0; i < storyIds.size(); i++) {
-            CharacterStory characterStory = characterStoryRepository.getOne(storyIds.get(i));
-            characterStory.setIndexOnList(i);
-            characterStoryRepository.saveAndFlush(characterStory);
-
-        }
-
-
-        return new ResponseEntity(HttpStatus.OK);
-    }
-
-    public ResponseEntity upsertStoryForCharacter(StoryRequest request) {
-        Character character = characterRepository.getOne(request.getCharacterId());
-        if (character == null) {
-            return new ResponseEntity("Nie można utworzyć historii dla nieistniejącej postaci.", HttpStatus.NOT_FOUND);
-        }
-
-        if (request.getStoryId() == 0) {
-            CharacterStory characterStory = new CharacterStory();
-            characterStory.setCharacter(character);
-            characterStory.setStoryDesc(request.getStory());
-            characterStory.setTitle(request.getTitle());
-
-            List<CharacterStory> characterStories = characterStoryRepository.getStoriesForCharacter(character.getExternalId());
-            characterStory.setIndexOnList(characterStories.size() + 1);
-
-            characterStoryRepository.saveAndFlush(characterStory);
-        } else {
-            CharacterStory characterStory = characterStoryRepository.getOne(request.getStoryId());
-            if (characterStory == null) {
-                return new ResponseEntity("Nie można edytować historii, która nie istnieje.", HttpStatus.NOT_FOUND);
-            }
-            characterStory.setTitle(request.getTitle());
-            characterStory.setStoryDesc(request.getStory());
-            characterStoryRepository.saveAndFlush(characterStory);
-
-            return new ResponseEntity(HttpStatus.OK);
-        }
-
-
-        return new ResponseEntity(HttpStatus.CREATED);
     }
 
     //#endregion

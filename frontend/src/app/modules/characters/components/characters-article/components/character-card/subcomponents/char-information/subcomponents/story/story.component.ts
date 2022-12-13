@@ -1,36 +1,12 @@
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import {
-    Component,
-    ElementRef,
-    EventEmitter,
-    Input,
-    OnInit,
-    Output,
-    SecurityContext,
-    ViewChild,
-    ViewEncapsulation,
-} from '@angular/core';
-import {
-    UntypedFormGroup,
-    UntypedFormControl,
-    Validators,
-    FormControl,
-    FormGroup,
-} from '@angular/forms';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { BaseComponent } from 'src/app/core/base.component';
 import { CharactersService } from 'src/app/core/service/characters.service';
-import { StoryRequest } from 'src/app/modules/characters/models/character-story/story-request.model';
-import {
-    Story,
-    IStory,
-} from 'src/app/modules/characters/models/character-story/story.model';
 import { insertDeleteInfo } from 'src/app/modules/shared/functions/insert-delete.info';
 
 import * as InlineEditor from '@ckeditor/ckeditor5-build-inline';
-import Heading from '@ckeditor/ckeditor5-heading/src/heading.js';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
     selector: 'app-story [story][charId] [isUserLogged]',
@@ -68,9 +44,9 @@ export class StoryComponent extends BaseComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.model.editorData = this.story;
+        this.model.editorData =
+            this._charactersService.form.get('story')?.value;
     }
-
     onReady(eventData: { plugins: any }) {
         eventData.plugins.get('FileRepository').createUploadAdapter =
             function (loader: { file: Promise<Blob> }) {
@@ -80,6 +56,11 @@ export class StoryComponent extends BaseComponent implements OnInit {
 
     saveStory() {
         this.storyChangedEvent.emit();
+
+        this.model.editorData =
+            this._charactersService.form.get('story')?.value;
+        // console.log(this._charactersService.form.get('story')?.value);
+        // console.log(this.model.editorData);
     }
 
     onEditorChanges() {
