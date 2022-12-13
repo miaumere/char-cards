@@ -4,7 +4,7 @@
             class="archive-button"
             (click)="changeStateOfChar()"
             [ngClass]="{ disabled: isNewChar }"
-            [matTooltip]="
+            [title]="
                 (character.archived
                     ? 'CHARS_PANEL.UNARCHIVE'
                     : 'CHARS_PANEL.ARCHIVE'
@@ -19,7 +19,7 @@
         </button>
 
         <button
-            [matTooltip]="'CHARS_PANEL.DELETE' | translate"
+            [title]="'CHARS_PANEL.DELETE' | translate"
             (click)="insertDeleteInfo()"
             [ngClass]="{ disabled: isNewChar }"
             (dblclick)="deleteCharacter()"

@@ -49,9 +49,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatTabsModule } from '@angular/material/tabs';
 import { ColorsComponent } from './components/characters-article/components/character-card/subcomponents/character-additional-info/subcomponents/colors/colors.component';
-import { MatTooltipModule } from '@angular/material/tooltip';
 import { CharacterTagsComponent } from './components/characters-article/components/character-card/subcomponents/character-tags/character-tags.component';
-import { CharacterFashionComponent } from './components/characters-article/components/character-card/subcomponents/character-fashion/character-fashion.component';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
 @NgModule({
@@ -82,7 +80,6 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
         PreferencesLegendComponent,
         ColorsComponent,
         CharacterTagsComponent,
-        CharacterFashionComponent,
     ],
     imports: [
         CommonModule,
@@ -109,7 +106,6 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
         MatSlideToggleModule,
         MatSliderModule,
         MatTabsModule,
-        MatTooltipModule,
         TagsModule,
         CKEditorModule,
     ],

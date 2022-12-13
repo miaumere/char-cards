@@ -1,4 +1,3 @@
-import { CharacterFashionComponent } from './components/characters-article/components/character-card/subcomponents/character-fashion/character-fashion.component';
 import { CharInformationComponent } from './components/characters-article/components/character-card/subcomponents/char-information/char-information.component';
 import { CharactersListComponent } from './components/characters-article/components/characters-list/characters-list.component';
 import { CharactersIndexComponent } from './characters-index.component';
@@ -23,10 +22,6 @@ const routes: Routes = [
                     {
                         path: '',
                         component: CharInformationComponent,
-                    },
-                    {
-                        path: 'child-a',
-                        component: CharacterFashionComponent,
                     },
                 ],
             },

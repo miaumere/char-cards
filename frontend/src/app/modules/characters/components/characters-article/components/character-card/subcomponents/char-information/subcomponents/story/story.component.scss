@@ -44,6 +44,12 @@
 
 ::ng-deep .ck a {
     text-decoration: underline;
+    color: rebeccapurple;
+}
+
+::ng-deep .ck p {
+    line-height: 1.5 !important;
+    font-size: 1rem;
 }
 
 ::ng-deep .ck ol,

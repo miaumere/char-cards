@@ -102,9 +102,7 @@
                 <div>
                     <div
                         *ngIf="character.hasBirthdayToday"
-                        [matTooltip]="
-                            character.birthdayDate | date: 'dd/MM/yyyy'
-                        "
+                        [title]="character.birthdayDate | date : 'dd/MM/yyyy'"
                         class="birthday-cake"
                     >
                         🎂

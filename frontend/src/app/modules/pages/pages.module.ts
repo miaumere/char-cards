@@ -32,7 +32,6 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatTabsModule } from '@angular/material/tabs';
-import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTreeModule } from '@angular/material/tree';
 import { ChapterDetailsComponent } from './components/pages/chapters/chapter-details/chapter-details.component';
 import { ChapterStarringCharactersComponent } from './components/pages/chapters-list/chapter-starring-characters/chapter-starring-characters.component';
@@ -77,7 +76,6 @@ import { ChapterStarringCharactersComponent } from './components/pages/chapters-
         MatCheckboxModule,
         MatSlideToggleModule,
         MatSliderModule,
-        MatTooltipModule,
         MatAutocompleteModule,
         MatCardModule,
         MatIconModule,
