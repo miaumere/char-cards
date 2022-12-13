@@ -42,6 +42,11 @@
 
 .delete-button {
     font-size: 1.5rem;
+    height: 2rem !important;
+    width: 2rem !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     &--disabled {
         pointer-events: none;
