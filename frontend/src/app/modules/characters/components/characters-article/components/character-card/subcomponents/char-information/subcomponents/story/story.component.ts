@@ -21,6 +21,7 @@ export class StoryComponent extends BaseComponent implements OnInit {
     @Output() storyChangedEvent = new EventEmitter<true>();
 
     wereAnyChangesMade = false;
+    isEditModeOn = false;
 
     public Editor = InlineEditor;
 
@@ -59,8 +60,6 @@ export class StoryComponent extends BaseComponent implements OnInit {
 
         this.model.editorData =
             this._charactersService.form.get('story')?.value;
-        // console.log(this._charactersService.form.get('story')?.value);
-        // console.log(this.model.editorData);
     }
 
     onEditorChanges() {

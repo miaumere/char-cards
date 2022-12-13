@@ -99,8 +99,6 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
         this.form = this._charactersService.form;
 
         this.saveCharacter();
-
-        this.getCharacterById();
     }
 
     patchForm(key: string | null) {
@@ -184,7 +182,6 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
     }
 
     saveCharacter() {
-        // console.log('save char', this.form);
         if (!this.form.valid) {
             return;
         }

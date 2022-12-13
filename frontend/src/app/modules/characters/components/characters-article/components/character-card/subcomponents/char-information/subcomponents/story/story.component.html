@@ -3,7 +3,7 @@
         [editor]="Editor"
         [(ngModel)]="model.editorData"
         (change)="onEditorChanges()"
-        [disabled]="!isUserLogged"
+        [disabled]="!isUserLogged || !isEditModeOn"
         (ready)="onReady($event)"
     ></ckeditor>
     <div
@@ -11,6 +11,21 @@
         style="width: 2.5rem"
         *appIfLoggedUser
     >
+        <ng-container *appIfLoggedUser>
+            <mat-icon
+                class="option-icon"
+                (click)="isEditModeOn = true"
+                *ngIf="!isEditModeOn"
+                >edit</mat-icon
+            >
+            <mat-icon
+                class="close-icon"
+                (click)="isEditModeOn = false"
+                *ngIf="!!isEditModeOn"
+                >close</mat-icon
+            >
+        </ng-container>
+
         <mat-icon
             class="option-icon option-icon--save save-button"
             (click)="saveStory()"
