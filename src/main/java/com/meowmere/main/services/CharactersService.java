@@ -330,7 +330,7 @@ public class CharactersService {
 
         val quotes = quoteRepository.getAllQuotesByCharacterId(id);
         quotes.forEach(quote -> quoteRepository.delete(quote));
-        
+
         val images = imageRepository.getImagesForCharacter(id);
         images.forEach(image -> imageRepository.delete(image));
         Image profilePicForCharacter = imageRepository.getProfilePicForCharacter(id);
@@ -349,7 +349,7 @@ public class CharactersService {
 
         val relationList = relationsRepository.getRelationsForCharacter(id);
         relationList.forEach(relation -> relationsRepository.delete(relation));
-
+        
         val characterTags = characterTagRepository.getCharacterTagsForCharacter(id);
         characterTags.forEach(characterTag -> characterTagRepository.delete(characterTag));
 

@@ -40,7 +40,7 @@ BEGIN
             )
             then
 
-                select LoopThroughTable();
+                PERFORM LoopThroughTable();
 
                 DROP TABLE character_story;
             end if;

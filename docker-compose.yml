@@ -1,0 +1,42 @@
+services:
+  application:
+    image: alea
+    restart: always
+    depends_on:
+      - "database"
+    ports:
+      - "8082:8082"
+    volumes:
+      - app:/app/stories
+      - D:\tmp\application.properties:/app/application.properties
+    networks:
+      network:
+        ipv4_address: 10.5.0.2
+
+  database:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    networks:
+      network:
+        ipv4_address: 10.5.0.3
+
+networks:
+  network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.5.0.0/16
+          gateway: 10.5.0.1
+
+volumes:
+  app:
+    name: alea_app-data
+  postgres:
+    name: alea_database

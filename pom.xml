@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.meowmere</groupId>
     <artifactId>alea</artifactId>
-    <version>2.1.0</version>
+    <version>3.0.0-pineapple</version>
     <name>main</name>
     <description>Alea iacta est - project</description>
     <packaging>jar</packaging>
@@ -146,6 +146,15 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>8</source>
+                    <target>8</target>
+                </configuration>
             </plugin>
 
         </plugins>
