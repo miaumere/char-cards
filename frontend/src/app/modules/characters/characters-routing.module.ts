@@ -1,3 +1,4 @@
+import { CharInformationComponent } from './components/characters-article/components/character-card/subcomponents/char-information/char-information.component';
 import { CharactersListComponent } from './components/characters-article/components/characters-list/characters-list.component';
 import { CharactersIndexComponent } from './characters-index.component';
 import { NgModule } from '@angular/core';
@@ -17,6 +18,12 @@ const routes: Routes = [
             {
                 path: ':id',
                 component: CharacterCardComponent,
+                children: [
+                    {
+                        path: '',
+                        component: CharInformationComponent,
+                    },
+                ],
             },
         ],
     },

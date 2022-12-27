@@ -1,7 +1,11 @@
+import { CharactersService } from 'src/app/core/service/characters.service';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { CharacterPreferences } from 'src/app/modules/characters/models/character-preferences.model';
-import { Character } from 'src/app/modules/characters/models/character.model';
+import {
+    Character,
+    ICharacter,
+} from 'src/app/modules/characters/models/character.model';
 
 @Component({
     selector: 'app-char-information [character][preferences] [form]',
@@ -9,19 +13,18 @@ import { Character } from 'src/app/modules/characters/models/character.model';
     styleUrls: ['./char-information.component.scss'],
 })
 export class CharInformationComponent implements OnInit {
-    @Input() character: Character | null = null;
+    character: Character | null = null;
 
-    @Input() preferences: CharacterPreferences[] = [];
-    @Input() isUserLogged: boolean = false;
-    @Input() form: FormGroup = new FormGroup({});
+    preferences: CharacterPreferences[] = [];
+    isUserLogged: boolean = false;
+    form = this.charactersService.form;
+    isNewChar: boolean = false;
 
-    @Output() infoHasChangedEvent = new EventEmitter();
-
-    constructor() {}
+    constructor(private charactersService: CharactersService) {}
 
     ngOnInit(): void {}
 
-    emitInfoHasChangedEvent() {
-        this.infoHasChangedEvent.emit();
+    changed() {
+        this.charactersService.emitChange();
     }
 }

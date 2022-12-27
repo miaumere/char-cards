@@ -1,6 +1,6 @@
 import { CharType } from 'src/app/modules/characters/enums/char-type.enum';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators, UntypedFormArray } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
@@ -43,10 +43,10 @@ export class EditRelationsComponent extends BaseComponent implements OnInit {
 
     formHasChanged = false;
 
-    relationsFormGroup = new FormGroup({});
+    relationsFormGroup = new UntypedFormGroup({});
 
-    newCharacterForm = new FormGroup({
-        characterToAdd: new FormControl(null),
+    newCharacterForm = new UntypedFormGroup({
+        characterToAdd: new UntypedFormControl(null),
     });
 
     readonly colorsForRelations = colorsForRelations;
@@ -81,7 +81,7 @@ export class EditRelationsComponent extends BaseComponent implements OnInit {
         return (
             (
                 this.relationsFormGroup.controls['' + personId] as
-                    | FormArray
+                    | UntypedFormArray
                     | undefined
             )?.controls ?? []
         );
@@ -113,39 +113,39 @@ export class EditRelationsComponent extends BaseComponent implements OnInit {
                         for (const relation of relations) {
                             const relationsArray = [];
 
-                            const relationsFormGroup = new FormGroup({
-                                relations: new FormArray([]),
+                            const relationsFormGroup = new UntypedFormGroup({
+                                relations: new UntypedFormArray([]),
                             });
 
                             const typedRelationFormArray =
                                 relationsFormGroup.get(
                                     'relations'
-                                ) as FormArray;
+                                ) as UntypedFormArray;
 
                             relationsArray.push(relationsFormGroup);
 
                             this.relationsFormGroup.setControl(
                                 '' + relation.person.id,
-                                new FormArray(relationsArray)
+                                new UntypedFormArray(relationsArray)
                             );
                             for (const rel of relation.relations) {
-                                const newInputGroup = new FormGroup({
-                                    id: new FormControl(rel.id),
-                                    type: new FormControl(
+                                const newInputGroup = new UntypedFormGroup({
+                                    id: new UntypedFormControl(rel.id),
+                                    type: new UntypedFormControl(
                                         rel.type,
                                         Validators.required
                                     ),
-                                    relationDateStart: new FormControl(
+                                    relationDateStart: new UntypedFormControl(
                                         rel.relationDateStart
                                             ? new Date(rel.relationDateStart)
                                             : null
                                     ),
-                                    relationDateEnd: new FormControl(
+                                    relationDateEnd: new UntypedFormControl(
                                         rel.relationDateEnd
                                             ? new Date(rel.relationDateEnd)
                                             : null
                                     ),
-                                    arrowFromSource: new FormControl(
+                                    arrowFromSource: new UntypedFormControl(
                                         !!rel.arrowFromSource
                                     ),
                                 });
@@ -168,12 +168,12 @@ export class EditRelationsComponent extends BaseComponent implements OnInit {
     addNewRelationWithCharacter(personId: number) {
         const controls = this.getFormForPersonId(personId).controls;
 
-        const newRelation = new FormGroup({
-            id: new FormControl(null),
-            type: new FormControl(null, Validators.required),
-            relationDateStart: new FormControl(null),
-            relationDateEnd: new FormControl(null),
-            arrowFromSource: new FormControl(true),
+        const newRelation = new UntypedFormGroup({
+            id: new UntypedFormControl(null),
+            type: new UntypedFormControl(null, Validators.required),
+            relationDateStart: new UntypedFormControl(null),
+            relationDateEnd: new UntypedFormControl(null),
+            arrowFromSource: new UntypedFormControl(true),
         });
 
         controls?.push(newRelation);
@@ -182,16 +182,16 @@ export class EditRelationsComponent extends BaseComponent implements OnInit {
         this.getFormForPersonId(personId).markAllAsTouched();
     }
 
-    getFormForPersonId(personId: number): FormArray {
+    getFormForPersonId(personId: number): UntypedFormArray {
         return (
             (
                 (
                     this.relationsFormGroup.get('' + personId) as
-                        | FormArray
+                        | UntypedFormArray
                         | undefined
-                )?.controls[0] as FormGroup | undefined
-            )?.controls as { relations: FormArray } | undefined
-        )?.relations as FormArray;
+                )?.controls[0] as UntypedFormGroup | undefined
+            )?.controls as { relations: UntypedFormArray } | undefined
+        )?.relations as UntypedFormArray;
     }
 
     canCreateNewRelation(personId: number) {
@@ -258,7 +258,7 @@ export class EditRelationsComponent extends BaseComponent implements OnInit {
         );
     }
 
-    deleteRelation(formGroup: FormGroup, personId: number) {
+    deleteRelation(formGroup: UntypedFormGroup, personId: number) {
         this.formHasChanged = true;
         this.getFormForPersonId(personId).controls = this.getFormForPersonId(
             personId
@@ -310,29 +310,29 @@ export class EditRelationsComponent extends BaseComponent implements OnInit {
 
         const relationsArray: any = [];
 
-        const relationsFormGroup = new FormGroup({
-            relations: new FormArray([]),
+        const relationsFormGroup = new UntypedFormGroup({
+            relations: new UntypedFormArray([]),
         });
         relationsArray.push(relationsFormGroup);
 
         const typedRelationFormArray = relationsFormGroup.get(
             'relations'
-        ) as FormArray;
+        ) as UntypedFormArray;
 
         this.relationsFormGroup.setControl(
             '' + characterItem.id,
-            new FormArray(relationsArray)
+            new UntypedFormArray(relationsArray)
         );
 
-        const newInputGroup = new FormGroup({
-            id: new FormControl(null),
-            type: new FormControl(
+        const newInputGroup = new UntypedFormGroup({
+            id: new UntypedFormControl(null),
+            type: new UntypedFormControl(
                 RelationType[RelationType.Crush],
                 Validators.required
             ),
-            relationDateStart: new FormControl(null),
-            relationDateEnd: new FormControl(null),
-            arrowFromSource: new FormControl(true),
+            relationDateStart: new UntypedFormControl(null),
+            relationDateEnd: new UntypedFormControl(null),
+            arrowFromSource: new UntypedFormControl(true),
         });
 
         typedRelationFormArray.push(newInputGroup);
@@ -340,7 +340,7 @@ export class EditRelationsComponent extends BaseComponent implements OnInit {
         this.newCharacterForm.reset();
     }
 
-    isSourceCheckboxVisible(relationFG: FormGroup) {
+    isSourceCheckboxVisible(relationFG: UntypedFormGroup) {
         const type = relationFG.get('type')?.value as RelationTypeString;
         return (
             type === 'Crush' ||

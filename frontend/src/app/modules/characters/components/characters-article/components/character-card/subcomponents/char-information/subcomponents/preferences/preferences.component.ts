@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDatepicker } from '@angular/material/datepicker';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
@@ -76,10 +76,10 @@ export class PreferencesComponent extends BaseComponent implements OnInit {
     charList: CharacterItem[] = [];
     filteredCharList: CharacterItem[] = [];
 
-    preferencesForm = new FormGroup({
-        range: new FormControl(0),
-        character: new FormControl(null, Validators.required),
-        date: new FormControl(),
+    preferencesForm = new UntypedFormGroup({
+        range: new UntypedFormControl(0),
+        character: new UntypedFormControl(null, Validators.required),
+        date: new UntypedFormControl(),
     });
 
     selectedCharacter?: CharacterItem;

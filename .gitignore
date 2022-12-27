@@ -32,3 +32,4 @@ build/
 src/main/resources/static/
 stories/
 logs/
+src/main/resources/application.properties

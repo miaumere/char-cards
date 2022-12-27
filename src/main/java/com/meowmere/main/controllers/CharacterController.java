@@ -7,7 +7,6 @@ import com.meowmere.main.requests.characters.character.EditCharacterRequest;
 import com.meowmere.main.requests.characters.image.ImageRenameRequest;
 import com.meowmere.main.requests.characters.preference.PreferenceRequest;
 import com.meowmere.main.requests.characters.quotes.UpsertQuoteRequest;
-import com.meowmere.main.requests.characters.stories.StoryRequest;
 import com.meowmere.main.services.CharactersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -65,12 +63,6 @@ public class CharacterController {
 
     // #endregion
 
-
-    @GetMapping("/get-stories-for-character")
-    public ResponseEntity getStoriesForCharacter(@RequestParam Long id) {
-        return this.charactersService.getStoriesForCharacter(id);
-    }
-
     @GetMapping("/get-all-preferences-for-character")
     public ResponseEntity getPreferencesForCharacter(@RequestParam Long id) throws InterruptedException {
         return this.charactersService.getAllPreferencesForCharacter(id);
@@ -87,11 +79,6 @@ public class CharacterController {
     }
 
 
-    @PostMapping("/upsert-story")
-    public ResponseEntity createStoryForCharacter(@RequestBody StoryRequest request) {
-        return charactersService.upsertStoryForCharacter(request);
-    }
-
     @PostMapping("/edit-preferences")
     public ResponseEntity editPreferences(@RequestBody PreferenceRequest preferenceRequest) {
         return charactersService.editPreferences(preferenceRequest);
@@ -100,11 +87,6 @@ public class CharacterController {
     @PostMapping("/character")
     public ResponseEntity upsertCharacter(@RequestBody EditCharacterRequest request) {
         return charactersService.upsertCharacter(request);
-    }
-
-    @PutMapping("/edit-story-indexes")
-    public ResponseEntity editStoryIndexes(@RequestBody ArrayList<Long> storyIds, @RequestParam Long id) {
-        return charactersService.editStoryIndexes(storyIds, id);
     }
 
     @PatchMapping("/change-state")
@@ -136,11 +118,6 @@ public class CharacterController {
     @DeleteMapping("/delete-image")
     public ResponseEntity deleteImage(@RequestParam Long id) {
         return charactersService.deleteImage(id);
-    }
-
-    @DeleteMapping("/delete-story")
-    public ResponseEntity deleteStory(@RequestParam Long id) {
-        return charactersService.deleteStory(id);
     }
 
     @DeleteMapping("/delete-preference")

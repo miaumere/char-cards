@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CharactersService } from 'src/app/core/service/characters.service';
 import { CharacterItem } from 'src/app/modules/characters/models/character-item.model';
 import { BaseComponent } from 'src/app/core/base.component';
-import { FormGroup, FormControl } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl } from '@angular/forms';
 import { CharType } from 'src/app/modules/characters/enums/char-type.enum';
 import { TagsService } from 'src/app/core/service/tags.service';
 import { combineLatest } from 'rxjs';
@@ -14,15 +14,13 @@ import { ITag } from 'src/app/modules/tags/models/tag.model';
     styleUrls: ['./characters-list.component.scss'],
 })
 export class CharactersListComponent extends BaseComponent implements OnInit {
-    readonly rdestUrl = '../../../../../assets/svg/rdest.svg';
-
     charList: CharacterItem[] = [];
     filteredChars: CharacterItem[] = [];
 
     tags: ITag[] = [];
 
-    searchForm = new FormGroup({
-        char: new FormControl(''),
+    searchForm = new UntypedFormGroup({
+        char: new UntypedFormControl(''),
     });
 
     isMain = true;

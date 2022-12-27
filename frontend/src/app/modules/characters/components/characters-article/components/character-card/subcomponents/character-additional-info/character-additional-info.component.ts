@@ -1,7 +1,7 @@
 import { TagsService } from 'src/app/core/service/tags.service';
 import { Tag } from 'src/app/modules/tags/models/tag.model';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, UntypedFormGroup } from '@angular/forms';
 import { BaseComponent } from 'src/app/core/base.component';
 import { CountriesService } from 'src/app/core/service/countries.service';
 import { Character } from 'src/app/modules/characters/models/character.model';
@@ -26,7 +26,7 @@ export class CharacterAdditionalInfoComponent
 
     @Input() isUserLogged: boolean = false;
     @Input() character: Character | null = null;
-    @Input() form = new FormGroup({});
+    @Input() form = new UntypedFormGroup({});
     @Input('color') themeColor1: string = '';
 
     @Input() editedKey: string | null = null;

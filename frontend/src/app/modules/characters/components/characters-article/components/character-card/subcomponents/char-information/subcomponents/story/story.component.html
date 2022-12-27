@@ -1,117 +1,36 @@
-<div class="information__story">
+<div class="story-containter">
+    <ckeditor
+        [editor]="Editor"
+        [(ngModel)]="model.editorData"
+        (change)="onEditorChanges()"
+        [disabled]="!isUserLogged || !isEditModeOn"
+        (ready)="onReady($event)"
+    ></ckeditor>
     <div
-        *ngIf="story"
-        cdkDropList
-        [cdkDropListData]="story"
-        (cdkDropListDropped)="drop($event)"
-        [cdkDropListDisabled]="!isUserLogged"
+        class="story-containter__button-container"
+        style="width: 2.5rem"
+        *appIfLoggedUser
     >
-        <form
-            class="story"
-            *ngFor="let story of story"
-            [formGroup]="form"
-            cdkDrag
+        <ng-container *appIfLoggedUser>
+            <mat-icon
+                class="option-icon"
+                (click)="isEditModeOn = true"
+                *ngIf="!isEditModeOn"
+                >edit</mat-icon
+            >
+            <mat-icon
+                class="close-icon"
+                (click)="isEditModeOn = false"
+                *ngIf="!!isEditModeOn"
+                >close</mat-icon
+            >
+        </ng-container>
+
+        <mat-icon
+            class="option-icon option-icon--save save-button"
+            (click)="saveStory()"
+            *appIfLoggedUser="wereAnyChangesMade"
+            >save</mat-icon
         >
-            <h2 class="story__title">
-                <div>
-                    <mat-icon
-                        class="option-icon"
-                        *ngIf="isUserLogged"
-                        [ngStyle]="{ opacity: story.id === 0 ? 0 : 1 }"
-                        cdkDragHandle
-                        >drag_indicator</mat-icon
-                    >
-
-                    <mat-icon
-                        class="option-icon"
-                        (click)="setStoryToEdit(story)"
-                        *ngIf="editedStoryId !== story.id && isUserLogged"
-                        >edit</mat-icon
-                    >
-
-                    <span class="title" *ngIf="editedStoryId !== story.id">
-                        {{ story.title }}
-                    </span>
-
-                    <mat-form-field
-                        *ngIf="story.id === editedStoryId"
-                        style="margin-top: -1rem"
-                    >
-                        <input
-                            matInput
-                            formControlName="title"
-                            [spellcheck]="false"
-                        />
-                    </mat-form-field>
-                </div>
-
-                <div
-                    class="options"
-                    *ngIf="isUserLogged"
-                    (click)="insertDeleteInfo()"
-                    (dblclick)="deleteStory(story.id)"
-                >
-                    <mat-icon class="close-icon">close</mat-icon>
-                </div>
-            </h2>
-
-            <div class="story-container">
-                <div
-                    style="display: flex; flex-direction: column"
-                    *ngIf="isUserLogged && editedStoryId === story.id"
-                >
-                    <mat-icon
-                        class="option-icon option-icon--cancel"
-                        *ngIf="isUserLogged && story.id !== 0"
-                        (click)="cancelEditMode()"
-                        >cancel</mat-icon
-                    >
-
-                    <mat-icon
-                        class="option-icon option-icon--save"
-                        (click)="upsertStory()"
-                        >save</mat-icon
-                    >
-                </div>
-                <div
-                    class="story__story-block"
-                    *ngIf="story.id !== editedStoryId"
-                >
-                    {{ story.story }}
-                </div>
-
-                <textarea
-                    matInput
-                    cdkTextareaAutosize
-                    #autosize="cdkTextareaAutosize"
-                    cdkAutosizeMinRows="3"
-                    [spellcheck]="false"
-                    cdkAutosizeMaxRows="20"
-                    *ngIf="story.id === editedStoryId"
-                    formControlName="story"
-                    class="story-textarea"
-                    [ngClass]="{
-                        'story-textarea--invalid': !form.get('story')?.valid
-                    }"
-                >
-                </textarea>
-            </div>
-        </form>
     </div>
-    <div *ngIf="story.length === 0" class="no-story-container">
-        {{ 'CHARACTER_CARD.NO_STORY' | translate }}.
-    </div>
-</div>
-
-<div
-    class="new-quote-add"
-    *ngIf="isUserLogged && canAddMoreStories"
-    style="width: 2.5rem"
->
-    <mat-icon
-        *ngIf="isUserLogged"
-        class="basic-icon basic-icon--expand add-icon"
-        (click)="addNewQuote()"
-        >add</mat-icon
-    >
 </div>

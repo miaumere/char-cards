@@ -1,16 +1,12 @@
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { BaseComponent } from 'src/app/core/base.component';
 import { CharactersService } from 'src/app/core/service/characters.service';
-import { StoryRequest } from 'src/app/modules/characters/models/character-story/story-request.model';
-import {
-    Story,
-    IStory,
-} from 'src/app/modules/characters/models/character-story/story.model';
 import { insertDeleteInfo } from 'src/app/modules/shared/functions/insert-delete.info';
+
+import * as InlineEditor from '@ckeditor/ckeditor5-build-inline';
 
 @Component({
     selector: 'app-story [story][charId] [isUserLogged]',
@@ -18,22 +14,20 @@ import { insertDeleteInfo } from 'src/app/modules/shared/functions/insert-delete
     styleUrls: ['./story.component.scss'],
 })
 export class StoryComponent extends BaseComponent implements OnInit {
-    @Input() story: Story[] = [];
+    @Input() story: string = '';
     @Input() isUserLogged: boolean = false;
     @Input() charId: number = 0;
 
     @Output() storyChangedEvent = new EventEmitter<true>();
 
-    editedStoryId: number = 0;
+    wereAnyChangesMade = false;
+    isEditModeOn = false;
 
-    get canAddMoreStories() {
-        return !this.story.find((s) => s.id === 0);
-    }
+    public Editor = InlineEditor;
 
-    form = new FormGroup({
-        title: new FormControl('', Validators.required),
-        story: new FormControl('', Validators.required),
-    });
+    public model = {
+        editorData: '',
+    };
 
     insertDeleteInfo = () =>
         insertDeleteInfo(this._toastrService, this._translate);
@@ -44,110 +38,55 @@ export class StoryComponent extends BaseComponent implements OnInit {
         private _charactersService: CharactersService
     ) {
         super();
-    }
-
-    ngOnInit(): void {}
-
-    setStoryToEdit(story: Story) {
-        this.editedStoryId = story.id;
-        this.form.get('title')?.setValue(story.title);
-        this.form.get('story')?.setValue(story.story);
-    }
-
-    cancelEditMode() {
-        this.editedStoryId = 0;
-    }
-
-    deleteStory(storyId: number) {
-        if (storyId === 0) {
-            this.story = this.story.filter((s) => s.id !== 0);
-            return;
-        }
-        this.subscriptions$.add(
-            this._charactersService.deleteStory(storyId).subscribe(
-                (_) => {
-                    this._toastrService.success(
-                        this._translate.instant('TOASTR_MESSAGE.SAVE_SUCCESS')
-                    );
-                    this.storyChangedEvent.emit();
-                },
-                (err) => {
-                    this._toastrService.error(
-                        this._translate.instant('TOASTR_MESSAGE.ERROR')
-                    );
-                }
-            )
+        document.documentElement.style.setProperty(
+            '--ck-color-base-border',
+            document.documentElement.style.getPropertyValue('--theme-color')
         );
     }
 
-    drop(event: CdkDragDrop<string[]>) {
-        moveItemInArray(
-            event.container.data,
-            event.previousIndex,
-            event.currentIndex
-        );
-
-        const ids = this.story.map((x) => x.id);
-
-        this.subscriptions$.add(
-            this._charactersService
-                .putStoriesIndexes(ids, this.charId)
-                .subscribe(
-                    (_) => {
-                        this.storyChangedEvent.emit(true);
-                    },
-                    (err) => {
-                        this._toastrService.error(
-                            this._translate.instant('TOASTR_MESSAGE.ERROR')
-                        );
-                    }
-                )
-        );
+    ngOnInit(): void {
+        this.model.editorData =
+            this._charactersService.form.get('story')?.value;
+    }
+    onReady(eventData: { plugins: any }) {
+        eventData.plugins.get('FileRepository').createUploadAdapter =
+            function (loader: { file: Promise<Blob> }) {
+                return new UploadAdapter(loader);
+            };
     }
 
-    upsertStory() {
-        if (!this.form.valid) {
-            this.form.markAllAsTouched();
-            return;
-        }
+    saveStory() {
+        this.storyChangedEvent.emit();
 
-        const objToSend = new StoryRequest(
-            this.form.value,
-            this.charId,
-            this.editedStoryId
-        );
-
-        this.subscriptions$.add(
-            this._charactersService
-                .upsertStoryForCharacter(objToSend)
-                .subscribe(
-                    (_) => {
-                        this._toastrService.success(
-                            this._translate.instant(
-                                'TOASTR_MESSAGE.SAVE_SUCCESS'
-                            )
-                        );
-                        this.storyChangedEvent.emit();
-                        this.form.reset();
-                    },
-                    (err) => {
-                        this._toastrService.error(
-                            this._translate.instant('TOASTR_MESSAGE.ERROR')
-                        );
-                    }
-                )
-        );
+        this.model.editorData =
+            this._charactersService.form.get('story')?.value;
     }
 
-    addNewQuote() {
-        const newStory: IStory = {
-            id: 0,
-            title: '',
-            story: '',
-        };
-        this.story.push(newStory);
-        this.editedStoryId = 0;
-        this.form.get('title')?.setValue('');
-        this.form.get('story')?.setValue('');
+    onEditorChanges() {
+        this.wereAnyChangesMade = true;
+        this._charactersService.form
+            .get('story')
+            ?.setValue(this.model.editorData);
+    }
+}
+
+class UploadAdapter {
+    loader: { file: Promise<Blob> };
+    constructor(loader: { file: Promise<Blob> }) {
+        this.loader = loader;
+    }
+
+    upload() {
+        return this.loader.file.then(
+            (file: Blob) =>
+                new Promise((resolve) => {
+                    const myReader = new FileReader();
+                    myReader.onloadend = () => {
+                        resolve({ default: myReader.result });
+                    };
+
+                    myReader.readAsDataURL(file);
+                })
+        );
     }
 }

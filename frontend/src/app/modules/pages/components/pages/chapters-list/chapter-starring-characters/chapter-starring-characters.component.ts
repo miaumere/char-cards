@@ -7,7 +7,7 @@ import { BaseComponent } from 'src/app/core/base.component';
 import { StoryService } from 'src/app/core/service/story.service';
 import { StarringType } from 'src/app/modules/characters/models/starring-in/StarringType.enum';
 import { IEditStarringCharacter } from 'src/app/modules/characters/models/starring-in/edit-starring-character.model';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { CharacterItem } from 'src/app/modules/characters/models/character-item.model';
 import { CharactersService } from 'src/app/core/service/characters.service';
 
@@ -32,9 +32,9 @@ export class ChapterStarringCharactersComponent
     insertDeleteInfo = () =>
         insertDeleteInfo(this._toastrService, this._translate);
 
-    charactersInChapterForm = new FormGroup({
-        character: new FormControl('', Validators.required),
-        starringType: new FormControl('', Validators.required),
+    charactersInChapterForm = new UntypedFormGroup({
+        character: new UntypedFormControl('', Validators.required),
+        starringType: new UntypedFormControl('', Validators.required),
     });
 
     @Input() charactersList: CharacterItem[] = [];

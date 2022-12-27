@@ -58,12 +58,22 @@
         z-index: 1;
         right: 0;
         width: 30px;
+
+        height: 23px !important;
+
         background: rgba(0, 0, 0, 0.5);
         text-align: center;
+
+        display: flex;
+        align-items: baseline;
+        justify-content: center;
     }
 
     &__icon {
-        margin-left: -5px;
-        font-size: 22px;
+        font-size: 0.75rem;
+        height: 23px !important;
+
+        display: flex;
+        align-items: center;
     }
 }

@@ -1,11 +1,15 @@
-<mat-card class="information" *ngIf="character">
+<mat-card
+    class="information"
+    *ngIf="character"
+    [ngClass]="{ disabled: isNewChar }"
+>
     <div class="profile-pic-quotes-container">
         <div class="profile-pic-edition-container">
             <app-profile-pic
                 [profilePic]="character.profilePic"
                 [charId]="character.externalId"
                 [isUserLogged]="isUserLogged"
-                (profilePicChangedEvent)="emitInfoHasChangedEvent()"
+                (profilePicChangedEvent)="changed()"
             ></app-profile-pic>
         </div>
 
@@ -15,7 +19,7 @@
             [isUserLogged]="isUserLogged"
             [quote]="character.quote"
             [charId]="character.externalId"
-            (quotesChangedEvent)="emitInfoHasChangedEvent()"
+            (quotesChangedEvent)="changed()"
         >
         </app-quotes>
     </div>
@@ -32,7 +36,7 @@
                     class="story-container"
                     [story]="character.story"
                     [isUserLogged]="isUserLogged"
-                    (storyChangedEvent)="emitInfoHasChangedEvent()"
+                    (storyChangedEvent)="changed()"
                     [charId]="character.externalId"
                 >
                 </app-story>
@@ -76,7 +80,7 @@
         <app-preferences
             [preferences]="preferences"
             [charId]="character.externalId"
-            (preferencesChangedEvent)="emitInfoHasChangedEvent()"
+            (preferencesChangedEvent)="changed()"
         >
         </app-preferences>
     </div>
@@ -89,8 +93,7 @@
 
         <app-measurements
             [measurements]="character.measurements"
-            [form]="form"
-            (measurementsChangedEvent)="emitInfoHasChangedEvent()"
+            (measurementsChangedEvent)="changed()"
             [isUserLogged]="isUserLogged"
         ></app-measurements>
     </div>

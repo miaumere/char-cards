@@ -2,18 +2,15 @@ package com.meowmere.main.dto.character.character;
 
 import com.meowmere.main.dto.character.colors.CharacterColorDTO;
 import com.meowmere.main.dto.character.image.ImageDTO;
-import com.meowmere.main.dto.character.measurements.CharacterMeasurementsDTO;
 import com.meowmere.main.dto.character.measurements.MeasurementObj;
 import com.meowmere.main.dto.character.quote.CharacterQuoteDTO;
 import com.meowmere.main.dto.character.starring.BookForCharacter;
-import com.meowmere.main.dto.character.story.CharacterStoryDTO;
 import com.meowmere.main.dto.character.tags.TagDTO;
 import com.meowmere.main.dto.character.temperament.CharacterTemperamentDTO;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -59,14 +56,11 @@ public class CharacterDTO {
     private CharacterQuoteDTO quote;
     @Getter
     @Setter
-    private List<CharacterStoryDTO> story;
-    @Getter
-    @Setter
     private CharacterColorDTO colors;
     @Getter
     @Setter
     private CharacterTemperamentDTO temperament;
-    
+
     @Getter
     @Setter
     private Map<String, MeasurementObj> measurements;
@@ -101,6 +95,8 @@ public class CharacterDTO {
     @Getter
     @Setter
     private String dislikes;
-
+    @Getter
+    @Setter
+    private String Story;
 
 }

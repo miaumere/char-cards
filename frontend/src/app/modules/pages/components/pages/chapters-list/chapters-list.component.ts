@@ -1,7 +1,7 @@
 import { TranslateService } from '@ngx-translate/core';
 import { Component, OnInit } from '@angular/core';
 import { BaseComponent } from 'src/app/core/base.component';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { StoryService } from 'src/app/core/service/story.service';
 import { ToastrService } from 'ngx-toastr';
@@ -30,9 +30,9 @@ export class ChaptersListMenuComponent extends BaseComponent implements OnInit {
 
     isNewChapterFormVisible = true;
 
-    chapterForm = new FormGroup({
-        name: new FormControl('', Validators.required),
-        chapterDesc: new FormControl('', Validators.required),
+    chapterForm = new UntypedFormGroup({
+        name: new UntypedFormControl('', Validators.required),
+        chapterDesc: new UntypedFormControl('', Validators.required),
     });
 
     bookId: number = 0;

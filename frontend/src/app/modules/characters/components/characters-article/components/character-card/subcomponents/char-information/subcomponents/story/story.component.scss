@@ -1,63 +1,63 @@
 @import 'variables';
 
-.story {
-    margin-right: 2rem;
+.story-containter {
+    display: flex;
 
-    word-break: break-word;
-    line-height: 1.5;
+    &__button-container {
+        margin-left: 0.5rem;
+    }
+}
 
-    &__title {
-        font-weight: bold;
-        font-size: 0.9rem;
-        color: lightslategray;
+.save-button {
+    font-size: 1rem;
+    height: 1rem !important;
+}
 
-        display: flex;
-        justify-content: space-between;
-        align-items: baseline;
+::ng-deep .ck {
+    color: whitesmoke !important;
+    background: #1b1d1e !important;
+}
 
-        @include font-special;
+::ng-deep .ck h2,
+::ng-deep .ck h3,
+::ng-deep .ck h4 {
+    color: var(--theme-color);
+    font-family: 'GrapeNuts' !important;
+}
+
+::ng-deep .ck h2 {
+    font-size: 1.8rem;
+}
+::ng-deep .ck h3 {
+    font-size: 1.5rem;
+}
+::ng-deep .ck h4 {
+    font-size: 1.2rem;
+}
+
+::ng-deep .ck strong {
+    font-family: inherit;
+}
+::ng-deep .ck * {
+    font-family: inherit;
+    font-size: 1rem;
+    line-height: 1.5 !important;
+}
+
+::ng-deep .ck a {
+    text-decoration: underline;
+    color: rebeccapurple;
+}
+
+::ng-deep .ck ol,
+ol {
+    list-style-type: decimal;
+}
+
+::ng-deep .ck ul {
+    & li:before {
+        content: '\2765  ';
+
         color: var(--theme-color);
     }
-
-    &__story-block {
-        @include font-regular;
-
-        word-break: break-word;
-        white-space: pre-line;
-        font-size: initial;
-
-        padding: 1rem 2rem 1rem 0rem;
-    }
-}
-
-.no-story-container {
-    margin: 1rem;
-}
-
-.story-container {
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
-}
-
-.story-textarea {
-    border: 1px solid white;
-    border-radius: 3px;
-    padding: 0.5rem;
-    margin-top: -1.25rem;
-
-    background: $dark-bg-component-color;
-    &--invalid {
-        border-color: #f44336;
-    }
-}
-
-.title-input {
-    background: $dark-bg-component-color;
-    margin-top: -1.5rem;
-}
-
-.title {
-    @include font-special;
-    font-size: 1.8rem;
 }

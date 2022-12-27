@@ -1,5 +1,8 @@
+import { UntypedFormGroup } from '@angular/forms';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/internal/Observable';
+import { Subject } from 'rxjs/internal/Subject';
 import { map } from 'rxjs/operators';
 import {
     AllPreferences,
@@ -10,11 +13,6 @@ import {
     CharacterItem,
     ICharacterItem,
 } from 'src/app/modules/characters/models/character-item.model';
-import { StoryRequest } from 'src/app/modules/characters/models/character-story/story-request.model';
-import {
-    IStory,
-    Story,
-} from 'src/app/modules/characters/models/character-story/story.model';
 import {
     Character,
     ICharacter,
@@ -44,7 +42,6 @@ export class CharactersService {
     private readonly _getCharacterByIdURL = `${this.charControllerURL}/get-character`;
     private readonly _getAllCharactersURL = `${this.charControllerURL}/get-all-characters`;
     private readonly _getQuotesURL = `${this.charControllerURL}/get-quotes`;
-    private readonly _getStoriesForCharURL = `${this.charControllerURL}/get-stories-for-character`;
     private readonly _getHistoricalPreferencesForCharacterURL = `${this.charControllerURL}/get-characters-historical-preferences`;
     private readonly _getAllPreferencesForCharURL = `${this.charControllerURL}/get-all-preferences-for-character`;
     private readonly _getRelationsURL = `${this.charControllerURL}/relations`;
@@ -55,7 +52,6 @@ export class CharactersService {
     private readonly _patchImagesOrderURL = `${this.charControllerURL}/change-images-order`;
 
     private readonly _postQuoteURL = `${this.charControllerURL}/upsert-quote`;
-    private readonly _postUpsertStoryForCharacterURL = `${this.charControllerURL}/upsert-story`;
     private readonly _postRelationsURL = `${this.charControllerURL}/relations`;
     private readonly _postCoordsURL = `${this.charControllerURL}/coords`;
     private readonly _postUpsertCharacterURL = `${this.charControllerURL}/character`;
@@ -63,15 +59,20 @@ export class CharactersService {
     private readonly _postEditImagesURL = `${this.charControllerURL}/new-images`;
     private readonly _postEditPreferenceURL = `${this.charControllerURL}/edit-preferences`;
 
-    private readonly _putStoryIndexesURL = `${this.charControllerURL}/edit-story-indexes`;
-
     private readonly _deleteQuoteURL = `${this.charControllerURL}/delete-quote`;
     private readonly _deleteImageURL = `${this.charControllerURL}/delete-image`;
-    private readonly _deleteStoryURL = `${this.charControllerURL}/delete-story`;
     private readonly _deletePreferenceURL = `${this.charControllerURL}/delete-preference`;
     private readonly _deleteCharacterURL = `${this.charControllerURL}/delete-character`;
 
+    private emitChangeSource = new Subject<void>();
+    form = new UntypedFormGroup({});
+    changeEmitted$ = this.emitChangeSource.asObservable();
+
     constructor(private http: HttpClient) {}
+
+    emitChange() {
+        this.emitChangeSource.next();
+    }
 
     getCharacters() {
         return this.http.get<ICharacterItem[]>(this._getAllCharactersURL).pipe(
@@ -159,18 +160,6 @@ export class CharactersService {
         return this.http.get<IQuote[]>(this._getQuotesURL, { params });
     }
 
-    getStoriesForCharacter(id: number) {
-        const params = new HttpParams().set('id', '' + id);
-        return this.http
-            .get<IStory[]>(this._getStoriesForCharURL, { params })
-            .pipe(
-                map((response) => {
-                    const mappedResponse = response.map((r) => new Story(r));
-                    return mappedResponse;
-                })
-            );
-    }
-
     getCharactersHistoricalPreferences(charId: number, relatedCharId: number) {
         const params = new HttpParams()
             .set('charId', '' + charId)
@@ -214,13 +203,6 @@ export class CharactersService {
         );
     }
 
-    upsertStoryForCharacter(requestBody: StoryRequest) {
-        return this.http.post<StoryRequest>(
-            this._postUpsertStoryForCharacterURL,
-            requestBody
-        );
-    }
-
     postEditImages(formData: FormData, charId: number) {
         const params = new HttpParams().set('id', '' + charId);
 
@@ -256,14 +238,6 @@ export class CharactersService {
         );
     }
 
-    putStoriesIndexes(requestBody: number[], charId: number) {
-        const params = new HttpParams().set('id', '' + charId);
-
-        return this.http.put<number[]>(this._putStoryIndexesURL, requestBody, {
-            params,
-        });
-    }
-
     deleteQuote(quoteId: number) {
         const params = new HttpParams().set('id', '' + quoteId);
         return this.http.delete<void>(this._deleteQuoteURL, { params });
@@ -272,11 +246,6 @@ export class CharactersService {
     deleteImage(imageId: number) {
         const params = new HttpParams().set('id', '' + imageId);
         return this.http.delete<void>(this._deleteImageURL, { params });
-    }
-
-    deleteStory(storyId: number) {
-        const params = new HttpParams().set('id', '' + storyId);
-        return this.http.delete<void>(this._deleteStoryURL, { params });
     }
 
     deletePreference(id: number) {

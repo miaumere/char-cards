@@ -1,5 +1,3 @@
-import { TranslateService } from '@ngx-translate/core';
-import { ToastrService } from 'ngx-toastr';
 import { Subscription } from 'rxjs';
 import { OnDestroy, Directive } from '@angular/core';
 
@@ -16,7 +14,5 @@ export abstract class BaseComponent implements OnDestroy {
         };
     }
 
-    ngOnDestroy() {
-        // WARNING - Do not use ngOnDestroy logic here! Instead add to lambda func in constructor
-    }
+    ngOnDestroy() {}
 }

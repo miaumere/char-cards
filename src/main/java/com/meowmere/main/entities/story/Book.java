@@ -1,6 +1,5 @@
 package com.meowmere.main.entities.story;
 
-import com.meowmere.main.enums.AvailableIcon;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -34,11 +33,6 @@ public class Book {
     @Setter
     @Column
     private String symbol;
-    @Getter
-    @Setter
-    @Column
-    @Enumerated(EnumType.STRING)
-    private AvailableIcon icon;
     @Getter
     @Setter
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)

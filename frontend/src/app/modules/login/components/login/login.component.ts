@@ -2,7 +2,7 @@ import { TranslateService } from '@ngx-translate/core';
 
 import { AuthService } from '../../../../core/service/auth.service';
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl } from '@angular/forms';
 import { UserCredentials } from 'src/app/modules/login/models/user-credentials.model';
 import { ToastrService } from 'ngx-toastr';
 import { BaseComponent } from 'src/app/core/base.component';
@@ -15,9 +15,9 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent extends BaseComponent implements OnInit {
 
-  loginForm = new FormGroup({
-    username: new FormControl(''),
-    password: new FormControl(''),
+  loginForm = new UntypedFormGroup({
+    username: new UntypedFormControl(''),
+    password: new UntypedFormControl(''),
   });
 
   constructor(

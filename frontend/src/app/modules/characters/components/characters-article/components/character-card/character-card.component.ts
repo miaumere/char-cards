@@ -12,7 +12,11 @@ import {
 } from '@angular/core';
 import { BaseComponent } from 'src/app/core/base.component';
 import { Character } from 'src/app/modules/characters/models/character.model';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+    UntypedFormControl,
+    UntypedFormGroup,
+    Validators,
+} from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { CharactersService } from 'src/app/core/service/characters.service';
@@ -41,7 +45,7 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
 
     isUserLogged = false;
 
-    form = new FormGroup({});
+    form = new UntypedFormGroup({});
 
     editedKey: string | null = null;
 
@@ -83,11 +87,18 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
                 this.isUserLogged = isUserLogged;
             })
         );
+
+        this.subscriptions$.add(
+            this._charactersService.changeEmitted$.subscribe(() => {
+                this.changed();
+            })
+        );
     }
 
     changed() {
+        this.form = this._charactersService.form;
+
         this.saveCharacter();
-        this.getCharacterById();
     }
 
     patchForm(key: string | null) {
@@ -99,7 +110,8 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
             }
         }
 
-        this.form = new FormGroup({});
+        this.form = new UntypedFormGroup({});
+        this._charactersService.form = this.form;
         for (const key in this.character) {
             if (Object.prototype.hasOwnProperty.call(this.character, key)) {
                 const untypedChar = this.character as any;
@@ -117,7 +129,7 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
 
                             this.form.addControl(
                                 childKey,
-                                new FormControl(childElement)
+                                new UntypedFormControl(childElement)
                             );
 
                             this.form.get(childKey)?.setValue(childElement);
@@ -129,13 +141,13 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
                     for (const childKey in element) {
                         this.form.addControl(
                             `${childKey}Height`,
-                            new FormControl(
+                            new UntypedFormControl(
                                 this.character.measurements![childKey].height
                             )
                         );
                         this.form.addControl(
                             `${childKey}Weight`,
-                            new FormControl(
+                            new UntypedFormControl(
                                 this.character.measurements![childKey].weight
                             )
                         );
@@ -149,7 +161,7 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
 
                     this.form.addControl(
                         key,
-                        new FormControl(formControlValue)
+                        new UntypedFormControl(formControlValue)
                     );
                     continue;
                 }
@@ -159,12 +171,12 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
 
                     this.form.addControl(
                         key,
-                        new FormControl(element, Validators.required)
+                        new UntypedFormControl(element, Validators.required)
                     );
                     continue;
                 }
 
-                this.form.addControl(key, new FormControl(element));
+                this.form.addControl(key, new UntypedFormControl(element));
             }
         }
     }
@@ -345,5 +357,12 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
                 }
             )
         );
+    }
+
+    onOutletLoaded(component: any) {
+        component.character = this.character;
+        component.preferences = this.preferences;
+        component.isUserLogged = this.isUserLogged;
+        component.isNewChar = this.isNewChar;
     }
 }

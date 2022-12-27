@@ -101,6 +101,11 @@ public class Character {
     @Enumerated(EnumType.STRING)
     private CharType charType = CharType.BACKGROUND;
 
+    @Getter
+    @Setter
+    @Column
+    private String story;
+
     //#region related entities
     @Getter
     @Setter
@@ -118,10 +123,6 @@ public class Character {
     @Setter
     @OneToMany(mappedBy = "character", cascade = CascadeType.ALL)
     private Set<Measurements> measurements;
-    @Getter
-    @Setter
-    @OneToMany(mappedBy = "character", cascade = CascadeType.ALL)
-    private Set<CharacterStory> characterStory;
     @Getter
     @Setter
     @OneToMany(mappedBy = "character", cascade = CascadeType.ALL)
@@ -171,6 +172,7 @@ public class Character {
         this.setHobby(request.getHobby());
         this.setLikes(request.getLikes());
         this.setDislikes(request.getDislikes());
+        this.setStory(request.getStory());
 
         if (request.getDeath() != null) {
             this.setDeath(request.getDeath() == null || request.getDeath() == 0 ? 0 : request.getDeath());

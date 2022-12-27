@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { ITemperament } from 'src/app/modules/characters/models/temperament.model';
 
 @Component({
@@ -9,7 +9,7 @@ import { ITemperament } from 'src/app/modules/characters/models/temperament.mode
 })
 export class TemperamentBarsComponent implements OnInit {
     @Input() temperaments: ITemperament | null = null;
-    @Input() form: FormGroup = new FormGroup({});
+    @Input() form: UntypedFormGroup = new UntypedFormGroup({});
     @Input() isUserLogged: boolean = false;
     @Input() editedKey: string | null = null;
 

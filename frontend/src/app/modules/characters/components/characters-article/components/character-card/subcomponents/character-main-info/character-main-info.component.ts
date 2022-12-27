@@ -12,7 +12,7 @@ import {
     SimpleChanges,
     ViewChild,
 } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { UntypedFormGroup, FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -45,7 +45,7 @@ export class CharacterMainInfoComponent
 
     @Input() isUserLogged: boolean = false;
     @Input() editedKey: string | null = null;
-    @Input() form = new FormGroup({});
+    @Input() form = new UntypedFormGroup({});
     @Input() isNewChar = false;
 
     @Output() infoHasChangedEvent = new EventEmitter<true>();

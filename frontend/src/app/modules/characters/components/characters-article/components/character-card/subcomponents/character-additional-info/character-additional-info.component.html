@@ -15,7 +15,7 @@
                 ></ng-container>
 
                 <ng-container *ngIf="editedKey !== 'nationality'">
-                    <div *ngIf="flag" [matTooltip]="flag.name.common">
+                    <div *ngIf="flag" [title]="flag.name.common">
                         <img [src]="flag?.flags.svg | sanitizer" class="flag" />
                     </div>
                     <div *ngIf="!flag">?</div>
@@ -64,7 +64,7 @@
                 <span class="info__data" *ngIf="editedKey !== 'birthday'"
                     >{{
                         character?.birthday
-                            ? (character?.birthday | date: 'dd/MM/yyyy')
+                            ? (character?.birthday | date : 'dd/MM/yyyy')
                             : '?'
                     }}
                 </span>
@@ -110,7 +110,7 @@
                 <span class="info__data" *ngIf="editedKey !== 'death'"
                     >{{
                         character?.death
-                            ? (character?.death | date: 'dd/MM/yyyy')
+                            ? (character?.death | date : 'dd/MM/yyyy')
                             : '?'
                     }}
                 </span>

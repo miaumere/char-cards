@@ -1,4 +1,4 @@
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, UntypedFormGroup } from '@angular/forms';
 import {
     Component,
     EventEmitter,
@@ -16,7 +16,7 @@ import { IColors } from 'src/app/modules/characters/models/colors.model';
 })
 export class ColorsComponent implements OnInit {
     @Input() colors: IColors | null = null;
-    @Input() form: FormGroup = new FormGroup({});
+    @Input() form: UntypedFormGroup = new UntypedFormGroup({});
     @Input() isUserLogged: boolean = false;
 
     @Input() editedKey: string | null = null;
