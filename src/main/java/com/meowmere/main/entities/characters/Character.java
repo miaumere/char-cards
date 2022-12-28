@@ -88,12 +88,10 @@ public class Character {
     @Column
     private String dislikes;
 
-
     @Getter
     @Setter
     @Column
     private String hobby;
-
 
     @Getter
     @Setter
