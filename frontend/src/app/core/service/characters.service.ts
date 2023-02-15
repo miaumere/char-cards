@@ -37,32 +37,32 @@ import { ICoordinatesRequest } from './../../modules/characters/models/relations
     providedIn: 'root',
 })
 export class CharactersService {
-    private readonly charControllerURL = '/api/characters';
+    private readonly _baseUrl = '/api/characters';
 
-    private readonly _getCharacterByIdURL = `${this.charControllerURL}/get-character`;
-    private readonly _getAllCharactersURL = `${this.charControllerURL}/get-all-characters`;
-    private readonly _getQuotesURL = `${this.charControllerURL}/get-quotes`;
-    private readonly _getHistoricalPreferencesForCharacterURL = `${this.charControllerURL}/get-characters-historical-preferences`;
-    private readonly _getAllPreferencesForCharURL = `${this.charControllerURL}/get-all-preferences-for-character`;
-    private readonly _getRelationsURL = `${this.charControllerURL}/relations`;
-    private readonly _getRelationsTreeDataURL = `${this.charControllerURL}/relations-tree-data`;
+    // FIXME
+    private readonly _getAllCharactersURL = `${this._baseUrl}/get-all-characters`;
+    private readonly _getQuotesURL = `${this._baseUrl}/get-quotes`;
+    private readonly _getHistoricalPreferencesForCharacterURL = `${this._baseUrl}/get-characters-historical-preferences`;
+    private readonly _getAllPreferencesForCharURL = `${this._baseUrl}/get-all-preferences-for-character`;
+    private readonly _getRelationsURL = `${this._baseUrl}/relations`;
+    private readonly _getRelationsTreeDataURL = `${this._baseUrl}/relations-tree-data`;
 
-    private readonly _patchChangeStateURL = `${this.charControllerURL}/change-state`;
-    private readonly _patchImageNameURL = `${this.charControllerURL}/change-image-name`;
-    private readonly _patchImagesOrderURL = `${this.charControllerURL}/change-images-order`;
+    private readonly _patchChangeStateURL = `${this._baseUrl}/change-state`;
+    private readonly _patchImageNameURL = `${this._baseUrl}/change-image-name`;
+    private readonly _patchImagesOrderURL = `${this._baseUrl}/change-images-order`;
 
-    private readonly _postQuoteURL = `${this.charControllerURL}/upsert-quote`;
-    private readonly _postRelationsURL = `${this.charControllerURL}/relations`;
-    private readonly _postCoordsURL = `${this.charControllerURL}/coords`;
-    private readonly _postUpsertCharacterURL = `${this.charControllerURL}/character`;
+    private readonly _postQuoteURL = `${this._baseUrl}/upsert-quote`;
+    private readonly _postRelationsURL = `${this._baseUrl}/relations`;
+    private readonly _postCoordsURL = `${this._baseUrl}/coords`;
+    private readonly _postUpsertCharacterURL = `${this._baseUrl}/character`;
 
-    private readonly _postEditImagesURL = `${this.charControllerURL}/new-images`;
-    private readonly _postEditPreferenceURL = `${this.charControllerURL}/edit-preferences`;
+    private readonly _postEditImagesURL = `${this._baseUrl}/new-images`;
+    private readonly _postEditPreferenceURL = `${this._baseUrl}/edit-preferences`;
 
-    private readonly _deleteQuoteURL = `${this.charControllerURL}/delete-quote`;
-    private readonly _deleteImageURL = `${this.charControllerURL}/delete-image`;
-    private readonly _deletePreferenceURL = `${this.charControllerURL}/delete-preference`;
-    private readonly _deleteCharacterURL = `${this.charControllerURL}/delete-character`;
+    private readonly _deleteQuoteURL = `${this._baseUrl}/delete-quote`;
+    private readonly _deleteImageURL = `${this._baseUrl}/delete-image`;
+    private readonly _deletePreferenceURL = `${this._baseUrl}/delete-preference`;
+    private readonly _deleteCharacterURL = `${this._baseUrl}/delete-character`;
 
     private emitChangeSource = new Subject<void>();
     form = new UntypedFormGroup({});
@@ -145,7 +145,7 @@ export class CharactersService {
 
     getCharacterById(id: number) {
         return this.http
-            .get<ICharacter>(`${this._getCharacterByIdURL}/${id}`)
+            .get<ICharacter>(`${this._baseUrl}/get-character/${id}`)
             .pipe(
                 map((response) => {
                     response = new Character(response);
