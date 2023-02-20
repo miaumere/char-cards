@@ -34,13 +34,13 @@ public class UserService {
     @Value("${alea.secretkey}")
     private String aleaSecretkey;
 
-    @Value("${alea.passKey}")
+    @Value("${alea.passKey}"
     private String aleaPassKey;
 
     public Boolean userLogin(LoginRequest request) {
         try {
             Users foundUser = usersRepository.findUserByUsername(request.getUsername());
-            if(foundUser == null) {
+            if (foundUser == null) {
                 return false;
             }
             String foundUserPassword = foundUser.getPassword().toUpperCase();
@@ -49,12 +49,12 @@ public class UserService {
             String passwordToEncode = request.getPassword() + aleaPassKey;
             byte[] hash = digest.digest(passwordToEncode.getBytes(StandardCharsets.UTF_8));
             String encoded = DatatypeConverter.printHexBinary(hash);
-            if(foundUserPassword.equals(encoded)) {
+            if (foundUserPassword.equals(encoded)) {
                 return true;
             } else
 
-            return foundUserPassword.equals(encoded);
-        } catch (NoSuchAlgorithmException e){
+                return foundUserPassword.equals(encoded);
+        } catch (NoSuchAlgorithmException e) {
             return false;
         }
     }
@@ -68,7 +68,7 @@ public class UserService {
                     .withSubject(loginRequest.getUsername())
                     .withExpiresAt(new Date(date))
                     .sign(algorithm);
-        } catch (JWTCreationException exception){
+        } catch (JWTCreationException exception) {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
         Cookie cookie = new Cookie("token", token);
@@ -79,9 +79,9 @@ public class UserService {
     }
 
     public ResponseEntity reloginUser(HttpServletRequest request) {
-        Cookie tokenCookie = WebUtils.getCookie(request,"token");
+        Cookie tokenCookie = WebUtils.getCookie(request, "token");
         ModelMapper modelMapper = new ModelMapper();
-        if(tokenCookie == null) {
+        if (tokenCookie == null) {
             return new ResponseEntity(HttpStatus.NO_CONTENT);
         }
         try {
@@ -95,14 +95,15 @@ public class UserService {
             Users foundLoggedUser = usersRepository.findUserByUsername(username);
             LoggedUserDTO loggedUser = modelMapper.map(foundLoggedUser, LoggedUserDTO.class);
             return new ResponseEntity(loggedUser, HttpStatus.ACCEPTED);
-        } catch (Exception exception){}
+        } catch (Exception exception) {
+        }
 
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
     public Boolean isUserLogged(HttpServletRequest request) {
-        Cookie tokenCookie = WebUtils.getCookie(request,"token");
-        if(tokenCookie == null) {
+        Cookie tokenCookie = WebUtils.getCookie(request, "token");
+        if (tokenCookie == null) {
             return false;
         }
 
@@ -116,7 +117,7 @@ public class UserService {
 
             Users foundLoggedUser = usersRepository.findUserByUsername(username);
             return foundLoggedUser != null;
-        } catch (Exception exception){
+        } catch (Exception exception) {
             return false;
         }
     }
