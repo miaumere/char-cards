@@ -32,12 +32,12 @@
         <button
             mat-button
             (click)="logout()"
-            *ngIf="_authService.loggedUser$ | async"
+            *ngIf="_authService.user$ | async"
         >
-            {{ (_authService.loggedUser$ | async)?.username }}
+            {{ (_authService.user$ | async)?.username }}
             <mat-icon>exit_to_app</mat-icon>
         </button>
-        <button mat-button *ngIf="!(_authService.loggedUser$ | async)">
+        <button mat-button *ngIf="!(_authService.user$ | async)">
             <a [routerLink]="['/login']">
                 {{ 'NAVBAR.NO_USER' | translate }}
             </a>

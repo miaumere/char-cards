@@ -7,7 +7,7 @@ import {
     TemplateRef,
     ViewContainerRef,
 } from '@angular/core';
-import { AuthService } from 'src/app/core/service/auth.service';
+import { UserService } from 'src/app/core/service/user.service';
 
 @Directive({
     selector: '[appIfLoggedUser]',
@@ -21,7 +21,7 @@ export class IfLoggedUserDirective
     constructor(
         private view: ViewContainerRef,
         private template: TemplateRef<any>,
-        private _authService: AuthService
+        private _authService: UserService
     ) {
         super();
     }
@@ -32,7 +32,7 @@ export class IfLoggedUserDirective
 
     ngAfterViewInit(): void {
         this.subscriptions$.add(
-            this._authService.loggedUser$.subscribe((loggedUser) => {
+            this._authService.user$.subscribe((loggedUser) => {
                 if (loggedUser || !this.condition) {
                     this.view.createEmbeddedView(this.template);
                 } else {

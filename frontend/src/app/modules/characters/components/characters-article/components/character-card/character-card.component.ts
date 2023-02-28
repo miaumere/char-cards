@@ -22,7 +22,7 @@ import { ToastrService } from 'ngx-toastr';
 import { CharactersService } from 'src/app/core/service/characters.service';
 import * as tinycolor from 'tinycolor2';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AuthService } from 'src/app/core/service/auth.service';
+import { UserService } from 'src/app/core/service/user.service';
 import { StatisticsService } from 'src/app/core/service/statistics.service';
 import { CharacterForChange } from 'src/app/modules/characters/models/character-for-change.model';
 import { insertDeleteInfo } from 'src/app/modules/shared/functions/insert-delete.info';
@@ -59,7 +59,7 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
         private _toastrService: ToastrService,
         private _translate: TranslateService,
         private _route: ActivatedRoute,
-        private _authService: AuthService,
+        private _authService: UserService,
         private _statisticsService: StatisticsService,
         private _router: Router
     ) {
@@ -83,8 +83,8 @@ export class CharacterCardComponent extends BaseComponent implements OnInit {
         });
 
         this.subscriptions$.add(
-            this._authService.isUserLogged$.subscribe((isUserLogged) => {
-                this.isUserLogged = isUserLogged;
+            this._authService.user$.subscribe((user) => {
+                this.isUserLogged = !!user;
             })
         );
 

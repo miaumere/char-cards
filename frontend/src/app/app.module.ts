@@ -33,7 +33,6 @@ import { PagesModule } from './modules/pages/pages.module';
 import { MainModule } from './modules/main/main.module';
 import { LoginModule } from './modules/login/login.module';
 import { SharedModule } from './modules/shared/shared.module';
-import { NavbarComponent } from './core/components/navbar/navbar.component';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 export function HttpLoaderFactory(http: HttpClient) {

@@ -32,6 +32,7 @@
     "@types/lodash": "^4.14.157",
     "ckeditor4-angular": "^3.2.1",
     "d3": "^7.4.4",
+    "jwt-decode": "^3.1.2",
     "lodash": "^4.17.15",
     "moment": "^2.29.3",
     "ngx-toastr": "^11.3.0",
