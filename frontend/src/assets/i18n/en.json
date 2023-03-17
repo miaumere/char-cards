@@ -25,7 +25,7 @@
         "NO_USER": "User not logged in"
     },
     "LOGIN_PAGE": {
-        "LOGIN_MSG": "If you want to go to admin panel, please log in",
+        "LOGIN_MSG": "Sign in",
         "USERNAME": "Username",
         "PASSWORD": "Password",
         "LOGIN": "Login"

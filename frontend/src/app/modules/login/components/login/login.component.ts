@@ -1,8 +1,15 @@
+import { ILoginRequest } from './../../models/login-request.model';
 import { TranslateService } from '@ngx-translate/core';
 
 import { UserService } from '../../../../core/service/user.service';
 import { Component, OnInit } from '@angular/core';
-import { UntypedFormGroup, UntypedFormControl } from '@angular/forms';
+import {
+    UntypedFormGroup,
+    UntypedFormControl,
+    FormControl,
+    FormGroup,
+    Validators,
+} from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { BaseComponent } from 'src/app/core/base.component';
 import { Router } from '@angular/router';
@@ -13,9 +20,9 @@ import { Router } from '@angular/router';
     styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent extends BaseComponent implements OnInit {
-    loginForm = new UntypedFormGroup({
-        username: new UntypedFormControl(''),
-        password: new UntypedFormControl(''),
+    loginForm = new FormGroup({
+        username: new FormControl('', [Validators.required]),
+        password: new FormControl('', [Validators.required]),
     });
 
     constructor(
@@ -30,23 +37,24 @@ export class LoginComponent extends BaseComponent implements OnInit {
     ngOnInit() {}
 
     onSubmit() {
-        // const user = new UserCredentials();
-        // user.username = this.loginForm.controls['username'].value;
-        // user.password = this.loginForm.controls['password'].value;
-        // console.log('submit');
-        // this._userService.login(user).subscribe(
-        //     (_) => {
-        //         console.log(_);
-        //         this._toastr.success(
-        //             this._translate.instant('TOASTR_MESSAGE.LOGIN_SUCCESS')
-        //         );
-        //         // this._router.navigateByUrl('/admin-panel');
-        //     },
-        //     (err) => {
-        //         this._toastr.error(
-        //             this._translate.instant('TOASTR_MESSAGE.ERROR')
-        //         );
-        //     }
-        // );
+        const request: ILoginRequest = {
+            username: this.loginForm.value.username ?? '',
+            password: this.loginForm.value.password ?? '',
+        };
+
+        this._userService.login(request).subscribe(
+            (_) => {
+                console.log(_);
+                this._toastr.success(
+                    this._translate.instant('TOASTR_MESSAGE.LOGIN_SUCCESS')
+                );
+                this._router.navigateByUrl('/admin-panel');
+            },
+            (err) => {
+                this._toastr.error(
+                    this._translate.instant('TOASTR_MESSAGE.ERROR')
+                );
+            }
+        );
     }
 }

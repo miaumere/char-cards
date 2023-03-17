@@ -1,4 +1,3 @@
-import { ToastrService } from 'ngx-toastr';
 import { IUserDto, UserDto } from '../../modules/login/models/user-dto.model';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';

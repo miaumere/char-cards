@@ -11,7 +11,7 @@ import { TranslateService } from '@ngx-translate/core';
     templateUrl: './navbar.component.html',
     styleUrls: ['./navbar.component.scss'],
 })
-export class NavbarComponent extends BaseComponent implements OnInit {
+export class NavbarComponent extends BaseComponent {
     loggedUser: UserDto | null = null;
 
     supportedLanguages = [
@@ -35,22 +35,8 @@ export class NavbarComponent extends BaseComponent implements OnInit {
         translate.setDefaultLang('en');
     }
 
-    ngOnInit() {}
-
     logout() {
-        //     this._authService.logout().subscribe(
-        //         (_) => {
-        //             this._toastr.success(
-        //                 this.translate.instant('TOASTR_MESSAGE.LOGOUT_SUCCESS')
-        //             );
-        //             this._route.navigate(['/main']);
-        //         },
-        //         () => {
-        //             this._toastr.error(
-        //                 this.translate.instant('TOASTR_MESSAGE.ERROR')
-        //             );
-        //         }
-        //     );
+        this._authService.logout();
     }
 
     saveLang(lang: any) {

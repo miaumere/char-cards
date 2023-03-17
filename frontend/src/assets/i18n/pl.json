@@ -25,7 +25,7 @@
         "NO_USER": "Niezalogowany"
     },
     "LOGIN_PAGE": {
-        "LOGIN_MSG": "Aby wejść do panelu admina, zaloguj się",
+        "LOGIN_MSG": "Zaloguj się",
         "USERNAME": "Nazwa użytkownika",
         "PASSWORD": "Hasło",
         "LOGIN": "Zaloguj"
